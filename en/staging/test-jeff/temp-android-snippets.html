@@ -103,8 +103,9 @@
 <ul class="bcls-answer">
 	<li><a href="#Customizing_controls_for_Android_TV">Customizing controls for Android TV</a></li>
 	<li><a href="#Fullscreen_mode">Fullscreen mode</a></li>
+  <li><a href="#Mute_unmute_the_player">Mute/unmute the player</a></li>
+  <li><a href="#Positioning_player_controls_on_the_bottom">Positioning player controls on the bottom</a></li>
 	<li><a href="#Showing_player_controls">Showing player controls</a></li>
-	<li><a href="#Mute_unmute_the_player">Mute/unmute the player</a></li>
 	<!--				  <li><a href="#singleline">Showing single line controls</a></li>-->
 </ul>
 
@@ -518,6 +519,62 @@ brightcoveVideoView.add(Video.createVideo(video.toString()));
 brightcoveVideoView.start();</a></code></pre>
 
 <aside class="bcls-aside bcls-aside--information">You may get an exception error if you try to play MP4 videos stored in the application resource folder (/res/raw).</aside>
+</section>
+
+<section class="bcls-section">
+<h2 id="Positioning_player_controls_on_the_bottom">Positioning player controls on the bottom</h2>
+
+<p>By default, the plyaer control bar is positioned directly below the video, as shown here:</p>
+<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Player controls under video" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/snippets/player-controls-video.png" />
+<figcaption class="bcls-caption--image">Player controls under video</figcaption>
+</figure>
+<p>
+  You can also position the player control bar so that it is on the bottom of the video view. Because the controls are part of the <code>BrightcoveVideoView</code>, by setting the height to <code>match_parent</code>, the view will cover the whole screen. When the controls appear in the bottom of the view, the video will remain in the middle of the view.
+</p>
+<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Player controls bottom" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/snippets/player-controls-bottom.png" />
+<figcaption class="bcls-caption--image">Player controls bottom of video view</figcaption>
+</figure>
+<p>
+  There are two ways you can do this. The first approach follows:
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    Open the <strong>main/res/values/style.xml</strong> file for your project.
+  </li>
+  <li>
+    <p>
+      Add the following XML code:
+    </p>
+    <pre class="line-numbers"><code class="notranslate language-java">&lt;style name=&quot;BrightcoveControlBar&quot; parent=&quot;BrightcoveControlBarDefault&quot;&gt;
+  &lt;item name=&quot;brightcove_align&quot;&gt;false&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+  </li>
+</ol>
+<p>
+  Or, you can use code within the <strong>MainActivity.java</strong> file as follows:
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    Open the <strong>MainActivity.java</strong> file for your project.
+  </li>
+  <li>
+    <p>
+      After you get the event emitter, as shown here:
+    </p>
+    <pre><code class="notranslate language-java">EventEmitter eventEmitter = brightcoveVideoView.getEventEmitter();</code></pre>
+    <p>
+      Add the following event listener and code. We are waiting until after the <code>DID_SET_VIDEO</code> event to ensure the control bar has been created.
+    </p>
+    <pre class="line-numbers"><code class="notranslate language-java">eventEmitter.on(EventType.DID_SET_VIDEO, new EventListener() {
+    @Override
+    public void processEvent(Event event) {
+        BrightcoveControlBar brightcoveControlBar = brightcoveVideoView.getBrightcoveMediaController().getBrightcoveControlBar();
+        brightcoveControlBar.setAlign(false);
+    }
+});</code></pre>
+  </li>
+</ol>
+
 </section>
 
 <section class="bcls-section">

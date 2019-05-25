@@ -35,6 +35,11 @@
     ga('send', 'pageview');
   </script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+  <style media="screen">
+    .highlight {
+      background-color: yellow;
+    }
+  </style>
 </head>
 
 <body>
@@ -54,51 +59,25 @@
 
       <!-- begin drupal content -->
 <article class="bcls-article">
+
     <iframe src="//players.brightcove.net/20318290001/E16-WGGOe_default/index.html?videoId=6040294964001"
     allowfullscreen
     webkitallowfullscreen
     mozallowfullscreen
     allow="encrypted-media"></iframe>
-<section class="bcls-section">
-  <h2 id="Steps">Steps</h2>
-  <ol class="bcls-tasklist">
-      <li>Paste an instance of Advanced implementation player code into an HTML page.
-<pre class="line-numbers">
-<code class="language-html">&lt;video data-video-id=&quot;5831704295001&quot;
-  data-account=&quot;921483702001&quot;
-  data-player=&quot;Uj7Yz80yM&quot;
-  data-embed=&quot;default&quot;
-  data-application-id
-  class=&quot;video-js&quot;
-  controls
-  width=&quot;640&quot;
-  height=&quot;360&quot;&gt;&lt;/video&gt;
-&lt;script src=&quot;//players.brightcove.net/921483702001/Uj7Yz80yM_default/index.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-      </li>
-      <li>Add an <code>id</code> attribute to the <code>&lt;video&gt;</code> tag and assign it a value of <code>myPlayerID</code>.
-<pre class="line-numbers">
-<code class="language-html">&lt;video <span class="bcls-highlight">id=&quot;myPlayerID&quot;</span></code></pre>
-      </li>
-      <li>Add a <code>&lt;script&gt;</code> block just above the <code>&lt;/body&gt;</code> tag.</li>
-      <li>In the <code>script</code> block, use the <code>videojs.getPlayer()</code> method to obtain a reference to the player on the page. Use the <code>id</code> added earlier as the method's argument.
-        <pre class="line-numbers">
-<code class="language-html">&lt;script&gt;
-  <span class="bcls-highlight">videojs.getPlayer('myPlayerID')</span>
-&lt;/script&gt;</code></pre>
-      </li>
-      <li>Use the <code>ready()</code> method, and code an anonymous callback function as its argument.
-        <pre class="line-numbers">
-<code class="language-html">&lt;script&gt;
-  videojs.getPlayer('myPlayerID')<span class="bcls-highlight">.ready(function() {
 
-  )};</span>
-&lt;/script&gt;</code></pre>
-       </li>
-       <li>Declare a variable, named code in the anonymous function named</li>
-    </ol>
-</section>
 <section class="bcls-section">
-  <h2 id="Completed_Code">Completed Code</h2>
+  <h2 id="Steps_2">Steps 2</h2>
+
+  <select class="select-step" name="select-step">
+    <option value="none">Choose a step</option>
+    <option value="step1">1. Use the Advanced player implementation code.</option>
+    <option value="step2">2. Add an id attribute to the &lt;video&gt; tag.</option>
+    <option value="step3">3. Add a script block.</option>
+    <option value="step4">4. Use the videojs.getPlayer() method to reference the video.</option>
+    <option value="step5">5. Code the ready() method with an anonymous callback function.</option>
+    <option value="step6">6. Create a variable named myPlayer and assign it the this keyword, which represents the player.</option>
+  </select>
   <pre class="line-numbers">
 <code class="language-html">&lt;!doctype html&gt;
 &lt;html&gt;
@@ -110,8 +89,8 @@
 
 &lt;body&gt;
 
-&lt;video id=&quot;myPlayerID&quot;
-  data-video-id=&quot;5831704295001&quot;
+<span class="step1">&lt;video</span> <span class="step2">id=&quot;myPlayerID&quot;</span>
+  <span class="step1">data-video-id=&quot;5831704295001&quot;
   data-account=&quot;921483702001&quot;
   data-player=&quot;Uj7Yz80yM&quot;
   data-embed=&quot;default&quot;
@@ -120,18 +99,41 @@
   controls
   width=&quot;640&quot;
   height=&quot;360&quot;&gt;&lt;/video&gt;
-&lt;script src=&quot;//players.brightcove.net/921483702001/Uj7Yz80yM_default/index.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;//players.brightcove.net/921483702001/Uj7Yz80yM_default/index.min.js&quot;&gt;&lt;/script&gt;</span>
 
-&lt;script&gt;
-  videojs.getPlayer('myPlayerID').ready(function() {
-    var myPlayer = this;
-  )};
-&lt;/script&gt;
+<span class="step3">&lt;script&gt;</span>
+  <span class="step4">videojs.getPlayer('myPlayerID')</span><span class="step5">.ready(function() {</span>
+    <span class="step6">var myPlayer = this;</span>
+  <span class="step5">)};</span>
+<span class="step3">&lt;/script&gt;</span>
 
 &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
 </section>
+
+  <script type="text/javascript">
+    const selectElement = document.querySelector('.select-step');
+    var lastSelected = null;
+
+    selectElement.addEventListener('change', (event) => {
+      if (lastSelected != null) {
+        for (let item of lastSelected) {
+          console.log(item);
+          item.classList.remove('highlight');
+        }
+      }
+      var selectedStep = event.target.value;
+      highlightThese = document.getElementsByClassName(selectedStep);
+      lastSelected = highlightThese;
+      console.log('highlightThese',highlightThese);
+      console.log('length of elements array',highlightThese.length);
+      for (let item of highlightThese) {
+        console.log(item);
+        item.classList.add('highlight');
+      }
+    });
+  </script>
 
 </article>
 

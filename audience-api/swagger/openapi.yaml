@@ -186,8 +186,6 @@ components:
       style: form
       explode: true
       schema:
-        default: created_at
-        example: created_at
         $ref: '#/components/schemas/Sort'
     fields:
       name: fields
@@ -259,8 +257,8 @@ components:
           items:
             $ref: '#/components/schemas/Result'
           description: array of result items
-    Result:
-      title: result
+    LeadsResult:
+      title: Leads Result
       required:
         - created_at
         - email_address
@@ -338,8 +336,72 @@ components:
         result:
           type: array
           items:
-            $ref: '#/components/schemas/Result'
+            $ref: '#/components/schemas/EventResult'
           description: array of result items
+      example: {
+            "count": 27,
+            "limit": 25,
+            "offset": 0,
+            "result": [
+              {
+                  "created_at": "2016-04-25T18:30:21.651Z",
+                  "page_url": "http://players.brightcove.net/1486906377/V1s6NOwRx_default/index.html?videoId=4842718056001",
+                  "player_id": "V1s6NOwRx",
+                  "time_watched": 2,
+                  "updated_at": "2016-04-25T18:30:21.651Z",
+                  "video_id": "4842718056001",
+                  "video_name": "Horses Heading to the Track",
+                  "watched": 19
+              },
+              {
+                  "created_at": "2016-04-25T18:31:55.071Z",
+                  "page_url": "http://players.brightcove.net/1486906377/BkgFuzyhg_default/index.html?videoId=4842718056001",
+                  "player_id": "BkgFuzyhg",
+                  "time_watched": 15,
+                  "updated_at": "2016-04-25T18:32:00.879Z",
+                  "video_id": "4842718056001",
+                  "video_name": "Horses Heading to the Track",
+                  "watched": 99
+              }
+            ]
+          }
+    EventResult:
+      title: Event Result
+      description: Result object for an event
+      type: object
+      properties:
+        created_at:
+          type: string
+          description: Creation date
+          example: 2016-04-25T18:30:21.651Z
+        page_url:
+          type: string
+          description: Page URL where the event occurred
+          example: http://players.brightcove.net/1486906377/V1s6NOwRx_default/index.html?videoId=4842718056001
+        player_id:
+          type: string
+          description: The Brightcove player ID
+          example: BkgFuzyhg
+        time_watched:
+          type: integer
+          description: Seconds of the video watched
+          example: 15
+        updated_at:
+          type: string
+          description: Last updated date
+          example: 2016-04-25T18:30:21.651Z
+        video_id:
+          type: string
+          description: The Brightcove video ID
+          example: 4842718056001
+        video_name:
+          type: string
+          description: The Brightcove video title
+          example: Foggy Morning in Seattle
+        watched:
+          type: integer
+          description: Percent of the video watched
+          example: 75
     Sort:
       title: sort
       enum:

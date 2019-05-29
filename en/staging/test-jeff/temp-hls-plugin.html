@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Begin Drupal Taxonomy Data -->
+    <meta name="products" content="Video Cloud, Brightcove Player">
+    <meta name="role" content="Device SDK Developer">
+    <meta name="task" content="Develop with the Native SDKs">
+    <meta name="topic" content="Troubleshooting/Error Handling">
+    <meta name="sdk" content="iOS,tvOS,Android">
+    <meta name="keywords" content="device,SDK,FAQ">
+    <!-- End Drupal Taxonomy Data -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>HLS Plugin</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>HLS Plugin</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>The HLS plugin is a Brightcove player plugin that relies on W3C's Media Source Extensions (MSE) to play HTTP Live Streaming (HLS) video on platforms that do not natively support it. The HLS plugin is automatically included in the player.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="HLS_plugin_basics">HLS plugin basics</h2>
+
+<p>The following points help you understand and use the HLS plugin:</p>
+
+<ul>
+	<li>As mentioned in the opening sentence of this document, the plugin relies on W3C's Media Source Extensions (MSE). MSE is a W3C specification that allows JavaScript to send byte streams to media codecs within web browsers that support HTML5 video. Among other possible uses, this allows the implementation of client-side prefetching and buffering code for streaming media entirely in JavaScript.</li>
+	<li>With the plugin you can then use HLS (m3u8) video content in the player. For instance you could create a player using this configuration for the media section:
+	<pre class="line-numbers">
+<code class="language-json">"media":{
+    "sources": [{
+        "src": "http://example.com/video.m3u8",
+        "type": "application/x-mpegURL"
+    }]
+}</code></pre>
+	</li>
+	<li>Cross-origin resource sharing (CORS) can be an issue when using HLS. For more information about using CORS, see the <a href="/node/17916">CORS guide</a>.</li>
+	<li>Flash will be used as a fallback to play HLS only on IE11 on Windows 7.</li>
+	<li>HLS is not supported on versions of IE earlier than IE11.</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="overview">Overview</h2>
+
+<p><a href="https://developer.apple.com/streaming/">HTTP Live Streaming</a> (HLS) has become a de-facto standard for streaming video on mobile devices thanks to its native support on iOS and Android. Although, there are a number of reasons independent of platform to recommend the format:</p>
+
+<ul>
+	<li>Supports (client-driven) adaptive bitrate selection</li>
+	<li>Delivered over standard HTTP ports</li>
+	<li>Simple, text-based manifest format</li>
+	<li>No proprietary streaming servers required</li>
+</ul>
+
+<p>Unfortunately, all the major desktop browsers except for Safari are missing HLS support. That leaves web developers in the unfortunate position of having to maintain alternate renditions of the same video and potentially having to forego HTML-based video entirely to provide the best desktop viewing experience.</p>
+
+<p>This plugin addresses the situation by providing a polyfill for HLS on browsers that have Media Source Extensions or Flash support. You can deploy a single HLS stream, code against the regular HTML5 video APIs, and create a fast, high-quality video experience across all the big web device categories.</p>
+
+<p>Currently, at this time there is <em>no</em> support for:</p>
+
+<ul>
+	<li>Alternate audio and video tracks</li>
+	<!--                        <li>Subtitles</li>-->
+	<li>Segment codecs <em>other than</em> H.264 with AAC audio</li>
+	<!--                        <li>Live streams</li>-->
+	<li>Internet Explorer &lt; 11</li>
+</ul>
+
+<aside class="bcls-aside bcls-aside--information">Note: For maximum compatibility with all MSE implementations, Brightcove recommends setting <strong>audio_bitrate</strong> to no less than <strong>48</strong> in your ingest profiles.</aside>
+</section>
+
+<section class="bcls-section">
+<h2 id="options">Options</h2>
+
+<p>There are several options you can use to configure the HLS plugin.</p>
+
+<h3>withCredentials</h3>
+
+<p>Type: <code>boolean</code></p>
+
+<p>Can be used as:</p>
+
+<ul>
+	<li>a source option</li>
+	<li>an initialization option</li>
+</ul>
+
+<p>When the <code>withCredentials</code> property is set to <code>true</code>, all XHR requests for manifests and segments would have <code>withCredentials</code> set to <code>true</code> as well. This enables storing and passing cookies from the server that the manifests and segments live on. This has some implications on CORS because when set, the <code>Access-Control-Allow-Origin</code> header cannot be set to <code>*</code>, also, the response headers require the addition of <code>Access-Control-Allow-Credentials</code> header which is set to <code>true</code>. See the <a href="http://www.html5rocks.com/en/tutorials/cors/">HTML5Rocks's article</a> for more info.</p>
+
+<aside class="bcls-aside bcls-aside--warning">Known Issue: <code>withCredentials</code> does NOT work with Safari on the desktop or devices.</aside>
+
+<p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+<pre class="line-numbers">
+<code class="language-json">curl \
+    --header "Content-Type: application/json" \
+    --user YOUR_EMAIL \
+    --request PATCH \
+    --data '{ "hls": { "withCredentials": true } }' \
+https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre>
+
+<p>You can also set the <code>withCredentials</code> option on a per source basis, rather than on a player basis as just shown. For instance, when setting the source you can include <code>withCredentials</code>, as shown here:</p>
+
+<pre class="line-numbers">
+<code class="language-json">curl \
+  --header "Content-Type: application/json" \
+  --user $EMAIL \
+  --request POST \
+  --data '{
+      "name": "MySamplePlayer",
+      "configuration": {
+        "media": {
+          "sources": [{
+            "src":"http://solutions.brightcove.com/bcls/assets/videos/Tiger.mp4",
+            "type":"video/mp4",
+            "withCredentials": true
+          }]
+        }
+      }
+    }' \
+https://players.api.brightcove.com/v2/accounts/$ACCOUNT_ID/players</code></pre>
+
+<h3 id="Runtime_configuration">Runtime configuration</h3>
+
+<p>You can configure <code>withCredentials</code> at runtime. You will see below two implementations:</p>
+
+<ul>
+	<li>Using <code>player.hls.xhr.beforeRequest</code></li>
+	<li>Using <code>player.src()</code></li>
+</ul>
+
+<p>In the following code you are using the <code>player.hls.xhr.beforeRequest</code> to assign a function that will be called with an object containing options that will be used to create the <code>xhr</code> request. In this example you see only <code>withCredentials</code> is being configured.</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">if (videojs.Hls) {
+  videojs.Hls.xhr.beforeRequest = function (options) {
+    options.withCredentials = true;
+  }
+}</code></pre>
+
+<p>You can also set the <code>withCredentials</code> options when setting the video source. You use the <code>player.src()</code> method, as shown here:</p>
+
+<aside class="bcls-aside bcls-aside--warning">There is a current known issue that this configuration option does not work when using Firefox with IMA3 ads. You can use <code>player.hls.xhr.beforeRequest</code> to avoid this issue.</aside>
+
+<pre class="line-numbers">
+<code class="language-javascript">player.src({
+  src: 'https://adomain.com/bipbop_16x9_variant.m3u8',
+  type: 'application/x-mpegURL',
+  withCredentials: true
+});</code></pre>
+<!-- <h3>useCueTags</h3>
+
+                              <p>Type: <code>boolean</code></p>
+
+                              <p>Can be used as:</p>
+                              <ul>
+                                  <li>an initialization option</li>
+                              </ul>
+
+
+                              <p>When the <code>useCueTags</code> property is set to <code>true</code>, a text track is created with label 'ad-cues' and kind 'metadata'. The track is then added to player.textTracks(). Changes in active cue may be tracked by following the <a href="https://docs.brightcove.com/brightcove-player/current-release/TextTrack.html">cue points API for text tracks</a>. For example:</p>
+
+                              <pre class="line-numbers"><code class="language-javascript">let textTracks = player.textTracks();
+                              let cuesTrack;
+
+                              for (let i = 0; i &lt; textTracks.length; i++) {
+                                if (textTracks[i].label === 'ad-cues') {
+                                  cuesTrack = textTracks[i];
+                                }
+                              }
+
+                              cuesTrack.addEventListener('cuechange', function() {
+                                let activeCues = cuesTrack.activeCues;
+
+                                for (let i = 0; i &lt; activeCues.length; i++) {
+                                  let activeCue = activeCues[i];
+
+                                  console.log('Cue runs from ' + activeCue.startTime +
+                                              ' to ' + activeCue.endTime);
+                                }
+                              });</code></pre>
+
+                              <p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+                              <pre class="line-numbers"><code class="language-json">curl \
+                                  --header "Content-Type: application/json" \
+                                  --user YOUR_EMAIL \
+                                  --request PATCH \
+                                  --data '{ "hls": { "useCueTags": true } }' \
+                              https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre>
+
+                              <h3>overrideNative</h3>
+
+                              <p>Type: <code>boolean</code></p>
+
+                              <p>Can be used as:</p>
+                              <ul>
+                                  <li>an initialization option</li>
+                              </ul>
+
+                              <p>Try to use <code>videojs-contrib-hls</code> even on platforms that provide some level of HLS support natively. There are a number of platforms that technically play back HLS content but aren't very reliable or are missing features like CEA-608 captions support. When <code>overrideNative</code> is <code>true</code>, if the platform supports Media Source Extensions <code>videojs-contrib-hls</code> will take over HLS playback to provide a more consistent experience.</p>
+
+                              <aside class="bcls-aside bcls-aside--information">If you use this option, you must also set <code>videojs.options.html5.nativeAudioTracks</code> and <code>videojs.options.html5.nativeVideoTracks</code> to <code>false</code>. <code>videojs-contrib-hls</code> relies on audio and video tracks to play streams with alternate audio and requires additional capabilities only supported by non-native tracks in video.js.</aside>
+
+
+                              <p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+                              <pre class="line-numbers"><code class="language-json">curl \
+                                  --header "Content-Type: application/json" \
+                                  --user YOUR_EMAIL \
+                                  --request PATCH \
+                                  --data '{ "hls": { "overrideNative": true } }' \
+                              https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre>
+
+                              <h3>blacklistDuration</h3>
+
+                              <p>Type: <code>number</code></p>
+
+                              <p>Can be used as:</p>
+                              <ul>
+                                  <li>an initialization option</li>
+                              </ul>
+
+                              <p>When the <code>blacklistDuration</code> property is set to a time duration in seconds, if a playlist is blacklisted, it will be blacklisted for a period of that customized duration. This enables the blacklist duration to be configured by the user.</p>
+
+                              <p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+                              <pre class="line-numbers"><code class="language-json">curl \
+                                  --header "Content-Type: application/json" \
+                                  --user YOUR_EMAIL \
+                                  --request PATCH \
+                                  --data '{ "hls": { "blacklistDuration": 10 } }' \
+                              https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre>
+
+                              <h3>bandwidth</h3>
+
+                              <p>Type: <code>number</code></p>
+
+                              <p>Can be used as:</p>
+                              <ul>
+                                  <li>an initialization option</li>
+                              </ul>
+
+                              <p>When the <code>bandwidth</code> property is set (bits per second), it will be used in the calculation for initial playlist selection, before more bandwidth information is seen by the player.</p>
+
+                              <p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+                              <pre class="line-numbers"><code class="language-json">curl \
+                                  --header "Content-Type: application/json" \
+                                  --user YOUR_EMAIL \
+                                  --request PATCH \
+                                  --data '{ "hls": { "bandwidth": 3000 } }' \
+                              https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre> -->
+
+<h3>enableLowInitialPlaylist</h3>
+
+<p>Type: <code>boolean</code></p>
+<p>Default: <code>undefined</code>, except when a browser is viewed on an Android device; then it is set to <code>true</code>. You can change this behavior for Android devices, by patching the player, as shown below, with a value of <code>false</code>. </p>
+
+<p>Can be used as:</p>
+
+<ul>
+	<li>an initialization option</li>
+</ul>
+
+<p>When <code>enableLowInitialPlaylist</code> is set to true, it will be used to select the lowest bitrate playlist initially. This helps to decrease playback start time.</p>
+
+<p>You can configure the plugin using the <a href="/node/18269">Player Management API</a> using an HTTP <code>PATCH</code> method, as shown here:</p>
+
+<pre class="line-numbers">
+<code class="language-json">curl \
+    --header "Content-Type: application/json" \
+    --user YOUR_EMAIL \
+    --request PATCH \
+    --data '{ "hls": { "enableLowInitialPlaylist": true } }' \
+https://players.api.brightcove.com/v2/accounts/YOUR_ACCOUNT_ID/players/YOUR_PLAYER_ID/configuration</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="runtimeproperties">Runtime properties</h2>
+
+<p>In general, you can access the HLS object this way:</p>
+
+<ul>
+	<li>Brightcove Player v5: <code>player.hls</code></li>
+	<li>Brightcove Player v6: <code>player.tech().hls</code>
+	<aside class="bcls-aside bcls-aside--information">Note that calling <code>player.tech()</code> will log a warning to the console as it is only recommended for advanced users. You can pass <code>player.tech(true)</code> to suppress the warning.</aside>
+	</li>
+</ul>
+
+<h4>player.hls.playlists.master</h4>
+
+<p>Type: <code>object</code></p>
+
+<p>An object representing the parsed master playlist. If a media playlist is loaded directly, a master playlist with only one entry will be created.</p>
+
+<h4>player.hls.playlists.media</h4>
+
+<p>Type: <code>function</code></p>
+
+<p>A function that can be used to retrieve or modify the currently active media playlist. The active media playlist is referred to when additional video data needs to be downloaded. Calling this function with no arguments returns the parsed playlist object for the active media playlist. Calling this function with a playlist object from the master playlist or a URI string as specified in the master playlist will kick off an asynchronous load of the specified media playlist. Once it has been retrieved, it will become the active media playlist.</p>
+
+<h4>player.hls.bandwidth</h4>
+
+<p>Type: <code>number</code></p>
+
+<p>The number of bits downloaded per second in the last segment download. This value is used by the default implementation of <code>selectPlaylist</code> to select an appropriate bitrate to play. Before the first video segment has been downloaded, it's hard to estimate bandwidth accurately. The HLS tech uses a heuristic based on the playlist download times to do this estimation by default. If you have a more accurate source of bandwidth information, you can override this value as soon as the HLS tech has loaded to provide an initial bandwidth estimate.</p>
+
+<h4>player.hls.stats.bytesReceived</h4>
+
+<p>Type: <code>number</code></p>
+
+<p>The total number of content bytes downloaded by the HLS tech.</p>
+
+<h4 id="selectplaylist">player.hls.selectPlaylist</h4>
+
+<p>Type: <code>function</code></p>
+
+<p>A function that returns the media playlist object to use to download the next segment. It is invoked by the plugin immediately before a new segment is downloaded. You can override this function to provide your adaptive streaming logic. You must, however, be sure to return a valid media playlist object that is present in <code>player.hls.playlists.master</code>.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="events">Events</h2>
+
+<h4>loadedmetadata</h4>
+
+<p>Fired after the first media playlist is downloaded for a stream.</p>
+
+<h4>loadedplaylist</h4>
+
+<p>Fired immediately after a new master or media playlist has been downloaded. By default, the plugin only downloads playlists as they are needed.</p>
+
+<h4>mediachange</h4>
+
+<p>Fired when a new playlist becomes the active media playlist. Note that the actual rendering quality change does not occur simultaneously with this event; a new segment must be requested and the existing buffer depleted first.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Reload_source_on_error">Reload source on error</h2>
+
+<p>When using the HLS plugin there is a method you can call that will reload the source at its current time when an error is emitted by the player. To turn on this feature you need to call the <code>reloadSourceOnError()</code> method. The following short video shows the method in action. All the code shown in the video is described later in this section.</p>
+
+<aside class="bcls-aside bcls-aside--information">Note: Although originally meant for live streaming, <code>reloadSourceOnError()</code> will also function with video on demand, as shown in the video.</aside>
+<iframe src="https://players.brightcove.net/20318290001/E16-WGGOe_default/index.html?videoId=5246169715001" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" width="640" height="380"></iframe>
+
+<p>The syntax for the <code>reloadSourceOnError()</code> method is as follows:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">reloadSourceOnError(optionsObject)</code></pre>
+
+<p>The optional <code>optionsObject</code> has the following properties:</p>
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Property</th>
+			<th>Data Type</th>
+			<td>Default Value</td>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td><code>errorInterval</code></td>
+			<td>Number</td>
+			<td>30</td>
+			<td>The minimum amount of time (in seconds) that has to pass between two errors for the reload to trigger. For example, if you set the time to 10, each time an error occurs the function will check to see if a reload has happened less than 10 seconds ago. If less than the time interval has passed, it will NOT reload the source. (This is to ensure that content with an error doesn't reload constantly.) If more time than the interval specified has passed, the video is reloaded at the point when the error occurred.</td>
+		</tr>
+		<tr>
+			<td><code>getSource()</code></td>
+			<td>Function</td>
+			<td>Retrieves current source</td>
+			<td>A function that is called to get a source object to load or reload. By default it gets the current source of the player.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>The following details the code used in the video demonstration above:</p>
+
+<ul>
+	<li>Lines 1-9: Standard in-page embed code with a player <code>id</code> added.</li>
+	<li>Line 11: Button to manually create errors.</li>
+	<li>Lines 22-24: Function called on button click to dispatch an error.</li>
+	<li>Line 19: Create an object in which to place configuration options.</li>
+	<li>Line 20: In the configuration object, create an <code>errorInterval</code> property and assign it a value.</li>
+	<li>Line 21: Call the <code>reloadSourceOnError()</code> method, passing the configuration object as an argument.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;video-js id="myPlayerID"
+  data-video-id="4607746980001"
+  data-account="1507807800001"
+  data-player="HJLp3Hvmg"
+  data-embed="default"
+  data-application-id
+  class="video-js"
+  controls
+&gt;&lt;/video-js&gt;
+
+&lt;p&gt;&lt;button onclick="createError()"&gt;createError&lt;/button&gt;&lt;/p&gt;
+
+&lt;script src="https://players.brightcove.net/1507807800001/HJLp3Hvmg_default/index.min.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  var createError;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this,
+      <span class="bcls-highlight">reloadOptions = {};
+    reloadOptions.errorInterval = 10;
+    myPlayer.reloadSourceOnError(reloadOptions);</span>
+    createError = function(){
+      myPlayer.error({code:'2'});
+    }
+  });
+&lt;/script&gt;</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="In-manifest_WebVTT">In-Manifest WebVTT</h2>
+
+<p>The HLS plugin supports in-manifest WebVTT. There is nothing you need to do to enable this feature as it is standard in the plugin. Videos need to be ingested with in-manifest WebVTT considered. For instance, the Brightcove Dynamic Ingest API can ingest videos and configure captions as in-manifest. See the <a href="/node/17948#ingest_captions">Overview: Dynamic Ingest API for Dynamic Delivery</a> document for more details.</p>
+
+<p>The player below is playing a video with in-manifest WebVTT captions. You can select the captions via the captions icon, as shown here:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="display captions icon" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/HLS-plugin/in-manifest-webvtt-example.png" /></figure>
+
+<p>After you start the video you will be able to choose the captions you wish to see.</p>
+<iframe src="https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5427617218001" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" width="640" height="360"></iframe>
+
+<p>Simply to see, as this is something you would not build yourself, here is the manifest for the video shown in the player above:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">#EXTM3U
+#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="Woofer",DEFAULT=NO,AUTOSELECT=YES,FORCED=NO,LANGUAGE="en",URI="subtitles/en/index.m3u8"
+#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="Woofer (Forced)",DEFAULT=NO,AUTOSELECT=NO,FORCED=YES,LANGUAGE="en",URI="subtitles/en_forced/index.m3u8"
+#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="Spanish",DEFAULT=NO,AUTOSELECT=YES,FORCED=NO,LANGUAGE="es",URI="subtitles/es/index.m3u8"
+#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="Spanish (Forced)",DEFAULT=NO,AUTOSELECT=NO,FORCED=YES,LANGUAGE="es",URI="subtitles/es_forced/index.m3u8"
+#EXT-X-STREAM-INF:BANDWIDTH=865000,CODECS="mp4a.40.2, avc1.42001e",RESOLUTION=640x360,SUBTITLES="subs"
+865/prog_index.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=12140000,CODECS="mp4a.40.2, avc1.42001e",RESOLUTION=1280x720,SUBTITLES="subs"
+12140/prog_index.m3u8</code></pre>
+
+<p>In it you can see references to the captions file.</p>
+
+<aside class="bcls-aside bcls-aside--tip">Note: Using in-manifest WebVTT is a better practice than using CEA-608 standard, mentioned in a <a href="#608captions">later section</a> of this document.</aside>
+</section>
+
+<section class="bcls-section">
+<h2 id="adaptiveswitching">Adaptive switching</h2>
+
+<h3>MP4 Rendition Selection</h3>
+
+<p>Generally, if viewing a video on a mobile device and playing an MP4, the player will choose the MP4 that has a bitrate closest to .5 MB/s. If on a desktop or laptop device it will choose one that is closest to 3 MB/s.</p>
+
+<h3>HLS Rendition Selection</h3>
+
+<p>During playback, the player will switch to a higher or lower rendition based on an algorithm. Inputs to this algorithm are:</p>
+
+<ul>
+	<li>Available bandwidth</li>
+	<li>Player dimensions</li>
+</ul>
+
+<p>For a complete discussion of rendition selection, please see the <a href="/node/15613#HLS_DASH_Rendition_Selection">Determining Which Rendition Will Play</a> document.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="inbandmetadata">In-band metadata</h2>
+
+<p>Brightcove Player will recognize certain types of ID3 tag information embedded in an HLS video stream. The ID3 standard was originally used to provide metadata about MP3 audio tracks. (The acronym is from <strong>ID</strong>entify MP<strong>3</strong>.) When a stream is encountered with embedded metadata, an in-band metadata text track will automatically be created and populated with cues as they are encountered in the stream. A common use case is the ID3 data would direct when advertisements should be shown in a live stream.</p>
+
+<p>The ID3 standard defines many frame types, but only the following two UTF-8 encoded frames will be mapped to cue points and their values set as cue text:</p>
+
+<ul>
+	<li>WXXX - User defined URL link frame</li>
+	<li>TXXX - User defined text information frame</li>
+</ul>
+
+<p>Cues are created for all other frame types and the data is attached to the generated cue:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">cue.frame.data</code></pre>
+
+<p>For more information about text tracks in general see <a href="//www.html5rocks.com/en/tutorials/track/basics/">Getting Started With the Track Element</a>. For information on Brightcove Player and cue points see <a href="/node/18131">Using Cue Points</a>.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Debugging">Debugging</h2>
+
+<p>The information in this section is supplied for you to gather information that can then be passed to Brightcove Support to help resolve any HLS issues. That being said, some of the data reported could be of interest to you.</p>
+
+<p>Two methods and one property will be detailed that assist in HLS debugging.</p>
+
+<h3>Method: videojs.log.level()</h3>
+
+<p>The <code>videojs.log.level()</code> method gets or sets the current logging level. To turn on debugging you use:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">videojs.log.level('debug');</code></pre>
+
+<h3>Method: videojs.log.history()</h3>
+
+<p>The <code>history()</code> method returns an array containing everything that has been logged to the history.</p>
+
+<p>Any message that gets logged through the <code>videojs.log</code> API will be appended to the <code>history</code> array. What information is placed into that array is dependent on what plugins are in use that use the API, and the state of the player. This means that the history can easily contain non-HLS information. An example display from the console of the <code>history</code> array follows:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="console display of history array" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/HLS-plugin/history-array.png" /></figure>
+
+<aside class="bcls-aside bcls-aside--tip">Both the <code>level()</code> and <code>history()</code> methods belong to the <code>log</code> class, whose reference document is located <a href="//docs.videojs.com/module-log-log.html">here</a>.</aside>
+
+<p>If you need to send the <code>history</code> array to support, the best thing to do is at the console type the following:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">JSON.stringify(videojs.log.history())</code></pre>
+
+<p>You will get information similar to what is shown here:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="console display of history stringified" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/HLS-plugin/stringify.png" /></figure>
+
+<p>Copy the JSON that is generated and that can then be sent to support.</p>
+
+<h3>Property: player.tech().hls.stats</h3>
+
+<p>This object contains a summary of HLS and player related stats. The available properties are shown in the following table:</p>
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Property Name</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td>bandwidth</td>
+			<td>number</td>
+			<td>Rate of the last segment download in bits/second</td>
+		</tr>
+		<tr>
+			<td>buffered</td>
+			<td>array</td>
+			<td>List of time ranges of content that are in the SourceBuffer</td>
+		</tr>
+		<tr>
+			<td>currentSource</td>
+			<td>object</td>
+			<td>The source object; has the structure <code>{src: 'url', type: 'mimetype'}</code></td>
+		</tr>
+		<tr>
+			<td>currentTech</td>
+			<td>string</td>
+			<td>The name of the tech in use</td>
+		</tr>
+		<tr>
+			<td>currentTime</td>
+			<td>number</td>
+			<td>The current position of the player</td>
+		</tr>
+		<tr>
+			<td>duration</td>
+			<td>number</td>
+			<td>Duration of the video in seconds</td>
+		</tr>
+		<tr>
+			<td>master</td>
+			<td>object</td>
+			<td>The master playlist object</td>
+		</tr>
+		<tr>
+			<td>mediaBytesTransferred</td>
+			<td>number</td>
+			<td>Total number of content bytes downloaded</td>
+		</tr>
+		<tr>
+			<td>mediaRequests</td>
+			<td>number</td>
+			<td>Total number of media segment requests</td>
+		</tr>
+		<tr>
+			<td>mediaRequestsAborted</td>
+			<td>number</td>
+			<td>Total number of aborted media segment requests</td>
+		</tr>
+		<tr>
+			<td>mediaRequestsErrored</td>
+			<td>number</td>
+			<td>Total number of errored media segment requests</td>
+		</tr>
+		<tr>
+			<td>mediaRequestsTimeout</td>
+			<td>number</td>
+			<td>Total number of timedout media segment requests</td>
+		</tr>
+		<tr>
+			<td>mediaSecondsLoaded</td>
+			<td>number</td>
+			<td>Total number of content seconds downloaded</td>
+		</tr>
+		<tr>
+			<td>mediaTransferDuration</td>
+			<td>number</td>
+			<td>Total time spent downloading media segments in milliseconds</td>
+		</tr>
+		<tr>
+			<td>playerDimensions</td>
+			<td>object</td>
+			<td>Contains the width and height of the player</td>
+		</tr>
+		<tr>
+			<td>seekable</td>
+			<td>array</td>
+			<td>List of time ranges to which the player can seek</td>
+		</tr>
+		<tr>
+			<td>timestamp</td>
+			<td>number</td>
+			<td>Timestamp of when <code>hls.stats</code> was accessed</td>
+		</tr>
+		<tr>
+			<td>videoPlaybackQuality</td>
+			<td>object</td>
+			<td>Media playback quality metrics as specified by the <a href="https://wicg.github.io/media-playback-quality">W3C's Media Playback Quality API</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<aside class="bcls-aside bcls-aside--warning">If you are using version 5 of Brightcove Player you should use <code>player.tech_.hls.stats</code> to get the HLS information shown in the table. Also, some properties are not available in the version 5 implementation.</aside>
+
+<p>An example display from the console of the <code>stats</code> object follows:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="console display of stats object" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/HLS-plugin/stats-object.png" /></figure>
+
+<aside class="bcls-aside bcls-aside--tip">When in the console, to actually display a property value you need to click on the ellipsis (...).</aside>
+
+<h3>Code example</h3>
+
+<p>If you wish to experiment with these debugging features, code based on the following can server as a starting point:</p>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;video-js id="myPlayerID" data-video-id="5622718636001"
+  data-account="1507807800001"
+  data-player="SkxERgnQM"
+  data-embed="default"
+  data-application-id
+  class="video-js"
+  controls
+  width="640"
+  height="360"&gt;&lt;/video-js&gt;
+&lt;script src="https://players.brightcove.net/1507807800001/SkxERgnQM_default/index.min.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this;
+
+    videojs.log.level('debug');
+
+    myPlayer.on('ended', function(){
+      console.log('videojs.log.history(): ', videojs.log.history());
+      console.log('videojs.log.level(): ', videojs.log.level());
+      console.log('videojs.hls.stats: ', player.tech().hls.stats);
+    });
+  });
+&lt;/script&gt;</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="608captions">608 captions</h2>
+
+<p>Brightcove's HLS plugin has support for 608 captions. 608 captions, also known as CEA-608 captions, EIA-608 captions and Line 21 captions, are a standard for closed captioning for NTSC TV analog broadcasts in the United States and Canada. The 608 captions can be inserted into a live stream where they are mixed into the HLS' <strong>ts</strong> (transport stream) files.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="hosting">Hosting issues</h2>
+
+<div class="BCL-concept">
+<p>Unlike a native HLS implementation, the HLS plugin has to comply with the browser's security policies. That means that all the files that make up the stream must be served from the same domain as the page hosting the video player or from a server that has appropriate <a href="https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS">CORS headers</a> configured. Easy <a href="http://enable-cors.org/server.html">instructions are available</a> for popular webservers and most CDNs should have no trouble turning CORS on for your account.</p>
+</div>
+</section>
+
+<section class="bcls-section">
+<h2 id="Errors">Errors</h2>
+
+<p>Errors during HLS playback will be reported using the type <strong>APPEND_BUFFER_ERR</strong>. The message will be what is retrieved from the browser's native error. For instance, <strong>The quota has been exceeded</strong>.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Known_issues">Known issues</h2>
+
+<h4>IE11/Win7 &amp; HLS playback delayed</h4>
+
+<p>A playback delay occurs on Internet Explorer 11/Windows 7 when using HLS. This is due to the FlasHLS library used for HLS playback on that browser/platform combination. There is a chance delay on other browsers could occur if a customer forces Flash playback.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="changelog">Changelog</h2>
+
+<p>See the <a href="/node/18796">changelog here</a>.</p>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

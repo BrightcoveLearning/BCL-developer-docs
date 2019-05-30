@@ -46,58 +46,6 @@
 
       <!-- BEGIN DRUPAL CONTENT -->
 
-<article class="bcls-article">
-
-  <section class="bcls-section">
-    <h2 id="Introduction">Introduction</h2>
-    <p>The curl statement shown in this document will loop over a number of accounts and update ONLY the <strong>Brightcove Default Player</strong> in those accounts to a desired Brightcove Player version. As a pre-requisite for the curl statement used to do the update and publish, it is shown how to get an access token to use in the curl statement.</p>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="section-name">Get access token</h2>
-    <p>You need to have an access token that provides <strong>Player Read/Write</strong> access for all accounts on which you are going to use the curl statement. In Studio, from the <strong>Admin</strong> dropdown select <strong>API Authentication</strong>. Register a new application and select the desired accounts. For the <strong>Exposed Brightcove APIs</strong> choose <strong>Players > Read/Write</strong>.</p>
-      <figure class="bcls-figure">
-          <img class="bcls-image" src="//learning-services-media.brightcove.com/doc-assets/player-development/publishing/bulk-update-default-player/api-authentication-ui.png" alt="API Authentication UI">
-      </figure>
-      <p> After you save, copy the <strong>Client ID</strong> and <strong>Client Secret</strong>.</p>
-      <p>For more info on this process, see the <a href="/node/15479">Generating Access Tokens</a> document.</p>
-      <p>Now to get your access token, use the client ID and client secret with this sample: <a href="/node/18520">OAuth API Sample: Get an Access Token</a>. Remember, you may have to use this sample repeatedly as access tokens are only valid for 5 minutes.</p>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="curl_statement">curl statement</h2>
-    <p>Create a folder where you will create a couple of files and from where you will run a script from Terminal. In that folder create a file named <strong>accountList.txt</strong>, and in the file simply copy and paste all the <strong>account IDs</strong> for which you want to update the <strong>Brightcove Default Player</strong>.</p>
-    <p>Now create another file named <strong>bulk-update.sh</strong>. Place the following curl statement in the file:</p>
-    <pre class="line-numbers">
-<code class="language-bash">#!/bin/bash
-
-#Loop through publisher IDs in accountlist.txt
-while read -r ACCOUNTID; do
-    echo $ACCOUNTID
-
-    #Update
-    curl -X PATCH &quot;https://players.api.brightcove.com/v1/accounts/$ACCOUNTID/players/default/configuration&quot; \
-    -H &quot;Authorization: Bearer YOUR_ACCESS_TOKEN_HERE&quot; \
-    -H 'Content-Type: application/json' \
-    -d '{&quot;player&quot;:{&quot;template&quot;:{&quot;version&quot;:&quot;6.34.3&quot;}}}'
-
-    #Publish
-    curl -X POST &quot;https://players.api.brightcove.com/v1/accounts/$ACCOUNTID/players/default/publish&quot; \
-    -H &quot;Authorization: Bearer YOUR_ACCESS_TOKEN_HERE&quot; \
-    -H 'Content-Type: application/json' \
-    -d '{&quot;comment&quot;: &quot;Updated to v6&quot;}'
-
-    #Wait 1 second then loop
-    sleep 1
-done &lt;accountList.txt</code></pre>
-    <p>Of course, you will need to replace the two instances of <strong>YOUR_ACCESS_TOKEN_HERE</strong> with your actual access token. If it has been more than 5 minutes since your generated your access token, re-run the sample to get a new token. Also, you may use any version of the player, just update the version used, <strong>6.34.3</strong>.</p>
-    <p>Lastly open a Terminal instance in the folder with the two files. To run the script enter:</p>
-    <pre class="line-numbers">
-<code class="language-bash">bash ./bulk-update.sh</code></pre>
-    <p>The script both updates the player version, and publishes the player.</p>
-  </section>
-
-</article>
 
 
       <!-- END DRUPAL CONTENT -->

@@ -55,24 +55,95 @@
       <!-- begin drupal content -->
       <article class="bcls-article">
 
+      <iframe src="//players.brightcove.net/20318290001/E16-WGGOe_default/index.html?videoId=6041890955001" 
+      allowfullscreen
+      webkitallowfullscreen
+      mozallowfullscreen
+      allow="encrypted-media"
+      width="830"
+      height="466.88"></iframe>
+
         <section class="bcls-section">
-          <h2 id="section-name1">section-title</h2>
-          <p></p>
+          <h2 id="Steps">Steps</h2>
+          <ol class="bcls-tasklist">
+            <li>Start with the standard, best-practice code for writing code to control the player.
+              <pre class="line-numbers">
+<code class="language-html">&lt;video id=&quot;myPlayerID&quot;
+  data-video-id=&quot;5785633544001&quot;
+  data-account=&quot;921483702001&quot;
+  data-player=&quot;Uj7Yz80yM&quot;
+  data-embed=&quot;default&quot;
+  data-application-id
+  class=&quot;video-js&quot;
+  controls
+  width=&quot;640&quot;
+  height=&quot;360&quot;&gt;&lt;/video&gt;
+&lt;script src=&quot;//players.brightcove.net/921483702001/Uj7Yz80yM_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this;
+
+  });
+&lt;/script&gt;</code></pre>
+            </li>
+            <li>In the anonymous function for the <code>videojs.getPlayer()</code> method, following the variable assignment, mute the player so it can autoplay.
+              <pre class="line-numbers">
+<code class="language-javascript">myPlayer.muted(true);</code></pre>
+            </li>
+            <li>Use the player's <code>on()</code> method to add an event handler function for the <code>loadedmetadata</code> event.
+              <pre class="line-numbers">
+<code class="language-javascript">myPlayer.on('loadedmetadata', function(){
+
+});</code></pre>
+
+            </li>
+            <li>In the event handler, player the video.
+              <pre class="line-numbers">
+<code class="language-javascript">myPlayer.play()</code></pre>
+            </li>
+          </ol>
         </section>
 
         <section class="bcls-section">
-          <h2 id="section-name2">section-title</h2>
-          <p></p>
-        </section>
+          <h2 id="Completed_Code">Complete Code</h2>
+          <pre class="line-numbers">
+<code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
 
-        <section class="bcls-section">
-          <h2 id="section-name3">section-title</h2>
-          <p></p>
-        </section>
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;/head&gt;
 
-        <section class="bcls-section">
-          <h2 id="section-name4">section-title</h2>
-          <p></p>
+&lt;body&gt;
+
+  &lt;video id=&quot;myPlayerID&quot;
+    data-video-id=&quot;5785633544001&quot;
+    data-account=&quot;921483702001&quot;
+    data-player=&quot;Uj7Yz80yM&quot;
+    data-embed=&quot;default&quot;
+    data-application-id
+    class=&quot;video-js&quot;
+    controls
+    width=&quot;640&quot;
+    height=&quot;360&quot;&gt;&lt;/video&gt;
+  &lt;script src=&quot;//players.brightcove.net/921483702001/Uj7Yz80yM_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    videojs.getPlayer('myPlayerID').ready(function() {
+      var myPlayer = this;
+      // Play here? Two tasks to do
+      myPlayer.muted(true);
+      myPlayer.on('loadedmetadata', function(){
+        myPlayer.play();
+      });
+    });
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
         </section>
 
       </article>

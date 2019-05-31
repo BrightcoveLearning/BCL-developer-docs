@@ -28,13 +28,13 @@
 <nav class="lnb" id="lnb">
     <div class="logo" style="width: 50px; height: 46px">
         
-            <img src="https://docs.brightcove.com/brightcove-player/doc-header-image/bc-logo.png">
+            <img src="//docs.brightcove.com/brightcove-player/doc-header-image/bc-logo.png" width="100%" height="100%">
         
     </div>
     <div class="title">
         <h1><a href="index.html" class="link">Brightcove Player API Documentation</a></h1>
         
-            <span class="version">v6.33.1</span>
+            <span class="version">v6.34.3</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -1302,7 +1302,7 @@ class Player extends Component {
     // trigger mousedown/up.
     // http://stackoverflow.com/questions/1444562/javascript-onclick-event-over-flash-object
     // Any touch events are set to block the mousedown event from happening
-    this.on(this.tech_, 'mousedown', this.handleTechClick_);
+    this.on(this.tech_, 'mouseup', this.handleTechClick_);
     this.on(this.tech_, 'dblclick', this.handleTechDoubleClick_);
 
     // If the controls were hidden we don't want that to change without a tap event
@@ -1330,7 +1330,7 @@ class Player extends Component {
     this.off(this.tech_, 'touchstart', this.handleTechTouchStart_);
     this.off(this.tech_, 'touchmove', this.handleTechTouchMove_);
     this.off(this.tech_, 'touchend', this.handleTechTouchEnd_);
-    this.off(this.tech_, 'mousedown', this.handleTechClick_);
+    this.off(this.tech_, 'mouseup', this.handleTechClick_);
     this.off(this.tech_, 'dblclick', this.handleTechDoubleClick_);
   }
 
@@ -1901,7 +1901,7 @@ class Player extends Component {
    * @param {EventTarget~Event} event
    *        the event that caused this function to trigger
    *
-   * @listens Tech#mousedown
+   * @listens Tech#mouseup
    * @private
    */
   handleTechClick_(event) {
@@ -2740,7 +2740,7 @@ class Player extends Component {
       // events
       Events.on(document, fsApi.fullscreenchange, this.boundDocumentFullscreenChange_);
 
-      this.el_[fsApi.requestFullscreen]();
+      silencePromise(this.el_[fsApi.requestFullscreen]());
 
     } else if (this.tech_.supportsFullScreen()) {
       // we can't take the video.js controls fullscreen but we can go fullscreen
@@ -2770,7 +2770,7 @@ class Player extends Component {
 
     // Check for browser element fullscreen support
     if (fsApi.requestFullscreen) {
-      document[fsApi.exitFullscreen]();
+      silencePromise(document[fsApi.exitFullscreen]());
     } else if (this.tech_.supportsFullScreen()) {
       this.techCall_('exitFullScreen');
     } else {
@@ -4771,7 +4771,7 @@ export default Player;
 </div>
 
 <footer>
-    <img class="logo" src="http://docs.brightcove.com/brightcove-player/doc-header-image/bc-logo.png" style="width: 50px; height: 46px">
+    <img class="logo" src="//docs.brightcove.com/brightcove-player/doc-header-image/bc-logo.png" style="width: 50px; height: 46px">
     <div class="footer-text"><span class='copyright'>©2017 <a href='https://brightcove.com' target='_blank'>Brightcove, Inc</a>.</div>
 </footer>
 <script>prettyPrint();</script>

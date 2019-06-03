@@ -44,7 +44,7 @@
 		<div id="main" class="large-10 small-12 columns">
 			<h1>Live API: Server-Side Ad Insertion (SSAI)</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <p>This topic shows you how to set up server-side ad insertion (SSAI) for your live stream jobs.</p>
+      <p>This topic shows you how to set up Brightcove Server-Side Ad Insertion (SSAI) for your live stream jobs.</p>
       <!-- <aside class="bcls-aside bcls-aside--information">The content in this document applies to Video Cloud only.</aside> -->
 
 
@@ -69,285 +69,54 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Headers">Headers</h2>
+<h2 id="General_information">General information</h2>
 
-<p>The following headers are required with API requests:</p>
+<p>The following information pertains to all Live API with SSAI requests.</p>
+
+<h3>Base URL</h3>
+
+<p>The base URL for the Live API with SSAI is:</p>
+
+<pre>
+<code class="notranslate language-http">https://api.bcovlive.io/v1/ssai</code></pre>
+
+<h3>Authentication</h3>
+
+<p>Authentication for requests requires a header with an API key:</p>
 
 <pre class="line-numbers">
-<code class="language-http notranslate">x-api-key: <span class="bcls-input">APIKEY-HERE</span>
-Content-Type: application/json
-</code>
-</pre>
-</section>
+<code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span>
+</code></pre>
 
-<section class="bcls-section">
-<h2 id="Ad_configuration_variables">Ad configuration variables</h2>
-
-<p>The following table provides a summary of ad configuration variables, which are used in the requests to manage ad configurations detailed in the sections that follow.</p>
-
-<table class="bcls-table">
-	<caption class="bcls-caption--table">Ad Configuration Variables</caption>
-	<thead class="bcls-table__head">
-		<tr>
-			<th style="width:20%;">Variable</th>
-			<th style="width:60%;">
-			<div style="word-wrap:break-word;">Description</div>
-			</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td style="width:20%"><code>session.session_id </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">unique session id</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>job.job_id </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">unique job id</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>application_ad_configuration.description </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">value of the application at session creation</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>random.int32 </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">random 32-bit signed integer</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>random.int64 </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">random 64-bit signed integer</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>random.uint32 </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">random 32-bit unsigned integer</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>random.uint64 </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">random 64-bit unsigned integer</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>random.uuid </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">random uuid</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>server.timestamputc </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">epoch time in milliseconds when the call from the ads-api has been made</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>client.useragent </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">http user-agent header value at session creation</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>client.ipaddress </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">http x-forwarded-for header value at session creation, if provided, otherwise the remote address</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>client.referrer </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">http referer header value at session creation (note: that is the correct spelling)</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>client.referer </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">http referer header value at session creation (http spelling)</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>client.ipuaid </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">hash value of client.ipaddress and client.useragent</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreak </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">(currently unused)</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreakdurationms</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">Ad break duration in milliseconds</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreakduration </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">Ad break duration in double-precision floating-point seconds</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreakdurationint </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">Ad break duration in integer seconds</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreak.timestamputc.wallclock </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">epoch time in milliseconds when the call to the ads server has been made</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreak.timestamputc.origin </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">epoch time in milliseconds from the origin chunklist. This value indicates the time when the cue out chunk has been created in the origin chunklist.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>live.adbreak.timestamputc.session </code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">epoch time in milliseconds from the ssai chunklist. This value indicates the time of the cue out chunk in the ssai chunklist. Since the adbreak content and the adbreak gap are NOT usually the same, after the 1st adbreak the <code>live.adbreak.timestamputc.origin </code> is different from <code>live.adbreak.timestamputc.session </code>. This value takes into account the time adjustments that have been made in the <span class="”notranslate”">SSAI</span> chunklist.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>scte35_eventID</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">an unique event id passed with an SCTE35 message.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>scte35_programID</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">A unique program id passed with an SCTE35 message.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>scte35_availNum</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">An id for a specific splice time available for ads, send via a SCTE35 message.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>scte35_breakDuration</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">Break duration for the ad break, passed with an SCTE35 message.</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="width:20%"><code>scte35_spliceTime</code></td>
-			<td style="text-align:left;width:60%;">
-			<div style="word-wrap:break-word;">Splice time for an ad break passed with an SCTE35 message.</div>
-			</td>
-		</tr>
-	</tbody>
-</table>
-</section>
-
-<section class="bcls-section">
-<h2 id="Targeting_using_Targeting_using_query_strings">Targeting using query strings (URL parameters)</h2>
-
-<p>Your ad tag, entered in the ad configuration (see <a href="#Create_an_ad_configuration">Create ad configurations</a> below) will typically look something like this:</p>
-<textarea class="bcls-code">"https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}&amp;IDFA={{deviceid}}&amp;sitesection={{sitesection}}&amp;breakid={{breakid}}&amp;breaktheme={{breaktheme}}</textarea>
-
-<p>The items inside the double curly braces are variables, also called ad macros, which Live will replace with values, if they exist, when it sends the ad request.</p>
-
-<aside class="bcls-aside bcls-aside--information">Note that the variables that will be useful depend on the ad server.</aside>
-
-<p>These values can be supplied in three ways:</p>
-
-<ul>
-	<li>Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> above, is available for any request - you simply need to specify which ones you want with the appropriate key names in your ad configuration.</li>
-	<li>Additional session values can be appended to the URL for the live stream, like this:
-	<pre>
-<code class="language-http notranslate">http://playback.bcovlive.io/e058d9f2737e18/us-west-2/NA/playlist.m3u8<span class="bcls-highlight">?deviceid=123456&amp;sitesection=services</span>"
-</code>
-
-</pre>
-
-	<p>You can also add URLs dynamically, using Javascript and the Brightcove Player API:</p>
-
-	<pre class="line-numbers">
-<code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;body&gt;
-  &lt;video
-  id="myPlayerID"
-  data-video-id="5975635167001"
-  data-account="3737230870001"
-  data-player="tIG7lVKBm"
-  data-embed="default"
-  data-application-id
-  class="video-js"
-  controls
-  width="640"
-  height="360"&gt;&lt;/video&gt;
-  &lt;script src="//players.brightcove.net/3737230870001/tIG7lVKBm_default/index.min.js"&gt;&lt;/script&gt;
-
-  &lt;script type="text/javascript"&gt;
-  var player = videojs("myPlayerID");
-
-  player.one("loadstart", function(){
-    var sourceUrl = player.currentSource();
-    console.log(sourceUrl);
-    var liveUrlWithParams = sourceUrl.src + "?player_width={width}&amp;player_height={height}&amp;deviceid={deviceid}";
-
-    player.src([{
-      "type": "application/vnd.apple.mpegurl",
-      "src": liveUrlWithParams
-    }]);
-  });
-&lt;/script&gt;
-
-&lt;/body&gt;</code></pre>
-
-	<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
-	</li>
-	<li>Values for specific ad breaks can be sent with the <a href="#Manual_cue_point_insertion">Manual cue point insertion</a> request (discussed below).</li>
-</ul>
-</section>
-
-<section class="bcls-section">
-<h2 id="Custom_headers_for_ad_requests">Custom headers for ad requests</h2>
-
-<p>The <span class="”notranslate”">SSAI</span> platform can pass custom header with the Ad calls and all beacons used by the backend platform. Some ad servers such as VideoPlaza require custom headers. Custom headers are specified as a set of key-value pairs in an <code>ad_configuration_headers </code> object that is part of the <code>application_ad_configuration </code> (see the next section on <a href="#Create_an_ad_configuration">creating an ad configuration</a>).</p>
-
-<h3>Notes</h3>
-
-<ul>
-	<li>Standard headers are handled by default such as:
-	<ul>
-		<li><code>X-Forwarded-For </code></li>
-		<li><code>X-Device-User-Agent </code></li>
-	</ul>
-	</li>
-	<li>Header values can use the <a href="#Ad_configuration_variables">ad configuration variables</a></li>
-	<li>Header values can also be static strings</li>
-</ul>
-
-<aside class="bcls-aside bcls-aside--warning">Headers will be passed to all downstream requests including ad wrappers or impressions/quartiles so you should use them with caution.</aside>
+<p>Contact your account manager to get an API key associated with your account.</p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Create_an_ad_configuration">Create an ad configuration</h2>
 
-<p>To create a new ad configuration, send a <code>POST </code> request to:</p>
+<p>To create a new ad configuration, send a <code>POST </code> request as follows:</p>
 
-<pre class="line-numbers">
-<code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications
-</code>
-</pre>
+<table class="bcls-table">
+	<tbody class="bcls-table__body">
+		<tr>
+			<th>Method</th>
+			<td style="width:80em;">POST</td>
+		</tr>
+		<tr>
+			<th>URL</th>
+			<td>
+        https://api.bcovlive.io/v1/ssai/applications
+    </td>
+		</tr>
+		<tr>
+			<th>Header</th>
+			<td>
+          X-API-KEY: <span class="bcls-input">your API KEY</span>
+      </td>
+		</tr>
+	</tbody>
+</table>
+
 
 <h3>Sample request body</h3>
 
@@ -355,7 +124,7 @@ Content-Type: application/json
 <code class="language-json notranslate">{
   "application_ad_configuration": {
     "ad_configuration_description": "Human readable description of the configuration",
-    "ad_configuration_expected_response_type": "<span class="bcls-input">Dfp or Vast or SmartXML</span>",
+    "ad_configuration_expected_response_type": "<span class="bcls-input">Dfp, Vast or SmartXML</span>",
     "ad_configuration_headers": {
     "X-Custom-Header-Rand": "{{random.int32}}",
     "X-VIDEOPLAZA-FORWARDED-FOR": "{{client.ipaddress}}"
@@ -371,12 +140,12 @@ Content-Type: application/json
     "ad_configuration_url_format": "https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}"
   },
   "application_description": "Human readable description of the ad application",
-  "account_id": <span class="bcls-input">"USER'S ACCOUNT ID" [Optional - When omitted, Account ID of requesting user is used]</span>
+  "account_id": "<span class="bcls-input">User's account ID [Optional]</span>"
 }
 </code>
 </pre>
 
-<aside class="bcls-aside bcls-aside--information">Note that the <code>account_id </code> here is the Live account id.</aside>
+<aside class="bcls-aside bcls-aside--information">The <code>account_id </code> field is the Live account ID. When omitted, the account ID of the requesting user is used.</aside>
 
 <h3>Sample response</h3>
 
@@ -402,7 +171,7 @@ Content-Type: application/json
       ],
       "ad_configuration_url_format": "https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}"
     },
-    "application_id": <span class="bcls-highlight">"APPLICATION ID"</span>
+    "application_id": <span class="bcls-highlight">"Application ID"</span>
   },
   "inserted": true
 }
@@ -410,15 +179,32 @@ Content-Type: application/json
 </pre>
 </section>
 
+
+
 <section class="bcls-section">
 <h2 id="Update_an_ad_configuration">Update an ad configuration</h2>
 
-<p>Updating an ad configuration is very similar to creating one. Make a <code>PUT </code> request to:</p>
-
-<pre class="line-numbers">
-<code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">APPLICATION_ID</span>
-</code>
-</pre>
+<p>Updating an ad configuration is very similar to creating one. Make a <code>PUT </code> request as follows:</p>
+<table class="bcls-table">
+	<tbody class="bcls-table__body">
+		<tr>
+			<th>Method</th>
+			<td style="width:80em;">PUT</td>
+		</tr>
+		<tr>
+			<th>URL</th>
+			<td>
+        https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">APPLICATION_ID</span>
+    </td>
+		</tr>
+		<tr>
+			<th>Header</th>
+			<td>
+          X-API-KEY: <span class="bcls-input">your API KEY</span>
+      </td>
+		</tr>
+	</tbody>
+</table>
 
 <h3>Sample request body</h3>
 
@@ -442,12 +228,12 @@ Content-Type: application/json
     "ad_configuration_url_format": "https://updated-ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}"
   },
   "application_description": "Human readable description of the ad application",
-  "account_id": <span class="bcls-input">"USER'S ACCOUNT ID" [Optional - When omitted, Account ID of requesting user is used]</span>
+  "account_id": "<span class="bcls-input">User's account ID [Optional]</span>"
 }
 </code>
 </pre>
 
-<aside class="bcls-aside bcls-aside--information">Note that the <code>account_id </code> here is the Live account id.</aside>
+<aside class="bcls-aside bcls-aside--information">The <code>account_id </code> field is the Live account ID. When omitted, the account ID of the requesting user is used.</aside>
 
 <h3>Sample response</h3>
 
@@ -743,6 +529,267 @@ Content-Type: application/json
 <figure class="bcls-figure"><img class="bcls-image" alt="Elemental Cue Point Setup" src="//learning-services-media.brightcove.com/doc-assets/node/17763-server-side-ad-insertion-using-brightcove-live-api/elemental-screenshot.png" />
 <figcaption class="bcls-caption--image">Elemental Cue Point Setup</figcaption>
 </figure>
+</section>
+
+
+
+<section class="bcls-section">
+<h2 id="Ad_configuration_variables">Ad configuration variables</h2>
+
+<p>The following table provides a summary of ad configuration variables, which are used in the requests to manage ad configurations detailed in the sections that follow.</p>
+
+<table class="bcls-table">
+	<caption class="bcls-caption--table">Ad Configuration Variables</caption>
+	<thead class="bcls-table__head">
+		<tr>
+			<th style="width:20%;">Variable</th>
+			<th style="width:60%;">
+			<div style="word-wrap:break-word;">Description</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td style="width:20%"><code>session.session_id </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">unique session id</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>job.job_id </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">unique job id</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>application_ad_configuration.description </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">value of the application at session creation</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>random.int32 </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">random 32-bit signed integer</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>random.int64 </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">random 64-bit signed integer</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>random.uint32 </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">random 32-bit unsigned integer</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>random.uint64 </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">random 64-bit unsigned integer</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>random.uuid </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">random uuid</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>server.timestamputc </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">epoch time in milliseconds when the call from the ads-api has been made</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>client.useragent </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">http user-agent header value at session creation</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>client.ipaddress </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">http x-forwarded-for header value at session creation, if provided, otherwise the remote address</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>client.referrer </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">http referer header value at session creation (note: that is the correct spelling)</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>client.referer </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">http referer header value at session creation (http spelling)</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>client.ipuaid </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">hash value of client.ipaddress and client.useragent</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreak </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">(currently unused)</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreakdurationms</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">Ad break duration in milliseconds</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreakduration </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">Ad break duration in double-precision floating-point seconds</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreakdurationint </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">Ad break duration in integer seconds</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreak.timestamputc.wallclock </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">epoch time in milliseconds when the call to the ads server has been made</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreak.timestamputc.origin </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">epoch time in milliseconds from the origin chunklist. This value indicates the time when the cue out chunk has been created in the origin chunklist.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>live.adbreak.timestamputc.session </code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">epoch time in milliseconds from the ssai chunklist. This value indicates the time of the cue out chunk in the ssai chunklist. Since the adbreak content and the adbreak gap are NOT usually the same, after the 1st adbreak the <code>live.adbreak.timestamputc.origin </code> is different from <code>live.adbreak.timestamputc.session </code>. This value takes into account the time adjustments that have been made in the <span class="”notranslate”">SSAI</span> chunklist.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>scte35_eventID</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">an unique event id passed with an SCTE35 message.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>scte35_programID</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">A unique program id passed with an SCTE35 message.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>scte35_availNum</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">An id for a specific splice time available for ads, send via a SCTE35 message.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>scte35_breakDuration</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">Break duration for the ad break, passed with an SCTE35 message.</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:20%"><code>scte35_spliceTime</code></td>
+			<td style="text-align:left;width:60%;">
+			<div style="word-wrap:break-word;">Splice time for an ad break passed with an SCTE35 message.</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</section>
+
+<section class="bcls-section">
+<h2 id="Targeting_using_Targeting_using_query_strings">Targeting using query strings (URL parameters)</h2>
+
+<p>Your ad tag, entered in the ad configuration (see <a href="#Create_an_ad_configuration">Create ad configurations</a> below) will typically look something like this:</p>
+<textarea class="bcls-code">"https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}&amp;IDFA={{deviceid}}&amp;sitesection={{sitesection}}&amp;breakid={{breakid}}&amp;breaktheme={{breaktheme}}</textarea>
+
+<p>The items inside the double curly braces are variables, also called ad macros, which Live will replace with values, if they exist, when it sends the ad request.</p>
+
+<aside class="bcls-aside bcls-aside--information">Note that the variables that will be useful depend on the ad server.</aside>
+
+<p>These values can be supplied in three ways:</p>
+
+<ul>
+	<li>Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> above, is available for any request - you simply need to specify which ones you want with the appropriate key names in your ad configuration.</li>
+	<li>Additional session values can be appended to the URL for the live stream, like this:
+	<pre>
+<code class="language-http notranslate">http://playback.bcovlive.io/e058d9f2737e18/us-west-2/NA/playlist.m3u8<span class="bcls-highlight">?deviceid=123456&amp;sitesection=services</span>"
+</code>
+
+</pre>
+
+	<p>You can also add URLs dynamically, using Javascript and the Brightcove Player API:</p>
+
+	<pre class="line-numbers">
+<code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;body&gt;
+  &lt;video
+  id="myPlayerID"
+  data-video-id="5975635167001"
+  data-account="3737230870001"
+  data-player="tIG7lVKBm"
+  data-embed="default"
+  data-application-id
+  class="video-js"
+  controls
+  width="640"
+  height="360"&gt;&lt;/video&gt;
+  &lt;script src="//players.brightcove.net/3737230870001/tIG7lVKBm_default/index.min.js"&gt;&lt;/script&gt;
+
+  &lt;script type="text/javascript"&gt;
+  var player = videojs("myPlayerID");
+
+  player.one("loadstart", function(){
+    var sourceUrl = player.currentSource();
+    console.log(sourceUrl);
+    var liveUrlWithParams = sourceUrl.src + "?player_width={width}&amp;player_height={height}&amp;deviceid={deviceid}";
+
+    player.src([{
+      "type": "application/vnd.apple.mpegurl",
+      "src": liveUrlWithParams
+    }]);
+  });
+&lt;/script&gt;
+
+&lt;/body&gt;</code></pre>
+
+	<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
+	</li>
+	<li>Values for specific ad breaks can be sent with the <a href="#Manual_cue_point_insertion">Manual cue point insertion</a> request (discussed below).</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Custom_headers_for_ad_requests">Custom headers for ad requests</h2>
+
+<p>The <span class="”notranslate”">SSAI</span> platform can pass custom header with the Ad calls and all beacons used by the backend platform. Some ad servers such as VideoPlaza require custom headers. Custom headers are specified as a set of key-value pairs in an <code>ad_configuration_headers </code> object that is part of the <code>application_ad_configuration </code> (see the next section on <a href="#Create_an_ad_configuration">creating an ad configuration</a>).</p>
+
+<h3>Notes</h3>
+
+<ul>
+	<li>Standard headers are handled by default such as:
+	<ul>
+		<li><code>X-Forwarded-For </code></li>
+		<li><code>X-Device-User-Agent </code></li>
+	</ul>
+	</li>
+	<li>Header values can use the <a href="#Ad_configuration_variables">ad configuration variables</a></li>
+	<li>Header values can also be static strings</li>
+</ul>
+
+<aside class="bcls-aside bcls-aside--warning">Headers will be passed to all downstream requests including ad wrappers or impressions/quartiles so you should use them with caution.</aside>
 </section>
 </article>
 

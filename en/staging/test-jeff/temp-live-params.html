@@ -51,70 +51,7 @@
 
   <article class="bcls-article">
 
-  <section class="bcls-section">
-  <h2 id="Targeting_using_query_parameters">Targeting using query parameters</h2>
-
-  <p>When you <a href="https://support.brightcove.com/node/17763Create_an_ad_configuration">create an ad configuration</a>, your ad tag will typically look something like this:</p>
-  <pre>
-  <code class="language-http">https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;
-  num={{random.int32}}&amp;ses={{session.session_id}}&amp;IDFA={{deviceid}}&amp;
-  sitesection={{sitesection}}&amp;breakid={{breakid}}&amp;breaktheme={{breaktheme}}</code></pre>
-
-  <p>The items inside the double curly braces are variables, also called ad macros, which Brightcove Live will replace with values, if they exist, when it sends the ad request.</p>
-
-  <aside class="bcls-aside bcls-aside--information">The variables that will be useful depend on the ad server.</aside>
-
-  <p>These values can be supplied in three ways:</p>
-
-  <ul>
-  	<li>Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> above, is available for any request - you simply need to specify which ones you want with the appropriate key names in your ad configuration.</li>
-  	<li>Additional session values can be appended to the URL for the live stream, like this:
-  	<pre>
-  <code class="language-http notranslate">http://playback.bcovlive.io/e058d9f2737e18/us-west-2/NA/playlist.m3u8<span class="bcls-highlight">?deviceid=123456&amp;sitesection=services</span>"
-  </code>
-
-  </pre>
-
-  	<p>You can also add URLs dynamically, using Javascript and the Brightcove Player API:</p>
-
-  	<pre class="line-numbers">
-  <code class="language-html">&lt;!DOCTYPE html&gt;
-  &lt;body&gt;
-    &lt;video
-    id="myPlayerID"
-    data-video-id="5975635167001"
-    data-account="3737230870001"
-    data-player="tIG7lVKBm"
-    data-embed="default"
-    data-application-id
-    class="video-js"
-    controls
-    width="640"
-    height="360"&gt;&lt;/video&gt;
-    &lt;script src="//players.brightcove.net/3737230870001/tIG7lVKBm_default/index.min.js"&gt;&lt;/script&gt;
-
-    &lt;script type="text/javascript"&gt;
-    var player = videojs("myPlayerID");
-
-    player.one("loadstart", function(){
-      var sourceUrl = player.currentSource();
-      console.log(sourceUrl);
-      var liveUrlWithParams = sourceUrl.src + "?player_width={width}&amp;player_height={height}&amp;deviceid={deviceid}";
-
-      player.src([{
-        "type": "application/vnd.apple.mpegurl",
-        "src": liveUrlWithParams
-      }]);
-    });
-  &lt;/script&gt;
-
-  &lt;/body&gt;</code></pre>
-
-  	<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
-  	</li>
-  	<li>Values for specific ad breaks can be sent with the <a href="#Manual_cue_point_insertion">Manual cue point insertion</a> request (discussed below).</li>
-  </ul>
-  </section>
+  
 
 
   </article>

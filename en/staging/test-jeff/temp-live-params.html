@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Begin Drupal Taxonomy Data -->
+    <meta name="products" content="Video Cloud, Brightcove Player">
+    <meta name="role" content="Device SDK Developer">
+    <meta name="task" content="Develop with the Native SDKs">
+    <meta name="topic" content="Troubleshooting/Error Handling">
+    <meta name="sdk" content="iOS,tvOS,Android">
+    <meta name="keywords" content="device,SDK,FAQ">
+    <!-- End Drupal Taxonomy Data -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Live API: Using Query Parameters with SSAI</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Live API: Using Query Parameters with SSAI</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to use query parameters to target ads with Live streams using Server-Side Ad Insertion (SSAI).</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+  <article class="bcls-article">
+
+  <section class="bcls-section">
+  <h2 id="Targeting_using_query_parameters">Targeting using query parameters</h2>
+
+  <p>When you <a href="https://support.brightcove.com/node/17763Create_an_ad_configuration">create an ad configuration</a>, your ad tag will typically look something like this:</p>
+  <pre>
+  <code class="language-http">https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;
+  num={{random.int32}}&amp;ses={{session.session_id}}&amp;IDFA={{deviceid}}&amp;
+  sitesection={{sitesection}}&amp;breakid={{breakid}}&amp;breaktheme={{breaktheme}}</code></pre>
+
+  <p>The items inside the double curly braces are variables, also called ad macros, which Brightcove Live will replace with values, if they exist, when it sends the ad request.</p>
+
+  <aside class="bcls-aside bcls-aside--information">The variables that will be useful depend on the ad server.</aside>
+
+  <p>These values can be supplied in three ways:</p>
+
+  <ul>
+  	<li>Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> above, is available for any request - you simply need to specify which ones you want with the appropriate key names in your ad configuration.</li>
+  	<li>Additional session values can be appended to the URL for the live stream, like this:
+  	<pre>
+  <code class="language-http notranslate">http://playback.bcovlive.io/e058d9f2737e18/us-west-2/NA/playlist.m3u8<span class="bcls-highlight">?deviceid=123456&amp;sitesection=services</span>"
+  </code>
+
+  </pre>
+
+  	<p>You can also add URLs dynamically, using Javascript and the Brightcove Player API:</p>
+
+  	<pre class="line-numbers">
+  <code class="language-html">&lt;!DOCTYPE html&gt;
+  &lt;body&gt;
+    &lt;video
+    id="myPlayerID"
+    data-video-id="5975635167001"
+    data-account="3737230870001"
+    data-player="tIG7lVKBm"
+    data-embed="default"
+    data-application-id
+    class="video-js"
+    controls
+    width="640"
+    height="360"&gt;&lt;/video&gt;
+    &lt;script src="//players.brightcove.net/3737230870001/tIG7lVKBm_default/index.min.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+    var player = videojs("myPlayerID");
+
+    player.one("loadstart", function(){
+      var sourceUrl = player.currentSource();
+      console.log(sourceUrl);
+      var liveUrlWithParams = sourceUrl.src + "?player_width={width}&amp;player_height={height}&amp;deviceid={deviceid}";
+
+      player.src([{
+        "type": "application/vnd.apple.mpegurl",
+        "src": liveUrlWithParams
+      }]);
+    });
+  &lt;/script&gt;
+
+  &lt;/body&gt;</code></pre>
+
+  	<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
+  	</li>
+  	<li>Values for specific ad breaks can be sent with the <a href="#Manual_cue_point_insertion">Manual cue point insertion</a> request (discussed below).</li>
+  </ul>
+  </section>
+
+
+  </article>
+
+
+  <!-- END DRUPAL CONTENT -->
+  </div>
+  </div>
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+  $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+  </body>
+
+  </html>

@@ -46,6 +46,239 @@
 
       <!-- BEGIN DRUPAL CONTENT -->
 
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Player_example">Player example</h2>
+<!-- UPDATE description -->
+
+<aside class="bcls-aside bcls-aside--information language-editable">This sample and associated code is provided as a guide for your production development. The code is not certified for production use nor officially supported.</aside>
+
+<p>For the pre-roll, mid-roll and post-roll a countdown timer for the ad will appear in the top-left of the player.</p>
+<!-- UPDATE codepen here -->
+
+<p class="codepen" data-height="468" data-theme-id="34967" data-default-tab="result" data-user="rcrooks1969" data-slug-hash="rzdXVQ" style="height: 468px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="Ad Countdown Timer">
+  <span>See the Pen <a href="https://codepen.io/team/rcrooks1969/pen/rzdXVQ/">
+  Ad Countdown Timer</a> by Brightcove Learning Services (<a href="https://codepen.io/rcrooks1969">@rcrooks1969</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>View the <a href="https://github.com/BrightcoveLearning/18188-ad-countdown-timer">source code</a>.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Using_the_CodePen" class="bcls-expander-head">Using the CodePen</h2>
+
+<div class="bcls-expander-content">
+<p>Here are some tips to effectively use the above CodePen:</p>
+
+<ul>
+	<li>Toggle the actual display of the player by clicking the <strong>Result</strong> button.</li>
+	<li>Click the <strong>HTML/CSS/JS</strong> buttons to display ONE of the code types.</li>
+	<li>Later in this document the logic, flow and styling used in the application will be discussed in the <a href="#Player/HTML_configuration">Player/HTML configuration</a>, <a href="#Applicaton_flow">Application flow</a> and <a href="#Application_styling">Application styling</a> sections. The best way to follow along with the information in those sections is to:
+	<ol>
+		<li>Click the <strong>EDIT ON CODEPEN</strong> button in the CodePen and have the code available in one browser/browser tab.</li>
+		<li>In CodePen, adjust what code you want displayed. You can change the width of different code sections within CodePen.</li>
+		<li>View the <a href="#Player/HTML_configuration">Player/HTML configuration</a>, <a href="#Applicaton_flow">Application flow</a> and/or <a href="#Application_styling">Application styling</a> sections in another browser/browser tab. You will now be able to follow the code explanations and at the same time view the code.</li>
+	</ol>
+	</li>
+</ul>
+</div>
+</section>
+
+<section class="bcls-section">
+<h2 id="developmentsequence" class="bcls-expander-head">Development sequence</h2>
+
+<div class="bcls-expander-content">
+<p>Here is the recommended development sequence:</p>
+
+<ol>
+	<li>Use the In-Page embed player implementation to test the functionality of your player, plugin and CSS (if CSS is needed)</li>
+	<li>Put the plugin's JavaScript and CSS into separate files for local testing</li>
+	<li>Deploy the plugin code and CSS to your server once you have worked out any errors</li>
+	<li>Use Studio to add the plugin and CSS to your player</li>
+	<li>Replace the In-Page embed player implementation if you determine that the iframe implementation is a better fit (detailed in next section)</li>
+</ol>
+
+<p>For details about these steps, review the <a href="/node/18081">Step-by-Step: Plugin Development</a> guide.</p>
+
+<h3>iframe or In-Page embed</h3>
+
+<p>When developing enhancements for the Brightcove player you will need to decide if the code is a best fit for the iframe or In-Page embed implementation. The best practice recommendation is to build a plugin for use with an iframe implementation. The advantages of using the iframe player are:</p>
+
+<ul>
+	<li>No collisions with existing JavaScript and/or CSS</li>
+	<li>Automatically responsive</li>
+	<li>The iframe eases use in social media apps (or whenever the video will need to "travel" into other apps)</li>
+</ul>
+
+<p>Although integrating the In-Page embed player can be more complex, there are times when you will plan your code around that implementation. To generalize, this approach is best when the containing page needs to communicate to the player. Specifically, here are some examples:</p>
+
+<ul>
+	<li>Code in the containing page needs to listen for and act on player events</li>
+	<li>The player uses styles from the containing page</li>
+	<li>The iframe will cause app logic to fail, like a redirect from the containing page</li>
+</ul>
+
+<p>Even if your final implementation does not use the iframe code, you can still use the In-Page embed code with a plugin for your JavaScript and a separate file for your CSS. This encapsulates your logic so that you can easily use it in multiple players.</p>
+</div>
+<!-- id="expanderContent" --></section>
+
+<section class="bcls-section">
+<h2 id="API/Plugin_resources_used">API/Plugin resources used</h2>
+<!-- UPDATE table, remove unneeded columns -->
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>API Methods</th>
+			<th>API Events</th>
+			<th>Brightcove Player Plugins</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td><a class="notranslate" href="//github.com/videojs/videojs-contrib-ads">ima3.adPlayer.duration()</a></td>
+			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#event:loadedmetadata__anchor">loadedmetadata</a></td>
+			<td><a href="/node/18080">IMA3 Plugin</a></td>
+		</tr>
+		<tr>
+			<td><a class="notranslate" href="//github.com/videojs/videojs-contrib-ads">ima3.adPlayer.currentTime()</a></td>
+			<td><a href="/node/18080#Events">ima3-started</a></td>
+			<td><a href="/node/18075">Overlay Plugin</a></td>
+		</tr>
+		<tr>
+			<td><a class="notranslate" href="https://docs.brightcove.com/brightcove-player/current-release/EventTarget.html#on__anchor">on()</a></td>
+			<td><a href="/node/18080#Events">ima3-complete</a></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><a href="/node/18080#Events">ads-ad-skipped</a></td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</section>
+<!-- UPDATE player and HTML configuration -->
+
+<section class="bcls-section">
+<h2 id="Player/HTML_configuration">Player/HTML configuration</h2>
+
+<p>This section details any special configuration needed during player creation. In addition, other HTML elements that must be added to the page, beyond the in-page embed player implementation code, are described.</p>
+
+<h3>Player configuration</h3>
+
+<p>The IMA3 plugin was configured in Studio as follows:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Configure IAM3 plugin" src="//learning-services-media.brightcove.com/doc-assets/player-development/advertising/ad-countdown-sample/configure-ima.png" /></figure>
+
+<aside class="bcls-aside bcls-aside--tip language-editable">
+<p><strong>Although the Overlay Plugin is configured in the code</strong>, you could also use Studio to perform the same task:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Configure Overlay plugin" src="//learning-services-media.brightcove.com/doc-assets/player-development/advertising/ad-countdown-sample/configure-overlay.png" /></figure>
+<p>Of course, you would then remove the equivalent code from the sample.</p>
+</aside>
+<h3>Other HTML</h3>
+
+<p>The Overlay Plugin's JavaScript and CSS files are imported into the page.</p>
+</section>
+<!-- UPDATE application flow -->
+
+<section class="bcls-section">
+<h2 id="Application_flow">Application flow</h2>
+
+<p>The basic logic behind this application is:</p>
+
+<ul>
+	<li>The IMA3 Plugin is configured in Studio.</li>
+	<li>The Overlay Plugin is called and configured.</li>
+	<li>On ad start, the overlay is shown and every second a function is called that injects the remaining time into the overlay.</li>
+	<li>On ad stop or ad skipped, the overlay is hidden, and some cleanup of the overlay is done.</li>
+</ul>
+<!-- UPDATE task 1 -->
+
+<h3>Convert times into seconds with no decimals</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre>
+<code class="language-javascript notranslate">// ### +++ Helpful method to convert seconds +++ ###</code></pre>
+
+<p>This helper function takes the times, which could contain hours, minutes and seconds, and simple converts to seconds.</p>
+<!-- UPDATE task 2 -->
+
+<h3>Set up listening for ad events</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">// +++ Start counter on start of ad +++</code></pre>
+AND
+<pre class="line-numbers">
+<code class="language-javascript">// +++ Listen for ad end or skipped +++</code></pre>
+
+<p>After the ad and video information is loaded into the player, you know this waiting for <code>loadedmetadata</code>, you use the <code>on()</code> method to listen for <code>ima3-started</code>, <code>ima3-complete</code> and <code>ads-ad-skipped</code>.</p>
+<!-- UPDATE task 3 -->
+
+<h3>Show overlay on ad start</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">// +++ Start counter on start of ad +++</code></pre>
+
+<p>A class is added to the overlay for styling, the overlay is displayed, then JavaScript's <code>setInterval()</code> method is used to call the custom <code>everySecond()</code> method. In the <code>everySecond()</code> method the current time of the ad playing is subtracted from the duration, and the formatted result injected into the overlay.</p>
+<!-- UPDATE task 3 -->
+
+<h3>Hide overlay on ad completed or skipped</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">// +++ Listen for ad end or skipped +++</code></pre>
+
+<p>Both of the ad events that could terminate the ad call a function named <code>videoCompleteOrSkipped</code>. In this function a variable, named <code>theInterval</code>, was created by the previously called <code>setInterval()</code>, needs to be cleared by JavaScript's <code>clearInterval()</code> method. This is needed as processing time is taken by the interval variable. Finally, the overlay is hidden and any injected HTML is cleared.</p>
+</section>
+<!-- UPDATE CSS description -->
+
+<section class="bcls-section">
+<h2 id="Application_styling">Application styling</h2>
+
+<p>The CSS is used to style the look of the overlay that displays the countdown timer.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Plugin_code">Plugin code</h2>
+
+<p>Normally when converting the JavaScript into a Brightcove Player plugin nominal changes are needed. One required change is to replace the standard use of the <code>ready()</code> method with the code that defines a plugin.</p>
+
+<p>Here is the very commonly used start to JavaScript code that will work with the player:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript notranslate">videojs.getPlayer('myPlayerID').ready(function() {
+  var myPlayer = this;
+  ...
+});</code></pre>
+
+<p>You will change the first line to use the standard syntax to start a Brightcove Player plugin:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript notranslate">videojs.registerPlugin('pluginName', function(options) {
+  var myPlayer = this;
+  ...
+});</code></pre>
+<!-- UPDATE path to plugin's JavaScript -->
+
+<p>As mentioned earlier, you can see the plugin's JavaScript code in this document's corresponding GitHub repo: <a href="//github.com/BrightcoveLearning/18188-ad-countdown-timer/blob/master/plugin/adCountdown.js">adCountdown.js</a>.</p>
+
+<h3>Using the plugin with a player</h3>
+
+<p>Once you have the plugin's CSS and JavaScript files stored in an Internet accessible location, you can use the plugin with a player. In Studio's <strong>PLAYERS</strong> module you can choose a player, then in the <strong>PLUGINS</strong> section add the URLs to the CSS and JavaScript files, and also add the <strong>Name</strong> and <strong>Options</strong>, if options are needed.</p>
+
+<aside class="bcls-aside bcls-aside--tip">For more information on using Studio to assign plugins to players see the <a href="/node/14053">Configuring Player Plugins</a> document.</aside>
+</section>
+</article>
 
 
       <!-- END DRUPAL CONTENT -->

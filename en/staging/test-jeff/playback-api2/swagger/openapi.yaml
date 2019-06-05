@@ -1,0 +1,807 @@
+openapi: 3.0.0
+info:
+  title: Playback API Reference
+  version: 2.0.0
+  description: |-
+    Reference for the Brightcove Playback API, used for client-side access video and playlist information.
+
+    The raw API JSON response is not suitable for the player. Use the `player.catalog.transformVideoResponse()` function to convert each video object in the response into a format compatible with the player. This includes duration times and https image compatibility. For details, see the [Player Catalog](https://support.brightcove.com/player-catalog) document.
+
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/node/18380)**.
+
+    **Base URL**: https://playback.api.brightcove.com/v2
+servers:
+  - url: 'https://playback.api.brightcove.com/v2'
+tags:
+  - name: Videos
+    description: Operations for retrieving videos.
+  - name: Playlists
+    description: Operations for retrieving playlists.
+paths:
+  '/accounts/{account_id}/videos/{video_id}/related':
+    get:
+      tags:
+        - Videos
+      summary: Get Related Videos by ID or Reference ID
+      description: |-
+        Gets a page of video objects that are related to the specified video. Using the name and short description of the specified video, the Playback API searches for videos with any partial matches in the following fields: `name`, `short` `description`, `long_description`, `tags`.
+
+        Notes:  When performing this search, you need to use a search-enabled Policy Key. For information on getting policy keys, see the [Policy API Overview](https://support.brightcove.com/overview-policy-api). You can also use this [sample app](https://support.brightcove.com/quick-start-policy-api) to create a search-enabled key
+
+        In general, search-enabled Policy Keys should only be stored on a server and not in a browser player or mobile app, since they can be used to list all playable videos. For some accounts this may not be applicable if you do not care if all of your playable videos can be discovered.
+
+        The response results for this endpoint are subject to change as we improve the algorithm for finding related videos. If you do not want your results to change, or if you want precise control, then you should use the [Get Videos endpoint](#operation/Get_Videos) with a search parameter.
+
+        Any geo-restricted videos that are denied for the particular requestor are omitted from the results. As long as some videos are allowed the request is considered successful. An errors field is added to the result with a summary explaining why videos were omitted.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/ad_config_id'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/video_id'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/BCOV-Policy'
+        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/Get_Videos_Response
+        '400':
+          description: >-
+             BAD_REQUEST: DUPLICATE_PARAMETERS - The same parameter name was provided more than once in the request
+
+             INVALID_SEARCH - The search parameters are not valid
+
+             ILLEGAL_QUERY - The search string syntax was invalid - example
+
+             ACCESS_DENIED:
+
+              ACCOUNT_ID  - The account id in the policy key does not match the account in the api request <br>  API  - The policy key is not search-enabled when attempting to perform a search
+
+              CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference
+
+              CLIENT_IP - The video is restricted at the current IP address <br>  DOMAIN - The video is restricted from playing on the current domain
+
+              POLICY_ERROR - Error when evaluating the policy key
+
+              VIDEO_NOT_PLAYABLE - For a single video request, the video exists, but is not allowed to be played now.
+        '401':
+          description: 'INVALID_POLICY_KEY:undefined'
+        '403':
+          description: "ACCESS_DENIED:  \n \t ACCOUNT_ID  - The account id in the policy key does not match the account in the api request  \n \t DOMAIN - The video is restricted from playing on the current domain  \n \t CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference \n \t CLIENT_IP - The video is restricted at the current IP address \n \t POLICY_ERROR - Error when evaluating the policy key"
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED:Only GET, HEAD and OPTIONS are allowed for this
+            api.
+        '500':
+          description: 'SERVER_ERROR:internal server error'
+        '502':
+          description: 'SERVER_ERROR:Got a bad response from a backend server'
+        '504':
+          description: >-
+            SERVER_TIMEOUT:Either a backend server or one of the servers they
+            rely on timed out.
+      operationId: Get_Related_Videos_by_ID_or_Reference_ID
+  '/accounts/{account_id}/videos/{video_id}':
+    get:
+      tags:
+        - Videos
+      summary: Get Video by ID or Reference ID
+      description: 'Gets a video object based on a video ID or reference ID.   '
+      parameters:
+        - $ref: '#/components/parameters/ad_config_id'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/video_id'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/BCOV-Policy'
+        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Videos_Response'
+        '400':
+          description: >-
+            BAD_REQUEST:    DUPLICATE_PARAMETERS - The same parameter name was provided more than once in the request <br>INVALID_SEARCH - The search parameters are not valid <br>ILLEGAL_QUERY - The search string syntax was invalid - example <br>ACCESS_DENIED:    ACCOUNT_ID  - The account id in the policy key does not match the account in the api request <br>API  - The policy key is not search-enabled when attempting to perform a search <br>CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference <br>CLIENT_IP - The video is restricted at the current IP address <br>DOMAIN - The video is restricted from playing on the current domain <br>POLICY_ERROR - Error when evaluating the policy key <br>FORBIDDEN: <br>VIDEO_NOT_PLAYABLE - For a single video request, the
+            video exists, but is not allowed to be played now. That could be any of the four reasons that videos are not playable <br>NOT_FOUND:    VIDEO_NOT_FOUND - The requested resource is not available.
+        '401':
+          description: 'INVALID_POLICY_KEY:undefined'
+        '403':
+          description: |-
+            ACCESS_DENIED:  ACCOUNT_ID  - The account id in the policy key does not match the account in the api request
+            <br>DOMAIN - The video is
+            restricted from playing on the current domain  <br>CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference
+            <br>CLIENT_IP - The video is restricted at the current IP address
+            <br>POLICY_ERROR - Error when evaluating the policy key
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED:Only GET, HEAD and OPTIONS are allowed for this
+            api.
+        '500':
+          description: 'SERVER_ERROR:internal server error'
+        '502':
+          description: 'SERVER_ERROR:Got a bad response from a backend server'
+        '504':
+          description: >-
+            SERVER_TIMEOUT:Either a backend server or one of the servers they rely on timed out.
+      operationId: Get_Video_by_ID_or_Reference_ID
+  '/accounts/{account_id}/videos':
+    get:
+      tags:
+        - Videos
+      summary: Get Videos
+      description: |-
+        Gets a page of video objects. The Playback API allows you to programmatically search for videos in your Video Cloud library. For more information on the search syntax, see [CMS/Playback API: Videos Search](https://support.brightcove.com/cmsplayback-api-videos-search).
+
+        Notes:
+
+        When performing a search, you need to use a search-enabled Policy Key. For information on getting policy keys, see the Policy API Overview or the Policy Keys documents.  In general, search-enabled Policy Keys should only be stored on a server and not in a browser player or mobile app, since they can be used to list all playable videos. For some accounts this may not be applicable if you do not care if all of your playable videos can be discovered.
+
+        The maximum number of videos (highest count value) returned is 1000, even if there are more matching videos in the account. The count value is an estimate and should not be relied on as the exact number to be returned. If all results are desired then keep paging until it no longer returns a full page, or use the CMS api.
+
+        Only currently playable videos are included in the results list. It is recommended to do a similar query with the CMS api to see why some videos are excluded.  Any geo-restricted videos that are denied for the particular requestor are omitted from the results. As long as some videos are allowed the request is considered successful. An errors field is added to the result with a summary explaining why videos were omitted.
+      parameters:
+        - $ref: '#/components/parameters/q'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/ad_config_id'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/video_id'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/BCOV-Policy'
+        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Videos_Response'
+        '400':
+          description: >-
+            BAD_REQUEST:    DUPLICATE_PARAMETERS - The same parameter name was provided more than once in the request
+            <br>INVALID_SEARCH - The
+            search parameters are not valid
+            <br>ILLEGAL_QUERY - The search string
+            syntax was invalid - example
+            <br>ACCESS_DENIED:    ACCOUNT_ID  - The account id in the policy key does not match the account in the api request
+            <br>API  - The policy
+            key is not search-enabled when attempting to perform a search
+            <br>CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference
+            <br>CLIENT_IP - The video is restricted at the current IP address
+            <br>DOMAIN - The video is restricted from playing on the
+            current domain
+            <br>POLICY_ERROR - Error when evaluating the policy key
+            <br>FORBIDDEN:    VIDEO_NOT_PLAYABLE - For a single video request, the video exists, but is not allowed to be played now. That could be any of the four reasons that videos are not playable
+            <br>NOT_FOUND:    VIDEO_NOT_FOUND - The requested resource is not available.
+        '401':
+          description: 'INVALID_POLICY_KEY:undefined'
+        '403':
+          description: >-
+            ACCESS_DENIED:  ACCOUNT_ID  - The account id in the policy key does not match the account in the api request
+            <br>DOMAIN - The video is
+            restricted from playing on the current domain  <br>CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference
+            <br>CLIENT_IP - The video is restricted at the current IP address
+            <br>POLICY_ERROR - Error when evaluating the policy key
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED:Only GET, HEAD and OPTIONS are allowed for this
+            api.
+        '500':
+          description: 'SERVER_ERROR:internal server error'
+        '502':
+          description: 'SERVER_ERROR:Got a bad response from a backend server'
+        '504':
+          description: >-
+            SERVER_TIMEOUT:Either a backend server or one of the servers they rely on timed out.
+      operationId: Get_Videos
+  '/accounts/{account_id}/playlists/{playlist_id}':
+    get:
+      tags:
+        - Playlists
+      summary: Get Playlist by ID or Reference ID
+      description: >-
+        Gets a playlist object for an account, based on playlist ID or reference ID.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/ad_config_id'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/playlist_id'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/BCOV-Policy'
+        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist_Response'
+        '400':
+          description: >-
+            BAD_REQUEST:  DUPLICATE_PARAMETERS - The same parameter name was provided more than once in the request
+
+            NOT_FOUND:  PLAYLIST_NOT_FOUND - The requested resource is not available.
+        '401':
+          description: 'INVALID_POLICY_KEY:undefined'
+        '403':
+          description: >-
+            ACCESS_DENIED:  ACCOUNT_ID  - The account id in the policy key does not match the account in the api request
+            <br>DOMAIN - The video is
+            restricted from playing on the current domain  <br>CLIENT_GEO - The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. For more details, see the Playback API Error Reference
+            <br>CLIENT_IP - The video is restricted at the current IP address
+            <br>POLICY_ERROR - Error when evaluating the policy key
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED:Only GET, HEAD and OPTIONS are allowed for this
+            api.
+        '500':
+          description: 'SERVER_ERROR:internal server error'
+        '502':
+          description: 'SERVER_ERROR:Got a bad response from a backend server'
+        '504':
+          description: >-
+            SERVER_TIMEOUT:Either a backend server or one of the servers they
+            rely on timed out.
+      operationId: Get_Playlists_by_ID_or_Reference_ID
+components:
+  schemas:
+    Playlist_Response:
+      properties:
+        account_id:
+          type: string
+          description: 'Video Cloud account id '
+          readOnly: true
+        created_at:
+          type: string
+          description: 'date/time created '
+          readOnly: true
+        description:
+          type: string
+          description: 'playlist description '
+          readOnly: true
+        id:
+          type: string
+          description: 'the playlist id '
+          readOnly: true
+        name:
+          type: string
+          description: 'the playlist name '
+          readOnly: true
+        reference_id:
+          type: string
+          description: 'the playlist reference id '
+          readOnly: true
+        type:
+          type: string
+          description: 'the playlist type: EXPLICIT or smart playlist type '
+          readOnly: true
+        updated_at:
+          type: string
+          description: 'date/time last modified '
+          readOnly: true
+        video_ids:
+          type: array
+          description: 'array of video ids (EXPLICIT playlists only) '
+          items:
+            type: string
+          readOnly: true
+        search:
+          type: string
+          description: 'search string to retrieve the videos (smart playlists only) '
+          readOnly: true
+        videos:
+          type: array
+          description: 'array of video maps '
+          items:
+            $ref: '#/components/schemas/video'
+          readOnly: true
+      example: {
+          "videos":
+          [
+            {
+              "description": "Bugs-Bee",
+              "poster_sources":
+              [
+                {
+                  "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/1752604059001/a9554ba2-899e-408e-91f6-8bf1a4decfcb/c1e55b4e-4758-4ad3-98ea-ba8feaf0a6f8/1280x720/match/image.jpg"
+                }
+              ],
+              "tags":
+              [
+                "bugs",
+                "sample"
+              ],
+              "cue_points":
+              [],
+              "custom_fields":
+              {},
+              "account_id": "1752604059001",
+              "sources":
+              [
+                {
+                  "ext_x_version": "4",
+                  "type": "application/x-mpegURL",
+                  "src": "http://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/1752604059001/a9554ba2-899e-408e-91f6-8bf1a4decfcb/10s/master.m3u8?fastly_token=NWJiMjZjZGJfYWYyMjFhYmJmNmI3MmM3NWNiYzJmODZiMWVlN2Y1NTA0ZDc5MWIyNTcyYTYyNDk3OWRmNGM2NmRkMzI4Y2I4Ng%3D%3D"
+                }
+              ],
+              "name": "Bugs-Bee",
+              "reference_id": "1754261699001",
+              "long_description": null,
+              "duration": 30000,
+              "economics": "AD_SUPPORTED",
+              "published_at": "2012-07-25T20:34:13.393Z",
+              "text_tracks":
+              [],
+              "updated_at": "2018-09-03T18:35:27.609Z",
+              "thumbnail": "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/1752604059001/a9554ba2-899e-408e-91f6-8bf1a4decfcb/8e656dae-6331-4cad-9922-6ab39ac44650/160x90/match/image.jpg",
+              "poster": "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/1752604059001/a9554ba2-899e-408e-91f6-8bf1a4decfcb/c1e55b4e-4758-4ad3-98ea-ba8feaf0a6f8/1280x720/match/image.jpg",
+              "offline_enabled": false,
+              "link": null,
+              "id": "1754261699001",
+              "ad_keys": null,
+              "thumbnail_sources":
+              [
+                {
+                  "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/1752604059001/a9554ba2-899e-408e-91f6-8bf1a4decfcb/8e656dae-6331-4cad-9922-6ab39ac44650/160x90/match/image.jpg"
+                }
+              ],
+              "created_at": "2012-07-25T20:34:13.393Z"
+            }
+          ],
+          "updated_at": "2016-01-30T20:43:59.351Z",
+          "type": "ACTIVATED_NEWEST_TO_OLDEST",
+          "reference_id": "bugs1754200352001",
+          "name": "Bugs",
+          "id": "1754200352001",
+          "description": null,
+          "created_at": "2012-07-25T20:43:06.070Z",
+          "account_id": "1752604059001"
+        }
+    video:
+      properties:
+        id:
+          type: string
+          description: 'video id '
+          readOnly: true
+        name:
+          type: string
+          description: 'video title '
+          readOnly: true
+        created_at:
+          type: string
+          description: 'when the video was created '
+          readOnly: true
+        custom_fields:
+          type: object
+          description: 'map of fieldname-value pairs '
+          readOnly: true
+        cue_points:
+          type: object
+          description: 'array of cue point maps '
+          $ref: '#/components/schemas/video.cue_points'
+          readOnly: true
+        description:
+          type: string
+          description: 'video short description '
+          readOnly: true
+        duration:
+          type: number
+          description: 'video duration in milliseconds '
+          readOnly: true
+        economics:
+          type: string
+          description: 'whether video is AD_SUPPORTED '
+          readOnly: true
+          default: AD_SUPPORTED
+          enum:
+            - AD_SUPPORTED
+            - FREE
+          example: AD_SUPPORTED
+        poster_sources:
+          type: array
+          description: >-
+            array of poster source maps (note that in many cases there will be
+            one source with a src value identical to the poster value, but this
+            array is included in case there are multiple protocols available,
+            such as http and https)
+          items:
+            $ref: '#/components/schemas/video.poster_sources'
+          readOnly: true
+        poster:
+          type: string
+          description: 'URL for the default poster source image '
+          readOnly: true
+        projection:
+          type: string
+          description: 'The mapping projection for 360° videos, e.g. "equirectangular"'
+          readOnly: true
+        thumbnail_sources:
+          type: array
+          description: >-
+            array of thumbnail source maps (note that in many cases there will
+            be one source with a src value identical to the thumbnail value, but
+            this array is included in case there are multiple protocols
+            available, such as http and https)
+          items:
+            $ref: '#/components/schemas/video.thumbnail_sources'
+          readOnly: true
+        thumbnail:
+          type: string
+          description: 'URL for the default thumbnail source image '
+          readOnly: true
+        link:
+          type: object
+          description: 'map of scheduling properties '
+          $ref: '#/components/schemas/video.link'
+          readOnly: true
+        long_description:
+          type: string
+          description: 'video long description '
+          readOnly: true
+        offline_enabled:
+          type: boolean
+          description: 'whether video is enabled for offline viewing '
+          readOnly: true
+        reference_id:
+          type: string
+          description: 'video reference-id (must be unique within the account) '
+          readOnly: true
+        tags:
+          type: array
+          description: 'array of tags '
+          items:
+            type: string
+          readOnly: true
+        sources:
+          type: array
+          description: 'array of video sources (renditions) '
+          items:
+            $ref: '#/components/schemas/video.sources'
+          readOnly: true
+        text_tracks:
+          type: object
+          description: 'array of text track maps '
+          $ref: '#/components/schemas/video.text_tracks'
+          readOnly: true
+        updated_at:
+          type: string
+          description: 'when the video was last modified '
+          readOnly: true
+        ad_keys:
+          type: object
+          description: 'map of key/value pairs for ad requests '
+          readOnly: true
+      example: {
+          "description": "sample video",
+          "poster_sources":
+          [
+            {
+              "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/1752604059001/d0d84bc8-3056-419e-b179-6fb3c07228d5/main/1280x720/10s500ms/match/image.jpg"
+            }
+          ],
+          "tags":
+          [],
+          "cue_points":
+          [],
+          "custom_fields":
+          {},
+          "account_id": "1752604059001",
+          "sources":
+          [
+            {
+              "ext_x_version": "4",
+              "type": "application/x-mpegURL",
+              "src": "http://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/1752604059001/d0d84bc8-3056-419e-b179-6fb3c07228d5/10s/master.m3u8?fastly_token=NWJiMjZlNDJfZTFkOWQzN2RjNjBhYmVjNTFiODI4N2IyZTQ0Y2NjMzkxY2E0M2E5MGM1MjM5M2NmZjMzZjQxNzA5YzM1MzM3Mw%3D%3D"
+            }
+          ],
+          "name": "Bass Chime",
+          "reference_id": null,
+          "long_description": null,
+          "duration": 21000,
+          "economics": "AD_SUPPORTED",
+          "published_at": "2018-07-20T20:09:59.754Z",
+          "text_tracks":
+          [],
+          "updated_at": "2018-07-20T20:14:00.549Z",
+          "thumbnail": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/1752604059001/d0d84bc8-3056-419e-b179-6fb3c07228d5/main/160x90/10s500ms/match/image.jpg",
+          "poster": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/1752604059001/d0d84bc8-3056-419e-b179-6fb3c07228d5/main/1280x720/10s500ms/match/image.jpg",
+          "offline_enabled": false,
+          "link": null,
+          "id": "5811862231001",
+          "ad_keys": null,
+          "thumbnail_sources":
+          [
+            {
+              "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/1752604059001/d0d84bc8-3056-419e-b179-6fb3c07228d5/main/160x90/10s500ms/match/image.jpg"
+            }
+          ],
+          "created_at": "2018-07-20T20:09:59.754Z"
+        }
+    video.cue_points:
+      properties:
+        name:
+          type: string
+          description: 'cue point name '
+          readOnly: true
+        type:
+          type: string
+          description: 'cue point type '
+          readOnly: true
+        time:
+          type: number
+          description: 'time of the cue point in seconds; example: 10.527 '
+          readOnly: true
+        metadata:
+          type: string
+          description: 'optional metadata string (128 single-byte characters maximum) '
+          readOnly: true
+        force-stop:
+          type: boolean
+          description: 'whether video is force-stopped at the cue point '
+          readOnly: true
+          example: true
+          default: false
+    video.poster_sources:
+      properties:
+        src:
+          type: string
+          description: >-
+            URL for a poster source image (note that in many cases there will be
+            one source with a src value identical to the poster value, but this
+            array is included in case there are multiple protocols available,
+            such as http and https)
+          readOnly: true
+    video.thumbnail_sources:
+      properties:
+        src:
+          type: string
+          description: >-
+            URL for a thumbnail source image (note that in many cases there will
+            be one source with a src value identical to the thumbnail value, but
+            this array is included in case there are multiple protocols
+            available, such as http and https)
+          readOnly: true
+    video.link:
+      properties:
+        text:
+          type: string
+          description: 'text for the link '
+          readOnly: true
+        url:
+          type: string
+          description: 'URL for the link '
+          readOnly: true
+    video.sources:
+      properties:
+        avg_bitrate:
+          type: number
+          description: 'average bitrate '
+          readOnly: true
+        width:
+          type: number
+          description: 'frame width in pixels '
+          readOnly: true
+        height:
+          type: number
+          description: 'frame height in pixels '
+          readOnly: true
+        size:
+          type: number
+          description: 'size in bytes '
+          readOnly: true
+        duration:
+          type: number
+          description: 'duration in milliseconds '
+          readOnly: true
+        asset_id:
+          type: string
+          description: 'the asset id for the source '
+          readOnly: true
+        stream_name:
+          type: string
+          description: 'the stream name for the source '
+          readOnly: true
+        codec:
+          type: string
+          description: 'the video codec '
+          readOnly: true
+        container:
+          type: string
+          description: 'the video container '
+          readOnly: true
+        app_name:
+          type: string
+          description: 'the address for rtmp streams '
+          readOnly: true
+        type:
+          type: string
+          description: 'the type (for HLS streams) '
+          readOnly: true
+    video.text_tracks:
+      properties:
+        src:
+          type: string
+          description: 'URL for the .vtt file '
+          readOnly: true
+        sources:
+          type: array
+          description: >-
+            array of sources for .vtt files (note that in many cases there will
+            be one source with a src value identical to the text_tracks.src
+            value, but this array is included in case there are multiple
+            protocols available, such as http and https)
+          items:
+            $ref: '#/components/schemas/video.text_tracks.sources'
+          readOnly: true
+        kind:
+          type: string
+          description: 'kind of text track '
+          readOnly: true
+        srclang:
+          type: string
+          description: '2-letter language code, such as "en" or "ko" '
+          readOnly: true
+        mime_type:
+          type: string
+          description: 'mime_type for the track '
+          readOnly: true
+        label:
+          type: string
+          description: 'label for the track '
+          readOnly: true
+        default:
+          type: boolean
+          description: 'whether this is the default track '
+          readOnly: true
+        in_band_metadata_track_dispatch_type:
+          type: string
+          description: >-
+            If this field is present, it means that references for this text
+            track are available in the associated video's manifest
+          readOnly: true
+    video.text_tracks.sources:
+      properties:
+        src:
+          type: string
+          description: >-
+            URL for the .vtt file (note that in many cases there will be one
+            source with a src value identical to the text_tracks.src value, but
+            this array is included in case there are multiple protocols
+            available, such as http and https)
+          readOnly: true
+    Get_Videos_Response:
+      type: array
+      items:
+        $ref: '#/components/schemas/video'
+  parameters:
+    q:
+      name: q
+      in: query
+      required: false
+      description: >-
+        search string - see [search
+        guide](https://support.brightcove.com/cmsplayback-api-videos-search) for
+        details
+      style: form
+      explode: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      required: false
+      description: The number of videos to return
+      style: form
+      explode: true
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+    offset:
+      name: offset
+      in: query
+      required: false
+      description: >-
+        The number of videos to skip - note that the maximum number of videos
+        that can be returned by the Playback API is 1000. To return more than
+        1000 videos, you must use the CMS API.
+      style: form
+      explode: true
+      schema:
+        type: integer
+        default: 0
+    sort:
+      name: sort
+      in: query
+      required: false
+      description: >-
+        Field to sort results by; if absent and there is a search string,
+        results are sorted by relevance — note that `plays_total` and
+        `plays_trailing_week` are not included in the response - note: to sort
+        in descending order, preface the sort field name with a minus (`-`) sign
+      style: form
+      explode: true
+      schema:
+        type: string
+        enum:
+          - name
+          - reference_id
+          - created_at
+          - published_at
+          - updated_at
+          - schedule_starts_at
+          - schedule_ends_at
+          - state
+          - plays_total
+          - plays_trailing_week
+        default: '-updated_at'
+    ad_config_id:
+      name: ad_config_id
+      in: query
+      required: false
+      description: >-
+        include [server-side ad
+        insertion](https://support.brightcove.com/overview-playback-api#Video_request_with_SSAI)
+      style: form
+      explode: true
+      schema:
+        type: string
+    account_id:
+      name: account_id
+      in: path
+      required: true
+      description: 'Video Cloud account ID '
+      schema:
+        type: string
+    playlist_id:
+      name: playlist_id
+      in: path
+      required: true
+      description: 'Video Cloud playlist ID '
+      schema:
+        type: string
+    video_id:
+      name: video_id
+      in: path
+      required: true
+      description: 'Video Cloud video ID '
+      schema:
+        type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: >-
+        application/json;pk=policy_key (there are 3 ways to authenticate — use
+        one of these three headers) See Policy API Overview or Policy Keys for
+        information on getting policy keys
+      schema:
+        type: string
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      description: >-
+        : BCOV-Policy {policy_key} (there are 3 ways to authenticate — use one
+        of these three headers). You need to use a search-enabled Policy Key.
+      schema:
+        type: string
+    BCOV-Policy:
+      name: BCOV-Policy
+      in: header
+      required: true
+      description: >-
+        : {policy_key} (there are 3 ways to authenticate — use one of these
+        three headers). You need to use a search-enabled Policy Key.
+      schema:
+        type: string

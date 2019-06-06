@@ -1,0 +1,26 @@
+var interface_o_o_ooyala_player_view_controller =
+[
+    [ "availableLocalizations", "interface_o_o_ooyala_player_view_controller.html#aa2691f1a136a35f9f1f5a9c541567b76", null ],
+    [ "currentLanguageSettings", "interface_o_o_ooyala_player_view_controller.html#ae6f1a25c8e28a1aa61033917afa6e164", null ],
+    [ "getControls", "interface_o_o_ooyala_player_view_controller.html#ab16ac4601bc41301ce88b68e5b28f5eb", null ],
+    [ "getLanguageSettings:", "interface_o_o_ooyala_player_view_controller.html#a36634039da1b352439be0d0e4dba7153", null ],
+    [ "hideControls", "interface_o_o_ooyala_player_view_controller.html#a24bd2b618c792bfaaa0f59dd4dfa5e8e", null ],
+    [ "initWithPlayer:", "interface_o_o_ooyala_player_view_controller.html#a616e00d7412bce9e50af5974a5334496", null ],
+    [ "initWithPlayer:controlType:", "interface_o_o_ooyala_player_view_controller.html#aae5ece1271133d1f7f749db3082416f2", null ],
+    [ "isFullscreen", "interface_o_o_ooyala_player_view_controller.html#ae006479cfb6d29a7c8461fbd67273831", null ],
+    [ "loadDeviceLanguage", "interface_o_o_ooyala_player_view_controller.html#ae485bb29d3accb223b19f64815eb7ca0", null ],
+    [ "setAvailableLocalizations:", "interface_o_o_ooyala_player_view_controller.html#aa1b10172b3c0f816a6ba08ce015aec69", null ],
+    [ "setFullscreen:", "interface_o_o_ooyala_player_view_controller.html#a6dd4bca4234e0a6cb0b30d37e277f9b3", null ],
+    [ "setFullScreenButtonShowing:", "interface_o_o_ooyala_player_view_controller.html#a53d150656169112cb06b58f684a2b9ff", null ],
+    [ "setFullScreenViewController:", "interface_o_o_ooyala_player_view_controller.html#aabf1d66ec2d1e4e4989502a262d0c380", null ],
+    [ "setInlineViewController:", "interface_o_o_ooyala_player_view_controller.html#a91b403ecec451fe985f483d16719e420", null ],
+    [ "setVolumeButtonShowing:", "interface_o_o_ooyala_player_view_controller.html#a05b1ad7023f5324802772c86c3ce1d25", null ],
+    [ "showControls", "interface_o_o_ooyala_player_view_controller.html#adadad1871213297951c9b9ec38a3799d", null ],
+    [ "updateClosedCaptionsViewPosition:withControlsHide:", "interface_o_o_ooyala_player_view_controller.html#acdc6d9f340320d56b4b079758d0579d5", null ],
+    [ "useLanguageStrings:", "interface_o_o_ooyala_player_view_controller.html#a0ab3ea11ad725313c202b8ac62cec439", null ],
+    [ "closedCaptionsStyle", "interface_o_o_ooyala_player_view_controller.html#ab2b29900e0087f28ec5bf940f3ad93c5", null ],
+    [ "fullscreenOverlay", "interface_o_o_ooyala_player_view_controller.html#a97dc5fd6a1a524c7204973d1a00877e0", null ],
+    [ "initialControlType", "interface_o_o_ooyala_player_view_controller.html#ad867afc753b3e8f5bd7a1a888d33ce98", null ],
+    [ "inlineOverlay", "interface_o_o_ooyala_player_view_controller.html#a57d8e52f9f2f5890f592447108aa300d", null ],
+    [ "player", "interface_o_o_ooyala_player_view_controller.html#a02f7ef2ce85bd08b49f0196ea0ad525d", null ]
+];

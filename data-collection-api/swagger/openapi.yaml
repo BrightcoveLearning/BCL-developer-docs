@@ -4,11 +4,13 @@ x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
   title: Data Collection API Reference
-  description: >-
+  description: |-
     Reference for the Brightcove Data Collection API, used to send analytics
     data to the Brightcove analytics system.
 
-     **Base URL**: http://metrics.brightcove.com/v2
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/cms-api)**.
+
+    **Base URL**: http://metrics.brightcove.com/v2
   version: 2.0.0
 servers:
   - url: 'http://metrics.brightcove.com/v2'
@@ -52,15 +54,12 @@ paths:
         - name: session
           in: query
           description: >-
-            A unique session identifier **for all requests** - see the [Data
-            Collection API
-            Overview](https://support.brightcove.com/overview-data-collection-api-v2#minimal)
-            for more information
+            A unique session identifier **for all requests** - see the [Data Collection API Overview](https://support.brightcove.com/overview-data-collection-api-v2#minimal) for more information
           required: true
           style: form
           explode: true
           schema:
-            $ref: '#/components/schemas/Event'
+            $ref: '#/components/schemas/Session'
         - name: device_os
           in: query
           description: >-
@@ -627,3 +626,8 @@ components:
           description: ''
         - name: video_engagement
           description: ''
+    Session:
+      title: session
+      type: string
+      description: A GUID to identify the session
+      example: 733b52a5-b139-4718-ad21-aec5bd8d2604

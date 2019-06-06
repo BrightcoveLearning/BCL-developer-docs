@@ -1,0 +1,379 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Query Parameters for Player v3</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Query Parameters for Player v3</h2>
+
+<p>
+	The following table describes the query string parameters for the <a href="index.html#v1_authorization_embed_code__pcode___embed_codes__get">GET call</a> in the <a href="index.html">Player v3 Authorization API</a>.
+	The request can have several optional query string parameters following in suit. The only required parameter is <code>domain</code>. 
+</p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Query+Parameters" class="panel-title">Query Parameters</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="queryParametersTable">
+			  <tr>
+			    <th align="left">Name</th>
+			    <th align="left">Description</th>
+			    <th align="left">Required?&nbsp;&nbsp;</th>
+			  </tr>
+			  <tr>
+			    <td><code>domain</code>&nbsp;&nbsp;</td>
+			    <td>Domain of the player embed.&nbsp;&nbsp;</td>
+			    <td>Yes&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>timestamp</code>&nbsp;&nbsp;</td>
+			    <td>Timestamp in which the request was made (epoch time).  <b>Default:</b> Time request received by server.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>supported_formats</code>&nbsp;&nbsp;</td>
+			    <td>List of comma-separated values indicating supported formats.  The value of this parameter is normally tightly coupled with the
+			  		device type, since support for formats is limited by device.  <b>Valid Values:</b> Shown in the <a href="#supportedFormatsIntro">table below</a>.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>device</code>&nbsp;&nbsp;</td>
+			    <td>List of comma-separated devices for playback.  <b>Valid Values:</b> Shown in the <a href="#devicesIntro">table below</a>.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>jsonp</code>&nbsp;&nbsp;</td>
+			    <td>Value of this parameter will be used as the wrapper in returning JSONP. <b>Default:</b> JSON</code>.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>embed_token</code>&nbsp;&nbsp;</td>
+			    <td>Discussed in section "Ooyala Player Token" in the <em>Player Developer Guide</em>.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>auth_token</code>&nbsp;&nbsp;</td>
+			    <td>Authorization token, discussed in <a target="_blank" href="http://help-ooyala.brightcove.com/video-platform/concepts/player_v3_concurrent_stream_limits.html" title="By default, your Ooyala Backlot provider account limits each viewer account to 2 concurrent streams. This feature discourages viewers from sharing their credentials with friends who don’t have accounts. If the viewer, or someone with their account credentials, tries to open an additional stream while the maximum number of streams is open, the player displays a message and refuses to open the stream. This default limit applies across all of the syndication groups (aka publishing rules) within your provider account. You change this limit, and you can enable or disable the limit on a per-group basis. You can also enable or disable this setting for the default group. You can change your Ooyala Backlot provider account limit. You can also set this type of limit at the asset level. For example, your provider account limit could be 3, and your asset-level limit could be 1. In this case, three friends or family members could log in using the same credentials and watch three different assets concurrently, but would be blocked from watching any particular asset concurrently.">Limiting Concurrent Streams per Viewer</a>.&nbsp;&nbsp;</td>
+			    <td>No&nbsp;&nbsp;</td>
+  			  <tr>
+  			    <td>&nbsp;&nbsp;</td>
+  			    <td>&nbsp;&nbsp;</td>
+  			    <td>&nbsp;&nbsp;</td>
+  			  </tr>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<p id="supportedFormatsIntro">The <code>supported_formats</code> parameter can be a list of any of the following values, with elements of the list separated by commas.
+	Note that to use the <code>smooth</code> (Microsoft Smooth Streaming) format, the device must be <code>GENERIC</code>.  (See the <a href="#devicesIntro">table of devices</a>.)</p>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Supported+Formats+and+Devices" class="panel-title">Supported Formats</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="supportedFormatsDevicesTable">
+		      <tr>
+		        <th align="left">Format Name</th>
+		        <th align="left">Value&nbsp;&nbsp;</th>
+		      </tr>
+			  <tr>
+			    <td>DASH (Dynamic Adaptive Streaming over HTTP)&nbsp;&nbsp;</td>
+			    <td><code>dash</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>HDS (Adobe HTTP Dynamic Streaming)&nbsp;&nbsp;</td>
+			    <td><code>hds</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>RTMP (Real-Time Messaging Protocol)&nbsp;&nbsp;</td>
+			    <td><code>RTMP</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>HLS (HTTP Live Streaming)&nbsp;&nbsp;</td>
+			    <td><code>m3u8</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>MP4 (MPEG-4 Part 14 <em>Moving Picture Experts Group</em>)&nbsp;&nbsp;</td>
+			    <td><code>mp4</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Akamai HD&nbsp;&nbsp;</td>
+			    <td><code>akamai_hd</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Fairplay HLS&nbsp;&nbsp;</td>
+			    <td><code>fps</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>WideVine HLS&nbsp;&nbsp;</td>
+			    <td><code>wv_hls</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>WideVine MP4&nbsp;&nbsp;</td>
+			    <td><code>wv_mp4</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>WideVine WVM (WideVine Media)&nbsp;&nbsp;</td>
+			    <td><code>wv_wvm</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Adobe Access HLS&nbsp;&nbsp;</td>
+			    <td><code>faxs_hls</code>&nbsp;&nbsp;</td>
+			  </tr>
+
+			  <tr>
+			    <td>Microsoft Smooth Streaming (<code>GENERIC</code> device only)&nbsp;&nbsp;</td>
+			    <td><code>smooth</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+  			    <td>&nbsp;&nbsp;</td>
+  			    <td>&nbsp;&nbsp;</td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<p id="devicesIntro">The <code>device</code> parameter can be a list of any of the following values, with elements of the list separated by commas&#58;</p>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Devices" class="panel-title">Device</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="devicesTable">
+			  <tr>
+			    <td><code>IPHONE</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>IPAD</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>APPLE_TV</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>ANDROID_SDK</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>ANDROID_3PLUS_SDK</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>ANDROID_HLS_SDK</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>HTML5</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>GENERIC_FLASH</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td><code>GENERIC</code>&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+  			    <td>&nbsp;&nbsp;</td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

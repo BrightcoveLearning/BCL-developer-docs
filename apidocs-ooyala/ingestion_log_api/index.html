@@ -1,0 +1,824 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ooyala Ingestion Log API </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Ooyala Ingestion Log API </h1>
+<h2>version v2</h2>
+<p>https://api.ooyala.com/v2/ingestion</p>
+<h3 id="Overview">
+<a href="#Overview">Overview</a>
+</h3>
+<p>The Ingestion Log API is a RESTful API for tracking the status of ingested assets. Manifests (XML &amp; CSV), thumbnails, closed-captions and videos are the assets in which log information is captured and searchable by ID, status and time period (filter options). At any given point of the ingestion process, the status of a file can be easily determined. Details of each filter option are provided in the following sections. For additional information on ingestion, please refer to the <a href="http://help-ooyala.brightcove.com/video-platform/concepts/book_ingest.html">Ingestion</a> documentation.</p>
+<h3 id="Authentication">
+<a href="#Authentication">Authentication</a>
+</h3>
+<p>Every request made to Ooyala&#39;s APIs requires three querystring parameters for authentication:</p>
+<ul>
+<li>
+<strong>api_key</strong> - a user-specific key found in the Developers tab of Backlot.</li>
+<li>
+<strong>expires</strong> - a UNIX timestamp (seconds since Jan 1st, 1970) indicating when your request should be valid until.</li>
+<li>
+<strong>signature</strong> - a computed digest of all of your request&#39;s parameters, to ensure your request URLs can&#39;t be tampered with after they&#39;ve been signed.</li>
+</ul>
+<p>See <a href="http://docs.brightcove.com/apidocs-ooyala/backlot_api/intro.html#Authenticating+your+requests" target="_blank">this documentation</a> for more information related to authentication/request signing and usage of the Ooyala SDK.</p>
+<h3 id="Filtering-by-ID">
+<a href="#Filtering-by-ID">Filtering by ID</a>
+</h3>
+<p>Filtering by ID (External ID) allows the retrieval of log information for files related to a custom identifier. For additional information on external identifiers please refer to <a href="http://help-ooyala.brightcove.com/video-platform/concepts/chapter_external_ids.html">Using External Identifiers</a>.</p>
+<h3 id="Filtering-by-File-Name">
+<a href="#Filtering-by-File-Name">Filtering by File Name</a>
+</h3>
+<p>Filtering by file name allows the retrieval of log information for a specific file (manifest, video, closed-caption or thumbnail) by its name.</p>
+<h4 id="local-non-remote-files">Local/Non-Remote Files</h4>
+<p>For non-remote files, if the URL/path contains one or more sub-directories, the sub-directories must be provided when searching for the file. For example, the file named <code>ep1.mp4</code> in <code>ooyala-season1/ep1.mp4</code> is stored under directory <code>ooyala-season1</code> which will result in the following path: <code>ooyala-season1/ep1.mp4</code>. When searching for this file, the entire path <code>ooyala-season1/ep1.mp4</code> not ep1.mp4 must be provided. URL-encoded, the file name will become <code>ooyala-season1%2Fep1.mp4</code> and the API call would look similar to</p>
+<pre>
+<code>https://api.ooyala.com/v2/ingestion/logs?api_key=56O873TEDF6547BVR34R5H8.14-ms&amp;expires=1930294539&amp;file_name=ooyala-season1%2Fep1.mp4&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28
+</code>
+</pre>
+<h4 id="remote-files">Remote Files</h4>
+<p>If the file is remote, meaning, the URL/path to the file exists at a remote location; the entire path to the file must be provided when searching. For example, the following XML manifest contains one item that consists of a video, thumbnail and closed-caption. Each URL/HREF of these files point to a remote location.</p>
+<pre>
+<code class="lang-xml">&lt;rss xmlns:media="http://search.yahoo.com/mrss/" 
+     xmlns:dcterms="http://purl.org/dc/terms/" 
+     xmlns:fh="http://purl.org/syndication/history/1.0" 
+     xmlns:ooyala="http://www.ooyala.com/mrss/" version="2.0"&gt;
+ &lt;channel&gt;
+  &lt;item&gt;
+   &lt;media:title&gt;Sample 1&lt;/media:title&gt;
+   &lt;media:description&gt;Sample 1 Remote Files&lt;/media:description&gt;
+   &lt;media:content duration="65000" url="http://www.ooyala.com/Ingest/sample1.mp4" /&gt;
+   &lt;media:thumbnail url="http://www.ooyala.com/Ingest/sample1.png" /&gt;
+   &lt;media:subTitle href="http://www.ooyala.com/Ingest/sample1.dfxp"/&gt;
+  &lt;/item&gt;
+ &lt;/channel&gt;
+&lt;/rss&gt;
+</code>
+</pre>
+<p>When searching for a video by name, the entire URL: <code>http://www.ooyala.com/Ingest/sample1.mp4</code> not sample1.mp4 must be specified. URL-encoded, the file name will become <code>http%3A%2F%2Fwww.ooyala.com%2FIngest%2Fsample1.mp4</code> and the API call would look similar to</p>
+<pre>
+<code>https://api.ooyala.com/v2/ingestion/logs?api_key=56O873TEDF6547BVR34R5H8.14ms&amp;expires=1930294539&amp;file_name=http%3A%2F%2Fwww.ooyala.com%2FIngest%2Fsample1.mp4&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28
+</code>
+</pre>
+<h3 id="Filtering-by-Status">
+<a href="#Filtering-by-Status">Filtering by Status</a>
+</h3>
+<p>Listed below are the statuses a file can have during the ingestion workflow process. When filtering by status, an optional time period can be included. If no time period is specified, last_1hour will be the default time period used to filter the results.</p>
+<h4 id="supported-statuses">Supported Statuses</h4>
+<table class="table">
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>received</td>
+<td>Indicates that the file has been received by the ingestion service. Note that remote assets <code>&lt;media:remoteasset&gt;</code> (XML manifest) or <code>content-type=remoteasset</code> (CSV manifest) will never be in the received state because the file is never ingested into the system.</td>
+</tr>
+<tr>
+<td>processing</td>
+<td>Once the file has been received, it becomes eligible for processing by the system.<br>
+<br>Processing indicates that<br>
+<ul>
+<li>for manifest, syntactical validation is taking place.</li>
+<li>for media files (video, thumbnail and closed-caption), ingestion into the Ooyala ecosystem is taking place.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>file_waiting</td>
+<td>Indicates that the manifest file (CSV or XML) has been ingested and processed and is waiting for the other files video, thumbnail and closed-caption to be ingested.</td>
+</tr>
+<tr>
+<td>metadata_waiting</td>
+<td>Media file (video, thumbnail or closed-caption) has been ingested and is waiting for the manifest file (CSV or XML) that contains the related metadata to be ingested.</td>
+</tr>
+<tr>
+<td>done</td>
+<td>When processed successfully, indicates that<ul>
+<li>for manifest file, the manifest is syntactically valid.</li>
+<li>for video file, the file along with the metadata has been processed and an embed code has been assigned by the Ooyala ecosystem.</li>
+<li>for thumbnail and closed-caption files, the files have been ingested and associated with the video.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>error</td>
+<td>If an issue occurs while ingesting or processing a file, the status will go into an error state. In this case, the log information will include an error message detailing what went wrong.<ul>
+<li>For manifest file, this indicates that it is syntactically invalid.</li>
+<li>For media file (video, thumbnail and closed-caption), this indicates that there was an issue processing the file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Filtering-by-Time-Period">
+<a href="#Filtering-by-Time-Period">Filtering by Time Period</a>
+</h3>
+<p>Filtering by time period provides the ability to go back in time to view log information for one or more files. The filter options are either a period identifier (e.g. last_1hour) or start and end timestamp range (see tables below for details). When a period identifier (identifier) is used, we will use the current time as the starting point from which we go back in time. For example, if the current time is 2016-09-29 16:58:33 -0500 and the identifier=last_1month, the start time will be 2016-08-29 16:58:33 -0500 and the end time will be 2016-09-29 16:58:33 -0500.</p>
+<p>
+<strong>Note:</strong> Unlike the other filter options (status and ID) where there is at most one log entry that is updated upon each status transition, filtering by time period provides historical information (similar to that of a log file); meaning, for each status a file transitions to, a separate log entry is created. In the following example where the time period filter option is used, the results contain 3 log entries for metadata.xml. Metadata.xml&#39;s status went from received to processing followed by done. The results represent the entire ingestion lifecycle of the file. If we were filtering by status or ID, we would only receive 1 log entry for metadata.xml in the results with a status of &#39;done&#39; (current status of the file).</p>
+<pre>
+<code class="lang-json">{
+  "filter_params": {
+    "period": "start=2016-11-07T14:48:27+00:00;end=2016-12-07T14:48:27+00:00"
+  },
+  "count": 3,
+  "next_page_url": null,
+  "results": [
+    {
+      "creation_time": "2016-12-04T01:38:48+00:00",
+      "id": null,
+      "file_name": "metadata.xml",
+      "file_type": "manifest",
+      "status": "done",
+      "embed_code": null,
+      "error_message": null
+    },
+    {
+      "creation_time": "2016-12-04T01:38:42+00:00",
+      "id": "unavailable",
+      "file_name": "metadata.xml",
+      "file_type": "manifest",
+      "status": "processing",
+      "embed_code": null,
+      "error_message": null
+    },
+    {
+      "creation_time": "2016-12-04T01:38:42+00:00",
+      "id": "unavailable",
+      "file_name": "metadata.xml",
+      "file_type": "manifest",
+      "status": "received",
+      "embed_code": null,
+      "error_message": null
+    }]
+}
+</code>
+</pre>
+<h4 id="period-identifiers">Period Identifiers</h4>
+<table class="table">
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>last_1month</td>
+<td>Go back one month from the current time.</td>
+</tr>
+<tr>
+<td>last_1week</td>
+<td>Go back one week from the current time.</td>
+</tr>
+<tr>
+<td>last_1day</td>
+<td>Go back one day from the current time.</td>
+</tr>
+<tr>
+<td>last_12hours</td>
+<td>Go back 12 hours from the current time.</td>
+</tr>
+<tr>
+<td>last_1hour</td>
+<td>Go back one hour from the current time. (Default if no other filter parameter/option is provided)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="start-end-timestamp-range">Start/End Timestamp Range</h4>
+<p>Timestamp range represents the start and end times to search for ingestion log information. Start time is required. End time is optional. If end time is not provided, the current time will be used in its place.</p>
+<p>
+<em>Example:</em> start=2016-08-05T15:15:00-07:00;end=2016-08-05T16:00:00-07:00<br>URL-encoded: start%3D2016-08-05T15%3A15%3A00-07%3A00%3Bend%3D2016-08-05T16%3A00%3A00-07%3A00</p>
+<h4 id="supported-date-time-formats">Supported Date/Time Formats</h4>
+<table class="table">
+<thead>
+<tr>
+<th>Format</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YYYY-MM-DDThh:mm:ss.sTZD</td>
+<td>start=2016-10-18T19:20:30.45+01:00;end=2016-10-20T19:20:30.45+01:00<br>
+<br>URL encoded: start%3D2016-09-18T19%3A20%3A30.45%2B01%3A00%3Bend%3D2016-09-27T19%3A20%3A30.45%2B01%3A00</td>
+</tr>
+<tr>
+<td>YYYY-MM-DDThh:mm:ss</td>
+<td>start=2016-10-18T19:20:30;end=2016-10-20T19:20:30<br>
+<br>URL encoded: start%3D2016-10-18T19%3A20%3A30%3Bend%3D2016-10-20T19%3A20%3A30</td>
+</tr>
+<tr>
+<td>YYYY-MM-DDThh:mm</td>
+<td>start=2016-10-18T19:20;end=2016-10-20T19:20<br>
+<br>URL encoded: start%3D2016-10-18T19%3A20%3Bend%3D2016-10-20T19%3A20</td>
+</tr>
+<tr>
+<td>YYYY-MM-DD</td>
+<td>start=2016-10-18;end=2016-10-20<br>
+<br>URL encoded: start%3D2016-10-18%3Bend%3D2016-10-20</td>
+</tr>
+<tr>
+<td>YYYY/MM/DDThh:mm:ss.sTZD</td>
+<td>start=2016/09/18T19:20:30.45+01:00;end=2016/09/27T19:20:30.45+01:00<br>
+<br>start%3D2016%2F09%2F18T19%3A20%3A30.45%2001%3A00%3Bend%3D2016%2F09%2F27T19%3A20%3A30.45%2001%3A00</td>
+</tr>
+<tr>
+<td>YYYY/MM/DDThh:mm:ss</td>
+<td>start=2016/10/18T19:20:30;end=2016/10/20T19:20:30<br>
+<br>start%3D2016%2F10%2F18T19%3A20%3A30%3Bend%3D2016%2F10%2F20T19%3A20%3A30</td>
+</tr>
+<tr>
+<td>YYYY/MM/DDThh:mm</td>
+<td>start=2016/10/18T19:20;end=2016/10/20T19:20<br>
+<br>start%3D2016%2F10%2F18T19%3A20%3Bend%3D2016%2F10%2F20T19%3A20</td>
+</tr>
+<tr>
+<td>YYYY/MM/DD</td>
+<td>start=2016/10/18;end=2016/10/20<br>
+<br>start%3D2016%2F10%2F18%3Bend%3D2016%2F10%2F20</td>
+</tr>
+</tbody>
+</table>
+<h3 id="URL-encoding">
+<a href="#URL-encoding">URL-encoding</a>
+</h3>
+<p>URL-encoding is the process of converting text within a URL into a format that enables it to be transmitted over the Internet. The following filter options must be URL-encoded prior to calling the API:</p>
+<ul>
+<li>ID</li>
+<li>File Name</li>
+<li>Time Period</li>
+</ul>
+<h3 id="HTTP-Response-Codes">
+<a href="#HTTP-Response-Codes">HTTP Response Codes</a>
+</h3>
+<p>These are the HTTP response codes that can be returned for API responses. In case of errors, the API response body will explain the reason why the API returned an error response code.</p>
+<table class="table">
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>200</code> (OK)</td>
+<td>Indicates that the GET request was handled successfully.</td>
+</tr>
+<tr>
+<td>
+<code>400</code> (Bad Request)</td>
+<td>Indicates that a request was poorly formed or contained invalid data. For example, the API would return a 400 response code if your request contained malformed or invalid parameters.</td>
+</tr>
+<tr>
+<td>
+<code>401</code> (Unauthorized)</td>
+<td>The necessary credentials were not provided.</td>
+</tr>
+<tr>
+<td>
+<code>404</code> (Not Found)</td>
+<td>Indicates that you have tried to access a resource that does not exist or use any method other than GET such as POST, PUT, DELETE, etc.</td>
+</tr>
+<tr>
+<td>
+<code>500</code> (Internal Server Error)</td>
+<td>Generic message that indicates that an unexpected error occurred while processing the request.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="logs" class="panel-title">Logs</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Retrieves a collection of ingestion log entries</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_logs">
+<span class="parent">
+</span>/logs</a>
+<span class="methods">
+<a href="#logs_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_logs" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#logs_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Retrieves log information for ingested files<br>
+</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="logs_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/logs</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Retrieves log information for ingested files<br>
+</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#logs_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#logs_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="logs_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>required (string)</em>
+<p>User-specific key found in the Developers tab of Backlot</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>api_key=56O873TEDF6547BVR34R5H8.14-ms</pre>
+</li>
+<li>
+<strong>expires</strong>: <em>required (integer)</em>
+<p>A UNIX timestamp (seconds since January 1st, 1970) indicating the time until which your request should be valid.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>expires=1299991855</code>
+</pre>
+</li>
+<li>
+<strong>signature</strong>: <em>required (string)</em>
+<p>A computed digest of all of your request&#39;s parameters, to ensure your request URLs can&#39;t be tampered with after they&#39;ve been signed.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>signature=p9DG%2F%2BummS0YcTNOYHtykdjw5N2n5s81OigJfdgHPTA</pre>
+</li>
+<li>
+<strong>file_name</strong>: <em>(string)</em>
+<p>Name of the file (manifest, closed-caption, thumbnail or video).</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3C-iBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;file_name=video1.mp4&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%\
+2FPpDx2DwHNGyfko07%2B28&#39;
+</pre>
+</li>
+<li>
+<strong>id</strong>: <em>(string)</em>
+<p>Custom external identifier assigned to your assets.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3C-iBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;id=12345678990&#39;
+</pre>
+</li>
+<li>
+<strong>period</strong>: <em>(string)</em>
+<p>Time in the past to retrieve log information. If no other filter parameter is specified, the API will default the filter to the last_1hour.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre># Time period identifier
+curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3C-iBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;period=last_1month&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%\
+2FPpDx2DwHNGyfko07%2B28&#39;
+# Time period date/time range 
+curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3C-iBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;period=start%3D2016-11-27T19%3A20%3A30.45%2B01%3A00%3Bend%\
+3D2016-12-04T19%3A20%3A30.45%2B01%3A00&amp;signature=p3RfmwGk%2FjwIup\
+%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28&#39;
+</pre>
+</li>
+<li>
+<strong>status</strong>: <em>(string)</em>
+<p>Current status of the file within the ingestion workflow process. Optionally, period may be specified along with status. If period is not explicitly specified, last_1hour will be the default period.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3CiBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28\
+&amp;status=processing&#39;
+# Status w/ period identifier
+curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3CiBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;period=last_1month&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FP\ 
+pDx2DwHNGyfko07%2B28&amp;status=processing&#39;
+# Status w/ period date/time range
+curl -X GET &#39;https://api.ooyala.com/v2/ingestion/logs?\
+api_key=ZnMmM6AO3CiBubra3R2Xd6pXHgK.28riq&amp;expires=1930294539\
+&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28&amp;\
+status=processing&amp;period=start%3D2016-11-27T19%3A20%3\
+A30.45%2B01%3A00%3Bend%3D2016-12-04T19%3A20%3A30.45%2B01%3A00\
+&amp;signature=p3RfmwGk%2FjwIup%2BUtyTtXjU%2FPpDx2DwHNGyfko07%2B28&#39;
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="logs_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Log resources in the APIs have this structure:</p>
+<ul>
+<li>
+<strong>filter_params</strong> - The input parameters used to filter the log information (for informational purposes).</li>
+<li>
+<strong>count</strong> - The number of log entries returned from the API call. If no entries were found, count will be 0.</li>
+<li>
+<strong>next_page_url</strong> - (Pagination) The API is designed to return 100 results/log entries per request. If less than 100 results are found, next_page_url will be null; otherwise, next_page_url will consist of a unique URL that shall be used to retrieve the next 100 results. The URL consists of the previously provided parameters along with the page_state identifier needed to retrieve the next page of results. All values will be properly encoded so your client application can simply obtain this URL and use it to call the API again to retrieve the next page of results.</li>
+<li>
+<strong>results</strong> - Array of log entries found based on the search criteria.</li>
+</ul>
+<p>Results array has this structure:</p>
+<ul>
+<li>
+<strong>file_type</strong> - The type of the file. Either manifest, thumbnail, caption or video</li>
+<li>
+<strong>file_name</strong> - The name of the file excluding path information.</li>
+<li>
+<strong>embed_code</strong> - System generated unique identifier for a video. Default value: null</li>
+<li>
+<strong>id</strong> - User/System specified unique identifier (external ID) for a video. Applicable to manifest users only. Default value: null</li>
+<li>
+<strong>creation_time</strong> - The time the log entry occurred.</li>
+<li>
+<strong>status</strong> - The current status of the file. See table of available statuses.</li>
+<li>
+<strong>error_message</strong> - If at any point of the ingestion workflow process an error occurs while processing the file, the status will be set to ‘error’ and an error message describing the issue will be available. Default value: null</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "filter_params": {
+    "period": "start=2016-12-03T01:43:51+00:00;end=2016-12-04T01:43:51+00:00"
+  },
+  "count": 100,
+  "next_page_url": "https://api.ooyala.com/v2/ingestion/logs?api_key=56O873TEDF6547BVR34R5H8.14-ms&amp;expires=1480817631&amp;paging_state=AC8ABAABlLcAABhkd2lja2VyK29pc3YyQG9veWFsYS5jb20AAAoyMDE2LTEyLTA0AABHAAgAAAFYx3uw0AAAJDRlNzRjNDYzLTQ4ZTQtNGFiOC05YzQ3LTM1NGYyNjk0NjM5NAAABGRhdGEAAAt3b3JrZmxvd19pZAB____6&amp;period=start%3D2016-12-03T01%3A43%3A51%2B00%3A00%3Bend%3D2016-12-04T01%3A43%3A51%2B00%3A00&amp;signature=p9DG%2F%2BummS0YcTNOYHtykdjw5N2n5s81OigJfdgHPTA",
+  "results": [
+    {
+      "creation_time": "2016-12-04T01:38:51+00:00",
+      "id": "42-12-04-2016",
+      "file_name": "http://www.ooyala.com/Assets/cc_22404-updated.dfxp",
+      "file_type": "caption",
+      "status": "done",
+      "embed_code": "lwcTAwODE6XoDW3iAz2KtBv7Adw_7Qhb",
+      "error_message": null
+    },
+    {
+      "creation_time": "2016-12-04T01:38:51+00:00",
+      "id": "42-12-04-2016",
+      "file_name": "http://www.ooyala.com/Ingest/video10.mp4",
+      "file_type": "video",
+      "status": "done",
+      "embed_code": "lwcTAwODE6XoDW3iAz2KtBv7Adw_7Qhb",
+      "error_message": null
+    },
+    {
+      "creation_time": "2016-12-04T01:38:50+00:00",
+      "id": "42-12-04-2016",
+      "file_name": "http://www.ooyala.com/Assets/cc_22404.dfxp",
+      "file_type": "thumbnail",
+      "status": "error",
+      "embed_code": "lwcTAwODE6XoDW3iAz2KtBv7Adw_7Qhb",
+      "error_message": "Unable to download    
+      http://www.ooyala.com/Assets/cc_22404.dfxp for 123456"
+    },
+    {
+      "creation_time": "2016-12-04T01:38:48+00:00",
+      "id": null,
+      "file_name": "metadata.xml",
+      "file_type": "manifest",
+      "status": "done",
+      "embed_code": null,
+      "error_message": null
+    }
+    ...
+    ]          
+  }
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>*Indicates that an unsupported period label was specified for ‘entered_period’.
+{ 
+ "error_message" :"Invalid period: &#39;&lt;entered_period&gt;&#39;. Must be  last_1month,last_1week, last_1day, last_12hours, last_1hour or start and end date time range"
+}
+*Occurs when searching by period and timestamp range was chosen but the start portion of the range was excluded.
+{ "error_message" : "Period start time was not provided." }
+*Occurs when searching by period and invalid timestamps for both start and end times were entered.
+{ "error_message" : "Invalid period start and end times." }
+*Occurs when searching by period and an invalid start time was entered.
+{ "error_message" : "Invalid period start time: &#39;&lt;entered_start_time&gt;}&#39;" }
+*Occurs when searching by period and an invalid end time s entered.
+{ "error_message" : "Invalid period end time: &#39;&lt;entered_end_time&gt;&#39;" }
+*Occurs when searching by period and the start time exceeds the current time.
+{ "error_message" : "Period start time cannot be in the future." }
+*Occurs when searching by period and the start time exceeds the end time.
+{ "error_message" : "Period start time cannot exceed end time." }
+*Indicates that an unsupported status was specified for ‘entered_status’.
+{ "error_message" : "Invalid status: &#39;&lt;entered_status&gt;&#39;.  Must be one of the following: done, error, file_waiting, metadata_waiting, processing, received" }
+*Indicates that there was not user found for the specified api_key.
+{ "error_message" : "No user associated with the specified api_key." }
+*Indicates that there was no provider found for the pcode retrieved from the specified api_key.
+{ "error_message" : "No provider associated with pcode: &#39;&lt;pcode&gt;&#39;." }
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Indicates that an invalid endpoint or method other than [GET] was specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{ "error_message" : "Not Found" }            
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>General message in the event that some unexpected error occurs while processing the request. This generally will occur due to an issue with the service not necessarily related to the information provided to the service by the client.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{ "error_message" : "Internal error trying to retrieve log information for params ‘&lt;list of input parameters&gt;’" }
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#logs">Logs</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

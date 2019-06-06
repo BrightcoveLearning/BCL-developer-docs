@@ -1,0 +1,5 @@
+var classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_video_notification_handlers_provider =
+[
+    [ "VideoNotificationHandlersProvider", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_video_notification_handlers_provider.html#a174f5b706d01a9164261f7786b66b891", null ],
+    [ "get", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_video_notification_handlers_provider.html#a340303e028a7f4b9137abde87bdbc613", null ]
+];

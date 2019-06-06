@@ -5,6 +5,10 @@ x-bc-upstream: 'http://backend_server'
 info:
   description: |-
     API for Zencoder. Zencoder offers a fast and reliable transcoding service for video and audio files, as well as live streams. It can produce outputs for the web and a wide variety of devices, and can easily be integrated with your CMS and other applications.
+
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/ssai-api)**.
+
+    **Base URL: https://app.zencoder.com/api/v2**
   version: 2.0.0
   title: Zencoder API
   x-bc-access: public
@@ -161,7 +165,7 @@ paths:
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
   '/jobs/{job_id}/progress':
-    put:
+    get:
       tags:
         - Jobs
       summary: Get Job Progress
@@ -197,8 +201,8 @@ paths:
       summary: Cancel a Job
       description: |-
         'If you wish to cancel a job that has not yet finished processing you may send a request (using any HTTP method) to https://app.zencoder.com/api/v2/jobs/1234/cancel. If cancellation succeeds you will receive a 204 No Content response. Only jobs that are in the `waiting` or `processing` state may be cancelled. If you attempt to cancel a job in any other state you will receive a 409 Conflict response.'
-        operationId: cancelJob
-        security: []
+      operationId: cancelJob
+      security: []
       parameters:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/ZencoderApiKey'
@@ -663,7 +667,7 @@ components:
       style: simple
       explode: false
       schema:
-        type: string
+        type: integer
   schemas:
     CreateJobFields:
       title: Create Job Request Body Fields
@@ -679,10 +683,12 @@ components:
           type: boolean
           description: |-
             'With CAE the number of outputs and parameters of such outputs may change dynamically for each input file. To specify limits on the number of outputs to be generated as well as other profile constraints, CAE job request must also include dynamic_profile_options object. The outputs reserved for CAE use should not include resolution, bitrate, or codec-related parameters. Instead, they should include labels dynamic_profile_rendition. The number of outputs reserved for CAE use must match the number specified as max_renditions in dynamic_profile_options.'
+          default: false
         input:
           type: string
           description: |-
             'A valid URL to a media file (HTTP/HTTPS, FTP/FTPS, SFTP, Azure, GCS, CF or S3), with or without authentication'
+          example: s3://zencodertesting/test.mov
         region:
           type: string
           description: |-
@@ -702,6 +708,7 @@ components:
             - sa-saopaulo
             - australia-sydney
           default: us
+          example: us-virginia
         test:
           type: boolean
           description: |-
@@ -714,6 +721,7 @@ components:
         pass_through:
           type: string
           description: Optional information to store alongside this job
+          example: my-custom-pass-through-value
         mock:
           type: boolean
           description: Send a mocked job request
@@ -721,6 +729,7 @@ components:
         grouping:
           type: string
           description: A report grouping for this job
+          example: my-custom-group-name
         aspera_transfer_policy:
           type: string
           description: |-
@@ -733,16 +742,20 @@ components:
           type: integer
           description: A targeted rate in Kbps for data transfer minimums
           default: 1800
+          example: 2500
         transfer_maximum_rate:
           type: integer
           description: A targeted rate in Kbps for data transfer maximums
           default: 250000
+          example: 300000
         expected_md5_checksum:
           type: string
           description: The expected MD5 checksum of the input file. If the file's checksum does not match the provided checksum the job will fail.
+          example: d5ed34b6b49f57a4a5f4be72fc0a2cd4
         credentials:
           type: string
           description: References saved credentials by a nickname
+          example: my_s3_credentials
         notifications:
           description: |-
             Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object.  <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br>
@@ -754,6 +767,13 @@ components:
               - type: string
                 description: A URL or email address to send notifications to
           type: array
+          example: [
+              "dev@example.com",
+              "http://user:pass@example.com/path/to/notification/action",
+              {
+                "url": "https://example.com/notifications.html"
+              }
+            ]
         outputs:
           type: array
           description: Array of output specifications
@@ -769,7 +789,7 @@ components:
       properties:
         id:
           type: integer
-          description: The job id
+          description: The job id, an integer in the 64-bit range.
           example: 365524597
           readOnly: true
         submitted_at:
@@ -2286,8 +2306,7 @@ components:
           <li>`path` (optional): An optional path to the M3U8 playlist for this audio rendition. If the path is not set, this alternate audio stream describes the the audio contained in the source stream.</li>
           <li>`source` (optional): The label on a media output of the same job. This can be used to set the codec for renditions that use this audio stream.</li>
         </ul>
-      example: >-
-        '{
+      example: {
           "input": "s3://zencodertesting/test.mov",
           "outputs": [
             {
@@ -2314,7 +2333,7 @@ components:
               }
             }
           ]
-        }'
+        }
     Stream:
       title: Stream
       type: object
@@ -2354,8 +2373,7 @@ components:
             Specifies an alternate audio track for the playlist.
 
             String containing the name of the audio GROUP-ID to use. This value must have been defined as an `alternate_audio` grouping. The codecs setting should reflect all `codecs` of the alternate audio group.
-          example: >-
-            {
+          example: {
               "input": "s3://zencodertesting/test.mov",
               "outputs": [
                 {
@@ -2425,8 +2443,7 @@ components:
           type: number
           description: |-
             Data for a `cue_point`, as a hash of key/value pairs.
-          example: >-
-            {
+          example: {
               "input": "s3://zencodertesting/test.mov",
               "outputs": [
                 {
@@ -2556,8 +2573,9 @@ components:
       properties:
         id:
           type: integer
-          description: The job id.
+          description: The job id, an integer in the 64-bit range.
           example: 365524597
+          readOnly: true
         outputs:
           type: array
           description: Details on each output rendition of the Live job.
@@ -2566,8 +2584,9 @@ components:
             properties:
               id:
                 type: integer
-                description: The unique id for the rendition.
+                description: The unique id for the rendition, an integer in the 64-bit range.
                 example: 1294836780
+                readOnly: true
               url:
                 type: string
                 description: URL for the media or manifest for the specified rendition (non-SSAI).
@@ -2656,7 +2675,7 @@ components:
           readOnly: true
         id:
           type: integer
-          description: The id of the input file
+          description: The id of the input file, an integer in the 64-bit range.
           example: 365495537
           readOnly: true
         md5_checksum:
@@ -2789,7 +2808,7 @@ components:
           readOnly: true
         id:
           type: integer
-          description: The id of the output file
+          description: The id of the output file, an integer in the 64-bit range.
           example: 365495537
           readOnly: true
         label:
@@ -2891,7 +2910,8 @@ components:
       properties:
         id:
           type: integer
-          description: The input id
+          description: The input id, an integer in the 64-bit range.
+          readOnly: true
         state:
           type: string
           description: |-
@@ -2924,7 +2944,8 @@ components:
       properties:
         id:
           type: integer
-          description: The output id
+          description: The output id, an integer in the 64-bit range.
+          readOnly: true
         state:
           type: string
           description: |-
@@ -3061,8 +3082,7 @@ components:
               type: integer
               description: The encoding minutes that were billable for this group
               example: 1896
-      example: >-
-        {
+      example: {
           "total": {
             "encoded_minutes": 6,
             "billable_minutes": 8

@@ -1,0 +1,26 @@
+var protocol_f_w_slot_01_p =
+[
+    [ "adInstances", "protocol_f_w_slot_01-p.html#ad5911dd685f658c32d314de9e5de6a18", null ],
+    [ "currentAdInstance", "protocol_f_w_slot_01-p.html#a1f07297c3c2c718bb3bfe5db8989333a", null ],
+    [ "customId", "protocol_f_w_slot_01-p.html#a93ff44c8cb94b822ba01e94980c9b225", null ],
+    [ "embeddedAdsDuration", "protocol_f_w_slot_01-p.html#a22949c1f0db9e1ddf0ad7566e18ea621", null ],
+    [ "endTimePosition", "protocol_f_w_slot_01-p.html#a9bcc993d02455bad0063841484240e01", null ],
+    [ "getParameter:", "protocol_f_w_slot_01-p.html#ae2402ba0e31ee98937161f308def2c81", null ],
+    [ "height", "protocol_f_w_slot_01-p.html#aa23c319efbb972b91ff6ee358bdf1376", null ],
+    [ "pause", "protocol_f_w_slot_01-p.html#ac75e082877ebd6910d7be4549b890a92", null ],
+    [ "play", "protocol_f_w_slot_01-p.html#a913bda8857f64c004419ffd08186422e", null ],
+    [ "playheadTime", "protocol_f_w_slot_01-p.html#a6a031369ad5abaa449ec29e8b90b5b9b", null ],
+    [ "preload", "protocol_f_w_slot_01-p.html#a384b66f2615fe6d20f2e040f687160bf", null ],
+    [ "processEvent:", "protocol_f_w_slot_01-p.html#a8f4b2920f1266f635e016a6b154811c8", null ],
+    [ "resume", "protocol_f_w_slot_01-p.html#a36ee658eb9e6d6ed05bc92176c6dbb48", null ],
+    [ "setParameter:withValue:", "protocol_f_w_slot_01-p.html#adf92e2e3d15ffd7d49a05f8b9314e117", null ],
+    [ "setVisible:", "protocol_f_w_slot_01-p.html#a1fdcdc323a708133128eb537bf283625", null ],
+    [ "slotBase", "protocol_f_w_slot_01-p.html#a72d52c3419028c1c6237c384c03b3065", null ],
+    [ "stop", "protocol_f_w_slot_01-p.html#a68827c436705c869979d293eec525cf6", null ],
+    [ "timePosition", "protocol_f_w_slot_01-p.html#a3cc5aa14de5c3c541646d6376300abaf", null ],
+    [ "timePositionClass", "protocol_f_w_slot_01-p.html#ae61a348ab103a8c7644a3566f78c8631", null ],
+    [ "totalDuration", "protocol_f_w_slot_01-p.html#a15c7b825c43a486d6acb3dafa339a6fa", null ],
+    [ "type", "protocol_f_w_slot_01-p.html#a91406e6f80ff62ef1b0f63d1b10692bb", null ],
+    [ "visible", "protocol_f_w_slot_01-p.html#a15e47d0e173594ba4dc37cc348125fbc", null ],
+    [ "width", "protocol_f_w_slot_01-p.html#ac8390368aa7e616a6cbe958c34f86782", null ]
+];

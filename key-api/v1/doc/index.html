@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Key API</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+
+    <!--
+    ReDoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      header.page-header {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        max-height: 30ox;
+      }
+      h3.header {
+        position: relative;
+        top: 0;
+        background: RGB(45, 59, 108);
+        font-family: Montserrat, sans-serif;
+        padding:.7rem;
+        color:white;
+        font-weight: bold;
+        margin: 0;
+      }
+      h3.img {
+        margin: 0;
+      }
+      h3.header a {
+        color:white;
+        margin-left:1em;
+        margin-right: 1em;
+        text-decoration: none;
+      }
+      h3.header a:hover {
+        color:RGB(249, 218, 126);
+        text-decoration: underline;
+      }
+      .goWithLinks {
+        margin-left:1em;
+        margin-right: 1em;
+      }
+      button.goWithLinks {
+        margin-right: 0;
+        margin-left: 0;
+      }
+      .search-input, .search-icon {
+        display: none;
+      }
+      .search-block {
+        z-index: 9999;
+        color: white;
+        position: fixed;
+        top: 0;
+        right: 1em;
+        padding-right: 1em;
+        text-align: right;
+      }
+      .search-element {
+        color: RGB(41, 45, 50);
+        margin: 0;
+      }
+      redoc {
+        position: relative;
+        top: 74px;
+        overflow-y: scroll;
+      }
+    </style>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+  <body>
+    <header class="page-header">
+      <p class="search-block"><input id="search_field" placeholder="Search..." class="search-element" style="margin-right:2px;" type="text"> <button id="search_back" class="search-element"><strong>&lt;</strong></button><button id="search_button" class="search-element">Search</button><button id="search_forward" class="search-element"><strong>&gt;</strong></button></p>
+      <h3 class="header"><img src="https://learning-services-media.brightcove.com/doc-assets/general/images/bc-logo-ondark-smaller.png" alt="Brightcove"> <a href="../../../index.html">API References Index</a> <span class="goWithLinks">|</span> <a href="https://support.brightcove.com">General Brightcove Documentation</a> </h3>
+    </header>
+    <redoc spec-url='../../swagger/openapi.yaml'  hide-hostname="false" suppress-warnings="true" lazy-rendering  native-scrollbars disable-search></redoc>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
+    <script>
+    var BCLS = ( function (window, document) {
+      var search_field = document.getElementById('search_field'),
+        search_button = document.getElementById('search_button'),
+        search_back = document.getElementById('search_back'),
+        search_forward = document.getElementById('search_forward');
+      search_button.addEventListener('click', function() {
+        console.log('search string', window.find(search_field.value, false, false, true, false, true, true));
+        window.find(search_field.value, false, false, true, false, true, true);
+      });
+      search_back.addEventListener('click', function() {
+        console.log('search string', window.find(search_field.value, false, true, true, false, true, true));
+        window.find(search_field.value, false, true, true, false, true, true);
+      });
+      search_forward.addEventListener('click', function() {
+        console.log('search string', window.find(search_field.value, false, false, true, false, true, true));
+        window.find(search_field.value, false, false, true, false, true, true);
+      });
+    })(window, document);
+    </script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-feedback.js"></script>
+</body>
+</html>

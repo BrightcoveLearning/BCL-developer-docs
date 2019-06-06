@@ -1,0 +1,809 @@
+openapi: '3.0.0'
+x-bc-implicit-head: true
+x-bc-implicit-options: true
+x-bc-upstream: 'http://backend_server'
+info:
+  description: |-
+    API for Brightcove SSAI
+
+    This API is used for managing operations related to Server-Side Ad Insertion (SSAI).
+
+    See [Video Cloud SSAI Ad Config API](https://support.brightcove.com/video-cloud-ssai-ad-config-api) for more details on using the API.
+
+    You can easily create, list and delete ad configurations in Video Cloud Studio as well. For details, see [Configuring Server-Side Ad Settings](https://support.brightcove.com/configuring-server-side-ad-settings).
+
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/ssai-api)**.
+
+    **Base URL:** https://ssai.api.brightcove.com/v1
+  version: 0.1.0
+  title: Brightcove SSAI API
+  x-bc-access: public
+servers:
+  - url: 'https://ssai.api.brightcove.com/v1'
+    variables: {}
+tags:
+  - name: Ad Configurations
+    description: Operations for managing ad configurations.
+  - name: Ad Call Tracking
+    description: Operations for tracking ad calls - used primarily for debugging.
+paths:
+  '/accounts/{account_id}/ssai_configs':
+    get:
+      tags:
+        - Ad Configurations
+      summary: List the ad configurations for the account
+      description: |-
+        List the ad configurations defined for an account.
+      operationId: getAdConfigurations
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdConfigList'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+    post:
+      tags:
+        - Ad Configurations
+      summary: Create an ad configuration
+      description: |-
+        Create an ad configuration
+      operationId: createAdConfigurations
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/all
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        description: Create a new ad configuration
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdConfiguration"
+        required: true
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdConfiguration'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+  '/accounts/{account_id}/ssai_configs/{config_id}':
+    get:
+      tags:
+        - Ad Configurations
+      summary: Get ad configurations details
+      description: |-
+        Get the details of an ad configurations defined for an account.
+      operationId: getAdConfiguration
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/ConfigId'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdConfiguration'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+    put:
+      tags:
+        - Ad Configurations
+      summary: Update an ad configuration
+      description: |-
+        Update an ad configuration
+      operationId: updateAdConfigurations
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/all
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/ConfigId'
+      requestBody:
+        description: Create a new ad configuration
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdConfiguration"
+        required: true
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdConfiguration'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+  '/accounts/{account_id}/ssai_debug_vmap/debug.xml':
+    post:
+      tags:
+        - Ad Call Tracking
+      summary: Create an SSAI ad trace for an account
+      description: |-
+        Create an SSAI ad trace for an account. Use this request if you do **not** have an ad config id.
+      operationId: createAdTrace
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/all
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        description: SSAI ad trace configuration
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdTraceConfiguration"
+        required: true
+      responses:
+        '200':
+          description: An ad response. The content varies according to the `expected_ad_response`. For examples, see [Video Cloud SSAI Ad Tag Validation](https://support.brightcove.com/video-cloud-ssai-ad-tag-validation#Tracing_without_an_ad_config_id)
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AdResponse'
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+  '/accounts/{account_id}/ssai_traces/{session_id}/ad_calls':
+    get:
+      tags:
+        - Ad Call Tracking
+      summary: Get ad calls for a session
+      description: |-
+        'Get ad calls for a session. The `session_id` comes from the VMAP response: `<bc:BrightcoveDebug sessionID="your session id"></bc:BrightcoveDebug>`'
+      operationId: getAdCalls
+      security:
+        - BC_OAuth2:
+          - video-cloud/video/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Array of ad calls for a session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCalls'
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: string
+          description: The error code returned recorded by the server, from the social platform, if any.
+        error_message:
+          type: string
+          description: The error message recorded by the server, or returned from the social platform, if any.
+        platform_error:
+          type: string
+          description: JSON representation of the error object returned from the social platform, if any.
+    AdCalls:
+      title: Ad Calls
+      type: object
+      description: |-
+        List of ad calls for a video viewing session.
+      properties:
+        ad_calls:
+          type: array
+          description: >-
+            List of ad call objects for the session
+          items:
+            $ref: '#/components/schemas/AdCall'
+      example: {
+          "ad_calls": [
+            {
+              "timestamp": "2019-01-29T16:25:57.775607279Z",
+              "duration_ms": 2772.666305,
+              "request": {
+                "content_length": 0,
+                "event": "request",
+                "headers": {
+                  "Referer": [
+                    ""
+                  ],
+                  "User-Agent": [
+                    "insomnia/6.3.2"
+                  ],
+                  "X-Device-User-Agent": [
+                    "insomnia/6.3.2"
+                  ],
+                  "X-Forwarded-For": [
+                    "108.26.214.36, 3.89.139.168"
+                  ]
+                },
+                "method": "GET",
+                "url": "https://solutions.brightcove.com/bcls/brightcove-player/vmap/simple-vmap.xml"
+              },
+              "response": {
+                "content_length": -1,
+                "event": "response",
+                "headers": {
+                  "Accept-Ranges": [
+                    "bytes"
+                  ],
+                  "Access-Control-Allow-Credentials": [
+                    "true"
+                  ],
+                  "Access-Control-Allow-Headers": [
+                    "X-Requested-With"
+                  ],
+                  "Access-Control-Allow-Origin": [
+                    "*"
+                  ],
+                  "Content-Type": [
+                    "application/xml"
+                  ],
+                  "Date": [
+                    "Tue, 29 Jan 2019 16:25:57 GMT"
+                  ],
+                  "Etag": [
+                    "\"13d6-57baaddddeea0-gzip\""
+                  ],
+                  "Last-Modified": [
+                    "Tue, 27 Nov 2018 19:58:00 GMT"
+                  ],
+                  "Server": [
+                    "Apache/2.4.7 (Ubuntu)"
+                  ],
+                  "Vary": [
+                    "Accept-Encoding"
+                  ]
+                },
+                "status_code": 200
+              },
+              "body": "PHZtYXA6Vk1BUCB4bWxuczp2bWFwPSJodHRwOi8vd3d3LmlhYi5uZXQvdmlkZW9zdWl0ZS92bWFwIiB2ZXJzaW9uPSIxLjAiPgoKICA8dm1hcDpBZEJyZWFrIHRpbWVPZmZzZXQ9InN0YXJ0IiBicmVha1R5cGU9ImxpbmVhciIgYnJlYWtJZD0icHJlcm9sbCI+CiAgICA8dm1hcDpBZFNvdXJjZSBpZD0icHJlcm9sbC1hZCIgYWxsb3dNdWx0aXBsZUFkcz0iZmFsc2UiIGZvbGxvd1JlZGlyZWN0cz0idHJ1ZSI+CiAgICAgIDx2bWFwOlZBU1RBZERhdGE+CiAgICAgICAgPFZBU1QgdmVyc2lvbj0iMy4wIj4KICAgICAgICAgIDxBZCBpZD0iMSI+CiAgICAgICAgICAgIDxJbkxpbmU+CiAgICAgICAgICAgICAgPEFkU3lzdGVtIHZlcnNpb249IjEuMCI+VGVzdCBBZCBTZXJ2ZXI8L0FkU3lzdGVtPgogICAgICAgICAgICAgIDxBZFRpdGxlPgogICAgICAgICAgICAgICAgPCFbQ0RBVEFbUG9ydGFsc11dPgogICAgICAgICAgICAgIDwvQWRUaXRsZT4KICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICA8IVtDREFUQVtEZW1vIGFkIG51bWJlciA2XV0+CiAgICAgICAgICAgICAgPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICA8RXJyb3I+CiAgICAgICAgICAgICAgICA8IVtDREFUQVtdXT4KICAgICAgICAgICAgICA8L0Vycm9yPgogICAgICAgICAgICAgIDxDcmVhdGl2ZXM+CiAgICAgICAgICAgICAgICA8Q3JlYXRpdmU+CiAgICAgICAgICAgICAgICAgIDxMaW5lYXI+CiAgICAgICAgICAgICAgICAgICAgPER1cmF0aW9uPjAwOjAwOjg8L0R1cmF0aW9uPgogICAgICAgICAgICAgICAgICAgIDxUcmFja2luZ0V2ZW50cy8+CiAgICAgICAgICAgICAgICAgICAgPEFkUGFyYW1ldGVycz4KICAgICAgICAgICAgICAgICAgICAgIDwhW0NEQVRBWzx4bWw+PC94bWw+XV0+CiAgICAgICAgICAgICAgICAgICAgPC9BZFBhcmFtZXRlcnM+CiAgICAgICAgICAgICAgICAgICAgPFZpZGVvQ2xpY2tzLz4KICAgICAgICAgICAgICAgICAgICA8TWVkaWFGaWxlcz4KICAgICAgICAgICAgICAgICAgICAgIDxNZWRpYUZpbGUgdHlwZT0idmlkZW8vbXA0IiB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIGRlbGl2ZXJ5PSJwcm9ncmVzc2l2ZSIgaWQ9IjIiIGJpdHJhdGU9IjQzMTYiIG1pbkJpdHJhdGU9IjMyMCIgbWF4Qml0cmF0ZT0iMzIwIiBzY2FsYWJsZT0idHJ1ZSIgbWFpbnRhaW5Bc3BlY3RSYXRpbz0idHJ1ZSI+CiAgICAgICAgICAgICAgICAgICAgICAgIDwhW0NEQVRBW2h0dHBzOi8vc29sdXRpb25zLmJyaWdodGNvdmUuY29tL2JjbHMvYWRzL2JjLWFkcy9iY2xzLWFkLTYtNXNlY29uZHMubXA0XV0+CiAgICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZT4KICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZXM+CiAgICAgICAgICAgICAgICAgIDwvTGluZWFyPgogICAgICAgICAgICAgICAgPC9DcmVhdGl2ZT4KICAgICAgICAgICAgICA8L0NyZWF0aXZlcz4KICAgICAgICAgICAgICA8RXh0ZW5zaW9ucz4KICAgICAgICAgICAgICAgIDxFeHRlbnNpb24+CiAgICAgICAgICAgICAgICAgIDx4bWw+ZGF0YTwveG1sPgogICAgICAgICAgICAgICAgPC9FeHRlbnNpb24+CiAgICAgICAgICAgICAgPC9FeHRlbnNpb25zPgogICAgICAgICAgICA8L0luTGluZT4KICAgICAgICAgIDwvQWQ+CiAgICAgICAgPC9WQVNUPgogICAgICA8L3ZtYXA6VkFTVEFkRGF0YT4KICAgIDwvdm1hcDpBZFNvdXJjZT4KICA8L3ZtYXA6QWRCcmVhaz4KCiAgPHZtYXA6QWRCcmVhayB0aW1lT2Zmc2V0PSIwMDowMDowNSIgYnJlYWtUeXBlPSJsaW5lYXIiIGJyZWFrSWQ9Im1pZHJvbGwiPgogICAgPHZtYXA6QWRTb3VyY2UgaWQ9Im1pZHJvbGwtYWQiIGFsbG93TXVsdGlwbGVBZHM9ImZhbHNlIiBmb2xsb3dSZWRpcmVjdHM9InRydWUiPgogICAgICA8dm1hcDpWQVNUQWREYXRhPgogICAgICAgIDxWQVNUIHZlcnNpb249IjMuMCI+CiAgICAgICAgICA8QWQgaWQ9IjIiPgogICAgICAgICAgICA8SW5MaW5lPgogICAgICAgICAgICAgIDxBZFN5c3RlbSB2ZXJzaW9uPSIxLjAiPlRlc3QgQWQgU2VydmVyPC9BZFN5c3RlbT4KICAgICAgICAgICAgICA8QWRUaXRsZT4KICAgICAgICAgICAgICAgIDwhW0NEQVRBW01hcmtldGluZ11dPgogICAgICAgICAgICAgIDwvQWRUaXRsZT4KICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICA8IVtDREFUQVtEZW1vIGFkIG51bWJlciA0XV0+CiAgICAgICAgICAgICAgPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICA8RXJyb3I+CiAgICAgICAgICAgICAgICA8IVtDREFUQVtdXT4KICAgICAgICAgICAgICA8L0Vycm9yPgogICAgICAgICAgICAgIDxDcmVhdGl2ZXM+CiAgICAgICAgICAgICAgICA8Q3JlYXRpdmU+CiAgICAgICAgICAgICAgICAgIDxMaW5lYXIgc2tpcG9mZnNldD0iMDA6MDA6MDUiPgogICAgICAgICAgICAgICAgICAgIDxEdXJhdGlvbj4wMDowMDoxMjwvRHVyYXRpb24+CiAgICAgICAgICAgICAgICAgICAgPFRyYWNraW5nRXZlbnRzLz4KICAgICAgICAgICAgICAgICAgICA8QWRQYXJhbWV0ZXJzPgogICAgICAgICAgICAgICAgICAgICAgPCFbQ0RBVEFbPHhtbD48L3htbD5dXT4KICAgICAgICAgICAgICAgICAgICA8L0FkUGFyYW1ldGVycz4KICAgICAgICAgICAgICAgICAgICA8VmlkZW9DbGlja3MvPgogICAgICAgICAgICAgICAgICAgIDxNZWRpYUZpbGVzPgogICAgICAgICAgICAgICAgICAgICAgPE1lZGlhRmlsZSB0eXBlPSJ2aWRlby9tcDQiIHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZGVsaXZlcnk9InByb2dyZXNzaXZlIiBpZD0iMyIgYml0cmF0ZT0iMzAyNiIgbWluQml0cmF0ZT0iMzIwIiBtYXhCaXRyYXRlPSIzMjAiIHNjYWxhYmxlPSJ0cnVlIiBtYWludGFpbkFzcGVjdFJhdGlvPSJ0cnVlIj4KICAgICAgICAgICAgICAgICAgICAgICAgPCFbQ0RBVEFbaHR0cHM6Ly9zb2x1dGlvbnMuYnJpZ2h0Y292ZS5jb20vYmNscy9hZHMvYmMtYWRzL2JjbHMtYWQtNC0xMnNlY29uZHMubXA0XV0+CiAgICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZT4KICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZXM+CiAgICAgICAgICAgICAgICAgIDwvTGluZWFyPgogICAgICAgICAgICAgICAgPC9DcmVhdGl2ZT4KICAgICAgICAgICAgICA8L0NyZWF0aXZlcz4KICAgICAgICAgICAgICA8RXh0ZW5zaW9ucz4KICAgICAgICAgICAgICAgIDxFeHRlbnNpb24+CiAgICAgICAgICAgICAgICAgIDx4bWw+ZGF0YTwveG1sPgogICAgICAgICAgICAgICAgPC9FeHRlbnNpb24+CiAgICAgICAgICAgICAgPC9FeHRlbnNpb25zPgogICAgICAgICAgICA8L0luTGluZT4KICAgICAgICAgIDwvQWQ+CiAgICAgICAgPC9WQVNUPgogICAgICA8L3ZtYXA6VkFTVEFkRGF0YT4KICAgIDwvdm1hcDpBZFNvdXJjZT4KICA8L3ZtYXA6QWRCcmVhaz4KCiAgPHZtYXA6QWRCcmVhayB0aW1lT2Zmc2V0PSJlbmQiIGJyZWFrVHlwZT0ibGluZWFyIiBicmVha0lkPSJwb3N0cm9sbCI+CiAgICA8dm1hcDpBZFNvdXJjZSBpZD0icG9zdHJvbGwtYWQiIGFsbG93TXVsdGlwbGVBZHM9ImZhbHNlIiBmb2xsb3dSZWRpcmVjdHM9InRydWUiPgogICAgICA8dm1hcDpWQVNUQWREYXRhPgogICAgICAgIDxWQVNUIHZlcnNpb249IjMuMCI+CiAgICAgICAgICA8QWQgaWQ9IjMiPgogICAgICAgICAgICA8SW5MaW5lPgogICAgICAgICAgICAgIDxBZFN5c3RlbSB2ZXJzaW9uPSIxLjAiPlRlc3QgQWQgU2VydmVyPC9BZFN5c3RlbT4KICAgICAgICAgICAgICA8QWRUaXRsZT4KICAgICAgICAgICAgICAgIDwhW0NEQVRBW0JyYW5kXV0+CiAgICAgICAgICAgICAgPC9BZFRpdGxlPgogICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgIDwhW0NEQVRBW0RlbW8gYWQgbnVtYmVyIDFdXT4KICAgICAgICAgICAgICA8L0Rlc2NyaXB0aW9uPgogICAgICAgICAgICAgIDxFcnJvcj4KICAgICAgICAgICAgICAgIDwhW0NEQVRBW11dPgogICAgICAgICAgICAgIDwvRXJyb3I+CiAgICAgICAgICAgICAgPENyZWF0aXZlcz4KICAgICAgICAgICAgICAgIDxDcmVhdGl2ZT4KICAgICAgICAgICAgICAgICAgPExpbmVhcj4KICAgICAgICAgICAgICAgICAgICA8RHVyYXRpb24+MDA6MDA6MDg8L0R1cmF0aW9uPgogICAgICAgICAgICAgICAgICAgIDxUcmFja2luZ0V2ZW50cy8+CiAgICAgICAgICAgICAgICAgICAgPEFkUGFyYW1ldGVycz4KICAgICAgICAgICAgICAgICAgICAgIDwhW0NEQVRBWzx4bWw+PC94bWw+XV0+CiAgICAgICAgICAgICAgICAgICAgPC9BZFBhcmFtZXRlcnM+CiAgICAgICAgICAgICAgICAgICAgPFZpZGVvQ2xpY2tzLz4KICAgICAgICAgICAgICAgICAgICA8TWVkaWFGaWxlcz4KICAgICAgICAgICAgICAgICAgICAgIDxNZWRpYUZpbGUgdHlwZT0idmlkZW8vbXA0IiB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIGRlbGl2ZXJ5PSJwcm9ncmVzc2l2ZSIgaWQ9IjQiIGJpdHJhdGU9IjIxMTUiIG1pbkJpdHJhdGU9IjMyMCIgbWF4Qml0cmF0ZT0iMzIwIiBzY2FsYWJsZT0idHJ1ZSIgbWFpbnRhaW5Bc3BlY3RSYXRpbz0idHJ1ZSI+CiAgICAgICAgICAgICAgICAgICAgICAgIDwhW0NEQVRBW2h0dHBzOi8vc29sdXRpb25zLmJyaWdodGNvdmUuY29tL2JjbHMvYWRzL2JjLWFkcy9iY2xzLWFkLTEtOHNlY29uZHMubXA0XV0+CiAgICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZT4KICAgICAgICAgICAgICAgICAgICA8L01lZGlhRmlsZXM+CiAgICAgICAgICAgICAgICAgIDwvTGluZWFyPgogICAgICAgICAgICAgICAgPC9DcmVhdGl2ZT4KICAgICAgICAgICAgICA8L0NyZWF0aXZlcz4KICAgICAgICAgICAgICA8RXh0ZW5zaW9ucz4KICAgICAgICAgICAgICAgIDxFeHRlbnNpb24+CiAgICAgICAgICAgICAgICAgIDx4bWw+ZGF0YTwveG1sPgogICAgICAgICAgICAgICAgPC9FeHRlbnNpb24+CiAgICAgICAgICAgICAgPC9FeHRlbnNpb25zPgogICAgICAgICAgICA8L0luTGluZT4KICAgICAgICAgIDwvQWQ+CiAgICAgICAgPC9WQVNUPgogICAgICA8L3ZtYXA6VkFTVEFkRGF0YT4KICAgIDwvdm1hcDpBZFNvdXJjZT4KICA8L3ZtYXA6QWRCcmVhaz4KCjwvdm1hcDpWTUFQPgo=",
+              "creatives": null,
+              "errors": null
+            }
+          ]
+        }
+    AdCall:
+      title: Ad Call
+      type: object
+      description: |-
+        The request and response for an ad request
+      properties:
+        timestamp:
+          type: string
+          description: UTC timestamp for the ad call
+        duration_ms:
+          type: number
+          description: Duration of the ad call in milliseconds
+        request:
+          type: object
+          desciption: >-
+            Details of the ad request
+          properties:
+            content_length:
+              type: integer
+              description: >-
+                The amount of video played back before the request (in seconds)
+            event:
+              type: string
+              description: >-
+                The player event associated with the ad call, normally `request`
+            headers:
+              type: array
+              description: >-
+                Array of header name-value pairs sent with the request
+              items:
+                type: object
+                description: >-
+                  A header object. The name will be the header name, and the value an array of string values for the header
+            method:
+              type: string
+              description: >-
+                The HTTP request type, normally `GET`
+            url:
+              type: string
+              description: >-
+                URL for the ad request
+        response:
+          type: object
+          desciption: >-
+            Details of the ad response
+          properties:
+            content_length:
+              type: integer
+              description: >-
+                The amount of video played back before the response (in seconds)
+            event:
+              type: string
+              description: >-
+                The player event associated with the ad response, normally `response`
+            headers:
+              type: array
+              description: >-
+                Array of header name-value pairs returned with the response
+              items:
+                type: object
+                description: >-
+                  A header object. The name will be the header name, and the value an array of string values for the header
+            status_code:
+              type: integer
+              description: >-
+                The HTTP status code - `200` = "success"
+            body:
+              type: string
+              description: >-
+                The Base64-encoded body of the reponse. You can use a tool like [BASE64](https://www.base64decode.org/) to see the full response - the content will vary according to the expected ad response.
+    AdConfigList:
+      title: List Ad Configurations Response
+      type: array
+      description: >-
+        Array of ad configuration objects
+      items:
+        $ref: '#/components/schemas/AdConfiguration'
+    AdConfiguration:
+      title: "Ad Configuration Response"
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the ad configuration
+        vmap_response_namespace:
+          type: string
+          description: >-
+            Adjusts the VMAP output to use the legacy Unicorn Once namespace format or to use the new Brightcove namespace format.
+          enum:
+              - bc
+              - uo
+          default: bc
+        config_id:
+          type: string
+          description: System id for this configuration
+          readOnly: true
+        description:
+          type: string
+          description: Description of the ad configuration
+        discontinuities:
+          $ref: '#/components/schemas/Discontinuities'
+        account_id:
+          type: string
+          description: The Video Cloud account id
+        created_timestamp:
+          type: string
+          description: Date-time when the ad configuration was created
+        updated_timestamp:
+          type: string
+          description: Date-time when the ad configuration was last updated
+        ad_config:
+          $ref: '#/components/schemas/AdConfig'
+        beacon_templates:
+          type: array
+          description: |-
+            An array of beacons to fire (example: 3rd-party beacons)
+          items:
+            $ref: '#/components/schemas/BeaconTemplate'
+        extend_beacon_guard_ttl:
+          type: boolean
+          description: >-
+            Sets the length of the Beacon Guard TTL (Time to live) to the length of the Content’s Session TTL. Otherwise, the default is 1 minute.
+          default: false
+      example: [
+          {
+            "name": "SSAI VMAP 2",
+            "vmap_response_namespace": "bc",
+            "config_id": "1bcd16d4-585c-40bd-9300-17caf2ed075e",
+            "account_id": "1752604059001",
+            "created_timestamp": "2019-01-09T13:16:42.132450307Z",
+            "updated_timestamp": "2019-01-09T13:16:42.132450307Z",
+            "description": "Basic ad configuration",
+            "ad_config": {
+              "enable_ads": true,
+              "expected_ad_response": "dfp_vmap",
+              "disable_server_beacons": false,
+              "round_up_cue_points": true,
+              "template_url": {
+                "template": "http://solutions.brightcove.com/bcls/brightcove-player/vmap/simple-vmap.xml"
+              }
+            },
+            "beacon_templates": [
+              {
+                "type": "content_start",
+                "template_url": {
+                  "template": "https://myserver.com/beaconRX/{{metadata.video_id}}/load?position=load&sid={{system.xfp.unique_user_id}}&jid={{metadata.video_id}}&rnd32={{sytem.random_number_32}}&bid={{system.uuid}}&t={{system.timestamp_utc}}&ua={{system.user_agent}}&ip={{system.ip_address}}&ref={{system.referer}}"
+                }
+              },
+              {
+                "type": "content_midpoint",
+                "template_url": {
+                  "template": "https://myserver.com/beaconRX/{{metadata.video_id}}/load?position=load&sid={{system.xfp.unique_user_id}}&jid={{metadata.video_id}}&rnd32={{sytem.random_number_32}}&bid={{system.uuid}}&t={{system.timestamp_utc}}&ua={{system.user_agent}}&ip={{system.ip_address}}&ref={{system.referer}}"
+                }
+              },
+              {
+                "type": "ad_start",
+                "template_url": {
+                  "template": "https://myserver.com/beaconRX/{{metadata.video_id}}/load?position=load&sid={{system.xfp.unique_user_id}}&jid={{metadata.video_id}}&rnd32={{sytem.random_number_32}}&bid={{system.uuid}}&t={{system.timestamp_utc}}&ua={{system.user_agent}}&ip={{system.ip_address}}&ref={{system.referer}}"
+                }
+              },
+              {
+                "type": "content_complete",
+                "template_url": {
+                  "template": "https://myserver.com/beaconRX/{{metadata.video_id}}/load?position=load&sid={{system.xfp.unique_user_id}}&jid={{metadata.video_id}}&rnd32={{sytem.random_number_32}}&bid={{system.uuid}}&t={{system.timestamp_utc}}&ua={{system.user_agent}}&ip={{system.ip_address}}&ref={{system.referer}}"
+                }
+              }
+            ],
+            "discontinuities": {
+              "dash": [
+                "*"
+              ],
+              "hls": [
+                "*"
+              ]
+            },
+            "extend_beacon_guard_ttl": true
+          }
+        ]
+    AdConfig:
+      title: ad_config
+      type: object
+      description: Ad config part of an ad configuration object
+      properties:
+        expected_ad_response:
+          type: string
+          description: |-
+            Which tech to use to parse the response.
+
+            When the `expected_ad_response` is set to `vast_3_0`, SSAI makes one VAST call for each ad cue point defined in Video Cloud. For VMAP and ad rules, SSAI makes requests based on the defined ad breaks in the initial ad response.
+          enum:
+            - dfp_ad_rules
+            - dfp_vmap
+            - smart_xml
+            - vast_3_0
+        enable_ads:
+          type: boolean
+          description: |-
+            Flags whether to disable the server side firing of ad requests.
+
+            When set to `false`, SSAI will not request any ads server-side and will include all ad requests in the VMAP output
+
+            When set to `true`, SSAI will request ads server-side and include any that are unsuccessful in the VMAP output
+          default: true
+        disable_server_beacons:
+          type: boolean
+          description: |-
+            Flags whether to disable the server side firing of ad impressions/beacons
+
+            When set to `true`, SSAI will not fire any beacons server-side and will include all beacons in the VMAP output
+
+            When set to `false`, SSAI will fire the beacons it is able to server-side and include any it is not able to in the VMAP output
+        round_up_cue_points:
+          type: boolean
+          description: |-
+            Flags whether to round up ad cue point time to the next keyframe
+          default: false
+        template_url:
+          type: object
+          properties:
+            template:
+              type: string
+              description: >-
+                Ad tag template. Available variables described in [this document](https://support.brightcove.com/video-cloud-ssai-ad-config-api#Ad_variables).
+    AdResponse:
+      title: Ad Response
+      type: object
+      description: >-
+        An ad response. The content varies depending on the kind of response expected. For examples, see [Video Cloud SSAI Ad Tag Validation](https://support.brightcove.com/video-cloud-ssai-ad-tag-validation#Tracing_without_an_ad_config_id)
+      examples:
+        xml:
+          summary: VMAP/VAST example
+          value: |-
+            '<vmap:VMAP xmlns:bc="bc" xmlns:vmap="http://www.iab.net/vmap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+            <vmap:Extensions>
+            <bc:Brightcove ttl="1800" contenturi="https://ssaiplayback.us-east-1.qa.boltdns.net/playback/once/v1/hls/v5/clear/accoutn_debug/debug/debug/7592e9c3-214f-4c68-a576-1e2494b7be06/debug.m3u8" contentlength="10.0000" payloadlength="70.0000" contenttype="application/x-mpegURL"></bc:Brightcove>
+            <bc:BrightcoveDebug sessionID="7592e9c3-214f-4c68-a576-1e2494b7be06"></bc:BrightcoveDebug>
+            </vmap:Extensions>
+            <vmap:AdBreak breakType="linear" breakId="PreRoll_0_0" timeOffset="start">
+            <vmap:AdSource allowMultipleAds="true" followRedirects="true" id="0">
+            <vmap:VASTData>
+              <VAST xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <Ad id="test-01-30s">
+                  <InLine>
+                    <AdSystem>BIAS</AdSystem>
+                    <AdTitle>test-01-30s</AdTitle>
+                    <Creatives>
+                      <Creative>
+                        <Linear>
+                          <CreativeExtensions>
+                            <CreativeExtension>
+                              <BrightcoveForeignKey>test-01-30s</BrightcoveForeignKey>
+                            </CreativeExtension>
+                          </CreativeExtensions>
+                          <Duration>00:00:30.0000</Duration>
+                          <TrackingEvents>
+                            <Tracking event="mute">https://solutions.brightcove.com/beacon?event=mute&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="unmute">https://solutions.brightcove.com/beacon?event=unmute&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="rewind">https://solutions.brightcove.com/beacon?event=rewind&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="pause">https://solutions.brightcove.com/beacon?event=pause&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="resume">https://solutions.brightcove.com/beacon?event=resume&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="fullscreen">https://solutions.brightcove.com/beacon?event=fullscreen&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                            <Tracking event="acceptInvitation">https://solutions.brightcove.com/beacon?event=acceptInvitation&amp;type=vast&amp;request_id=43a0e4a5-4420-11e8-b306-99b1b6ae5164&amp;parent_request_id=436ae081-4420-11e8-bd7f-41361f814644&amp;ad_id=test-01-30s</Tracking>
+                          </TrackingEvents>
+                          <VideoClicks>
+                            <ClickThrough id="clickthrough">https://www.brightcove.com/en/</ClickThrough>
+                            <ClickTracking id="43a0e4a5-4420-11e8-b306-99b1b6ae5164"></ClickTracking>
+                          </VideoClicks>
+                        </Linear>
+                      </Creative>
+                    </Creatives>
+                  </InLine>
+                </Ad>
+              </VAST>
+            </vmap:VASTData>
+            </vmap:AdSource>
+            </vmap:AdBreak>
+            ...// additional ad breaks
+            </vmap:VMAP>'
+    BeaconTemplate:
+      title: Beacon Template
+      description: >-
+        Beacons are sent to send analytics data from the client. The beacon template defines the type of events to send beacons for and the information that will be sent.
+      type: object
+      properties:
+        type:
+          type: string
+          description: |-
+            Type of beacon to fire.
+          enum:
+            - content_first_quartile
+            - content_start
+            - content_midpoint
+            - content_third_quartile
+            - content_complete
+            - content_quartiles
+            - content_interval
+            - ad_start
+            - ad_first_quartile
+            - ad_midpoint
+            - ad_third_quartile
+            - ad_complete
+            - ad_quartiles
+            - ad_break_start
+            - ad_break_end
+            - segment_start
+            - segment_end
+            - on_load
+        template_url:
+          type: object
+          properties:
+            template:
+              type: string
+              description: The beacon URL template
+    Discontinuities:
+      type: object
+      description: |-
+        Controls the versions of DASH to deliver Multi Period manifests or versions of HLS to deliver with discontinuities
+      properties:
+        dash:
+          type: array
+          description: |-
+            Controls which versions of dash to deliver Multi Period Dash manifests.
+
+            Set to ["*"] to deliver multi-period dash for all versions
+
+            Empty list for never
+
+            Example: ["live-timeline"] to deliver for live-timeline but not for hbbtv
+          example:
+            ["live-timeline"]
+        hls:
+          type: array
+          description: |-
+            Controls which versions of hls to deliver with discontinuities.
+
+            Set to ["*"] to delivery with discontinuities in all versions of HLS
+
+            Empty list for never
+
+            Example: ["v4","v5"] to deliver for v4 & v5 but not for v3
+          example:
+            ["v4","v5"]
+    AdTraceConfiguration:
+      type: object
+      description: |-
+        Configuration for the ad trace.
+      properties:
+        playback_config:
+          $ref: "#/components/schemas/PlaybackConfig"
+        title_metadata:
+          type: object
+          description: >-
+            Metadata for the video
+          properties:
+            duration:
+              type: string
+              description: >-
+                The video duration
+              example: 39s
+        videocloud_metadata:
+          $ref: "#/components/schemas/VideoCloudMetadata"
+      example: {
+          "playback_config":{
+            "name": "config_name",
+            "vmap_response_namespace": "config_namespace",
+            "account_id": "account_id",
+            "ad_config": {
+              "enable_ads": true,
+              "expected_ad_response": "dfp_ad_rules",
+              "disable_server_beacons": false,
+              "round_up_cue_points": false,
+              "template_url": {
+              "template": "template_url"
+              }
+            },
+            "extend_beacon_guard_ttl": false
+          },
+          "title_metadata":{
+          "duration": "10s"
+          },
+          "videocloud_metadata": {
+            "name": "ad_name",
+            "tags": [ "tag1:tag1_value", "tag2:tag2_value" ],
+            "ad_keys":"a=1&b=2",
+            "cue_points": [{
+              "name":"Pre-roll",
+              "type":"AD",
+              "time":0,
+              "metadata":"type:pre-roll,a=b",
+              },
+              {
+              "name":"Mid-roll",
+              "type":"AD",
+              "time":10,
+              "metadata":"type=mid-roll,x=y",
+            }]
+          }
+        }
+    PlaybackConfig:
+      type: object
+      description: >-
+        Playback configuration for ads
+      properties:
+        name:
+          type: string
+          description: >-
+            Name of the playback configuration
+        vmap_response_namespace:
+          type: string
+          description: >-
+            Adjusts the VMAP output to use the legacy Unicorn Once namespace format or to use the new Brightcove namespace format.
+            enum:
+              - bc
+              - uo
+              default: bc
+        account_id:
+          type: string
+          description: >-
+            The Video Cloud account id
+        ad_config:
+          $ref: '#/components/schemas/AdConfig'
+        extend_beacon_guard_ttl:
+          type: boolean
+          description: >-
+            Sets the length of the Beacon Guard TTL (Time to live) to the length of the Content’s Session TTL. Otherwise, the default is 1 minute.
+          default: false
+    VideoCloudMetadata:
+      type: object
+      description: >-
+        Video Cloud metadata referenced by ad template variables
+      properties:
+        name:
+          type: string
+          description: the ad name
+        tags:
+          type: array
+          description: >-
+            Array of `tag:value` pairs
+          items:
+            type: string
+            example: ["subject:sports", "category:tennis"]
+        ad_keys:
+          type: string
+          description: >-
+            String of key-value pairs separated by ampersands
+          example: category=sports&subcategory=tennis
+        cue_points:
+          type: array
+          description: >-
+            Array of video cuepoint objects
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: >-
+                  Name of the cuepoint
+              type:
+                type: string
+                description: >-
+                  Type of the cuepoint
+                enum:
+                  - AD
+                  - CODE
+              time:
+                type: integer
+                description: >-
+                  Time of the cuepoint in the video (seconds)
+              metadata:
+                type: string
+                description: >-
+                  String of metadata assigned to the cuepoint when it was created
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      description: ID of the account to query video statuses for
+      required: true
+      schema:
+        type: string
+    VideoId:
+      name: video_id
+      in: path
+      description: ID of the video to query video statuses for
+      required: true
+      schema:
+        type: string
+    ConfigId:
+      name: config_id
+      in: path
+      description: ID of the ad configuration
+      required: true
+      schema:
+        type: string
+    SessionId:
+      name: session_id
+      in: path
+      description: Session id from the VMAP response
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    BC_OAuth2:
+      type: oauth2
+      description: >-
+        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
+          scopes:
+            video-cloud/video/read: Read video metadata
+            video-cloud/video/all: Read and write video metadata

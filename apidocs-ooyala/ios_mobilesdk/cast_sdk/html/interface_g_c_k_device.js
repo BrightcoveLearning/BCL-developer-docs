@@ -1,0 +1,25 @@
+var interface_g_c_k_device =
+[
+    [ "attributeForKey:", "interface_g_c_k_device.html#ad37914333e1e8dbc0389fc477449d62b", null ],
+    [ "deviceCategoryForDeviceUniqueID:", "interface_g_c_k_device.html#a5018ca6a6115edec001eb46a5696fe2c", null ],
+    [ "GCK_DEPRECATED", "interface_g_c_k_device.html#acbaf4e446604f48fbdbe4542722d2af9", null ],
+    [ "hasCapabilities:", "interface_g_c_k_device.html#ac9462ff1c1707daa727573b385eb5be3", null ],
+    [ "isSameDeviceAs:", "interface_g_c_k_device.html#a431377a90931ac06c20d76c87f02d383", null ],
+    [ "NS_UNAVAILABLE", "interface_g_c_k_device.html#a704a559cfbada51a1475e1249c00ef1c", null ],
+    [ "removeAllAttributes", "interface_g_c_k_device.html#ae346957b96ad7d7d2e1bc4814d54b161", null ],
+    [ "removeAttributeForKey:", "interface_g_c_k_device.html#a1396e449fb3b1f2e7c8aac9c7c8ef77e", null ],
+    [ "setAttribute:forKey:", "interface_g_c_k_device.html#a58468b9de86947230c9f88f5356104eb", null ],
+    [ "category", "interface_g_c_k_device.html#adc674458ad7067329a196626df519189", null ],
+    [ "deviceID", "interface_g_c_k_device.html#ac573fca7dfbb317bad4095a25435948e", null ],
+    [ "deviceVersion", "interface_g_c_k_device.html#a83f2cf55f6c81efc81c8ce7c971033f5", null ],
+    [ "friendlyName", "interface_g_c_k_device.html#a3de90f6a33ae5776e33ec631dee3893d", null ],
+    [ "icons", "interface_g_c_k_device.html#ae379b4a588045efc0b4876690df3c2d0", null ],
+    [ "isOnLocalNetwork", "interface_g_c_k_device.html#ad1091e0d9e8c797d420db154dbcf6af7", null ],
+    [ "modelName", "interface_g_c_k_device.html#a9a64928b2032f1fde08bca3c94d64b31", null ],
+    [ "networkAddress", "interface_g_c_k_device.html#a27cbca73b00340d4fa1147f007c7190c", null ],
+    [ "servicePort", "interface_g_c_k_device.html#aa456b21cc2b7d68a8e27522690fe165c", null ],
+    [ "status", "interface_g_c_k_device.html#a157857aac29f66747bdaa1685528ab0a", null ],
+    [ "statusText", "interface_g_c_k_device.html#a72417f177891bb6e996640a1761067bb", null ],
+    [ "type", "interface_g_c_k_device.html#a17c45ad2e3cb0e865286b302dc8c5642", null ],
+    [ "uniqueID", "interface_g_c_k_device.html#a7c834d64a3c55ba90666ee334c7e2071", null ]
+];

@@ -1,5 +1,167 @@
 Brightcove Native Player for Android Release Notes:
 
+Version 6.8.1:
+
+  ExoPlayer2 Changes:
+
+      * ExoPlayer2 has been downgraded to version 2.9.3 due to an issue with HLS Multiple Audio Tracks in version 2.9.6.
+
+  Offline Playback Changes:
+
+      * Add Playback Authentication Service (PAS) support.
+
+      * The following methods are added to the com.brightcove.player.edge.AbstractOfflineCatalog:
+        findOfflineVideoById(String, @NonNull HttpRequestConfig): Video
+        findOfflineVideoById(String, @NonNull HttpRequestConfig, @NonNull OfflineCallback<Video>): void
+        requestPurchaseLicense(@NonNull Video, @NonNull EventListener, @NonNull HttpRequestConfig): void
+        requestRentalLicense(@NonNull Video, @NonNull Date, long, @NonNull EventListener, @NonNull HttpRequestConfig): void
+
+      * The following method is removed from the com.brightcove.player.edge.AbstractOfflineCatalog:
+        renewLicense(@NonNull Video, @NonNull EventListener): void
+
+      * Fixes an issue loading poster images for downloaded videos. When available, a local image will be loaded.
+
+  FreeWheel Plugin Changes:
+
+      * Adds support for live content with pre-roll client-side ads.
+
+  SSAI Plugin Changes:
+
+      * Fixes an issue where a content source could be loaded directly from the src attribute in the Playback API response, instead of from the contenturi attribute in the VMAP.
+
+Version 6.8.0:
+
+  SDK Changes:
+
+      * The Android Minimum SDK Version supported by the Brightcove Native SDK for Android is now 19.
+
+      * The Brightcove Native SDK for Android is now Java 8 compliant. Please note that Android apps developed using this version of the Android SDK may require the following directive added to the build.gradle file to ensure bytecode compatibility:
+        compileOptions {
+          targetCompatibility JavaVersion.VERSION_1_8
+          sourceCompatibility JavaVersion.VERSION_1_8
+        }
+
+  ExoPlayer2 Changes:
+
+      * ExoPlayer2 has been upgraded to version 2.9.6
+
+      * Please note that this upgrade has the following API changes:
+        * [Breaking Change] Removed constructor TrackSelectorHelper(@NonNull ExoPlayer player, @NonNull MappingTrackSelector trackSelector), use constructor TrackSelectorHelper(@NonNull ExoPlayer player, @NonNull DefaultTrackSelector trackSelector)
+        * [Breaking Change] Removed setTrackSelector(@NonNull MappingTrackSelector trackSelector), use setTrackSelector(@NonNull DefaultTrackSelector trackSelector)
+        * Removed getTrackSelector(): MappingTrackSelector, use getTrackSelector(): DefaultTrackSelector
+
+  FreeWheel Plugin Changes:
+
+      * The FreeWheel plugin has been updated to support FreeWheel AdManager version 6.28.0.
+      * Please note that FreeWheel now packages the AdManager library as an Android Archive (AAR).
+
+  IMA Plugin Changes:
+
+      * The IMA Plugin has been updated to support Google IMA SDK version 3.11.2.
+        * This version of the Google IMA SDK supports Open Measurement standards.
+        * Please refer to the Brightcove Android SDK documentation at https://support.brightcove.com for more information
+      * Fixed an issue where midroll ads called after long periods of content playback would not play.
+
+  SSAI Plugin Changes:
+
+      * The SSAI Plugin now supports content delivery through the Brightcove Playback Authorization Service (PAS). Please refer to the Brightcove Android SDK documentation at https://support.brightcove.com for more information on using PAS with the SSAI Plugin.
+      * Please note that PAS works only with the SSAI Plugin. PAS with the deprecated OnceUx Plugin is not supported.
+
+Version 6.7.0:
+
+  SSAI Plugin:
+
+      * With this release, the Brightcove Native SDK for Android implements the SSAI Plugin.
+        For more information on this new plugin, please visit the Brightcove Android SDK Overview in the Brightcove Support site.
+
+  OnceUx Plugin Changes:
+
+      * With this release, the OnceUx Plugin is deprecated. Please use the new SSAI Plugin instead.
+        For more information, please visit the Brightcove Android SDK Overview in the Brightcove Support site.
+
+Version 6.6.0:
+
+  SDK Changes:
+
+      * A new class, HttpRequestConfig has been added.
+        This class supports the addition of request URL parameters and/or request headers that may be required by Brightcove services (e.g. the Brightcove Edge API, or the Brightcove Playback Authorization Service (PAS)).
+        Please refer to Brightcove Support documentation for more information on usage of this class.
+
+      * Along with the HttpRequestConfig class, the following methods are added to the com.brightcove.player.edge.Catalog class:
+        findPlaylistByID(String, HttpRequestConfig, PlaylistListener): void
+        findPlaylistByReferenceID(String, HttpRequestConfig, PlaylistListener): void
+        findVideoByID(String, HttpRequestConfig, VideoListener): void
+        findVideoByReferenceID(String, HttpRequestConfig, VideoListener): void
+
+      * The following findPlaylist methods are deprecated in com.brightcove.player.edge.Catalog:
+        findPlaylistByID(String, Map<String, String>, PlaylistListener): void
+        findPlaylistByID(String, Map<String, String>, Map<String, String>, PlaylistListener): void
+        findPlaylistByReferenceID(String, Map<String, String>, PlaylistListener): void
+        findPlaylistByReferenceID(String, Map<String, String>, Map<String, String>, PlaylistListener): void
+
+      * The following findVideo methods are deprecated in com.brightcove.player.edge.Catalog:
+        findVideoByID(String videoID, Map<String, String>, VideoListener): void
+        findVideoByID(String videoID, Map<String, String>, Map<String, String>, VideoListener): void
+        findVideoByReferenceID(String, Map<String, String>, VideoListener): void
+        findVideoByReferenceID(String, Map<String, String>, Map<String, String>, VideoListener): void
+
+  Brightcove Native SDK for Android support for the Brightcove Playback Authorization Service (PAS)
+
+      * In the Limited Availability release of the Brightcove Playback Authorization Service (PAS), the following features are supported by the Brightcove Native SDK for Android:
+        * Online streaming of DRM content with PAS
+        * Online streaming of HLSe content with PAS
+
+      * In the Limited Availability release of the Brightcove Playback Authorization Service (PAS), the  following features are not currently supported by the Brightcove Native SDK for Android, and will be implemented in an upcoming release:
+        * Server-side Ad Insertion with the OnceUx plugin with PAS
+        * Offline Playback with PAS
+        * Chromecast with PAS
+
+  Important Note About ExoPlayer 1:
+
+      * ExoPlayer 1 is deprecated, and will be End Of Life by the end of Q3 2019, at which point it will no longer be available in the Brightcove Native SDK for Android.
+
+Version 6.5.1:
+
+  OnceUx Plugin Changes:
+
+      * Fixed an issue where the IFrameResource element was being incorrectly parsed from VMAP sources.
+
+Version 6.5.0:
+
+  SDK Changes:
+
+      * Removed unnecessary dependencies in the Brightcove Android SDK.
+
+      * Added asynchronous versions of the following methods to the OfflineCatalog class:
+        getVideoDownloadStatus
+        findAllQueuedVideoDownload
+        findAllVideoDownload
+        findOfflineVideoByID
+        downloadVideo
+        cancelVideoDownload
+        pauseVideoDownload
+        resumeVideoDownload
+        deleteVideo
+        getMediaFormatTracksAvailable
+
+      * Fixed an issue where the estimateSize method in the OfflineCatalog class was returning an unexpected value.
+
+      * Fixed an issue where an offline video built using VideoParser.buildVideoFromJSON() would not play as expected.
+
+  OnceUx Plugin Changes:
+
+      * Fixed an issue where duplicate caption menu items would appear.
+
+  Cast Plugin: Release note update:
+
+      * While the Cast plugin has no changes in this release, it is important to note these clarifications in the currently supported features of this plugin:
+        - Android 9 - Testing has shown that the following permission is required to use Chromecast with Android 9, in particular when the app is backgrounded and brought back to the foreground, and in order to use notifications to control a casting session. This uses-permission tag should be added to an app's AndroidManifest.xml:
+          <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+        - Captions - Testing has shown that in-manifest captions only with Dynamic Delivery DASH display as expected.
+        - Captions - In-manifest captions with HLS are not currently supported.
+        - Captions - Sidecar captions in any video configuration are not currently supported.
+        This clarification is also present in the Cast plugin release note for the Brightcove Android SDK v6.3.0 release.
+
 Version 6.4.0:
 
   SDK Changes:
@@ -51,7 +213,11 @@ Version 6.3.0:
 
       * The Cast Plugin has been updated with a dependency on the ExoPlayer Cast Extension v2.7.0.
         Please note that certain VideoCloud features have limited support, or are not yet supported when using Cast plugin with the Google sample receiver app:
-        - Captions - Only in-manifest captions with Dynamic Delivery are supported when using the Cast plugin with the Google sample receiver app.
+        - Android 9 - Testing has shown that the following permission is required to use Chromecast with Android 9, in particular when the app is backgrounded and brought back to the foreground, and in order to use notifications to control a casting session. This uses-permission tag should be added to an app's AndroidManifest.xml:
+          <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+        - Captions - Testing has shown that in-manifest captions only with Dynamic Delivery DASH display as expected.
+        - Captions - In-manifest captions with HLS are not currently supported.
+        - Captions - Sidecar captions in any video configuration are not currently supported.
         - Widevine Modular DRM is not supported when using the Cast plugin with the Google sample receiver app.
         - Multiple Audio Tracks are not supported when using the Cast plugin with the Google sample receiver app.
         - Client-side and Server-side Advertising is not supported when using the Cast plugin with the Google sample receiver app.

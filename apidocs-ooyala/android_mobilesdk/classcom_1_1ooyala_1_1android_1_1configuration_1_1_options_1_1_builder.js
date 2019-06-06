@@ -1,0 +1,27 @@
+var classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder =
+[
+    [ "Builder", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a5af587aee557291d37688784d145f425", null ],
+    [ "build", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a1a55ee95fd3665f429b7499703a9455f", null ],
+    [ "enableHevc", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a889c52349a005e9c54107e549b142f5d", null ],
+    [ "setAudioOnly", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a0162efe1c7d421a76c6510aeae89a81a", null ],
+    [ "setBypassPCodeMatching", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a32a8205bc5c7adc84f9774de1395ea65", null ],
+    [ "setConnectionTimeout", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a35c8bb37f61b5f94ed9d1704bb4880a3", null ],
+    [ "setDisableVASTOoyalaAds", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a678d7d48b2b178f2772f7fec2d666836", null ],
+    [ "setDynamicFilters", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a9a5aebdf147baded390fe9f39ebed4ab", null ],
+    [ "setExoConfiguration", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a60ef1e1c2ed1a09b8094b1d35c9d7266", null ],
+    [ "setInitialPlaybackSpeed", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a6caa3a839a36ad29b788a1aac763a48d", null ],
+    [ "setIqConfiguration", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#ae2dff9271d909d40ec357255b73b24df", null ],
+    [ "setPlayerInfo", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a0738d304699eef44f4017d16422479d5", null ],
+    [ "setPreloadContent", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#adf79d1ba4f2b79ad0e985d607e1815cd", null ],
+    [ "setPreventVideoViewSharing", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#af72f54c640368d550d2c10f431524cad", null ],
+    [ "setReadTimeout", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a15153d2e6bdf2d5cdea32b1795f83d6c", null ],
+    [ "setShowAdsControls", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#afaf094c9547dbdf58ce467b7b5c12d2f", null ],
+    [ "setShowCuePoints", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a277c89ad1b9eed425e35c87f140b9983", null ],
+    [ "setShowLiveControls", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a10e1b10fef36cde083e1765dd2e73a0c", null ],
+    [ "setShowNativeLearnMoreButton", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#aaf3341b92f8802592b557aaa41e8a4a4", null ],
+    [ "setShowPromoImage", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#aa9efecbd06593b1a28fde3b0d8878e83", null ],
+    [ "setTVRatingConfiguration", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a51f5cf979792c1889969dbdcde4a3ddb", null ],
+    [ "setUseAdobePlayer", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a715ed01ab5835f36a28487dbccc620e5", null ],
+    [ "setUseExoPlayer", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a82d7ad5b82a283eb1ddcdc81d9ebfa94", null ],
+    [ "setWidevineSecurityL3Enabled", "classcom_1_1ooyala_1_1android_1_1configuration_1_1_options_1_1_builder.html#a940366f9025eef470d2ba9743d260118", null ]
+];

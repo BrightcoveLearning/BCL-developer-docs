@@ -1,0 +1,4 @@
+var classcom_1_1ooyala_1_1android_1_1adobeanalyticssdk_1_1heartbeat_1_1_ooyala_adobe_heartbeat_delegate =
+[
+    [ "onError", "classcom_1_1ooyala_1_1android_1_1adobeanalyticssdk_1_1heartbeat_1_1_ooyala_adobe_heartbeat_delegate.html#ae3fa42af535cffb0f4069dcd2a57076d", null ]
+];

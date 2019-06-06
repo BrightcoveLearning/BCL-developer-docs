@@ -1,0 +1,27 @@
+var protocol_o_o_react_skin_model_delegate_01_p =
+[
+    [ "handleAudioTrackSelection:", "protocol_o_o_react_skin_model_delegate_01-p.html#a155f2cd071f8d7840f91b9cf24be64fb", null ],
+    [ "handleDiscoveryClick:embedCode:", "protocol_o_o_react_skin_model_delegate_01-p.html#a3591836cbb6d4e3298907bb0d2ccf2ae", null ],
+    [ "handleDiscoveryImpress:", "protocol_o_o_react_skin_model_delegate_01-p.html#aa77702ae503416893a41705fa9b7a5d2", null ],
+    [ "handleIconClick:", "protocol_o_o_react_skin_model_delegate_01-p.html#adc1e95e876a79b158bac86783a3cef65", null ],
+    [ "handleLanguageSelection:", "protocol_o_o_react_skin_model_delegate_01-p.html#aa99ec77ec0350b2758cc164088de015e", null ],
+    [ "handleLearnMore", "protocol_o_o_react_skin_model_delegate_01-p.html#a5ddf874c55927fc7a0990d43d218e5c7", null ],
+    [ "handleMoreOption", "protocol_o_o_react_skin_model_delegate_01-p.html#a9073348572afea981374ff9380eab692", null ],
+    [ "handleOverlay:", "protocol_o_o_react_skin_model_delegate_01-p.html#a1a0b2d38e36b221a788364163ecb48e7", null ],
+    [ "handlePip", "protocol_o_o_react_skin_model_delegate_01-p.html#a03932079aa3bc247dc6f570d80cc7359", null ],
+    [ "handlePlay", "protocol_o_o_react_skin_model_delegate_01-p.html#a292b0513a99db4a36f7b1eb8b06535f5", null ],
+    [ "handlePlaybackSpeedRateSelection:", "protocol_o_o_react_skin_model_delegate_01-p.html#a897fc431ca43331b1eb50683e15649a2", null ],
+    [ "handlePlayPause", "protocol_o_o_react_skin_model_delegate_01-p.html#a619994c0319dbb612a2470ac6807c566", null ],
+    [ "handleReplay", "protocol_o_o_react_skin_model_delegate_01-p.html#a8cf463098e210d3d87ce2ec82e33348d", null ],
+    [ "handleRewind", "protocol_o_o_react_skin_model_delegate_01-p.html#a22d2117226769ca4b41d8dc983db8361", null ],
+    [ "handleScrub:", "protocol_o_o_react_skin_model_delegate_01-p.html#a85b38508c1c50ecb2a97779244d7c75b", null ],
+    [ "handleSkip", "protocol_o_o_react_skin_model_delegate_01-p.html#abe784b82680ca082d42dfb5c961f178f", null ],
+    [ "handleSocialShare", "protocol_o_o_react_skin_model_delegate_01-p.html#a7b8cb612bc16849d7636e2e0673d6152", null ],
+    [ "handleTouch:", "protocol_o_o_react_skin_model_delegate_01-p.html#a63bc0fa67f9c391b5c4f9bc66e3ed2b2", null ],
+    [ "handleUpNextClick", "protocol_o_o_react_skin_model_delegate_01-p.html#a53ea3c914e91eb64d136e6200505c375", null ],
+    [ "handleUpNextDismiss", "protocol_o_o_react_skin_model_delegate_01-p.html#a50fc661d561ec111e1b767da854dc3af", null ],
+    [ "handleVolumeChanged:", "protocol_o_o_react_skin_model_delegate_01-p.html#a0013f9b114cf2d89cdf20f15a0996702", null ],
+    [ "setEmbedCode:", "protocol_o_o_react_skin_model_delegate_01-p.html#a3e80ca451a3b76006d89ebf0c9583aff", null ],
+    [ "toggleFullscreen", "protocol_o_o_react_skin_model_delegate_01-p.html#a583a310fb1cc3654127f728c25ba08d5", null ],
+    [ "toggleStereoMode", "protocol_o_o_react_skin_model_delegate_01-p.html#aa993593b0043166e30e7331099995b44", null ]
+];

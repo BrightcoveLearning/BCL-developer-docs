@@ -1,0 +1,26 @@
+var classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot =
+[
+    [ "OoyalaManagedAdSpot", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a78dc294ac77311d76f96a94045e410d2", null ],
+    [ "OoyalaManagedAdSpot", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a9f55b042305dbe17e87be6b0cdbf4d90", null ],
+    [ "OoyalaManagedAdSpot", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a949b201d8e3a366a0ee026b21b336a28", null ],
+    [ "compareTo", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a50255aa2c696182605dc6e2030456b14", null ],
+    [ "create", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a3d43732a20569ed029211dc8b7cff4c3", null ],
+    [ "fetchPlaybackInfo", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a03335ecaf907c589434343bc845a9f2d", null ],
+    [ "getClickURL", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a3110c4d750786b9f21559e2ad82634ec", null ],
+    [ "getPriority", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a990bba7963506c0dcd73da9c8875214f", null ],
+    [ "getTime", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a6f079271ce0bde6b8e2a0591495e7f17", null ],
+    [ "getTrackingURLs", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#ab250506a73db439dfc437eb8c4ebbc9d", null ],
+    [ "needsPauseContent", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#aa34af59e0aff910e5ce10ee5c551d8ed", null ],
+    [ "setPriority", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a18408b066279e0d56e28d78ca3d1fe9c", null ],
+    [ "update", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a6e778f788c7efb49a42efd4ddb893c13", null ],
+    [ "_clickURL", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a9029d3b86e07ac400332520613efb661", null ],
+    [ "_priority", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#aa58f266a6e381dda18ccd73ebf7cb126", null ],
+    [ "_time", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a3e8e511d0c44f1dff839e2a5f462bd7e", null ],
+    [ "_trackingURLs", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a32dacf3cb2449f670111d036a121e0ad", null ],
+    [ "AD_TYPE_OOYALA", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a593b8b3c4629364226e66184e27df3fa", null ],
+    [ "AD_TYPE_VAST", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a8653bab5336f05b958363bac78206524", null ],
+    [ "KEY_CLICK_URL", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a2d063a0171c52a890830ecabd2f78647", null ],
+    [ "KEY_TIME", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#a0450f87af95c6efae17c9bd8a3508eec", null ],
+    [ "KEY_TRACKING_URL", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#aa8302dbd5f3b989ae8e0a22da2c70377", null ],
+    [ "KEY_TYPE", "classcom_1_1ooyala_1_1android_1_1item_1_1_ooyala_managed_ad_spot.html#afcef5274caf4a7d2d91ff2af42eb212e", null ]
+];

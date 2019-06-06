@@ -1,0 +1,5 @@
+var classcom_1_1ooyala_1_1android_1_1castsdk_1_1_cast_manager_1_1_cast_manager_initialization_exception =
+[
+    [ "CastManagerInitializationException", "classcom_1_1ooyala_1_1android_1_1castsdk_1_1_cast_manager_1_1_cast_manager_initialization_exception.html#a04984666006a6e7ce71bd31592e44b59", null ],
+    [ "CastManagerInitializationException", "classcom_1_1ooyala_1_1android_1_1castsdk_1_1_cast_manager_1_1_cast_manager_initialization_exception.html#a6a959ee28362f4d8b731d95a8f860770", null ]
+];

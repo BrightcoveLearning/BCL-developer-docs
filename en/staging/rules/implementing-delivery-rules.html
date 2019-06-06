@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Implementing Dynamic Delivery Rules</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Implementing Dynamic Delivery Rules</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to implement Brightcove's Dynamic Delivery Rules, which enable you to customize how your media is delivered to meet your business objectives.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Publishers often need to modify the content characteristics of their media manifests for both technical and business reasons.</p>
+
+<p>To meet these needs, Brightcove has created a framework where rules can be applied that will modify the contents of the manifest returned from Dynamic Delivery. Behaviors are defined as "if" conditions that will trigger a certain rule and a series of "then" parameters that will define how the manifest is modified.</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Behaviors">Behaviors</h2>
+
+<p>The behaviors, or "if" conditions, supported in the first phase include the following:</p>
+
+<ul>
+  <li>
+    <p>
+      <strong>Explicit Request</strong> - A configuration ID that you can pass to the Playback API at runtime. This ID is mapped to configuration values that allow underlying services to make decisions leveraged by the Playback API to return the appropriate response data.
+    </p>
+    <!-- <p>
+      Contact you account manager to set up your configuration mappings. Then, you will be able to append the <code>config_id</code> parameter to the Playback API requests.
+    </p> -->
+    <!-- <ul>
+      <li>
+        <a href="https://support.brightcove.com/implementing-server-side-ads-brightcove-player#Implementing_SSAI_programmatically">Implementing Server-Side Ads with the Brightcove Player</a>
+      </li>
+      <li>
+        <p>
+          <a href="https://support.brightcove.com/implementing-server-side-ads-native-player-sdks">Implementing Server-Side Ads with the Native Player SDKs</a>
+        </p>
+      </li>
+    </ul> -->
+  </li>
+  <li>
+    <strong>Device Group</strong> - Device type as detected by user-agent parsing. The groups currently supported include:
+    <ul>
+      <li>
+        android
+      </li>
+      <li>
+        appletv
+      </li>
+      <li>
+        ipad
+      </li>
+      <li>
+        iphone
+      </li>
+      <li>
+        desktop-chrome
+      </li>
+      <li>
+        desktop-firefox
+      </li>
+      <li>
+        desktop-safari
+      </li>
+      <li>
+        fetchtv
+      </li>
+      <li>
+        ios-other
+      </li>
+      <li>
+        roku-7/8
+      </li>
+      <li>
+        smartphone-generic
+      </li>
+      <li>
+        tablet-android
+      </li>
+      <li>
+        tablet-kindle
+      </li>
+      <li>
+        unknown
+      </li>
+    </ul>
+    &nbsp;
+  </li>
+  <li>
+    <strong>Geography</strong> - Physical location of the requesting device:
+    <ul>
+      <li>
+        Continent
+      </li>
+      <li>
+        Country
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Rules">Rules</h2>
+
+<p>The rules, or "then" parameters, supported in the first phase include the following:</p>
+
+<ul>
+  <li>
+    <p>
+        <strong>Media Delivery CDN</strong> - From the CDNs configured for use within a given Dynamic Delivery account, the CDN to use for delivery of media segments.
+    </p>
+  </li>
+  <li>
+    <strong>Rendition Characteristics</strong> - Filters based on characteristics of the underlying media renditions. These include:
+    <ul>
+      <li>
+        Minimum video bitrate
+      </li>
+      <li>
+        Maximum video bitrate
+      </li>
+      <li>
+        Minimum video resolution
+      </li>
+      <li>
+        Maximum video resolution
+      </li>
+      <li>
+        Maximum number of audio renditions
+      </li>
+      <li>
+        Maximum number of video renditions
+      </li>
+      <li>
+        First video bitrate
+      </li>
+      <li>
+        Discontinuities
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Scope">Scope</h2>
+
+<p>Rules can be applied at two levels:</p>
+<ul>
+  <li>
+    <strong>Account</strong> - Rules that apply to all requests made to a specific customer's account
+  </li>
+  <li>
+    <strong>Request Specific</strong> - Rules that are invoked on a specific request
+  </li>
+</ul>
+
+<p>
+  Rules will be applied in the order listed above. Later rules will override earlier ones.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Enabling_the_feature">Enabling the feature</h2>
+
+<p>During the initial phase of Delivery Rules, all rules will be configured by Brightcove. Contact your account manager to learn about pricing and enable this feature for your account.</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Limitations">Limitations</h2>
+
+<p>There are a few known limitations when using Delivery Rules:</p>
+<ul>
+  <!-- <li>
+    <strong>CDN Providers</strong> - A customer may only have one CDN configuration from a given provider. For instance, it will be possible to switch between Akamai and Cloudfront, but not between two separate Akamai configurations.
+  </li> -->
+  <li>
+    <strong>Media Content</strong> - Delivery Rules will not work with Smooth or pMP4 videos.
+  </li>
+</ul>
+
+</section>
+
+
+<section class="bcls-section">
+<h2 id="Related_topics">Related topics</h2>
+
+<ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html">Overview: Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://support.brightcove.com/node/18476">Overview of Dynamic Delivery</a>
+  </li>
+</ul>
+
+</section>
+
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

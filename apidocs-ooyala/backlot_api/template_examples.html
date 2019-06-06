@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Template Examples</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Template Examples</h2>
+
+<p>
+	The following are some template examples for use with <a href="universal_syndication.html">Universal Syndication</a> as part of the <a href="index.html">Backlot API</a>.
+</p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Upload+a+Template" class="panel-title">Upload a Template</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<pre><code>
+[PUT] /v2/syndications/{id}/template
+
+&lt;feed header&gt; Happy Header &lt;/feed header&gt;
+{% for asset in assets %}
+  &lt;item&gt;
+    &lt;title&gt; {{asset.name}} &lt;/title&gt;
+    &lt;video_info&gt; {{asset.description}} &lt;/video_info&gt;
+  &lt;/item&gt;
+{% endfor assets %}
+			</code></pre>
+
+			<p>The above template would generate a feed similar to the one below:</p>
+
+			<pre><code>
+&lt;feed header&gt; Happy Header &lt;/feed header&gt;
+&lt;item&gt;
+  &lt;title&gt; Title for Video 1 &lt;/title&gt;
+  &lt;video_info&gt; Description for Video 1 &lt;/video_info&gt;
+&lt;/item&gt;
+&lt;item&gt;
+  &lt;title&gt; Title for Video 2 &lt;/title&gt;
+  &lt;video_info&gt; Description for Video 2 &lt;/video_info&gt;
+&lt;/item&gt;
+			</code></pre>
+
+			<p>The 'next_page' property can be used to retrieve the next page if the feed contains too many assets to fit on a single page.</p>
+
+			<pre><code>
+&lt;feed header&gt; Happy Header &lt;/feed header&gt;
+{% for asset in assets %}
+  &lt;item&gt;
+    &lt;title&gt; {{asset.name}} &lt;/title&gt;
+    &lt;video_info&gt; {{asset.description}} &lt;/video_info&gt;
+  &lt;/item&gt;
+{% endfor assets %}
+
+{% if {{next_page}} %}
+  &lt;next_page&gt;&lt;![CDATA[{{next_page}}]]&gt;&lt;/next_page&gt;
+{% endif %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Simple+feed+template+that+prints+the+URL+of+the+smallest+iPad-compatible+stream" class="panel-title">Print URL of Smallest iPad-Compatible Stream</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a simple feed template that prints the URL of the smallest iPad-compatible stream.</p>
+			<pre><code>
+{% for asset in assets %}
+  Name: {{asset.name}}
+  URL: {{ asset.streams[ipad, min file_size].url }}
+{% endfor %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Simple+feed+template+that+includes+labels+in+the+response" class="panel-title">Include Labels in Response</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a simple feed template that includes labels in the response.</p>
+			<pre><code>
+&lt;items&gt;
+{% for asset in assets %}
+  &lt;item&gt;
+    &lt;title&gt; {{asset.name}} &lt;/title&gt;
+    &lt;labels&gt;
+      {% for label in asset.labels %}
+      &lt;label&gt;
+        &lt;id&gt;{{label.id}}&lt;/id&gt;
+        &lt;fullname&gt;{{label.full_name}}&lt;/fullname&gt;
+        &lt;name&gt;{{label.name}}&lt;/name&gt;
+      &lt;/label&gt;
+      {% endfor %}
+    &lt;/labels&gt;
+  &lt;/item&gt;
+{% endfor %}
+&lt;/items&gt;
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Simple+XML+feed+with+a+next+page+url" class="panel-title">Feed With Next Page URL</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a simple XML feed with a next page URL.</p>
+			<pre><code>
+{% for asset in assets %}
+  &lt;name&gt;{{asset.name}}&lt;/name&gt;
+  &lt;link&gt;{{asset.stream_urls.source_file}}&lt;/link&gt;
+{% endfor %}
+
+{% if {{next_page}} %}
+  &lt;next_page&gt;&lt;![CDATA[{{next_page}}]]&gt;&lt;/next_page&gt;
+{% endif %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="A+feed+containing+a+high+definition+stream+if+one+exists,+or+a+note+to+upload+one+if+it+doesn't" class="panel-title">Feed Containing High-Definition Stream</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a feed containing a high definition stream if one exists, or a note to upload one if it doesn't.</p>
+			<pre><code>
+{% for asset in assets %}
+  {% if asset.streams[video_width &gt;= 720].exists %}
+    &lt;stream type="hd"&gt;
+      &lt;url&gt;{{ asset.streams[iphone].url }}&lt;/url&gt;
+    &lt;/stream&gt;
+  {% else %}
+    &lt;placeholder&gt;HD stream needed&lt;/placeholder&gt;
+  {% endif %}
+{% endfor %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Include+only+assets+that+were+created+after+Sept+1,+2012" class="panel-title">Assets By Date</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Include only assets that were created after Sept 1, 2012:</p>
+			<pre><code>
+{% for asset in assets %}
+  {% if {{asset.created_at}} &gt; "2012-09-01" %}
+    {{asset.name}}
+  {% endif %}
+{% endfor %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Include+only+assets+that+have+the+metadata+key++syndicate++equal+to++true+:" class="panel-title">Assets By Metadata Keys</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Include only assets that have the metadata key "syndicate" equal to "true":</p>
+			<pre><code>
+{% for asset in assets %}
+  {% if {{asset.metadata['syndicate']}} == "true" %}
+    {{asset.name}}
+  {% endif %}
+{% endfor %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Simple+CSV+Feed+Template" class="panel-title">Simple CSV Feed Template</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a simple CSV feed template.</p>
+			<pre><code>
+Name, Embed_Code
+{% for asset in assets %}
+  {{asset.name}}, {{asset.embed_code}}
+{% endfor %}
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Simple+MRSS+Feed+template+for+uploaded+videos" class="panel-title">Simple MRSS Feed Template for Uploaded Videos</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<p>Here is a simple MRSS Feed template for uploaded videos.</p>
+			<pre><code>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
+                   xmlns:dcterms="http://purl.org/dc/terms/"
+                   xmlns:fh="http://purl.org/syndication/history/1.0"&gt;
+&lt;channel&gt;
+  &lt;title&gt;Sample MRSS Feed&lt;/title&gt;
+  &lt;description&gt;Sample MRSS Feed using Universal Syndications&lt;/description&gt;
+  &lt;link&gt;http://www.exampledomain.com&lt;/link&gt;
+  {% for asset in assets %}
+    {% if asset.asset_type == "video" %}
+      &lt;item&gt;
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+        &lt;guid isPermaLink="false"&gt;{{asset.embed_code}}&lt;/guid&gt;
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        &lt;media:category scheme="http://www.ooyala.com"&gt;/Universal Syndicatiom&lt;/media:category&gt;
+        &lt;link&gt;{{ asset.streams[flash_enabled].url | escape }}&lt;/link&gt;
+        &lt;media:content url="{{asset.streams[flash_enabled].url | escape}}"
+                       fileSize="{{asset.streams[flash_enabled].file_size}}"
+                       duration="{{asset.duration | divided_by:100}}"
+                       medium="video"
+                       expression="full"&gt;
+        &lt;/media:content&gt;
+        &lt;dcterms:valid&gt;start={{asset.flight_start_time}};
+                       end={{asset.flight_end_time}};scheme=W3C-DTF&lt;/dcterms:valid&gt;
+     &lt;/item&gt;
+  {% endif %}
+{% endfor %}
+&lt;/channel&gt;
+&lt;/rss&gt;
+			</code></pre>
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

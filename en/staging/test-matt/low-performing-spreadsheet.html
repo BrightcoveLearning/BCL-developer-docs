@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud">
+  <meta name="role" content="Player Developer">
+  <meta name="task" content="">
+  <meta name="topic" content="">
+  <!-- End Drupal Taxonomy Data -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <!-- change title to match the h1 heading -->
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-2728311-29', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Identify and Delete Low Performing Videos</h1>
+
+      <!-- begin drupal content -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Introduction">Introduction</h2>
+
+<p>For a number of reasons, it is probably best to not have videos in your library that are not viewed, and you guess they won't be viewed in the future either. In this document you will see how to identify these videos and remove them from your library. The following bullet points provide a high level overview of the process. The detailed steps then follow.</p>
+
+<ul>
+  <li>Use the Media module to export a file that contains a row of information for every video in your library.</li>
+	<li>Use the Analytics module to create a custom report that includes the video ID, title, video impressions and video views. The report will be exported in a comma separated values (CSV) format and list only those videos with non-zero video views and/or impressions.</li>
+	<li>Import both the CSV files into a Google Docs spreadsheet.</li>
+	<li>Add a column to the all videos spreadsheet that determines if the video detailed in a particular row has video views or not. This is done by checking to see if an ID in the all videos spreadsheet has a matching entry in the Analytics report spreadsheet.</li>
+	<li>Copy the IDs of the videos with no views to a Google Doc and manipulate the format to use in a bulk deletion process.</li>
+</ul>
+
+<aside class="bcls-aside bcls-aside--warning language-editable">Deleting videos is a drastic operation and it is not possible to undelete them. For safety's sake, be sure you have a local copy of a video before deleting it.</aside>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Export_all_videos_data">Export all videos data</h2>
+  <p>From the <strong>Media</strong> module you can get a report on all media in your library. This will be used later in a spreadsheet.</p>
+  <ol class="bcls-tasklist">
+    <li>Enter Studio's <strong>Media</strong> module.</li>
+    <li>Click on the <strong>Export</strong> button near the top of the page.</li>
+    <li>In the dialog that opens, be sure <strong>All videos in the list</strong> is selected.</li>
+    <li>Click the <strong>Export Data</strong> button.</li>
+    <li>When the report has finished building, click the <strong>Download File</strong> button.</li>
+    <li>Note that the file name corresponds to your account ID, and the file is CSV (comma separated value) formatted.</li>
+    <li>Click <strong>Cancel</strong> to close the dialog.</li>
+  </ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Create_custom_report">Create custom Analytics report</h2>
+
+<p>To create the Analytics report that includes videos with views, perform the following steps:</p>
+
+<ol class="bcls-tasklist">
+	<li>In Studio, move into the <strong>ANALYTICS</strong> module.</li>
+	<li>On the left side menu, click <strong>Custom</strong>.</li>
+	<li>Use the <strong>Include Accounts</strong> dropdown to choose the desired account(s) for the report.</li>
+	<li>Choose the <strong>Report Type</strong> to be <code>One-time</code>.</li>
+	<li>Select a <strong>Date Range</strong> for the report using the calendars.
+	<figure class="bcls-figure"><img class="bcls-image" alt="date range" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/date-range.png" /></figure>
+	</li>
+	<li>For the <strong>Data Groups</strong> choose <code>Video</code>.</li>
+	<li>For the <strong>Data Fields</strong> choose the three fields <code>Video Name</code>, <code>Video Views</code> and <code>Video Impressions</code>:
+	<figure class="bcls-figure"><img class="bcls-image" alt="data fields" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/data-fields.png" /></figure>
+	</li>
+	<li>Below the fields you see a preview of your report. Note that the video ID is automatically included in the report:
+	<figure class="bcls-figure"><img class="bcls-image" alt="report preview" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/report-preview.png" /></figure>
+	</li>
+	<li>Supply a <strong>Report Name</strong> or accept the default.</li>
+	<li>Choose the <strong>Format</strong> to be <code>CSV</code>.</li>
+	<li>Choose to get an email or not when the report is ready. Mostly likely you will just wait for the report unless your account contains a very large number of videos.</li>
+	<li>Click the <strong>Request Report</strong> button.</li>
+	<li>After some delay, you will see the report is downloaded.</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Import_the_all_videos_file">Import the all videos file</h2>
+<aside class="bcls-aside bcls-aside--information language-editable">In this document Google Docs will be used because the functionality is available to all for free. If you are an Excel user, you can use that to perform all the spreadsheet tasks shown in this document.</aside>
+
+<p>In this section of the document you will open the exported all videos report created from the Media module.</p>
+
+<ol class="bcls-tasklist">
+	<li>Open a Google Docs blank spreadsheet.</li>
+	<li>Select <strong>File &gt; Import &gt; Upload</strong>, then either drag the all videos CSV file (named after your account ID) to the proper location or browse to select it.</li>
+	<li>On the <strong>Import file</strong> dialog, accept the defaults and click <strong>Import data</strong>:
+	<figure class="bcls-figure"><img class="bcls-image" alt="import csv" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/import-csv.png" /></figure>
+	</li>
+	<li>Your imported data will appear similar to the following:
+	<figure class="bcls-figure"><img class="bcls-image" alt="sample import all videos" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/sample-import-all-videos.png" /></figure>
+	</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Import_Analytics_report">Import Analytics report</h2>
+  <p>You will now import into another sheet (in the same spreadsheet group) the Analytics report you created.</p>
+  <ol class="bcls-tasklist">
+  	<li>Select <strong>File &gt; Import &gt; Upload</strong>, then either drag the Analytics report CSV file to the proper location or browse to select it.</li>
+  	<li>On the <strong>Import file</strong> dialog, BE SURE to change the <strong>Import location</strong> to <strong>Insert new sheet(s)</strong>. Accept the other defaults and click <strong>Import data</strong>:
+  	<figure class="bcls-figure"><img class="bcls-image" alt="import analytics" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/import-analytics.png" /></figure>
+  	</li>
+  	<li>Your imported data will appear similar to the following:
+  	<figure class="bcls-figure"><img class="bcls-image" alt="sample import" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/sample-import.png" /></figure>
+  	</li>
+    <li>Note that at the bottom of the spreadsheet you see the two sheets listed.
+  	<figure class="bcls-figure"><img class="bcls-image" alt="two sheets" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/two-sheets.png" /></figure>
+    </li>
+  </ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Create_a_named_range">Create a named range</h2>
+  <p>You will now add a column that will determine if a video has any views. To do that, you will need to reference the IDs in the Analytics report (those videos with views). To make the process easier you will now create and name a range.</p>
+  <ol class="bcls-tasklist">
+    <li>While still in the Analytics report sheet, click on the uppercase <strong>A</strong> at the top of the first column.</li>
+    <li>Right click somewhere in the column and select <strong>Define named range...</strong></li>
+    <li>A panel will open on the right side of the spreadsheet. Change the default name of <code>NamedRange1</code> to <code>IDsWithViews</code>. </li>
+    <li>After pressing enter, you will see the range defined.
+  	<figure class="bcls-figure"><img class="bcls-image" alt="named range" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/named-range.png" /></figure>
+    </li>
+  </ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Add_column_for_no_views_determination">Add column for no views determination</h2>
+  <p>You will now add a column and add a <code>VLOOKUP()</code> function which will report if a specific video has any views.</p>
+  <ol class="bcls-tasklist">
+    <li>Return to the all videos sheet, named with your account ID.</li>
+    <li>Click on column <strong>B</strong>.</li>
+    <li>From the spreadsheet menu, select <strong>Insert > Column left</strong>. This creates a new, blank column B.</li>
+    <li>Click in cell <strong>B2</strong>.</li>
+    <li>Enter <code>=VLOOKUP(</code>. This starts the use of the function.</li>
+    <li>Just after the opening parentheses, click on the <strong>A2</strong> cell. That cell location will be inserted. This defines for what the function will be looking.</li>
+    <li>Enter a comma after the cell, then type <code>id</code>. You will see you can select the named range, and do select it.
+  	<figure class="bcls-figure"><img class="bcls-image" alt="select named range" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/select-named-range.png" /></figure>
+    This defines where the function will be looking for the value in A2.
+    </li>
+    <li>Enter a comma after the named range, then type the number <code>1</code>. This defines the column index to be returned. For you, this means that if the ID in A2 is found in the named range, the ID will be placed in the cell.</li>
+    <li>Enter a comma after the number 1, then enter <code>FALSE</code>, then type the closing parentheses. This option tells the <code>VLOOKUP()</code> function if columns are sorted and the exact value cannot be found, the closest value should be returned. Since you do not want this to occur, <code>FALSE</code> is the correct value to enter.</li>
+    <li>Ensure your function is defined correctly, as shown here, and press <strong>Enter</strong>.
+  	<figure class="bcls-figure"><img class="bcls-image" alt="complete vlookup" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/complete-vlookup.png" /></figure>
+    Cell B2 will either display the ID from A2 , or <code>#N/A</code>.
+    </li>
+    <li>Click back in cell B2 and be sure it is highlighted.</li>
+    <li>To copy the formula down the entire spreadsheet, double click on the blue square at the bottom right of the highlighted cell, which is currently B2.
+    	<figure class="bcls-figure"><img class="bcls-image" alt="blue square" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/blue-square.png" /></figure>
+      In column B you will now see either IDs repeated from column A, or <code>#N/A</code>. If you see the ID, it tells you that the video represented by that ID was found in the Analytics report. In other words, it has video views. And as you can surmise, if you see <code>#N/A</code> the video represented by the ID in column A has no views.
+    </li>
+  </ol>
+</section>
+
+
+<section class="bcls-section">
+<h2 id="Determine_low-performing_videos_and_delete_them">Delete videos with no views</h2>
+
+<p>You will now sort the spreadsheet so all videos IDs with no views are grouped together. You will then copy those IDs and format for bulk video deletion.</p>
+
+<ol class="bcls-tasklist">
+  <li>Highlight column B, then from the spreadsheet menu select <strong>Data > Sort sheet by column B, Z -> A</strong>. This groups all the videos with no views at the top of the spreadsheet, represented by <code>#N/A</code> in the cell.</li>
+  <li>You now have two options on how to proceed. They are:
+    <ul>
+      <li>If you have a small number of videos to delete, you can simply go into Studio and manually delete in the <strong>MEDIA</strong> module.</li>
+      <li>If you have a significant number of videos to delete, you may wish to continue to perform the following steps to ease the burden of deleting the videos.</li>
+    </ul>
+  </li>
+	<li>Highlight, then copy, ONLY the video IDs for the videos you wish to delete. Do not include any videos that are missing an ID or name as this means the video is all ready deleted.
+	<figure class="bcls-figure"><img class="bcls-image" alt="copy IDs" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/copy-ids.png" /></figure>
+	</li>
+	<li>Open a Google Doc document.</li>
+	<li>From the document menu, select <strong>Edit &gt; Paste without formatting</strong>. You will simply see the video IDs in a column. To bulk erase the videos they must be in the format <strong>id:12345678 id:23456789 ...</strong>. Rather than editing the list by hand, continue with these steps.</li>
+	<li>Select <strong>Edit &gt; Find and replace...</strong></li>
+	<li>For the <strong>Find</strong> value enter <code>\n</code>. This represents a carriage return.</li>
+	<li>For the <strong>Replace with</strong> value enter a space followed by <code>id:</code>. The space in front of the <code>id:</code> is crucial for correct formatting.</li>
+	<li>Check the <strong>Match using regular expressions</strong> checkbox.</li>
+	<li>Click the <strong>Replace all</strong> button, then close the dialog.</li>
+	<li>Ensure your list of video IDs now appears similarly formatted to following:
+	<pre class="line-numbers">
+<code class="language-html">1754261702001 id:4082515861001 id:5185914204001 id:5324448023001
+id:1754261492001 id:2180442442001 id:2535301903001 id:4713495235001
+id:4874718207001 id:4997278349001 id:5686632029001 id:5998203290001
+id:5998205402001 id:5998658922001 id:5998662608001 id:</code></pre>
+	</li>
+	<li>To finish the formatting, you will need to place an <code>id:</code> in front of the first video ID. Then remove the <code>id:</code> at the end of the list that has no matching actual video ID.</li>
+	<li>Copy the correctly formatted list of video IDs.
+	<pre class="line-numbers">
+<code class="language-html">id:1754261702001 id:4082515861001 id:5185914204001 id:5324448023001
+id:1754261492001 id:2180442442001 id:2535301903001 id:4713495235001
+id:4874718207001 id:4997278349001 id:5686632029001 id:5998203290001
+id:5998205402001 id:5998658922001 id:5998662608001</code></pre>
+	</li>
+	<li>Open Studio's <strong>MEDIA</strong> module.</li>
+	<li>Paste your list of video IDs into the search box:
+	<figure class="bcls-figure"><img class="bcls-image" alt="media module search" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/low-performing/media-module-search.png" /></figure>
+  <aside class="bcls-aside bcls-aside--warning language-editable">If you have a very large number of videos to remove, it will be best to take multiple sets of IDs rather than all the IDs at once. In testing, 100 videos at a time has worked successfully.</aside>
+	</li>
+	<li>Press <strong>Enter</strong>.</li>
+	<li>You will now see all the videos listed that match the IDs you selected earlier. You can now individually select videos to be deleted or check the select all box and delete the videos.</li>
+</ol>
+</section>
+</article>
+
+
+      <!-- end drupal content -->
+
+    </div>
+  </div>
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v2.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <div style="text-align:center">
+    <iframe id="CSAT" src="//learning-services-media.brightcove.com/doc-assets/general/surveylink.html" style=" padding-bottom:20px;border:none"></iframe>
+  </div>
+  <div class="bcls-footer"><a id="feedbackMail" href="mailto:docs@brightcove.com">Questions or comments?</a>
+  </div>
+  <script>
+    var feedbackMail = document.getElementById("feedbackMail");
+    feedbackMail.setAttribute("href", "mailto:docs@brightcove.com?subject=question regarding " + encodeURI(document.location.href));
+  </script>
+</body>
+
+</html>

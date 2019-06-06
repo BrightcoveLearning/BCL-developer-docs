@@ -1,0 +1,4 @@
+var namespacecom_1_1ooyala_1_1android_1_1notifications =
+[
+    [ "BitrateChangedNotificationInfo", "classcom_1_1ooyala_1_1android_1_1notifications_1_1_bitrate_changed_notification_info.html", "classcom_1_1ooyala_1_1android_1_1notifications_1_1_bitrate_changed_notification_info" ]
+];

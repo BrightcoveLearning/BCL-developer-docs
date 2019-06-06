@@ -1,0 +1,3120 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Rights Locker API </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Rights Locker API API documentation</h1>
+<p>https://rl.ooyala.com/v2/</p>
+<h3 id="Description">
+<a href="#Description">Description</a>
+</h3>
+<p>Rights Locker (Warden) is the service we use for storing user specific data. We have a set of APIs that can be used to manage entitlements, devices, and concurrent streaming.</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pcode__pcode__account_id__account_id__limit__limit_" class="panel-title">/pcode/{pcode}/account_id/{account_id}/limit/{limit}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Modify concurrent streams {limit} for specific {account_id} of a provider identified by {pcode}</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pcode__pcode__account_id__account_id__limit__limit_">
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}/limit/{limit}</a>
+<span class="methods">
+<a href="#pcode__pcode__account_id__account_id__limit__limit__post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pcode__pcode__account_id__account_id__limit__limit_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__limit__limit__post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Modify Max Concurrent Streams limit for a User It will overwrite the current concurrent stream {limit} for a specific {account_id} of a provider identified by {pcode}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__limit__limit__post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}/limit/{limit}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Modify Max Concurrent Streams limit for a User It will overwrite the current concurrent stream {limit} for a specific {account_id} of a provider identified by {pcode}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__limit__limit__post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__limit__limit__post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__limit__limit__post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+<li>
+<strong>limit</strong>: <em>required (integer)</em>
+<p>Limit</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>3</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__limit__limit__post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>OK</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "OK"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "OK"
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "max_concurrent_streams limit should be a number"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "max_concurrent_streams limit should be a number"
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Internal Server Error</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "Read-only database"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "Read-only database"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pcode__pcode__account_id__account_id__limit" class="panel-title">/pcode/{pcode}/account_id/{account_id}/limit</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Remove Concurrent Stream limit for specific {account_id} of a provider identified by {pcode}</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pcode__pcode__account_id__account_id__limit">
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}/limit</a>
+<span class="methods">
+<a href="#pcode__pcode__account_id__account_id__limit_delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pcode__pcode__account_id__account_id__limit" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__limit_delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove Max Concurrent Streams limit for a User</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__limit_delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}/limit</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove Max Concurrent Streams limit for a User</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__limit_delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__limit_delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__limit_delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__limit_delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>OK</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "OK"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "OK"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pcode__pcode__account_id__account_id_" class="panel-title">/pcode/{pcode}/account_id/{account_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Create, retrieve, update and delete limits on categories for specific {account_id} of a provider identifed by {pcode}</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pcode__pcode__account_id__account_id_">
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}</a>
+<span class="methods">
+<a href="#pcode__pcode__account_id__account_id__post">
+<span class="badge badge_post">post</span>
+</a>
+<a href="#pcode__pcode__account_id__account_id__patch">
+<span class="badge badge_patch">patch</span>
+</a>
+<a href="#pcode__pcode__account_id__account_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#pcode__pcode__account_id__account_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pcode__pcode__account_id__account_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Set category limits for a User It will overwrite the categories associated with a specific {account_id} To edit the categories, use PATCH route To delete all limits, use DELETE route</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__patch'" class="list-group-item">
+<span class="badge badge_patch">patch</span>
+<div class="method_description">
+<p>Edit category limits for a User It will update the limits for existing categories of a specific {account_id} Any other categories not included will remain unchanged</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get category limits for a User It will retrieve the list of the limits for every category associated with a specific {account_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pcode__pcode__account_id__account_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Delete category limits for a User It will delete the categories associated with a specific {account_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Set category limits for a User It will overwrite the categories associated with a specific {account_id} To edit the categories, use PATCH route To delete all limits, use DELETE route</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "users": {
+        "$id": "/properties/users",
+        "type": "array",
+        "items": {
+          "$id": "/properties/users/items",
+          "type": "string",
+          "title": "categories",
+          "default": "",
+          "examples": [
+            "cat1",
+            "cat2",
+            "cat3"
+          ]
+        }
+      }
+    }
+  }</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "categories": [
+        "cat1",
+        "cat2",
+        "cat3"
+    ]
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "OK"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "OK"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__patch">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_patch">patch</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Edit category limits for a User It will update the limits for existing categories of a specific {account_id} Any other categories not included will remain unchanged</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__patch_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__patch_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__patch_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "users": {
+        "$id": "/properties/users",
+        "type": "array",
+        "items": {
+          "$id": "/properties/users/items",
+          "type": "string",
+          "title": "categories",
+          "default": "",
+          "examples": [
+            "cat1",
+            "cat2",
+            "cat3"
+          ]
+        }
+      }
+    }
+  }</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "categories": [
+        "cat1",
+        "cat2",
+        "cat3"
+    ]
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__patch_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "OK"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "OK"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get category limits for a User It will retrieve the list of the limits for every category associated with a specific {account_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "users": {
+        "$id": "/properties/users",
+        "type": "array",
+        "items": {
+          "$id": "/properties/users/items",
+          "type": "string",
+          "title": "categories",
+          "default": "",
+          "examples": [
+            "cat1",
+            "cat2",
+            "cat3"
+          ]
+        }
+      }
+    }
+  }</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "categories": [
+        "cat1",
+        "cat2",
+        "cat3"
+    ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pcode__pcode__account_id__account_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/pcode/{pcode}/account_id/{account_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Delete category limits for a User It will delete the categories associated with a specific {account_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pcode__pcode__account_id__account_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pcode__pcode__account_id__account_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>testAccount</pre>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>199999</pre>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "users": {
+        "$id": "/properties/users",
+        "type": "array",
+        "items": {
+          "$id": "/properties/users/items",
+          "type": "string",
+          "title": "categories",
+          "default": "",
+          "examples": [
+            "cat1",
+            "cat2",
+            "cat3"
+          ]
+        }
+      }
+    }
+  }</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "categories": [
+        "cat1",
+        "cat2",
+        "cat3"
+    ]
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pcode__pcode__account_id__account_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message",
+            "default": "",
+            "examples": [
+                "OK"
+            ]
+        }
+    }
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "message": "OK"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__accounts__account_id__content" class="panel-title">/providers/{pcode}/accounts/{account_id}/content</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Interact with specific {account_id} entitlements</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__accounts__account_id__content">
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content</a>
+<span class="methods">
+<a href="#providers__pcode__accounts__account_id__content_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_delete">
+<span class="badge badge_delete">delete</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__accounts__account_id__content" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get all entitlements for a specific {account_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove all {account_id} entitlements</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Create an entitlement with identifiers for labels and publishing rules in the POST body. If the unique combination of {label_id}, {user_id} and {external_product_id} matches an existing entitlement, it will be updated.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get all entitlements for a specific {account_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "pcode": {
+      "$id": "/properties/pcode",
+      "type": "string",
+      "title": "Pcode",
+      "default": "",
+      "examples": [
+        "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm"
+      ]
+    },
+    "account_id": {
+      "$id": "/properties/account_id",
+      "type": "string",
+      "title": "Account_id",
+      "default": "",
+      "examples": [
+        "accessTest"
+      ]
+    },
+    "content": {
+      "$id": "/properties/content",
+      "type": "object",
+      "properties": {
+        "assets": {
+          "$id": "/properties/content/properties/assets",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/assets/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/assets/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "123"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/assets/items/properties/updated_at",
+                "type": "string",
+                "title": "Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-03T19:40:51+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/assets/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/assets/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "123"
+                ]
+              }
+            }
+          }
+        },
+        "assets_offline": {
+          "$id": "/properties/content/properties/assets_offline",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/assets_offline/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "assetOffline"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/updated_at",
+                "type": "string",
+                "title": "Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-09T14:40:09+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        },
+        "labels": {
+          "$id": "/properties/content/properties/labels",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/labels/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/labels/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "labelTest"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/labels/items/properties/updated_at",
+                "type": "string",
+                "title": " Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-09T12:09:13+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/labels/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/labels/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        },
+        "labels_offline": {
+          "$id": "/properties/content/properties/labels_offline",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/labels_offline/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "labelOffline"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/updated_at",
+                "type": "string",
+                "title": "Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-09T12:56:53+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "pcode": "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm",
+  "account_id": "accessTest",
+  "content": {
+      "assets": [
+          {
+              "content_id": "123",
+              "updated_at": "2018-07-03T19:40:51+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "123"
+          },
+          {
+              "content_id": "hwb21vZjE6qeQ2eAWts1YwWGKPojdhTA",
+              "updated_at": "2018-07-03T17:14:54+00:00",
+              "publishing_rule_id": "160bb50dcdd04faa8ddee0db68516a81",
+              "external_product_id": "default",
+              "num_devices_to_bind": 2
+          },
+          {
+              "content_id": "newAsset",
+              "updated_at": "2018-07-09T14:56:20+00:00",
+              "publishing_rule_id": "publishing_rule",
+              "external_product_id": "default",
+              "start_time": "2018-06-09T09:40:35+00:00",
+              "end_time": "2020-06-09T09:40:35+00:00"
+          },
+          {
+              "content_id": "UwODEzYjE6C0MFx3rEfkl_QQ3_wbdlGG",
+              "updated_at": "2018-04-19T17:24:13+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "defult",
+              "num_devices_to_bind": 1
+          }
+      ],
+      "assets_offline": [
+          {
+              "content_id": "assetOffline",
+              "updated_at": "2018-07-09T14:40:09+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ],
+      "labels": [
+          {
+              "content_id": "labelTest",
+              "updated_at": "2018-07-09T12:09:13+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ],
+      "labels_offline": [
+          {
+              "content_id": "labelOffline",
+              "updated_at": "2018-07-09T12:56:53+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ]
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove all {account_id} entitlements</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Create an entitlement with identifiers for labels and publishing rules in the POST body. If the unique combination of {label_id}, {user_id} and {external_product_id} matches an existing entitlement, it will be updated.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+  "assets":[  
+      {  
+          "content_id":"newAsset",
+          "publishing_rule_id":"publishing_rule",
+          "external_product_id":"default",
+          "start_time":"2018-06-9T09:40:35+00:00",
+          "end_time":"2020-06-9T09:40:35+00:00"
+      }
+  ] 
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id_" class="panel-title">/providers/{pcode}/accounts/{account_id}/content/assets/{asset_id}/external_products/{external_product_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Interact with specific {asset_id} entitlements</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id_">
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets/{asset_id}/external_products/{external_product_id}</a>
+<span class="methods">
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get entitlements for a specific {asset_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove {account_id} entitlements to content identified by {asset_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets/{asset_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get entitlements for a specific {asset_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>asset_id</strong>: <em>required (string)</em>
+<p>Asset ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>rsda8XoRTy0esRlgCxqjGZ3vFcWgXa0l</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "pcode": "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm",
+  "account_id": "accessTest",
+  "content": {
+      "assets": [
+          {
+              "content_id": "hwb21vZjE6qeQ2eAWts1YwWGKPojdhTA",
+              "updated_at": "2018-07-03T17:14:54+00:00",
+              "publishing_rule_id": "160bb50dcdd04faa8ddee0db68516a81",
+              "external_product_id": "default",
+              "num_devices_to_bind": 2
+          }
+      ]
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets/{asset_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove {account_id} entitlements to content identified by {asset_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>asset_id</strong>: <em>required (string)</em>
+<p>Asset ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>rsda8XoRTy0esRlgCxqjGZ3vFcWgXa0l</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id_" class="panel-title">/providers/{pcode}/accounts/{account_id}/content/labels/{label_id}/external_products/{external_product_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Interact with specific {label_id} entitlements</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id_">
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels/{label_id}/external_products/{external_product_id}</a>
+<span class="methods">
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get entitlements for a specific {label_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove {account_id} entitlements to content identified by {label_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels/{label_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get entitlements for a specific {label_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>label_id</strong>: <em>required (string)</em>
+<p>Label ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>labelTest</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "pcode": {
+      "$id": "/properties/pcode",
+      "type": "string",
+      "title": "Pcode",
+      "default": "",
+      "examples": [
+        "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm"
+      ]
+    },
+    "account_id": {
+      "$id": "/properties/account_id",
+      "type": "string",
+      "title": "Account_id",
+      "default": "",
+      "examples": [
+        "accessTest"
+      ]
+    },
+    "content": {
+      "$id": "/properties/content",
+      "type": "object",
+      "properties": {
+        "labels": {
+          "$id": "/properties/content/properties/labels",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/labels/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/labels/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "labelTest"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/labels/items/properties/updated_at",
+                "type": "string",
+                "title": "Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-09T12:09:13+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/labels/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/labels/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "pcode": "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm",
+  "account_id": "accessTest",
+  "content": {
+      "labels": [
+          {
+              "content_id": "labelTest",
+              "updated_at": "2018-07-09T12:09:13+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ]
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels/{label_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove {account_id} entitlements to content identified by {label_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>label_id</strong>: <em>required (string)</em>
+<p>Label ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>labelTest</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id_" class="panel-title">/providers/{pcode}/accounts/{account_id}/content/assets_offline/{asset_id}/external_products/{external_product_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Interact with specific offline {asset_id} entitlements</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id_">
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets_offline/{asset_id}/external_products/{external_product_id}</a>
+<span class="methods">
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get entitlements for a specific offline {asset_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove {account_id} entitlements to content identified by offline {asset_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets_offline/{asset_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get entitlements for a specific offline {asset_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>asset_id</strong>: <em>required (string)</em>
+<p>Offline Asset ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>assetOffline</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "pcode": {
+      "$id": "/properties/pcode",
+      "type": "string",
+      "title": "Pcode",
+      "default": "",
+      "examples": [
+        "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm"
+      ]
+    },
+    "account_id": {
+      "$id": "/properties/account_id",
+      "type": "string",
+      "title": "Account_id",
+      "default": "",
+      "examples": [
+        "accessTest"
+      ]
+    },
+    "content": {
+      "$id": "/properties/content",
+      "type": "object",
+      "properties": {
+        "assets_offline": {
+          "$id": "/properties/content/properties/assets_offline",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/assets_offline/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/content_id",
+                "type": "string",
+                "title": "Content_id",
+                "default": "",
+                "examples": [
+                  "assetOffline"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/updated_at",
+                "type": "string",
+                "title": "Updated_at",
+                "default": "",
+                "examples": [
+                  "2018-07-09T14:40:09+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "Publishing_rule_id",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/assets_offline/items/properties/external_product_id",
+                "type": "string",
+                "title": "External_product_id",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "pcode": "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm",
+  "account_id": "accessTest",
+  "content": {
+      "assets_offline": [
+          {
+              "content_id": "assetOffline",
+              "updated_at": "2018-07-09T14:40:09+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ]
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/assets_offline/{asset_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove {account_id} entitlements to content identified by offline {asset_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>asset_id</strong>: <em>required (string)</em>
+<p>Offline Asset ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>assetOffline</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id_" class="panel-title">/providers/{pcode}/accounts/{account_id}/content/labels_offline/{label_id}/external_products/{external_product_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Interact with specific offline {label_id} entitlements</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id_">
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels_offline/{label_id}/external_products/{external_product_id}</a>
+<span class="methods">
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get entitlements for a specific offline {label_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove {account_id} entitlements to content identified by offline {label_id}</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels_offline/{label_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get entitlements for a specific offline {label_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>label_id</strong>: <em>required (string)</em>
+<p>Offline Label ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>labelOffline</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "pcode": {
+      "$id": "/properties/pcode",
+      "type": "string",
+      "title": "The Pcode Schema ",
+      "default": "",
+      "examples": [
+        "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm"
+      ]
+    },
+    "account_id": {
+      "$id": "/properties/account_id",
+      "type": "string",
+      "title": "The Account_id Schema ",
+      "default": "",
+      "examples": [
+        "accessTest"
+      ]
+    },
+    "content": {
+      "$id": "/properties/content",
+      "type": "object",
+      "properties": {
+        "labels_offline": {
+          "$id": "/properties/content/properties/labels_offline",
+          "type": "array",
+          "items": {
+            "$id": "/properties/content/properties/labels_offline/items",
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/content_id",
+                "type": "string",
+                "title": "The Content_id Schema ",
+                "default": "",
+                "examples": [
+                  "labelOffline"
+                ]
+              },
+              "updated_at": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/updated_at",
+                "type": "string",
+                "title": "The Updated_at Schema ",
+                "default": "",
+                "examples": [
+                  "2018-07-09T12:56:53+00:00"
+                ]
+              },
+              "publishing_rule_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/publishing_rule_id",
+                "type": "null",
+                "title": "The Publishing_rule_id Schema ",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "external_product_id": {
+                "$id": "/properties/content/properties/labels_offline/items/properties/external_product_id",
+                "type": "string",
+                "title": "The External_product_id Schema ",
+                "default": "",
+                "examples": [
+                  "default"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "pcode": "EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm",
+  "account_id": "accessTest",
+  "content": {
+      "labels_offline": [
+          {
+              "content_id": "labelOffline",
+              "updated_at": "2018-07-09T12:56:53+00:00",
+              "publishing_rule_id": null,
+              "external_product_id": "default"
+          }
+      ]
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">
+</span>/providers/{pcode}/accounts/{account_id}/content/labels_offline/{label_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove {account_id} entitlements to content identified by offline {label_id}</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>account_id</strong>: <em>required (string)</em>
+<p>Account ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>accessTest</pre>
+</li>
+<li>
+<strong>label_id</strong>: <em>required (string)</em>
+<p>Offline Label ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>labelOffline</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="providers__pcode__users__content_type___content_id__external_products__external_product_id_" class="panel-title">/providers/{pcode}/users/{content_type}/{content_id}/external_products/{external_product_id}</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Get a list of users for an entitlement</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_providers__pcode__users__content_type___content_id__external_products__external_product_id_">
+<span class="parent">
+</span>/providers/{pcode}/users/{content_type}/{content_id}/external_products/{external_product_id}</a>
+<span class="methods">
+<a href="#providers__pcode__users__content_type___content_id__external_products__external_product_id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_providers__pcode__users__content_type___content_id__external_products__external_product_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#providers__pcode__users__content_type___content_id__external_products__external_product_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get a list of users for an entitlement</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="providers__pcode__users__content_type___content_id__external_products__external_product_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/providers/{pcode}/users/{content_type}/{content_id}/external_products/{external_product_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get a list of users for an entitlement</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#providers__pcode__users__content_type___content_id__external_products__external_product_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#providers__pcode__users__content_type___content_id__external_products__external_product_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="providers__pcode__users__content_type___content_id__external_products__external_product_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider Code</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm</pre>
+</li>
+<li>
+<strong>content_type</strong>: <em>required (string)</em>
+<p>Content Type (asset, assets_offline, label, label_offline, offer or offer_offline)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>asset</pre>
+</li>
+<li>
+<strong>content_id</strong>: <em>required (string)</em>
+<p>Content ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>hwb21vZjE6qeQ2eAWts1YwWGKPojdhTA</pre>
+</li>
+<li>
+<strong>external_product_id</strong>: <em>required (string)</em>
+<p>External Product ID</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>default</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>(string)</em>
+<p>API Key (optional)</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>EQp0X8uhDsFAPpkzXXqQwoKS32cd9zAm4rCv</pre>
+</li>
+<li>
+<strong>last_shard</strong>: <em>(integer)</em>
+<p>The unique identifier of the last shard visited (optional) If the number of qualified users exceeds 1000, pagination occurs In this case the response will contain not only users, but also {last_shard} and {last_id} You can append these two parameters to the GET request url to retrieve the next 1000 users</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>1</code>
+</pre>
+</li>
+<li>
+<strong>last_id</strong>: <em>(string)</em>
+<p>The last user id in the previous response (optional) If the number of qualified users exceeds 1000, pagination occurs In this case the response will contain not only users, but also {last_shard} and {last_id} You can append these two parameters to the GET request url to retrieve the next 1000 users</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>109812</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="providers__pcode__users__content_type___content_id__external_products__external_product_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "users": {
+      "$id": "/properties/users",
+      "type": "array",
+      "items": {
+        "$id": "/properties/users/items",
+        "type": "string",
+        "title": "Users",
+        "default": "",
+        "examples": [
+          "accessTest"
+        ]
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "users": [
+        "accessTest"
+    ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Unauthorized api_key</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#pcode__pcode__account_id__account_id__limit__limit_">/pcode/{pcode}/account_id/{account_id}/limit/{limit}</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id__limit">/pcode/{pcode}/account_id/{account_id}/limit</a>
+</li>
+<li>
+<a href="#pcode__pcode__account_id__account_id_">/pcode/{pcode}/account_id/{account_id}</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content">/providers/{pcode}/accounts/{account_id}/content</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets__asset_id__external_products__external_product_id_">/providers/{pcode}/accounts/{account_id}/content/assets/{asset_id}/external_products/{external_product_id}</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels__label_id__external_products__external_product_id_">/providers/{pcode}/accounts/{account_id}/content/labels/{label_id}/external_products/{external_product_id}</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_assets_offline__asset_id__external_products__external_product_id_">/providers/{pcode}/accounts/{account_id}/content/assets_offline/{asset_id}/external_products/{external_product_id}</a>
+</li>
+<li>
+<a href="#providers__pcode__accounts__account_id__content_labels_offline__label_id__external_products__external_product_id_">/providers/{pcode}/accounts/{account_id}/content/labels_offline/{label_id}/external_products/{external_product_id}</a>
+</li>
+<li>
+<a href="#providers__pcode__users__content_type___content_id__external_products__external_product_id_">/providers/{pcode}/users/{content_type}/{content_id}/external_products/{external_product_id}</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

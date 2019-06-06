@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Timezones</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Timezones</h2>
+
+<p>
+	The following is a reference table of timezones for use with the <a href="index.html#v2_providers_get">providers</a> resource in the <a href="index.html">Backlot API</a>.
+	The first column gives the name of the timezone, the second column is a longer description, the third column gives the offset in minutes from UTC during &quot;standard time&quot;, and the fourth column gives the offset in minutes from UTC during &quot;daylight time&quot;.
+</p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Time+Zones" class="panel-title">Timezones</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="timezoneTable">
+			  <tr>
+			    <th align="left">Name</th>
+			    <th align="left">Description</th>
+			    <th align="left">Standard Time&nbsp;&nbsp;</th>
+			    <th align="left">Daylight Time&nbsp;&nbsp;</th>
+			  </tr>
+			  <tr>
+			    <td>GMT&nbsp;&nbsp;</td><td>GMT&nbsp;&nbsp;</td><td>0&nbsp;&nbsp;</td><td>0&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Europe/London&nbsp;&nbsp;</td><td>UK Time&nbsp;&nbsp;</td><td>0&nbsp;&nbsp;</td><td>100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Europe/Lisbon&nbsp;&nbsp;</td><td>Western European Time (WET)&nbsp;&nbsp;</td><td>0&nbsp;&nbsp;</td><td>100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>CET&nbsp;&nbsp;</td><td>Central European Time (CET)&nbsp;&nbsp;</td><td>100&nbsp;&nbsp;</td><td>200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>EET&nbsp;&nbsp;</td><td>Eastern European Time (EET)&nbsp;&nbsp;</td><td>200&nbsp;&nbsp;</td><td>300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Qatar&nbsp;&nbsp;</td><td>Arabia Standard Time&nbsp;&nbsp;</td><td>300&nbsp;&nbsp;</td><td>300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Europe/Moscow&nbsp;&nbsp;</td><td>Moscow Standard Time&nbsp;&nbsp;</td><td>300&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Tehran&nbsp;&nbsp;</td><td>Iran Standard Time&nbsp;&nbsp;</td><td>330&nbsp;&nbsp;</td><td>430&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Dubai&nbsp;&nbsp;</td><td>Gulf Standard Time&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Europe/Samara&nbsp;&nbsp;</td><td>Samara Time&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td><td>500&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Indian/Mahe&nbsp;&nbsp;</td><td>Seychelles Time&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td><td>400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Kabul&nbsp;&nbsp;</td><td>Afghanistan Time&nbsp;&nbsp;</td><td>430&nbsp;&nbsp;</td><td>430&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Yekaterinburg&nbsp;&nbsp;</td><td>Yekaterinburg Time&nbsp;&nbsp;</td><td>500&nbsp;&nbsp;</td><td>600&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>PLT&nbsp;&nbsp;</td><td>Pakistan Time&nbsp;&nbsp;</td><td>500&nbsp;&nbsp;</td><td>500&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>IST&nbsp;&nbsp;</td><td>India Standard Time&nbsp;&nbsp;</td><td>530&nbsp;&nbsp;</td><td>530&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Katmandu&nbsp;&nbsp;</td><td>Nepal Time&nbsp;&nbsp;</td><td>545&nbsp;&nbsp;</td><td>545&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Novosibirsk&nbsp;&nbsp;</td><td>Novosibirsk Time&nbsp;&nbsp;</td><td>600&nbsp;&nbsp;</td><td>700&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>BST&nbsp;&nbsp;</td><td>Bangladesh Time&nbsp;&nbsp;</td><td>600&nbsp;&nbsp;</td><td>600&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Indian/Cocos&nbsp;&nbsp;</td><td>Cocos Islands Time&nbsp;&nbsp;</td><td>630&nbsp;&nbsp;</td><td>730&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Krasnoyarsk&nbsp;&nbsp;</td><td>Krasnoyarsk Time&nbsp;&nbsp;</td><td>700&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>VST&nbsp;&nbsp;</td><td>Indochina Time&nbsp;&nbsp;</td><td>700&nbsp;&nbsp;</td><td>700&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Irkutsk&nbsp;&nbsp;</td><td>Irkutsk Time&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td><td>900&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>CTT&nbsp;&nbsp;</td><td>China Standard Time&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Australia/West&nbsp;&nbsp;</td><td>Western Standard Time (Australia)&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td><td>800&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Australia/Eucla&nbsp;&nbsp;</td><td>Central Western Standard Time (Australia)&nbsp;&nbsp;</td><td>845&nbsp;&nbsp;</td><td>845&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Yakutsk&nbsp;&nbsp;</td><td>Yakutsk Standard Time&nbsp;&nbsp;</td><td>900&nbsp;&nbsp;</td><td>1000&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>JST&nbsp;&nbsp;</td><td>Japan Standard Time&nbsp;&nbsp;</td><td>900&nbsp;&nbsp;</td><td>900&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>ACT&nbsp;&nbsp;</td><td>Central Standard Time (Australia Northern Territory)&nbsp;&nbsp;</td><td>930&nbsp;&nbsp;</td><td>930&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Australia/Adelaide&nbsp;&nbsp;</td><td>Central Standard Time (South Australia)&nbsp;&nbsp;</td><td>930&nbsp;&nbsp;</td><td>1030&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>AET&nbsp;&nbsp;</td><td>Eastern Standard Time (New South Wales)&nbsp;&nbsp;</td><td>1000&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Vladivostok&nbsp;&nbsp;</td><td>Vladivostok Time&nbsp;&nbsp;</td><td>1000&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Australia/Queensland&nbsp;&nbsp;</td><td>Eastern Standard Time (Queensland)&nbsp;&nbsp;</td><td>1000&nbsp;&nbsp;</td><td>1000&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Australia/LHI&nbsp;&nbsp;</td><td>Lord Howe Standard Time&nbsp;&nbsp;</td><td>1030&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Magadan&nbsp;&nbsp;</td><td>Magadan Time&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td><td>1200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>SST&nbsp;&nbsp;</td><td>Solomon Is. Time&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td><td>1100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Norfolk&nbsp;&nbsp;</td><td>Norfolk Time&nbsp;&nbsp;</td><td>1130&nbsp;&nbsp;</td><td>1130&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Asia/Kamchatka&nbsp;&nbsp;</td><td>Petropavlovsk-Kamchatski Time&nbsp;&nbsp;</td><td>1200&nbsp;&nbsp;</td><td>1300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>NST&nbsp;&nbsp;</td><td>New Zealand Standard Time&nbsp;&nbsp;</td><td>1200&nbsp;&nbsp;</td><td>1300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Fiji&nbsp;&nbsp;</td><td>Fiji Time&nbsp;&nbsp;</td><td>1200&nbsp;&nbsp;</td><td>1200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>NZ-CHAT&nbsp;&nbsp;</td><td>Chatham Standard Time&nbsp;&nbsp;</td><td>1245&nbsp;&nbsp;</td><td>1345&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Enderbury&nbsp;&nbsp;</td><td>Phoenix Is. Time&nbsp;&nbsp;</td><td>1300&nbsp;&nbsp;</td><td>1300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Kiritimati&nbsp;&nbsp;</td><td>Line Is. Time&nbsp;&nbsp;</td><td>1400&nbsp;&nbsp;</td><td>1400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Atlantic/Azores&nbsp;&nbsp;</td><td>Azores Time&nbsp;&nbsp;</td><td>-100&nbsp;&nbsp;</td><td>0&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Atlantic/Cape_Verde&nbsp;&nbsp;</td><td>Cape Verde Time&nbsp;&nbsp;</td><td>-100&nbsp;&nbsp;</td><td>-100&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>America/Noronha&nbsp;&nbsp;</td><td> Fernando de Noronha Time&nbsp;&nbsp;</td><td>-200&nbsp;&nbsp;</td><td>-200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>BET&nbsp;&nbsp;</td><td>Brasilia Time&nbsp;&nbsp;</td><td>-300&nbsp;&nbsp;</td><td>-200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>America/Cayenne&nbsp;&nbsp;</td><td>French Guiana Time&nbsp;&nbsp;</td><td>-300&nbsp;&nbsp;</td><td>-300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>AGT&nbsp;&nbsp;</td><td>Argentine Time&nbsp;&nbsp;</td><td>-300&nbsp;&nbsp;</td><td>-200&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>CNT&nbsp;&nbsp;</td><td>Newfoundland Standard Time&nbsp;&nbsp;</td><td>-330&nbsp;&nbsp;</td><td>-230&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>PRT&nbsp;&nbsp;</td><td>Atlantic Standard Time&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Chile/Continental&nbsp;&nbsp;</td><td>Chile Time&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td><td>-300&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Brazil/West&nbsp;&nbsp;</td><td>Amazon Time&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>America/Caracas&nbsp;&nbsp;</td><td>Venezuela Time&nbsp;&nbsp;</td><td>-430&nbsp;&nbsp;</td><td>-430&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Eastern&nbsp;&nbsp;</td><td>Eastern Standard Time&nbsp;&nbsp;</td><td>-500&nbsp;&nbsp;</td><td>-400&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Jamaica&nbsp;&nbsp;</td><td>Jamaica Time&nbsp;&nbsp;</td><td>-500&nbsp;&nbsp;</td><td>-500&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Central&nbsp;&nbsp;</td><td>Central Standard Time&nbsp;&nbsp;</td><td>-600&nbsp;&nbsp;</td><td>-500&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Galapagos&nbsp;&nbsp;</td><td>Galapagos Time&nbsp;&nbsp;</td><td>-600&nbsp;&nbsp;</td><td>-600&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Mountain&nbsp;&nbsp;</td><td>Mountain Standard Time&nbsp;&nbsp;</td><td>-700&nbsp;&nbsp;</td><td>-600&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Arizona&nbsp;&nbsp;</td><td>Mountain Standard Time (Arizona)&nbsp;&nbsp;</td><td>-700&nbsp;&nbsp;</td><td>-700&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Pacific&nbsp;&nbsp;</td><td>Pacific Standard Time&nbsp;&nbsp;</td><td>-800&nbsp;&nbsp;</td><td>-700&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Pitcairn&nbsp;&nbsp;</td><td>Pitcairn Standard Time&nbsp;&nbsp;</td><td>-800&nbsp;&nbsp;</td><td>-800&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Alaska&nbsp;&nbsp;</td><td>Alaska Standard Time&nbsp;&nbsp;</td><td>-900&nbsp;&nbsp;</td><td>-800&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Gambier&nbsp;&nbsp;</td><td>Gambier Time&nbsp;&nbsp;</td><td>-900&nbsp;&nbsp;</td><td>-900&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>Pacific/Marquesas&nbsp;&nbsp;</td><td>Marquesas Time&nbsp;&nbsp;</td><td>-930&nbsp;&nbsp;</td><td>-930&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Hawaii&nbsp;&nbsp;</td><td>Hawaii Standard Time&nbsp;&nbsp;</td><td>-1000&nbsp;&nbsp;</td><td>-1000&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Aleutian&nbsp;&nbsp;</td><td>Hawaii-Aleutian Standard Time&nbsp;&nbsp;</td><td>-1000&nbsp;&nbsp;</td><td>-900&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>US/Samoa&nbsp;&nbsp;</td><td>Samoa Standard Time&nbsp;&nbsp;</td><td>-1100&nbsp;&nbsp;</td><td>-1100&nbsp;&nbsp;</td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

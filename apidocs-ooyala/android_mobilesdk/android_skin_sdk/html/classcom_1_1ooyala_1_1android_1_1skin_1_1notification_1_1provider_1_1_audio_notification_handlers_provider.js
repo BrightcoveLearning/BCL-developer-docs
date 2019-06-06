@@ -1,0 +1,5 @@
+var classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_audio_notification_handlers_provider =
+[
+    [ "AudioNotificationHandlersProvider", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_audio_notification_handlers_provider.html#aa000c318aebb9e67105c66262b59150f", null ],
+    [ "get", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_audio_notification_handlers_provider.html#a705989eba599d9d9369b1c39acae8ad4", null ]
+];

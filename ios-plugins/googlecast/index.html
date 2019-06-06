@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Brightcove Native Player for iOS Reference</title>
+
+	<link rel="stylesheet" href="css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="index.html">Brightcove Native Player for iOS </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="index.html">Brightcove</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="hierarchy.html">Hierarchy</a></li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview-contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">Brightcove Native Player for iOS Reference</h1>
+
+					
+					<div class="section section-overview index-overview">
+						
+						
+						<h1>Google Cast Plugin for Brightcove Player SDK for iOS, version 6.4.3.616</h1>
+
+<h1>Supported Platforms</h1>
+
+<p>iOS 10.0 and above.</p>
+
+<h1>Installation</h1>
+
+<p>The Google Cast Plugin for Brightcove Player SDK provides a static library framework for installation.</p>
+
+<p>The Google Cast plugin supports version 4.3.3 of the Google Cast SDK for iOS. The Podspec for the Google Cast Plugin for Brightcove Player SDK for iOS references version 4.3.3 of the Google Cast iOS SDK as instructed by the <a href="https://developers.google.com/cast/docs/release-notes#october-22-2018">GoogleCast SDK Release Notes</a>.</p>
+
+<h2>CocoaPods</h2>
+
+<p>You can use <a href="http://cocoapods.org">CocoaPods</a> to add the Google Cast Plugin for Brightcove Player SDK to your project.  You can find the latest <code>Brightcove-Player-GoogleCast</code> podspec <a href="https://github.com/brightcove/BrightcoveSpecs/tree/master/Brightcove-Player-GoogleCast">here</a>. The pod will incorporate the correct version of GoogleCast automatically. CocoaPods 1.0 or newer is required.</p>
+
+<p>CocoaPod Podfile example:</p>
+
+<pre><code>source 'https://github.com/brightcove/BrightcoveSpecs.git'
+source 'https://github.com/CocoaPods/Specs'
+
+platform :ios, '10.0'
+
+use_frameworks!
+
+target 'ExampleApp' do
+    pod 'Brightcove-Player-GoogleCast'
+end
+</code></pre>
+
+<p>When updating your installation, it&rsquo;s a good idea to refresh the local copy of your BrightcoveSpecs repository so that you have the latest podspecs locally, just like you would update your CococaPods master repository.</p>
+
+<p>Typically if you use <code>pod update</code> in Terminal this will happen automatically, or alternatively you can update explicitly with <code>pod repo update brightcove</code>. (Your BrightcoveSpecs repository may have a different name if you explicitly added it to your list of podspecs repos.)</p>
+
+<h2>Manual</h2>
+
+<p>To add the Google Cast Plugin for Brightcove Player SDK to your project manually:</p>
+
+<ol>
+<li>Follow the <a href="https://developers.google.com/cast/docs/ios_sender/#google_cast_sdk">Google Cast SDK Manual Setup</a> guide.</li>
+<li>Follow the <a href="https://github.com/brightcove/brightcove-player-sdk-ios#ManualInstallation">Brightcove Player SDK Manual Installation</a> guide.</li>
+<li>Download the <a href="https://github.com/brightcove/brightcove-player-sdk-ios-googlecast">Google Cast Plugin for Brightcove Player SDK</a> framework.</li>
+<li>On the &ldquo;General&rdquo; tab of your application target, add BrightcoveGoogleCast.framework from the Google Cast Plugin for Brightcove Player SDK download to the list of <strong>Embedded Binaries</strong>.</li>
+<li>On the &ldquo;Build Settings&rdquo; tab of your application target, ensure that the &ldquo;Framework Search Paths&rdquo; include the paths to the frameworks. This should have been done automatically unless the framework is stored under a different root directory than your project.</li>
+</ol>
+
+
+<h2>Imports</h2>
+
+<p>The Google Cast Plugin for Brightcove Player SDK can be imported into code a few different ways; <code>@import BrightcoveGoogleCast;</code>, <code>#import &lt;BrightcoveGoogleCast/BrightcoveGoogleCast.h&gt;</code> or <code>#import &lt;BrightcoveGoogleCast/[specific class].h&gt;</code>. You can import the <code>GoogleCast</code> and <code>BrightcovePlayerSDK</code> modules in similar fashion.</p>
+
+<h1>Before You Begin</h1>
+
+<p>Before attempting to utilize this plugin you should already be familiar with the following:</p>
+
+<ul>
+<li><a href="https://developers.google.com/cast/docs/registration">Register your application</a>. This will walk you through creating your reciever application and grant you an application ID. Starting out you can use the demo application ID &lsquo;4F8B3483&rsquo;.</li>
+<li><a href="https://developers.google.com/cast/docs/ios_sender">Setup for Developing with the Cast Application Framework (CAF) for iOS </a>. This will walk you through setting up the necessary entitlements for your app.</li>
+<li><a href="https://developers.google.com/cast/docs/ios_sender/integrate#initialize_the_cast_context">Initialze the Cast Context</a>. This will walk you through initializing the Cast Context with your receiver application ID.</li>
+<li><a href="https://developers.google.com/cast/docs/ios_sender/integrate#add_mini_controllers">Add Mini Controllers</a>. This will walk you through how to take advantage of the Google Cast SDK&rsquo;s mini media controls.</li>
+</ul>
+
+
+<h1>Quick Start</h1>
+
+<p>The BrightcoveGoogleCast plugin is a bridge between <a href="https://developers.google.com/cast/docs/ios_sender/">Google Cast iOS SDK</a> and the <a href="https://github.com/brightcove/brightcove-player-sdk-ios">Brightcove Player SDK for iOS</a>.</p>
+
+<p>This snippet shows its basic usage.
+```
+    [1] BCOVGoogleCastManager *castManager = [BCOVGoogleCastManager sharedManager];</p>
+
+<pre><code>[2] id&lt;BCOVPlaybackController&gt; playbackController = [BCOVPlayerSDKManager.sharedManager createPlaybackController];
+
+[3] [playbackController addSessionConsumer:self.castManager];
+</code></pre>
+
+<pre><code>
+Breaking the code down into steps:
+
+1. Create a reference to the BCOVGoogleCastManager singleton.
+1. Create an instance of BCOVPlaybackController to use.
+1. Add your BCOVGoogleCastManager reference as a session consumer to your BCOVPlaybackController instance.
+
+If you have questions or need help, we have a support forum for Brightcove's native Player SDKs at [https://groups.google.com/forum/#!forum/brightcove-native-player-sdks][forum] .
+
+Delegate Methods
+==========
+BCOVGoogleCastManagerDelegate has four delegate methods that you can use to know when major casting-related events have occured. These are:
+
+* `- (void)switchedToLocalPlayback:(NSTimeInterval)lastKnownStreamPosition` is called when a cast session ends.
+* `- (void)switchedToRemotePlayback` is called when a cast session starts.
+* `- (void)currentCastedVideoDidComplete` is called when a casted video has finished playing.
+* `- (void)suitableSourceNotFound` is called when no suitable source is found to cast.
+
+To take advantage of these events, simply set a delegate on the BCOVGoogleCastManager singleton. 
+</code></pre>
+
+<pre><code>[BCOVGoogleCastManager sharedManager].delegate = self;
+</code></pre>
+
+<p>```</p>
+
+<h1>Source Selection</h1>
+
+<p>The <a href="Classes/BCOVGoogleCastManager.html">BCOVGoogleCastManager</a> will attempt to find a suitable source to use. It will look for sources in this order:</p>
+
+<ol>
+<li>HTTPS HLS v3</li>
+<li>HTTPS DASH</li>
+<li>HTTPS MP4</li>
+<li>HTTP HLS v3</li>
+<li>HTTP DASH</li>
+<li>HTTP MP4</li>
+</ol>
+
+
+<p>If none of these are found, the delegate method <code>suitableSourceNotFound</code> will be called.</p>
+
+<p>Your Video Cloud account will need to be set up to support HLS v3, ensure that DASH is enabled or have an MP4 source available for each video.</p>
+
+<h1>Customizations</h1>
+
+<p>There are two properties, in addition to the delegate property, that you can set on the <a href="Classes/BCOVGoogleCastManager.html">BCOVGoogleCastManager</a> class. These are:</p>
+
+<ul>
+<li><code>GCKImage *fallbackPosterImage</code>: The GCKImage that will be used when there is no poster image available for a video.</li>
+<li><code>CGSize posterImageSize</code>: The height and width that you want to use for the GCKImage object image that is created. Defaults to 480h x 720w.</li>
+</ul>
+
+
+<h1>Misc</h1>
+
+<ul>
+<li>DRM is not supported when using the Cast plugin with the Google sample receiver app.</li>
+<li>Multiple Audio Tracks are not supported when using the Cast plugin with the Google sample receiver app.</li>
+<li>Client-side and Server-side Advertising is not supported when using the Cast plugin with the Google sample receiver app.</li>
+<li>Live and Live DVR streams are not supported when using the Cast plugin with the Google sample receiver app.</li>
+</ul>
+
+						
+						
+					</div>
+					
+
+					<div class="index-container">
+						
+
+						
+						<div class="index-column">
+							<h2 class="index-title">Class References</h2>
+							<ul>
+								
+								<li><a href="Classes/BCOVGoogleCastManager.html">BCOVGoogleCastManager</a></li>
+								
+							</ul>
+						</div>
+						
+
+						
+						<div class="index-column">
+							
+							<h2 class="index-title">Protocol References</h2>
+							<ul>
+								
+								<li><a href="Protocols/BCOVGoogleCastManagerDelegate.html">BCOVGoogleCastManagerDelegate</a></li>
+								
+							</ul>
+							
+
+							
+
+							
+						</div>
+						
+					</div>
+
+					<footer>
+						<div class="footer-copyright">
+							
+							<p class="copyright">Copyright &copy; 2019 Brightcove. All rights reserved. Updated: 2019-04-22</p>
+							
+							
+							<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+							
+						</div>
+					</footer>
+				</main>
+			</div>
+		</div>
+	</article>
+
+	<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>SSAI: Ad Block Detection and Auto-Failover</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>SSAI: Ad Block Detection and Auto-Failover</h1>
+      <aside class="bcls-aside bcls-aside--warning">
+        <p>
+          This is a INTERNAL document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a>
+        </p>
+        <p>
+          Notes:
+        </p>
+        <ul>
+          <li>
+            Doc archived on 2018-12-17
+          </li>
+          <li>
+            Reason: Client side IMA ads with SSAI failover for ad blockers can now be set up in the Players module in Studio.
+          </li>
+          <li>
+            Code steps may be useful for an example of using curl to modify the player and using a hook function.
+          </li>
+        </ul>
+      </aside>
+      <p>In this topic, you will learn how to turn on a Brightcove Player's auto-failover setting to request SSAi (Server Side Ads Insertion) ads when ad blockers are detected.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-artice">
+<section class="bcls-section">
+<h2 id="overview">Overview</h2>
+
+<p>With ad failover turned on, when Brightcove Player detects an ad blocker present in the browser the player will automatically request an SSAI stream. Otherwise, it will use IMA ads.</p>
+
+<aside class="bcls-aside bcls-aside--information">
+<p>SSAI ad failover requires the following:</p>
+
+<ul>
+	<li>IMA3 plugin v3.2.0+</li>
+	<li>SSAI plugin v1.3.1+</li>
+</ul>
+</aside>
+
+<h3>Caveats</h3>
+
+<ul>
+	<li>Ad blocker detection is very reliable, but not 100%.</li>
+	<li>Customers using this feature must be using Dynamic Delivery.</li>
+	<li>Only IMA and SSAI plugins are supported (no FreeWheel or OnceUX).</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Player_sample">Player sample</h2>
+
+<p>Here is a sample player configured with ad failover and IMA3 ads.</p>
+
+<ul>
+	<li>If you run this sample in a browser without an ad blocker, you should see a DFP inline skippable ad by Google. This is the IMA3 preroll ad.</li>
+	<li>If you run this sample in a browser with an ad blocker, you should see a Brightcove guide to digital marketing ad. This is the Server-Side ad (SSAI) as defined in our ad configuration.</li>
+</ul>
+
+<p data-height="475" data-theme-id="dark" data-slug-hash="QBMJmP" data-default-tab="result" data-user="rcrooks1969" data-pen-title="SSAI Ad Failover with hook" class="codepen">See the Pen <a href="https://codepen.io/team/rcrooks1969/pen/QBMJmP/">SSAI Ad Failover with hook</a> by Brightcove Learning Services (<a href="https://codepen.io/rcrooks1969">@rcrooks1969</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script></section>
+
+<section class="bcls-section">
+<h2 id="Configure_using_studio">Configure using Players module</h2>
+
+<p>The Players module can be used to enable ad block detection on the client-side with server-side failover. Note that these steps are not supported when using the Legacy Players module. To do this, follow these steps:</p>
+
+<ol class="bcls-tasklist">
+	<li>Open the Players module.</li>
+	<li>Click on a player name to open the player properties.</li>
+	<li>Click <strong>Advertising</strong> in the left navigation.</li>
+	<li>Select the <strong>Enable Client-Side (IMA)</strong> option and configure the IMA options. For information on configuring client-side advertising, see <a href="/node/15897">Configuring Player Advertising using the Players Module</a>.</li>
+	<li>Select the <strong>Enable Server-Side (SSAI)</strong> option. Note that the server-side option will not appear unless your account has been enabled for SSAI.</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Configure_the_player">Configure the player</h2>
+
+<p>For ad failover to function you must have the player configured correctly. The following three configuration changes need to be done:</p>
+
+<ol class="bcls-tasklist">
+	<li>
+	<p>The player configuration must have <code class="notranslate">"ad_failover": true </code> at the top level. This is done using a <strong>curl</strong> statement. The following would add the desired configuration to an existing player:</p>
+
+	<pre class="line-numbers">
+<code class="language-bash notranslate">// Configure ad failover
+curl \
+--header "Content-Type: application/json" \
+--user $EMAIL \
+--request PATCH \
+--data '{
+"ad_failover": true
+}' \
+https://players.api.brightcove.com/v1/accounts/$ACCOUNT_ID/players/$PLAYER_ID/configuration</code></pre>
+
+	<p>If you are unfamiliar with curl, see the <a href="/node/18268">Quick Start: Player Management</a> document to get started.</p>
+	</li>
+	<li>
+	<p>Both the IMA and SSAI plugins must be configured for the player. This is normally an invalid configuration, and the player would log a warning to the console, but having the <code class="notranslate">"ad_failover": true </code> configuration makes it valid. Both of these plugins can be added in Studio, or via a curl statement. A valid example player configuration is show here:</p>
+
+	<pre class="line-numbers">
+<code class="language-json notranslate">{
+"account_id": "1507807800001",
+<span class="bcls-highlight notranslate">"ad_failover": true</span>,
+"compatibility": true,
+"embed_id": "default",
+"player": {
+	"template": {
+	"name": "single-video-template",
+	"version": "6.23.0"
+	}
+},
+"player_id": "i6gmOmJiFx",
+"player_name": "ad failover testing",
+<span class="bcls-highlight notranslate">"plugins": [{
+	"name": "ssai"
+	}, {
+	"injected_version": "3.2.0",
+	"name": "ima3",
+	"options": {
+	"adTechOrder": [
+	"html5"
+	],
+	"hardTimeouts": true,
+	"requestMode": "onload",
+	"serverUrl": "",
+	"timeout": 4000,
+	"useMediaCuePoints": false,
+	"vpaidMode": "ENABLED"
+	},
+"registry_id": "@brightcove/videojs-ima3",
+"version": "3.x"
+}],
+"scripts": [
+"//players.brightcove.net/videojs-ima3/3.2.0/videojs.ima3.min.js",
+"//players.brightcove.net/videojs-ssai/1.3.1/videojs-ssai.js"
+],
+"stylesheets": [
+"//players.brightcove.net/videojs-ima3/2.22.3/videojs.ima3.min.css",
+"//players.brightcove.net/videojs-ssai/1.3.1/videojs-ssai.css"
+],</span>
+"updated_at": "2018-09-17T13:53:01.905Z",
+"video_cloud": {
+"policy_key": "BCpkADawqM1U6pz...67I3",
+"video": null
+}
+}</code></pre>
+	</li>
+	<li>
+	<p>There must be an ad configuration ID (<code class="notranslate">ad_config_id</code>) available via the configuration or defined at runtime. Although technically not required, not having one means no ads in an SSAI stream would be available, which defeats the purpose of ad failover.</p>
+
+	<p>To supply an ad configuration ID at runtime using the Advanced (in-page embed) player implementation, you supply the ID as an attribute in the <code class="notranslate">&lt;video&gt; </code> tag:</p>
+
+	<pre class="line-numbers">
+<code class="language-html notranslate">&lt;video
+	data-account="123"
+	data-player="abc"
+	data-embed="default"
+	<span class="bcls-highlight notranslate">data-ad-config-id="xyz-456"</span>
+	class="video-js"
+	controls&gt;
+	&lt;/video&gt;
+&lt;script src="https://.../index.min.js"&gt;&lt;/script&gt;</code></pre>
+
+	<p>If you are using an Standard (iframe) player implementation you would supply the ad configuration ID as follows:</p>
+
+	<pre class="line-numbers">
+<code class="language-html notranslate">&lt;iframe src="https://.../index.html<span class="bcls-highlight notranslate">?adConfigId=xyz-456</span>" allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;</code></pre>
+	</li>
+	<li>
+	<p>When using ad failover, you need to wait for player initialization to determine if ad block has been detected. The following code uses a setup hook to wait for the player to be ready before calling the IMA3 plugin with the ad URL. For details about using hooks, see <a href="https://docs.videojs.com/tutorial-hooks.html">Video.js hooks documentation</a>.</p>
+
+	<aside class="bcls-aside bcls-aside--information">Because ad failover uses asynchronous processing to determine the existence of an ad blocker, you need to wait for player initialization to complete before accessing the player in JavaScript. For example, calling the IMA3 plugin.</aside>
+
+	<pre class="line-numbers">
+<code class="language-javascript notranslate">var myPlayer,
+serverUrl='https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&amp;iu=/124319096/external/single_ad_samples&amp;ciu_szs=300x250&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;output=vast&amp;unviewed_position_start=1&amp;cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&amp;correlator=';
+
+videojs.hook('setup', function(myPlayer){
+	myPlayer.ready(function() {
+	if (myPlayer.usingPlugin('ima3')){
+			myPlayer.ima3.settings.serverUrl = serverUrl;
+	}
+})
+});</code></pre>
+	</li>
+</ol>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

@@ -4,15 +4,17 @@ x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
   title: Dynamic Ingest API Reference
-  description: >-
+  description: |-
     Reference for the Brightcove Dynamic Ingest API, used to add videos, images, and captions to your media library, and to replace existing media assets.
 
-    **NOTE THAT BEFORE YOU INGEST A NEW VIDEO, YOU MUST FIRST MAKE A [CREATE VIDEO REQUEST](https://brightcovelearning.github.io/Brightcove-API-References/cms-api/v1/doc/swagger.html#/Videos/Create_Video).**
+    **NOTE THAT BEFORE YOU INGEST A NEW VIDEO, YOU MUST FIRST MAKE A [CREATE VIDEO REQUEST](https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/CreateVideo).**
 
 
     To test API requests, you can use our <a href="https://support.brightcove.com/developer-tools-and-concepts" target="_blank">API Testing Tools</a>
 
-     **Base URL**: https://ingest.api.brightcove.com/v1
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/dynamic-ingest-api)**.
+
+    **Base URL**: https://ingest.api.brightcove.com/v1
   version: 1.0.0
   x-bc-access: public
 servers:
@@ -41,9 +43,7 @@ paths:
         - $ref: '#/components/parameters/Authorization'
       requestBody:
         description: >-
-          Uploads a video, images, and/or text track (WebVTT files) and adds
-          them to your media library. NOTE that before you ingest a new video,
-          you must first make a Create Video request.
+          Uploads a video, images, and/or text track (WebVTT files) and adds them to your media library. NOTE that before you ingest a new video, you must first make a Create Video request.
         content:
           application/json:
             schema:
@@ -81,29 +81,29 @@ paths:
           description: >-
             RESOURCE_NOT_FOUND: The api could not find the resource you requested
         '422':
-          description: >-
-            MALFORMED_SOURCE_URL: source url is malformed.
+          description: |-
+            [One of the following:]
+            * MALFORMED_SOURCE_URL: source url is malformed.
 
-            BAD_PROTOCOL_SOURCE_URL: source url uses a unsupported protocol.
+            * BAD_PROTOCOL_SOURCE_URL: source url uses a unsupported protocol.
 
-            EXCEED_MAXIMUM_VTT_SOURCES: vtt sources exceed the maximum size.
+            * EXCEED_MAXIMUM_VTT_SOURCES: vtt sources exceed the maximum size.
 
-            INVALID_VTT_KIND: vtt kind is invalid.
+            * INVALID_VTT_KIND: vtt kind is invalid.
 
-            CONSTRAINT_VIOLATION: capture-image is not allowed if an image
+            * CONSTRAINT_VIOLATION: capture-image is not allowed if an image
             source is provided.
 
-            UNPROCESSABLE_ENTITY: request data contains some unprocessable
+            * UNPROCESSABLE_ENTITY: request data contains some unprocessable
             entity.
         '429':
           description: >-
-            RATE_LIMIT_EXCEEDED: Dynamic Ingest job not created. Reduce the
-            number of concurrent jobs for this account before trying again. This
-            error has been logged
-        default:
+            RATE_LIMIT_EXCEEDED: Dynamic Ingest job not created. Reduce the number of concurrent jobs for this account before trying again. This error has been logged
+        '500':
           description: |-
-            SUBMISSION_FAILURE: Unable to submit job please try again later.
-            INTERNAL_ERROR: Internal error, please try again later
+            [One of the following:]
+            * SUBMISSION_FAILURE: Unable to submit job please try again later.
+            * INTERNAL_ERROR: Internal error, please try again later
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -116,9 +116,7 @@ paths:
         - Ingest
       summary: Get Temporary S3 URLs to Upload Videos
       description: >-
-        Get temporary S3 URLs to upload source files for ingestion into Video
-        Cloud. See Source File Upload for more information. NOTE that before you
-        ingest a new video, you must first make a Create Video request.
+        Get temporary S3 URLs to upload source files for ingestion into Video Cloud. See Source File Upload for more information. NOTE that before you ingest a new video, you must first make a Create Video request.
       operationId: AccountsVideosUploadUrlsSourceNameByAccountIdAndVideoIdGet
       security:
         - BC_OAuth2:
@@ -145,10 +143,8 @@ paths:
             RESOURCE_NOT_FOUND: The api could not find the resource you requested
         '429':
           description: >-
-            RATE_LIMIT_EXCEEDED: Dynamic Ingest job not created. Reduce the
-            number of concurrent jobs for this account before trying again. This
-            error has been logged
-        default:
+            RATE_LIMIT_EXCEEDED: Dynamic Ingest job not created. Reduce the number of concurrent jobs for this account before trying again. This error has been logged
+        '500':
           description: 'INTERNAL_ERROR: Internal error, please try again later '
       deprecated: false
       x-operation-settings:
@@ -171,8 +167,7 @@ components:
       name: video_id
       in: path
       description: >-
-        Video Cloud video ID; if this is a new video ingest, the ID will be
-        the one returned by the Create Video request
+        Video Cloud video ID; if this is a new video ingest, the ID will be the one returned by the Create Video request
       required: true
       style: simple
       explode: false
@@ -182,8 +177,7 @@ components:
       name: source_name
       in: path
       description: >-
-        the video source filename - the name should not contain any
-        URL-reserved characters such as ?, &amp;, # or spaces
+        the video source filename - the name should not contain any URL-reserved characters such as ?, &amp;, # or spaces
       required: true
       style: simple
       explode: false
@@ -202,8 +196,7 @@ components:
       name: Authorization
       in: header
       description: >-
-        Authorization: Bearer access_token (see [Getting Access
-        Tokens](https://support.brightcove.com/getting-access-tokens))
+        'Authorization: Bearer access_token (see [Getting Access Tokens](https://support.brightcove.com/getting-access-tokens))'
       required: true
       style: simple
       explode: false
@@ -228,42 +221,34 @@ components:
         object_key:
           type: string
           description: >-
-            the access key used for authenticating the upload request (used for
-            multipart uploads)
+            the access key used for authenticating the upload request (used for multipart uploads)
         access_key_id:
           type: string
           description: >-
-            the access key used for authenticating the upload request (used for
-            multipart uploads)
+            the access key used for authenticating the upload request (used for multipart uploads)
         secret_access_key:
           type: string
           description: >-
-            the secret access key used for authenticating the upload request
-            (used for multipart uploads)
+            the secret access key used for authenticating the upload request (used for multipart uploads)
         session_token:
           type: string
           description: >-
-            the secret access key used for authenticating the upload request
-            (used for multipart uploads)
+            the secret access key used for authenticating the upload request (used for multipart uploads)
         SignedUrl:
           type: string
           description: >-
-            this is a shorthand S3 url that you can PUT your source file(s) to
-            if you have relatively small videos and are not implementing
-            multipart upload
+            this is a shorthand S3 url that you can PUT your source file(s) to if you have relatively small videos and are not implementing multipart upload
         ApiRequestUrl:
           type: string
           description: >-
-            this is the URL you will include in your Dynamic Ingest POST request
-            for the Master url or url for the image/text_tracks assets
-      example: >-
-        {
+            this is the URL you will include in your Dynamic Ingest POST request for the Master url or url for the image/text_tracks assets
+      example: {
         	"bucket": "ingestion-upload-production",
         	"object_key": "57838016001/67909129001/c7e6f28b-9057-4616-a7aa-66a0eb836236/greatblueheron.mp4",
-        	"access_key_id": "ASIA25ESRNNEXKNDUXGJ",
-        	"secret_access_key": "lV1OPGGND6UCVWuv8SUT4/ZS1S+fvzL2Z6BczCpN",
+        	"access_key_id": "ASIA25ESRNXKNDUXGJ",
+        	"secret_access_key": "lV1OPGGND6UCVWuv8SUT4/ZS1S+L2Z6BczCpN",
         	"session_token": "FQoGZXIvYXdzED0aDOnOYmTbUrX3yXd0myKMA3IZ9c7JcbytrkUohtpgI79977txHHgVME4YQKvdUQ895uQu9JEHqU8QXGu+2b9QUx6C2X34t5Jg9n0E0OMVPDJDHy3wj7rARVM7Uc1ha/W8ikYFErZdqrxAh/dEpNqcAM/ZZ682cCXjfzNBZLq55cD/nHDKxWBPJquq1w1mDoech83y1jE1Sb2PparQT7kjc6w/unnqcIfW6nX3bCUW6STOsvvDkxYuyPliQnI+PiuPq3TCuiVS1giRK0sc80/VPn4dJLFNA2xopUoY86zhM/PCUPp3/MtKaWVeTVhk3/lsPoNdBPUAOLdRVO+JtUyxW8x/4vZd1DrXtdByGXdt6pBoMmLm6jFOOMl6HGjhSjl8t8vwPckvr+6z/kSaqw/NzvXz7yAMF5OKkZsa1KUQN9+SSTwHhy6Zm9AZED4mBNXPxwnxJDaeFp51idwiyo3KGZT0TpZdKGm5xrUPcpmWnoOd/G8tKAERO8j7BhkOPP3zOpDrmGW6u3xXmLn3KWBzhjs07oLaluBQkZaUVijrjrbcBQ==",
-        	"signed_url": "https://ingestion-upload-production.s3.amazonaws.com/57838016001/67909129001/c7e6f28b-9057-4616-a7aa-66a0eb836236/greatblueheron.mp4?AWSAccessKeyId=AKIAJZKRHWB4FUFMCPPA&Expires=1536088299&Signature=GD2g7CTz2wLFYnaw33KbocDiXmA%3D",
+        	"signed_url": "https://ingestion-upload-production.s3.amazonaws.com/57838016001/67909129001/c7e6f28b-9057-4616-a7aa-66a0eb836236/greatblueheron.mp4?AWSAccessKeyId=AKIAJZKRHWBFMCPPA&Expires=1536088299&Signature=GD2g7CTz2wLFYnaw33KbocDiXmA%3D",
         	"api_request_url": "https://ingestion-upload-production.s3.amazonaws.com/57838016001/67909129001/c7e6f28b-9057-4616-a7aa-66a0eb836236/greatblueheron.mp4"
         }
     IngestMediaAssetbody:
@@ -277,6 +262,23 @@ components:
           description: >-
             ingest profile to use for transcoding; if absent, account default
             profile will be used
+        example: multi-platform-standard-static
+        priority:
+          type: string
+          description: |-
+            Priority queueing allows the user to add a `priority` flag to an ingest request. The allowable values for `priority` are `low` and `normal` . Any other value will cause the request to be rejected with a 422 error code. When the user doesn't specify any priority, the default value of `normal` is used. Priority queuing is available for Dynamic Delivery ingest only. Here is a brief description of how Priority Queueing changes how jobs are processed from the queue:
+
+            1. If there are no queued jobs and there is capacity to run a job, then the job is run immediately. This applies to both low and normal priority jobs.
+            2. If there is is no capacity for another job to run, the job is queued.
+            3. If there are jobs in the queue, then any new jobs are also queued. This means that a new job can't start before queued jobs.
+            4. When there is capacity to run another job and there are queued jobs, a job is taken from the queue:
+              - If there are ANY normal priority jobs in the queue, the oldest normal priority job will be picked.
+              - If there are NO normal priority jobs in the queue, then the oldest low priority job will be picked.
+            5. Normal and Low priority jobs are treated the same for how many running jobs there can be. The total number of jobs processing, whatever their priority, is limited to 100 per account.
+            6. There are separate quotas for how many normal and low priority jobs can be queued.
+          enum:
+             - low
+             - normal
         text_tracks:
           type: array
           items:
@@ -286,7 +288,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IngestMediaAssetbody.audioTracks'
-          description: array of audio track objects **dynamic Delivery only**
+          description: array of audio track objects **Dynamic Delivery only**
         poster:
           $ref: '#/components/schemas/IngestMediaAssetbody.poster'
         thumbnail:
@@ -302,9 +304,23 @@ components:
           items:
             type: string
           description: array of URLs that notifications should be sent to
+          example: [
+              "http://solutions.brightcove.com/bcls/di-api/di-callbacks.php"
+            ]
     IngestMediaAssetbody.master:
-      title: Ingest Media Asse Body.master
+      title: Ingest Media Asset Body.master
       type: object
+      description: >-
+        Spefication of master for media asset(s) to be ingested
+      example: {
+          "url": "http://learning-services-media.brightcove.com/videos/mp4/greatblueheron.mp4",
+          "audio_tracks": [
+            {
+              "language": "en",
+              "variant": "main"
+            }
+          ]
+        }
       properties:
         url:
           type: string
@@ -312,18 +328,24 @@ components:
             URL for the video source; required except for re-transcoding where a
             digital master has been archived, or you are adding images or text
             tracks to an existing video
+          example: https://learning-services-media.brightcove.com/audio/celtic_lullaby.m4a
         use_archived_master:
           type: boolean
           description: >-
-            For retranscode requests, will use the archived master if set to
-            true; if set to false, you must also include the url for the source
-            video
+            For retranscode requests, will use the archived master if set to true; if set to false, you must also include the url for the source video
+          default: false
         audio_tracks:
           type: array
           description: >-
             Language code for the **muxed in** audio from the subtags in
             (http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
-            (default can be set for the account by contacting Brightcove Support) **dynamic Delivery only**
+            (default can be set for the account by contacting Brightcove Support) **Dynamic Delivery only**
+          example: [
+              {
+                "language": "en",
+                "variant": "main"
+              }
+            ]
           items:
             type: object
             properties:
@@ -332,11 +354,11 @@ components:
                 description: >-
                   Language code for the muxed in audio from the subtags in
                   (http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
-                  (default can be set for the account by contacting Brightcove Support) **dynamic Delivery only**
+                  (default can be set for the account by contacting Brightcove Support) **Dynamic Delivery only**
                 variant:
                   type: string
                   description: >-
-                    the type of audio track for the muxed in audio - generally `main` **dynamic Delivery only**
+                    the type of audio track for the muxed in audio - generally `main` **Dynamic Delivery only**
                   enum:
                     - main
                     - alternate
@@ -374,6 +396,15 @@ components:
         default:
           type: boolean
           description: sets the default language for captions/subtitles
+      example: [
+          {
+            "url": "https://learning-services-media.brightcove.com.s3.amazonaws.com/captions/bc_smart.vtt",
+            "srclang": "en",
+            "kind": "captions",
+            "label": "EN",
+            "default": true
+          }
+        ]
     IngestMediaAssetbody.audioTracks:
       title: Ingest Media Asset Body.audio_tracks
       type: object
@@ -382,13 +413,27 @@ components:
           type: boolean
           description: >-
             whether to replace existing audio tracks or add the new ones
-            (currently only false is supported) **dynamic Delivery only**
           default: false
         masters:
           type: array
           items:
             $ref: '#/components/schemas/IngestMediaAssetbody.audioTracks.masters'
-          description: array of audio track objects **dynamic Delivery only**
+          description: array of audio track objects **Dynamic Delivery only**
+      example: {
+        "merge_with_existing": true,
+        "masters": [
+            {
+              "url": "http://learning-services-media.brightcove.com/audio/celtic_lullaby.m4a",
+              "language": "en",
+              "variant": "alternate"
+            },
+            {
+              "url": "http://learning-services-media.brightcove.com/audio/audio1.m4a",
+              "language": "en",
+              "variant": "commentary"
+            }
+          ]
+        }
     IngestMediaAssetbody.audioTracks.masters:
       title: Ingest Media Asset Body.audio_tracks.masters
       description: >-
@@ -397,19 +442,19 @@ components:
       properties:
         url:
           type: string
-          description: URL for the audio file **dynamic Delivery only**
+          description: URL for the audio file **Dynamic Delivery only**
         language:
           type: string
           description: >-
             Language code for the audio track from the subtags in
             http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
             (default can be set for the account by contacting Brightcove
-            Support) **dynamic Delivery only**
+            Support) **Dynamic Delivery only**
         variant:
           type: string
           description: >-
             the type of audio track (default can be set for the account by
-            contacting Brightcove Support) **dynamic Delivery only**
+            contacting Brightcove Support) **Dynamic Delivery only**
           enum:
             - main
             - alternate
@@ -431,6 +476,11 @@ components:
         width:
           type: number
           description: pixel width of the image
+      example: {
+          "url": "http://learning-services-media.brightcove.com/images/celtic-lullaby-large.png",
+          "width": 1400,
+          "height": 1400
+        }
     IngestMediaAssetbody.thumbnail:
       title: Ingest Media Asset Body.thumbnail
       required:
@@ -446,6 +496,11 @@ components:
         width:
           type: number
           description: pixel width of the image
+      example: {
+          "url": "http://learning-services-media.brightcove.com/images/celtic-lullaby-large.png",
+          "width": 160,
+          "height": 90
+        }
     IngestMediaAssetResponse:
       title: Ingest Media Asset Response
       required:
@@ -455,8 +510,7 @@ components:
         id:
           type: string
           description: job id for the request
-      example: >-
-        {
+      example: {
         	"id": "1242d634-0447-45c0-a79d-2199df409b4f"
         }
   securitySchemes:

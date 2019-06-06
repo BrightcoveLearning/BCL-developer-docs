@@ -1,0 +1,4290 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ooyala eCommerce Adapter API </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Ooyala eCommerce Adapter API </h1>
+<h2>version v3</h2>
+<p>https://player.ooyala.com/commerce/v3</p>
+<h3 id="Overview">
+<a href="#Overview">Overview</a>
+</h3>
+<h1 id="description">Description</h1>
+<p>The eCommerce Adapter API is the bridge between the eCommerce API that is the payment API for the Revenue Builder project and the product catalog managment.</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__accounts" class="panel-title">Accounts</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Creates a new account within the custom billing vendor. This fails if the end user already has an account.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts">
+<span class="parent">
+</span>/{pCode}/accounts</a>
+<span class="methods">
+<a href="#pCode__accounts_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a new account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a new account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "address": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "postal_code": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            }
+          }
+        }
+      },
+       "required": [
+        "id",
+        "email",
+        "name"
+      ]
+    }
+  },
+  "required": [
+    "account"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "account": {
+    "id": "example 27",
+    "name": "example",
+    "email": "example@test.com",
+    "address": {
+      "id": "4d76a893543h4662754662c281147f8af3995",
+      "name": "test example",
+      "address": [
+        "addrs1",
+        "addrs2",
+        "addrs3"
+      ],
+      "city": "example",
+      "state": "example",
+      "postal_code": "75024",
+      "country": "US"
+    }
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "address": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "postal_code": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            }
+          }
+        }
+      },
+       "required": [
+        "id",
+        "email",
+        "name"
+      ]
+    }
+  },
+  "required": [
+    "account"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "account": {
+    "id": "example 27",
+    "name": "example",
+    "email": "example@test.com",
+    "address": {
+      "id": "4d76a893543h4662754662c281147f8af3995",
+      "name": "test example",
+      "address": [
+        "addrs1",
+        "addrs2",
+        "addrs3"
+      ],
+      "city": "example",
+      "state": "example",
+      "postal_code": "75024",
+      "country": "US"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID_">
+<span class="parent">/{pCode}/accounts</span>/{accountID}</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Retrieves the specified account.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns the specified account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts</span>/{accountID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns the specified account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "address": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "accounts":[
+    {
+      "id":"example-1",
+      "name":"example",
+      "email":"example@test.com",
+      "address":{
+        "id":"7ae9ed86100b7b6c8cefc4ab59d736139e03925e",
+        "address":
+        ["","",""]
+      }
+    }
+  ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__accounts__accountID__onetime_charges" class="panel-title">Onetime Changes</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Initiates a transaction for a Pay Per View (PPV) purchase. It accepts the transaction details as input and returns session information. Prior to using this endpoint, you must first create an account and a payment method. NOTE: "content" is Ooyala&#39;s entitlement scheme. You must store it for reference for deferred charges. There must be a way for the eCommerce team to retrieve it.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__onetime_charges">
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/onetime-charges</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__onetime_charges_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__onetime_charges_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__onetime_charges" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__onetime_charges_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Purchases PPV offers and credits.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__onetime_charges_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns a list of the PPV purchases for the account. Purchases that contain multiple products are supported.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__onetime_charges_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/onetime-charges</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Purchases PPV offers and credits.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__onetime_charges_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__onetime_charges_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "purchase": {
+      "type": "object",
+      "properties": {
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "payment_method_type"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id",
+                  "amount"
+                ]
+              },
+              "content": {
+                "type": "object",
+                "properties": {
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "content_id": {
+                          "type": "string"
+                        },
+                        "external_product_id": {
+                          "type": "string"
+                        },
+                        "publishing_rule_id": {
+                          "type": "null"
+                        },
+                        "start_time": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "content_id",
+                        "external_product_id",
+                        "publishing_rule_id",
+                        "start_time",
+                        "updated_at"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "labels"
+                ]
+              }
+            },
+            "required": [
+              "product",
+              "content"
+            ]
+          }
+        },
+        "currency": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "dry_run": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "dry_run"
+          ]
+        }
+      },
+      "required": [
+        "payment_method",
+        "items",
+        "currency",
+        "metadata"
+      ]
+    }
+  },
+  "required": [
+    "purchase"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "purchase": {
+    "payment_method": {
+      "id": "43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type": "CreditCard"
+    },
+    "items": [
+      {
+        "product": {
+          "id": "MIDAS_PPV_2_DAY",
+          "amount": 100
+        },
+        "content": {
+          "labels": [
+            {
+              "content_id": "test-example",
+              "external_product_id": "Some-product",
+              "publishing_rule_id": null,
+              "start_time": "2016-07-01T01:00:00+00:00",
+              "updated_at": "2016-07-01T21:55:42+00:00"
+            }
+          ]
+        }
+      }
+    ],
+    "currency": "USD",
+    "metadata": {
+      "dry_run": false
+    }
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "purchase": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "last-digits": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {}
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "purchase": {
+    "items": [
+      {
+        "product": {
+          "id": "MIDAS_PPV_2_DAY",
+          "amount": 100,
+          "type": "",
+          "description": ""
+        }
+      },
+      {
+        "product": {
+          "id": "Total Tax",
+          "amount": 0,
+          "type": "",
+          "description": ""
+        }
+      }
+    ],
+    "payment_method": {
+      "id": "43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type": "CreditCard",
+      "details": {
+        "last-digits": "2217"
+      }
+    },
+    "id": "TX_57b2245b_78629a0f5f3f164f",
+    "currency": "USD",
+    "amount": 100,
+    "metadata": {},
+    "status": {
+      "status": "active"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__onetime_charges_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/onetime-charges</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns a list of the PPV purchases for the account. Purchases that contain multiple products are supported.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__onetime_charges_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__onetime_charges_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "purchase": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "last-digits": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {}
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "purchase": {
+    "items": [
+      {
+        "product": {
+          "id": "MIDAS_PPV_2_DAY",
+          "amount": 100,
+          "type": "",
+          "description": ""
+        }
+      },
+      {
+        "product": {
+          "id": "Total Tax",
+          "amount": 0,
+          "type": "",
+          "description": ""
+        }
+      }
+    ],
+    "payment_method": {
+      "id": "43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type": "CreditCard",
+      "details": {
+        "last-digits": "2217"
+      }
+    },
+    "id": "TX_57b2245b_78629a0f5f3f164f",
+    "currency": "USD",
+    "amount": 100,
+    "metadata": {},
+    "status": {
+      "status": "active"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__onetime_charges__onetimeChargeID_">
+<span class="parent">/{pCode}/accounts/{accountID}/onetime-charges</span>/{onetimeChargeID}</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__onetime_charges__onetimeChargeID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__onetime_charges__onetimeChargeID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Returns the specified PPV purchase. NOTE: NOT IMPLEMENTED</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__onetime_charges__onetimeChargeID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns the ppv puschase</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__onetime_charges__onetimeChargeID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/onetime-charges</span>/{onetimeChargeID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns the ppv puschase</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>onetimeChargeID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "purchase": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "last-digits": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {}
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "purchase": {
+    "items": [
+      {
+        "product": {
+          "id": "MIDAS_PPV_2_DAY",
+          "amount": 100,
+          "type": "",
+          "description": ""
+        }
+      },
+      {
+        "product": {
+          "id": "Total Tax",
+          "amount": 0,
+          "type": "",
+          "description": ""
+        }
+      }
+    ],
+    "payment_method": {
+      "id": "43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type": "CreditCard",
+      "details": {
+        "last-digits": "2217"
+      }
+    },
+    "id": "TX_57b2245b_78629a0f5f3f164f",
+    "currency": "USD",
+    "amount": 100,
+    "metadata": {},
+    "status": {
+      "status": "active"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__onetime_charges__onetimeChargeID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__accounts__accountID__payment_methods" class="panel-title">Payment Methods</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Creating a new payment method is a two step process. 1: Set up the tracking ID (token). 2: After the user submits confidential data to the payment process, confirm the payment method.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__payment_methods">
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/payment-methods</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__payment_methods_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__payment_methods_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__payment_methods" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__payment_methods_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Sends payment data to create a payment method.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__payment_methods_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns a list of the payment method associated with the acount.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__payment_methods_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/payment-methods</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Sends payment data to create a payment method.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__payment_methods_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__payment_methods_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "payment_method_type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "payment_method_type"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "id": "CC_12345",
+  "payment_method_type": "CreditCard"
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "payment_method": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payment_method_type": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object",
+          "properties": {
+            "last-digits": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "payment_method": {
+    "id": "CreditCard_574de06b_32093f9949f7ce81",
+    "payment_method_type": "CreditCard",
+    "details": { 
+      "last-digits": "2217"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__payment_methods_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/payment-methods</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns a list of the payment method associated with the acount.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__payment_methods_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__payment_methods_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "payment_method": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payment_method_type": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object",
+          "properties": {
+            "last-digits": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "payment_method": {
+    "id": "CreditCard_574de06b_32093f9949f7ce81",
+    "payment_method_type": "CreditCard",
+    "details": { 
+      "last-digits": "2217"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__payment_methods_token">
+<span class="parent">/{pCode}/accounts/{accountID}/payment-methods</span>/token</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__payment_methods_token_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__payment_methods_token" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Registers personal data required to create payment methods.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__payment_methods_token_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Directs the end user to the corresponding URL to get the payment method token.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__payment_methods_token_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/payment-methods</span>/token</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Directs the end user to the corresponding URL to get the payment method token.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__payment_methods_token_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_token_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods_token_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__payment_methods_token_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "payment_method_type": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "success_callback": {
+          "type": "string"
+        },
+        "error_callback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "currency",
+        "success_callback",
+        "error_callback"
+      ]
+    }
+  },
+  "required": [
+    "payment_method_type",
+    "metadata"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "payment_method_type": "PayPal",
+    "metadata": {
+        "currency" : "USD",
+        "success_callback" : "http://www.example.com/",
+        "error_callback" : "http://www.example.com/"
+    }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_token_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "token": {
+    "id": "129d7aac314c807d51955190d1ae8baa5a5a8d5b",
+    "token": "https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token=EC-47"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods_token_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__payment_methods__paymentMethodID_">
+<span class="parent">/{pCode}/accounts/{accountID}/payment-methods</span>/{paymentMethodID}</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__delete">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__payment_methods__paymentMethodID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>The specified payment method associated with the account. NOTE: NOT IMPLEMENTED</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__payment_methods__paymentMethodID__delete'" class="list-group-item">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Removes the payment method.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__payment_methods__paymentMethodID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Checks the payment method.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__payment_methods__paymentMethodID__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/payment-methods</span>/{paymentMethodID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Removes the payment method.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__delete_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__payment_methods__paymentMethodID__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>paymentMethodID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods__paymentMethodID__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods__paymentMethodID__delete_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__payment_methods__paymentMethodID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/payment-methods</span>/{paymentMethodID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Checks the payment method.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods__paymentMethodID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__payment_methods__paymentMethodID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>paymentMethodID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods__paymentMethodID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__payment_methods__paymentMethodID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__accounts__accountID__subscriptions" class="panel-title">Subscriptions</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Creates subscriptions associated with an account.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__subscriptions">
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/subscriptions</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__subscriptions_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__subscriptions_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__subscriptions" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__subscriptions_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a new subscription for this account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__subscriptions_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns the subscriptions associated with an account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__subscriptions_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/subscriptions</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a new subscription for this account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__subscriptions_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__subscriptions_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "payment_method_type"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            },
+            "required": [
+              "product"
+            ]
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "currency": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "currency"
+          ]
+        }
+      },
+      "required": [
+        "payment_method",
+        "items",
+        "metadata"
+      ]
+    }
+  },
+  "required": [
+    "subscription"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "subscription": {
+    "payment_method" : {
+      "id" : "",
+      "payment_method_type": "PayPal"
+    },
+    "items": [{
+      "product" : {
+        "id" : "example"
+      }
+    }],
+    "metadata" : {
+      "currency" : "USD"
+    }
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "price_plan": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "cycles": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "unit": {
+                              "type": "integer"
+                            },
+                            "period": {
+                              "type": "string"
+                            },
+                            "cycles": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "integer"
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "properties": {
+                      "ooyalaEntitlementsPrefix": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "expiration-date": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "billing_start_date": {
+          "type": "string"
+        },
+        "price": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "integer"
+            },
+            "currency": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "subscription": {
+    "id": "AB_579a3d05_123ea66ac8af22ec",
+    "payment_method": {
+      "id": "MAP_578914a2_55104dc76695721d",
+      "payment_method_type": "MAP"
+    },
+    "items": [
+      {
+        "product": {
+          "id": "example",
+          "price_plan": {
+            "id": "e91bef79bf37d00330d33ea212e04bf7ae019fa1",
+            "cycles": [
+              {
+                "unit": 1,
+                "period": "Day",
+                "cycles": 0,
+                "price": {
+                  "amount": 5,
+                  "currency": "USD"
+                }
+              }
+            ]
+          },
+          "metadata": {
+            "ooyalaEntitlementsPrefix": "oo:"
+          },
+          "type": "subscription",
+          "description": "example product",
+          "status": "Active",
+          "expiration-date": "2016-04-30T00:00:00-07:00"
+        }
+      }
+    ],
+    "status": {
+      "status": "active"
+    },
+    "billing_start_date": "2016-07-28T10:12:41-07:00",
+    "price": {
+      "amount": 15,
+      "currency": "USD"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__subscriptions_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/accounts/{accountID}/subscriptions</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns the subscriptions associated with an account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__subscriptions_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__subscriptions_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subscriptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "payment_method": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "payment_method_type": {
+                "type": "string"
+              },
+              "details": {
+                "type": "object",
+                "properties": {
+                  "last-digits": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string"
+              }
+            }
+          },
+          "billing_start_date": {
+            "type": "string"
+          },
+          "price_plan": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "cycles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "unit": {
+                      "type": "integer"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "cycles": {
+                      "type": "integer"
+                    },
+                    "price": {
+                      "type": "object",
+                      "properties": {
+                        "amount": {
+                          "type": "number"
+                        },
+                        "currency": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "next_billing_date_time": {
+                "type": "string"
+              }
+            }
+          },
+          "price": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "subscriptions": [
+    {
+      "id": "AB_5781227c_1408d2ac22c4d294",
+      "payment_method": {
+        "id": "43726564697443617264_574671bd_4d65822107fcfd52",
+        "payment_method_type": "CreditCard",
+        "details": {
+          "last-digits": "2217"
+        }
+      },
+      "items": [
+        {
+          "product": {
+            "id": "example",
+            "type": "",
+            "description": ""
+          }
+        }
+      ],
+      "status": {
+        "status": "active"
+      },
+      "billing_start_date": "2016-07-09T09:12:45-07:00",
+      "price_plan": {
+        "id": "BP001",
+        "description": "Monthly billing plan",
+        "cycles": [
+          {
+            "unit": 1,
+            "period": "Month",
+            "cycles": 0,
+            "price": {
+              "amount": 0.99,
+              "currency": "USD"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "next_billing_date_time": "2016-09-09T00:00:00-07:00"
+      },
+      "price": null
+    }
+  ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__accounts__accountID__subscriptions__subscriptionID_">
+<span class="parent">/{pCode}/accounts/{accountID}/subscriptions</span>/{subscriptionID}</a>
+<span class="methods">
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__delete">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__put">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__accounts__accountID__subscriptions__subscriptionID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>The specified subscription associated with an account.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__accounts__accountID__subscriptions__subscriptionID__delete'" class="list-group-item">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This changes the status of the subscription to cancelled.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__subscriptions__subscriptionID__put'" class="list-group-item">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Updates a specific invoice.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__accounts__accountID__subscriptions__subscriptionID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns the specified subscription for the account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__subscriptions__subscriptionID__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/subscriptions</span>/{subscriptionID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This changes the status of the subscription to cancelled.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__delete_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__subscriptions__subscriptionID__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>subscriptionID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>No Content</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__delete_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__subscriptions__subscriptionID__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/subscriptions</span>/{subscriptionID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Updates a specific invoice.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__put_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__subscriptions__subscriptionID__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>subscriptionID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "update": {
+      "type": "string"
+    },
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "token"
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "details"
+          ]
+        }
+      },
+      "required": [
+        "payment_method"
+      ]
+    }
+  },
+  "required": [
+    "update",
+    "subscription"
+  ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "update":"authorizePayment",
+  "subscription":{
+    "payment_method":{
+      "type":"Hosted",
+      "details":{
+        "token": "eb1ea101f959e6abd40605ab27e3b16c325f851d"
+      }
+    }
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "last-digits": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "billing_start_date": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "next_billing_date_time": {
+              "type": "string"
+            }
+          }
+        },
+        "price": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "integer"
+            },
+            "currency": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "subscription":{
+    "id":"AB_5781227c_1408d2ac22c4d294",
+    "payment_method":{
+      "id":"43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type":"CreditCard",
+      "details":{
+        "last-digits":"2217"
+      }
+    },
+    "items":[{
+      "product":{
+        "id":"example",
+        "type":"",
+        "description":""
+      }
+    }],
+    "status":{
+      "status":"active"
+    },
+    "billing_start_date":"2016-07-09T09:12:45-07:00",
+    "metadata":{
+      "next_billing_date_time":"2016-09-09T00:00:00-07:00"
+    },
+    "price":{
+      "amount":15,
+      "currency":"USD"
+    }
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__put_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__accounts__accountID__subscriptions__subscriptionID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/accounts/{accountID}/subscriptions</span>/{subscriptionID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns the specified subscription for the account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>bv-auth</b>
+<p>Each request must contain the headers necessary for basic authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions__subscriptionID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__accounts__accountID__subscriptions__subscriptionID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>accountID</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>subscriptionID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payment_method": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "payment_method_type": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object",
+              "properties": {
+                "last-digits": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "billing_start_date": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "next_billing_date_time": {
+              "type": "string"
+            }
+          }
+        },
+        "price": {
+          "type": "null"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "subscription":{
+    "id":"AB_5781227c_1408d2ac22c4d294",
+    "payment_method":{
+      "id":"43726564697443617264_574671bd_4d65822107fcfd52",
+      "payment_method_type":"CreditCard",
+      "details":{
+        "last-digits":"2217"
+      }
+    },
+    "items":[{
+      "product":{
+        "id":"example",
+        "type":"",
+        "description":""
+      }
+    }],
+    "status":{
+      "status":"active"
+    },
+    "billing_start_date":"2016-07-09T09:12:45-07:00",
+    "metadata":{
+      "next_billing_date_time":"2016-09-09T00:00:00-07:00"
+    },
+    "price":null
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing, invalid, or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user does not have sufficient privileges to query the information for the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The specified authentication is not authorized to access this resource."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error. If problems persist, please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__accounts__accountID__subscriptions__subscriptionID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by bv-auth</h1>
+<h3>Headers</h3>
+<ul>
+<li>
+<strong>x-bv-password</strong>: <em>(string)</em>
+<p>Billing Vendor Password</p>
+</li>
+<li>
+<strong>x-bv-user</strong>: <em>(string)</em>
+<p>Billing Vendor User Account</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#pCode__accounts">Accounts</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__onetime_charges">Onetime Changes</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__payment_methods">Payment Methods</a>
+</li>
+<li>
+<a href="#pCode__accounts__accountID__subscriptions">Subscriptions</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+var interfacecom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_notification_handlers_provider =
+[
+    [ "get", "interfacecom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1provider_1_1_notification_handlers_provider.html#a40e24d4578006d11caa251eb3c2ded06", null ]
+];

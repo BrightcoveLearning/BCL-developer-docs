@@ -1,0 +1,6101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ooyala eCommerce API </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Ooyala eCommerce API </h1>
+<h2>version v3</h2>
+<p>https://player.ooyala.com/commerce</p>
+<h3 id="Overview">
+<a href="#Overview">Overview</a>
+</h3>
+<p>The eCommerce API is the payment API for the Revenue Builder project. It is responsible for processing all payments and granting entitlements to a user. It uses custom billing vendor for payment processing, validation and product catalog management, <a href="http://www.vindicia.com/vindicia-user-guides/">Vindicia Cashbox</a> and <a href="https://stripe.com/docs">Stripe</a>, and <a href="http://help-ooyala.brightcove.com/video-platform/concepts/chapter_rightslocker.html">Ooyala Rights Locker</a> for handling entitlements.</p>
+<h3 id="the-base-path">The Base Path</h3>
+<p>
+</p>
+<p>The Usage REST API is available at the following URL: <b>https&#58;//player.ooyala.com/commerce</b>.</p>
+<p>
+</p>
+<p>
+</p>
+<p>Prefix any request with this URL.</p>
+<p>
+</p>
+<p>
+</p>
+<p>Example:</p>
+<code>https&#58;//player.ooyala.com/commerce/v3/accounts/subscriptions?pcm_id=...&amp;bv_id=...&amp;account_token=..."</code>
+<p>
+</p>
+<hr>
+<h3 id="authentication">Authentication</h3>
+<p>In addition to the parameters required by each route in this reference, all requests must provide the following extra query parameters:</p>
+<ul>
+<li>
+<strong>
+<code>account_token</code>:</strong> An account token generated for the provider (see <a href="http://help-ooyala.brightcove.com/video-platform/api/account_token_api.html">"Ooyala Account Token API"</a>).</li>
+</ul>
+<hr>
+<h3 id="changelog">Changelog</h3>
+<ul>
+<li>07-22-16<ul>
+<li>Initial release (see <a href="http://community.ooyala.com/t5/earlyrelease/eCommerce-Release-Notes-07-22-16/m-p/8580#M3">"eCommerce Release Notes 07-22-16"</a>).</li>
+</ul>
+</li>
+</ul>
+<h3 id="Billing-Vendor-Vindicia-Integration">
+<a href="#Billing-Vendor-Vindicia-Integration">Billing Vendor Vindicia Integration</a>
+</h3>
+<p>To succesfully integrate the eCommerce API with your billing vendor, please follow the notes below.</p>
+<h2 id="vindicia">Vindicia</h2>
+<hr>
+<h3 id="requirements">Requirements</h3>
+<p>Please ensure you understand all these specs before you start using the eCommerce API along with Vindicia. Ensure that any <strong>
+<code>product id</code>
+</strong> or <strong>
+<code>subscription id</code>
+</strong> that you send as part of any request, exists in <strong>
+<code>Vindicia</code>
+</strong>, and that it&#39;s an actual product ID. If you&#39;re going to use PayPal payment method type, make sure to talk to your PayPal account representative about enabling <a href="https://developer.paypal.com/docs/classic/express-checkout/integration-guide/ECReferenceTxns/#reference-transactions">Reference transactions</a> for your merchant account. If the reference transactions feature is not enabled for your merchant account, all calls using PayPal will fail.</p>
+<hr>
+<h3 id="products">Products</h3>
+<p>A product needs to have the following specifications in order to be valid.</p>
+<ul>
+<li>Have a <strong>
+<code>Price</code>
+</strong> defined.</li>
+<li>Have a <strong>
+<code>Custom Product Data</code>
+</strong> with <strong>
+<code>name</code>
+</strong> as "type" and <strong>
+<code>value</code>
+</strong> as "ppv".</li>
+<li>Have at least one <strong>
+<code>Entitlement</code>
+</strong> defined (you can get these entitlements from Backlot).</li>
+</ul>
+<hr>
+<h3 id="subscriptions">Subscriptions</h3>
+<p>Subscriptions are actually Vindicia products, but with different configurations. A Vindicia product needs to have the following specifications in order to be a valid subscription.</p>
+<ul>
+<li>Have a <strong>
+<code>Custom Product Data</code>
+</strong> with <strong>
+<code>name</code>
+</strong> as "type" and <strong>
+<code>value</code>
+</strong> as "subscription".</li>
+<li>Have at least one <strong>
+<code>Entitlement</code>
+</strong> defined (you can get these entitlements from Backlot).</li>
+<li>Have a <strong>
+<code>Default billing plan</code>
+</strong> in order to be a valid subscription.</li>
+</ul>
+<h3 id="Billing-Vendor-Stripe-Integration">
+<a href="#Billing-Vendor-Stripe-Integration">Billing Vendor Stripe Integration</a>
+</h3>
+<h2 id="stripe">Stripe</h2>
+<hr>
+<h3 id="products">Products</h3>
+<p>A product needs to have the following specifications in order to be valid.</p>
+<ul>
+<li>Have a <strong>
+<code>sku</code>
+</strong> added to its <strong>
+<code>Inventory</code>
+</strong>.</li>
+<li>Have a <strong>
+<code>Metadata</code>
+</strong> with <strong>
+<code>key</code>
+</strong> as "type" and <strong>
+<code>value</code>
+</strong> as "ppv".</li>
+</ul>
+<hr>
+<h3 id="subscriptions">Subscriptions</h3>
+<p>In this context, subscriptions are actually Stripe Plans. A Stripe Plan needs to have the following specifications in order to be a valid subscription.</p>
+<ul>
+<li>Have at least one <strong>
+<code>Entitlement</code>
+</strong> set as a comma-separated value in <strong>
+<code>Metadata</code>
+</strong> with <strong>
+<code>key</code>
+</strong> as "labels".</li>
+</ul>
+<hr>
+<h3 id="caveats">Caveats</h3>
+<p>You can define up to <strong>two</strong> price cycles for subscriptions in Stripe.</p>
+<ul>
+<li>A trial period restricted to days (optional)...</li>
+<li>And the overall price plan live cycle.</li>
+</ul>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="v3_account" class="panel-title">Account</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>DEPRECATED: see GET /v3/accounts</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_account">
+<span class="parent">
+</span>/v3/account</a>
+<span class="methods">
+<a href="#v3_account_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_account" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#v3_account_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>DEPRECATED: see GET /v3/accounts</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_account_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/v3/account</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>DEPRECATED: see GET /v3/accounts</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_account_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_account_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_account_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_account_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_account_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "account": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "address": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "postal_code": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "name",
+                        "address",
+                        "city",
+                        "state",
+                        "postal_code",
+                        "country"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "email",
+                "address"
+            ]
+        }
+    },
+    "required": [
+        "account"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "account": {
+        "id": "example",
+        "name": "Freeman",
+        "email": "example@test.com",
+        "address": {
+            "id": "789e0724dd0fdf36e2f625609a004831c1d546c5",
+            "name": "test example",
+            "address": [
+                "addrs1",
+                "addrs2",
+                "addrs3"
+            ],
+            "city": "example",
+            "state": "example",
+            "postal_code": "75024",
+            "country": "US"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_account_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="v3_accounts" class="panel-title">Accounts</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Creates a new account within the custom billing vendor. This will fail if the end user already has an account.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts">
+<span class="parent">
+</span>/v3/accounts</a>
+<span class="methods">
+<a href="#v3_accounts_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a new user account within the custom billing vendor. Optionally, the user can enter their payment method. They can then purchase any product that does not require a special payment method, such as a promo code or earned credits. Later the user can update their payment method. This POST fails if the end user already has an account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns fields associated with an account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/v3/accounts</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a new user account within the custom billing vendor. Optionally, the user can enter their payment method. They can then purchase any product that does not require a special payment method, such as a promo code or earned credits. Later the user can update their payment method. This POST fails if the end user already has an account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"account": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"name",
+				"email"
+			]
+		}
+	},
+	"required": [
+		"account"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"account": {
+		"name": "Account Test",
+		"email": "account@test.com"
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "account": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "address": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "postal_code": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "name",
+                        "address",
+                        "city",
+                        "state",
+                        "postal_code",
+                        "country"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "email",
+                "address"
+            ]
+        }
+    },
+    "required": [
+        "account"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "account": {
+        "id": "example",
+        "name": "Freeman",
+        "email": "example@test.com",
+        "address": {
+            "id": "789e0724dd0fdf36e2f625609a004831c1d546c5",
+            "name": "test example",
+            "address": [
+                "addrs1",
+                "addrs2",
+                "addrs3"
+            ],
+            "city": "example",
+            "state": "example",
+            "postal_code": "75024",
+            "country": "US"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/v3/accounts</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns fields associated with an account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "account": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "address": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "postal_code": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "name",
+                        "address",
+                        "city",
+                        "state",
+                        "postal_code",
+                        "country"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "email",
+                "address"
+            ]
+        }
+    },
+    "required": [
+        "account"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "account": {
+        "id": "example",
+        "name": "Freeman",
+        "email": "example@test.com",
+        "address": {
+            "id": "789e0724dd0fdf36e2f625609a004831c1d546c5",
+            "name": "test example",
+            "address": [
+                "addrs1",
+                "addrs2",
+                "addrs3"
+            ],
+            "city": "example",
+            "state": "example",
+            "postal_code": "75024",
+            "country": "US"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_payment_methods">
+<span class="parent">/v3/accounts</span>/payment-methods</a>
+<span class="methods">
+<a href="#v3_accounts_payment_methods_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_payment_methods_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_payment_methods" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Creates a new payment method or returns all the registered payment methods.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_payment_methods_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a new payment method for the current account. To do this, you register a tracking ID that is used to pay using the payment method type. Valid types of payment are credit card and PayPal. When the tracking ID has been paid, it can be reused to create a new subscription or one-time charge.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_payment_methods_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns all the payment methods previously registered for the current account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_payment_methods_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/payment-methods</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a new payment method for the current account. To do this, you register a tracking ID that is used to pay using the payment method type. Valid types of payment are credit card and PayPal. When the tracking ID has been paid, it can be reused to create a new subscription or one-time charge.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_payment_methods_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_payment_methods_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string"
+		},
+		"payment_method_type": {
+			"type": "string"
+		}
+	},
+	"required": [
+		"id",
+		"payment_method_type"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"id": "123456789abc123456789abc",
+	"payment_method_type": "CreditCard"
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "payment_method": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payment_method_type": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "object",
+                    "properties": {
+                        "last-digits": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "payment_method_type",
+                "details"
+            ]
+        }
+    },
+    "required": [
+        "payment_method"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "payment_method": {
+        "id": "CreditCard_574de06b_32093f9949f7ce81",
+        "payment_method_type": "CreditCard",
+        "details": {
+            "last-digits": "2217"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_payment_methods_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/payment-methods</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns all the payment methods previously registered for the current account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_payment_methods_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_payment_methods_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "payment_methods": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "payment_method_type": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "object",
+                        "properties": {
+                            "last-digits": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "payment_method_type",
+                    "details"
+                ]
+            }
+        }
+    },
+    "required": [
+        "payment_methods"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "payment_methods": [
+        {
+            "id": "CreditCard_574de06b_32093f9949f7ce81",
+            "payment_method_type": "CreditCard",
+            "details": {
+                "last-digits": "2217"
+            }
+        }
+    ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_payment_methods_token">
+<span class="parent">/v3/accounts/payment-methods</span>/token</a>
+<span class="methods">
+<a href="#v3_accounts_payment_methods_token_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_payment_methods_token" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Initialize payment method registration to setup the tracking ID.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_payment_methods_token_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a new token that is used to register a new payment method. This token identifies the payment method in other eCommerce operations. This token is not the same as an Ooyala Account Token, see Security Schemes.<br>
+<br>
+</p>
+<pre>
+<h3>WORKFLOW</h3>
+Creating a new payment method is a three-step process.
+<i>NOTE</i>: Depending of the billing vendor this flow may have less steps.
+<br>
+<h4>For Credit Card:</h4>
+<ul>
+<li>1. To Register a Payment Method:
+Initialize payment method registration to setup the tracking ID (after this, user submits confidential data).
+<br>
+<code>POST /v3/accounts/payment-methods/token</code>
+</li>
+<li>2. Enable user to submit credit card information to billing vendor.</li>
+<li>3. To Confirm a Payment Method:
+<br>
+<code>POST /v3/accounts/payment-methods</code>
+<br>Creates a new payment method for the current account. Valid types of payment are credit card and PayPal.</li>
+</ul>
+<h3>For PayPal:</h3>
+<ul>
+<li>Same steps as before; however, at step two, the user will be redirected to a PayPal URL where they will enter their PayPal credentials, review the payment, and approve  it. If the submission succeeds, the user will be redirected to the “success_callback” that you have specified, and should trigger  the confirm step.
+If there’s a problem from PayPal, the user will be redirected to “error_callback” that you have specified.</li>
+</ul>
+</pre>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_payment_methods_token_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts/payment-methods</span>/token</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a new token that is used to register a new payment method. This token identifies the payment method in other eCommerce operations. This token is not the same as an Ooyala Account Token, see Security Schemes.<br>
+<br>
+</p>
+<pre>
+<h3>WORKFLOW</h3>
+Creating a new payment method is a three-step process.
+<i>NOTE</i>: Depending of the billing vendor this flow may have less steps.
+<br>
+<h4>For Credit Card:</h4>
+<ul>
+<li>1. To Register a Payment Method:
+Initialize payment method registration to setup the tracking ID (after this, user submits confidential data).
+<br>
+<code>POST /v3/accounts/payment-methods/token</code>
+</li>
+<li>2. Enable user to submit credit card information to billing vendor.</li>
+<li>3. To Confirm a Payment Method:
+<br>
+<code>POST /v3/accounts/payment-methods</code>
+<br>Creates a new payment method for the current account. Valid types of payment are credit card and PayPal.</li>
+</ul>
+<h3>For PayPal:</h3>
+<ul>
+<li>Same steps as before; however, at step two, the user will be redirected to a PayPal URL where they will enter their PayPal credentials, review the payment, and approve  it. If the submission succeeds, the user will be redirected to the “success_callback” that you have specified, and should trigger  the confirm step.
+If there’s a problem from PayPal, the user will be redirected to “error_callback” that you have specified.</li>
+</ul>
+</pre>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_payment_methods_token_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_token_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_payment_methods_token_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_payment_methods_token_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"payment_method_type": {
+			"type": "string"
+		},
+		"metadata": {
+			"type": "object",
+			"description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+			"properties": {
+				"key": {
+					"type": "Value"
+				}
+			}
+		}
+	},
+	"required": [
+		"payment_method_type"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"payment_method_type": "CreditCard",
+	"metadata": {
+		"currency": "USD",
+		"success_callback": "http://www.example.com/",
+		"error_callback": "http://www.example.com/"
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_token_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "token": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "token"
+            ]
+        }
+    },
+    "required": [
+        "token"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "token": {
+        "id": "123456789abc123456789abc",
+        "token": "https://www.secure.prodtest.sj.vindicia.com/vws/"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_payment_methods_token_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_invoices__invoice_id_">
+<span class="parent">/v3/accounts</span>/invoices/{invoice_id}</a>
+<span class="methods">
+<a href="#v3_accounts_invoices__invoice_id__put">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_invoices__invoice_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Helps to pay an invoice of a subscription used by the payment method “MAP”.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_invoices__invoice_id__put'" class="list-group-item">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>The invoice ID to identify the invoice to pay for a subscription. The invoice ID is used by the payment method “MAP”.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_invoices__invoice_id__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/invoices/{invoice_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>The invoice ID to identify the invoice to pay for a subscription. The invoice ID is used by the payment method “MAP”.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_invoices__invoice_id__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_invoices__invoice_id__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_invoices__invoice_id__put_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_invoices__invoice_id__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>invoice_id</strong>: <em>required (string)</em>
+<p>Invoice id for the subscription or one time purchase that was previously created. type: string example: AB_578914a0_78629a0f5f3f164f-00000001</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"invoice": {
+			"type": "object",
+			"properties": {
+				"hash": {
+					"type": "string"
+				},
+				"subscription_id": {
+					"type": "string"
+				},
+				"payment": {
+					"type": "object",
+					"properties": {
+						"amount": {
+							"type": "integer"
+						},
+						"currency": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"amount",
+						"currency"
+					]
+				}
+			},
+			"required": [
+				"hash",
+				"subscription_id",
+				"payment"
+			]
+		}
+	},
+	"required": [
+		"invoice"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"invoice": {
+		"hash": "a55555b55555c55555d55555e55555i=",
+		"subscription_id": "AB_555555555_55555555555555555",
+		"payment": {
+			"amount": 10,
+			"currency": "USD"
+		}
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_invoices__invoice_id__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "invoice": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payment": {
+                    "type": "object",
+                    "properties": {
+                        "amount": {
+                            "type": "integer"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amount",
+                        "currency"
+                    ]
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "payment",
+                "subscription_id",
+                "status",
+                "note"
+            ]
+        }
+    },
+    "required": [
+        "invoice"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "invoice": {
+        "id": "a55555b55555c55555d55555e55555i",
+        "payment": {
+            "amount": 10,
+            "currency": "USD"
+        },
+        "subscription_id": "AB_555555555_55555555555555555",
+        "status": "Success",
+        "note": ""
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_invoices__invoice_id__put_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_subscriptions">
+<span class="parent">/v3/accounts</span>/subscriptions</a>
+<span class="methods">
+<a href="#v3_accounts_subscriptions_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_subscriptions_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_subscriptions" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Subscription associated with an account.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_subscriptions_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route creates a subscription for the current user.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_subscriptions_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns all the subscriptions associated with the current user.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_subscriptions_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/subscriptions</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route creates a subscription for the current user.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_subscriptions_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_subscriptions_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"subscription": {
+			"type": "object",
+			"properties": {
+				"payment_method": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"payment_method_type": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"id",
+						"payment_method_type"
+					]
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"product": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								]
+							}
+						},
+						"required": [
+							"product"
+						]
+					}
+				},
+				"metadata": {
+					"type": "object",
+					"description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+					"properties": {
+						"key": {
+							"type": "Value"
+						}
+					}
+				}
+			},
+			"required": [
+				"payment_method",
+				"items"
+			]
+		}
+	},
+	"required": [
+		"subscription"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"subscription": {
+		"payment_method": {
+			"id": "CreditCard_57b767dc_1408d2ac22c4d294",
+			"payment_method_type": "CreditCard"
+		},
+		"items": [
+			{
+				"product": {
+					"id": "subscription_for_freeloaders"
+				}
+			}
+		],
+		"metadata": {
+			"currency": "USD"
+		}
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "subscription": {
+            "type": "object",
+            "properties": {
+                "billing_start_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "product": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "expiration-date": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "type": "object",
+                                        "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                                        "properties": {
+                                            "key": {
+                                                "type": "Value"
+                                            }
+                                        }
+                                    },
+                                    "price_plan": {
+                                        "type": "object",
+                                        "properties": {
+                                            "cycles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "cycles": {
+                                                            "type": "integer"
+                                                        },
+                                                        "period": {
+                                                            "type": "string"
+                                                        },
+                                                        "price": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "amount": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "currency": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "amount",
+                                                                "currency"
+                                                            ]
+                                                        },
+                                                        "unit": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "cycles",
+                                                        "period",
+                                                        "price",
+                                                        "unit"
+                                                    ]
+                                                }
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cycles",
+                                            "id"
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "description",
+                                    "expiration-date",
+                                    "id",
+                                    "price_plan",
+                                    "status",
+                                    "type"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "product"
+                        ]
+                    }
+                },
+                "payment_method": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "payment_method_type": {
+                            "type": "string"
+                        },
+                        "details": {
+                            "type": "object",
+                            "properties": {
+                                "last-digits": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "payment_method_type",
+                        "details"
+                    ]
+                },
+                "price": {
+                    "type": "object",
+                    "properties": {
+                        "amount": {
+                            "type": "integer"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amount",
+                        "currency"
+                    ]
+                },
+                "price_plan": {
+                    "type": "object",
+                    "properties": {
+                        "cycles": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cycles": {
+                                        "type": "integer"
+                                    },
+                                    "period": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": {
+                                                "type": "integer"
+                                            },
+                                            "currency": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "amount",
+                                            "currency"
+                                        ]
+                                    },
+                                    "unit": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "cycles",
+                                    "period",
+                                    "price",
+                                    "unit"
+                                ]
+                            }
+                        },
+                        "id": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "cycles",
+                        "id"
+                    ]
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "status"
+                    ]
+                }
+            },
+            "required": [
+                "billing_start_date",
+                "id",
+                "items",
+                "payment_method",
+                "price",
+                "price_plan",
+                "status"
+            ]
+        }
+    },
+    "required": [
+        "subscription"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "subscription": {
+        "billing_start_date": "2016-08-19T13:18:04-07:00",
+        "id": "AB_57b7697b_1b6cffa2ba517936",
+        "items": [
+            {
+                "product": {
+                    "description": "Freeloader product",
+                    "expiration-date": "2016-04-30T00:00:00-07:00",
+                    "id": "some product",
+                    "metadata": {
+                        "ooyalaEntitlementsPrefix": "oo:"
+                    },
+                    "price_plan": {
+                        "cycles": [
+                            {
+                                "cycles": 0,
+                                "period": "Day",
+                                "price": {
+                                    "amount": 5,
+                                    "currency": "USD"
+                                },
+                                "unit": 1
+                            }
+                        ],
+                        "id": "oneday"
+                    },
+                    "status": "Active",
+                    "type": "subscription"
+                }
+            }
+        ],
+        "payment_method": {
+            "id": "CreditCard_574de06b_32093f9949f7ce81",
+            "payment_method_type": "CreditCard",
+            "details": {
+                "last-digits": "2217"
+            }
+        },
+        "price": {
+            "amount": 15,
+            "currency": "USD"
+        },
+        "price_plan": {
+            "cycles": [
+                {
+                    "cycles": 0,
+                    "period": "Day",
+                    "price": {
+                        "amount": 5,
+                        "currency": "USD"
+                    },
+                    "unit": 1
+                }
+            ],
+            "id": "oneday"
+        },
+        "status": {
+            "status": "active"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_subscriptions_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/subscriptions</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns all the subscriptions associated with the current user.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_subscriptions_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_subscriptions_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "subscriptions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "payment_method": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "payment_method_type": {
+                                "type": "string"
+                            },
+                            "details": {
+                                "type": "object",
+                                "properties": {
+                                    "last-digits": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "payment_method_type",
+                            "details"
+                        ]
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "product": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "expiration-date": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "metadata": {
+                                            "type": "object",
+                                            "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                                            "properties": {
+                                                "key": {
+                                                    "type": "Value"
+                                                }
+                                            }
+                                        },
+                                        "price_plan": {
+                                            "type": "object",
+                                            "properties": {
+                                                "cycles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "cycles": {
+                                                                "type": "integer"
+                                                            },
+                                                            "period": {
+                                                                "type": "string"
+                                                            },
+                                                            "price": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "amount": {
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "currency": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "amount",
+                                                                    "currency"
+                                                                ]
+                                                            },
+                                                            "unit": {
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "cycles",
+                                                            "period",
+                                                            "price",
+                                                            "unit"
+                                                        ]
+                                                    }
+                                                },
+                                                "id": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "cycles",
+                                                "id"
+                                            ]
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "description",
+                                        "expiration-date",
+                                        "id",
+                                        "price_plan",
+                                        "status",
+                                        "type"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "product"
+                            ]
+                        }
+                    },
+                    "status": {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "status"
+                        ]
+                    },
+                    "billing_start_date": {
+                        "type": "string"
+                    },
+                    "price_plan": {
+                        "type": "object",
+                        "properties": {
+                            "cycles": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cycles": {
+                                            "type": "integer"
+                                        },
+                                        "period": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "object",
+                                            "properties": {
+                                                "amount": {
+                                                    "type": "integer"
+                                                },
+                                                "currency": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "amount",
+                                                "currency"
+                                            ]
+                                        },
+                                        "unit": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "cycles",
+                                        "period",
+                                        "price",
+                                        "unit"
+                                    ]
+                                }
+                            },
+                            "id": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "cycles",
+                            "id"
+                        ]
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                        "properties": {
+                            "key": {
+                                "type": "Value"
+                            }
+                        }
+                    },
+                    "price": {
+                        "type": "null"
+                    }
+                },
+                "required": [
+                    "id",
+                    "payment_method",
+                    "items",
+                    "status",
+                    "billing_start_date",
+                    "price_plan",
+                    "price"
+                ]
+            }
+        }
+    },
+    "required": [
+        "subscriptions"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "subscriptions": [
+        {
+            "id": "AB_5781227c_1408d2ac22c4d294",
+            "payment_method": {
+                "id": "CreditCard_574de06b_32093f9949f7ce81",
+                "payment_method_type": "CreditCard",
+                "details": {
+                    "last-digits": "2217"
+                }
+            },
+            "items": [
+                {
+                    "product": {
+                        "description": "Freeloader product",
+                        "expiration-date": "2016-04-30T00:00:00-07:00",
+                        "id": "some product",
+                        "metadata": {
+                            "ooyalaEntitlementsPrefix": "oo:"
+                        },
+                        "price_plan": {
+                            "cycles": [
+                                {
+                                    "cycles": 0,
+                                    "period": "Day",
+                                    "price": {
+                                        "amount": 5,
+                                        "currency": "USD"
+                                    },
+                                    "unit": 1
+                                }
+                            ],
+                            "id": "oneday"
+                        },
+                        "status": "Active",
+                        "type": "subscriptions"
+                    }
+                }
+            ],
+            "status": {
+                "status": "active"
+            },
+            "billing_start_date": "2016-07-09T09:12:45-07:00",
+            "price_plan": {
+                "cycles": [
+                    {
+                        "cycles": 0,
+                        "period": "Day",
+                        "price": {
+                            "amount": 5,
+                            "currency": "USD"
+                        },
+                        "unit": 1
+                    }
+                ],
+                "id": "oneday"
+            },
+            "metadata": {
+                "next_billing_date_time": "2016-09-09T00:00:00-07:00"
+            },
+            "price": null
+        }
+    ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_subscriptions__subscription_id_">
+<span class="parent">/v3/accounts/subscriptions</span>/{subscription_id}</a>
+<span class="methods">
+<a href="#v3_accounts_subscriptions__subscription_id__put">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_subscriptions__subscription_id__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_subscriptions__subscription_id__delete">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_subscriptions__subscription_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Creates a new subscription or remove or update a specific subscription of the current user previously created.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_subscriptions__subscription_id__put'" class="list-group-item">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Helps confirm the payment of a subscription by a hosted page.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_subscriptions__subscription_id__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns a specific subscription for the current user.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_subscriptions__subscription_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Changes the status of a specific subscription for the current user to canceled. Cancellation prevents further renewals. The user’s entitlements remain until the end of the current cycle.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_subscriptions__subscription_id__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts/subscriptions</span>/{subscription_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Helps confirm the payment of a subscription by a hosted page.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_subscriptions__subscription_id__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__put_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_subscriptions__subscription_id__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>subscription_id</strong>: <em>required (string)</em>
+<p>Invoice id for the subscription or one time purchase that was previously created. type: string example: AB_57b77c6b_243a768b7c4e0b68</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"update": {
+			"type": "string"
+		},
+		"subscription": {
+			"type": "object",
+			"properties": {
+				"payment_method": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string"
+						},
+						"details": {
+							"type": "object",
+							"properties": {
+								"token": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"token"
+							]
+						}
+					},
+					"required": [
+						"type",
+						"details"
+					]
+				}
+			},
+			"required": [
+				"payment_method"
+			]
+		}
+	},
+	"required": [
+		"update",
+		"subscription"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"update": "authorizePayment",
+	"subscription": {
+		"payment_method": {
+			"type": "Hosted",
+			"details": {
+				"token": "eb1ea101f959e6abd40605ab27e3b16c325f851d"
+			}
+		}
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "subscription": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payment_method": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "payment_method_type": {
+                            "type": "string"
+                        },
+                        "details": {
+                            "type": "object",
+                            "properties": {
+                                "last-digits": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "payment_method_type",
+                        "details"
+                    ]
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "product": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "expiration-date": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "type": "object",
+                                        "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                                        "properties": {
+                                            "key": {
+                                                "type": "Value"
+                                            }
+                                        }
+                                    },
+                                    "price_plan": {
+                                        "type": "object",
+                                        "properties": {
+                                            "cycles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "cycles": {
+                                                            "type": "integer"
+                                                        },
+                                                        "period": {
+                                                            "type": "string"
+                                                        },
+                                                        "price": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "amount": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "currency": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "amount",
+                                                                "currency"
+                                                            ]
+                                                        },
+                                                        "unit": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "cycles",
+                                                        "period",
+                                                        "price",
+                                                        "unit"
+                                                    ]
+                                                }
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cycles",
+                                            "id"
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "description",
+                                    "expiration-date",
+                                    "id",
+                                    "price_plan",
+                                    "status",
+                                    "type"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "product"
+                        ]
+                    }
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "status"
+                    ]
+                },
+                "billing_start_date": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                    "properties": {
+                        "key": {
+                            "type": "Value"
+                        }
+                    }
+                },
+                "price": {
+                    "type": "object",
+                    "properties": {
+                        "amount": {
+                            "type": "integer"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amount",
+                        "currency"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "payment_method",
+                "items",
+                "status",
+                "billing_start_date",
+                "price"
+            ]
+        }
+    },
+    "required": [
+        "subscription"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "subscription": {
+        "id": "AB_5781227c_1408d2ac22c4d294",
+        "payment_method": {
+            "id": "CreditCard_574de06b_32093f9949f7ce81",
+            "payment_method_type": "CreditCard",
+            "details": {
+                "last-digits": "2217"
+            }
+        },
+        "items": [
+            {
+                "product": {
+                    "description": "Freeloader product",
+                    "expiration-date": "2016-04-30T00:00:00-07:00",
+                    "id": "some product",
+                    "metadata": {
+                        "ooyalaEntitlementsPrefix": "oo:"
+                    },
+                    "price_plan": {
+                        "cycles": [
+                            {
+                                "cycles": 0,
+                                "period": "Day",
+                                "price": {
+                                    "amount": 5,
+                                    "currency": "USD"
+                                },
+                                "unit": 1
+                            }
+                        ],
+                        "id": "oneday"
+                    },
+                    "status": "Active",
+                    "type": "subscriptions"
+                }
+            }
+        ],
+        "status": {
+            "status": "active"
+        },
+        "billing_start_date": "2016-07-09T09:12:45-07:00",
+        "metadata": {
+            "next_billing_date_time": "2016-09-09T00:00:00-07:00"
+        },
+        "price": {
+            "amount": 15,
+            "currency": "USD"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__put_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_subscriptions__subscription_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts/subscriptions</span>/{subscription_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns a specific subscription for the current user.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_subscriptions__subscription_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_subscriptions__subscription_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>subscription_id</strong>: <em>required (string)</em>
+<p>Invoice id for the subscription or one time purchase that was previously created. type: string example: AB_57b77c6b_243a768b7c4e0b68</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "subscription": {
+        "id": "AB_57b77c6b_243a768b7c4e0b68",
+        "payment_method": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payment_method_type": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "object",
+                    "properties": {
+                        "last-digits": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "payment_method_type",
+                "details"
+            ]
+        },
+        "items": [
+            {
+                "product": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        },
+                        "expiration-date": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "string"
+                        },
+                        "metadata": {
+                            "type": "object",
+                            "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                            "properties": {
+                                "key": {
+                                    "type": "Value"
+                                }
+                            }
+                        },
+                        "price_plan": {
+                            "type": "object",
+                            "properties": {
+                                "cycles": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "cycles": {
+                                                "type": "integer"
+                                            },
+                                            "period": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "amount": {
+                                                        "type": "integer"
+                                                    },
+                                                    "currency": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "amount",
+                                                    "currency"
+                                                ]
+                                            },
+                                            "unit": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "cycles",
+                                            "period",
+                                            "price",
+                                            "unit"
+                                        ]
+                                    }
+                                },
+                                "id": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "cycles",
+                                "id"
+                            ]
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "description",
+                        "expiration-date",
+                        "id",
+                        "price_plan",
+                        "status",
+                        "type"
+                    ]
+                }
+            }
+        ],
+        "status": {
+            "status": "active"
+        },
+        "billing_start_date": "2016-08-19T14:38:52-07:00",
+        "price_plan": {
+            "type": "object",
+            "properties": {
+                "cycles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cycles": {
+                                "type": "integer"
+                            },
+                            "period": {
+                                "type": "string"
+                            },
+                            "price": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {
+                                        "type": "integer"
+                                    },
+                                    "currency": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "amount",
+                                    "currency"
+                                ]
+                            },
+                            "unit": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "cycles",
+                            "period",
+                            "price",
+                            "unit"
+                        ]
+                    }
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cycles",
+                "id"
+            ]
+        },
+        "price": null
+    }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "subscription": {
+        "id": "AB_57b77c6b_243a768b7c4e0b68",
+        "payment_method": {
+            "id": "CreditCard_574de06b_32093f9949f7ce81",
+            "payment_method_type": "CreditCard",
+            "details": {
+                "last-digits": "2217"
+            }
+        },
+        "items": [
+            {
+                "product": {
+                    "description": "Freeloader product",
+                    "expiration-date": "2016-04-30T00:00:00-07:00",
+                    "id": "some product",
+                    "metadata": {
+                        "ooyalaEntitlementsPrefix": "oo:"
+                    },
+                    "price_plan": {
+                        "cycles": [
+                            {
+                                "cycles": 0,
+                                "period": "Day",
+                                "price": {
+                                    "amount": 5,
+                                    "currency": "USD"
+                                },
+                                "unit": 1
+                            }
+                        ],
+                        "id": "oneday"
+                    },
+                    "status": "Active",
+                    "type": "subscription"
+                }
+            }
+        ],
+        "status": {
+            "status": "active"
+        },
+        "billing_start_date": "2016-08-19T14:38:52-07:00",
+        "price_plan": {
+            "cycles": [
+                {
+                    "cycles": 0,
+                    "period": "Day",
+                    "price": {
+                        "amount": 5,
+                        "currency": "USD"
+                    },
+                    "unit": 1
+                }
+            ],
+            "id": "oneday"
+        },
+        "price": null
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_subscriptions__subscription_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts/subscriptions</span>/{subscription_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Changes the status of a specific subscription for the current user to canceled. Cancellation prevents further renewals. The user’s entitlements remain until the end of the current cycle.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_subscriptions__subscription_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_subscriptions__subscription_id__delete_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_subscriptions__subscription_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>subscription_id</strong>: <em>required (string)</em>
+<p>Invoice id for the subscription or one time purchase that was previously created. type: string example: AB_57b77c6b_243a768b7c4e0b68</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_subscriptions__subscription_id__delete_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_v3_accounts_onetime_charges">
+<span class="parent">/v3/accounts</span>/onetime-charges</a>
+<span class="methods">
+<a href="#v3_accounts_onetime_charges_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#v3_accounts_onetime_charges_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_v3_accounts_onetime_charges" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Creates an one time charge or returns all the one time charges associated at the current account.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#v3_accounts_onetime_charges_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Creates a one-time charge used for Pay-Per-View products.</p>
+<p>
+<pre> The hash field in the request must be formed as is shown below.</pre>
+</p>
+<p>
+<pre> Create a string with the format:</pre>
+<pre>
+<code>
+  base64 ( SHA_256( [Assets] + [Labels] + [Offers] , KEY) )
+  </code>
+</pre>
+<pre> Where:</pre>
+<pre>
+<code>
+  [Assets] = Asset_1 + Asset_2 + ... + Asset_n
+  [Labels] = Label_1 + Label_2 + ... + Label_n
+  [Offers] = Offer_1 + Offer_2 + ... + Offer_n
+  </code>
+</pre>
+<pre>Each of thease element has this format:</pre>
+<pre>
+<code>
+  ContentId + ExternalProductID + startTime + endTime + rentalWindow.
+  KEY = backlot API key.
+  </code>
+</pre>
+</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#v3_accounts_onetime_charges_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns the history of one-time charges on the current account.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_onetime_charges_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/onetime-charges</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates a one-time charge used for Pay-Per-View products.</p>
+<p>
+<pre> The hash field in the request must be formed as is shown below.</pre>
+</p>
+<p>
+<pre> Create a string with the format:</pre>
+<pre>
+<code>
+  base64 ( SHA_256( [Assets] + [Labels] + [Offers] , KEY) )
+  </code>
+</pre>
+<pre> Where:</pre>
+<pre>
+<code>
+  [Assets] = Asset_1 + Asset_2 + ... + Asset_n
+  [Labels] = Label_1 + Label_2 + ... + Label_n
+  [Offers] = Offer_1 + Offer_2 + ... + Offer_n
+  </code>
+</pre>
+<pre>Each of thease element has this format:</pre>
+<pre>
+<code>
+  ContentId + ExternalProductID + startTime + endTime + rentalWindow.
+  KEY = backlot API key.
+  </code>
+</pre>
+</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_onetime_charges_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_onetime_charges_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_onetime_charges_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_onetime_charges_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"purchase": {
+			"type": "object",
+			"properties": {
+				"payment_method": {
+					"type": "object",
+					"properties": {
+						"payment_method_type": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"payment_method_type"
+					]
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"product": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								]
+							},
+							"content": {
+								"type": "object",
+								"properties": {
+									"hash": {
+										"type": "string"
+									},
+									"offers": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"content_id": {
+													"type": "string"
+												},
+												"end_time": {
+													"type": "string"
+												},
+												"external_product_id": {
+													"type": "string"
+												},
+												"rental_window": {
+													"type": "object",
+													"properties": {
+														"hours_to_finish": {
+															"type": "integer"
+														}
+													},
+													"required": [
+														"hours_to_finish"
+													]
+												},
+												"start_time": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								},
+								"required": [
+									"hash",
+									"offers"
+								]
+							}
+						}
+					}
+				},
+				"currency": {
+					"type": "string"
+				},
+				"metadata": {
+					"type": "object",
+					"description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+					"properties": {
+						"key": {
+							"type": "Value"
+						}
+					}
+				}
+			},
+			"required": [
+				"payment_method",
+				"items",
+				"currency"
+			]
+		}
+	},
+	"required": [
+		"purchase"
+	]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+	"purchase": {
+		"payment_method": {
+			"payment_method_type": "MAP"
+		},
+		"items": [
+			{
+				"product": {
+					"id": "MIDAS_PPV_2_DAY"
+				},
+				"content": {
+					"hash": "HDPFDmMhYdwwr0jXGoeBsw9FGOMRwUNntXaIeoy2zoc=",
+					"offers": [
+						{
+							"content_id": "6545954:6541740",
+							"end_time": "2016-07-03T20:00:27Z",
+							"external_product_id": "MIDAS_SVOD_BASIC",
+							"rental_window": {
+								"hours_to_finish": 48
+							},
+							"start_time": "2016-07-01T20:00:27Z"
+						}
+					]
+				}
+			}
+		],
+		"currency": "USD",
+		"metadata": {
+			"dry_run": false
+		}
+	}
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_onetime_charges_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "purchase": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "product": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "expiration-date": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "type": "object",
+                                        "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                                        "properties": {
+                                            "key": {
+                                                "type": "Value"
+                                            }
+                                        }
+                                    },
+                                    "price_plan": {
+                                        "type": "object",
+                                        "properties": {
+                                            "cycles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "cycles": {
+                                                            "type": "integer"
+                                                        },
+                                                        "period": {
+                                                            "type": "string"
+                                                        },
+                                                        "price": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "amount": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "currency": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "amount",
+                                                                "currency"
+                                                            ]
+                                                        },
+                                                        "unit": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "cycles",
+                                                        "period",
+                                                        "price",
+                                                        "unit"
+                                                    ]
+                                                }
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cycles",
+                                            "id"
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "description",
+                                    "expiration-date",
+                                    "id",
+                                    "price_plan",
+                                    "status",
+                                    "type"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "product"
+                        ]
+                    }
+                },
+                "payment_method": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "payment_method_type": {
+                            "type": "string"
+                        },
+                        "details": {
+                            "type": "object",
+                            "properties": {
+                                "last-digits": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "payment_method_type",
+                        "details"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "metadata": {
+                    "type": "object",
+                    "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                    "properties": {
+                        "key": {
+                            "type": "Value"
+                        }
+                    }
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "status"
+                    ]
+                }
+            },
+            "required": [
+                "items",
+                "payment_method",
+                "id",
+                "currency",
+                "amount",
+                "status"
+            ]
+        }
+    },
+    "required": [
+        "purchase"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "purchase": {
+        "items": [
+            {
+                "product": {
+                    "description": "Freeloader product",
+                    "expiration-date": "2016-04-30T00:00:00-07:00",
+                    "id": "some product",
+                    "metadata": {
+                        "ooyalaEntitlementsPrefix": "oo:"
+                    },
+                    "price_plan": {
+                        "cycles": [
+                            {
+                                "cycles": 0,
+                                "period": "Day",
+                                "price": {
+                                    "amount": 5,
+                                    "currency": "USD"
+                                },
+                                "unit": 1
+                            }
+                        ],
+                        "id": "oneday"
+                    },
+                    "status": "Active",
+                    "type": "pvv"
+                }
+            }
+        ],
+        "payment_method": {
+            "id": "CreditCard_574de06b_32093f9949f7ce81",
+            "payment_method_type": "CreditCard",
+            "details": {
+                "last-digits": "2217"
+            }
+        },
+        "id": "TX_57bb338f_144419db794209ff",
+        "currency": "USD",
+        "amount": 2,
+        "metadata": {},
+        "status": {
+            "status": "active"
+        }
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_onetime_charges_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="v3_accounts_onetime_charges_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/v3/accounts</span>/onetime-charges</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns the history of one-time charges on the current account.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Token generated by the pcode of the provider, account ID of a user under the provider, the API Key of the provider and the API secret of the provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#v3_accounts_onetime_charges_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#v3_accounts_onetime_charges_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#v3_accounts_onetime_charges_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="v3_accounts_onetime_charges_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>pcm_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom product catalog manager id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+<li>
+<strong>bv_id</strong>: <em>required (one of stripe, vindicia)</em>
+<p>The custom billing vendor id, <code>vindicia</code> and <code>stripe</code> are supported.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="v3_accounts_onetime_charges_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "purchases": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "product": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "expiration-date": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "metadata": {
+                                            "type": "object",
+                                            "description": "Metadata requirement is defined by each adapter specification and they are a pair of key and value. ",
+                                            "properties": {
+                                                "key": {
+                                                    "type": "Value"
+                                                }
+                                            }
+                                        },
+                                        "price_plan": {
+                                            "type": "object",
+                                            "properties": {
+                                                "cycles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "cycles": {
+                                                                "type": "integer"
+                                                            },
+                                                            "period": {
+                                                                "type": "string"
+                                                            },
+                                                            "price": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "amount": {
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "currency": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "amount",
+                                                                    "currency"
+                                                                ]
+                                                            },
+                                                            "unit": {
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "cycles",
+                                                            "period",
+                                                            "price",
+                                                            "unit"
+                                                        ]
+                                                    }
+                                                },
+                                                "id": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "cycles",
+                                                "id"
+                                            ]
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "description",
+                                        "expiration-date",
+                                        "id",
+                                        "price_plan",
+                                        "status",
+                                        "type"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "product"
+                            ]
+                        }
+                    },
+                    "payment_method": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "payment_method_type": {
+                                "type": "string"
+                            },
+                            "details": {
+                                "type": "object",
+                                "properties": {
+                                    "last-digits": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "payment_method_type",
+                            "details"
+                        ]
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "currency": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "integer"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "status": {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "status"
+                        ]
+                    }
+                },
+                "required": [
+                    "items",
+                    "payment_method",
+                    "id",
+                    "currency",
+                    "amount",
+                    "status"
+                ]
+            }
+        }
+    },
+    "required": [
+        "purchases"
+    ]
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "purchases": [
+        {
+            "items": [
+                {
+                    "product": {
+                        "description": "Freeloader product",
+                        "expiration-date": "2016-04-30T00:00:00-07:00",
+                        "id": "some product",
+                        "metadata": {
+                            "ooyalaEntitlementsPrefix": "oo:"
+                        },
+                        "price_plan": {
+                            "cycles": [
+                                {
+                                    "cycles": 0,
+                                    "period": "Day",
+                                    "price": {
+                                        "amount": 5,
+                                        "currency": "USD"
+                                    },
+                                    "unit": 1
+                                }
+                            ],
+                            "id": "oneday"
+                        },
+                        "status": "Active",
+                        "type": "pvv"
+                    }
+                }
+            ],
+            "payment_method": {
+                "id": "CreditCard_574de06b_32093f9949f7ce81",
+                "payment_method_type": "CreditCard",
+                "details": {
+                    "last-digits": "2217"
+                }
+            },
+            "id": "OOYALADE00055643",
+            "currency": "USD",
+            "amount": 1,
+            "metadata": {},
+            "status": {
+                "status": "active"
+            }
+        }
+    ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Billing vendor error.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "BillingVendorError",
+    "message": "",
+    "metadata": {
+      "returnedCode": "400",
+      "returnedError": "PayPal tx needs to be in AuthPending dispsosition Disposition AuthorizationPending 175140249(10)"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid account token."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - Unauthorized request.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "UnauthorizedBillingRequestError",
+    "message": "Content.hash is not valid",
+    "metadata": {
+      "unauthorizedResource": "Content"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not found - A resource is not found.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ResourceNotFound",
+    "message": "",
+    "metadata": {
+      "resourceId": "MIDAS_ybom_DAY",
+      "resourceName": "Product"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a>
+</h2>
+<p>ObjectConversionError - A field is missing, invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "ObjectConversionError",
+    "message": "id is empty",
+    "metadata": {
+      "dest": "vendor.PaymentMethod",
+      "field": "payment_method.id",
+      "source": "ooyala.PaymentMethod"
+    }
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "error": {
+    "code": "InternalServerError",
+    "message": "An internal error occurred while processing the request"
+  }
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="v3_accounts_onetime_charges_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#v3_account">Account</a>
+</li>
+<li>
+<a href="#v3_accounts">Accounts</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

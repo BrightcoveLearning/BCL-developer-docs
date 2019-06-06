@@ -1,8 +1,11 @@
 openapi: 3.0.0
 info:
   title: OAuth API Reference
-  description: >-
+  description: |-
     Reference for the Brightcove OAuth API, used to get client credentials and access tokens for the other APIs.
+
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/oauth-api)**.
+
     **Base URL**: https://oauth.brightcove.com/v4
   version: 4.0.0
 servers:
@@ -91,20 +94,13 @@ paths:
         - $ref: '#/components/parameters/Credentials_Authorization'
       requestBody:
         description: >-
-          Create client credential, consisting of a client-id and client_secret
-          used in getting an access token for one or more APIs Note: client
-          credentials are permanent unless revoked, but you must save the client
-          secret when you create it - it can never be retrieved again.
+          Create client credential, consisting of a client-id and client_secret used in getting an access token for one or more APIs Note: client credentials are permanent unless revoked, but you must save the client secret when you create it - it can never be retrieved again.
         content:
           application/json:
             schema:
               description: >-
-                Create client credential, consisting of a client-id and
-                client_secret used in getting an access token for one or more
-                APIs Note: client credentials are permanent unless revoked, but
-                you must save the client secret when you create it - it can
-                never be retrieved again.
-              $ref: '#/components/schemas/CreateClientCredentialbody'
+                Create client credential, consisting of a client-id and client_secret used in getting an access token for one or more APIs Note: client credentials are permanent unless revoked, but you must save the client secret when you create it - it can never be retrieved again.
+              $ref: '#/components/schemas/ClientCredentialbody'
         required: true
       responses:
         '200':
@@ -181,6 +177,16 @@ paths:
         - $ref: '#/components/parameters/client_id'
         - $ref: '#/components/parameters/Credentials_Content-Type'
         - $ref: '#/components/parameters/Credentials_Authorization'
+      requestBody:
+        description: >-
+          Create client credential, consisting of a client-id and client_secret used in getting an access token for one or more APIs Note: client credentials are permanent unless revoked, but you must save the client secret when you create it - it can never be retrieved again.
+        content:
+          application/json:
+            schema:
+              description: >-
+                Create client credential, consisting of a client-id and client_secret used in getting an access token for one or more APIs Note: client credentials are permanent unless revoked, but you must save the client secret when you create it - it can never be retrieved again.
+              $ref: '#/components/schemas/ClientCredentialbody'
+        required: true
       responses:
         '200':
           description: '200'
@@ -207,7 +213,8 @@ paths:
       tags:
         - Client_Credential
       summary: Delete Client Credential
-      description: 'Update a client credential '
+      description: >-
+         Delete a client credential
       operationId: DeleteClientCredential
       parameters:
         - $ref: '#/components/parameters/client_id'
@@ -264,7 +271,7 @@ components:
     Credentials_Authorization:
       name: Authorization
       in: header
-      description: 'Authorization: BC_TOKEN your_BC_TOKEN (see Get BC_TOKEN)'
+      description: 'Authorization: BC_TOKEN your_BC_TOKEN (see [Get BC_TOKEN](https://support.brightcove.com/get-client-credentials))'
       required: true
       style: simple
       explode: false
@@ -307,13 +314,12 @@ components:
         type:
           type: string
           description: the token type - always `Bearer`;
-      example: >-
-        {
+      example: {
           "access_token": "AC_MwVlYMlOUOylkREbsUpgzajEkMqHNEAC-QDUWFpiHW20ZRxlHNo6xYWFYCVL76W3sl-mo42lJnsxuWazzniaHJmMBUU70Rr0xJkw6rRASNKCRXjnTlGMZPB4f7VQdyTHMVil1nuqojuCh--FwVYQG54jtiNoljBsng84lwQDFy9D8iVcLOkmtwtQd_v9ohN6UTmkFmyhRc5JQrKvjaCjQqcsDdGcaBbMwLGHfSRnM4QDr-y7UUGlPGdxiP7I9RMwzFITg-U9gv0x7IOq1-CKQJtjjQ14f0roFLd14MtwvuQluUwxo3HZHny8VaLz5ocsH9gvYauzvecYN0SCvn4Si4iMmh6yg63pXn_kj8jkDI3HtR75RwB_oFCSKZJautiD67yuOaXyHV1yY7fQmPjB69q44cSpVhY0U20sH3jEASdpLF2MogTe6ohD4cVz7Y7-aeKzEbO00jVohzat1brgbuCvNAB73xNX5tym2Py24TBp6vMln69Zk8P0WoWoQiSiLw89Y7y8XpiwVjLf7do_13hsAi3TVpVOiTTUZ_ENUAjKu7Yq6pmA_2cVtl82rpgWNIeN-St0FXekuOqU2FyXWxIbthikC_2TsK_lfcfqVEis2gvD_5OWfSx9RJ7kKaQFeD_zHFmzeK-04teaIf9gPL4mfof1nvtHVLF_ZDmugxDL08xmktOaqH839oP0OIuVjKdnZe-uQI9Q64M20VC9NJI1do1B7ZfXtS-zTBNf2W002lAqToDKf8t2tRmRdzF8ttL0hz-zc1hFIKkbCcD1kKpdfsc1zym7ADGJ_jnXucyF9bpdh3ImElPKfA5TxGt7n46ijbQno00zXYgsbkRzK6B8ngawUXzEn6o7NjuALynBhxOcrhVQ",
           "token_type": "Bearer",
           "expires_in": 300
         }
-    CreateClientCredentialbody:
+    ClientCredentialbody:
       title: Create_Client_CredentialBody
       required:
         - type
@@ -328,7 +334,7 @@ components:
         maximum_scope:
           type: array
           items:
-            $ref: '#/components/schemas/CreateClientCredentialbody.maximumScope'
+            $ref: '#/components/schemas/ClientCredentialbody.maximumScope'
           description: >-
             array of maps specifying the accounts and API operations for the
             credentials
@@ -338,7 +344,24 @@ components:
         description:
           type: string
           description: description for the credentials
-    CreateClientCredentialbody.maximumScope:
+        example: {
+            "type": "credential",
+            "maximum_scope": [
+              {
+                "identity": {
+                  "type": "video-cloud-account",
+                  "account-id": 57838016001
+                },
+                "operations": [
+                  "video-cloud/video/all",
+                  "video-cloud/asset/all",
+                  "video-cloud/notifications/all"
+                ]
+              }
+            ],
+            "name": "update-test"
+          }
+    ClientCredentialbody.maximumScope:
       title: Create_Client_CredentialBody.maximum_scope
       required:
         - identity
@@ -347,8 +370,8 @@ components:
         identity:
           description: map defining the account and operations
           $ref: >-
-            #/components/schemas/CreateClientCredentialbody.maximumScope.identity
-    CreateClientCredentialbody.maximumScope.identity:
+            #/components/schemas/ClientCredentialbody.maximumScope.identity
+    ClientCredentialbody.maximumScope.identity:
       title: Create_Client_CredentialBody.maximum_scope.identity
       required:
         - type
@@ -443,8 +466,7 @@ components:
           description: >-
             array of maps specifying the accounts and API operations for the
             credentials
-      example: >-
-        {
+      example: {
           "redirect_url": null,
           "maximum_scope": [
             {

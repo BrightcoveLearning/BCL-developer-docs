@@ -1,0 +1,6 @@
+var classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_current_item_changed_notification_handler =
+[
+    [ "CurrentItemChangedNotificationHandler", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_current_item_changed_notification_handler.html#a7d4c37b0ebf28e2699f29394843fdd4d", null ],
+    [ "getNotificationName", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_current_item_changed_notification_handler.html#abaccacd7eaece9dd769e4f27a6b3651c", null ],
+    [ "handle", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_current_item_changed_notification_handler.html#ae3b6526d050c09b81fd6ab4cfca6f579", null ]
+];

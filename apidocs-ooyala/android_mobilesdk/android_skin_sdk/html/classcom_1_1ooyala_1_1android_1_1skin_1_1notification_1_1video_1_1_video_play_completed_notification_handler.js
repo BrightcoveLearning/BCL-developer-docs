@@ -1,0 +1,5 @@
+var classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1video_1_1_video_play_completed_notification_handler =
+[
+    [ "VideoPlayCompletedNotificationHandler", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1video_1_1_video_play_completed_notification_handler.html#ab7ee3a9538cddc52cd9cde9e5b2d8834", null ],
+    [ "handle", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1video_1_1_video_play_completed_notification_handler.html#ad845787fb425beb435e8d59f512f27fd", null ]
+];

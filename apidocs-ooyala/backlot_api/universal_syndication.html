@@ -1,0 +1,652 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Universal Syndication</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Universal Syndication</h2>
+
+<p>
+	Universal Syndication for use with the <a href="index.html">Backlot API</a> is available as part of the <b>Enterprise</b> package. Feel free to contact our
+	<a href="mailto:sales@ooyala.com?Subject=Universal%20Syndication%20trial">sales team</a> or your account manager if you would like to try it for 90 days.
+</p>
+
+<p>
+	Ooyala supports many specific kinds of syndications.  If you cannot find a specific syndication type that meets your needs, you can always create a universal syndication.
+	Universal syndications rely on the Universal Syndication Template Language (<b>USTL</b>).
+	See also <a href="http://help-ooyala.brightcove.com/video-platform/reference/fms.html" target="_blank">this page</a> for a general reference.
+</p>
+
+<p>
+	Using the custom Feed Template Language, you can easily create custom feeds.
+	Simply
+	<ul>
+		<li>Create a Universal Feed in the <i>Publish</i> tab, <i>External Syndication</i> subtab in Backlot or via the API.</li>
+		<li>Select the content you would like to include in the feed.</li>
+		<li>Upload a template for it.</li>
+	</ul>
+</p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Actions" class="panel-title">Actions</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<ul>
+				<li id="Create+a+feed"><p><b>Create a feed.</b>
+
+			Start by creating a universal feed.  (For more details on how to manage
+			syndications, please see the <a href="index.html#v2_syndications_get">syndications</a> section.)</p>
+
+			<pre><code>
+[POST] /v2/syndications
+
+{
+    "name": "my custom feed",
+    "type": "universal"
+}
+			</code></pre></li>
+
+			<li id="Upload+a+custom+template"><p><b>Upload a custom template.</b></p>
+
+			<pre><code>
+[PUT] /v2/syndications/{syndication_id}/template
+
+&lt;template body&gt;
+</code></pre>
+
+			<p>The "syndication_url" property (found in the syndication object) contains the feed URL.</p>
+
+			<p>If there are syntax errors in the template, the server will return an error message and the template will not be uploaded.</p></li>
+
+			<li id="Retrieve+a+custom+template"><p><b>Retrieve a custom template.</b></p>
+
+			<pre><code>
+[GET] /v2/syndications/{syndication_id}/template
+			</code></pre></li>
+
+			<p>For template examples, see this <a href="template_examples.html" target="_blank">reference</a>.</p>
+
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Feed+Template+Properties" class="panel-title">Feed Template Properties</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+
+<p>A collection of all the assets in that syndication is available via the 'assets' collection.  Each asset contains the following properties, available via the '.' (dot) operator.</p>
+
+<pre><code>
+asset.name
+asset.description
+asset.preview_image.url
+asset.metadata["key"]
+asset.duration
+asset.flight_start_time
+asset.flight_end_time
+asset.created_at
+asset.updated_at
+asset.embed_code
+asset.asset_type
+asset.hosted_at
+asset.uploaded_by_user
+asset.aspect_ratio
+asset.original_file_name
+asset.closed_captions_url
+asset.status
+asset.external_id
+</code></pre>
+
+<p>Live stream assets (deprecated) also contain the following properties:</p>
+
+<pre><code>
+asset.primary_entry_point
+asset.backup_entry_point
+asset.is_flash
+asset.is_ios
+asset.encodings
+</code></pre>
+
+<p>You can easily access the streams available for each asset, by using the following properties:</p>
+
+<pre><code>
+asset.streams     // Non-remote assets
+asset.abr_stream_urls // Non-remote assets
+asset.stream_urls // Remote assets
+</code></pre>
+
+<p>Refer to the <strong>Streams</strong> section for details on each of these properties.</p>
+
+<p>You can access labels through the <code>asset.labels</code> property. Refer to the <strong>Labels</strong> section for details.</p>
+
+<h2 id="Preview+images">Preview images</h2>
+
+<p>A preview image is the image that is shown in the player before the movie
+starts.  The following properties are available for a preview image: "url",
+"width", and "height".  For example:</p>
+
+<pre><code>
+asset.preview_image.url
+asset.preview_image.width
+asset.preview_image.height
+</code></pre>
+
+<p>You can set your own preview images for an asset using the
+<a href="index.html#v2_assets_get">assets</a> API.  If you do not set your own preview images, a
+default preview image will be used.  There may be several different
+resolutions for a preview image (all having the same aspect ratio). You can specify
+one of the preview images using constraints on the height or width.  For example,</p>
+
+<pre><code>
+asset.preview_image[height &gt; 400].url
+asset.preview_image[height &lt;= 640].url
+asset.preview_image[width &gt;= 400].url
+asset.preview_image[width = 320].url
+asset.preview_image[max height].url
+asset.preview_image[max width].url
+asset.preview_image[min height].url
+asset.preview_image[min width].url
+</code></pre>
+
+<p>If you specify a constraint of <code>[height &gt; 400]</code>, for example, then
+you will get the smallest preview image whose height is greater than 400.  If
+there is no such image, then an empty string will be returned.</p>
+
+<h2 id="Streams">Streams</h2>
+
+<p>The meaning of a stream is different for different asset types.</p>
+
+<h3 id="Remote+assets">Remote assets</h3>
+
+<p>Remote assets have a stream_urls property with the following sub-properties:</p>
+
+<pre><code>
+asset.stream_urls.flash
+asset.stream_urls.iphone
+asset.stream_urls.ipad
+asset.stream_urls.itunes
+asset.stream_urls.source_file
+</code></pre>
+
+<p>These correspond to the asset properties set through the API; see the documentation under [assets] for more information.</p>
+
+<h3 id="Non-Remote+Assets+(Video,+Ad)">Non-Remote Assets (Video, Ad)</h3>
+
+<p>For regular assets, streams are available through the special asset.streams collection. Items in this collection have the following properties:</p>
+
+<pre><code>
+asset.streams.audio_codec
+asset.streams.container      // container format - mp4, 3gp, etc.
+asset.streams.file_size      // specified in bytes
+asset.streams.url            // not available for filtering
+asset.streams.video_bitrate  // specified in kbs
+asset.streams.video_codec
+asset.streams.video_height
+asset.streams.video_width
+</code></pre>
+
+<p>Example: Print video dimensions for all streams:</p>
+
+<pre><code>
+{% for stream in asset.streams %}
+  width:{{ stream.video_width }}
+  height:{{ stream.video_height }}
+{% endfor %}
+</code></pre>
+
+<p>The streams collection can be filtered using a the bracket notation according to any of these properties (except url), as well as the following device classes:</p>
+
+<pre><code>
+iphone
+ipad
+</code></pre>
+<!--flash_enabled-->
+
+<p>These device classes will include only streams playable on the named devices.  If multiple filters are given, only streams matching <strong>all</strong> of them will be included.  Note that numeric fields may use inequalities, while only equality is valid for non-numeric fields.</p>
+
+<p>Example: Print urls for all streams with width at least 640 using the MP4 container format:</p>
+
+<pre><code>
+{% for stream in asset.streams[video_width &gt;= 640, container = mp4] %}
+  {{ stream.url }}
+{% endfor %}
+</code></pre>
+
+<p>Example: Print resolutions of iPhone compatible streams with file size less than 5 MB:</p>
+
+<pre><code>
+{% for stream in asset.streams[iphone, file_size &lt; 5242880] %}
+  {{ stream.video_width }}x{{ stream.video_height }}
+{% endfor %}
+</code></pre>
+
+<h3 id="Selecting+individual+streams">Selecting individual streams</h3>
+
+<p>If a streams collection is used outside of a for loop, a specific stream will be chosen.  The default is the highest bitrate stream matching all the constraints; an additional min or max constraint may be specified to modify this behavior.</p>
+
+<p>Example: Print the bitrate of the widest stream:</p>
+
+<pre><code>
+{{ asset.streams[max video_width].bitrate }}
+</code></pre>
+
+<p>Example: Print the URL of the smallest iPad-compatible stream:</p>
+
+<pre><code>
+{{ asset.streams[ipad, min file_size].url }}
+</code></pre>
+
+<p>Example: Assign the highest-bitrate (by default) stream with width 640 to a variable and print some of its properties:</p>
+
+<pre><code>
+{% assign stream = asset.streams[width = 640] %}
+&lt;filesize&gt;{{ stream.file_size }}&lt;/filesize&gt;
+&lt;width&gt;{{ stream.video_width }}&lt;/width&gt;
+&lt;height&gt;{{ stream.video_height }}&lt;/height&gt;
+&lt;codec&gt;{{ stream.video_codec }}&lt;/codec&gt;
+</code></pre>
+
+<h3 id="Empty+stream+sets">Empty stream sets</h3>
+
+<p>A stream set may be empty for some assets.  In this case, all fields of streams in the set will empty.  To avoid inserting empty fields into your feed, you can check the exists property of a stream or stream set.</p>
+
+<p>Example: Print out an iphone feed if one exists:</p>
+
+<pre><code>
+{% if asset.streams[iphone].exists %}
+  &lt;stream type="iphone"&gt;
+    &lt;url&gt;{{ asset.streams[iphone].url }}&lt;/url&gt;
+  &lt;/stream&gt;
+{% endif %}
+</code></pre>
+
+<p>Example: Print out a high-resolution stream if one exists, or a note to upload one if it doesn't</p>
+
+<pre><code>
+{% if asset.streams[video_width &gt;= 720].exists %}
+  &lt;stream type="hd"&gt;
+    &lt;url&gt;{{ asset.streams[iphone].url }}&lt;/url&gt;
+  &lt;/stream&gt;
+{% else %}
+  &lt;placeholder&gt;HD stream needed&lt;/placeholder&gt;
+{% endif %}
+</code></pre>
+
+<h3 id="ABR+streams">ABR streams</h3>
+
+<p>An asset may also have ABR streams for iPhone and iPad as m3u8 files.  These are available as part of the
+abr_stream_urls property of the asset:</p>
+
+<pre><code>
+asset.abr_stream_urls.iphone
+asset.abr_stream_urls.ipad
+</code></pre>
+
+<h2 id="Labels">Labels</h2>
+
+<p>The following properties are supported for labels:</p>
+
+<pre><code>
+label.id
+label.name
+label.full_name
+</code></pre>
+
+<p>For an example that displays the labels associated with assets, please see the
+<a href="template_examples.html" target="_blank">template examples</a>.</p>
+
+<p>To restrict the assets in a feed to a label or set of labels, set the
+<code>include_labels</code> property on the universal syndication. (Please see
+<a href="index.html#v2_syndications_get">syndications</a>.) You can also set the labels for a
+syndication using the web interface, under the "Publish" tab.</p>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Feed+Template+Language+Reference" class="panel-title">Feed Template Language Reference</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+
+<p>There are two types of markup in templates: Output and Tag.</p>
+
+<ul>
+<li><p>Output markup (which may resolve to text) is surrounded by</p>
+
+<pre><code>
+{{ matched pairs of curly braces }}
+</code></pre></li>
+<li><p>Tag markup (which cannot resolve to text) is surrounded by</p>
+
+<pre><code>
+{% matched pairs of curly braces and percent signs %}
+</code></pre></li>
+</ul>
+
+
+<h2 id="Output">Output</h2>
+
+<p>Example: print details about an asset:</p>
+
+<pre><code>
+"{{asset.name}}" was a great movie.
+Description: {{asset.description}}
+</code></pre>
+
+<h4 id="Filters">Filters</h4>
+
+<p>You can supply optional filters to output tags, in order to format and modify the resulting value.</p>
+
+<pre><code>
+Hello {{ "dave" | upcase }}
+"dave" has {{ "dave" | size }} letters!
+</code></pre>
+
+<p>Multiple filters can be chained on a single output value.</p>
+
+<pre><code>
+capitalize     # capitalize words in the input sentence
+downcase       # convert an input string to lowercase
+upcase         # convert an input string to uppercase
+size           # return the size of a string
+strip_html     # strip html from string
+strip_newlines # strip all newlines (\n) from string
+newline_to_br  # replace each newline (\n) with html break
+replace        # replace each occurrence e.g. {{ 'foofoo' | replace:'foo','bar' }} =&gt; 'barbar'
+replace_first  # replace the first occurrence e.g. {{ 'barbar' | replace_first:'bar','foo' }} =&gt; 'foobar'
+remove         # remove each occurrence e.g. {{ 'foobarfoobar' | remove:'foo' }} =&gt; 'barbar'
+remove_first   # remove the first occurrence e.g. {{ 'barbar' | remove_first:'bar' }} =&gt; 'bar'
+truncate       # truncate a string down to x characters
+truncatewords  # truncate a string down to x words
+prepend        # prepend a string e.g. {{ 'bar' | prepend:'foo' }} =&gt; 'foobar'
+append         # append a string e.g. {{ 'foo' | append:'bar' }} =&gt; 'foobar'
+date           # format a date e.g. {{ asset.updated_at | date: "%a, %b %d, %Y" }} =&gt; 'Thu, Jan 26, 2012'
+</code></pre>
+
+<h2 id="Tags">Tags</h2>
+
+<p>Tags are used for the logic in your template.</p>
+
+<pre><code>
+comment
+if
+unless
+case/when
+for
+</code></pre>
+
+<h4 id="Comment">Comment</h4>
+
+<p>You may add comments to your templates. It simply makes the content between the tags invisible.</p>
+
+<pre><code>
+There is some text {% comment %} here {% endcomment %} that will not be shown.
+</code></pre>
+
+<h4 id="If+/+Else">If / Else</h4>
+
+<p>You may write simple expressions in the <strong>if</strong> or <strong>unless</strong>
+(and optionally, <strong>elsif</strong> and else) clause:</p>
+
+<pre><code>
+{% if asset.name == "First" and asset.name != "loser" %}
+  The winner is First
+{% elsif asset.name == "Second" %}
+  The winner is Second
+{% endif %}
+</code></pre>
+
+<h4 id="Case+/+When">Case / When</h4>
+
+<p>To test for multiple values of a variable, you may use the case statement:</p>
+
+<pre><code>
+{% case template %}
+{% when "label" %}
+  {{ label.title }}
+{% when "product" %}
+  {{ product.vendor | link_to_vendor }} / {{ product.title }}
+{% else %}
+  {{ page_title }}
+{% endcase %}
+</code></pre>
+
+<h4 id="For+loops">For loops</h4>
+
+<p>You may loop over collections:</p>
+
+<pre><code>
+{% for item in collection %}
+  {{ item }}
+{% endfor %}
+</code></pre>
+
+<p>In a for loop, the following helper variables are available for extra styling needs:</p>
+
+<pre><code>
+forloop.length  # =&gt; length of the entire for loop
+forloop.index   # =&gt; index of the current iteration
+forloop.index0  # =&gt; index of the current iteration (zero based)
+forloop.rindex  # =&gt; how many items remain
+forloop.rindex0 # =&gt; how many items remain (zero based)
+forloop.first   # =&gt; is this the first iteration?
+forloop.last    # =&gt; is this the last iteration?
+</code></pre>
+
+<p>You can also reverse the loop</p>
+
+<pre><code>
+{% for item in collection reversed %} {{item}} {% endfor %}
+</code></pre>
+
+<h2 id="Power+users">Power users</h2>
+
+<p>The feed template language is based on <a href="http://www.liquidmarkup.org">Liquid</a>.</p>
+
+<p><a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">Language design details</a> are available online.</p>
+
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

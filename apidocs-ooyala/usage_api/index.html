@@ -1,0 +1,3124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Usage REST API Reference Documentation </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Usage REST API Reference Documentation </h1>
+<h2>version v3</h2>
+<p>http://api.ooyala.com/v3/billing/usage</p>
+<h3 id="Introduction" class="introClass">
+<a href="#Introduction">Introduction</a>
+</h3>
+<p>The Usage REST API allows you to retrieve usage statistics for your Ooyala account. These are similar to the usage statistics in Backlot under the <em>Usage</em> subtab of the <em>
+<strong>Account</strong>
+</em> tab. A more in-depth introduction can be found <a href="http://help-ooyala.brightcove.com/video-platform/concepts/chapter_usage_api.html">here</a>. <em>The API routes set forth below contain estimated representations of data utilization and may not match billed usage precisely.</em>
+</p>
+<h2 id="the-base-url">The Base URL</h2>
+<p>The Usage REST API has <strong>
+<a href="http://api.ooyala.com/v3/billing/usage">http://api.ooyala.com/v3/billing/usage</a>
+</strong> as its base URL. Prefix any request with this URL. Thus, an example request might take the form <a href="http://api.ooyala.com/v3/billing/usage/period/provider/{pcode}?api_key=...&amp;expires=...&amp;signature=">http://api.ooyala.com/v3/billing/usage/period/provider/{pcode}?api_key=...&amp;expires=...&amp;signature=</a>...</p>
+<h2 id="authentication">Authentication</h2>
+<p>The Usage REST API uses the same request signing mechanism as the Backlot API for authenticating API calls. So, in addition to the parameters required by each route in this reference, all requests must provide the following extra query parameters:</p>
+<ul>
+<li>
+<strong>
+<code>api_key</code>:</strong> The API key associated with the provider. (See <a href="http://help-ooyala.brightcove.com/video-platform/concepts/api_keys.html">Your API Credentials</a>.)</li>
+<li>
+<strong>
+<code>signature</code>:</strong> The signature of the request. (See <a href="http://help-ooyala.brightcove.com/developers/documentation/tasks/api_signing_requests.html">General Algorithm for Signing Requests</a>.)</li>
+<li>
+<strong>
+<code>expires</code>:</strong> The expiration time of the request. (See <a href="http://help-ooyala.brightcove.com/video-platform/concepts/api_request_expiration.html">Setting an Expiration Time on Requests</a>.)</li>
+</ul>
+<h2 id="request-throttling">Request Throttling</h2>
+<p>The Usage REST API allows a maximum of 100 requests per minute per API key. All requests, regardless of whether they were successful or not, are counted towards this maximum. You must manually throttle requests if you need to submit more than 100 requests within one minute.</p>
+<h2 id="changelog">Changelog</h2>
+<ul>
+<li>2016-03-22<ul>
+<li>Metric <code>transcoded_time</code> has been replaced by <code>vod_transcoding_time</code>.</li>
+<li>New metrics <code>live_transcoding_time</code> and <code>live_packaging_time</code>.</li>
+</ul>
+</li>
+<li>2016-06-30<ul>
+<li>Metrics <code>live_ads_bytes_delivered</code> &amp; <code>live_ads_transcoding_time</code> have been added.</li>
+<li>V2&#39;s Delivery API has been migrated to the usage API.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="period_metric__metric__provider__pcode_" class="panel-title">Single Metric in Time Period</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Report of a single metric of a provider within a fixed period of time.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_period_metric__metric__provider__pcode_">
+<span class="parent">
+</span>/period/metric/{metric}/provider/{pcode}</a>
+<span class="methods">
+<a href="#period_metric__metric__provider__pcode__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_period_metric__metric__provider__pcode_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#period_metric__metric__provider__pcode__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns a report of all the events for the specified <strong>
+<code>metric</code>
+</strong> associated with a single provider (identified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events within a fixed period of time (specified by <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong>), and split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup is a 3-length JSON array that contains:</p>
+<ol>
+<li>The provider&#39;s code</li>
+<li>The date of the rollup</li>
+<li>The total aggregated value<br>The <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong> params should match according to the following table (otherwise an error is returned):<table>
+<thead>
+<tr>
+<th>type</th>
+<th>period<tbody>
+<tr>
+<td>day</td>
+<td>yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>week</td>
+<td>yyyy-WW (where WW represents the number of the week, from 0 to 53)</td>
+</tr>
+<tr>
+<td>month</td>
+<td>yyyy-MM</td>
+</tr>
+<tr>
+<td>quarter</td>
+<td>yyyy-QX (where X represents the number of the quarter, from 1 to 4)</td>
+</tr>
+<tr>
+<td>year</td>
+<td>yyyy</td>
+</tr>
+</tbody>
+</th>
+</tr>
+</thead>
+</table>
+</li>
+</ol>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="period_metric__metric__provider__pcode__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/period/metric/{metric}/provider/{pcode}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns a report of all the events for the specified <strong>
+<code>metric</code>
+</strong> associated with a single provider (identified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events within a fixed period of time (specified by <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong>), and split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup is a 3-length JSON array that contains:</p>
+<ol>
+<li>The provider&#39;s code</li>
+<li>The date of the rollup</li>
+<li>The total aggregated value<br>The <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong> params should match according to the following table (otherwise an error is returned):<table>
+<thead>
+<tr>
+<th>type</th>
+<th>period<tbody>
+<tr>
+<td>day</td>
+<td>yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>week</td>
+<td>yyyy-WW (where WW represents the number of the week, from 0 to 53)</td>
+</tr>
+<tr>
+<td>month</td>
+<td>yyyy-MM</td>
+</tr>
+<tr>
+<td>quarter</td>
+<td>yyyy-QX (where X represents the number of the quarter, from 1 to 4)</td>
+</tr>
+<tr>
+<td>year</td>
+<td>yyyy</td>
+</tr>
+</tbody>
+</th>
+</tr>
+</thead>
+</table>
+</li>
+</ol>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#period_metric__metric__provider__pcode__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#period_metric__metric__provider__pcode__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#period_metric__metric__provider__pcode__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="period_metric__metric__provider__pcode__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>metric</strong>: <em>required (one of vod_bytes_delivered, live_bytes_delivered, vod_transcoding_time, streams, live_transcoding_time, live_packaging_time, live_ads_bytes_delivered, live_ads_transcoding_time)</em>
+<p>Name of the metric.</p>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>A unique identifier for a provider.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>period</strong>: <em>required (string)</em>
+<p>String representing the period.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>2015-01</pre>
+</li>
+<li>
+<strong>type</strong>: <em>required (one of day, week, month, quarter, year)</em>
+<p>Type of the period. Must match the "period" param.</p>
+</li>
+<li>
+<strong>breakdownBy</strong>: <em>(one of none, day, week, month, quarter, year - default: none)</em>
+<p>Period of time to break down the data.</p>
+</li>
+<li>
+<strong>includeSubAccounts</strong>: <em>(boolean - default: false)</em>
+<p>Whether to include subaccounts.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="period_metric__metric__provider__pcode__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/period/vod_bytes_delivered/QLW82IUsk-TEST-73002N7a28dh1?api_key=...&amp;breakdownBy=day&amp;expires=...&amp;includeSubAccounts=true&amp;period=2015-01&amp;type=month&amp;signature=..."
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "additionalItems": false,
+        "items": [
+          {
+            "type": "string",
+            "minimum": 1
+          },
+          {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "type": "integer",
+            "minimum": 0
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "status",
+    "contents"
+  ]
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "status": "success",
+  "contents": [
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-01",
+      1979520000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-02",
+      3057460000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-03",
+      4083070000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-04",
+      2957140000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-05",
+      4713010000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-06",
+      7429450000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-07",
+      7834650000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-08",
+      7627240000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-09",
+      6974110000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-10",
+      4665790000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-11",
+      2893740000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-12",
+      3051120000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-13",
+      5713090000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-14",
+      14179040000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-15",
+      14775890000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-16",
+      13596850000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-17",
+      14356390000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-18",
+      6340830000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-19",
+      7095170000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-20",
+      14411060000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-21",
+      15458750000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-22",
+      15907270000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-23",
+      15677260000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-24",
+      14331070000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-25",
+      6426480000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-26",
+      8217440000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-27",
+      16692500000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-28",
+      16248420000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-29",
+      16512930000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-30",
+      16922750000000
+    ],
+    [
+      "QLW82IUsk-TEST-73002N7a28dh1",
+      "2015-01-31",
+      10365420000000
+    ]
+  ]
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="period_metric__metric__provider__pcode__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="period_provider__pcode_" class="panel-title">Multiple Metrics in Time Period</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Report of multiple metrics of a provider within a fixed period of time.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_period_provider__pcode_">
+<span class="parent">
+</span>/period/provider/{pcode}</a>
+<span class="methods">
+<a href="#period_provider__pcode__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_period_provider__pcode_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#period_provider__pcode__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns, for each metric in the comma-separated list <strong>
+<code>metricName</code>
+</strong>, a report of all metric&#39;s events associated with a single provider (identified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events within a fixed period of time (specified by <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong>), and split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup is a 3-length JSON array that contains:</p>
+<ol>
+<li>The provider&#39;s code</li>
+<li>The date of the rollup</li>
+<li>The total aggregated value<br>The <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong> params should match according to the following table (otherwise an error is returned):<table>
+<thead>
+<tr>
+<th>type</th>
+<th>period<tbody>
+<tr>
+<td>day</td>
+<td>yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>week</td>
+<td>yyyy-WW (where WW represents the number of the week, from 0 to 53)</td>
+</tr>
+<tr>
+<td>month</td>
+<td>yyyy-MM</td>
+</tr>
+<tr>
+<td>quarter</td>
+<td>yyyy-QX (where X represents the number of the quarter, from 1 to 4)</td>
+</tr>
+<tr>
+<td>year</td>
+<td>yyyy</td>
+</tr>
+</tbody>
+</th>
+</tr>
+</thead>
+</table>
+</li>
+</ol>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="period_provider__pcode__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/period/provider/{pcode}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns, for each metric in the comma-separated list <strong>
+<code>metricName</code>
+</strong>, a report of all metric&#39;s events associated with a single provider (identified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events within a fixed period of time (specified by <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong>), and split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup is a 3-length JSON array that contains:</p>
+<ol>
+<li>The provider&#39;s code</li>
+<li>The date of the rollup</li>
+<li>The total aggregated value<br>The <strong>
+<code>period</code>
+</strong> and <strong>
+<code>type</code>
+</strong> params should match according to the following table (otherwise an error is returned):<table>
+<thead>
+<tr>
+<th>type</th>
+<th>period<tbody>
+<tr>
+<td>day</td>
+<td>yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>week</td>
+<td>yyyy-WW (where WW represents the number of the week, from 0 to 53)</td>
+</tr>
+<tr>
+<td>month</td>
+<td>yyyy-MM</td>
+</tr>
+<tr>
+<td>quarter</td>
+<td>yyyy-QX (where X represents the number of the quarter, from 1 to 4)</td>
+</tr>
+<tr>
+<td>year</td>
+<td>yyyy</td>
+</tr>
+</tbody>
+</th>
+</tr>
+</thead>
+</table>
+</li>
+</ol>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#period_provider__pcode__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#period_provider__pcode__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#period_provider__pcode__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="period_provider__pcode__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider&#39;s code.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>metricName</strong>: <em>required (string)</em>
+<p>Comma-separated list of metric names.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>vod_bytes_delivered,live_bytes_delivered</pre>
+</li>
+<li>
+<strong>period</strong>: <em>required (string)</em>
+<p>String representing the period.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>2015-01</pre>
+</li>
+<li>
+<strong>type</strong>: <em>required (one of day, week, month, quarter, year)</em>
+<p>Type of the period. Must match the "period" param.</p>
+</li>
+<li>
+<strong>breakdownBy</strong>: <em>(one of none, day, week, month, quarter, year - default: none)</em>
+<p>Period of time to break down the data.</p>
+</li>
+<li>
+<strong>includeSubAccounts</strong>: <em>(boolean - default: false)</em>
+<p>Whether to include subaccounts.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="period_provider__pcode__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/period/provider/QLW82IUsk-TEST-73002N7a28dh1?api_key=...&amp;breakdownBy=month&amp;expires=...&amp;includeSubAccounts=false&amp;metricName=vod_bytes_delivered,live_bytes_delivered&amp;period=2015&amp;type=year&amp;signature=..."
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contents": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(vod_transcoded_time|vod_bytes_delivered|live_bytes_delivered|streams|live_transcoding_time|live_packaging_time|live_ads_bytes_delivered|live_ads_transcoding_time)$": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 3,
+            "additionalItems": false,
+            "items": [
+              {
+                "type": "string",
+                "minimum": 1
+              },
+              {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "status",
+    "contents"
+  ]
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "status": "success",
+  "contents": {
+    "vod_bytes_delivered": [
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-01",
+        1979520000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-02",
+        3057460000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-03",
+        4083070000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-04",
+        2957140000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-05",
+        4713010000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-06",
+        7429450000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-07",
+        7834650000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-08",
+        7627240000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-09",
+        6974110000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-10",
+        4665790000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-11",
+        2893740000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-12",
+        3051120000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-13",
+        5713090000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-14",
+        14179040000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-15",
+        14775890000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-16",
+        13596850000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-17",
+        14356390000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-18",
+        6340830000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-19",
+        7095170000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-20",
+        14411060000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-21",
+        15458750000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-22",
+        15907270000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-23",
+        15677260000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-24",
+        14331070000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-25",
+        6426480000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-26",
+        8217440000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-27",
+        16692500000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-28",
+        16248420000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-29",
+        16512930000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-30",
+        16922750000000
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-31",
+        10365420000000
+      ]
+    ],
+    "live_bytes_delivered": [
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-01",
+        571622006868
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-02",
+        10074223434636
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-03",
+        1989385265219
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-04",
+        3436952737896
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-05",
+        13786301811743
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-06",
+        14997977385788
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-07",
+        15752993722650
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-08",
+        14107810328549
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-09",
+        17673362078208
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-10",
+        2228279302424
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-11",
+        3124012341433
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-12",
+        2737540484412
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-13",
+        23295212968976
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-14",
+        26478124332524
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-15",
+        26349603541291
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-16",
+        24834548734023
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-17",
+        5689219411112
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-18",
+        5284307827091
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-19",
+        24247461380129
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-20",
+        25272387583168
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-21",
+        25943173549047
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-22",
+        24761796486122
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-23",
+        27653150381427
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-24",
+        2314933878885
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-25",
+        3720965156073
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-26",
+        37531358351420
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-27",
+        34790806285582
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-28",
+        34197584425947
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-29",
+        33035733506891
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-30",
+        30598924348531
+      ],
+      [
+        "QLW82IUsk-TEST-73002N7a28dh1",
+        "2015-01-31",
+        3108039245326
+      ]
+    ]
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="period_provider__pcode__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="report_metric__metric__provider__pcode_" class="panel-title">Single Metric in Date Range</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Report of a single metric of a provider within a date range.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_report_metric__metric__provider__pcode_">
+<span class="parent">
+</span>/report/metric/{metric}/provider/{pcode}</a>
+<span class="methods">
+<a href="#report_metric__metric__provider__pcode__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_report_metric__metric__provider__pcode_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#report_metric__metric__provider__pcode__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns a report of all the events for the specified <strong>
+<code>metric</code>
+</strong> and associated with a single provider (specified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events ingested within the specified date range between <strong>
+<code>startDate</code>
+</strong> (inclusive) and <strong>
+<code>endDate</code>
+</strong> (exclusive), split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup contains a <strong>
+<code>total</code>
+</strong> field, which represents the aggregated value of all events inside the rollup. For all metrics besides <strong>
+<code>vod_transcoded_time</code>
+</strong>, you may include the query parameter <strong>
+<code>includeSubAccounts</code>
+</strong> and set that equal to <strong>
+<code>true</code>
+</strong>, in order to track <strong>sub-accounts</strong>.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="report_metric__metric__provider__pcode__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/report/metric/{metric}/provider/{pcode}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns a report of all the events for the specified <strong>
+<code>metric</code>
+</strong> and associated with a single provider (specified by <strong>
+<code>pcode</code>
+</strong>). The report contains all events ingested within the specified date range between <strong>
+<code>startDate</code>
+</strong> (inclusive) and <strong>
+<code>endDate</code>
+</strong> (exclusive), split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup contains a <strong>
+<code>total</code>
+</strong> field, which represents the aggregated value of all events inside the rollup. For all metrics besides <strong>
+<code>vod_transcoded_time</code>
+</strong>, you may include the query parameter <strong>
+<code>includeSubAccounts</code>
+</strong> and set that equal to <strong>
+<code>true</code>
+</strong>, in order to track <strong>sub-accounts</strong>.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#report_metric__metric__provider__pcode__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#report_metric__metric__provider__pcode__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#report_metric__metric__provider__pcode__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="report_metric__metric__provider__pcode__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>metric</strong>: <em>required (one of vod_bytes_delivered, live_bytes_delivered, vod_transcoding_time, streams, live_transcoding_time, live_packaging_time, live_ads_bytes_delivered, live_ads_transcoding_time)</em>
+<p>Name of the metric.</p>
+</li>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>A unique identifier for a provider.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>startDate</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+<p>Start date (inclusive). Format: yyyy-MM-dd</p>
+</li>
+<li>
+<strong>endDate</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+<p>End date (exclusive). Format: yyyy-MM-dd</p>
+</li>
+<li>
+<strong>breakdownBy</strong>: <em>(one of none, day, week, month, quarter, year - default: none)</em>
+<p>Period of time to break down the data.</p>
+</li>
+<li>
+<strong>includeSubAccounts</strong>: <em>(boolean - default: false)</em>
+<p>For all metrics besides <code>vod_transcoded_time</code>, you may include the query parameter <code>includeSubAccounts</code> and set that equal to <code>true</code>, in order to track <b>sub-accounts</b>.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="report_metric__metric__provider__pcode__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/report/vod_bytes_delivered/QLW82IUsk-TEST-73002N7a28dh1?api_key=...&amp;breakdownBy=day&amp;endDate=2015-02-01&amp;expires=...&amp;includeSubAccounts=true&amp;signature=...&amp;startDate=2015-01-01"
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contents": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "breakdown_by": {
+          "type": "string",
+          "enum": ["day", "week", "month", "quarter", "year"]
+        },
+        "start_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "pcode": {
+                "type": "string",
+                "minLength": 1
+              },
+              "start_date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+              },
+              "end_date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": ["pcode", "start_date", "end_date", "total"]
+          }
+        },
+        "cut_dates": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^\\d{4}-\\d{2}$": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+            }
+          }
+        },
+        "metric_name": {
+          "type": "string",
+          "enum": [
+            "vod_transcoded_time",
+            "vod_bytes_delivered",
+            "live_bytes_delivered",
+            "streams",
+            "live_transcoding_time",
+            "live_packaging_time"
+          ]
+        },
+        "end_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+        }
+      },
+      "required": [
+        "breakdown_by",
+        "start_date",
+        "items",
+        "cut_dates",
+        "metric_name",
+        "end_date"
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "contents"
+  ]
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "status": "success",
+  "contents": {
+    "breakdown_by": "day",
+    "start_date": "2015-01-01T00:00:00",
+    "items": [
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-01T00:00:00",
+        "end_date": "2015-01-02T00:00:00",
+        "total": 1979520000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-02T00:00:00",
+        "end_date": "2015-01-03T00:00:00",
+        "total": 3057460000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-03T00:00:00",
+        "end_date": "2015-01-04T00:00:00",
+        "total": 4083070000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-04T00:00:00",
+        "end_date": "2015-01-05T00:00:00",
+        "total": 2957140000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-05T00:00:00",
+        "end_date": "2015-01-06T00:00:00",
+        "total": 4713010000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-06T00:00:00",
+        "end_date": "2015-01-07T00:00:00",
+        "total": 7429450000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-07T00:00:00",
+        "end_date": "2015-01-08T00:00:00",
+        "total": 7834650000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-08T00:00:00",
+        "end_date": "2015-01-09T00:00:00",
+        "total": 7627240000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-09T00:00:00",
+        "end_date": "2015-01-10T00:00:00",
+        "total": 6974110000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-10T00:00:00",
+        "end_date": "2015-01-11T00:00:00",
+        "total": 4665790000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-11T00:00:00",
+        "end_date": "2015-01-12T00:00:00",
+        "total": 2893740000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-12T00:00:00",
+        "end_date": "2015-01-13T00:00:00",
+        "total": 3051120000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-13T00:00:00",
+        "end_date": "2015-01-14T00:00:00",
+        "total": 5713090000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-14T00:00:00",
+        "end_date": "2015-01-15T00:00:00",
+        "total": 14179040000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-15T00:00:00",
+        "end_date": "2015-01-16T00:00:00",
+        "total": 14775890000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-16T00:00:00",
+        "end_date": "2015-01-17T00:00:00",
+        "total": 13596850000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-17T00:00:00",
+        "end_date": "2015-01-18T00:00:00",
+        "total": 14356390000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-18T00:00:00",
+        "end_date": "2015-01-19T00:00:00",
+        "total": 6340830000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-19T00:00:00",
+        "end_date": "2015-01-20T00:00:00",
+        "total": 7095170000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-20T00:00:00",
+        "end_date": "2015-01-21T00:00:00",
+        "total": 14411060000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-21T00:00:00",
+        "end_date": "2015-01-22T00:00:00",
+        "total": 15458750000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-22T00:00:00",
+        "end_date": "2015-01-23T00:00:00",
+        "total": 15907270000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-23T00:00:00",
+        "end_date": "2015-01-24T00:00:00",
+        "total": 15677260000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-24T00:00:00",
+        "end_date": "2015-01-25T00:00:00",
+        "total": 14331070000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-25T00:00:00",
+        "end_date": "2015-01-26T00:00:00",
+        "total": 6426480000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-26T00:00:00",
+        "end_date": "2015-01-27T00:00:00",
+        "total": 8217440000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-27T00:00:00",
+        "end_date": "2015-01-28T00:00:00",
+        "total": 16692500000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-28T00:00:00",
+        "end_date": "2015-01-29T00:00:00",
+        "total": 16248420000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-29T00:00:00",
+        "end_date": "2015-01-30T00:00:00",
+        "total": 16512930000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-30T00:00:00",
+        "end_date": "2015-01-31T00:00:00",
+        "total": 16922750000000
+      },
+      {
+        "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+        "start_date": "2015-01-31T00:00:00",
+        "end_date": "2015-02-01T00:00:00",
+        "total": 10365420000000
+      }
+    ],
+    "cut_dates": {},
+    "metric_name": "vod_bytes_delivered",
+    "end_date": "2015-02-01T00:00:00"
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="report_metric__metric__provider__pcode__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="report_provider__pcode_" class="panel-title">Multiple Metrics in Date Range</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Report of multiple metrics of a provider within a date range.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_report_provider__pcode_">
+<span class="parent">
+</span>/report/provider/{pcode}</a>
+<span class="methods">
+<a href="#report_provider__pcode__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_report_provider__pcode_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#report_provider__pcode__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns, for each metric in the comma-separated list <strong>
+<code>metricName</code>
+</strong>, a report of all the metric&#39;s events associated with the single provider (specified by <strong>
+<code>pcode</code>
+</strong>). All reports contain all events ingested within the specified date range between <strong>
+<code>startDate</code>
+</strong> (inclusive) and <strong>
+<code>endDate</code>
+</strong> (exclusive), split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup contains a <strong>
+<code>total</code>
+</strong> field, which represents the aggregated value of all events inside the rollup.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="report_provider__pcode__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/report/provider/{pcode}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns, for each metric in the comma-separated list <strong>
+<code>metricName</code>
+</strong>, a report of all the metric&#39;s events associated with the single provider (specified by <strong>
+<code>pcode</code>
+</strong>). All reports contain all events ingested within the specified date range between <strong>
+<code>startDate</code>
+</strong> (inclusive) and <strong>
+<code>endDate</code>
+</strong> (exclusive), split into rollups computed by the time period specified by <strong>
+<code>breakdownBy</code>
+</strong>. Each rollup contains a <strong>
+<code>total</code>
+</strong> field, which represents the aggregated value of all events inside the rollup.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#report_provider__pcode__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#report_provider__pcode__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#report_provider__pcode__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="report_provider__pcode__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+<p>Provider&#39;s code.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>metricName</strong>: <em>required (string)</em>
+<p>Comma-separated list of metric names.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>vod_bytes_delivered,live_bytes_delivered</pre>
+</li>
+<li>
+<strong>startDate</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+<p>Start date (inclusive). Format: yyyy-MM-dd</p>
+</li>
+<li>
+<strong>endDate</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+<p>End date (exclusive). Format: yyyy-MM-dd</p>
+</li>
+<li>
+<strong>breakdownBy</strong>: <em>(one of none, day, week, month, quarter, year - default: none)</em>
+<p>Period of time to break down the data.</p>
+</li>
+<li>
+<strong>includeSubAccounts</strong>: <em>(boolean - default: false)</em>
+<p>Whether to include subaccounts.</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="report_provider__pcode__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/report/provider/QLW82IUsk-TEST-73002N7a28dh1?api_key=...&amp;breakdownBy=month&amp;endDate=2015-01-01&amp;expires=...&amp;includeSubAccounts=false&amp;metricName=vod_bytes_delivered,live_bytes_delivered&amp;signature=...&amp;startDate=2014-01-01"
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "breakdown_by": {
+            "type": "string",
+            "enum": ["day", "week", "month", "quarter", "year"]
+          },
+          "start_date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "pcode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "start_date": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+                },
+                "end_date": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+                },
+                "total": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["pcode", "start_date", "end_date", "total"]
+            }
+          },
+          "cut_dates": {
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+              "^\\d{4}-\\d{2}$": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+              }
+            }
+          },
+          "metric_name": {
+            "type": "string",
+            "enum": [
+              "vod_transcoded_time",
+              "vod_bytes_delivered",
+              "live_bytes_delivered",
+              "streams",
+              "live_transcoding_time",
+              "live_packaging_time",
+              "live_ads_bytes_delivered",
+              "live_ads_transcoding_time"
+            ]
+          },
+          "end_date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          }
+        },
+        "required": [
+          "breakdown_by",
+          "start_date",
+          "items",
+          "cut_dates",
+          "metric_name",
+          "end_date"
+        ]
+      }
+    }
+  },
+  "required": [
+    "status",
+    "contents"
+  ]
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "status": "success",
+  "contents": [
+    {
+      "breakdown_by": "day",
+      "start_date": "2015-01-01T00:00:00",
+      "items": [
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-01T00:00:00",
+          "end_date": "2015-01-02T00:00:00",
+          "total": 1979520000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-02T00:00:00",
+          "end_date": "2015-01-03T00:00:00",
+          "total": 3057460000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-03T00:00:00",
+          "end_date": "2015-01-04T00:00:00",
+          "total": 4083070000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-04T00:00:00",
+          "end_date": "2015-01-05T00:00:00",
+          "total": 2957140000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-05T00:00:00",
+          "end_date": "2015-01-06T00:00:00",
+          "total": 4713010000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-06T00:00:00",
+          "end_date": "2015-01-07T00:00:00",
+          "total": 7429450000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-07T00:00:00",
+          "end_date": "2015-01-08T00:00:00",
+          "total": 7834650000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-08T00:00:00",
+          "end_date": "2015-01-09T00:00:00",
+          "total": 7627240000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-09T00:00:00",
+          "end_date": "2015-01-10T00:00:00",
+          "total": 6974110000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-10T00:00:00",
+          "end_date": "2015-01-11T00:00:00",
+          "total": 4665790000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-11T00:00:00",
+          "end_date": "2015-01-12T00:00:00",
+          "total": 2893740000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-12T00:00:00",
+          "end_date": "2015-01-13T00:00:00",
+          "total": 3051120000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-13T00:00:00",
+          "end_date": "2015-01-14T00:00:00",
+          "total": 5713090000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-14T00:00:00",
+          "end_date": "2015-01-15T00:00:00",
+          "total": 14179040000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-15T00:00:00",
+          "end_date": "2015-01-16T00:00:00",
+          "total": 14775890000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-16T00:00:00",
+          "end_date": "2015-01-17T00:00:00",
+          "total": 13596850000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-17T00:00:00",
+          "end_date": "2015-01-18T00:00:00",
+          "total": 14356390000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-18T00:00:00",
+          "end_date": "2015-01-19T00:00:00",
+          "total": 6340830000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-19T00:00:00",
+          "end_date": "2015-01-20T00:00:00",
+          "total": 7095170000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-20T00:00:00",
+          "end_date": "2015-01-21T00:00:00",
+          "total": 14411060000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-21T00:00:00",
+          "end_date": "2015-01-22T00:00:00",
+          "total": 15458750000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-22T00:00:00",
+          "end_date": "2015-01-23T00:00:00",
+          "total": 15907270000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-23T00:00:00",
+          "end_date": "2015-01-24T00:00:00",
+          "total": 15677260000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-24T00:00:00",
+          "end_date": "2015-01-25T00:00:00",
+          "total": 14331070000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-25T00:00:00",
+          "end_date": "2015-01-26T00:00:00",
+          "total": 6426480000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-26T00:00:00",
+          "end_date": "2015-01-27T00:00:00",
+          "total": 8217440000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-27T00:00:00",
+          "end_date": "2015-01-28T00:00:00",
+          "total": 16692500000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-28T00:00:00",
+          "end_date": "2015-01-29T00:00:00",
+          "total": 16248420000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-29T00:00:00",
+          "end_date": "2015-01-30T00:00:00",
+          "total": 16512930000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-30T00:00:00",
+          "end_date": "2015-01-31T00:00:00",
+          "total": 16922750000000
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-31T00:00:00",
+          "end_date": "2015-02-01T00:00:00",
+          "total": 10365420000000
+        }
+      ],
+      "cut_dates": {},
+      "metric_name": "vod_bytes_delivered",
+      "end_date": "2015-02-01T00:00:00"
+    },
+    {
+      "breakdown_by": "day",
+      "start_date": "2015-01-01T00:00:00",
+      "items": [
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-01T00:00:00",
+          "end_date": "2015-01-02T00:00:00",
+          "total": 571622006868
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-02T00:00:00",
+          "end_date": "2015-01-03T00:00:00",
+          "total": 10074223434636
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-03T00:00:00",
+          "end_date": "2015-01-04T00:00:00",
+          "total": 1989385265219
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-04T00:00:00",
+          "end_date": "2015-01-05T00:00:00",
+          "total": 3436952737896
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-05T00:00:00",
+          "end_date": "2015-01-06T00:00:00",
+          "total": 13786301811743
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-06T00:00:00",
+          "end_date": "2015-01-07T00:00:00",
+          "total": 14997977385788
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-07T00:00:00",
+          "end_date": "2015-01-08T00:00:00",
+          "total": 15752993722650
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-08T00:00:00",
+          "end_date": "2015-01-09T00:00:00",
+          "total": 14107810328549
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-09T00:00:00",
+          "end_date": "2015-01-10T00:00:00",
+          "total": 17673362078208
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-10T00:00:00",
+          "end_date": "2015-01-11T00:00:00",
+          "total": 2228279302424
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-11T00:00:00",
+          "end_date": "2015-01-12T00:00:00",
+          "total": 3124012341433
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-12T00:00:00",
+          "end_date": "2015-01-13T00:00:00",
+          "total": 2737540484412
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-13T00:00:00",
+          "end_date": "2015-01-14T00:00:00",
+          "total": 23295212968976
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-14T00:00:00",
+          "end_date": "2015-01-15T00:00:00",
+          "total": 26478124332524
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-15T00:00:00",
+          "end_date": "2015-01-16T00:00:00",
+          "total": 26349603541291
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-16T00:00:00",
+          "end_date": "2015-01-17T00:00:00",
+          "total": 24834548734023
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-17T00:00:00",
+          "end_date": "2015-01-18T00:00:00",
+          "total": 5689219411112
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-18T00:00:00",
+          "end_date": "2015-01-19T00:00:00",
+          "total": 5284307827091
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-19T00:00:00",
+          "end_date": "2015-01-20T00:00:00",
+          "total": 24247461380129
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-20T00:00:00",
+          "end_date": "2015-01-21T00:00:00",
+          "total": 25272387583168
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-21T00:00:00",
+          "end_date": "2015-01-22T00:00:00",
+          "total": 25943173549047
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-22T00:00:00",
+          "end_date": "2015-01-23T00:00:00",
+          "total": 24761796486122
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-23T00:00:00",
+          "end_date": "2015-01-24T00:00:00",
+          "total": 27653150381427
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-24T00:00:00",
+          "end_date": "2015-01-25T00:00:00",
+          "total": 2314933878885
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-25T00:00:00",
+          "end_date": "2015-01-26T00:00:00",
+          "total": 3720965156073
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-26T00:00:00",
+          "end_date": "2015-01-27T00:00:00",
+          "total": 37531358351420
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-27T00:00:00",
+          "end_date": "2015-01-28T00:00:00",
+          "total": 34790806285582
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-28T00:00:00",
+          "end_date": "2015-01-29T00:00:00",
+          "total": 34197584425947
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-29T00:00:00",
+          "end_date": "2015-01-30T00:00:00",
+          "total": 33035733506891
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-30T00:00:00",
+          "end_date": "2015-01-31T00:00:00",
+          "total": 30598924348531
+        },
+        {
+          "pcode": "QLW82IUsk-TEST-73002N7a28dh1",
+          "start_date": "2015-01-31T00:00:00",
+          "end_date": "2015-02-01T00:00:00",
+          "total": 3108039245326
+        }
+      ],
+      "cut_dates": {},
+      "metric_name": "live_bytes_delivered",
+      "end_date": "2015-02-01T00:00:00"
+    }
+  ]
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="report_provider__pcode__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="reports_asset__embed_code__delivery_total__date_range_" class="panel-title">Given Asset in Date Range</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Delivery report for a given asset within a date range</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_reports_asset__embed_code__delivery_total__date_range_">
+<span class="parent">
+</span>/reports/asset/{embed_code}/delivery/total/{date_range}</a>
+<span class="methods">
+<a href="#reports_asset__embed_code__delivery_total__date_range__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_reports_asset__embed_code__delivery_total__date_range_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#reports_asset__embed_code__delivery_total__date_range__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns, for the <strong>
+<code>embed_code</code>
+</strong> specified in the path, a report of the VOD bytes delivered within the given period. The delivery is split into rollups computed by the time period specified by <strong>
+<code>breakdown_by</code>
+</strong>. Each rollup contains a <strong>
+<code>bytes_delivered</code>
+</strong> field which is the aggregated value of all the delivery inside the rollup. If there&#39;s no delivery inside the rollup this field will be missing.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="reports_asset__embed_code__delivery_total__date_range__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/reports/asset/{embed_code}/delivery/total/{date_range}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns, for the <strong>
+<code>embed_code</code>
+</strong> specified in the path, a report of the VOD bytes delivered within the given period. The delivery is split into rollups computed by the time period specified by <strong>
+<code>breakdown_by</code>
+</strong>. Each rollup contains a <strong>
+<code>bytes_delivered</code>
+</strong> field which is the aggregated value of all the delivery inside the rollup. If there&#39;s no delivery inside the rollup this field will be missing.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#reports_asset__embed_code__delivery_total__date_range__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#reports_asset__embed_code__delivery_total__date_range__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#reports_asset__embed_code__delivery_total__date_range__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="reports_asset__embed_code__delivery_total__date_range__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>date_range</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}(...\d{4}-\d{2}-\d{2})?$)</em>
+<p>Date range for the request. It can be a single date (start_date) or a open-closed interval [start_date, end_date).</p>
+</li>
+<li>
+<strong>embed_code</strong>: <em>required (string)</em>
+<p>Embed code of the asset which delivery is being requested.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>breakdown_by</strong>: <em>(one of day, month)</em>
+<p>Period of time to break down the data. If ommited, the response will slighltly change. For instance:</p>
+<pre>
+<code class="lang-json">{
+  "results": [{
+    "id": "total",
+    "metrics": {
+      "bytes_delivered": 522
+    }
+  }]
+}
+</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="reports_asset__embed_code__delivery_total__date_range__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/reports/asset/MwMW10MDE6d8PlNAOestKVKZ4KkyQAh9/delivery/total/2016-04-08...2016-04-12?api_key=...&amp;breakdown_by=day&amp;expiration=...&amp;signature=..."
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "results": {
+    "total": [
+      {
+        "num_days": "1",
+        "date": "2016-04-08",
+        "metrics": {}
+      }, {
+        "num_days": "1",
+        "date": "2016-04-09",
+        "metrics": {
+          "bytes_delivered": 261316
+        }
+      }, {
+        "num_days": "1",
+        "date": "2016-04-10",
+        "metrics": {}
+      }, {
+        "num_days": "1",
+        "date": "2016-04-11",
+        "metrics": {
+          "bytes_delivered": 261316
+        }
+      }
+    ]
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="reports_asset__embed_code__delivery_total__date_range__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="reports_account_delivery_total__date_range_" class="panel-title">Current API Key in Date Range</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Delivery report for the owner of the current api_key within a date range</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_reports_account_delivery_total__date_range_">
+<span class="parent">
+</span>/reports/account/delivery/total/{date_range}</a>
+<span class="methods">
+<a href="#reports_account_delivery_total__date_range__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_reports_account_delivery_total__date_range_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#reports_account_delivery_total__date_range__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>This route returns, for the provider making the request, a report of the VOD bytes delivered within the given period. The delivery is split into rollups computed by the time period specified by <strong>
+<code>breakdown_by</code>
+</strong>. Each rollup contains a <strong>
+<code>bytes_delivered</code>
+</strong> field which is the aggregated value of all the delivery inside the rollup. If there&#39;s no delivery inside the rollup this field will be missing.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="reports_account_delivery_total__date_range__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/reports/account/delivery/total/{date_range}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>This route returns, for the provider making the request, a report of the VOD bytes delivered within the given period. The delivery is split into rollups computed by the time period specified by <strong>
+<code>breakdown_by</code>
+</strong>. Each rollup contains a <strong>
+<code>bytes_delivered</code>
+</strong> field which is the aggregated value of all the delivery inside the rollup. If there&#39;s no delivery inside the rollup this field will be missing.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>ooyala-auth</b>
+<p>Backlot request signing authentication.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#reports_account_delivery_total__date_range__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#reports_account_delivery_total__date_range__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#reports_account_delivery_total__date_range__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="reports_account_delivery_total__date_range__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>date_range</strong>: <em>required (string - pattern: ^\d{4}-\d{2}-\d{2}(...\d{4}-\d{2}-\d{2})?$)</em>
+<p>Date range for the request. It can be a single date (start_date) or a open-closed interval [start_date, end_date).</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>breakdown_by</strong>: <em>(one of day, month)</em>
+<p>Period of time to break down the data. If ommited, the response will slighltly change. For instance:</p>
+<pre>
+<code class="lang-json">{
+  "results": [{
+    "id": "total",
+    "metrics": {
+      "bytes_delivered": 522
+    }
+  }]
+}
+</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="reports_account_delivery_total__date_range__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success</p>
+<h4 id="example-request">Example request</h4>
+<pre>
+<code>curl -X GET "http://api.ooyala.com/v3/billing/usage/reports/account/delivery/total/2016-01-01...2016-01-03?api_key=...&amp;breakdown_by=day&amp;expiration=...&amp;signature=..."
+</code>
+</pre>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "results": {
+    "total": [
+      {
+        "num_days": "1",
+        "date": "2016-01-01",
+        "metrics": {
+           "bytes_delivered": 13628061
+         }
+      }, {
+        "num_days": "1",
+        "date": "2016-01-02",
+        "metrics": {
+           "bytes_delivered": 41728193
+        }
+      }
+    ]
+  }
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "Request is missing required query parameter &#39;period&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"message":"Invalid API key."}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status": "error", "cause": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be internittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"status":"error","cause":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="reports_account_delivery_total__date_range__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by ooyala-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#period_metric__metric__provider__pcode_">Single Metric in Time Period</a>
+</li>
+<li>
+<a href="#period_provider__pcode_">Multiple Metrics in Time Period</a>
+</li>
+<li>
+<a href="#report_metric__metric__provider__pcode_">Single Metric in Date Range</a>
+</li>
+<li>
+<a href="#report_provider__pcode_">Multiple Metrics in Date Range</a>
+</li>
+<li>
+<a href="#reports_asset__embed_code__delivery_total__date_range_">Given Asset in Date Range</a>
+</li>
+<li>
+<a href="#reports_account_delivery_total__date_range_">Current API Key in Date Range</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

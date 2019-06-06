@@ -1,0 +1,3287 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ooyala eCommerce PCM API </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Ooyala eCommerce PCM API </h1>
+<h2>version v3</h2>
+<p>https://player.ooyala.com/_commerce/v3/</p>
+<h3 id="Overview">
+<a href="#Overview">Overview</a>
+</h3>
+<h1 id="product-catalog-manager-pcm-">Product Catalog Manager (PCM)</h1>
+<h3 id="description">Description</h3>
+<p>The eCommerce PCM API is the product catalog manager for the eCommerce API that is payment API for the Revenue Builder project.</p>
+<h3 id="products">Products</h3>
+<p>The PCM Product types are Pay Per View (PPV) and Subscriptions. The main difference is the periodic renovation of a Subscription. In the Pay Per View is not a recurring product.</p>
+<h4 id="pay-per-view-ppv-">Pay Per View (PPV)</h4>
+<p>In the PPV the Price Plan(PP) is not present due it is not a recurring product. The Amount is necessary.</p>
+<h4 id="subscription">Subscription</h4>
+<p>The PCM Subscription in order to create a product type Subscription the Price Plan must be created first.</p>
+<h3 id="price-plans">Price Plans</h3>
+<p>The PCM Price Plan(PP) contains the data such as currency and cycles for the periodic renovation of a Subscription. In the PPV the Price Plan(PP) is not present due it is not a recurring product. In order to add a Price Plan into a Product the currency should be the same.</p>
+<h3 id="security">Security</h3>
+<p>Please refer to <a href="http://help-ooyala.brightcove.com/video-platform/tasks/api_signing_requests.html">http://help-ooyala.brightcove.com/video-platform/tasks/api_signing_requests.html</a>
+</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__products" class="panel-title">/{pCode}/products</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>The PCM Product types are Pay Per View(PPV) and Subscriptions. In the PPV the Price Plan(PP) is not present due it is not a recurring product.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__products">
+<span class="parent">
+</span>/{pCode}/products</a>
+<span class="methods">
+<a href="#pCode__products_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__products_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__products" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__products_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Get the products, also the products can be filtered by query parameters.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__products_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Create a product type Subscription or Pay Per View(PPV), for the PPV the Price Plan(PP) is not necesary, in order to create a product type Subscription the PP must be created first.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__products_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/products</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get the products, also the products can be filtered by query parameters.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__products_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__products_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__products_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__products_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>ids</strong>: <em>(string)</em>
+<p>Products ids</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>ids=id_1,id_2,id_3</pre>
+</li>
+<li>
+<strong>type</strong>: <em>(one of ppv, subscription)</em>
+<p>Type of the product</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>type=ppv</pre>
+</li>
+<li>
+<strong>created_at</strong>: <em>(string)</em>
+<p>Created time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>created_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>updeted_at</strong>: <em>(string)</em>
+<p>Updated time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>updated_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>deleted_at</strong>: <em>(string)</em>
+<p>Deleted time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>deleted_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>includes</strong>: <em>(one of price_plan, entitlements, price_plan.cycles)</em>
+<p>Elements of the Products</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>includes=price_plan</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__products_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "price_plan": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "currency": {
+                "type": "string",
+                "description": "Currency based on ISO4217"
+              },
+              "cycles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "unit": {
+                      "type": "integer"
+                    },
+                    "period": {
+                      "type": "string",
+                      "enum": [
+                        "day",
+                        "week",
+                        "month",
+                        "year"
+                      ]
+                    },
+                    "cycles": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "description": "Time based on RFC3339"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "description": "Time based on RFC3339"
+                    }
+                  }
+                }
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency based on ISO4217"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "lenght": {
+                "type": "string"
+              }
+            }
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "offer_manager": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string",
+            "description": "Time based on RFC3339"
+          },
+          "end_date": {
+            "type": "string",
+            "description": "Time based on RFC3339"
+          },
+          "entitlements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "label",
+                    "asset",
+                    "offer"
+                  ]
+                },
+                "created_at": {
+                  "type": "string",
+                  "description": "Time based on RFC3339"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "description": "Time based on RFC3339"
+                }
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Time based on RFC3339"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Time based on RFC3339"
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "products": [
+    {
+      "id": "product1",
+      "price_plan": {
+        "id": "price_plan1",
+        "description": "example",
+        "currency": "USD",
+        "cycles": [
+          {
+            "unit": 1,
+            "period": "week",
+            "cycles": 1,
+            "amount": 100,
+            "created_at": "2017-02-01T13:33:51.196959354-06:00",
+            "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+          }
+        ],
+        "created_at": "2017-01-10T21:01:05Z",
+        "updated_at": "2017-01-10T21:01:05Z"
+      },
+      "currency": "USD",
+      "metadata": {
+        "currency": "USD"
+      },
+      "type": "subscription",
+      "description": "example",
+      "offer_manager": "example_manager",
+      "start_date": "2016-07-03T20:00:27Z",
+      "end_date": "2016-07-03T20:00:27Z",
+      "entitlements": [
+        {
+          "id": "entitlemen1",
+          "type": "label",
+          "created_at": "2017-01-31T18:56:45Z",
+          "updated_at": "2017-01-31T18:56:45Z"
+        }
+      ],
+      "created_at": "2017-01-31T18:56:45Z",
+      "updated_at": "2017-01-31T18:56:45Z"
+    }
+  ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__products_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/products</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Create a product type Subscription or Pay Per View(PPV), for the PPV the Price Plan(PP) is not necesary, in order to create a product type Subscription the PP must be created first.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__products_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__products_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__products_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__products_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ppv",
+            "subscription"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "offer_manager": {
+          "type": "string",
+          "enum": [
+            "media platform"
+          ]
+        },
+        "price_plan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "entitlements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "label",
+                  "asset",
+                  "offer"
+                ]
+              }
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lenght": {
+              "type": "string"
+            }
+          }
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "product": {
+    "id": "product1",
+    "name": "example",
+    "type": "subscription",
+    "description": "example product",
+    "offer_manager": "media platform",
+    "start_date": "2016-07-03T20:00:27Z",
+    "end_date": "2016-07-03T20:00:27Z",
+    "price_plan": {
+      "id": "price_plan1"
+    },
+    "entitlements": [
+      {
+        "id": "entitlement1",
+        "type": "label"
+      }
+    ],
+    "metadata": {
+      "currency": "USD"
+    },
+    "currency": "USD"
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "price_plan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency based on ISO4217"
+            },
+            "cycles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "type": "integer"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "cycles": {
+                    "type": "integer"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  }
+                }
+              }
+            },
+            "created_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            }
+          }
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lenght": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "offer_manager": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "entitlements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "label",
+                  "asset",
+                  "offer"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "product": {
+    "id": "product1",
+    "price_plan": {
+      "id": "price_plan1",
+      "description": "example",
+      "currency": "USD",
+      "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+      "created_at": "2017-01-10T21:01:05Z",
+      "updated_at": "2017-01-10T21:01:05Z"
+    },
+    "currency": "USD",
+    "metadata": {
+      "currency": "USD"
+    },
+    "type": "subscription",
+    "description": "example",
+    "offer_manager": "example_manager",
+    "start_date": "2016-07-03T20:00:27Z",
+    "end_date": "2016-07-03T20:00:27Z",
+    "entitlements": [
+      {
+        "id": "entitlemen1",
+        "type": "label",
+        "created_at": "2017-01-31T18:56:45Z",
+        "updated_at": "2017-01-31T18:56:45Z"
+      }
+    ],
+    "created_at": "2017-01-31T18:56:45Z",
+    "updated_at": "2017-01-31T18:56:45Z"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__products__productID_">
+<span class="parent">/{pCode}/products</span>/{productID}</a>
+<span class="methods">
+<a href="#pCode__products__productID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__products__productID__put">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__products__productID__delete">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__products__productID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Operations for a specific product, the product ID is required for these endpoints.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__products__productID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Returns a specific product, also to return all the properties such as Price Plan(PP), Entitlements should be include as query params. The products type Pay Per View(PPV) do not have Price Plan(PP).</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__products__productID__put'" class="list-group-item">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Update a specific product, the values that can be update are Price Plan(PP) for Subscriptions, Currency for Subscriptions and Pay Per View(PPV) in case of the subscriptions currency should match with currency of the PP, Amount for PPV, Description, Metadata and Entitlements for both.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__products__productID__delete'" class="list-group-item">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Delete a specific product, in case the product has a Offer Manager, the product shouldn&#39;t have active offers in order to delete it.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__products__productID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/products</span>/{productID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Returns a specific product, also to return all the properties such as Price Plan(PP), Entitlements should be include as query params. The products type Pay Per View(PPV) do not have Price Plan(PP).</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__products__productID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__products__productID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__products__productID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__products__productID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>productID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__products__productID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "price_plan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency based on ISO4217"
+            },
+            "cycles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "type": "integer"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "cycles": {
+                    "type": "integer"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  }
+                }
+              }
+            },
+            "created_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            }
+          }
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lenght": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "offer_manager": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "entitlements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "label",
+                  "asset",
+                  "offer"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "product": {
+    "id": "product1",
+    "price_plan": {
+      "id": "price_plan1",
+      "description": "example",
+      "currency": "USD",
+      "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+      "created_at": "2017-01-10T21:01:05Z",
+      "updated_at": "2017-01-10T21:01:05Z"
+    },
+    "currency": "USD",
+    "metadata": {
+      "currency": "USD"
+    },
+    "type": "subscription",
+    "description": "example",
+    "offer_manager": "example_manager",
+    "start_date": "2016-07-03T20:00:27Z",
+    "end_date": "2016-07-03T20:00:27Z",
+    "entitlements": [
+      {
+        "id": "entitlemen1",
+        "type": "label",
+        "created_at": "2017-01-31T18:56:45Z",
+        "updated_at": "2017-01-31T18:56:45Z"
+      }
+    ],
+    "created_at": "2017-01-31T18:56:45Z",
+    "updated_at": "2017-01-31T18:56:45Z"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products__productID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__products__productID__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/products</span>/{productID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Update a specific product, the values that can be update are Price Plan(PP) for Subscriptions, Currency for Subscriptions and Pay Per View(PPV) in case of the subscriptions currency should match with currency of the PP, Amount for PPV, Description, Metadata and Entitlements for both.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__products__productID__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__products__productID__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__products__productID__put_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__products__productID__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>productID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "product": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "price_plan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "entitlements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "label",
+                  "asset",
+                  "offer"
+                ]
+              }
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lenght": {
+              "type": "string"
+            }
+          }
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "product": {
+    "description": "example",
+    "start_date": "2016-07-03T20:00:27Z",
+    "end_date": "2016-07-03T20:00:27Z",
+    "price_plan": {
+      "id": "price_plan1"
+    },
+    "entitlements": [
+      {
+        "id": "entitlement1",
+        "type": "label"
+      }
+    ],
+    "metadata": {
+      "lenght": "10m"
+    },
+    "currency": "MXN"
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products__productID__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "price_plan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency based on ISO4217"
+            },
+            "cycles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "type": "integer"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "cycles": {
+                    "type": "integer"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "Time based on RFC3339"
+                  }
+                }
+              }
+            },
+            "created_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "Time based on RFC3339"
+            }
+          }
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lenght": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "offer_manager": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "entitlements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "label",
+                  "asset",
+                  "offer"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "product": {
+    "id": "product1",
+    "price_plan": {
+      "id": "price_plan1",
+      "description": "example",
+      "currency": "USD",
+      "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+      "created_at": "2017-01-10T21:01:05Z",
+      "updated_at": "2017-01-10T21:01:05Z"
+    },
+    "currency": "USD",
+    "metadata": {
+      "currency": "USD"
+    },
+    "type": "subscription",
+    "description": "example",
+    "offer_manager": "example_manager",
+    "start_date": "2016-07-03T20:00:27Z",
+    "end_date": "2016-07-03T20:00:27Z",
+    "entitlements": [
+      {
+        "id": "entitlemen1",
+        "type": "label",
+        "created_at": "2017-01-31T18:56:45Z",
+        "updated_at": "2017-01-31T18:56:45Z"
+      }
+    ],
+    "created_at": "2017-01-31T18:56:45Z",
+    "updated_at": "2017-01-31T18:56:45Z"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products__productID__put_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__products__productID__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/products</span>/{productID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Delete a specific product, in case the product has a Offer Manager, the product shouldn&#39;t have active offers in order to delete it.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__products__productID__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__products__productID__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__products__productID__delete_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__products__productID__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>productID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__products__productID__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__products__productID__delete_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="pCode__price_plans" class="panel-title">/{pCode}/price-plans</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>The PCM Price Plan(PP) contains the data such as currency and cycles for the periodic renovation of a Subscription. In the Pay Per View(PPV) the Price Plan(PP) is not present due it is not a recurring product. In order to add a PP into a Product the currency should be the same.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__price_plans">
+<span class="parent">
+</span>/{pCode}/price-plans</a>
+<span class="methods">
+<a href="#pCode__price_plans_get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__price_plans_post">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__price_plans" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__price_plans_get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Get the Price Plans, the Price Plan can be filtered by query parameters.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__price_plans_post'" class="list-group-item">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Create a Price Plan(PP), Price Plan are use by Subcriptions to manage its recurring period.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__price_plans_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/price-plans</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get the Price Plans, the Price Plan can be filtered by query parameters.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__price_plans_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__price_plans_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__price_plans_get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__price_plans_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>ids</strong>: <em>(string)</em>
+<p>Price Plans ids</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>id_1,id_2,id_3</pre>
+</li>
+<li>
+<strong>created_at</strong>: <em>(string)</em>
+<p>Created time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>created_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>updeted_at</strong>: <em>(string)</em>
+<p>Updated time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>updated_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>deleted_at</strong>: <em>(string)</em>
+<p>Deleted time RFC3339</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>deleted_at=2011-10-10T10:10:00Z</pre>
+</li>
+<li>
+<strong>includes</strong>: <em>(one of cycles)</em>
+<p>Elements of the Price Plan</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>includes=cycles</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__price_plans_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency based on ISO4217"
+          },
+          "cycles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "unit": {
+                  "type": "integer"
+                },
+                "period": {
+                  "type": "string",
+                  "enum": [
+                    "day",
+                    "week",
+                    "month",
+                    "year"
+                  ]
+                },
+                "cycles": {
+                  "type": "integer"
+                },
+                "amount": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "type": "string",
+                  "description": "Time based on RFC3339"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "description": "Time based on RFC3339"
+                }
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+             "description": "Time based on RFC3339"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Time based on RFC3339"
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plans": [
+    {
+      "id": "price_plan1",
+      "description": "example",
+      "currency": "USD",
+      "cycles": [
+        {
+          "unit": 1,
+          "period": "week",
+          "cycles": 1,
+          "amount": 100,
+          "created_at": "2017-01-10T21:01:05Z",
+          "updated_at": "2017-01-10T21:01:05Z"
+        }
+      ],
+      "created_at": "2017-01-10T21:01:05Z",
+      "updated_at": "2017-01-10T21:01:05Z"
+    }
+  ]
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans_get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__price_plans_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">
+</span>/{pCode}/price-plans</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Create a Price Plan(PP), Price Plan are use by Subcriptions to manage its recurring period.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__price_plans_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__price_plans_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__price_plans_post_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__price_plans_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "integer"
+              },
+              "period": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "cycles": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plan": {
+    "id": "price_plan1",
+    "description": "example",
+    "currency": "USD",
+    "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100
+      }
+    ]
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "integer"
+              },
+              "period": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "cycles": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plan": {
+    "id": "price_plan1",
+    "description": "example",
+    "currency": "USD",
+    "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+    "created_at": "2017-02-01T13:33:51.196623032-06:00",
+    "updated_at": "2017-02-01T13:33:51.196623032-06:00"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans_post_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_pCode__price_plans__pricePlanID_">
+<span class="parent">/{pCode}/price-plans</span>/{pricePlanID}</a>
+<span class="methods">
+<a href="#pCode__price_plans__pricePlanID__get">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__price_plans__pricePlanID__put">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+<a href="#pCode__price_plans__pricePlanID__delete">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_pCode__price_plans__pricePlanID_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Operations for a specific Price Plan, the Price Plan ID is required for these endpoints.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#pCode__price_plans__pricePlanID__get'" class="list-group-item">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Get a specific Price Plan, can include or not the cycles of the PP.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__price_plans__pricePlanID__put'" class="list-group-item">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Update a specific Price Plan, the values that can be updated are Cycles, Currency and Description. In case the Price Plan belong to a Product with an active offer Manager, the update will fail, the Price Plan shouldn&#39;t be attached to a Product with active offers.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#pCode__price_plans__pricePlanID__delete'" class="list-group-item">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<div class="method_description">
+<p>Delete a specific Price Plan, in case the Price Plan belong to a Product with an active offer Manager, the delete will fail, the Price Plan shouldn&#39;t be attached to a Product with active offers.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__price_plans__pricePlanID__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/price-plans</span>/{pricePlanID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get a specific Price Plan, can include or not the cycles of the PP.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__price_plans__pricePlanID__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__get_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__price_plans__pricePlanID__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>pricePlanID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "integer"
+              },
+              "period": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "cycles": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plan": {
+    "id": "price_plan1",
+    "description": "example",
+    "currency": "USD",
+    "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+    "created_at": "2017-02-01T13:33:51.196623032-06:00",
+    "updated_at": "2017-02-01T13:33:51.196623032-06:00"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__get_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__price_plans__pricePlanID__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/price-plans</span>/{pricePlanID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Update a specific Price Plan, the values that can be updated are Cycles, Currency and Description. In case the Price Plan belong to a Product with an active offer Manager, the update will fail, the Price Plan shouldn&#39;t be attached to a Product with active offers.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__price_plans__pricePlanID__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__put_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__price_plans__pricePlanID__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>pricePlanID</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plan": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "integer"
+              },
+              "period": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "cycles": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plan": {
+    "description": "example",
+    "currency": "USD",
+    "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100
+      }
+    ]
+  }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "price_plan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency based on ISO4217"
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "integer"
+              },
+              "period": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "cycles": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              },
+              "created_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "Time based on RFC3339"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Time based on RFC3339"
+        }
+      }
+    }
+  }
+}</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "price_plan": {
+    "id": "price_plan1",
+    "description": "example",
+    "currency": "USD",
+    "cycles": [
+      {
+        "unit": 1,
+        "period": "week",
+        "cycles": 1,
+        "amount": 100,
+        "created_at": "2017-02-01T13:33:51.196959354-06:00",
+        "updated_at": "2017-02-01T13:33:51.196959354-06:00"
+      }
+    ],
+    "created_at": "2017-02-01T13:33:51.196623032-06:00",
+    "updated_at": "2017-02-01T13:33:51.196623032-06:00"
+  }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__put_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="pCode__price_plans__pricePlanID__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required">
+</span>
+</span>
+<span class="parent">/{pCode}/price-plans</span>/{pricePlanID}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Delete a specific Price Plan, in case the Price Plan belong to a Product with an active offer Manager, the delete will fail, the Price Plan shouldn&#39;t be attached to a Product with active offers.</p>
+</div>
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-lock" title="Authentication required">
+</span> Secured by <b>pcm-auth</b>
+<p>Every request made to Backlot requires three query string parameters for authentication, the API Key, the request expiration, and the signature.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#pCode__price_plans__pricePlanID__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+<li>
+<a href="#pCode__price_plans__pricePlanID__delete_securedby" data-toggle="tab" display="none" class="removeParentLi">
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="pCode__price_plans__pricePlanID__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pCode</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>pricePlanID</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Success - Everything is working fine.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad Request - Some of the parameters are missing invalid or malformed.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ParameterMissingError", "message": "Request is missing required query parameter &#39;param name&#39;"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Unauthorized - The supplied credentials are not valid.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"AdapterAuthenticationError", "message":"The supplied credetials are no valid"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Forbidden - The user has not enough privileges to query the information of the specified provider.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "UnauthorizedRequestError", "message": "The supplied authentication is not authorized to access this resource"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>Not Found - The user has not the item specified.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error": "ResourceNotFound", "message": "The item requested has not be found"}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>Server Error - Something is wrong with the API and it might be intermittently unavailable.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{"error":"InternalServerError","message":"There was an unexpected error, if problems persits please contact the application owner."}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="pCode__price_plans__pricePlanID__delete_securedby" display="none">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Secured by pcm-auth</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#pCode__products">/{pCode}/products</a>
+</li>
+<li>
+<a href="#pCode__price_plans">/{pCode}/price-plans</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

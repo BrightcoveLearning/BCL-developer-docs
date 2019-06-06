@@ -1,0 +1,180 @@
+!!!This has good info on handing catalog errors BEFORE normal player ready, but the use case is no longer valid so have archived the doc. The use case was catching geo-filtering errors, but that is now in the player.
+
+
+<!-- Place document intro sentence(s) here --><p>In this topic, you will learn how to display appropriate error messages when a video is not allowed to play because of geo-restrictions. By default, Brightcove Player does not inform the user that a video is geo-filtered.</p>
+
+
+<article class="bcls-article">
+<section id="Overview" class="bcls-section">
+<h2>Overview</h2>
+
+<p>It is possible to restrict where a video can be viewed via geo-filtering. The <a href="/node/15476">Geo-filtering your Videos</a> document shows you how to use Video Cloud to apply geographic restrictions. The document you are now reading instructs you how to implement code to inform users that a video is geo-filtered.</p>
+
+<p>By default, Brightcove Player does not inform the user that a video is geo-filtered. It simply does not play. If you view the console you will see the following.</p>
+
+<pre class="line-numbers">
+<code class="language-html">GET https://edge.api.brightcove.com/v1/accounts/1486906377/videos/3930525483001 403 (Forbidden)</code></pre>
+
+<p>This is not terribly helpful as you cannot be guaranteed from this error that the reason the video is forbidden to view is geo-filtering.</p>
+
+<p>This document implements a strategy to let the user know the video they are trying to watch is geo-filtered.</p>
+</section>
+
+<section id="errorobject" class="bcls-section">
+<h2>Player catalog's error object</h2>
+
+<p>The key to creating a user friendly message is the <code>error</code> object contained in Brightcove Player's <code>catalog</code>. An example of a geo-filtering error is shown below in a screenshot from a browser's console. Notice that the object contains a <code>data</code> property, which itself contains an array. The array will hold the last error the catalog encountered loading a video. In the example you see the element in the array is reporting a geo-filtering access issue.</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="catalog error object" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/troubleshooting/geo-filtering-messaging/error-object.png" /></figure>
+</section>
+
+<section id="bccatalogerror" class="bcls-section">
+<h2>Handle bc-catalog-error</h2>
+
+<p>It is possible that handling errors in the normal <code>ready()</code> section in the <code>script</code> block can cause issues. For instance, it can happen that the <code>bc-catalog-error</code> event could be dispatched before the player is ready, and if you listen for the error in the <code>ready()</code> section, you will not be able to handle the error. You may find that there is not a problem in your code, but the issue can browser dependent, so use caution. For this reason, the error handling code in this document will use the <code>one()</code> event handling method to listen for the <code>bc-catalog-error</code> in a separate code block rather than inside the <code>ready()</code> section.</p>
+</section>
+
+<section id="htmlmessage" class="bcls-section">
+<h2>Message in HTML</h2>
+
+<p>Once you understand the structure of the error that is produced, and where it is located, you can use JavaScript to display a descriptive error for the user. The basic implementation steps are:</p>
+
+<ul>
+	<li>Create a target element in which to display the message.</li>
+	<li>Be sure the player is ready to act upon.</li>
+	<li>Check to see if any error has occurred.</li>
+	<li>If yes, check to see if the error is a geo-filtering issue.</li>
+	<li>If yes, display message to user.</li>
+</ul>
+
+<p>The following code implements these steps.</p>
+
+<ul>
+	<li>Line 12: Insert an HTML element, in this case a paragraph, in which to inject text; give the element an <code>id</code> for targeting purposes.</li>
+	<li>Line 17: Use the <code>one()</code> method add an event listener for the <code>bc-catalog-error</code> event only once.</li>
+	<li>Line 20: Use an <code>if</code> statement to be sure some error has occurred.</li>
+	<li>Line 21: Assign a variable the specific error information from Brightcove Player catalog's error object.</li>
+	<li>Line 22: Use an <code>if</code> statement to be sure the specific error information exists AND the type of error is from geo-filtering.</li>
+	<li>Line 23: Inject an appropriate text message into the HTML element created at line 12.</li>
+</ul>
+
+<pre class="line-numbers" data-start="5">
+<code class="language-html">  &lt;video-js id="myPlayerID"
+    data-account="1486906377"
+    data-player="77a8e8b7-e8d1-4a3c-8a1b-292ba8233006"
+    data-embed="default"
+    data-video-id="4040394419001"
+    class="video-js" controls&gt;&lt;/video-js&gt;
+
+  <span class="bcls-highlight">&lt;p id="textTarget"&gt;&lt;/p&gt;</span>
+
+  &lt;script src="https://players.brightcove.net/1486906377/77a8e8b7-e8d1-4a3c-8a1b-292ba8233006_default/index.min.js"&gt;&lt;/script&gt;
+
+  &lt;script type="text/javascript"&gt;
+    <span class="bcls-highlight">videojs.getPlayer('myPlayerID').one('bc-catalog-error', function(){</span>
+      var myPlayer = this,
+        specificError;
+      <span class="bcls-highlight">if (myPlayer.catalog.error !== undefined) {
+        specificError = myPlayer.catalog.error.data[0];
+        if (specificError !== undefined &amp; specificError.error_subcode == "CLIENT_GEO") {
+          document.getElementById("textTarget").innerHTML = "The video you are trying to watch cannot be viewed from your current country or location.";
+        };
+      };</span>
+    });
+
+    videojs.getPlayer('myPlayerID').ready(function() {
+      var myPlayer = this;
+      console.log('in ready');
+    });
+  &lt;/script&gt;</code></pre>
+
+<p>The following screenshot shows the message displayed below the player. (Note the image in the player is the poster, which is not geo-restricted.)</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="geo filtering message" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/troubleshooting/geo-filtering-messaging/geo-filtering-html-message.png" /></figure>
+</section>
+
+<section id="errorplugin" class="bcls-section">
+<h2>Message via errors plugin</h2>
+
+<p>You may wish to have the message displayed in the player and/or not have even the poster appear if the video is geo-filtered. You can do this utilizing the errors plugin. The errors plugin is automatically loaded into the player, so you do not need to explicitly perform that operation. For details on the errors plugin beyond what will be mentioned here, see the <a href="/node/18145">Display Error Messages Plugin</a> document.</p>
+
+<ul>
+	<li>Line 48: Use the <code>one()</code> method add an event listener for the <code>bc-catalog-error</code> event only once.</li>
+	<li>Lines 51-58: Call the player's <code>error()</code> method, passing in as an argument JSON that defines the <code>errors</code> information to display. Note that the choice of <code>-3</code> for the error code is arbitrary, and the only guidance is not to use a standard error code (currently 1-5).</li>
+	<li>Line 62: Call the <code>error()</code> method to display the custom error information. The logic used to determine when the geo-filtering error has occurred is the same as above. The object passed as an argument defines which error message to display.</li>
+</ul>
+
+<pre class="line-numbers" data-start="47">
+<code class="language-html">  &lt;script type="text/javascript"&gt;
+    videojs.getPlayer('myPlayerID').<span class="bcls-highlight">one('bc-catalog-error', function(){</span>
+      var myPlayer = this,
+        specificError;
+      <span class="bcls-highlight">myPlayer.errors({
+        'errors': {
+          '-3': {
+            'headline': 'The video you are trying to watch cannot be viewed from your current country or location.',
+            'type': 'CLIENT_GEO'
+          }
+        }
+      });</span>
+      if (typeof(myPlayer.catalog.error) !== 'undefined') {
+        specificError = myPlayer.catalog.error.data[0];
+        if (specificError !== 'undefined' &amp; specificError.error_subcode == "CLIENT_GEO") {
+          <span class="bcls-highlight">myPlayer.error({code:'-3'});</span>
+        };
+      };
+    });
+
+    videojs.getPlayer('myPlayerID').ready(function() {
+      var myPlayer = this;
+    });
+  &lt;/script&gt;</code></pre>
+
+<p>The following screenshot shows the error plugin's display of the defined error.</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="custom error message" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/troubleshooting/geo-filtering-messaging/geo-filtering-errors-plugin.png" /></figure>
+</section>
+
+<section id="generalerror" class="bcls-section">
+<h2>General error display</h2>
+
+<p>The two sections above deal specifically with displaying the error generated when a geo-restricted video is viewed from a restricted locale. Some errors do not provide the level of detail the geo-filtering restriction does. An example error object of this type is shown here. Notice that the <strong>data</strong> field is empty, whereas with the geo-filtering error it contained key error information.</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="general error message" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/troubleshooting/geo-filtering-messaging/geo-filtering-general-error.png" /></figure>
+
+<p>The following code shows how to display information from <code>catalog.error</code> no matter the level of detail. At a high-level, the code performs the following:</p>
+
+<ul>
+	<li>Checks if a catalog error has occurred.</li>
+	<li>Checks if in the error object the <code>data</code> field contains specific error information. If it does NOT, the general error message is injected into the HTML.</li>
+	<li>If there is specific error information AND it is geo-filtering related an appropriate message is injected into the HTML.</li>
+	<li>If there is specific error information, and it is not geo-filtering related, the specific error's message is injected into the HTML.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">  &lt;script type="text/javascript"&gt;
+    videojs.getPlayer('myPlayerID').one('bc-catalog-error', function(){
+      var myPlayer = this,
+        specificError;
+      if (myPlayer.catalog.error != undefined) {
+        specificError = myPlayer.catalog.error.data[0];
+        if (specificError == undefined) {
+          document.getElementById("textTarget").innerHTML = "The following error has occurred: &lt;strong&gt;" + myPlayer.catalog.error.message + "&lt;/strong&gt;";
+        } else if (specificError.error_subcode == "CLIENT_GEO") {
+          document.getElementById("textTarget").innerHTML = "The video you are trying to watch cannot be viewed from your current country or location.";
+        } else {
+          document.getElementById("textTarget").innerHTML = "The following error has occurred: " + specificError.message;
+        };
+      };
+    });
+
+    videojs.getPlayer('myPlayerID').ready(function() {
+      var myPlayer = this;
+    });
+  &lt;/script&gt;</code></pre>
+
+<p>The following screenshot shows the general error message being displayed in HTML. Of course you could also use the errors plugin to display the message, as shown previous section of this document.</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="geo filtering general message" src="//learning-services-media.brightcove.com/doc-assets/player-development/playback/troubleshooting/geo-filtering-messaging/geo-filtering-general-message.png" /></figure>
+</section>
+</article>

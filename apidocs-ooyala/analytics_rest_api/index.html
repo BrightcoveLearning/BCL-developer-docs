@@ -1,0 +1,742 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Analytics Reporting API Reference </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Analytics Reporting API Reference </h1>
+<h2>version v3</h2>
+<p>https://api.ooyala.com/v3/analytics</p>
+<h3 id="Introduction" class="introClass">
+<a href="#Introduction">Introduction</a>
+</h3>
+<p>The <b>v3 Analytics Reporting API</b> relies on <a href="http://help-ooyala.brightcove.com/video-platform/concepts/analytics_v3_dictionary.html#analytics_v3_dictionary__dimension" target="_blank">dimensions</a>, <a href="http://help-ooyala.brightcove.com/video-platform/concepts/analytics_v3_dictionary.html#analytics_v3_dictionary__metric" target="_blank">metrics</a>, and <a href="http://help-ooyala.brightcove.com/video-platform/concepts/analytics_v3_dictionary.html#analytics_v3_dictionary__filter" target="_blank">filters</a>. These concepts are further detailed <a href="http://help-ooyala.brightcove.com/video-platform/concepts/analytics_v3_howanalyticsworks.html#understandanalytics" target="_blank">here</a>. The v3 Analytics Reporting API is also sometimes referred to as simply the <i>v3 Analytics API</i>, or the <i>Ooyala IQ API</i>.</p>
+<p>All reporting requests must be signed by your Ooyala-issued <b>API key</b> and <b>secret key</b>, and your <code>GET</code> requests must have an explicit expiration time. How to do this is detailed in this article on <a href="http://help-ooyala.brightcove.com/video-platform/api/analytics_v3_api_reporting_setup.html#analytics_v3_reference" target="_blank">setup and mechanics for the v3 Analytics Reporting API</a>.</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="reports" class="panel-title">Reports</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Use this API endpoint for general requests related to the Ooyala IQ API.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_reports">
+<span class="parent">
+</span>/reports</a>
+<span class="methods">
+<a href="#reports_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#reports_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_reports" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#reports_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Make a <b>GET</b> request to receive a report containing analytics information according to desired specifications.</p>
+<p>For queries with parameters that exceed the <b>HTTP GET</b> specification limit of <b>230</b> characters, please use a <b>POST</b> request.</p>
+<p>A business use case example is presented below, which queries how different brands are performing.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#reports_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Receive a report containing analytics information according to desired specifications. Make a <b>POST</b> request instead of a <b>GET</b> request for queries with parameters that exceed the <b>HTTP GET</b> specification limit of <b>230</b> characters. Some browsers and HTTP clients may support more than 230 characters, but we do not provide official support for queries that violate the <b>HTTP GET</b> specification.</p>
+<p>For <b>POST</b> requests, pass a<tt>JSON</tt>object in the request body instead of query string parameters for a <a href="./index.html#reports_get" target="_blank">GET request.</a>
+</p>
+<p>For example, using <b>curl</b>, your request could take the form <code>curl -H "Content-Type&#58; application/json" -d &#39;{your JSON here}&#39; <br>&#39;http&#58;//api.ooyala.com/v3/analytics/reports/?api_key=7ab06&amp;expires=1299991855<br>&amp;signature=ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg&#39;</code>
+</p>
+<p>The business use case example below queries how different geographies are driving content traffic.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="reports_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/reports</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Make a <b>GET</b> request to receive a report containing analytics information according to desired specifications.</p>
+<p>For queries with parameters that exceed the <b>HTTP GET</b> specification limit of <b>230</b> characters, please use a <b>POST</b> request.</p>
+<p>A business use case example is presented below, which queries how different brands are performing.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#reports_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#reports_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="reports_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>report_type</strong>: <em>required (string)</em>
+<p>A required parameter describing the type of report you wish to receive. For general information, set this parameter to <code>performance</code>. If you would like information on concurrent users, set this parameter to <code>concurrent</code>.</p>
+</li>
+<li>
+<strong>start_date</strong>: <em>required (string)</em>
+<p>The start date is specified as <b>YYYY-MM-DD</b> or <b>YYYY-MM-DDTHH&#58;MM</b>. If no <b>HH&#58;MM</b> time is specified, it is set to <b>00&#58;00</b> by default. The start date&#39;s time, if specified, would be in the provider&#39;s time zone.</p>
+</li>
+<li>
+<strong>end_date</strong>: <em>(string)</em>
+<p>The end date is specified as <b>YYYY-MM-DD</b> or <b>YYYY-MM-DDTHH&#58;MM</b>. If no <b>HH&#58;MM</b> time is specified, it is set to <b>23&#58;59</b> by default. The end date&#39;s time, if specified, would be in the provider&#39;s time zone. The end date itself is excluded from the time range, so that the time range is actually <code>[start_date, end_date)</code>. The <b>end_date</b> parameter is required when <i>report_type</i> is set to <code>concurrent</code>.</p>
+</li>
+<li>
+<strong>metrics</strong>: <em>(string - default: <code>*</code>, i.e., all metrics)</em>
+<p>A list of comma-separated metric names. For a list of valid values, see the section on <a href="http://help-ooyala.brightcove.com/video-platform/api/analytics_v3_api_reporting_metrics.html#analytics_v3_metrics" target="_blank">metrics</a>.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>metrics=plays_requested,displays</pre>
+</li>
+<li>
+<strong>dimensions</strong>: <em>(string)</em>
+<p>A list of comma-separated dimension names. Results are grouped by the specified dimensions. If no dimensions are specified, total values across all dimensions are returned.</p>
+<p>For a list of valid values, see the section on <a href="http://help-ooyala.brightcove.com/video-platform/api/analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions" target="_blank">dimensions</a>.</p>
+<p>&bull; For time ranges up to <b>one month</b>, you can query by up to <b>three dimensions</b> at a time with unlimited rows of data.</p>
+<p>&bull; For time ranges greater than <b>one month</b>, you can query by up to <b>two dimensions</b> at a time with <b>10,000</b> rows of data.</p>
+<p>&bull; You can only use <b>one dimension</b> for <code>url</code> queries.</p>
+<p>&bull; Multiple values must be comma-separated with no spaces. The order of the values is not important.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>dimensions=device_type,dma</pre>
+</li>
+<li>
+<strong>filters</strong>: <em>(string)</em>
+<p>Restricts the set of results by specified filter values.</p>
+<p>&bull; For up to <b>two filters</b>, you can set a date range of up to <b>one year (366 days)</b>.</p>
+<p>&bull; For up to <b>three filters</b>, you can set a date range of up to <b>one month (31 days)</b>.</p>
+<p>For a list of valid values, see the section on <a href="http://help-ooyala.brightcove.com/video-platform/api/analytics_v3_api_reporting_filters.html#analytics_v3_filters" target="_blank">filters</a>.</p>
+<p>&bull; The value of <code>filter_by</code> must be URL-encoded.</p>
+<p>&bull; The value of the actual filter must be enclosed in single-quotation marks.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>filters=country==&#39;AU&#39;,device_type==&#39;mobile&#39;</pre>
+</li>
+<li>
+<strong>time_segment</strong>: <em>(string)</em>
+<p>Specify the time-based segment for dimension data. This will sort blocks of data.</p>
+<p>The time range automatically expands to the minimal time range that will fulfill the request. For example, specifying a start and end date for only today but with a <b>time_segment</b> of <code>week</code> causes the specified the start&#47;end date to expand to cover the entire current week (in the provider&#39;s time zone). When there is no specified time_segment, the aggregate total for the specified dimensions is returned. When there is neither <b>time_segment</b> nor any specified dimension, the grand total for the time range is returned.</p>
+<p>&bull; <b>Note&#58;</b> A week is defined as Monday &mdash; Sunday.</p>
+<p>&bull; Valid values are <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, and <code>15min</code>.</p>
+<p>&bull; <b>Note&#58;</b> Queries using the <code>hour</code> and <code>15min</code> time segments can only be made with a date rage of <b>up to 7 days</b>. Queries using the <code>hour</code> and <code>15min</code> time segments will not return metric information for <code>segment_watched</code>, <code>uniq_displays</code>, <code>uniq_video_starts</code>, <code>percentage_watched</code>, <code>uniq_plays_requested</code>, or any of the <b>Discovery</b> metrics.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>time_segment=day</pre>
+</li>
+<li>
+<strong>sort</strong>: <em>(string - default: Sort by the metrics that are present in the query order, up to the first two.)</em>
+<p>A list of comma-separated metrics to sort by. For multiple metrics, sorts by the metrics in the order the metrics are placed in the query. You can explicitly use as many sort metrics as you want (given that you have the metric), but default sorting has a limit of two metrics.</p>
+<p>By default, sorting takes place in descending order. For ascending order, prefix a given metric with the <code>+</code> character. For example, <b>sort=</b>
+<code>+video_starts</code>.</p>
+<p>&bull; <b>Note&#58;</b> It is recommended that you do not use <code>segment_watched</code> or <code>percentage_watched</code> as sorting metrics. Instead, use other metrics, like <code>plays_requested</code>. This is because there are different sort semantics for different metrics. For example, <code>segment_watched</code> and <code>percentage_watched</code> use the string (of the entire array) for sorting rather than a numeric sort. This means that if you sort by <code>segment_watched</code>, your results may not appear in numerical order. By contrast, <code>plays_requested</code> uses a numeric sort, which will provide you with clear results.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>sort=plays_requested,displays,video_starts</pre>
+</li>
+<li>
+<strong>limit</strong>: <em>(integer - default: 1000)</em>
+<p>Limit the number of records returned in the response, with a maximum limit of <b>1000</b>. You can use the <b>page</b> parameter to paginate through all of your data. The <b>limit</b> and <b>page</b> parameters must be used in an API call to obtain the correct total count value.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>limit=100</code>
+</pre>
+</li>
+<li>
+<strong>page</strong>: <em>(integer - default: 0)</em>
+<p>An index for pagination of your data. The data starts at page <b>0</b>, so that page <b>1</b> is the second page. The <b>limit</b> and <b>page</b> parameters must be used in an API call to obtain the correct total count value.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>page=1</code>
+</pre>
+</li>
+<li>
+<strong>api_key</strong>: <em>required (string)</em>
+<p>A user-specific key. It can be found, for instance, in the <i>Developers</i> tab of <a href="https://backlot.ooyala.com" target="_blank">Backlot</a>.</p>
+</li>
+<li>
+<strong>expires</strong>: <em>required (integer)</em>
+<p>A UNIX timestamp (seconds since January 1st, 1970) indicating the time until which your request should be valid.</p>
+</li>
+<li>
+<strong>signature</strong>: <em>required (string)</em>
+<p>A computed digest of all of your request&#39;s parameters, to ensure your request URLs can&#39;t be tampered with after they&#39;ve been signed.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://api.ooyala.com/v3/analytics/reports/?report_type=performance&amp;dimensions=asset,player_id&amp;filters=player_id==&#39;\&#39;&#39;player1&#39;\&#39;&#39; player_id==&#39;\&#39;&#39;player2&#39;\&#39;&#39;&amp;metrics=plays_requested&amp;start_date=2014-10-10&amp;end_date=2014-10-20&amp;api_key=7ab06&amp;expires=1299991855&amp;signature=ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="reports_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>A sample response to the business use case example which queries how different brands are performing.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+   "status": "OK",
+   "results":[  
+      {
+         "data":[  
+            {  
+              "metrics":{  
+                  "plays_requested":2500
+               },
+               "group":{  
+                  "asset":"asset_id_1",
+                  "player_id":"player1",
+                  "name":"unknown",
+                  "status":"unknown",
+                  "type":"unknown"
+               }  
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":2200
+               },
+               "group":{  
+                  "asset":"asset_id_2",
+                  "player_id":"player2",
+                  "name":"unknown",
+                  "status":"unknown",
+                  "type":"unknown"
+               }      
+            }
+         ],
+         "start_date":"2014-10-10T00:00Z",
+         "end_date":"2014-10-20T00:00Z"
+      }
+   ],
+   "status_code": "200",
+   "total_count": "100",
+   "result_count": "2"
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a>
+</h2>
+<p>Successfully received, but no content. Returned by the <b>Event Ping API</b>. No response body is returned.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad request. The request is incorrect. For example, it does not contain required query string parameters.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+    "status": "Invalid parameter",
+    "statusCode": "400",
+    "errors": ["filter has invalid syntax: invalid character . at position 4"]
+} </code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Not authorized. Either the credentials (Ooyala-provided API key and secret) are missing, or their values are not valid.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Insufficient permissions. The credentials in the request do not have sufficient permission for data requested.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/429" target="_blank">429</a>
+</h2>
+<p>Quota exceeded. The requester&#39;s quota of API calls has been exceeded. Quotas are described in the <a href="http://help-ooyala.brightcove.com/video-platform/concepts/api_rate_limiting.html" target="_blank">API Rate Limiting</a> article.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>System error. Possible problem in the Ooyala system.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/503" target="_blank">503</a>
+</h2>
+<p>Service unavailable. There is a temporary service outage.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="reports_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/reports</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Receive a report containing analytics information according to desired specifications. Make a <b>POST</b> request instead of a <b>GET</b> request for queries with parameters that exceed the <b>HTTP GET</b> specification limit of <b>230</b> characters. Some browsers and HTTP clients may support more than 230 characters, but we do not provide official support for queries that violate the <b>HTTP GET</b> specification.</p>
+<p>For <b>POST</b> requests, pass a<tt>JSON</tt>object in the request body instead of query string parameters for a <a href="./index.html#reports_get" target="_blank">GET request.</a>
+</p>
+<p>For example, using <b>curl</b>, your request could take the form <code>curl -H "Content-Type&#58; application/json" -d &#39;{your JSON here}&#39; <br>&#39;http&#58;//api.ooyala.com/v3/analytics/reports/?api_key=7ab06&amp;expires=1299991855<br>&amp;signature=ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg&#39;</code>
+</p>
+<p>The business use case example below queries how different geographies are driving content traffic.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#reports_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#reports_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="reports_post_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>api_key</strong>: <em>required (string)</em>
+<p>A user-specific key. It can be found, for instance, in the <i>Developers</i> tab of <a href="https://backlot.ooyala.com" target="_blank">Backlot</a>.</p>
+</li>
+<li>
+<strong>expires</strong>: <em>required (integer)</em>
+<p>A UNIX timestamp (seconds since January 1st, 1970) indicating the time until which your request should be valid.</p>
+</li>
+<li>
+<strong>signature</strong>: <em>required (string)</em>
+<p>A computed digest of all of your request&#39;s parameters, to ensure your request URLs can&#39;t be tampered with after they&#39;ve been signed.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+   "report_type": "performance",
+    "dimensions": "country",
+    "filters": "((device_type==&#39;tablet&#39;)) AND ((domain==&#39;exampledomain.com&#39;))",
+    "metrics": "plays_requested",
+    "start_date": "2014-10-10",
+    "end_date": "2014-10-20",
+    "sort": "plays_requested"
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="reports_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>A sample response to the business use case example which queries how different geographies are driving content traffic.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+   "status":"OK",
+   "results":[  
+      {  
+         "data":[  
+            {  
+               "metrics":{  
+                  "plays_requested":11000
+               },
+               "group":{  
+                  "country":"us",
+                  "countryName":"United States"
+               } 
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":5100
+               },
+               "group":{  
+                  "country":"fr",
+                  "countryName":"France"
+               } 
+            },
+            { 
+               "metrics":{  
+                  "plays_requested":2000
+               },
+               "group":{  
+                  "country":"gb",
+                  "countryName":"United Kingdom"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":2000
+               },
+               "group":{  
+                  "country":"be",
+                  "countryName":"Belgium"
+               }
+            },
+            { 
+               "metrics":{  
+                  "plays_requested":1600
+               }, 
+               "group":{  
+                  "country":"ca",
+                  "countryName":"Canada"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1400
+               },
+               "group":{  
+                  "country":"de",
+                  "countryName":"Germany"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1100
+               },
+               "group":{  
+                  "country":"ua",
+                  "countryName":"Ukraine"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1000
+               },
+               "group":{  
+                  "country":"se",
+                  "countryName":"Sweden"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":800
+               },
+               "group":{  
+                  "country":"nl",
+                  "countryName":"Netherlands"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":600
+               },
+               "group":{  
+                  "country":"it",
+                  "countryName":"Italy"
+               } 
+            }
+         ],
+         "start_date":"2014-10-10T00:00Z",
+         "end_date":"2014-10-20T00:00Z"
+      }
+   ], 
+   "status_code":"200",
+   "total_count":100,
+   "result_count":10
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a>
+</h2>
+<p>Successfully received, but no content. Returned by the <b>Event Ping API</b>. No response body is returned.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad request. The request is incorrect. For example, it does not contain required query string parameters.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{  
+    "status": "Invalid parameter",
+    "statusCode": "400",
+    "errors": ["filter has invalid syntax: invalid character . at position 4"]
+} </code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>Not authorized. Either the credentials (Ooyala-provided API key and secret) are missing, or their values are not valid.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Insufficient permissions. The credentials in the request do not have sufficient permission for data requested.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/429" target="_blank">429</a>
+</h2>
+<p>Quota exceeded. The requester&#39;s quota of API calls has been exceeded. Quotas are described in the <a href="http://help-ooyala.brightcove.com/video-platform/concepts/api_rate_limiting.html" target="_blank">API Rate Limiting</a> article.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>System error. Possible problem in the Ooyala system.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/503" target="_blank">503</a>
+</h2>
+<p>Service unavailable. There is a temporary service outage.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#reports">Reports</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

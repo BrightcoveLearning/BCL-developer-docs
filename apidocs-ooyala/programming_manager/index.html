@@ -1,0 +1,3079 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ooyala Programming Manager </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Ooyala Programming Manager </h1>
+<h2>version v1</h2>
+<p>https://player.ooyala.com/opm/v1/</p>
+<h3 id="Introduction" class="introClass">
+<a href="#Introduction">Introduction</a>
+</h3>
+<p>The <b>Programming Manager REST API</b> lets you query and update provider assets, asset offers, channels, and collections.</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="authentication_v1_providers__pcode__gigya" class="panel-title">A&shy;uthenticated Requests</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>User authentication and identity management is integrated with Gigya, a third-party vendor that handles identity management of our clients from all types of social networks such as Facebook, LinkedIn, Google Plus, etc. The client calls an authentication API that returns an <b>account_token</b>. The account_token must be appended as a query-string parameter to subsequent requests (e.g. for the eCommerce APIs). The account_token expires after 15 minutes (by default). When a request is sent with an expired account_token, the server responds with a <code>403</code> "Invalid account_token". The client is responsible for re-requesting the account_token on <code>403</code> responses.</p>
+<p>Requests <b>must</b> be sent via HTTPS using the host player.ooyala.com (click the <b>POST</b> button below to see examples of usage).</p>
+<p>
+<b>Unauthenticated Requests</b>
+<br>If you do not include your account token to authenticate a query, you must include the pcode=&lt;pcode&gt; parameter. See <a>
+<a href="http://help-ooyala.brightcove.com/video-platform/concepts/api_keys.html">http://help-ooyala.brightcove.com/video-platform/concepts/api_keys.html</a>
+</a> for details on finding your pcode.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_authentication_v1_providers__pcode__gigya">
+<span class="parent">
+</span>/authentication/v1/providers/{pcode}/gigya</a>
+<span class="methods">
+<a href="#authentication_v1_providers__pcode__gigya_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_authentication_v1_providers__pcode__gigya" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#authentication_v1_providers__pcode__gigya_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Retrieve your account_token by making the following request. The uid, timestamp, and signature are sent from Gigya once the consumer facing client authenticates with it. The server will return an account token along with an expiration.<br>
+<br>
+<b style="color:#9F0C30">Sample POST request</b>:<br>
+<a href="https://player.ooyala.com/authentication/v1/providers/{pcode}/gigya?uid=johndoe&amp;signatureTimestamp=1930294539&amp;UIDSignature=p3RfmwGk%2FjwIup%’">https://player.ooyala.com/authentication/v1/providers/{pcode}/gigya?uid=johndoe&amp;signatureTimestamp=1930294539&amp;UIDSignature=p3RfmwGk%2FjwIup%’</a>
+<br>
+<br>
+<b style="color:#9F0C30">Using your Account Token</b>:<br>You may optionally include your account token to authenticate each query. Make sure to replace &lt;account_token&gt; with the token you retrieve by making the above call. For example:<br>
+<br>curl &#39;http<empty>://player.ooyala.com/opm/v1/assets?s=&lt;search_text&gt;&amp;account_token=&lt;account_token&gt;&#39;<br>
+<br>
+<b style="color:#9F0C30">Error Responses</b>:<br>If an error occurs, the server returns a <b>4xx</b> response. The body will contain an error message, such as <code>400</code>, “Invalid Signature”.</empty>
+</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="authentication_v1_providers__pcode__gigya_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/authentication/v1/providers/{pcode}/gigya</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Retrieve your account_token by making the following request. The uid, timestamp, and signature are sent from Gigya once the consumer facing client authenticates with it. The server will return an account token along with an expiration.<br>
+<br>
+<b style="color:#9F0C30">Sample POST request</b>:<br>
+<a href="https://player.ooyala.com/authentication/v1/providers/{pcode}/gigya?uid=johndoe&amp;signatureTimestamp=1930294539&amp;UIDSignature=p3RfmwGk%2FjwIup%’">https://player.ooyala.com/authentication/v1/providers/{pcode}/gigya?uid=johndoe&amp;signatureTimestamp=1930294539&amp;UIDSignature=p3RfmwGk%2FjwIup%’</a>
+<br>
+<br>
+<b style="color:#9F0C30">Using your Account Token</b>:<br>You may optionally include your account token to authenticate each query. Make sure to replace &lt;account_token&gt; with the token you retrieve by making the above call. For example:<br>
+<br>curl &#39;http<empty>://player.ooyala.com/opm/v1/assets?s=&lt;search_text&gt;&amp;account_token=&lt;account_token&gt;&#39;<br>
+<br>
+<b style="color:#9F0C30">Error Responses</b>:<br>If an error occurs, the server returns a <b>4xx</b> response. The body will contain an error message, such as <code>400</code>, “Invalid Signature”.</empty>
+</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#authentication_v1_providers__pcode__gigya_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#authentication_v1_providers__pcode__gigya_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="authentication_v1_providers__pcode__gigya_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>pcode</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>uid</strong>: <em>required (string)</em>
+<p>The user ID returned by Gigya.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>johndoe</pre>
+</li>
+<li>
+<strong>signatureTimestamp</strong>: <em>required (string)</em>
+<p>The timestamp generated by Gigya.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>1930294539</pre>
+</li>
+<li>
+<strong>UIDSignature</strong>: <em>required (string)</em>
+<p>The signature generated by Gigya.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>p3RfmwGk%2FjwIup%</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="authentication_v1_providers__pcode__gigya_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Schema</strong>:</p>
+<pre>
+<code>{
+  "account_token": "The account token as an opaque string.",
+  "expires": "The expiration time (UTC time in ISO-8601 format)."
+}
+</code>
+</pre>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "account_token": "Xvrw4qxPYCidlM",
+    "expires": "2014-03-02T23:20:19+00:00"
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Invalid <b>signature</b>.</p>
+<h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a>
+</h2>
+<p>Invalid <b>account_token</b>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="assets" class="panel-title">Assets</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>The <b>asset library</b> consists of <b>videos</b>, as well as custom <b>content groups</b> of video assets used to organize episodic content, movies, sports events, and channels.</p>
+<p>Use the <b>q</b> query parameter with a query phrase to search all metadata based on the provided phrase.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_assets">
+<span class="parent">
+</span>/assets</a>
+<span class="methods">
+<a href="#assets_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_assets" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#assets_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Return a list of all published assets in the asset library.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="assets_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/assets</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Return a list of all published assets in the asset library.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#assets_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#assets_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="assets_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>q</strong>: <em>(string)</em>
+<p>Performs a full query search. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax">Elasticsearch query string syntax</a> for details on how to format your query.</p>
+</li>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers that are directly associated with an asset (each offer is a direct parent of the asset). Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections associated with the asset (parent relation only, no grandparents).</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>parents</b>&#58; Returns labels, offers, implicit offers, collections, and channels with which the asset is associated.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+<p>
+<b>Logical Operations.</b> The following examples illustrate how to apply <b>AND</b>, <b>OR</b>, and <b>NOT</b> operations within your queries. Consider these two separate requests&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?q=metadata.display.director&#58;"Josh"&#39;</code>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?q=metadata.display.actor&#58;"Marc"&#39;</code>
+</p>
+<p>To combine the requests with a logical <b>AND</b>, retrieving assets with both the director Josh <b>AND</b> the actor Marc, use the <code>+</code> symbol&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?<br>q=(metadata.display.director&#58;"Josh" +metadata.display.actors&#58;"marc")&#39;</code>
+</p>
+<p>To combine them with a logical <b>OR</b>, retrieving assets with the director Josh <b>OR</b> the actor Marc, use a space between the two values (an implicit <b>OR</b>)&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?<br>q=(metadata.display.director&#58;"Josh" metadata.display.actors&#58;"marc")&#39;</code>
+</p>
+<p>To combine them with a logical <b>NOT</b>, retrieving assets with the director Josh, excluding those with the actor Marc, use the <code>-</code> symbol&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?<br>q=(metadata.display.director&#58;"Josh" -metadata.display.actors&#58;"marc")&#39;</code>
+</p>
+<p>
+<b>More Query Examples.</b> This example illustrates how to query movies from the 80&#39;s&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?type=movie&amp;q=metadata.year&#58;[1980 TO 1989]&#39;</code>
+</p>
+<p>This example illustrates how to query all assets rated <b>PG-13</b>&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?<br>pcode=FhN2MyOlEAUn2NZ0OM94L7XNcL0f&amp;details=all&amp;q=metadata.rating&#58;"PG13"&#39;</code>
+</p>
+<p>You can implement predictive search using partial matching using <code>&#42;</code> in your elastic search queries.</p>For example, after a user types in <b>"ab"</b>, you could make the following type of call&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?q=metadata.display-name&#58;ab&#42;&amp;pcode=<your pcode>&amp;details=metadata&#39;</your>
+</code>
+<p>
+</p>
+<p>This will give you all assets where the display name has a word that starts with <b>"ab"</b>. Then, when the user types in an additional character, you would create another API call&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?q=metadata.display-name&#58;abr&#42;&amp;pcode=<your pcode>&amp;details=metadata&#39;</your>
+</code>
+</p>
+<p>Now you can expect fewer results, since it will only match content where a word in the display name starts with <b>"abr"</b>. You can also combine search parameters if you would like to search for other data, such as actor names.</p>
+<p>
+</p>
+</li>
+<li>
+<strong>embed_code</strong>: <em>(string)</em>
+<p>A comma-separated list of embed codes. Use this route to return a list of all published assets based on the specified list of embed codes.</p>
+</li>
+<li>
+<strong>type</strong>: <em>(string)</em>
+<p>A comma-delimited list of asset types on which to filter. Asset types are customer-defined. For example, assets may include movies, TV shows, sports, and channels.</p>
+</li>
+<li>
+<strong>labels</strong>: <em>(string)</em>
+<p>A comma-delimited list of label IDs or names on which to filter.</p>
+</li>
+<li>
+<strong>collections</strong>: <em>(string)</em>
+<p>A comma-delimited list of collection IDs or names on which to filter.</p>
+</li>
+<li>
+<strong>offers</strong>: <em>(string)</em>
+<p>A comma-delimited list of offer IDs or names on which to filter. For example, query <code>/assets?offers=<b>id</b>
+</code>. Assets associated with no offers are also returned.If an expired offer_id is passed (the offer has an expired availability end_date), the list of associated assets will still be returned.</p>
+</li>
+<li>
+<strong>channels</strong>: <em>(string)</em>
+<p>A comma-delimited list of live channel IDs or names on which to filter. Assets are returned regardless of channel association.</p>
+</li>
+<li>
+<strong>page</strong>: <em>(integer)</em>
+<p>Zero-based page index to return. <i>Default value&#58; 0</i>
+</p>
+</li>
+<li>
+<strong>page_size</strong>: <em>(integer)</em>
+<p>Maximum number of items to return at a time. <i>Default value&#58; 10</i>
+</p>
+</li>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order). Note that this parameter only works on the properties of the requested asset, and is not applied to any other content groups that may be included in the response.</p>
+</li>
+<li>
+<strong>timestamps</strong>: <em>(boolean)</em>
+<p>When you add <code>timestamps=true</code> in the request, the response will include the date and time when an asset was created and last modified. This information is provided as part of the <code>created</code> and <code>last_modified</code> fields, respectively, for each returned asset in the response. Both fields contain <i>string</i> values of date and time formatted after the <b>ISO 8601</b> standard. The timestamps parameter is optional.</p>
+<p>
+<b>Example.</b> The following example illustrates how to query asset creation and last modification timestamps&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets?offers=220749&amp;labels=220795&amp;collections=220751&amp;timestamps=true&#39;</code>
+</p>
+<p>The response will include the following additional additional fields for each asset&#58;<br>
+<code>"created"&#58; "2017-02-25T20&#58;01&#58;33+00&#58;00"</code>
+<br>
+<code>"last_modified"&#58; "2017-02-25T20&#58;01&#58;37+00&#58;00"</code>
+</p>
+<p>
+</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/assets?offers=220749&amp;labels=220795&amp;collections=220751&amp;page_size=100&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="assets_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "results": [
+        {
+            "id": "201101",
+            "name": "Cinderella",
+            "description": null,
+            "type": "movie"
+        },
+        {
+            "id": "218074",
+            "name": "La Rosa de Guadalup",
+            "description": "Test episode file asset.",
+            "type": "episode"
+        }
+    ],
+    "total_size": 2,
+    "page": 0,
+    "page_size": 100
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_assets__asset_id_">
+<span class="parent">/assets</span>/{asset_id}</a>
+<span class="methods">
+<a href="#assets__asset_id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_assets__asset_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Return a list of all published assets based on the specified asset ID or list of asset IDs.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#assets__asset_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="assets__asset_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/assets</span>/{asset_id}</h4>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#assets__asset_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#assets__asset_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="assets__asset_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>asset_id</strong>: <em>required (number)</em>
+<p>Ooyala ID or customer-provided ID of a specific asset to return. A comma-delimited list can be used to request multiple assets. Up to 300 IDs may be specified.</p>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.</p>
+<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers that are directly associated with an asset (each offer is a direct parent of the asset). Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections associated with the asset (parent relation only, no grandparents).</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>parents</b>&#58; Returns labels, offers, implicit offers, collections, and channels with which the asset is associated.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+<p>For example, to query the assets with IDs <code>12345</code>, <code>67890</code>, and <code>34567</code> for image URL information, make a request like<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets/12345,67890,34567?details=summary,images&#39;</code>
+</p>
+<p>For another example, to get an array of summaries on the assets with IDs <code>123654789</code> and <code>123789456</code>, use the command<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets/123654789,123789456?details=summary&#39;</code>
+</p>
+</li>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order). Note that this parameter only works on the properties of the requested asset, and is not applied to any other content groups that may be included in the response.</p>
+</li>
+<li>
+<strong>timestamps</strong>: <em>(boolean)</em>
+<p>When you add <code>timestamps=true</code> in the request, the response will include the date and time when an asset was created and last modified. This information is provided as part of the <code>created</code> and <code>last_modified</code> fields, respectively, for each returned asset in the response. Both fields contain <i>string</i> values of date and time formatted after the <b>ISO 8601</b> standard. The timestamps parameter is optional.</p>
+<p>
+<b>Example.</b> The following example illustrates how to query asset_id creation and last modification timestamps&#58;<br>
+<code>curl -X GET &#39;https&#58;//player.ooyala.com/opm/v1/assets/598431?&amp;timestamps=true&#39;</code>
+</p>
+<p>The response will include the following additional additional fields&#58;<br>
+<code>"created"&#58; "2017-04-25T20&#58;12&#58;25+00&#58;00"</code>
+<br>
+<code>"last_modified"&#58; "2017-04-25T20&#58;16&#58;44+00&#58;00"</code>
+</p>
+<p>
+</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/assets/598431&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="assets__asset_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "results":[
+    {
+      "id": "598431",
+      "name": "70843-1878679976_F_HD",
+      "type": "rendition",
+      "href": "/assets/598431",
+      "display_name": "70843-1878679976_F_HD",
+      "duration": null,
+      "transcoded_duration": 5539200,
+      "url": null,
+      "embed_code": "R4amhrdzoJg17TiYg7-dgVEnL7q4PEvt",
+      "rendition_type": "SD",
+      "player_id": "201fd987da384703a9e55e18680826cc"
+    }
+  ],
+  "total_size": 1,
+  "page": 0,
+  "page_size": 300
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_assets__embed_code__offers">
+<span class="parent">/assets</span>/{embed_code}/offers</a>
+<span class="methods">
+<a href="#assets__embed_code__offers_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_assets__embed_code__offers" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#assets__embed_code__offers_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Return a list of all <b>offers</b> that are applicable to an asset having the specified <b>embed code</b>. Offers are restricted to types HD and SD, and the embed code is associated with a rendition having a rendition type specified in the metadata. This endpoint only returns those offers that either do not specify any rendition types or specify the rendition type contained in the metadata (HD or SD). An embed code refers to exactly one rendition.</p>
+<p>
+<b>Note&#58;</b> Offers that are different from the rendition type associated with the embed code will <b>not</b> be returned.</p>
+<p>An example is presented below with model embed code <b>F3NDY1dzp_3pa_ShukCfkik-iVUf1Ciw</b>.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="assets__embed_code__offers_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/assets</span>/{embed_code}/offers</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Return a list of all <b>offers</b> that are applicable to an asset having the specified <b>embed code</b>. Offers are restricted to types HD and SD, and the embed code is associated with a rendition having a rendition type specified in the metadata. This endpoint only returns those offers that either do not specify any rendition types or specify the rendition type contained in the metadata (HD or SD). An embed code refers to exactly one rendition.</p>
+<p>
+<b>Note&#58;</b> Offers that are different from the rendition type associated with the embed code will <b>not</b> be returned.</p>
+<p>An example is presented below with model embed code <b>F3NDY1dzp_3pa_ShukCfkik-iVUf1Ciw</b>.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#assets__embed_code__offers_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#assets__embed_code__offers_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="assets__embed_code__offers_get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>embed_code</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>(none)</strong>: <em>(string)</em>
+<p>This route accepts no query parameters.</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/assets/F3NDY1dzp_3pa_ShukCfkik-iVUf1Ciw/offers&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="assets__embed_code__offers_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "items": ["334820:379152"],
+    "total_size":1,
+    "page":0,
+    "page_size":10
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="bundle_offers" class="panel-title">Bundle Offers</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>
+<b>Bundle offers</b> can be used to package multiple asset offers together. A bundle offer can be priced lower than the total price of its asset offers.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_bundle_offers">
+<span class="parent">
+</span>/bundle_offers</a>
+<span class="methods">
+<a href="#bundle_offers_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#bundle_offers_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_bundle_offers" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#bundle_offers_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>See a list of all existing bundle offers.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#bundle_offers_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Create a new bundle offer.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="bundle_offers_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/bundle_offers</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>See a list of all existing bundle offers.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#bundle_offers_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#bundle_offers_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="bundle_offers_get_request">
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/bundle_offers&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="bundle_offers_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "items": [{
+    "id": "123",
+    "name": "Bundle_offer_1",
+    "created": "2017-03-08T10:10:00+00:00",
+    "variant": "bundle_offer",
+    "last_modified": "2017-03-08T10:10:00+00:00",
+    "enabled": true,
+    "product_id": "PPV-123",
+    "ooyala_primary_preview_image_url": null,
+    "display_name": "Bundle_offer_SciFi_movies",
+    "availability_start_date": "2017-03-08T10:10:00+00:00",
+    "availability_end_date": "2017-04-08T10:10:00+00:00",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "children": [{
+      "id": "asset_offer_1",
+      "name": "asset offer 1",
+      "display_name": "asset offer 1",
+      "rendition": ["SD"],
+      "product-id": "PPV-abc",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }, {
+      "id": "asset_offer_2",
+      "name": "asset offer 2",
+      "display_name": "asset offer 2",
+      "product-id": "PPV-def",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }]
+  }, {
+    "id": "456",
+    "name": "Bundle_offer_2",
+    "created": "2017-03-08T10:10:00+00:00",
+    "variant": "bundle_offer",
+    "last_modified": "2017-03-08T10:10:00+00:00",
+    "enabled": true,
+    "product_id": "PPV-456",
+    "ooyala_primary_preview_image_url": null,
+    "display_name": "Bundle_offer_Superhero_movies",
+    "availability_start_date": "2017-03-08T10:10:00+00:00",
+    "availability_end_date": "2017-04-08T10:10:00+00:00",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "children": [{
+      "id": "asset_offer_3",
+      "name": "asset offer 3",
+      "display_name": "asset offer 3",
+      "rendition": ["SD"],
+      "product-id": "PPV-uvw",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }, {
+      "id": "asset_offer_4",
+      "name": "asset offer 4",
+      "display_name": "asset offer 4",
+      "product-id": "PPV-xyz",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }]
+  }],
+  "total_size": 100,
+  "page": 0,
+  "page_size": 2
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="bundle_offers_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/bundle_offers</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Create a new bundle offer.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#bundle_offers_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#bundle_offers_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="bundle_offers_post_request">
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X POST -H "Content-Type: application/json" -d
+&#39;{
+ "name": "Bundle Offer 1",
+ "enabled": true,
+ "variant": "bundle_offer",
+ "product_id": "PPV-123",
+ "display_name": "Bundle Offer 1",
+ "availability_start_date": "2017-03-08T10:10:00+00:00",
+ "availability_end_date": "2017-04-08T10:10:00+00:00",
+ "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+ "children": ["asset-offer-123", "asset-offer-456"]
+}&#39; &#39;https://player.ooyala.com/opm/v1/bundle_offers&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="bundle_offers_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>The request succeeded.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_bundle_offers__bundle_offer_id_">
+<span class="parent">/bundle_offers</span>/{bundle_offer_id}</a>
+<span class="methods">
+<a href="#bundle_offers__bundle_offer_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#bundle_offers__bundle_offer_id__put">
+<span class="badge badge_put">put</span>
+</a>
+<a href="#bundle_offers__bundle_offer_id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_bundle_offers__bundle_offer_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Access a given bundle offer using its ID. To see a list of all bundle offers with their respective IDs, make a <b>GET</b> call to (all) <b>bundle_offers</b>.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#bundle_offers__bundle_offer_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Get information on a specific bundle offer by its ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#bundle_offers__bundle_offer_id__put'" class="list-group-item">
+<span class="badge badge_put">put</span>
+<div class="method_description">
+<p>Replace a specific bundle offer using its ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#bundle_offers__bundle_offer_id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Remove a given bundle offer using its ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="bundle_offers__bundle_offer_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/bundle_offers</span>/{bundle_offer_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Get information on a specific bundle offer by its ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#bundle_offers__bundle_offer_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#bundle_offers__bundle_offer_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="bundle_offers__bundle_offer_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>bundle_offer_id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/bundle_offers/thebundleID&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="bundle_offers__bundle_offer_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "id": "123",
+    "name": "Bundle_offer_1",
+    "created": "2017-03-08T10:10:00+00:00",
+    "variant": "bundle_offer",
+    "last_modified": "2017-03-08T10:10:00+00:00",
+    "enabled": true,
+    "product_id": "PPV-123",
+    "ooyala_primary_preview_image_url": null,
+    "display_name": "Bundle_offer_SciFi_movies",
+    "availability_start_date": "2017-03-08T10:10:00+00:00",
+    "availability_end_date": "2017-04-08T10:10:00+00:00",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "children": [{
+      "id": "asset_offer_1",
+      "name": "asset offer 1",
+      "display_name": "asset offer 1",
+      "rendition": ["SD"],
+      "product-id": "PPV-abc",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }, {
+      "id": "asset_offer_2",
+      "name": "asset offer 2",
+      "display_name": "asset offer 2",
+      "product-id": "PPV-def",
+      "created": "2017-03-08T10:10:00+00:00",
+      "last_modified": "2017-03-08T10:10:00+00:00"
+    }]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="bundle_offers__bundle_offer_id__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put</span>
+<span class="parent">/bundle_offers</span>/{bundle_offer_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Replace a specific bundle offer using its ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#bundle_offers__bundle_offer_id__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#bundle_offers__bundle_offer_id__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="bundle_offers__bundle_offer_id__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>bundle_offer_id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X PUT -H "Content-Type: application/json" -d
+&#39;{
+ "id": 123,
+ "name": "Bundle Offer 1",
+ "created": "2017-03-08T10:10:00+00:00",
+ "variant": "offer",
+ "last_modified": "2017-03-08T10:20:00+00:00",
+ "display_name": "Bundle Offer 1",
+ "enabled": true,
+ "product_id": "PPV-321",
+ "availability_start_date": "2017-03-08T10:10:00+00:00",
+ "availability_end_date": "2017-04-08T10:10:00+00:00",
+ "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+ "children": ["asset-offer-123", "asset-offer-456"]
+}&#39; &#39;https://player.ooyala.com/opm/v1/bundle_offers/thebundleID&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="bundle_offers__bundle_offer_id__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>The request succeeded.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="bundle_offers__bundle_offer_id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">/bundle_offers</span>/{bundle_offer_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Remove a given bundle offer using its ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#bundle_offers__bundle_offer_id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="bundle_offers__bundle_offer_id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>bundle_offer_id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X DELETE &#39;https://player.ooyala.com/opm/v1/bundle_offers/thebundleID&#39;</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="channels" class="panel-title">Channels</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>
+<b>Channels</b> enable live streaming of video assets. A channel receives live input streams from a live transcoder and makes them available for streaming. Channels can contain metadata that allow them to be organized according to the type of programs they stream.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels">
+<span class="parent">
+</span>/channels</a>
+<span class="methods">
+<a href="#channels_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#channels_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#channels_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Return a list of the provider&#39;s live <b>channels</b>.</p>
+<p>The example below illustrates a request for all channels matching the name “sports”, displaying up to 5 results at a time.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#channels_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Use this route to create a channel using the specified name. Only a name is required when creating a channel.</p>
+<p>An example request using <i>Postman</i> to create a specified channel is illustrated below.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/channels</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Return a list of the provider&#39;s live <b>channels</b>.</p>
+<p>The example below illustrates a request for all channels matching the name “sports”, displaying up to 5 results at a time.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>q</strong>: <em>(string)</em>
+<p>Performs a full query search. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax">Elasticsearch query string syntax</a> for details on how to format your query.</p>
+</li>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+<li>
+<strong>offers</strong>: <em>(string)</em>
+<p>A comma-delimited list of offer IDs or names on which to filter. For example, query /channels?offers=:id. If an expired offer_id is passed (the offer has an expired availability end_date), the list of associated assets will still be returned.</p>
+</li>
+<li>
+<strong>page</strong>: <em>(integer)</em>
+<p>Zero-based page index to return. <i>Default value&#58; 0</i>
+</p>
+</li>
+<li>
+<strong>page_size</strong>: <em>(integer)</em>
+<p>Maximum number of items to return at a time. <i>Default value&#58; 10</i>
+</p>
+</li>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order).</p>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>curl -X GET &#39;https://player.ooyala.com/opm/v1/channels?q=name:"sports"&amp;details=metadata&amp;page=0&amp;page_size=5&#39;</code>
+</pre>
+</div>
+<div class="tab-pane" id="channels_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "id": 123456789,
+    "name":"sports",
+    "metadata": {
+         "description" :"The sports live channel"
+         ...
+    }
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/channels</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to create a channel using the specified name. Only a name is required when creating a channel.</p>
+<p>An example request using <i>Postman</i> to create a specified channel is illustrated below.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels_post_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>name</strong>: <em>required (string)</em>
+<p>The name of the channel.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 Channel</pre>
+</li>
+<li>
+<strong>description</strong>: <em>(string)</em>
+<p>The description of the channel.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 channel description</pre>
+</li>
+<li>
+<strong>ooyala-primary-image</strong>: <em>(number)</em>
+<p>The ID of the primary image.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>192345</code>
+</pre>
+</li>
+<li>
+<strong>deactivated</strong>: <em>(string)</em>
+<p>Indicates whether the channel is activated.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>false</pre>
+</li>
+<li>
+<strong>custom-metadata</strong>: <em>(string)</em>
+<p>Custom key-value pairs.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>custom-key : test key, custom-value : test value</pre>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>POST /opm/v1/channels HTTP/1.1
+Host: adamas-staging.us-east-1.ooyala.com:49250
+api_key: XX.bvaVx
+name: XX
+password: XX
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: a1283204-076d-a263-e7cf-555c43793fee
+{
+  "name": "News1 Channel",
+  "description": "News1 Channel Description"
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="channels_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>
+{
+  "id": 14715251,
+  "name": "News1 Channel",
+  "type": "Group Asset",
+  "href": "https://vertistest.mio-staging.us-east-1.ooyala.com/api/assets/14715251",
+  "variant": "channel",
+  "accountId": 10303,
+  "workspaceId": 10326
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__channel_id_">
+<span class="parent">/channels</span>/{channel_id}</a>
+<span class="methods">
+<a href="#channels__channel_id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#channels__channel_id__put">
+<span class="badge badge_put">put</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__channel_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to return channel detail based on the provided unique channel ID or list of channel IDs (GET), or to update a channel (PUT).</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__channel_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#channels__channel_id__put'" class="list-group-item">
+<span class="badge badge_put">put</span>
+<div class="method_description">
+<p>Use this route to update a channel using the specified ID. This route supports all fields available in the create (POST) route. Note that only one ID may be specified for a PUT request.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__channel_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/channels</span>/{channel_id}</h4>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__channel_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__channel_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__channel_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>channel_id</strong>: <em>required (number)</em>
+<p>Comma separated list of channel IDs, or just one channel ID. Retrieve channel IDs by querying all channels or a certain channel ID for a channel that matches an s or q field query. Up to 300 IDs may be specified for a GET request, but only 1 ID may be specified for a PUT request.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>http://player.ooyala.com/opm/v1/channels/123456789</code>
+</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>collections</b>&#58; Returns the collections associated with an asset.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order).</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__channel_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Request Examples for Retrieving Live Channel Details by Channel ID
+The following example shows the route used to return channel detail associated with the specified channel ID.
+Request
+http://player.ooyala.com/opm/v1/channels/123456789?details=metadata,renditions
+Response
+{
+    "id": "123456789",
+    "name":"sports",
+    "metadata": {
+         "description" :"The sports live channel"
+         ...
+    },
+    "renditions": [{
+         "id": "236297",
+         "name": "http_//livestream/12345",
+         "url": "http://livestream/12345",
+         "embed_code": "A5NDraPpGU2p3uqJAkOSO8DXwKafmkZZ"
+    }]
+}
+The following two-part example shows the route used to retrieve a channel and then retrieve the assets within that channel:
+Request
+http://player.ooyala.com/opm/v1/channels/135782?details=all
+Response
+{
+  "results": [
+    {
+      "id": "135782",
+      "name": "Test_Channel1",
+      "metadata": {
+        "name": "Test Channel1",
+        "description": "Vive en exclusiva"
+      },
+      "images": [
+        {
+          "id": "136148",
+          "name": "Test_Channel1_landscape.jpg",
+          "description": null,
+          "type": "image",
+          "url": null
+        },
+        {
+          "id": "135917",
+          "name": "Test_Channel1_thumb.jpg",
+          "description": null,
+          "type": "image",
+          "url": null
+        },
+        {
+          "id": "133603",
+          "name": "SKYH00000000000001.jpg",
+          "description": null,
+          "type": "image",
+          "url": null
+        }
+      ],
+      "offers": [],
+      "labels": [],
+      "renditions": [
+        {
+          "id": "135916",
+          "name": "http_//skymx.com/Test_Channel1/streamUrl_test=minus__",
+          "description": null,
+          "type": "rendition",
+          "url": "http://skymx.com/Test_Channel1/streamUrl?test=minus+-",
+          "embed_code": null
+        }
+      ],
+      "children": [
+        {
+          "id": "136053",
+          "name": "ManchesterUnited_vs_Tottenham",
+          "description": null,
+          "type": "match"
+        },
+        {
+          "id": "135802",
+          "name": "Bournemouth_vs_AstonVilla",
+          "description": null,
+          "type": "match"
+        }
+      ],
+      "parents": [],
+      "collections": [],
+      "channels": [],
+      "implicit_offers": []
+    }
+  ],
+  "total_size": 1,
+  "page": 0,
+  "page_size": 300
+}
+Now that you have retrieved the specified channel, you can query the asset route by specifying the same channel ID and ordering by the live start time:
+Request
+http://player.ooyala.com/opm/v1/assets?details=metadata&amp;channels=135782&amp;orderby=live-start-time
+Response
+{
+  "results": [
+    {
+      "id": "136053",
+      "name": "ManchesterUnited_vs_Tottenham",
+      "description": null,
+      "type": "match",
+      "metadata": {
+        "rating": "PG",
+        "audio": [
+          "SPA",
+          "EN"
+        ],
+        "competitor": [
+          {
+            "competitor-id": "REY",
+            "competitor-name": "Reynosa"
+          },
+          {
+            "competitor-id": "MTY",
+            "competitor-name": "Sultanes"
+          }
+        ],
+        "name": "Manchester United vs Tottenha,",
+        "description": "Vive en exclusiva los partidos como local de los Sultanes de Monterrey",
+        "ooyala-state": "ingesting",
+        "deactivated": "false",
+        "live-start-time": "2015-03-30T12:00:00",
+        "live-end-time": "2015-03-30T15:30:00"
+      }
+    },
+    {
+      "id": "135802",
+      "name": "Bournemouth_vs_AstonVilla",
+      "description": null,
+      "type": "match",
+      "metadata": {
+        "rating": "PG",
+        "audio": [
+          "SPA",
+          "EN"
+        ],
+        "competitor": [
+          {
+            "competitor-id": "PIR",
+            "competitor-name": "Rieleros"
+          },
+          {
+            "competitor-id": "DIA",
+            "competitor-name": "Tigres"
+          }
+        ],
+        "name": "Bournemouth vs Aston Villa",
+        "description": "Vive en exclusiva los partidos como local",
+        "ooyala-state": "ingesting",
+        "deactivated": "false",
+        "live-start-time": "2015-03-30T15:30:00",
+        "live-end-time": "2015-03-30T18:00:00"
+      }
+    },
+    {
+      "id": "136148",
+      "name": "Test_Channel1_landscape.jpg",
+      "description": null,
+      "type": "image",
+      "metadata": {
+        "ooyala-state": "ingesting"
+      }
+    },
+    {
+      "id": "133603",
+      "name": "SKYH00000000000001.jpg",
+      "description": null,
+      "type": "image",
+      "metadata": {
+        "ooyala-state": "ingesting"
+      }
+    },
+    {
+      "id": "135916",
+      "name": "http_//skymx.com/Test_Channel1/streamUrl_test=minus__",
+      "description": null,
+      "type": "rendition",
+      "metadata": {
+        "ooyala-rendition-type": "HD",
+        "ooyala-state": "ingesting",
+        "ooyala-asset-url": "http://skymx.com/Test_Channel1/streamUrl?test=minus+-"
+      }
+    },
+    {
+      "id": "135917",
+      "name": "Test_Channel1_thumb.jpg",
+      "description": null,
+      "type": "image",
+      "metadata": {
+        "ooyala-state": "ingesting"
+      }
+    }
+  ],
+  "total_size": 6,
+  "page": 0,
+  "page_size": 10
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__channel_id__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put</span>
+<span class="parent">/channels</span>/{channel_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to update a channel using the specified ID. This route supports all fields available in the create (POST) route. Note that only one ID may be specified for a PUT request.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__channel_id__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__channel_id__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__channel_id__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>channel_id</strong>: <em>required (number)</em>
+<p>Comma separated list of channel IDs, or just one channel ID. Retrieve channel IDs by querying all channels or a certain channel ID for a channel that matches an s or q field query. Up to 300 IDs may be specified for a GET request, but only 1 ID may be specified for a PUT request.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>http://player.ooyala.com/opm/v1/channels/123456789</code>
+</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>name</strong>: <em>(string)</em>
+<p>The name of the channel.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 Channel</pre>
+</li>
+<li>
+<strong>description</strong>: <em>(string)</em>
+<p>The description of the channel.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 channel description</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__channel_id__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Update the specified channel.
+Request:
+PUT /opm/v1/channels/14715251 HTTP/1.1
+Host: adamas-staging.us-east-1.ooyala.com:49250
+api_key: XXX.bvaVx
+name: XXXXXX
+password: XXXX
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: 1a49f10e-7272-b3b5-5d86-90dffb7aeacc
+{
+"description": "News1 Channel Description updated"
+}
+Response:
+{
+  "id": 14715251,
+  "name": "News1 Channel",
+  "created": "20 Sep 2016 21:32:57 +0000",
+  "variant": "channel",
+  "last_modified": "20 Sep 2016 21:39:04 +0000",
+  "description": "News1 Channel Description updated",
+  "deactivated": "false",
+  "display_name": "News1 Channel",
+  "ooyala_primary_preview_image_url": null
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__channel_id__renditions">
+<span class="parent">/channels</span>/{channel_id}/renditions</a>
+<span class="methods">
+<a href="#channels__channel_id__renditions_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__channel_id__renditions" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to create renditions.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__channel_id__renditions_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Use this route to create renditions under the specified channel. Only a name and ooyala-asset-stream are required when creating a rendition.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__channel_id__renditions_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{channel_id}/renditions</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to create renditions under the specified channel. Only a name and ooyala-asset-stream are required when creating a rendition.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__channel_id__renditions_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__channel_id__renditions_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__channel_id__renditions_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>channel_id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>name</strong>: <em>required (string)</em>
+<p>The name of the rendition.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 Rendition</pre>
+</li>
+<li>
+<strong>ooyala-asset-stream</strong>: <em>required (string)</em>
+<p>The asset stream. This field cannot be empty and must contain at least one object with an hds value. Failing to do so will not create embed code and job fails</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>ooyala-asset-stream-type : hds</pre>
+</li>
+<li>
+<strong>description</strong>: <em>(string)</em>
+<p>The description of the rendition.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 rendition description</pre>
+</li>
+<li>
+<strong>ooyala-embed-code</strong>: <em>(string)</em>
+<p>Embed code.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-rendition-type</strong>: <em>(string)</em>
+<p>Rendition type.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-file-size</strong>: <em>(string)</em>
+<p>File size.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-rejection-reason</strong>: <em>(string)</em>
+<p>Rejection reason.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-processing-profile-id</strong>: <em>(string)</em>
+<p>Processing profile ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>player-id</strong>: <em>(string)</em>
+<p>Player ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>publishing-rule-id</strong>: <em>(string)</em>
+<p>Publishing rule ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-asset-url</strong>: <em>(string)</em>
+<p>Asset URL.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-download-to-own</strong>: <em>(boolean)</em>
+<p>Indicates whether to download to own.</p>
+</li>
+<li>
+<strong>ooyala-duration-seconds</strong>: <em>(number)</em>
+<p>Duration in seconds.</p>
+</li>
+<li>
+<strong>ooyala-transcoded-duration</strong>: <em>(string)</em>
+<p>Transcoded duration.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>license-start-time</strong>: <em>(string)</em>
+<p>License start time.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>license-end-time</strong>: <em>(string)</em>
+<p>License end time.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__channel_id__renditions_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Create the specified rendition.
+Request:
+POST /opm/v1/channels/14715251/renditions HTTP/1.1
+Host: adamas-staging.us-east-1.ooyala.com:49250
+api_key: XXXX.bvaVx
+name: XXXX
+password: XXXX
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: e66fbef3-3c67-129c-3fe4-90f3c0b2606b
+{
+"name":"News1 rendition",
+"description":"Live news1 rendition",
+"ooyala-asset-stream": [
+{
+"ooyala-asset-stream-type": "hds",
+"ooyala-asset-stream-url": "http://skymx.com/sky_live_sports_1_hd/hds"
+},
+{
+"ooyala-asset-stream-type": "smooth",
+"ooyala-asset-stream-url": "http://skymx.com/sky_live_sports_1_hd/stream1"
+}
+],
+"ooyala-duration-seconds": 0
+}
+Response:
+{
+  "id": 1897005,
+  "href": "https://vertistest.mio-staging.us-east-1.ooyala.com/api/assets/14715251/members/1897005",
+  "asset": {
+    "id": 14715253,
+    "name": "News1 rendition",
+    "type": "Media Asset",
+    "href": "https://vertistest.mio-staging.us-east-1.ooyala.com/api/assets/14715253",
+    "variant": "rendition",
+    "creationContext": "New",
+    "accountId": 10303,
+    "workspaceId": 10326
+  }
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__channel_id__renditions__rendition_id_">
+<span class="parent">/channels</span>/{channel_id}/renditions/{rendition_id}</a>
+<span class="methods">
+<a href="#channels__channel_id__renditions__rendition_id__put">
+<span class="badge badge_put">put</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__channel_id__renditions__rendition_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to update renditions.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__channel_id__renditions__rendition_id__put'" class="list-group-item">
+<span class="badge badge_put">put</span>
+<div class="method_description">
+<p>Use this route to update renditions, one at a time, under the specified channel.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__channel_id__renditions__rendition_id__put">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_put">put</span>
+<span class="parent">/channels</span>/{channel_id}/renditions/{rendition_id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to update renditions, one at a time, under the specified channel.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__channel_id__renditions__rendition_id__put_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__channel_id__renditions__rendition_id__put_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__channel_id__renditions__rendition_id__put_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>channel_id</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>rendition_id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>name</strong>: <em>required (string)</em>
+<p>The name of the rendition.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 Rendition</pre>
+</li>
+<li>
+<strong>ooyala-asset-stream</strong>: <em>required (string)</em>
+<p>The asset stream. This field cannot be empty and must contain at least one object with an hds value. Failing to do so will not create embed code and job fails</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>ooyala-asset-stream-type : hds</pre>
+</li>
+<li>
+<strong>description</strong>: <em>(string)</em>
+<p>The description of the rendition.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>News1 rendition description</pre>
+</li>
+<li>
+<strong>ooyala-embed-code</strong>: <em>(string)</em>
+<p>Embed code.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-rendition-type</strong>: <em>(string)</em>
+<p>Rendition type.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-file-size</strong>: <em>(string)</em>
+<p>File size.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-rejection-reason</strong>: <em>(string)</em>
+<p>Rejection reason.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>publishing-rule-id</strong>: <em>(string)</em>
+<p>Publishing rule ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-processing-profile-id</strong>: <em>(string)</em>
+<p>Processing profile ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>player-id</strong>: <em>(string)</em>
+<p>Player ID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-asset-url</strong>: <em>(string)</em>
+<p>Asset URL.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>ooyala-download-to-own</strong>: <em>(boolean)</em>
+<p>Indicates whether to download to own.</p>
+</li>
+<li>
+<strong>ooyala-duration-seconds</strong>: <em>(number)</em>
+<p>Duration in seconds.</p>
+</li>
+<li>
+<strong>ooyala-transcoded-duration</strong>: <em>(string)</em>
+<p>Transcoded duration.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>license-start-time</strong>: <em>(string)</em>
+<p>License start time.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+<li>
+<strong>license-end-time</strong>: <em>(string)</em>
+<p>License end time.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>value</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__channel_id__renditions__rendition_id__put_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Update the specified rendition.
+Request:
+PUT /opm/v1/channels/14715251/renditions/1897005 HTTP/1.1
+Host: adamas-staging.us-east-1.ooyala.com:49250
+api_key: XXXX.bvaVx
+name: XXXX
+password: XXXX
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: e66fbef3-3c67-129c-3fe4-90f3c0b2606b
+{
+"name":"News1 rendition",
+"description":"Live news1 rendition",
+"ooyala-asset-stream": [
+{
+"ooyala-asset-stream-type": "hds",
+"ooyala-asset-stream-url": "http://skymx.com/sky_live_sports_1_hd/hds"
+},
+{
+"ooyala-asset-stream-type": "smooth",
+"ooyala-asset-stream-url": "http://skymx.com/sky_live_sports_1_hd/stream1"
+}
+],
+"ooyala-duration-seconds": 0
+}
+Response:
+{
+  "id": 1897005,
+  "href": "https://vertistest.mio-staging.us-east-1.ooyala.com/api/assets/14715251/members/1897005",
+  "asset": {
+    "id": 14715253,
+    "name": "News1 rendition",
+    "type": "Media Asset",
+    "href": "https://vertistest.mio-staging.us-east-1.ooyala.com/api/assets/14715253",
+    "variant": "rendition",
+    "creationContext": "New",
+    "accountId": 10303,
+    "workspaceId": 10326
+  }
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="collections" class="panel-title">Collections</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>
+<b>Collections</b> are custom groupings of content with associated metadata. Collections can contain individual video assets (e.g., HD, SD), content groups, channels, events, and offers.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_collections">
+<span class="parent">
+</span>/collections</a>
+<span class="methods">
+<a href="#collections_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_collections" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#collections_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Return all provider <b>collections</b>.</p>
+<p>
+<b style="color:#9F0C30">NOTE:</b> If an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned. Note that the <b>orderBy</b> parameter is not supported in this API. Ordering is explicitly controlled by the content curator and is related to the contents of the custom metadata <code>ordering</code> field that may be used to present content in the user interface.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="collections_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/collections</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Return all provider <b>collections</b>.</p>
+<p>
+<b style="color:#9F0C30">NOTE:</b> If an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned. Note that the <b>orderBy</b> parameter is not supported in this API. Ordering is explicitly controlled by the content curator and is related to the contents of the custom metadata <code>ordering</code> field that may be used to present content in the user interface.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#collections_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#collections_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="collections_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>q</strong>: <em>(string)</em>
+<p>Performs a full query search. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax">Elasticsearch query string syntax</a> for details on how to format your query.</p>
+</li>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections to which the content group belongs.</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+<li>
+<strong>offers</strong>: <em>(string)</em>
+<p>A comma-delimited list of offer IDs or names on which to filter. For example, query /collections?offers=:id. If an expired offer_id is passed (the offer has an expired availability end_date), the list of associated assets will still be returned.</p>
+</li>
+<li>
+<strong>page</strong>: <em>(integer)</em>
+<p>Zero-based page index to return. <i>Default value&#58; 0</i>
+</p>
+</li>
+<li>
+<strong>page_size</strong>: <em>(integer)</em>
+<p>Maximum number of items to return at a time. <i>Default value&#58; 10</i>
+</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="collections_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Request Examples for Collections
+The following example shows the route used to return collections matching the query string on the name field, displaying up to 20 results at a time.
+Request
+https://player.ooyala.com/opm/v1/collections?q=name:"Friends Collection"&amp;&amp;page_size=20
+Response
+{
+            "id": "197543",
+            "name": "Friends Collection",
+            "metadata": {
+                "start_date" :"14-Jul-2015",
+                "end_date" :"21-Jul-2015"
+            }
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_collections__collection_id_">
+<span class="parent">/collections</span>/{collection_id}</a>
+<span class="methods">
+<a href="#collections__collection_id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_collections__collection_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to return a list of all collections based on the provided unique collection ID or list of collection IDs.<br>
+<br>
+<b style="color:#9F0C30">NOTE:</b> If an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned. Note that the <b>orderBy</b> parameter is not supported in this API. Ordering is explicitly controlled by the content curator and is related to the contents of the custom metadata <code>ordering</code> field that may be used to present content in the user interface.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#collections__collection_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="collections__collection_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/collections</span>/{collection_id}</h4>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#collections__collection_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#collections__collection_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="collections__collection_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>collection_id</strong>: <em>required (number)</em>
+<p>Comma separated list of collection IDs, or just one collection ID. Retrieve collection IDs by querying all collections or a certain collection ID for a collection that matches a q field query. For example, this query returns collection IDs that you can subsequently use as parameters with this endpoint&#58; https&#58;//player.ooyala.com/opm/v1/collections?q=name&#58;"Friends Collection"&amp;&amp;page_size=20. Up to 300 IDs may be specified.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>http://player.ooyala.com/opm/v1/collections/123</code>
+</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections to which the content group belongs.</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="collections__collection_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Request Example for Retrieving Collections by Collection ID
+The following example shows the route used to return a list of collections associated with the specified collection IDs.
+Request
+http://player.ooyala.com/opm/v1/collections/197579,197543
+Response
+{
+            "id": "197579",
+            "name": "Friends Collection",
+            "metadata": {
+                "start_date" :"14-Jul-2015",
+                "end_date" :"21-Jul-2015"
+            }
+},
+{
+            "id": "197543",
+            "name": "comedy shows",
+            "metadata": {
+                 "start_date" :"14-Jul-2015",
+                "end_date" :"21-Jul-2015"
+            }
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="labels" class="panel-title">Labels</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>
+<b>Labels</b> are tags that can be used to mark your video assets and content groups. Unlike collections, labels have no associated metadata.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_labels">
+<span class="parent">
+</span>/labels</a>
+<span class="methods">
+<a href="#labels_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_labels" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#labels_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Return all provider labels.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="labels_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/labels</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Return all provider labels.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#labels_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#labels_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="labels_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>q</strong>: <em>(string)</em>
+<p>Performs a full query search. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax">Elasticsearch query string syntax</a> for details on how to format your query.</p>
+</li>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections to which the content group belongs.</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+<li>
+<strong>page</strong>: <em>(integer)</em>
+<p>Zero-based page index to return. <i>Default value&#58; 0</i>
+</p>
+</li>
+<li>
+<strong>page_size</strong>: <em>(integer)</em>
+<p>Maximum number of items to return at a time. <i>Default value&#58; 10</i>
+</p>
+</li>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order).</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="labels_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Request Examples for Labels
+The following example shows the route used to return labels matching name "Christmas Movies”, displaying up to 20 results at a time.
+Request
+https://player.ooyala.com/opm/v1/labels?q=name:”Christmas Movies”&amp;page_size=20
+Response
+{
+            "id": "197471",
+            "name": "Christmas Movies",
+            "metadata": {
+                 "backlot_label_guid" : "c8cd95aaafa249b08953fbb045b369d4"
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_labels__label_id_">
+<span class="parent">/labels</span>/{label_id}</a>
+<span class="methods">
+<a href="#labels__label_id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_labels__label_id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to return a list of all labels based on the provided unique label ID or list of label IDs.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#labels__label_id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="labels__label_id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/labels</span>/{label_id}</h4>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#labels__label_id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#labels__label_id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="labels__label_id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>label_id</strong>: <em>required (number)</em>
+<p>Comma separated list of label IDs, or just one label ID. If this parameter is not specified, all labels are returned. Retrieve label IDs by querying all labels or a certain label ID for a label that matches a q field query. Up to 300 IDs may be specified.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>123 or 123,456</code>
+</pre>
+</li>
+</ul>
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>orderby &lt;field> [asc | desc | created]</strong>: <em>(string)</em>
+<p>Specify the <b>field</b> by which to order the results. You may optionally add <b>asc</b> (the default) or <b>desc</b> to specify ascending order or descending order, respectively. You can also add <b>created</b> to specify ordering by the date of creation&#58; in such cases specify <b>created+asc</b> (date of creation in ascending order) or <b>created+desc</b> (date of creation in descending order).</p>
+</li>
+<li>
+<strong>details</strong>: <em>(string)</em>
+<p>Performs a simple full-text search against the currently available asset library. For partial match search or "Instant Search" functionality, use the q query parameter and specify a wildcard match.<ul>
+<li>
+<b>summary</b>&#58; (<i>Default</i>) Returns high-level information about each asset, including id, name, description, and type. Ideal for auto-complete and quick searches.</li>
+<li>
+<b>images</b>&#58; Returns a list of images associated with an asset.</li>
+<li>
+<b>offers</b>&#58; Returns a list of offers associated with an asset. Note that if an offer is not enabled, it is not included in the list that is returned. Also, if an offer is configured with an availability window and the current date is not within that availability window, the offer is not included in the list that is returned.</li>
+<li>
+<b>collections</b>&#58; Returns a list of collections to which the content group belongs.</li>
+<li>
+<b>collections_with_offers</b>&#58; Returns a list of only those collections having offers to which the asset belongs.</li>
+<li>
+<b>channels</b>&#58; Returns a list of channels associated with an asset.</li>
+<li>
+<b>metadata</b>&#58; Returns an asset&#39;s complete metadata.</li>
+<li>
+<b>labels</b>&#58; Returns the labels associated with an asset.</li>
+<li>
+<b>children</b>&#58; Returns summary data for child assets (e.g. episodes in a season). Only immediate children are returned.</li>
+<li>
+<b>renditions</b>&#58; Returns the available renditions for an asset (HD, SD, etc.). Note that renditions only exist for the lowest content group, such as episodes.</li>
+<li>
+<b>all</b>&#58; Returns all of the above.</li>
+</ul>
+</p>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="labels__label_id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>Request Example for Retrieving Labels by Label ID
+The following example shows the route used to return the label and Backlot label ID associated with the provided label ID.
+Request
+http://player.ooyala.com/opm/v1/labels/197471
+Response
+{
+            "id": "197471",
+            "name": "Horror Movies",
+            "metadata": {
+                "backlot_label_guid" : "c8cd95aaafa249b08953fbb045b369d4"
+}
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#authentication_v1_providers__pcode__gigya">A&shy;uthenticated Requests</a>
+</li>
+<li>
+<a href="#assets">Assets</a>
+</li>
+<li>
+<a href="#bundle_offers">Bundle Offers</a>
+</li>
+<li>
+<a href="#channels">Channels</a>
+</li>
+<li>
+<a href="#collections">Collections</a>
+</li>
+<li>
+<a href="#labels">Labels</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

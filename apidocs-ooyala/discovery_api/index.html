@@ -1,0 +1,1164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Discovery API Reference </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Discovery API Reference </h1>
+<h2>version 1.5</h2>
+<p>http://personalization/v1/</p>
+<h3 id="Introduction" class="introClass">
+<a href="#Introduction">Introduction</a>
+</h3>
+<p>Ooyala Discovery APIs can be used by client applications to present consumers with content recommendations.<br>
+<br>Note that if you are already using an Ooyala Discovery 1.0 API or Ooyala Player-integrated solution for your consumer app, you must not use these in conjunction with an Ooyala Discovery 1.5 API.<br>
+</p>
+<h3>Request Authentication</h3>The Ooyala Discovery REST APIs require that you include the <b>&lt;account_token&gt;</b> parameter in each request, as illustrated in the examples. For more information, see the <a href="http://help-ooyala.brightcove.com/developers/documentation/api/account_token_api.html">Ooyala Account Token API</a>.<br>
+<h3>Filters</h3>
+<b>Filters</b> may be applied along with any Ooyala Discovery API query to restrict the content to specific <i>labels</i> and other available <i>metadata</i> fields. Apart from <i>metadata</i> filters, a <i>content_type</i> filter can also be used to restrict the content to (say) a TV Series (instead of individual video assets that may represent Episodes or Trailers). Note that <i>content_type</i> filtering is available only when your Ooyala content management system (CMS) has content groups configured for your data model.<br>
+<br>For a list of all available asset or content group metadata fields, use your Ooyala CMS&#39; <b>/assets</b> API response as reference. Any asset metadata field in that API response can generally be applied as a filter.<br>
+<br>For example, if the /assets API response included the following metadata snippet for an asset&#58;<p>
+</p>
+<p>
+<pre>{ "labels" : {"name" : "spotlight", "id" : "12345"} }</pre>then Ooyala Discovery would convert the nested metadata structure into a flattened form that can be used in API filter queries. So, to restrict content recommendations to those assets that are labeled ‘<b>spotlight</b>’, you would use the following filter&#58;</p>
+<p>
+<pre>filters=labels.name==["spotlight"]</pre>A <b>Boolean expression</b> with two or more filters may be applied. For example:</p>
+<p>
+<pre>filters=labels.name==["spotlight"] AND genre==["action"] AND rating==["PG-13"] AND content_type==["movie"]</pre>
+</p>
+<p>
+</p>
+<h3>API Response</h3>Ooyala Discovery API <b>responses</b> include a list of assets, as well as asset metadata for each asset. These include <i>title</i> and <i>thumbnail</i>, among others available from your Ooyala CMS. Responses will automatically exclude content not in an active state in the CMS.<br>
+<br>Responses include an <i>ooyalaDiscoveryContext</i> opaque string with each asset. This string must be returned with all user events (e.g., <code>PLAY</code>) reported via an Ooyala Analytics SDK or API.<p>
+</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="foryou" class="panel-title">For You API</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Get content recommendations for the user based on their cross-platform or device-specific consumption history.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_foryou">
+<span class="parent">
+</span>/foryou</a>
+<span class="methods">
+<a href="#foryou_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_foryou" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#foryou_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>The <b>For You API</b> returns a list of content ranked based on the user&#39;s consumption history. Use an identity management system-assigned UUID for cross-device recommendations, or the Ooyala-assigned UUID for device-specific recommendations.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="foryou_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/foryou</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>The <b>For You API</b> returns a list of content ranked based on the user&#39;s consumption history. Use an identity management system-assigned UUID for cross-device recommendations, or the Ooyala-assigned UUID for device-specific recommendations.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#foryou_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#foryou_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="foryou_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>account_token</strong>: <em>required (string)</em>
+<p>The account token obtained from the Ooyala Account Token API for referencing the correct Ooyala account and consumer&#39;s UUID. The consumer&#39;s UUID may be an Ooyala-generated Device ID or an identity management system-generated GUID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>account_token=OEF5NjZLdzVqVkNLcWphb1h5UVFrS2Q2MXI1UlM3aXRCUUE2OUVjYSt3WWV6UkF0YzgxM1Q1R3A3OGZpd2NsVTVYWVRHNW1hZ0VxNmhab2RFTFFtY3E4ckIrWmcyMDB2RlR0NUxKUERQSG9UY0JBNzYwRTFRanBhUXJTQ1J0T3M=</pre>
+</li>
+<li>
+<strong>blacklist</strong>: <em>(string)</em>
+<p>Optional comma-separated list of asset IDs or Ooyala embed codes to be filtered out from the returned list of recommended videos.</p>
+</li>
+<li>
+<strong>content_type</strong>: <em>(string)</em>
+<p>Optional. The content type to which the Ooyala Discovery API should restrict recommendations.<br>
+<br>
+<strong>Example&#58;</strong>
+<pre>content_type=series</pre>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>content_type=episode</pre>
+</li>
+<li>
+<strong>filters</strong>: <em>(string)</em>
+<p>One or more metadata filters using the boolean <b>AND</b> and <b>OR</b> operations. <b>OR</b> is represented using a comma (,) and may be used as indicated.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>filters=genre==["animation"] AND categories==["series","mini-series"]</pre>
+</li>
+<li>
+<strong>limit</strong>: <em>(integer)</em>
+<p>Optional. The API will limit the number of assets in the response to this number or default to 100. If there are fewer assets available for the query than the specified limit (or the default), only that many assets will be returned.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>limit=10</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="foryou_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Responses include the following&#58;<ul>
+<li>
+<b>status&#58;</b>
+<b>"success"</b>
+</li>
+<li>
+<b>payload&#58;</b>
+</li>
+<ul>
+<li>
+<b>data&#58;</b> Contains an array of assets. The asset detail or metadata included will vary depending on the Ooyala CMS data model configuration.</li>
+<li>
+<b>asset&#58;</b> Asset attributes from the Ooyala CMS.</li>
+<li>
+<b>ooyalaDiscoveryContext&#58;</b> Opaque string for returning with all user events for the asset.</li>
+<li>
+<b>count&#58;</b> The number of assets in the current response. An integer. The count is bounded above by the limit parameter, as well as by the total number of assets matching the given criteria.</li>
+<li>
+<b>total&#58;</b> The total number of assets matching the given criteria. An integer.</li>
+</ul>
+<li>
+<b>error&#58;</b> The error body.</li>
+</ul>Here is a sample response with the Backlot CMS&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "success",
+    "payload": {
+        "data": [{
+            "ad_set_id": null,
+            "duration": 0,
+            "name": "Rio 2016 Tennis Final Highlights",
+            "stream_urls": {
+                "smooth": null,
+                "itunes": null,
+                "ipad": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "flash": "http://my_url/out/u/rcnvic-on-000-c3007-delpkg2-delogg2-abr1/flash.f4m",
+                "iphone": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "source_file": null
+            },
+            "preview_image_url": null,
+            "description": "Highlights from Rio Olympics 2016’s Men’s Tennis Final Match.",
+            "is_ad": false,
+            "file_size": 0,
+            "is_live_stream": true,
+            "preview": null,
+            "price": null,
+            "flight_start_time": null,
+            "asset_type": "remote_asset",
+            "provider_id": 99401,
+            "publishing_rule_id": "737ec9b3341d41f6a2ab1181742fc686",
+            "stream_id": 0,
+            "reconstituted_source_file_available": false,
+            "stream_name": null,
+            "embed_code": "dpZXZoMDE6reeex-KFZ9UZ4kRbNEG3Pw",
+            "processing_progress": 0,
+            "hosted_at": "",
+            "id": 53289233,
+            "labels": [],
+            "promo": null,
+            "status": "live",
+            "error_text": null,
+            "external_id": null,
+            "metadata": {},
+            "created_at": "2016-01-28T05:42:18Z",
+            "original_file_name": null,
+            "player_id": "46916939be864f9c915b38e30276cb37",
+            "time_restrictions": null,
+            "updated_at": "2016-02-17T03:20:29Z",
+            "processing_end": null,
+            "flight_end_time": null,
+            "price_group_id": null,
+            "ooyalaDiscoveryContext": "AS53JTomPCE8Ojt3b2R5dzQlPHdvdyEnMDsxPDsyd3l3JCAwJyx3bw4IKA=="
+        }],
+        "count": 1,
+        "total": 20,
+        "pagination": null
+    },
+    "error": null
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad request. Messages will be specific to the problem with the request. For example&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please provide a valid access token with your Ooyala provider ID to access Discovery APIs."
+    }
+}
+</code></pre>
+<p>or</p>
+<pre><code>
+{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please specify filters correctly. {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>The error response follows the JSON format defined. For example, if the account_token is not authorized, the response will be</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 401,
+        "msg": "Please contact your Ooyala representative to enable Discovery."
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 404,
+        "msg": "You have used a query path that is not available: {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 500,
+        "msg": "An internal error was encountered, please try again."
+    }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="related" class="panel-title">Related API</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Get related video recommendations based on a reference video.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_related">
+<span class="parent">
+</span>/related</a>
+<span class="methods">
+<a href="#related_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_related" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#related_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>The <b>Related API</b> returns a list of content related to a reference video based on a combination of content metadata similarity and engagement relatedness.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="related_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/related</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>The <b>Related API</b> returns a list of content related to a reference video based on a combination of content metadata similarity and engagement relatedness.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#related_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#related_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="related_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>account_token</strong>: <em>required (string)</em>
+<p>The account token obtained from the Ooyala Account Token API for referencing the correct Ooyala account and consumer&#39;s UUID. The consumer&#39;s UUID may be an Ooyala-generated Device ID or an identity management system-generated GUID.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>account_token=OEF5NjZLdzVqVkNLcWphb1h5UVFrS2Q2MXI1UlM3aXRCUUE2OUVjYSt3WWV6UkF0YzgxM1Q1R3A3OGZpd2NsVTVYWVRHNW1hZ0VxNmhab2RFTFFtY3E4ckIrWmcyMDB2RlR0NUxKUERQSG9UY0JBNzYwRTFRanBhUXJTQ1J0T3M=</pre>
+</li>
+<li>
+<strong>asset_id</strong>: <em>required (string)</em>
+<p>The unique embed code identifier corresponding to the reference video in question.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>asset_id=dpZXZoMDE6reeex-KFZ9UZ4kRbNEG3Pw</pre>
+</li>
+<li>
+<strong>blacklist</strong>: <em>(string)</em>
+<p>Optional comma-separated list of asset IDs or Ooyala embed codes to be filtered out from the returned list of recommended videos.</p>
+</li>
+<li>
+<strong>content_type</strong>: <em>(string)</em>
+<p>Optional. The content type to which the Ooyala Discovery API should restrict recommendations.<br>
+<br>
+<strong>Example&#58;</strong>
+<pre>content_type=series</pre>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>content_type=episode</pre>
+</li>
+<li>
+<strong>filters</strong>: <em>(string)</em>
+<p>One or more metadata filters using the boolean <b>AND</b> and <b>OR</b> operations. <b>OR</b> is represented using a comma (,) and may be used as indicated.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>filters=genre==["animation"] AND categories==["series","mini-series"]</pre>
+</li>
+<li>
+<strong>limit</strong>: <em>(integer)</em>
+<p>Optional. The API will limit the number of assets in the response to this number or default to 100. If there are fewer assets available for the query than the specified limit (or the default), only that many assets will be returned.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>limit=10</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="related_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Responses include the following&#58;<ul>
+<li>
+<b>status&#58;</b>
+<b>"success"</b>
+</li>
+<li>
+<b>payload&#58;</b>
+</li>
+<ul>
+<li>
+<b>data&#58;</b> Contains an array of assets. The asset detail or metadata included will vary depending on the Ooyala CMS data model configuration.</li>
+<li>
+<b>asset&#58;</b> Asset attributes from the Ooyala CMS.</li>
+<li>
+<b>ooyalaDiscoveryContext&#58;</b> Opaque string for returning with all user events for the asset.</li>
+<li>
+<b>count&#58;</b> The number of assets in the current response. An integer. The count is bounded above by the limit parameter, as well as by the total number of assets matching the given criteria.</li>
+<li>
+<b>total&#58;</b> The total number of assets matching the given criteria. An integer.</li>
+</ul>
+<li>
+<b>error&#58;</b> The error body.</li>
+</ul>Here is a sample response with the Backlot CMS&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>
+{
+    "status": "success",
+    "payload": {
+        "data": [{
+            "ad_set_id": null,
+            "duration": 0,
+            "name": "Racing.com Demo - Akamai CDN",
+            "stream_urls": {
+                "smooth": null,
+                "itunes": null,
+                "ipad": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "flash": "http://my_url/out/u/rcnvic-on-000-c3007-delpkg2-delogg2-abr1/flash.f4m",
+                "iphone": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "source_file": null
+            },
+            "preview_image_url": null,
+            "description": "Content served from Akamai CDN for Victorian viewers",
+            "is_ad": false,
+            "file_size": 0,
+            "is_live_stream": true,
+            "preview": null,
+            "price": null,
+            "flight_start_time": null,
+            "asset_type": "remote_asset",
+            "provider_id": 99401,
+            "publishing_rule_id": "737ec9b3341d41f6a2ab1181742fc686",
+            "stream_id": 0,
+            "reconstituted_source_file_available": false,
+            "stream_name": null,
+            "embed_code": "dpZXZoMDE6reeex-KFZ9UZ4kRbNEG3Pw",
+            "processing_progress": 0,
+            "hosted_at": "",
+            "id": 53289233,
+            "labels": [],
+            "promo": null,
+            "status": "live",
+            "error_text": null,
+            "external_id": null,
+            "metadata": {},
+            "created_at": "2016-01-28T05:42:18Z",
+            "original_file_name": null,
+            "player_id": "46916939be864f9c915b38e30276cb37",
+            "time_restrictions": null,
+            "updated_at": "2016-02-17T03:20:29Z",
+            "processing_end": null,
+            "flight_end_time": null,
+            "price_group_id": null,
+            "ooyalaDiscoveryContext": "AS53JTomPCE8Ojt3b2R5dzQlPHdvdyEnMDsxPDsyd3l3JCAwJyx3bw4IKA=="
+        }],
+        "count": 1,
+        "total": 20,
+        "pagination": null
+    },
+    "error": null
+}
+</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad request. Messages will be specific to the problem with the request. For example&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please provide a valid access token with your Ooyala provider ID to access Discovery APIs."
+    }
+}
+</code></pre>
+<p>or</p>
+<pre><code>
+{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please specify filters correctly. {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>The error response follows the JSON format defined. For example, if the account_token is not authorized, the response will be</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 401,
+        "msg": "Please contact your Ooyala representative to enable Discovery."
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 404,
+        "msg": "You have used a query path that is not available: {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 500,
+        "msg": "An internal error was encountered, please try again."
+    }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="trending" class="panel-title">Trending API</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Get content recommendations based on what is currently trending.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_trending">
+<span class="parent">
+</span>/trending</a>
+<span class="methods">
+<a href="#trending_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_trending" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#trending_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>
+<b>GET</b>
+<a href="#">/personalization/v1/trending?account_token=&lt;account_token&gt;&amp;filters=&lt;filters&gt;&amp;content_type=&lt;content_type&gt;</a>
+<br>
+<br>The <b>Trending API</b> returns a list of content ranked based on growth in the recent past. The content that has seen the most growth in terms of views in the recent past will be ranked first.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="trending_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/trending</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>
+<b>GET</b>
+<a href="#">/personalization/v1/trending?account_token=&lt;account_token&gt;&amp;filters=&lt;filters&gt;&amp;content_type=&lt;content_type&gt;</a>
+<br>
+<br>The <b>Trending API</b> returns a list of content ranked based on growth in the recent past. The content that has seen the most growth in terms of views in the recent past will be ranked first.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#trending_get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#trending_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="trending_get_request">
+<h3>Query Parameters</h3>
+<ul>
+<li>
+<strong>account_token</strong>: <em>required (string)</em>
+<p>The account token obtained from the Ooyala Account Token API for referencing the correct Ooyala account and consumer&#39;s UUID where available.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>account_token=OEF5NjZLdzVqVkNLcWphb1h5UVFrS2Q2MXI1UlM3aXRCUUE2OUVjYSt3WWV6UkF0YzgxM1Q1R3A3OGZpd2NsVTVYWVRHNW1hZ0VxNmhab2RFTFFtY3E4ckIrWmcyMDB2RlR0NUxKUERQSG9UY0JBNzYwRTFRanBhUXJTQ1J0T3M=</pre>
+</li>
+<li>
+<strong>blacklist</strong>: <em>(string)</em>
+<p>Optional comma-separated list of asset IDs or Ooyala embed codes to be filtered out from the returned list of recommended videos.</p>
+</li>
+<li>
+<strong>content_type</strong>: <em>(string)</em>
+<p>Optional. The content type to which the Ooyala Discovery API should restrict recommendations.<br>
+<br>
+<strong>Example&#58;</strong>
+<pre>content_type=series</pre>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>content_type=episode</pre>
+</li>
+<li>
+<strong>filters</strong>: <em>(string)</em>
+<p>One or more metadata filters using the boolean <b>AND</b> and <b>OR</b> operations. <b>OR</b> is represented using a comma (,) and may be used as indicated.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>filters=genre==["animation"] AND categories==["series","mini-series"]</pre>
+</li>
+<li>
+<strong>limit</strong>: <em>(integer)</em>
+<p>Optional. The API will limit the number of assets in the response to this number or default to 100. If there are fewer assets available for the query than the specified limit (or the default), only that many assets will be returned.</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>limit=10</code>
+</pre>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="trending_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>Responses include the following&#58;<ul>
+<li>
+<b>status&#58;</b>
+<b>"success"</b>
+</li>
+<li>
+<b>payload&#58;</b>
+</li>
+<ul>
+<li>
+<b>data&#58;</b> Contains an array of assets. The asset detail or metadata included will vary depending on the Ooyala CMS data model configuration.</li>
+<li>
+<b>asset&#58;</b> Asset attributes from the Ooyala CMS.</li>
+<li>
+<b>ooyalaDiscoveryContext&#58;</b> Opaque string for returning with all user events for the asset.</li>
+<li>
+<b>count&#58;</b> The number of assets in the current response. An integer. The count is bounded above by the limit parameter, as well as by the total number of assets matching the given criteria.</li>
+<li>
+<b>total&#58;</b> The total number of assets matching the given criteria. An integer.</li>
+</ul>
+<li>
+<b>error&#58;</b> The error body.</li>
+</ul>Here is a sample response with the Backlot CMS&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "success",
+    "payload": {
+        "data": [{
+            "ad_set_id": null,
+            "duration": 0,
+            "name": "Rio 2016 Tennis Final Highlights",
+            "stream_urls": {
+                "smooth": null,
+                "itunes": null,
+                "ipad": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "flash": "http://my_url/out/u/rcnvic-on-000-c3007-delpkg2-delogg2-abr1/flash.f4m",
+                "iphone": "http://my_url/out/u/protected/rcnvic-mo-000-c3007-delpkg2-delogg2-abr1/index-root-ipad.m3u8",
+                "source_file": null
+            },
+            "preview_image_url": null,
+            "description": "Highlights from Rio Olympics 2016’s Men’s Tennis Final Match.",
+            "is_ad": false,
+            "file_size": 0,
+            "is_live_stream": true,
+            "preview": null,
+            "price": null,
+            "flight_start_time": null,
+            "asset_type": "remote_asset",
+            "provider_id": 99401,
+            "publishing_rule_id": "737ec9b3341d41f6a2ab1181742fc686",
+            "stream_id": 0,
+            "reconstituted_source_file_available": false,
+            "stream_name": null,
+            "embed_code": "dpZXZoMDE6reeex-KFZ9UZ4kRbNEG3Pw",
+            "processing_progress": 0,
+            "hosted_at": "",
+            "id": 53289233,
+            "labels": [],
+            "promo": null,
+            "status": "live",
+            "error_text": null,
+            "external_id": null,
+            "metadata": {},
+            "created_at": "2016-01-28T05:42:18Z",
+            "original_file_name": null,
+            "player_id": "46916939be864f9c915b38e30276cb37",
+            "time_restrictions": null,
+            "updated_at": "2016-02-17T03:20:29Z",
+            "processing_end": null,
+            "flight_end_time": null,
+            "price_group_id": null,
+            "ooyalaDiscoveryContext": "AS53JTomPCE8Ojt3b2R5dzQlPHdvdyEnMDsxPDsyd3l3JCAwJyx3bw4IKA=="
+        }],
+        "count": 1,
+        "total": 20,
+        "pagination": null
+    },
+    "error": null
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a>
+</h2>
+<p>Bad request. Messages will be specific to the problem with the request. For example&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please provide a valid access token with your Ooyala provider ID to access Discovery APIs."
+    }
+}
+</code></pre>
+<p>or</p>
+<pre><code>
+{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 400,
+        "msg": "Please specify filters correctly. {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a>
+</h2>
+<p>The error response follows the JSON format defined. For example, if the account_token is not authorized, the response will be</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 401,
+        "msg": "Please contact your Ooyala representative to enable Discovery."
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 404,
+        "msg": "You have used a query path that is not available: {0}"
+    }
+}</code>
+</pre>
+<h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a>
+</h2>
+<p>The error response follows the JSON format defined&#58;</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "status": "failed",
+    "payload": null,
+    "error":
+    {
+        "code": 500,
+        "msg": "An internal error was encountered, please try again."
+    }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#foryou">For You API</a>
+</li>
+<li>
+<a href="#related">Related API</a>
+</li>
+<li>
+<a href="#trending">Trending API</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

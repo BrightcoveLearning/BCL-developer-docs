@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud">
+  <meta name="role" content="Player Developer">
+  <meta name="task" content="">
+  <meta name="topic" content="">
+  <!-- End Drupal Taxonomy Data -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <!-- change title to match the h1 heading -->
+  <title>Catalog Search Upgrade</title>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-2728311-29', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Catalog Search Upgrade</h1>
+
+      <!-- begin drupal content -->
+      <article class="bcls-article">
+
+        <section class="bcls-section">
+          <h2 id="Overview">Overview</h2>
+          <p>As of April 2019 the Catalog Search functionality was upgraded to Elasticsearch. This upgrade provides a number of benefits, chief among them are improved relevance and accuracy, and dramatically improved performance -- response time is much more consistent and generally twice as fast. This new functionality will affect the CMS API, Playback API, Studio interactive search and the catalog search methods.</p>
+          <p>While Brightcove has invested a substantial amount of effort in making Elasticsearch results consistent there are differences, and there is some small possibility that if you have coded specific dependencies on search results your integration may not behave as expected.</p>
+        </section>
+
+        <section class="bcls-section">
+          <h2 id="Search_Result_Differences_and_Impact">Search Result Differences and Impact</h2>
+          <p>In studying the potential impact, Brightcove has found that more than 90% of searches return results that match in terms of the number of results returned. This is an indicator that expected results should not be different enough to cause any
+            problems with API integrations.</p>
+          <figure class="bcls-figure">
+            <img class="bcls-image" src="//learning-services-media.brightcove.com/doc-assets/player-development/architecture/elasticsearch/comparison.png" alt="comparison">
+          </figure>
+          <p>This graph shows the number of search results that match exactly the number of results between the two systems in blue, and those that differ in number in red.</p>
+          <p>As part of our roll-out, all default searches, those searches on the empty string, have already been provided by Elasticsearch for several months now -- so users are already seeing and using Elasticsearch results without problems.</p>
+          <p>There are limitations to what we can learn from this kind of comparison, however. At best we can only infer the intent of a particular search, and catalog data is fluid.</p>
+        </section>
+
+        <section class="bcls-section">
+          <h2 id="Known_Differences">Known Differences</h2>
+
+
+          <p>The differences below are largely fundamental, or the result of decisions reached after extensive analysis of search results -- they are impossible to completely eliminate.</p>
+          <h3>Stemming</h3>
+
+
+          <p><a href="https://en.wikipedia.org/wiki/Stemming">Stemming</a> is the process of reducing inflected (or sometimes derived) words to their <a href="https://en.wikipedia.org/wiki/Word_stem">word stem</a>, base or <a href="https://en.wikipedia.org/wiki/Root_(linguistics)">root</a> form — generally a written word form.</p>
+          <p>A stemmer for English operating on the stem <em>cat</em> should identify such <a href="https://en.wikipedia.org/wiki/String_literal">strings</a> as <em>cats</em>, <em>catlike</em> and <em>catty</em>. A stemming algorithm might also reduce the words <em>fishing</em>, <em>fished</em> and <em>fisher</em> to the stem <em>fish</em>. The stem need not be a word, for example the Porter algorithm reduces <em>argue</em>, <em>argued</em>, <em>argues</em>, <em>arguing</em> and <em>argus</em> to the stem <em>argu</em>.</p>
+
+
+          <p>Our existing search uses the Lancaster (Paice/Husk) stemmer, this algorithm is generally regarded as being overly aggressive — this results in a lack of distinction, for example <em>lighter</em> and <em>light</em> would be regarded as
+            the same term under Lancaster.</p>
+
+
+          <p>Elasticsearch uses a more recent and much less aggressive algorithm (Porter2) that has gained broad adoption in industry and is generally regarded as a significant improvement (Lancaster is now rare). The change of stemmer potentially
+            impacts a significant (~35%) proportion of searches: that is not to say that results <strong>will</strong> be different, just that they <strong>might</strong> be different — but in general this should be for the better: that said, some
+            subset of customers may be reliant on the old behavior.</p>
+
+          <h3>Relevance</h3>
+
+
+          <p>Our existing search seems to have a more strict TF normalization. This causes a different relevance sort for terms that are found in larger fields (i.e. existing considers the match less relevant since it gives less weight to the term
+            as it is smaller relative to the length of the document).</p>
+
+          <h3>Special Characters</h3>
+          <p>Special characters are stripped inside our existing search, this pretty much equates to stripping punctuation and related characters — instead of stripping, we generally escape them in Elasticsearch, thus there is a chance that a search
+            will instead take them into account.</p>
+
+          <h3>Term Handling</h3>
+          <p>Existing search queries perform `term smooshing` whereas in Elasticsearch we drop malformed terms, consider this search with an empty <code>tags:</code> term: <code>q=tags: state:ACTIVE</code></p>
+          <ul>
+            <li><strong>Existing</strong>: <code>tags:state:ACTIVE</code> — search for videos with a tag of <code>state:ACTIVE</code></li>
+            <li><strong>Elasticsearch</strong>: <code>state:ACTIVE</code> — drop the empty term</li>
+          </ul>
+          <p>There are a number of subtle edge cases related to handling dangling punctuation and queries that are generally malformed, we attempt to produce what we think the query was intended to be, but in these cases we’re unfortunately guessing
+            what a user might have intended (when really we should have returned an error allowing them to refine their search)</p>
+
+          <h3>Playable Only</h3>
+          <p>There are two mechanisms for restricting a search to videos that are currently playable: the query can include a flag, or the query itself can require some aspect of playability.</p>
+          <ul>
+            <li>Existing: this is queried based on the value of a field that is updated</li>
+            <li>Elasticsearch: this is queried based on computed date ranges</li>
+          </ul>
+          <p>Elasticsearch should generally be more accurate and produce better results (there is a lag associated with the existing mechanism, and the flag maintenance mechanism is not entirely reliable).</p>
+
+
+          <h3>Index Accuracy</h3>
+          <p>The Elasticsearch index is ‘fresher’ than the existing index and tends to reflect updates faster — this is not always the case, but in general the experience with Elasticsearch is that results will more accurately reflect the state of
+            the underlying catalog data. Both existing and Elasticsearch are distributed systems and thus not entirely consistent in the results they return: a repeated query against either system can potentially return different results (especially
+            in the case where there are a number of concurrently running delete operations).</p>
+          <p>Existing search results change based on the state of the shard an account is allocated to — the global state of a particular shard can (and does) impact the results of any particular query: Elasticsearch does not have this deficiency.</p>
+        </section>
+
+        <section class="bcls-section">
+          <h2 id="Examples">Examples</h2>
+          <h3>Example 1</h3>
+          <p>Let’s say ther are two videos with the following titles:</p>
+          <pre>
+<code class="language-html">Video#1: has the title “Don’t look into the light”
+Video#2: has the title “Using a lighter to make a campfire”</code></pre>
+          <p>The user wishes to return all videos that must have the word “light”. Using the CMS API, the query would look like:</p>
+          <pre>
+<code class="language-html">q=%2Blight or q=+light</code></pre>
+          <p>With the existing search, this will return both of the videos in the order:</p>
+          <pre>
+<code class="language-html">Video#2 - “Using a lighter to make a campfire”
+Video#1 - “Don’t look into the light”</code></pre>
+          <p>There are two problems with this:</p>
+          <ul>
+            <li><strong>Relevance</strong>: The order is incorrect. “Don’t look into the light” (Video#2) should appear before “Using a lighter to make a campfire” (Video#1)</li>
+            <li><strong>Accuracy</strong>: “Using a lighter to make a campfire” shouldn’t even appear in the result set as the word “light” doesn’t appear in the video title at all.</li>
+          </ul>
+
+          <p>With Elasticsearch, this will return only video one:</p>
+          <pre>
+<code class="language-html">Video#1 - “Don’t look into the light”</code></pre>
+          <p>This is an improvement because:</p>
+          <ul>
+            <li>Relevance: The order is correct.</li>
+            <li>Accuracy: Only Video one is returned as it’s the only video with the word “light” in the title.</li>
+          </ul>
+
+          <h3>Example 2</h3>
+          <p>As described in our <a href="https://support.brightcove.com/cmsplayback-api-videos-search#Stemming">CMS API documentation for stemming</a>, stemming is supported, but not partial word searches. So let’s say there are 5 videos with the following titles:</p>
+          <pre>
+<code class="language-html">Video#1 - "Parking Ban Announced"
+Video#2 - "Parking to be Banned"
+Video#3 - "City Banning Parking"
+Video#4 - "Bank Holiday"
+Video#5 - "Bandit Captured"</code></pre>
+
+          <p>The user wishes to return all videos that must have the word <strong>ban</strong> in the name field. Using the CMS API, the query would look like:</p>
+          <pre>
+<code class="language-html">q=%2Bname%3Aban or q=+name:ban</code></pre>
+
+          <p>The expectation is that “Ban”, “Banning” and “Banned” would produce search results as “Ban” is a stem of all three.</p>
+          <p>However, with the current search system, this will return all five videos in this order:</p>
+          <pre>
+<code class="language-html">Video#2 - "Parking to be Banned"
+Video#3 - "City Banning Parking"
+Video#1 - "Parking Ban Announced"
+Video#4 - "Bank Holiday"
+Video#5 - "Bandit Captured"</code></pre>
+
+          <p>Again, there are two problems with this:</p>
+          <ul>
+            <li>Relevance: The order is incorrect. "Parking Ban Announced" should be the first video returned as it has the word “Ban” in it.</li>
+            <li>Accuracy: "Bank Holiday" and "Bandit Captured" should not be returned at all as “Ban” is not part of the word “Bank” or “Bandit”.</li>
+          </ul>
+
+          <p>With Elasticsearch, the results look like:</p>
+          <pre>
+<code class="language-html">Video#1 - "Parking Ban Announced"
+Video#2 - "Parking to be Banned"
+Video#3 - "City Banning Parking"</code></pre>
+
+          <p>This is an improvement because:</p>
+          <ul>
+            <li>Relevance: The order is correct.</li>
+            <li>Accuracy: Only Videos with the stems of the word “Ban” (“Ban”, “Banning” and “Banned”) are returned.
+        </li>
+        </ul>
+      </section>
+
+      </article>
+      <!-- end drupal content -->
+
+    </div>
+  </div>
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v2.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <div style="text-align:center">
+    <iframe id="CSAT" src="//learning-services-media.brightcove.com/doc-assets/general/surveylink.html" style=" padding-bottom:20px;border:none"></iframe>
+  </div>
+  <div class="bcls-footer"><a id="feedbackMail" href="mailto:docs@brightcove.com">Questions or comments?</a>
+  </div>
+  <script>
+    var feedbackMail = document.getElementById("feedbackMail");
+    feedbackMail.setAttribute("href", "mailto:docs@brightcove.com?subject=question regarding " + encodeURI(document.location.href));
+  </script>
+</body>
+
+</html>

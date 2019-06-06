@@ -1,18 +1,23 @@
 openapi: 3.0.0
 info:
   title: Live API Reference
-  description: >-
-    Reference for the Brightcove Live API, used to create and manage live
-    streaming events.
+  description: |-
+    Reference for the Brightcove Live API, used to create and manage live streaming events.
 
-     **Base URL**: https://api.bcovlive.io/v1
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/live-api)**.
+
+    **Base URL**: https://api.bcovlive.io/v1
   version: 1.0.0
 servers:
   - url: 'https://api.bcovlive.io/v1'
     variables: {}
 tags:
   - name: Live Jobs
-    description: 'Operations for creating live jobs, listing live jobs, getting job details, and canceling live jobs. There are also operations for activating and deactivating SEP jobs, and for inserting cuepoints or ID3 timed metadata.'
+    description: |-
+       Operations for creating live jobs, listing live jobs, getting job details, and canceling live jobs. There are also operations for activating and deactivating SEP jobs, and for inserting cuepoints or ID3 timed metadata.
+  - name: RTMP Outputs
+    description: >-
+       Operations for creating and managing RTMP outputs. Note that RTMP output hours will be billed against event hours.
   - name: Clips
     description: >-
       Operations for creating and managing VOD clips
@@ -26,7 +31,7 @@ paths:
       tags:
         - Live Jobs
       summary: Create a Live Job
-      description: 'Create a live streaming job '
+      description: Create a live streaming job
       operationId: CreateALiveJob
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -71,9 +76,8 @@ paths:
         - Live Jobs
       summary: List Live Jobs
       description: >-
-        List live jobs - for additional useful information on the search
-        filters, see [Getting a List of Live or VOD
-        Jobs](https://support.brightcove.com/getting-list-live-or-vod-jobs)
+        'List live jobs - for additional useful information on the search filters, see [Getting a List of Live or VOD
+        Jobs](https://support.brightcove.com/getting-list-live-or-vod-jobs)'
       operationId: ListLiveJobs
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -100,16 +104,13 @@ paths:
                 $ref: '#/components/schemas/ListLiveJobsResponse'
         '400':
           description: >-
-            BAD_REQUEST: Invalid input value - see Live API Error Messages for
-            more details
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for more details
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
           description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
       deprecated: false
@@ -124,7 +125,7 @@ paths:
       tags:
         - Live Jobs
       summary: Get Live Job Details
-      description: 'Get Live Job Details '
+      description: Get Live Job Details
       operationId: GetLiveJobDetails
       parameters:
         - $ref: '#/components/parameters/JobId'
@@ -139,14 +140,58 @@ paths:
                 $ref: '#/components/schemas/Job'
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
-          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+          description: >-
+             INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/jobs/{job_id}/playback-token':
+    post:
+      tags:
+        - Live Jobs
+      summary: Create Playback Token
+      description: |-
+        Live jobs created via the Live module in Studio (or by specifying `videocloud.video` when creating a job directly through the API) automatically create a special Video Cloud video that, when used in a Brightcove player, makes use of the `ad_config_id` property to select the specific source desired (i.e. SSAI source, DVR/no DVR, BYOCDN). Jobs which have SSAI enabled must always provide an `ad_config_id` in the player, even if the source desired is non-SSAI (this prevents an end user from omitting the `ad_config_id` and receiving a clear stream). **This applies only to live Video Cloud videos created via the Live module or Live API - manually created Video Cloud remote assets have no such restriction.**
+
+        The request returns a generated `ad_config_id`.
+
+        This behavior is handled automatically when you publish a live video from the Live module publishing screen, but may be useful if you have a custom workflow.
+      operationId: CreatePlaybackToken
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Create a live stream
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlaybackTokenRequestBody'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackToken'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+             INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -159,7 +204,7 @@ paths:
       tags:
         - Live Jobs
       summary: Activate SEP Stream
-      description: 'Activate SEP (static entry point) Stream '
+      description: Activate SEP (static entry point) Stream
       operationId: ActivateSepStream
       parameters:
         - $ref: '#/components/parameters/JobId'
@@ -174,14 +219,13 @@ paths:
                 $ref: '#/components/schemas/ActivateSepStreamResponse'
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
-          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -209,14 +253,13 @@ paths:
                 $ref: '#/components/schemas/DeactivateSepStreamResponse'
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
-          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -229,7 +272,8 @@ paths:
       tags:
         - Live Jobs
       summary: Manual Cue Point Insertion
-      description: 'Inserts a manual Cue-Out with a duration to the Live ingest point. '
+      description: >-
+        Inserts a manual Cue-Out with a duration to the Live ingest point.
       operationId: ManualAdCuePointInsertion
       parameters:
         - $ref: '#/components/parameters/JobId'
@@ -251,20 +295,90 @@ paths:
                 $ref: '#/components/schemas/ManualAdCuePointInsertionResponse'
         '400':
           description: >-
-            BAD_REQUEST: Invalid input value - see Live API Error Messages for
-            more details
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for more details
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
           description: >-
-            INTERNAL_SERVER_ERROR: DB getItem, no results found - see Live API
-            Error Messages for more details
+            INTERNAL_SERVER_ERROR: DB getItem, no results found - see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/jobs/{job_id}/cuepointdata':
+    post:
+      tags:
+        - Live Jobs
+      summary: Add or update Ad Metadata
+      description: >-
+        Allows  content metadata to be pushed and constantly updated out-of-band from a customer live stream..
+      operationId: AddAdMatadata
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Contains a set of key/value pairs for ad requests.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAdMatadatabody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: DB getItem, no results found - see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Live Jobs
+      summary: Delete Ad Metadata
+      description: >-
+        Deletes ad metadata from a customer live stream..
+      operationId: DeleteAdMatadata
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      responses:
+        '204':
+          description: '204 NO CONTENT'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: DB getItem, no results found - see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -289,12 +403,10 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
       requestBody:
-        description: >-
-          Inserts an ID3 timed metadata tag for an ongoing job. Note that: 1) If
-          using timecode property, the job only stores the most recent request
-          for insertion; 2) If using timecode property, the encoder must be
-          sending SMPTE-formatted (HH:MM:SS:FF) timecode stored in the tc
-          property via OnFI
+        description: |-
+          'Inserts an ID3 timed metadata tag for an ongoing job. Note that:
+            1. If using timecode property, the job only stores the most recent request for insertion
+            2. If using timecode property, the encoder must be sending SMPTE-formatted (HH:MM:SS:FF) timecode stored in the tc property via OnFI'
         content:
           application/json:
             schema:
@@ -309,18 +421,16 @@ paths:
                 $ref: '#/components/schemas/InsertId3TimedMetadataResponse'
         '400':
           description: >-
-            BAD_REQUEST: Invalid input value - see Live API Error Messages for
-            more details
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for more details
         '401':
           description: >-
-            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
-            details
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you
-            requested - see Live API Error Messages for more details
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
         '500':
-          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -333,7 +443,8 @@ paths:
       tags:
         - Live Jobs
       summary: Cancel Live Job
-      description: 'Cancel a live stream '
+      description: >-
+         Cancel a live stream. When a live job is cancelled, it is ended, and any unprocessed VOD jobs associated with the live job will **not** be processed.
       operationId: CancelLiveJob
       parameters:
         - $ref: '#/components/parameters/JobId'
@@ -355,6 +466,149 @@ paths:
             requested - see Live API Error Messages for more details
         '500':
           description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/jobs/{job_id}/stop':
+    put:
+      tags:
+        - Live Jobs
+      summary: Stop Live Job
+      description: >-
+        Stop a live job. When a live job is stopped (as opposed to cancelled), the live stream will stop, but any VOD jobs associated with the live job **will** continue to process.
+      operationId: StopLiveJob
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/XAPIKEY'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopLiveJob'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/jobs/{job_id}/rtmpouts':
+    get:
+      tags:
+        - RTMP Outputs
+      summary: List RTMP Outputs
+      description: >-
+        Get a list of RTMP outputs. See [Live API: RTMP Outputs](https://support.brightcove.com/live-api-rtmp-outputs) for more information on RTMP outputs.
+      operationId: GetRTMPOutputs
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/XAPIKEY'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRTMPOutputs'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - RTMP Outputs
+      summary: Create RTMP Output
+      description: >-
+        Create an RTMP output. See [Live API: RTMP Outputs](https://support.brightcove.com/live-api-rtmp-outputs) for more information on RTMP outputs.
+      operationId: CreateRTMPOutput
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Create an RTMP output request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRTMPOutputRequestBody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRTMPOutputResponse'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/jobs/{job_id}/rtmpouts/{rtmp_out_id}/stop':
+    put:
+      tags:
+        - RTMP Outputs
+      summary: Stop RTMP Output
+      description: >-
+        Stop an RTMP output. See [Live API: RTMP Outputs](https://support.brightcove.com/live-api-rtmp-outputs) for more information on RTMP outputs.
+      operationId: StopRTMPOutput
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/rtmpOutId'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopRTMPOutputResponse'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested - see Live API Error Messages for more details
+        '500':
+          description: >-
+            INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
       deprecated: false
       security: []
       x-operation-settings:
@@ -1308,6 +1562,31 @@ components:
         - protocol
       title: add_cdns
       type: object
+    PlaybackToken:
+      title: Create Playback Token Response
+      description: An `ad_config_id` to use for playback
+      type: object
+      properties:
+        playback_token:
+          type: string
+          example: 'live.TCaG-5GnlxmTFA8twsstmHqgET9npvC3nVtokT5nte...'
+    AddAdMatadatabody:
+      title: Add Ad Metadata Request body
+      description: ->
+        A set of key/value pairs for ad requests.
+      type: object
+      properties:
+        ad_server_data:
+          type: object
+          description: >-
+            Object containing a collection of keys and values. Values may be strings, numbers, or boolean.
+          example: {
+              "ad_server_data": {
+                "one":"won",
+                "two":2,
+                "three":false
+              }
+            }
     Application:
       properties:
         account_id:
@@ -1417,7 +1696,17 @@ components:
     CancelLiveJob:
       properties:
         id:
-          description: The job id for the stream that was stopped
+          description: >-
+            The job id for the stream that was cancelled. No unprocessed VOD jobs associated with the live job will be processed.
+          type: string
+          readOnly: true
+      title: Cancel_Live_Job_Response
+      type: object
+    StopLiveJob:
+      properties:
+        id:
+          description: >-
+            The job id for the stream that was stopped. Any unprocessed VOD jobs associated with the live job will continue to be processed.
           type: string
           readOnly: true
       title: Cancel_Live_Job_Response
@@ -1563,6 +1852,7 @@ components:
         credential_default_for_type:
           description: Whether these are the default credentials for the request type
           type: boolean
+          default: false
         credential_label:
           description: Label for the credential
           type: string
@@ -1588,9 +1878,8 @@ components:
         user_id:
           description: GUID for which the credentials are being created.
           type: string
+          default: (all users)
       required:
-        - user_id
-        - credential_default_for_type
         - credential_label
         - credential_type
         - credential_private
@@ -1643,6 +1932,30 @@ components:
             - 24x7
             - event
           type: string
+        cidr_whitelist:
+          description: |-
+            An array of [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) blocks.
+
+            **Required for ALL jobs where `protocol` = `rtp`, `rtp-fec`, or `srt`.**
+
+            This property is **not** allowed for RTMP jobs (API will return an error).
+          type: array
+          items:
+            type: string
+            description: >-
+              Allowed IP address for input stream
+          example: ["192.168.0.1/32"]
+        ip_whitelist:
+          description: |-
+            An array of IP addresses.
+
+            This property is **not** allowed for jobs where `protocol` = `rtp`, `rtp-fec`, or `srt`. (API will return an error).
+          type: array
+          items:
+            type: string
+            description: >-
+              Allowed IP address for input stream
+          example: ["192.168.0.1/32"]
         encryption:
           $ref: '#/components/schemas/CreateLiveJobRequestBody.encryption'
         event_length:
@@ -1661,14 +1974,14 @@ components:
         live_dvr_ads_window_duration:
           default: 100
           description: >-
-            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. Default is `100` seconds.
+            Indicates the window in seconds, for which ads will be served on DVR playback, beyond which `slate` will be served on DVR playback.
           maximum: 600
           minimum: 0
           type: integer
         live_dvr_sliding_window_duration:
-          default: 100
+          default: 0
           description: >-
-            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. Default is 100 seconds. **Note: for SSAI jobs, the limit is `7200`.
+            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`.
           maximum: 86400
           minimum: 1
           type: integer
@@ -1699,6 +2012,16 @@ components:
           items:
             $ref: '#/components/schemas/CreateLiveJobRequestBody.outputs'
           type: array
+        protocol:
+          description: |-
+            Specifies the input protocol that will be used - note that `rtmp` is for FLV input; the other protocols are for MPEG2-TS
+          type: string
+          enum:
+            - rtmp
+            - rtp
+            - rtp-fec
+            - srt
+          default: rtmp
         reconnect_time:
           default: 1800
           description: >-
@@ -1708,7 +2031,7 @@ components:
           type: integer
         region:
           description: >-
-            AWS region - you can also specify region as the alias for a list set up for the account by Brightcove Support. See [Supported AWS Regions] (https://support.brightcove.com/overview-brightcove-live-api#Support_aws_regions) for more details on the support in each region.
+            AWS region - you can also specify region as the alias for a list set up for the account by Brightcove Support. See [Supported AWS Regions](https://support.brightcove.com/overview-brightcove-live-api#Support_aws_regions) for more details on the support in each region.
           enum:
             - us-west-2
             - us-east-1
@@ -1742,9 +2065,8 @@ components:
         - outputs
       title: Create_Live_JobBody
       type: object
-      example: >-
-        {
-            "live_sliding_window_duration": 1,
+      example: {
+            "live_dvr_sliding_window_duration": 1,
             "notifications": [
                 "http://solutions.brightcove.com/bcls/live/live-callbacks.php",
             ],
@@ -1809,7 +2131,6 @@ components:
         - label
         - prepend
         - protocol
-        - vendor
       title: Create_Live_Job_Request_Body.add_cdns
       type: object
     CreateLiveJobRequestBody.addCdns.tokenAuth:
@@ -1836,7 +2157,7 @@ components:
       title: Create_Live_Job_Request_Body.add_cdns.token_auth
       type: object
     CreateLiveJobRequestBody.addCdns.tokenAuth.media:
-      description: Object containing tokenization properites
+      description: Object containing tokenization properties
       properties:
         end_time:
           description: 'The time to end token auth, epoch time in seconds'
@@ -1863,20 +2184,21 @@ components:
       properties:
         external_url:
           description: >-
-            The URL for the external encryption key - this field is required if
-            you specify type as external, and the external key must match the
+            The URL for the external encryption key - this field is required if you specify type as external, and the external key must match the
             `key` value
           type: string
         key:
-          description: >-
-            The encryption key - either a `key`, `passphrase`, or `key_rotation`
-            is required; if the type is `external`, `key` is required
+          description: |-
+            The encryption key - either a `key`, `passphrase`, or `key_rotation` is required; if the type is `external`, `key` is required.
+
+            The key must be 32 hexadecimal characters. For best results, generate a key by going to [a key generator](http://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx) and selecting the `128-bit` and `Hex` options.
           type: string
+          maxLength: 32
+          minLength: 32
         key_rotation:
           default: false
           description: >-
-            Whether to use key rotation - either a `key`, `passphrase`, or
-            `key_rotation` is required
+            Whether to use key rotation - either a `key`, `passphrase`, or `key_rotation` is required
           type: boolean
         method:
           description: The encryption method to use.
@@ -1885,8 +2207,7 @@ components:
           type: string
         passphrase:
           description: >-
-            The encryption key - either a `key`, `passphrase`, or `key_rotation`
-            is required
+            The encryption key - either a `key`, `passphrase`, or `key_rotation` is required
           type: string
         rotate_every:
           default: 10
@@ -1894,8 +2215,7 @@ components:
           type: integer
         type:
           description: >-
-            The encryption type, depending on whether an internal or external
-            key server will be used.
+            The encryption type, depending on whether an internal or external key server will be used.
           enum:
             - internal
             - external
@@ -1910,9 +2230,7 @@ components:
       properties:
         ad_audio_loudness_level:
           description: >-
-            Adjust the loudness level of the audio. This is measured in LUFS and
-            specified in dB. This is useful to set the output loudness level to
-            conform to a standard (-23dB for EBU R.128) The recommended setting
+            Adjust the loudness level of the audio. This is measured in LUFS and specified in dB. This is useful to set the output loudness level to conform to a standard (-23dB for EBU R.128) The recommended setting
             is -23.
           maximum: 60
           minimum: -60
@@ -1925,63 +2243,34 @@ components:
           type: number
         audio_codec:
           default: aac
-          description: 'The output audio codec to use. Note: Only `aac` is supported.'
+          description: >-
+             The output audio codec to use. Note: Only `aac` is supported.
           enum:
             - aac
           type: string
+        color_full_width:
+          description: |-
+            Specifying `color_full_width`as `true` will force a color range conversion of input video file to "full", if it is "limited". By default, the encoder will not try to change the range.
+
+            Note:
+              - `color_full_width` cannot be used with "copy_video": true
+              - This option conflicts with video transmuxing
+          type: boolean
         copy_audio:
           description: >-
-            Specifying copy_audio will take the audio track from the input video
-            file and transmux it into the resulting output file.
+            Specifying copy_audio will take the audio track from the input video file and transmux it into the resulting output file.
           type: boolean
         copy_video:
           description: >-
-            Specifying copy_video will take the video track from the input video
-            file and transmux it into the resulting output file.
+            Specifying copy_video will take the video track from the input video file and transmux it into the resulting output file.
           type: boolean
         credentials:
           description: >-
             The name for credentials with private and public keys can be stored with Brightcove to avoid passing plain text on API requests. This is required if the S3 or FTP origins are restricted. If credentials are not provided, it will be assumed that the origin restrictions are set to public or credentials are passed along with the URL.
           type: string
-        duration:
-          description: >-
-            Duration of the clip in seconds. The <code>duration</code> must be used alone to define a clip that will be made of the final <code>{duration}</code> seconds of the stream. <code>duration</code>
-          maximum: 172800
-          minimum: 0
-          type: integer
-        start_time:
-          description: >-
-            Start time for the clip in Epoch (Unix) time (seconds), <code>start_time</code> must be used alone or with <code>end_time</code>.
-          type: integer
-        end_time:
-          description: >-
-            End time for the clip in Epoch (Unix) time (seconds), <code>end_time</code> must be used alone or with <code>start_time</code>.
-          type: integer
-        stream_start_time:
-          description: >-
-            Start time in seconds for the clip relative to the start time of the live stream, <code>stream_start_time</code> must be used alone or with <code>stream_end_time</code>.
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-        stream_end_time:
-          description: >-
-            End time in seconds for the clip relative to the start time of the live stream, <code>stream_end_time</code> must be used alone or with <code>stream_start_time</code>.
-          type: integer
-        stream_start_timecode:
-          description: >-
-            Start time for the clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the start of the stream, <code>stream_start_timecode</code> must be used alone or with <code>stream_end_timecode</code>.
-          type: string
-        stream_end_timecode:
-          description: >-
-            End time for the clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the end of the stream, <code>stream_end_timecode</code> must be
-            used alone or with <code>stream_start_timecode</code>.
-          type: string
         h264_profile:
           description: >-
-            H.264 has three commonly-used profiles: Baseline (lowest), Main, and
-            High. Lower levels are easier to decode, but higher levels offer
-            better compression. For the best compression quality, choose High.
-            For playback on low-CPU machines or many mobile devices, choose
+            H.264 has three commonly-used profiles: Baseline (lowest), Main, and High. Lower levels are easier to decode, but higher levels offer better compression. For the best compression quality, choose High. For playback on low-CPU machines or many mobile devices, choose
             `baseline`.
           enum:
             - baseline
@@ -1991,53 +2280,40 @@ components:
         height:
           default: 480
           description: >-
-            Video frame height. If no `width` or `height` is supplied, the
-            source dimensions are used. If either `width` or `height` is
-            supplied, the other dimension will be calculated to maintain the
-            aspect ratio of the source.
+            Video frame height. If no `width` or `height` is supplied, the source dimensions are used. If either `width` or `height` is supplied, the other dimension will be calculated to maintain the aspect ratio of the source.
           type: integer
         width:
           default: 640
           description: >-
-            Video frame width. If no `width` or `height` is supplied, the source
-            dimensions are used. If either `width` or `height` is supplied, the
-            other dimension will be calculated to maintain the aspect ratio of
+            Video frame width. If no `width` or `height` is supplied, the source dimensions are used. If either `width` or `height` is supplied, the other dimension will be calculated to maintain the aspect ratio of
             the source.
           type: integer
         keyframe_interval:
           description: >-
-            The maximum number of frames between each keyframe. If you set a low
-            keyframe_interval it will increase the size / decrease the quality
-            of your output file, but it will allow more precise scrubbing in
-            most players. It’s recommended to have at least one keyframe per
-            segment. If keyframe_interval is not provided, keyframes will follow
-            the input GOP structure.
+            The maximum number of frames between each keyframe. If you set a low keyframe_interval it will increase the size / decrease the quality of your output file, but it will allow more precise scrubbing in most players. It’s recommended to have at least one keyframe per segment. If keyframe_interval is not provided, keyframes will follow the input GOP structure.
           maximum: 600
           minimum: 1
           type: integer
         label:
           description: Label for the live or VOD asset.
           type: string
+        playlist_label:
+          type: string
+          description: >-
+            Only applicable for instant mode VODs. Indicates which playlist to use to create a VOD output (from the live job). Only necessary if custom playlists were defined at live job creation.
+        mode:
+          type: string
+          description: >-
+            Expedite VOD publishing by leveraging existing live renditions and segment boundaries
+          enum:
+            - instant
         live_stream:
           description: >-
-            For jobs, setting live_stream to true indicates the output is a live
-            rendition. If live_stream is false, or is not set, the output will
-            be treated as a VOD output.
+            For jobs, setting live_stream to true indicates the output is a live rendition. If live_stream is false, or is not set, the output will be treated as a VOD output.
           type: boolean
         notifications:
           description: >-
-            Array of notification destination objects or strings - notifications
-            defined here are for job-level events.  A notification will be sent
-            to the destination when selected event occurs. You can use a simple
-            string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or
-            you can use an object. See
-            [Events](https://support.brightcove.com/live-api-notifications#Events)
-            for an explanation of the events reported in `state_changed`
-            notifications. <br> Retry strategy: In the event of a failed request
-            to send a notification, the default retry strategy is to retry 50
-            times with an exponential delay between attempts: <br>
-            `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry =
-            now_s + retry_count * delay_delta_s`
+            Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object. See [Events](https://support.brightcove.com/live-api-notifications#Events) for an explanation of the events reported in `state_changed` notifications. <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br> `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry = now_s + retry_count * delay_delta_s`
           items:
             oneOf:
               - type: string
@@ -2068,7 +2344,7 @@ components:
           type: boolean
         streams:
           description: >-
-            When creating a playlist, the streams field is used to define which output renditions (by label) should be included in the manifest. Example format [{&quot;source&quot;: &quot;1080p&quot;}, {&quot;source&quot;: &quot;720p&quot;}].
+            'When creating a playlist, the streams field is used to define which output renditions (by label) should be included in the manifest. Example format [{&quot;source&quot;: &quot;1080p&quot;}, {&quot;source&quot;: &quot;720p&quot;}].'
           type: object
         type:
           description: >-
@@ -2110,6 +2386,17 @@ components:
             Credentials to use for Video Cloud authentication. Only required if
             you set `videocloud.account_id`.
           type: string
+        live_to_vod:
+          type: boolean
+          default: false
+          description: >-
+            If set to `true`, a full VOD version of the live event will be created after the event is complete. Requires that there is a Video Cloud account associated with the Live account, *and* the `videocloud.video` property is set.
+        mode:
+          type: string
+          description: >-
+            Expedite clip publishing by leveraging existing live renditions and segment boundaries
+          enum:
+            - instant
         video:
           $ref: '#/components/schemas/CreateLiveJobRequestBody.videocloud.video'
       required:
@@ -2241,15 +2528,11 @@ components:
       properties:
         ends_at:
           description: >-
-            end date-time of availability in
-            ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15)
-            format
+            end date-time of availability in ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) format
           type: string
         starts_at:
           description: >-
-            start date-time of availability in
-            ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15)
-            format
+            start date-time of availability in ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) format
           type: string
       required:
         - ends_at
@@ -2257,6 +2540,21 @@ components:
       title: Create_Live_Job_Request_Body.videocloud.video.schedule
       type: object
       description: map of scheduling properties
+    CreatePlaybackTokenRequestBody:
+      title: Create Playback Token Request Body
+      description: Create Playback Token Request Body
+      type: object
+      properties:
+        dvr:
+          type: boolean
+          description: whether DVR playback is required
+          default: false
+        application_id:
+          type: string
+          description: The application id for an SSAI job
+        playback_added_cdn:
+          type: string
+          description: The label for the BYOCDN if you are using one
     CreateVodClipbody:
       properties:
         live_job_id:
@@ -2272,8 +2570,7 @@ components:
         - outputs
       title: Create_VOD_ClipBody
       type: object
-      example: >-
-        {
+      example: {
           "live_job_id": "3ae7fa89943f4a96aa273fbbf175d527",
           "outputs": [{
             "label": "first 30 secs of live job",
@@ -2304,13 +2601,13 @@ components:
       properties:
         credentials:
           description: >-
-            The name of the credentials configured in your Live account for this
-            destination. Not required if using the default Video Cloud account
-            associated with your Live account.
+            The name of the credentials configured in your Live account for this destination. Not required if using the default Video Cloud account associated with your Live account.
           type: string
         notifications:
-          description: >-
-            'Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object. See [Events](https://support.brightcove.com/live-api-notifications#Events) for an explanation of the events reported in `state_changed` notifications. <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br> `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry = now_s + retry_count * delay_delta_s`'
+          description: |-
+            'Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object. See [Events](https://support.brightcove.com/live-api-notifications#Events) for an explanation of the events reported in `state_changed` notifications. <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br> `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry = now_s + retry_count * delay_delta_s`
+
+            **Note:** notifications are *not* supported for instant mode VODs.'
           items:
             oneOf:
               - $ref: '#/components/schemas/Notification'
@@ -2318,8 +2615,10 @@ components:
                 description: A URL to send notifications to
           type: array
         duration:
-          description: >-
+          description: |-
             Duration of the clip in seconds. The <code>duration</code> must be used alone to define a clip that will be made of the final <code>{duration}</code> seconds of the stream. <code>duration</code>
+
+            **Note:** the duration parameter is not available for instant mode VODs.
           maximum: 172800
           minimum: 0
           type: integer
@@ -2343,16 +2642,26 @@ components:
           type: integer
         stream_start_timecode:
           description: >-
-            Start time for the clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the start of the stream, <code>stream_start_timecode</code> must be used alone or with <code>stream_end_timecode</code>.
+            Start time for a frame-accurate clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the start of the stream, <code>stream_start_timecode</code> must be used alone or with <code>stream_end_timecode</code>. Requires that the encoder is sending timecodes.
           type: string
         stream_end_timecode:
           description: >-
-            End time for the clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the end of the stream, <code>stream_end_timecode</code> must be
-            used alone or with <code>stream_start_timecode</code>.
+            End time for a frame-accurate clip in an SMPTE-formatted (HH:MM:SS:FF) timecode from the end of the stream, <code>stream_end_timecode</code> must be
+            used alone or with <code>stream_start_timecode</code>. Requires that the encoder is sending timecodes.
           type: string
         label:
           description: Label for the output
           type: string
+        mode:
+          type: string
+          description: >-
+            Expedite clip publishing by leveraging existing live renditions and segment boundaries
+          enum:
+            - instant
+        playlist_label:
+          type: string
+          description: >-
+            Only applicable for `instant` mode VODs. Indicates which playlist to use to create a VOD output (from the live job). Only necessary if custom playlists were defined at live job creation.
         url:
           description: >-
             `url` is mandatory (**unless** the destination is `videocloud`, in which case you dod **not** include the `url`) and sets the destination of the final asset destination. For access restricted origins, the credentials a can be passed along with the URL or stored within the Brightcove system. For Live, this is reserved for future use.
@@ -2384,8 +2693,7 @@ components:
       properties:
         callbacks:
           description: >-
-            An array of URLs that notifications for the ingest job should be
-            sent to
+            An array of URLs that notifications for the ingest job should be sent to
           items:
             type: string
           type: array
@@ -2427,8 +2735,7 @@ components:
                     variant:
                       type: string
                       description: >-
-                        the type of audio track (default can be set for the
-                        account by contacting Brightcove Support)
+                        the type of audio track (default can be set for the account by contacting Brightcove Support)
                       enum:
                         - main
                         - alternate
@@ -2437,8 +2744,7 @@ components:
                         - descriptive
         text_tracks:
           description: >-
-            array of text_tracks objects - see [Ingesting WebVTT Files (Text
-            Tracks)](https://support.brightcove.com/ingesting-webvtt-files-text-tracks)
+            array of text_tracks objects - see [Ingesting WebVTT Files (Text Tracks)](https://support.brightcove.com/ingesting-webvtt-files-text-tracks)
           type: array
           items:
             type: object
@@ -2618,7 +2924,7 @@ components:
       type: object
       description: map of scheduling properties
     CreateVodJobResponse:
-      properites:
+      properties:
         vod_jobs:
           type: array
           items:
@@ -2627,21 +2933,77 @@ components:
               jvod_id:
                 type: string
                 description: VOD job id
+                readOnly: true
+                example: 62989518f9294e19b2f7e184e8141d72
               label:
                 type: string
                 description: Label for the job set in the input field
-        live_job_id: The id of the live job
+                example: first 30 secs of live job
+        live_job_id:
+          type: string
+          description: The id of the live job
+          readOnly: true
+          example: 3ae7fa89943f4a96aa273fbbf175d527
       title: Create VOD Job Response
       type: object
-      example: >-
-        {
-          "vod_jobs": [
-            {
-              "jvod_id": "62989518f9294e19b2f7e184e8141d72",
-              "label": "first 30 secs of live job"
-            }
-          ],
-          "live_job_id": "3ae7fa89943f4a96aa273fbbf175d527"
+    CreateRTMPOutputRequestBody:
+      title: Create RTMP Output Request Body
+      description: Request body for requests to create an RTMP output
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the RTMP output
+          example: 'rtmp://host:port/application/streamName'
+        output_label:
+          type: string
+          description: >-
+            The label of the job output to use as the source for the RTMP output. Omit this parameter to simply forward the RTMP input instead.
+      required:
+        - url
+    CreateRTMPOutputResponse:
+      title: Create RTMP output success response
+      description: Create RTMP output success response
+      type: object
+      properties:
+        connection_info:
+          type: object
+          description: Information on the connection URL
+          properties:
+            host:
+              type: string
+              description: Host URL
+            port:
+              type: integer
+              description: The port number
+            application:
+              type: string
+              description: The application name in the path
+            streamName:
+              type: string
+              description: The stream name in the path
+        duration_history:
+          type: array
+          description: Array of durations for connections
+          items:
+            type: integer
+            description: A connection duration in seconds
+        rtmp_out_id:
+          type: string
+          description: System id for the RTMP output
+        stream_start:
+          type: integer
+          description: Time of the stream start in Epoch time (milliseconds)
+      example: {
+          "connection_info": {
+            "host": "live-api-s.facebook.com",
+            "port": 80,
+            "application": "rtmp",
+            "streamName": "foo-bar"
+          },
+          "duration_history": [],
+          "rtmp_out_id": "foo",
+          "stream_start": 1542731746032
         }
     Credentials:
       properties:
@@ -2900,8 +3262,7 @@ components:
         - id3_tag
       title: Insert_ID3_timed_metadataBody
       type: object
-      example: >-
-        {
+      example: {
           "id3_tag": {
             "name": "BCOV",
             "value": "my value",
@@ -2987,34 +3348,49 @@ components:
             - sa-east-1
           example: us-west-2
           type: string
+        randomize_chunk_url:
+          type: boolean
+          description: >-
+            If true, HLS segments will be scrambled to prevent your stream from being stolen and reused
+          default: true
+        rtmp_outputs:
+          type: array
+          description: >-
+            '[RTMP outputs](https://support.brightcove.com/live-api-rtmp-outputs) for the job'
+          items:
+            $ref: '#/components/schemas/RTMPout'
+          example: [
+              {
+                "rtmp_out_id": "asdfg-lkjh",
+                "stream_start": 1538746255247,
+                "connection_info": {
+                  "host": "a.rtmp.youtube.com",
+                  "port": 1935,
+                  "application": "live2",
+                  "streamName": "myStream",
+                  "sessionStatus": "Active"
+                }
+              }
+            ]
         slate:
           description: id for a slate of assets included
           type: string
         state:
-          description: |-
+          description: >-
             The current state of the job.
 
-            Possible values for **Live jobs** are:
-            - `standby`
-            - `waiting`
-            - `processing`
-            - `disconnected`
-            - `finishing`
-            - `finished`
-            - `cancelling`
-            - `cancelled`
-            - `failed`
-
-            Possible values for
-            **VOD jobs** are:
-            - `waiting_finish_live`,
-            - `waiting`
-            - `processing`,
-            - `creating_asset`
-            - `cancelling`
-            - `cancelled`
-            - `finished`
-            - `failed`
+            Possible values for **Live
+            jobs** are:
+              - `error` (An error has occurred; the job will not be processed.)
+              - `standby` ([Only applicable to Static Entry Point jobs.; The job is allocated and ready for activation.)
+              - `waiting` (The job has been assigned to a streaming worker and ready for the encoder to connect.)
+              - `processing` (The encoder is connected and the job is available for playback.)
+              - `disconnected` (The encoder has disconnected and the streaming worker is waiting for a reconnection.)
+              - `finishing` (The encoder has been disconnected for more than `reconnect_time`, and streaming worker is stopping the jobs and creating any associated VOD outputs.)
+              - `finished` (The job has finished successfully.)
+              - `cancelling` (The job has been cancelled and the worker is stopping the job and will NOT process any pending VOD outputs.)
+              - `cancelled` (The job has been cancelled successfully.)
+              - `failed` (The job has stopped as a result of a system error.)
           type: string
           enum:
             - standby
@@ -3028,6 +3404,48 @@ components:
             - failed
             - waiting_finish_live
             - creating_asset
+        sep_state:
+          type: string
+          description: |-
+            Current state of an SEP job.
+
+            Possible states:
+              * `none` (not an SEP job)
+              * `ready`	(The entry point has been activated and ready for the encoder to connect)
+              * `pending_activation` (The entry point has been queued for streaming worker assignment.)
+              * `activation_in_progress`	(The entry point is updating to route connections to the streaming worker.)
+              * `pending_deactivation`	(The entry point has been queued for cleanup from the streaming worker.)
+              * `deactivation_in_progress`	(The entry point is disconnecting from the streaming worker.)
+              * `cancelled`	(The entry point has been cancelled.)
+              * `finished`	(The entry point has completed successfully.)
+          enum:
+            - none
+            - ready
+            - pending_activation
+            - activation_in_progress
+            - pending_deactivation
+            - deactivation_in_progress
+            - cancelled
+            - finished
+        ssai_state:
+          type: string
+          description: |-
+            Current state of an SSAI job.
+
+            Possible states:
+              * `none` (not an SSAI job)
+              * `waiting_input`	(The streaming worker is waiting for the encoder to connect and provide the stream input information.)
+              * `start_transcoding`	(The encoder has connected and the SSAI slate has been queued for transcoding based on the stream input data and outputs data.)
+              * `transcoding`	(The slate is being transcoded.)
+              * `error`	(The slate could not be downloaded or transcoded.)
+              * `ready`	(The slate has been generated and the job is ready for SSAI playback.)
+            enum:
+              - none
+              - waiting_input
+              - start_transcoding
+              - transcoding
+              - error
+              - ready
         state_history:
           description: A history of state changes for a job
           type: array
@@ -3040,27 +3458,18 @@ components:
 
                   Possible values for **Live
                   jobs** are:
-                  - `standby`
-                  - `waiting`
-                  - `processing`
-                  - `disconnected`
-                  - `finishing`
-                  - `finished`
-                  - `cancelling`
-                  - `cancelled`
-                  - `failed`
-
-                  Possible values for **VOD jobs** are:
-                  - `waiting_finish_live`
-                  - `waiting`
-                  - `processing`
-                  - `creating_asset`
-                  - `cancelling`
-                  - `cancelled`
-                  - `finished`
-                  - `failed`
+                    - `error` (An error has occurred; the job will not be processed.)
+                    - `standby` ([Only applicable to Static Entry Point jobs.; The job is allocated and ready for activation.)
+                    - `waiting` (The job has been assigned to a streaming worker and ready for the encoder to connect.)
+                    - `processing` (The encoder is connected and the job is available for playback.)
+                    - `disconnected` (The encoder has disconnected and the streaming worker is waiting for a reconnection.)
+                    - `finished` (The job has finished successfully.)
+                    - `cancelling` (The job has been cancelled and the worker is stopping the job and will NOT process any pending VOD outputs.)
+                    - `cancelled` (The job has been cancelled successfully.)
+                    - `failed` (The job has stopped as a result of a system error.)
                 type: string
                 enum:
+                  - error
                   - standby
                   - waiting
                   - processing
@@ -3099,8 +3508,7 @@ components:
         - output_media_files
       title: job
       type: object
-      example: >-
-        {
+      example: {
           "job": {
             "created_at": "2018-09-05T12:19:29.826Z",
             "finished_at": null,
@@ -3133,7 +3541,6 @@ components:
             ],
             "state_history_is_truncated": false,
             "job_videocloud_asset_id": "5831009084001",
-            "live_sliding_window_duration_ms": 86400000,
             "live_dvr_sliding_window_duration_ms": 86400000,
             "notifications": [
               "http://solutions.brightcove.com/bcls/live/live-callbacks.php"
@@ -3647,8 +4054,7 @@ components:
         - jobs
       title: List_Live_Jobs200
       type: object
-      example: >-
-        '{
+      example: {
           "next_token": "eyJhY2NvdW50X2lkIjoiYTk1YWM1ODE1NTFiNDQ3OGIyNzkxMGU1Njc1ZGIxZjgiLCJqb2JfaWQiOiI5NTA2NGI0Mjc0ZTI0M2Y0ODE0ZGQ2OTcxYTNjMmRkNyIsImpvYl9jcmVhdGVkX2F0IjoxNTI2MjQzNDgyNzEzfQ==",
           "jobs":
           [
@@ -3672,7 +4078,6 @@ components:
               "out_worker_bytes": 0,
               "out_worker_bytes_rate": 0,
               "channel_type": "event",
-              "live_sliding_window_duration_ms": 30000,
               "live_dvr_sliding_window_duration_ms": 30000,
               "outputs":
               [
@@ -3800,7 +4205,97 @@ components:
               ]
             }
           ]
-        }'
+        }
+    ListRTMPOutputs:
+      title: List RMTP Outputs
+      description: >-
+        Response to GET request for RTMP outputs - array of RTMP outputs objects
+      type: array
+      items:
+        $ref: '#/components/schemas/RTMPout'
+      example: [
+          {
+            "rtmp_out_id": "asdfg-lkjh",
+            "stream_start": 1538746255247,
+            "connection_info": {
+              "host": "a.rtmp.youtube.com",
+              "port": 1935,
+              "application": "live2",
+              "streamName": "myStream",
+              "sessionStatus": "Active"
+            },
+            "duration_history": [
+              {
+                "stream_start": 1557933191000,
+                "stream_end": 1557936731000
+              }
+            ],
+            "waiting_for_start": false
+          }
+        ]
+    RTMPout:
+      title: RTMP Output
+      type: object
+      description: RTMP output object
+      properties:
+        rtmp_out_id:
+          type: string
+          description: system id for the RTMP output
+        stream_start:
+          type: integer
+          description: Start time of the output in Epoch time (milliseconds)
+        state:
+          type: string
+          description: Current state of the RTMP output stream
+          enum:
+            - connected
+            - disconnected
+            - error
+            - starting
+        duration_history:
+          type: array
+          description: Array of durations for connections
+          items:
+            type: object
+            description: >-
+              A connection start and stop
+            properties:
+              stream_start:
+                type: integer
+                description: >-
+                  The epoch time (in milliseconds) that a stream connected
+              stream_end:
+                type: integer
+                description: >-
+                  The epoch time (in milliseconds) that a stream disconnected
+        connection_info:
+          type: object
+          description: Details of the connection information
+          properties:
+            host:
+              type: string
+              description: Host URL
+            port:
+              type: integer
+              description: The port number
+            application:
+              type: string
+              description: The application name in the path
+            streamName:
+              type: string
+              description: The stream name in the path
+            sessionStatus:
+              type: string
+              description: The current session status
+              enum:
+                - Active
+                - Inactive
+        waiting_for_start:
+          type: boolean
+          description: |-
+            For SEP jobs. If `true`, the SEP job was deactivated but the RTMP output was not stopped and the next time you activate the stream on the SEP job there will be an attempt to reconnect the RTMP output.
+
+            If `waiting_for_start` is `false`, it means the RTMP output was stopped.
     ListVodJobs:
       properties:
         next_token:
@@ -3825,8 +4320,7 @@ components:
         - vod_jobs
       title: List_Live_Jobs200
       type: object
-      example: >-
-        {
+      example: {
           "jvod_state": "processing",
           "jvod_progress": "Chunklist-download-error",
           "job_id": "3ae7fa89943f4a96aa273fbbf175d527",
@@ -3960,8 +4454,7 @@ components:
         - add_cdns
       title: Create_a_Live_Job
       type: object
-      example: >-
-        {
+      example: {
           "id": "493885dfd7c64e23ad253fcc42c120d8",
           "outputs": [
             {
@@ -4017,13 +4510,12 @@ components:
         - cue_point
       title: Manual_Ad_Cue_Point_Insertion_Response
       type: object
-      example: >-
-        {
+      example: {
           "cue_point": {
               "accuracy": "segment",
               "duration": 30,
               "id": "c1d242de729d4a76a605e018cc101601"
-          }
+          },
           "id": "3ae7fa89943f4a96aa273fbbf175d527"
         }
     ManualAdCuePointInsertionbody:
@@ -4037,12 +4529,14 @@ components:
           description: An integer value to indicate the length of the ad break in seconds
           type: number
         timecode:
-          description: >-
-            When to insert the cuepoint in SMPTE HH:MM:SS:FF format from the stream start (FF = frames); if omitted, the cuepoint will be inserted immediately. Note: <br>1) If you use the timecode property, the job only only stores the most recent request for insertion; <br>2) If you use the timecode property, the encoder must be sending SMPTE-formatted (HH:MM:SS:FF) timecode stored in the `tc` property via `OnFI`; <br>3) Software encoders such as Wirecast and OBS do not support the sending timecode via `OnFI` packets in the RTMP stream; <br>4) Elemental hardware encoders do support the sending timecode
-            via `OnFI` packets in the RTMP stream
+          description: |-
+            'When to insert the cuepoint in SMPTE HH:MM:SS:FF format from the stream start (FF = frames); if omitted, the cuepoint will be inserted immediately. Note:
+              1. If you use the timecode property, the job only only stores the most recent request for insertion
+              2. If you use the timecode property, the encoder must be sending SMPTE-formatted (HH:MM:SS:FF) timecode stored in the `tc` property via `OnFI`
+              3. Software encoders such as Wirecast and OBS do not support the sending timecode via `OnFI` packets in the RTMP stream
+              4. Elemental hardware encoders do support the sending timecode via `OnFI` packets in the RTMP stream'
           type: string
-          example: >-
-            {
+          example: {
               "duration": 30,
               "ad_server_data": {
                 "subject": "wildlife"
@@ -4067,12 +4561,12 @@ components:
             - state_changed
             - first_segment_uploaded
             - output_finished
+            - rtmp_output_state_changed
         url:
           description: Destination for the notification.
           type: string
       required:
         - url
-        - credentials
         - event
       title: notification
       type: object
@@ -4103,6 +4597,18 @@ components:
         - playback_url_vod
       title: outputs
       type: object
+    StopRTMPOutputResponse:
+      title: Stop RTMP output response
+      description: Success response for stopping and RTMP output
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message
+          example:
+            '{
+              "message": "RTMP out asdfg-lkjh deleted successfully"
+            }'
     UpdateAdConfigurationbody:
       properties:
         account_id:
@@ -4326,7 +4832,21 @@ components:
           description: Length of VOD clip as generated (seconds)
           type: integer
         jvod_state:
-          description: Current vod job processing state
+          description: |-
+            Current vod job processing state
+
+            Possible values for
+            **VOD jobs** are:
+            - `error` (An error has occurred; the job will not be processed.)
+            - `waiting_finish_live` ()
+            - `waiting` (The job waiting for processing.)
+            - `waiting_finish_live` (The job waiting for the Live Job to finish [if the clip depends on that].)
+            - `processing` (The clip is being processed.)
+            - `creating_asset` (A VOD asset is being created.)
+            - `cancelling` (The job has been cancelled and the worker is stopping the job and will NOT process any pending VOD outputs.)
+            - `cancelled` (The job has been cancelled successfully.)
+            - `finished` (The job has finished successfully.)
+            - `failed` (The job has stopped as a result of a system error.)
           enum:
             - error
             - waiting
@@ -4403,6 +4923,15 @@ components:
       name: jvod_id
       in: path
       description: VOD job ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    rtmpOutId:
+      name: rtmp_out_id
+      in: path
+      description: RTMP output ID
       required: true
       style: simple
       explode: false
@@ -4547,6 +5076,7 @@ components:
           - type: string
             description: Job state
             enum:
+              - error
               - standby
               - waiting
               - processing
@@ -4561,6 +5091,7 @@ components:
               type: string
               description: Job state
               enum:
+                - error
                 - standby
                 - waiting
                 - processing

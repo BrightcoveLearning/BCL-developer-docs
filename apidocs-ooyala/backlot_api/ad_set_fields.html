@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Ad Set Fields</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Ad Set Fields</h2>
+
+<p>
+	The following is a reference table of fields for use with the <a href="index.html#v2_ad_sets_get">ad sets</a> resource in the <a href="index.html">Backlot API</a>.
+</p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Ad+Set+Fields" class="panel-title">Ad Set Fields</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="adSetFields">
+			  <tr><td>Ad Set Field&nbsp;&nbsp;</td><td>Description&nbsp;&nbsp;</td></tr>
+			  <tr><td>name&nbsp;&nbsp;</td><td>The name of your Ad Set.&nbsp;&nbsp;</td></tr>
+			  <tr><td>id&nbsp;&nbsp;</td><td>Your Ad Set’s unique identifier&nbsp;&nbsp;</td></tr>
+			  <tr><td>default&nbsp;&nbsp;</td><td>If <code>true</code> then this Ad Set will automatically be applied to movies that get added to your content library.  Only one ad set can have this field set to <code>true</code> at any time.&nbsp;&nbsp;</td></tr>
+			  <tr><td>ads&nbsp;&nbsp;</td><td>An array of <b>ad</b> objects.  See <a href="#Ad+Fields">below</a>.&nbsp;&nbsp;</td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Ad+Fields" class="panel-title">Ad Fields</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="adFields">
+			  <tr><td>Ad Field&nbsp;&nbsp;</td><td>Description&nbsp;&nbsp;</td></tr>
+			  <tr><td>id&nbsp;&nbsp;</td><td>String which uniquely associates an Ad with an Ad Set&nbsp;&nbsp;</td></tr>
+			  <tr><td>ad_source&nbsp;&nbsp;</td><td>Can be either “assets” (Ad comes from your content library) or a string identifying an ad network (valid examples include “VAST Compliant In-Stream”, “BrightRoll Overlay”, “YuMe Video”, etc).&nbsp;&nbsp;</td></tr>
+			  <tr><td>ad_type&nbsp;&nbsp;</td><td>Can be either “preroll” (Ad plays before your movie begins), “postroll” (plays after your movie ends), “midroll” (plays in the middle of your movie), or “cuepoint”.&nbsp;&nbsp;</td></tr>
+			  <tr><td>click_url&nbsp;&nbsp;</td><td>URL indicating where to redirect the user when they click the Ad.&nbsp;&nbsp;</td></tr>
+			  <tr><td>duration&nbsp;&nbsp;</td><td>This field is only visible if your Ad has ad_source set to “assets”. Indicates the length of your Ad in milliseconds.&nbsp;&nbsp;</td></tr>
+			  <tr><td>embed_code&nbsp;&nbsp;</td><td>This field is only visible if your Ad has ad_source set to “assets”. Identifies which Asset from your content library is used as your Ad.&nbsp;&nbsp;</td></tr>
+			  <tr><td>name&nbsp;&nbsp;</td><td>This field is only visible if your Ad has ad_source set to “assets”. Identifies the name of the Asset from your content library to be used as your Ad.&nbsp;&nbsp;</td></tr>
+			  <tr><td>plays_before&nbsp;&nbsp;</td><td>Ad is first shown after the first X plays.&nbsp;&nbsp;</td></tr>
+			  <tr><td>plays_between&nbsp;&nbsp;</td><td>Ad is shown after every X plays.&nbsp;&nbsp;</td></tr>
+			  <tr><td>position&nbsp;&nbsp;</td><td>This field is only applies to Ads with type “midroll”. Indicates when the Ad will be played during your movie.&nbsp;&nbsp;</td></tr>
+			  <tr><td>position_type&nbsp;&nbsp;</td><td>This field is only applies to Ads with type “midroll”. Indicates whether the position is measured in milliseconds or a percentage of movie duration. Valid values are “milliseconds” and “percent”.&nbsp;&nbsp;</td></tr>
+			  <tr><td>tag_url&nbsp;&nbsp;</td><td>This field only applies to third party ads. URL to the XML file containing your ad tag.&nbsp;&nbsp;</td></tr>
+			  <tr><td>tracking_pixel_url&nbsp;&nbsp;</td><td>This URL is pinged whenever the Ad is played.&nbsp;&nbsp;</td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Ad+Sources" class="panel-title">Ad Sources</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			<table class="adSources">
+			  <tr><td>assets&nbsp;&nbsp;</td></tr>
+			  <tr><td>AdTech&nbsp;&nbsp;</td></tr>
+			  <tr><td>AdTech Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Adap.tv&nbsp;&nbsp;</td></tr>
+			  <tr><td>Adify In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>Adify Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Atlas&nbsp;&nbsp;</td></tr>
+			  <tr><td>BrightRoll Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Brightroll In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>CBS Interactive&nbsp;&nbsp;</td></tr>
+			  <tr><td>CCI OPF&nbsp;&nbsp;</td></tr>
+			  <tr><td>CCI OPF Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Dart Enterprise (VAST)&nbsp;&nbsp;</td></tr>
+			  <tr><td>Dart Enterprise Overlay (VAST)&nbsp;&nbsp;</td></tr>
+			  <tr><td>Dev Ad Display&nbsp;&nbsp;</td></tr>
+			  <tr><td>Dev Ad Display Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Dev Ad Manager&nbsp;&nbsp;</td></tr>
+			  <tr><td>DoubleClick&nbsp;&nbsp;</td></tr>
+			  <tr><td>DoubleClick Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>EyeWonder&nbsp;&nbsp;</td></tr>
+			  <tr><td>Freewheel&nbsp;&nbsp;</td></tr>
+			  <tr><td>Freewheel Commercial Breaks&nbsp;&nbsp;</td></tr>
+			  <tr><td>Freewheel OPF Module&nbsp;&nbsp;</td></tr>
+			  <tr><td>Freewheel Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Google Adsense Endcap&nbsp;&nbsp;</td></tr>
+			  <tr><td>Google Adsense Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Google Adsense Video&nbsp;&nbsp;</td></tr>
+			  <tr><td>Google IMA V3&nbsp;&nbsp;</td></tr>
+			  <tr><td>HIRO-Media&nbsp;&nbsp;</td></tr>
+			  <tr><td>LightningCast&nbsp;&nbsp;</td></tr>
+			  <tr><td>LiveRail&nbsp;&nbsp;</td></tr>
+			  <tr><td>LiveRail (VAST) In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>LiveRail (VAST) Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Ooyala In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>Open AdStream&nbsp;&nbsp;</td></tr>
+			  <tr><td>Open AdStream Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>OpenX In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>OpenX Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>ScanScout&nbsp;&nbsp;</td></tr>
+			  <tr><td>ScanScout (Mobile)&nbsp;&nbsp;</td></tr>
+			  <tr><td>SpotXchange&nbsp;&nbsp;</td></tr>
+			  <tr><td>TV2N&nbsp;&nbsp;</td></tr>
+			  <tr><td>The Video Network&nbsp;&nbsp;</td></tr>
+			  <tr><td>The Video Platform&nbsp;&nbsp;</td></tr>
+			  <tr><td>Tremor Media - Acudeo&nbsp;&nbsp;</td></tr>
+			  <tr><td>Tremor Media - Acudeo Lite&nbsp;&nbsp;</td></tr>
+			  <tr><td>VAST Compliant In-Stream&nbsp;&nbsp;</td></tr>
+			  <tr><td>VAST Compliant Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>VAST Live OPF&nbsp;&nbsp;</td></tr>
+			  <tr><td>VPAID OPF&nbsp;&nbsp;</td></tr>
+			  <tr><td>VPAID OPF Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>Videoplaza&nbsp;&nbsp;</td></tr>
+			  <tr><td>Yahoo&nbsp;&nbsp;</td></tr>
+			  <tr><td>YuMe OPF&nbsp;&nbsp;</td></tr>
+			  <tr><td>YuMe OPF Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>YuMe Overlay&nbsp;&nbsp;</td></tr>
+			  <tr><td>YuMe Video&nbsp;&nbsp;</td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

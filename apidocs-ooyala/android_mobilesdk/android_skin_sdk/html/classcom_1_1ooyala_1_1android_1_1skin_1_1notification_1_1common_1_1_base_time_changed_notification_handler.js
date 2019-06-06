@@ -1,0 +1,6 @@
+var classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_base_time_changed_notification_handler =
+[
+    [ "BaseTimeChangedNotificationHandler", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_base_time_changed_notification_handler.html#aa48f5bb1430f8e4c12aedc1178cdd6f6", null ],
+    [ "getNotificationName", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_base_time_changed_notification_handler.html#a7bb62d7d419b573a2f8006f18d97b0c3", null ],
+    [ "handle", "classcom_1_1ooyala_1_1android_1_1skin_1_1notification_1_1common_1_1_base_time_changed_notification_handler.html#af58a6ab6a447b9ca0c23978ad69ba773", null ]
+];

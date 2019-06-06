@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Using Playback Authorization Service with the Native SDKs</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Using Playback Authorization Service with the Native SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to use Brightcove's Playback Authorization Service to retrieve videos ingested for Dynamic Delivery with the Brightcove Native SDKs.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Introduction">Introduction</h2>
+
+<p>Brightcove's Playback Authorization Service (PAS) offers an extra level of security when using Dynamic Delivery with DRM-protected or HTTP Live Streaming Encryption (HLSe) content.</p>
+
+<p>With PAS, license requests will be authenticated using a signed <a href="https://jwt.io/introduction/">JSON Web Token (JWT)</a>.</p>
+
+<p>It is used when requesting the video license, once the video has been loaded to the player and the source has been selected.</p>
+
+<aside class="bcls-aside bcls-aside--information">With HLSe content, when the player changes rendition, due to improved connectivity or after the first segment is loaded, a new license request is made.</aside>
+
+<p>
+  For more information about PAS, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: Playback Authorization Service</a> document.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Android_Implementation">Android Implementation</h2>
+
+<p>The Native SDK for Android currently supports PAS for HLSe and Widevine DASH sources. You will provide your authorization token as part of the Brightcove catalog request for a single video or a playlist.</p>
+
+<p>
+  To make a Brightcove catalog request using PAS, follow these steps:
+</p>
+<ol class="bcls-tasklist__restart">
+    <li>
+      <p>
+        Create an <code>HttpRequestConfig</code> object and set the Brightcove Authorization token as shown here:
+      </p>
+      <pre class="line-numbers"><code class="language-java">HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
+       .setBrightcoveAuthorizationToken(myToken)
+       .build();
+</code></pre>
+      <p>
+        The value of the Authorization token will be the value of your JSON Web Token.
+      </p>
+    </li>
+    <li>
+      <p>
+        Once you have created the <code>HttpRequestConfig</code> object, you can pass that to one of the following Catalog methods:
+      </p>
+      <p>
+        For a video request, use one of the following:
+      </p>
+      <pre class="line-numbers"><code class="language-java">findVideoByID(String, HttpRequestConfig, VideoListener)
+</code></pre>
+      <pre class="line-numbers"><code class="language-java">findVideoByReferenceID(String, HttpRequestConfig, VideoListener)
+</code></pre>
+      <p>
+        For a playlist request, use one of the following:
+      </p>
+      <pre class="line-numbers"><code class="language-java">findPlaylistByID(String, HttpRequestConfig, PlaylistListener)
+</code></pre>
+      <pre class="line-numbers"><code class="language-java">findPlaylistByReferenceID(String, HttpRequestConfig, PlaylistListener)
+</code></pre>
+      <p>
+        The details of token usage for HLSe and Widevine license acquisition are handled by the SDK.
+      </p>
+      <aside class="bcls-aside bcls-aside--information">For playlist requests, all videos in the playlist must use the same token. In a future release, you will be able to assign a different token to each video in the playlist. You will be responsible for maintaining the mapping between Video ID and token. The <code>conid</code> as defined in the <a href="http://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> is the Video ID value associated with a token.</aside>
+    </li>
+</ol>
+
+<h3>Code example</h3>
+<p>
+  The following example shows how to pass your authorization token when making a Catalog request:
+</p>
+<pre class="line-numbers"><code class="language-java">String myToken = &quot;...&quot;;
+HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
+       .setBrightcoveAuthorizationToken(myToken)
+       .build();
+&hellip;
+
+Catalog catalog = new Catalog(eventEmitter, accountId, policyKey, playbackApiBaseUrl);
+catalog.findVideoByReferenceID(videoReferenceId, httpRequestConfig, new VideoListener(){...});
+</code></pre>
+
+<h3>Responses</h3>
+<p>
+  The following responses are associated with PAS:
+</p>
+<ul>
+  <li>
+    200 - License is allowed to continue
+  </li>
+  <li>
+    401 - The License delivery must not be allowed to continue
+  </li>
+</ul>
+
+<h3>Limitations</h3>
+<p>
+  There are a few limitations with the current release:
+</p>
+<ul>
+  <li>
+    Offline Playback with Playback Authorization is not supported.
+  </li>
+  <li>
+    Chromecast is not supported with Playback Authorization.
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="iOS_Implementation">iOS Implementation</h2>
+
+<p>When using Brightcove's Playback Authorization Service, you will need to use the playback service methods that allow you to pass in your authorization token.</p>
+
+<p>
+  For a video request, use one of the following:
+</p>
+<pre class="line-numbers"><code class="language-objectivec">- (void)findVideoWithVideoID:(NSString *)videoID authToken:(NSString *)authToken parameters:(NSDictionary *)parameters completion:(void (^)(BCOVVideo *video, NSDictionary *jsonResponse, NSError *error))completionHandler;
+</code></pre>
+<pre class="line-numbers"><code class="language-objectivec">- (void)findVideoWithReferenceID:(NSString *)referenceID authToken:(NSString *)authToken parameters:(NSDictionary *)parameters completion:(void (^)(BCOVVideo *video, NSDictionary *jsonResponse, NSError *error))completionHandler;
+</code></pre>
+
+<p>
+  For a playlist request, use one of the following:
+</p>
+<pre class="line-numbers"><code class="language-objectivec">- (void)findPlaylistWithPlaylistID:(NSString *)playlistID authToken:(NSString *)authToken parameters:(NSDictionary *)parameters completion:(void (^)(BCOVPlaylist *playlist, NSDictionary *jsonResponse, NSError *error))completionHandler;
+</code></pre>
+<pre class="line-numbers"><code class="language-objectivec">- (void)findPlaylistWithReferenceID:(NSString *)referenceID authToken:(NSString *)authToken parameters:(NSDictionary *)parameters completion:(void (^)(BCOVPlaylist *playlist, NSDictionary *jsonResponse, NSError *error))completionHandler;
+</code></pre>
+
+<p>
+  The details of token usage for HLSe and FairPlay license acquisition are handled by the SDK.
+</p>
+  <aside class="bcls-aside bcls-aside--information">For playlist requests, all videos in the playlist must use the same token. In a future release, you will be able to assign a different token to each video in the playlist. You will be responsible for maintaining the mapping between Video ID and token. The <code>conid</code> as defined in the <a href="http://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> is the Video ID value associated with a token.</aside>
+
+  <p>
+    For details, see the <a href="https://docs.brightcove.com/ios-sdk/index.html#PlaybackAuthorizationService">Playback Authorization Service</a> section of the Native SDK for iOS reference.
+  </p>
+
+  <h3>Offline Playback</h3>
+  <p>
+    If you are using the Playback Authorization Service with Offline Playback, there is a new method for renewing a FairPlay license which accepts an authorization token:
+  </p>
+  <pre class="line-numbers"><code class="language-objectivec">// Request license renewal
+    [BCOVOfflineVideoManager.sharedManager renewFairPlayLicense:offlineVideoToken
+        video:video // recent video from Playback API or Playback Service class
+        authToken: authToken
+        Parameters: parameters
+        completion:^(BCOVOfflineVideoToken offlineVideoToken, NSError *error)
+    {
+        // handle errors
+    }];
+</code></pre>
+
+<p>
+  When license renewal is finshed, the completion block will be called with the same offline video token that was passed in. An <code>NSError</code> will indicate any problem that occurred (or nil if no error).
+</p>
+
+<p>
+  For details, see the <a href="https://github.com/brightcove/brightcove-player-sdk-ios/blob/master/OfflinePlayback.md#renewing-a-fairplay-license">Renewing a FairPlay License</a> section of the Native SDK for iOS reference.
+</p>
+
+<h3>Responses</h3>
+<p>
+  The following responses are associated with PAS:
+</p>
+<ul>
+  <li>
+    200 - License is allowed to continue
+  </li>
+  <li>
+    401 - The License delivery must not be allowed to continue
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Related_topics">Related topics</h2>
+
+<ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: Playback Authorization Service</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html">Technical Workflow: Playback Authorization Service</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a>
+  </li>
+</ul>
+
+</section>
+
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

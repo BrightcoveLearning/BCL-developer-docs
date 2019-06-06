@@ -1,0 +1,308 @@
+openapi: 3.0.0
+x-bc-implicit-head: true
+x-bc-implicit-options: true
+x-bc-upstream: 'http://backend_server'
+info:
+  title: Blacklist API Reference
+  description: >-
+    Reference for the Brightcove Blacklist API. This API allows you to blacklist tokens so that they will not be considered valid for license requests when using Brightcove's [Playback Authorization Service](https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html).
+
+     **Base URL**: https://playback-auth.api.brightcove.com
+  version: 1.0.0
+  x-bc-access: public
+servers:
+  - url: 'https://playback-auth.api.brightcove.com/v1'
+    variables: {}
+tags:
+  - name: Blacklist
+    description: Operations for adding a token to the blacklist and showing the current blacklist.
+paths:
+  '/accounts/{accountID}/blacklist/tokens/{token}':
+    put:
+      tags:
+        - Blacklist
+      summary: Add a token to the blacklist
+      description: |-
+        Add a token to the blacklist to invalidate for license requests when using Brightcove's Playback Authorization Service
+      operationId: BlacklistToken
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/blacklist
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: token
+          in: path
+          description: The entire encoded JSON Web Token string is included in the path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: >-
+            SUCCESS: The JSON Web Token has been added to the Blacklist
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    get:
+      tags:
+        - Blacklist
+      summary: Check blacklist
+      description: 'Check if a JSON Web Token is on the blacklist'
+      operationId: CheckBlacklist
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/blacklist
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: token
+          in: path
+          description: The entire encoded JSON Web Token string is included in the path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: >-
+            SUCCESS: The JSON Web Token is on the Blacklist
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Blacklist
+      summary: Remove token from blacklist
+      description: 'Remove a JSON Web Token from the blacklist'
+      operationId: RemoveTokenFromBlacklist
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/blacklist
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: token
+          in: path
+          description: The entire encoded JSON Web Token string is included in the path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: >-
+            SUCCESS: The specified JSON Web Token has been removed from the Blacklist API
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/blacklist':
+    get:
+      tags:
+        - Blacklist
+      summary: Get the current blacklist
+      description: 'Get the JSON Web Tokens that are on the blacklist'
+      operationId: GetBlacklist
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/blacklist
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of JSON Web Tokens that are on the Blacklist
+                items:
+                  $ref: '#/components/schemas/BlacklistResponse'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+components:
+  schemas:
+    BlacklistResponse:
+      title:  Blacklist Response
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+          description: JSON Web Token
+      example: {
+          "token": "eyJ0eXAiOi1234567890.eyJpc3MiO1234567890ifQ.cJRWi1234567890GwQ"
+          }
+  securitySchemes:
+    BC_OAuth2:
+      type: oauth2
+      description: >-
+        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
+          scopes:
+            video-cloud/playback-auth/blacklist: Manage the blacklisting of access tokens

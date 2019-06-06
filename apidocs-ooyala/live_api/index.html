@@ -1,0 +1,2760 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Live REST API Reference </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/raml2html/raml2html 3.0.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+<div class="container">
+<div class="modal fade in" tabindex="0" id="searchAnswers" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close closeSearch" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">Search Results.</h4>
+	</div>
+	<div class="modal-body">
+	<div class="alert alert-info">
+	<p>Your search has returned the following results.</p>
+	</div>
+	<div class="tab-content">
+	<div class="tab-pane active">
+	<p id="resultsTxt">No results found.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+<div class="page-header">
+<img src="Contents/logo.png" class="ourLogo">
+<img src="Contents/blankLogo.png" class="blankLogo">
+<h1>Live REST API Reference </h1>
+<h2>version v3</h2>
+<p>http://live.ooyala.com/v3/</p>
+<h3 id="Introduction" class="introClass">
+<a href="#Introduction">Introduction</a>
+</h3>
+<p>Ooyala Live harnesses the power of big data to help broadcasters, operators and media companies personalize Linear TV and Live Event experiences through data driven programming and interactive playback. This API Reference describes the REST endpoints for channels, schedules, and events.</p>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="channels" class="panel-title">Channels</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Channels for the current login provider.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels">
+<span class="parent">
+</span>/channels</a>
+<span class="methods">
+<a href="#channels_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#channels_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#channels_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get all channels for the current login provider.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#channels_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Use this route to create a specified channel. See also the <a href="index.html#akamai_meta__id__get" target="_blank">domains and contact</a> endpoint.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/channels</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get all channels for the current login provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "items":[
+      {
+         "id":"&lt;%channelId%&gt;",
+         "name":"&lt;%channelName%&gt;",
+         "description":"&lt;%channelDescription%&gt;",
+         "provider_id":"&lt;%providerId%&gt;",
+         "channel_type":"24x7",
+         "status":"Setting Up",
+         "resolution":"hd",
+         "target_device":"both"
+      },
+      {
+         "id":"&lt;%channelId%&gt;",
+         "name":"&lt;%channelName%&gt;",
+         "description":"&lt;%channelDescription%&gt;",
+         "provider_id":"&lt;%providerId%&gt;",
+         "channel_type":"24x7",
+         "status":"Setting Up",
+         "resolution":"hd",
+         "target_device":"both"
+      },
+      {
+         "id":"&lt;%channelId%&gt;",
+         "name":"&lt;%channelName%&gt;",
+         "description":"&lt;%channelDescription%&gt;",
+         "provider_id":"&lt;%providerId%&gt;",
+         "channel_type":"24x7",
+         "status":"Setting Up",
+         "resolution":"hd",
+         "target_device":"both"
+      }
+   ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/channels</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to create a specified channel. See also the <a href="index.html#akamai_meta__id__get" target="_blank">domains and contact</a> endpoint.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels_post_request">
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>//Elemental Encoding and Elemental Packaging
+{
+   "status":"Setting Up",
+   "resolution":"hd",
+   "channelType":"24x7",
+   "input":{
+      "package":{
+         "partner":"elemental-delta",
+         "elementalDelta":{
+            "inputProfile":"&lt;%profileId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "clientId":"&lt;%credentialProfileKey%&gt;",
+            "dvrSettings":"Enabled",
+            "dvrWindow":"30"
+         }
+      },
+      "encode":{
+         "partner":"elemental",
+         "elemental":{
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "clientId":"&lt;%credentialProfileKey%&gt;",
+            "inputs":[
+               {
+                  "type":"network_input",
+                  "mode":"push",
+                  "isS3File":false,
+                  "order":"0",
+                  "streamingProtocol": "RTMP"
+               }
+            ]
+         }
+      },
+      "serviceNeeded":"encoding, packaging"
+   },
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;"
+}
+//Akamai Packaging Only
+{
+   "status":"Setting Up",
+   "resolution":"hd",
+   "channelType":"24x7",
+   "input":{
+      "package":{
+         "akamai":{
+            "clientId":"&lt;%clientId%&gt;",
+            "hostname":"&lt;%hostName%&gt;",
+            "reportingCpCode":"&lt;%cpCode%&gt;",
+            "configurationType":"&lt;%configType%&gt;",
+            "configurationName":"&lt;%configName%&gt;",
+            "streamType":"&lt;%stremType%&gt;",
+            "password":"&lt;%ingestPassword%&gt;",
+            "primaryContact":"&lt;%ContactName%&gt;",
+            "secondaryContact":"&lt;%ContactName%&gt;",
+            "primaryEncoder":"&lt;%customerEncoderIp%&gt;",
+            "secondaryEncoder":"&lt;%customerEncoderIp%&gt;",
+            "dvrSettings":"Enabled",
+            "dvrWindow":"30"
+         },
+         "partner":"akamai"
+      },
+      "serviceNeeded":"packaging"
+   },
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;"
+}
+//Elemental Encoding and Akamai Packaging
+{
+   "status":"Setting Up",
+   "resolution":"hd",
+   "channelType":"24x7",
+   "input":{
+      "package":{
+         "akamai":{
+            "clientId":"&lt;%clientId%&gt;",
+            "hostname":"&lt;%hostName%&gt;",
+            "reportingCpCode":"&lt;%cpCode%&gt;",
+            "configurationType":"&lt;%configType%&gt;",
+            "configurationName":"&lt;%configName%&gt;",
+            "streamType":"&lt;%stremType%&gt;",
+            "password":"&lt;%ingestPassword%&gt;",
+            "primaryContact":"&lt;%ContactName%&gt;",
+            "secondaryContact":"&lt;%ContactName%&gt;",
+            "primaryEncoder":"&lt;%customerEncoderIp%&gt;",
+            "secondaryEncoder":"&lt;%customerEncoderIp%&gt;",
+            "dvrSettings":"Enabled",
+            "dvrWindow":"30"
+         },
+         "partner":"akamai"
+      },
+       "encode":{
+         "partner":"elemental",
+         "elemental":{
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "clientId":"&lt;%credentialProfileKey%&gt;",
+            "inputs":[
+               {
+                  "type":"network_input",
+                  "mode":"push",
+                  "isS3File":false,
+                  "order":"0"
+               }
+            ]
+         }
+      },
+      "serviceNeeded":"packaging"
+   },
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;"
+}
+//Azure Encoding and Azure Packaging
+{
+   "status":"Setting Up",
+   "resolution":"hd",
+   "channelType":"24x7",
+   "input":{
+      "package":{
+         "partner":"azure",
+         "azure":{
+            "fMp4FragmentDuration":2,
+            "fragmentsPerHlsSegment":3,
+            "clientId":"&lt;%credentialProfileKey%&gt;",
+            "contentProtection":"false",
+            "dvrWindow":1800
+         },
+         "sourceType":"rtmp"
+      },
+      "encode":{
+         "partner":"azure",
+         "azure":{
+            "encodingType":"Standard",
+            "adMarkerSource":"API",
+            "ignoreCea708ClosedCaptions":false,
+            "systemPreset":"Default720p",
+            "slatePath":""
+         }
+      },
+      "serviceNeeded":"encoding, packaging"
+   },
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;"
+}
+//Azure Packaging (Passthrough Encoding)
+{
+   "status":"Setting Up",
+   "resolution":"hd",
+   "channelType":"24x7",
+   "input":{
+      "package":{
+         "partner":"azure",
+         "azure":{
+            "fMp4FragmentDuration":2,
+            "fragmentsPerHlsSegment":3,
+            "clientId":"&lt;%credentialProfileKey%&gt;",
+            "contentProtection":"false",
+            "dvrWindow":1800
+         },
+         "sourceType":"rtmp"
+      },
+      "serviceNeeded":"packaging"
+   },
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;"
+}
+</code>
+</pre>
+</div>
+<div class="tab-pane" id="channels_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both"
+}
+/channels/:id?include=input
+{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both",
+   "input":{
+      "serviceNeeded":"encoding, packaging",
+      "package":{
+         "partner":"elemental-delta",
+         "sourceType":"",
+         "elementalDelta":{
+            "clientId":"&lt;%clientId%&gt;",
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "dvrSettings":"Enabled",
+            "dvrWindow":"30",
+            "location":"&lt;%deploymentLocation%&gt;"
+         },
+         "ooPlayer":"https://player.ooyala.com/v3/&lt;%playerId%&gt;"
+      },
+      "encode":{
+         "partner":"elemental",
+         "elemental":{
+            "clientId":"&lt;%clientId%&gt;",
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "inputs":[
+               {
+                  "order":"0",
+                  "type":"network_input",
+                  "mode":"push",
+                  "uri":"rtmp://&lt;%channelId%&gt;.live-entry.ooyala.com/live/&lt;%channelId%&gt;",
+                  "isS3File":false,
+                  "inputUrl":"rtmp://&lt;%channelId%&gt;.live-entry.ooyala.com/live/&lt;%channelId%&gt;",
+                  "previewUrl":"",
+                  "streamingProtocol": "RTMP"
+               }
+            ],
+            "location":"&lt;%deploymentLocation%&gt;",
+            "elementalId":"&lt;%eventId%&gt;"
+         }
+      }
+   }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id_">
+<span class="parent">/channels</span>/{id}</a>
+<span class="methods">
+<a href="#channels__id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#channels__id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get the channel matching the specified ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#channels__id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Use this route to delete the channel matching the specified ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/channels</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get the channel matching the specified ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">/channels</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to delete the channel matching the specified ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Deleting",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id__start">
+<span class="parent">/channels</span>/{id}/start</a>
+<span class="methods">
+<a href="#channels__id__start_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id__start" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to move the specified channel to the running state and ready for ingestion.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__start_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Channel start request and response.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__start_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{id}/start</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Channel start request and response.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__start_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__start_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__start_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+</div>
+<div class="tab-pane" id="channels__id__start_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Starting",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id__start_stream__partner_">
+<span class="parent">/channels</span>/{id}/start_stream/{partner}</a>
+<span class="methods">
+<a href="#channels__id__start_stream__partner__post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id__start_stream__partner_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to start a syndicated stream to a Facebook, Periscope, or Twitch.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__start_stream__partner__post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Start a syndicated stream for a given channel to a given partner, which can be Facebook, Periscope, or Twitch.</p>
+<p>
+<b>&bull; id</b> is the ID of the channel for which you wish to start a syndicated stream.</p>
+<p>
+<b>&bull; partner</b> is the partner you wish to stream to. Valid values are <code>facebook</code>, <code>periscope</code>, and <code>twitch</code>.</p>
+<p>If an unidentified partner value is passed in, a <code>400</code> response (bad request) will be returned. If the syndicated stream is already live when starting, a <code>409</code> response (conflict) will be returned.</p>
+<p>A JSON request body containing a <b>user_access_token</b> string parameter is required when starting a Facebook stream. The request body may also contain <b>title</b> and <b>description</b> string parameters, but these are optional. The title and description will default to the name and description of the channel, respectively.</p>
+<p>Facebook user access tokens can be generated at <a href="https://developers.facebook.com/tools/explorer/" target="_blank">https&#58;//developers.facebook.com/tools/explorer/</a>. More information about user access tokens can be found <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#usertokens" target="_blank">here</a>.</p>
+<p>Request bodies are not required for start-stream requests to partners other than Facebook. An example start-stream request to Facebook is presented below.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__start_stream__partner__post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{id}/start_stream/{partner}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Start a syndicated stream for a given channel to a given partner, which can be Facebook, Periscope, or Twitch.</p>
+<p>
+<b>&bull; id</b> is the ID of the channel for which you wish to start a syndicated stream.</p>
+<p>
+<b>&bull; partner</b> is the partner you wish to stream to. Valid values are <code>facebook</code>, <code>periscope</code>, and <code>twitch</code>.</p>
+<p>If an unidentified partner value is passed in, a <code>400</code> response (bad request) will be returned. If the syndicated stream is already live when starting, a <code>409</code> response (conflict) will be returned.</p>
+<p>A JSON request body containing a <b>user_access_token</b> string parameter is required when starting a Facebook stream. The request body may also contain <b>title</b> and <b>description</b> string parameters, but these are optional. The title and description will default to the name and description of the channel, respectively.</p>
+<p>Facebook user access tokens can be generated at <a href="https://developers.facebook.com/tools/explorer/" target="_blank">https&#58;//developers.facebook.com/tools/explorer/</a>. More information about user access tokens can be found <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#usertokens" target="_blank">here</a>.</p>
+<p>Request bodies are not required for start-stream requests to partners other than Facebook. An example start-stream request to Facebook is presented below.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__start_stream__partner__post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__start_stream__partner__post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__start_stream__partner__post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>partner</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+    "user_access_token": "Access token to the FB account to which streaming will take place.",
+    "title": "Title of Video to Appear on FB",
+    "description": "Description of video to appear on FB."
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="channels__id__start_stream__partner__post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>An example response for a request to start streaming to Periscope is illustrated below.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "statusCode": 200,
+  "message": "Periscope/Twitter stream is starting",
+  "session": "5fba570b-5442-4988-8651-53215898cc88"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id__pause_stream__partner_">
+<span class="parent">/channels</span>/{id}/pause_stream/{partner}</a>
+<span class="methods">
+<a href="#channels__id__pause_stream__partner__post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id__pause_stream__partner_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to stop a syndicated stream to a Facebook, Periscope, or Twitch.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__pause_stream__partner__post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Stop a syndicated stream for a given channel to a given partner, which can be Facebook, Periscope, or Twitch.</p>
+<p>
+<b>&bull; id</b> is the ID of the channel for which you wish to stop a syndicated stream.</p>
+<p>
+<b>&bull; partner</b> is the partner you wish to stream to. Valid values are <code>facebook</code>, <code>periscope</code>, and <code>twitch</code>.</p>
+<p>If an unidentified partner value is passed in, a <code>400</code> response (bad request) will be returned. If the syndicated stream is already inactive when stopping, a <code>409</code> response (conflict) will be returned.</p>
+<p>No request body is required for a request to stop a stream to a partner.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__pause_stream__partner__post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{id}/pause_stream/{partner}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Stop a syndicated stream for a given channel to a given partner, which can be Facebook, Periscope, or Twitch.</p>
+<p>
+<b>&bull; id</b> is the ID of the channel for which you wish to stop a syndicated stream.</p>
+<p>
+<b>&bull; partner</b> is the partner you wish to stream to. Valid values are <code>facebook</code>, <code>periscope</code>, and <code>twitch</code>.</p>
+<p>If an unidentified partner value is passed in, a <code>400</code> response (bad request) will be returned. If the syndicated stream is already inactive when stopping, a <code>409</code> response (conflict) will be returned.</p>
+<p>No request body is required for a request to stop a stream to a partner.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__pause_stream__partner__post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__pause_stream__partner__post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__pause_stream__partner__post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+<li>
+<strong>partner</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="channels__id__pause_stream__partner__post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<p>An example response for a request to stop streaming to Periscope is illustrated below.</p>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+  "statusCode": 200,
+  "message": "Periscope/Twitter stream is stopping",
+  "session": "7c37a385-2c55-4513-9259-14aafdc159e1"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id__stop">
+<span class="parent">/channels</span>/{id}/stop</a>
+<span class="methods">
+<a href="#channels__id__stop_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id__stop" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to move the specified channel to the stopped state and stop live streaming.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__stop_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Channel stop request and response.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__stop_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{id}/stop</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Channel stop request and response.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__stop_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__stop_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__stop_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+</div>
+<div class="tab-pane" id="channels__id__stop_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Stopping",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_channels__id__cancel">
+<span class="parent">/channels</span>/{id}/cancel</a>
+<span class="methods">
+<a href="#channels__id__cancel_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_channels__id__cancel" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to put the specified channel in the error state and cancel all running workflows.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#channels__id__cancel_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Channel cancel request and response.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="channels__id__cancel_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/channels</span>/{id}/cancel</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Channel cancel request and response.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#channels__id__cancel_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#channels__id__cancel_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="channels__id__cancel_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+</div>
+<div class="tab-pane" id="channels__id__cancel_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Forced to Error state",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="provider_creds" class="panel-title">Provider Credentials</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Credentials currently assigned to the customer.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_provider_creds">
+<span class="parent">
+</span>/provider_creds</a>
+<span class="methods">
+<a href="#provider_creds_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_provider_creds" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#provider_creds_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get a list of credentials currently assigned to the customer.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="provider_creds_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/provider_creds</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get a list of credentials currently assigned to the customer.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#provider_creds_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="provider_creds_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "items":[
+      {
+         "id":"&lt;%credentialsId%&gt;",
+         "name":"akamai_packaging",
+         "profile_type":"credentials",
+         "profiles":[
+            "&lt;%clientId%&gt;",
+            "&lt;%clientId%&gt;"
+         ],
+         "partner_id":"17bd012c53fb4df99fd2555350f02be1",
+         "is_private":1
+      },
+      {
+         "id":"&lt;%credentialsId%&gt;",
+         "name":"elemental-delta_packaging",
+         "profile_type":"credentials",
+         "profiles":[
+            "&lt;%clientId%&gt;"
+         ],
+         "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+         "is_private":1
+      },
+      {
+         "id":"&lt;%credentialsId%&gt;",
+         "name":"elemental-live_encoding",
+         "profile_type":"credentials",
+         "profiles":[
+            "&lt;%clientId%&gt;",
+            "&lt;%clientId%&gt;",
+            "&lt;%clientId%&gt;",
+            "&lt;%clientId%&gt;",
+            "&lt;%clientId%&gt;"
+         ],
+         "partner_id":"4e60fadf90d74ca3a3ae2326f9ecc922",
+         "is_private":1
+      }
+   ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_provider_creds__id_">
+<span class="parent">/provider_creds</span>/{id}</a>
+<span class="methods">
+<a href="#provider_creds__id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_provider_creds__id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="resource-description">
+<p>Use this route to get the credentials, matching the specified ID, that are currently assigned to the customer.</p>
+</div>
+<div class="list-group">
+<div onclick="window.location.href = '#provider_creds__id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="provider_creds__id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/provider_creds</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#provider_creds__id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#provider_creds__id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="provider_creds__id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="provider_creds__id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%credentialsId%&gt;",
+   "name":"elemental-delta_packaging",
+   "profile_type":"credentials",
+   "profiles":[
+      "&lt;%clientId%&gt;"
+   ],
+   "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+   "is_private":1
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="provider_profiles" class="panel-title">Provider Profiles</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Profiles currently assigned to the customer.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_provider_profiles">
+<span class="parent">
+</span>/provider_profiles</a>
+<span class="methods">
+<a href="#provider_profiles_get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_provider_profiles" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#provider_profiles_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get a list of profiles currently assigned to the customer.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="provider_profiles_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/provider_profiles</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get a list of profiles currently assigned to the customer.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#provider_profiles_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="provider_profiles_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "items":[
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Delta_input",
+         "profile_type":"packaging",
+         "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+         "is_private":1,
+         "is_template":1,
+         "profile_hash":"f0044f8a8ed0402e4d6238f582dd3b89"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Delta_output",
+         "profile_type":"packaging",
+         "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+         "is_private":1,
+         "is_template":2,
+         "profile_hash":"8445924517b0c666cc592669b51950b7"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Elemental Live File Input",
+         "profile_type":"encoding",
+         "partner_id":"4e60fadf90d74ca3a3ae2326f9ecc922",
+         "is_private":1,
+         "is_template":1,
+         "profile_hash":"a9b70d5d7f7d62795aba6b796025efb4"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"ELEMENTAL Output 1",
+         "profile_type":"encoding",
+         "partner_id":"4e60fadf90d74ca3a3ae2326f9ecc922",
+         "is_private":1,
+         "is_template":2,
+         "profile_hash":"27cb4de3460bd4ae66375120189aab67"
+      }
+   ]
+}
+/provider_profiles?include=meta
+{
+   "items":[
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Delta_input",
+         "profile_type":"packaging",
+         "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+         "is_private":1,
+         "is_template":1,
+         "meta":{
+            "type":"input",
+            "count":1,
+            "input_desc":[
+               {
+                  "type":"webdav"
+               }
+            ]
+         },
+         "profile_hash":"f0044f8a8ed0402e4d6238f582dd3b89"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Delta_output",
+         "profile_type":"packaging",
+         "partner_id":"ea6a3dfe43c249d8af3a27756c4a1770",
+         "is_private":1,
+         "is_template":2,
+         "meta":{
+            "type":"output",
+            "count":3,
+            "output_desc":[
+               {
+                  "name":"filter_3",
+                  "type":"hds"
+               },
+               {
+                  "name":"filter_2",
+                  "type":"dash"
+               },
+               {
+                  "name":"filter_4",
+                  "type":"hls"
+               }
+            ]
+         },
+         "profile_hash":"8445924517b0c666cc592669b51950b7"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"Elemental Live Input",
+         "profile_type":"encoding",
+         "partner_id":"4e60fadf90d74ca3a3ae2326f9ecc922",
+         "is_private":1,
+         "is_template":1,
+         "meta":{
+            "type":"input",
+            "count":1,
+            "input_desc":[
+               {
+                  "name":"input_1",
+                  "order":1,
+                  "type":"network",
+                  "input_label":"RTMP Input (Customer-Akamai)"
+               }
+            ]
+         },
+         "profile_hash":"a9b70d5d7f7d62795aba6b796025efb4"
+      },
+      {
+         "id":"&lt;%profileId%&gt;",
+         "name":"ELEMENTAL Output 1",
+         "profile_type":"encoding",
+         "partner_id":"4e60fadf90d74ca3a3ae2326f9ecc922",
+         "is_private":1,
+         "is_template":2,
+         "meta":{
+            "type":"output",
+            "count":1,
+            "output_desc":[
+               {
+                  "order":1,
+                  "type":"rtmp",
+                  "stream_count":5
+               }
+            ]
+         },
+         "profile_hash":"27cb4de3460bd4ae66375120189aab67"
+      }
+   ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="akamai_meta__id_" class="panel-title">Domains and Contact</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Domains and contact for a specified credential ID. This information is required for channel creation.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_akamai_meta__id_">
+<span class="parent">
+</span>/akamai_meta/{id}</a>
+<span class="methods">
+<a href="#akamai_meta__id__get">
+<span class="badge badge_get">get</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_akamai_meta__id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#akamai_meta__id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get a list of domains and contact for the specified credential ID. This information is required for channel creation.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="akamai_meta__id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/akamai_meta/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get a list of domains and contact for the specified credential ID. This information is required for channel creation.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#akamai_meta__id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#akamai_meta__id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="akamai_meta__id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="akamai_meta__id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "items":[
+      {
+         "domains":[
+            {
+               "display":"test-lh.akamaihd.net (000000)",
+               "value":"test-lh",
+               "hostname":"test-lh.akamaihd.net",
+               "configurationName":"test-lh",
+               "configurationType":"Universal Streaming Live",
+               "streamType":"Universal Streaming Live",
+               "reportingCpCode":"000000",
+               "isSecure":true,
+               "isReflector":false,
+               "input":"RTMP",
+               "output":"HLS,HDS"
+            }
+         ],
+         "contacts":[
+            {
+               "display":"Responsible Contact",
+               "value":"Name LastName",
+               "name":"Name LastName"
+            }
+         ],
+         "profile_key":"&lt;%clientId%&gt;"
+      },
+      {
+         "domains":[
+            {
+               "display":"test2-lh.akamaihd.net (000001)",
+               "value":"test2-lh",
+               "hostname":"test2-lh.akamaihd.net",
+               "configurationName":"test2-lh",
+               "configurationType":"Universal Streaming Live",
+               "streamType":"Universal Streaming Live",
+               "reportingCpCode":"000001",
+               "isSecure":true,
+               "isReflector":false,
+               "input":"RTMP",
+               "output":"HLS,HDS"
+            }
+         ],
+          "contacts":[
+            {
+               "display":"Responsible Contact",
+               "value":"Name LastName",
+               "name":"Name LastName"
+            }
+         ],
+         "profile_key":"&lt;%clientId%&gt;"
+      }
+   ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="schedules" class="panel-title">Schedules</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Schedules for the current login provider.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_schedules">
+<span class="parent">
+</span>/schedules</a>
+<span class="methods">
+<a href="#schedules_get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#schedules_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_schedules" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#schedules_get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get all schedules for the current login provider.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#schedules_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Use this route to create a schedule for the channel.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="schedules_get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">
+</span>/schedules</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get all schedules for the current login provider.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#schedules_get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="schedules_get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "items":[
+      {
+         "id":"&lt;%schduleId%&gt;",
+         "name":"&lt;%scheduleName%&gt;",
+         "live_stream_asset_id":"&lt;%embedCode%&gt;"
+      },
+      {
+         "id":"&lt;%schduleId%&gt;",
+         "name":"&lt;%scheduleName%&gt;",
+         "live_stream_asset_id":"&lt;%embedCode%&gt;"
+      },
+      {
+         "id":"&lt;%schduleId%&gt;",
+         "name":"&lt;%scheduleName%&gt;",
+         "live_stream_asset_id":"&lt;%embedCode%&gt;"
+      }
+   ]
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="schedules_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/schedules</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to create a schedule for the channel.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#schedules_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#schedules_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="schedules_post_request">
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "channel_id":"&lt;%channel_id%&gt;",
+   "live_stream_asset_id":"&lt;%embedCode%&gt;",
+   "name":"&lt;%scheduleName%&gt;"
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="schedules_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both"
+}
+/channels/:id?include=input
+{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both",
+   "input":{
+      "serviceNeeded":"encoding, packaging",
+      "package":{
+         "partner":"elemental-delta",
+         "sourceType":"",
+         "elementalDelta":{
+            "clientId":"&lt;%clientId%&gt;",
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "dvrSettings":"Enabled",
+            "dvrWindow":"30",
+            "location":"&lt;%deploymentLocation%&gt;"
+         },
+         "ooPlayer":"https://player.ooyala.com/v3/&lt;%playerId%&gt;"
+      },
+      "encode":{
+         "partner":"elemental",
+         "elemental":{
+            "clientId":"&lt;%clientId%&gt;",
+            "credentialsId":"&lt;%credentialsId%&gt;",
+            "outputProfile":"&lt;%profileId%&gt;",
+            "inputProfile":"&lt;%profileId%&gt;",
+            "inputs":[
+               {
+                  "order":"0",
+                  "type":"network_input",
+                  "mode":"push",
+                  "uri":"rtmp://&lt;%channelId%&gt;.live-entry.ooyala.com/live/&lt;%channelId%&gt;",
+                  "isS3File":false,
+                  "inputUrl":"rtmp://&lt;%channelId%&gt;.live-entry.ooyala.com/live/&lt;%channelId%&gt;",
+                  "previewUrl":"",
+                  "streamingProtocol": "RTMP"
+               }
+            ],
+            "location":"&lt;%deploymentLocation%&gt;",
+            "elementalId":"&lt;%eventId%&gt;"
+         }
+      }
+   }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_schedules__id_">
+<span class="parent">/schedules</span>/{id}</a>
+<span class="methods">
+<a href="#schedules__id__get">
+<span class="badge badge_get">get</span>
+</a>
+<a href="#schedules__id__patch">
+<span class="badge badge_patch">patch</span>
+</a>
+<a href="#schedules__id__delete">
+<span class="badge badge_delete">delete</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_schedules__id_" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#schedules__id__get'" class="list-group-item">
+<span class="badge badge_get">get</span>
+<div class="method_description">
+<p>Use this route to get the schedule matching the specified ID.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#schedules__id__patch'" class="list-group-item">
+<span class="badge badge_patch">patch</span>
+<div class="method_description">
+<p>Use this route to update the specified schedule. If the channel ID is updated, the new channel will be associated with the updated schedule.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+<div onclick="window.location.href = '#schedules__id__delete'" class="list-group-item">
+<span class="badge badge_delete">delete</span>
+<div class="method_description">
+<p>Use this route to delete the schedule matching the specified ID. First, all events associated with the schedule will be deleted, then the schedule itself will be deleted.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="schedules__id__get">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_get">get</span>
+<span class="parent">/schedules</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to get the schedule matching the specified ID.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#schedules__id__get_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#schedules__id__get_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="schedules__id__get_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="schedules__id__get_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%schduleId%&gt;",
+   "name":"&lt;%scheduleName%&gt;",
+   "live_stream_asset_id":"&lt;%embedCode%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="schedules__id__patch">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_patch">patch</span>
+<span class="parent">/schedules</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to update the specified schedule. If the channel ID is updated, the new channel will be associated with the updated schedule.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#schedules__id__patch_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#schedules__id__patch_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="schedules__id__patch_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%schduleId%&gt;",
+   "name":"&lt;%scheduleName%&gt;",
+   "live_stream_asset_id":"&lt;%embedCode%&gt;"
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="schedules__id__patch_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%channelId%&gt;",
+   "name":"&lt;%channelName%&gt;",
+   "description":"&lt;%channelDescription%&gt;",
+   "provider_id":"&lt;%providerId%&gt;",
+   "channel_type":"24x7",
+   "status":"Setting Up",
+   "resolution":"hd",
+   "target_device":"both"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="schedules__id__delete">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_delete">delete</span>
+<span class="parent">/schedules</span>/{id}</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Use this route to delete the schedule matching the specified ID. First, all events associated with the schedule will be deleted, then the schedule itself will be deleted.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#schedules__id__delete_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#schedules__id__delete_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="schedules__id__delete_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+</div>
+<div class="tab-pane" id="schedules__id__delete_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Schedule Deleted",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 id="events" class="panel-title">Events</h3>
+</div>
+<div class="panel-body">
+<div class="top-resource-description">
+<p>Events include all data bindings between schedule and channel and program, as well as scheduled auto-start and auto-stop, if specified.</p>
+</div>
+<div class="panel-group">
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_events">
+<span class="parent">
+</span>/events</a>
+<span class="methods">
+<a href="#events_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_events" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#events_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Creates an event, including all data bindings between schedule and channel and program, as well as scheduled auto-start and auto-stop, if specified. This method also starts a workflow that provisions the event and makes it ready to use. After the event is ready its status will be "Stopped".</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="events_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">
+</span>/events</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Creates an event, including all data bindings between schedule and channel and program, as well as scheduled auto-start and auto-stop, if specified. This method also starts a workflow that provisions the event and makes it ready to use. After the event is ready its status will be "Stopped".</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#events_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#events_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="events_post_request">
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "name":"&lt;%eventName%&gt;",
+   "description":"&lt;%eventDescription%&gt;",
+   "image_height":"150",
+   "image_width":"250",
+   "track_id":"&lt;%scheduleId%&gt;",
+   "status":"offline",
+   "override_channel_id":"&lt;%channelId%&gt;",
+   "start_time":"&lt;%startTime%&gt;",
+   "end_time":"&lt;%stopTime%&gt;",
+   "virtual_asset":{
+      "name":"&lt;%eventName%&gt;",
+      "metadata":{
+         "channel_id":"&lt;%channelId%&gt;",
+         "archive":"1",
+         "trim":"0",
+         "override":"0",
+         "dvrwindow":"3720",
+         "autostart_minutes":"1",
+         "autostop_minutes":"1"
+      }
+   }
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="events_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "id":"&lt;%eventId%&gt;",
+   "name":"&lt;%eventName%&gt;",
+   "description":"&lt;%eventDescription%&gt;",
+   "image_height":"150",
+   "image_width":"250",
+   "track_id":"&lt;%scheduleId%&gt;",
+   "status":"offline",
+   "override_channel_id":"&lt;%channelId%&gt;",
+   "start_time":"&lt;%startTime%&gt;",
+   "end_time":"&lt;%stopTime%&gt;",
+   "virtual_asset":{
+      "name":"&lt;%eventName%&gt;",
+      "metadata":{
+         "channel_id":"&lt;%channelId%&gt;",
+         "archive":"1",
+         "trim":"0",
+         "override":"0",
+         "dvrwindow":"3720",
+         "autostart_minutes":"0",
+         "autostop_minutes":"0"
+      }
+   }
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_events__id__start">
+<span class="parent">/events</span>/{id}/start</a>
+<span class="methods">
+<a href="#events__id__start_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_events__id__start" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#events__id__start_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Initiates the workflow that starts the specified event if the channel for the event is in a running state.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="events__id__start_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/events</span>/{id}/start</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Initiates the workflow that starts the specified event if the channel for the event is in a running state.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#events__id__start_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#events__id__start_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="events__id__start_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>/events:id/start</code>
+</pre>
+</div>
+<div class="tab-pane" id="events__id__start_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Starting",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_events__id__stop">
+<span class="parent">/events</span>/{id}/stop</a>
+<span class="methods">
+<a href="#events__id__stop_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_events__id__stop" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#events__id__stop_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Initiates the workflow that stops the specified event.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="events__id__stop_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/events</span>/{id}/stop</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Initiates the workflow that stops the specified event.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#events__id__stop_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#events__id__stop_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="events__id__stop_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>/events:id/stop</code>
+</pre>
+</div>
+<div class="tab-pane" id="events__id__stop_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Stopping",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_events__id__cancel">
+<span class="parent">/events</span>/{id}/cancel</a>
+<span class="methods">
+<a href="#events__id__cancel_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_events__id__cancel" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#events__id__cancel_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Specify auto_stop to disable the event from automatically stopping. Specify auto_start to disable the event from automatically starting. If no body is passed or any value other than auto_stop/auto_start is passed in, cancel will stop all related workflows for the event.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="events__id__cancel_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/events</span>/{id}/cancel</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Specify auto_stop to disable the event from automatically stopping. Specify auto_start to disable the event from automatically starting. If no body is passed or any value other than auto_stop/auto_start is passed in, cancel will stop all related workflows for the event.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#events__id__cancel_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#events__id__cancel_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="events__id__cancel_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+</div>
+<div class="tab-pane" id="events__id__cancel_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Forced to Error state",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel panel-white">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a class="collapsed" data-toggle="collapse" href="#panel_events__id__trim">
+<span class="parent">/events</span>/{id}/trim</a>
+<span class="methods">
+<a href="#events__id__trim_post">
+<span class="badge badge_post">post</span>
+</a>
+</span>
+</h4>
+</div>
+<div id="panel_events__id__trim" class="panel-collapse collapse">
+<div class="panel-body">
+<div class="list-group">
+<div onclick="window.location.href = '#events__id__trim_post'" class="list-group-item">
+<span class="badge badge_post">post</span>
+<div class="method_description">
+<p>Trims the event asset based on the specified start and duration.</p>
+</div>
+<div class="clearfix">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="0" id="events__id__trim_post">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">
+<span class="badge badge_post">post</span>
+<span class="parent">/events</span>/{id}/trim</h4>
+</div>
+<div class="modal-body">
+<div class="alert alert-info">
+<p>Trims the event asset based on the specified start and duration.</p>
+</div>
+<ul class="nav nav-tabs">
+<li class="active">
+<a href="#events__id__trim_post_request" data-toggle="tab" class="request">Request</a>
+</li>
+<li>
+<a href="#events__id__trim_post_response" data-toggle="tab" class="response">Response</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="events__id__trim_post_request">
+<h3>URI Parameters</h3>
+<ul>
+<li>
+<strong>id</strong>: <em>required (string)</em>
+</li>
+</ul>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "start":&lt;%int64%&gt;,
+   "duration":&lt;%int64%&gt;
+}</code>
+</pre>
+</div>
+<div class="tab-pane" id="events__id__trim_post_response">
+<h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a>
+</h2>
+<h3>Body</h3>
+<p>
+<strong>Type: application/json</strong>
+</p>
+<p>
+<strong>Example</strong>:</p>
+<pre>
+<code>{
+   "statusCode":200,
+   "message":"Trimming",
+   "session":"&lt;%sessionId%&gt;"
+}</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div id="sidebar" class="hidden-print affix" role="complementary">
+<div id="searchBarLi">
+<input type="input" placeholder="Search" id="inputTxt"/>
+<button id="searchButton" onclick="searchClick()">&#128270;</button>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#channels">Channels</a>
+</li>
+<li>
+<a href="#provider_creds">Provider Credentials</a>
+</li>
+<li>
+<a href="#provider_profiles">Provider Profiles</a>
+</li>
+<li>
+<a href="#akamai_meta__id_">Domains and Contact</a>
+</li>
+<li>
+<a href="#schedules">Schedules</a>
+</li>
+<li>
+<a href="#events">Events</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+</body>
+</html>

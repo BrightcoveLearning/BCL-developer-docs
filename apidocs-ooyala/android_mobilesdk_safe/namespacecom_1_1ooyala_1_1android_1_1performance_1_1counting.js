@@ -1,0 +1,5 @@
+var namespacecom_1_1ooyala_1_1android_1_1performance_1_1counting =
+[
+    [ "PerformanceCountingStatistics", "classcom_1_1ooyala_1_1android_1_1performance_1_1counting_1_1_performance_counting_statistics.html", "classcom_1_1ooyala_1_1android_1_1performance_1_1counting_1_1_performance_counting_statistics" ],
+    [ "PerformanceEventWatchCounting", "classcom_1_1ooyala_1_1android_1_1performance_1_1counting_1_1_performance_event_watch_counting.html", "classcom_1_1ooyala_1_1android_1_1performance_1_1counting_1_1_performance_event_watch_counting" ]
+];

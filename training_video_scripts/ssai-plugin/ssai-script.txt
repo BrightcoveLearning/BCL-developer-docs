@@ -1,0 +1,71 @@
+[question?]
+Ad blockers in the browser are becoming more common. How can we make sure that ads are not blocked from our viewers?
+
+[intro]
+Hi, I'm Jeff Doktor, a learning specialist at Brightcove. In this video, you will learn how to stitch server-side ads into your video stream by using the SSAI plugin with the Brightcove Player.
+
+[slides]
+In this video, you will learn how to stitch server-side ads into your video stream by using the SSAI plugin with the Brightcove Player.
+
+Server-side ad insertion, also known as SSAI, allows you to embed ads in your video stream. Since your ad is stitched into your video on the server, ad blockers can't detect them and won't block them.
+
+To get started, you will need a Video Cloud account configured for Dynamic Delivery and enabled for SSAI.
+
+The benefits of using server-side ads include providing a tv-like experience with no delays for downloading ads, and delivering ads that can't be blocked. Server-side ads work on all devices, so you won't have to build separate integrations for each device. It works on any device that supports streaming video.
+
+If you have a business need for using client-side ads, you can use Brightcove's SSAI auto failover feature.
+It will attempt to display your client-side ad, but if an ad blocker is detected, then your server-side ad will be used.
+
+[Show VMAP file in browser]
+[https://solutions.brightcove.com/bcls/brightcove-player/vmap/simple-vmap.xml]
+To get started, you want to verify that your ad tag works outside of the player. This ensures that your ad tag is valid and will play without issues. The VMAP ad URL defines when ads will play in the video. You can think of a VMAP as a playlist of VAST tags, where each VAST tag is a URL for an individual ad.
+
+In this example, the VMAP is configured to play an ad before the content video starts, another ad after 5 seconds of video playback and an ad after the video ends. These ads are referred to as pre-roll, mid-roll and post-roll ads.
+
+[https://support.brightcove.com/learning-guide-video-advertising]
+If you are not familiar with these ad terms, I recommend that you review the learning guide on video advertising. This document will give you an overview of video advertising terms and show you how to use ads with the Brightcove Player.
+
+Let's check our VMAP file.
+
+[https://developers.google.com/interactive-media-ads/docs/sdks/html5/vastinspector]
+[https://solutions.brightcove.com/bcls/brightcove-player/vmap/simple-vmap.xml]
+With google's Video Suite Inspector, you can validate that your ad tag functions correctly. I am pasting in my VMAP ad tag URL and selecting the TEST AD button. We can see that the ad starts playing, so we know the ad tag is setup correctly. Let's open Video Cloud studio.
+
+[open admin section for configuration ids in Studio]
+If you don't already have an ad configuration, you can create one in Studio. Expand the admin tab and navigate to the Server-side Ad Settings section.
+Create a new configuration and point to your VMAP ad URL.
+For details on how to do this, see our support documentation.
+
+[open Players module in Studio]
+Now, we can configure our player.
+I am navigating to the Player's module and creating a new player. I am calling it SSAI player.
+
+I am selecting the SSAI player link and selecting Advertising in the left side navigation.
+
+I am selecting server-side advertising and choosing an ad configuration that has been defined for my account.
+
+[return to Studio]
+Notice that if you select both client-side and server-side advertising, your player will be set up for ad failover. This means that the Brightcove player will attempt to play your client-side IMA ads. If an ad blocker is detected in the browser, then your server-side ads will play based on your defined ad configuration.
+
+What if we want to use an ad countdown timer or a learn more link?
+You can enable these features by selecting the ad information overlays button.
+With this enabled, you can include Learn More links and ad countdown timers to display over your ads.
+
+When using Server-Side Ads, if the preload setting is auto or metadata, the first frames of the video stream will be requested, which counts the ad as delivered even if the user does not start playback. Therefore, Brightcove recommends setting preload=none. To do this, I am selecting Playback in the left-side navigation. For the Preload Video Before Playback option, I am selecting Do not preload.
+
+Now, we have configured our player to use server-side ads.
+Behind the scenes, the SSAI plugin has been added to our player.
+
+[https://support.brightcove.com/advertising-ssai-plugin#Options]
+To learn more about additional settings for the SSAI plugin, see the developer documentation.
+
+I am publishing the player.
+
+I am going to the Media module to publish a video with the SSAI player we just created.
+
+I am selecting the link to view the player. When I start video playback, the pre-roll ad begins to play. When the ad is finished, my video begins playback.
+
+We have successfully configured a player to show server-side ads.
+
+----------------------------------------------------------- Not Used -------------------------------
+One thing to keep in mind, is that the video creative most be encoded in a format that supports HTML5 playback. If your video ad creative is an FLV file, the ad will not be playable in HTML5 players.

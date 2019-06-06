@@ -1,0 +1,319 @@
+openapi: 3.0.0
+x-bc-implicit-head: true
+x-bc-implicit-options: true
+x-bc-upstream: 'http://backend_server'
+info:
+  title: Audit API Reference
+  description: >-
+    Reference for the Brightcove Audit API. This API allows you to generate a daily access report for your account's [Playback Authorization Service](https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html) usage with session details.
+
+     **Base URL**: https://playback-auth.api.brightcove.com
+  version: 1.0.0
+  x-bc-access: public
+servers:
+  - url: 'https://playback-auth.api.brightcove.com/v1/audit'
+    variables: {}
+tags:
+  - name: Audit
+    description: Operations for requesting, checking the status and getting the daily usage report URL for Brightcove's Playback Authorization Service.
+paths:
+  '/accounts/{accountID}/query/{date}':
+    post:
+      tags:
+        - Audit
+      summary: Request a daily usage report
+      description: |-
+        Request a daily usage report for Brightcove's Playback Authorization Service
+      operationId: RequestReport
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: |-
+            Date for requested usage report
+            Validations:
+              - Format YYYY-MM-DD
+              - Date cannot be today (UTC time)
+              - Date cannot be < 30 days in the past
+              - Brightcove does not hold on to the authorization service usage reports after 30 days to follow GDPR compliance
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: date
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestResponse'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/execution/{executionID}/status':
+    get:
+      tags:
+        - Audit
+      summary: Check usage report status
+      description: 'Check the status of your usage report request'
+      operationId: CheckStatus
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: executionID
+          in: path
+          description: A unique ID associated with a usage report for a specified accountID and date
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status200'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status400'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: '500'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status500'
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/execution/{executionID}/report':
+    get:
+      tags:
+        - Audit
+      summary: Fetch usage report
+      description: 'Fetch your daily usage report'
+      operationId: FetchReport
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: executionID
+          in: path
+          description: A unique ID associated with a usage report for a specified account ID and date
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchResponse'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+components:
+  schemas:
+    RequestResponse:
+      title:  Request Response
+      type: object
+      properties:
+        execution_id:
+          type: string
+          description: >-
+            A unique ID associated with a usage report for a specified accountID and date
+      example: {
+          "execution_id": "b123456e-1234-4e91-b123-123456d1234"
+          }
+    FetchResponse:
+      title:  Fetch Response
+      type: object
+      description: The results are returned as an S3 URL that you can download
+      properties:
+        report_url:
+          type: string
+          description: The results are returned as an S3 URL that you can download
+        expiration_time:
+          type: integer
+          description: Epoch Timestamp. Signed S3 URLs are valid for 15 minutes
+      example: {
+          "report_url": "https://site.com/audit-reports-storage/b123456.csv?X-Algorithm=1234567890",
+          "expiration_time": 1557324256
+          }
+    Status200:
+      title:  Status Response 200
+      type: object
+      description: The status returned from a report query
+      properties:
+        state:
+          type: string
+          description: The status returned from a report query.
+          enum:
+            - "SUCCEEDED"
+            - "processing"
+            - "failed"
+      example: {
+          "state": "SUCCEEDED"
+          }
+    Status400:
+      title:  Status Response 400
+      type: object
+      description: The status returned from a report query
+      properties:
+        state:
+          type: string
+          description: The status returned from a report query.
+      example: {
+          "status": "failed",
+          "message": "Error executing status for execution_id"
+          }
+    Status500:
+      title:  Status Response 500
+      type: object
+      description: The status returned from a report query
+      properties:
+        state:
+          type: string
+          description: The status returned from a report query.
+      example: {
+          "status": "failed",
+          "message": "Internal Server Error"
+          }
+  securitySchemes:
+    BC_OAuth2:
+      type: oauth2
+      description: >-
+        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
+          scopes:
+            video-cloud/playback-auth/audit: Request, check status and fetch daily usage report

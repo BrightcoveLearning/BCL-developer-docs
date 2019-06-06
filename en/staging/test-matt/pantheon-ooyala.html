@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Setup Ooyala Help on Pantheon</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Setup to Edit Ooyala Help on Pantheon</h1>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+  <p>The following steps set up the process to edit the DEV instance of the ooyala-help site on Pantheon.</p>
+
+<section class="bcls-section">
+  <h2 id="GENERATE_SSH_KEYS">Generate SSH keys</h2>
+  <ol class="bcls-tasklist">
+    <li>Open Terminal</li>
+    <li>Move into <strong>/Users/YOURNAME/.ssh</strong></li>
+    <li>Enter <code>ssh-keygen</code></li>
+    <li>For the key name enter <code>pantheon_rsa</code></li>
+    <li>Enter passphrase, and save it somewhere</li>
+    <li>Open the file <code>pantheon_rsa.pub</code> that was created by the keygen</li>
+    <li>Copy the key. It will look something like this (with a bunch more characters):<br>
+    <strong>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCkG...4Smf mboles@Matthews-MacBook-Pro.local</strong>
+    </li>
+    <li>Browse to <a href="https://dashboard.pantheon.io">https://dashboard.pantheon.io</a> and login</li>
+    <li>Click the down arrow next to your name in the top-right of the UI and select <strong>My Dashboard</strong></li>
+    <li>Click on <strong>Account</strong></li>
+    <li>Click on <strong>SSH Keys</strong></li>
+    <li>Paste your key into the textarea and click <strong>Add Key</strong></li>
+  </ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="CLONE_DEV_ENVIRONMENT_TO_YOUR_MACHINE">Clone DEV environment to your machine</h2>
+<ol class="bcls-tasklist">
+  <li>In Pantheon UI, navigate <strong>Organizations > Brightcove > Ooyala Help</strong> (Ooyala Help is the site)</li>
+  <li>Click on <strong>Clone with Git</strong></li>
+  <li>Copy the Git command</li>
+  <li>Return to Terminal</li>
+  <li>Move into the folder in which you wish to clone the site, an <strong>ooyala-help</strong> folder will be created for you</li>
+  <li>Enter <code>ssh-add ~/.ssh/pantheon_rsa</code></li>
+  <li>Paste the Git command, press <strong>Enter</strong>, and let the clone process finish</li>
+</ol>
+  <p></p>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Add_the_site_to_your_GitHub_client">Add the site to your GitHub client</h2>
+<ol class="bcls-tasklist">
+  <li>Open GitHub App</li>
+  <li>Select <strong>File > Add Local Repository...</strong></li>
+  <li>Point to the <strong>ooyala-help</strong> repo just cloned</li>
+  <li>Click <strong>Add Repository</strong></li>
+</ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Make_ssh-add_permanent">Make ssh-add permanent</h2>
+  <p>You need to complete the following steps or you will have to do the <code>ssh-add</code> after every login.</p>
+  <ol class="bcls-tasklist">
+    <li>If you do not already have one, create a file named <strong>config</strong> in the <strong>.ssh</strong> folder.</li>
+    <li>In the file, add the following (you could have other config info already in there):
+    <pre class="line-numbers">
+<code class="language-javascript">Host *
+  UseKeychain yes
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/pantheon_rsa</code></pre>
+    </li>
+    <li>Reboot your machine.</li>
+    <li>Open Terminal and enter <code>ssh-add -K ~/.ssh/pantheon_rsa</code>.</li>
+    <li>From now on when you reboot, your connection to <strong>ooyala-help</strong> won't prompt for a password.</li>
+  </ol>
+</section>
+
+<section class="bcls-section">
+  <h2 id="TWO_ways_to_update_the_site">TWO ways to update the site</h2>
+  <p>If you are making updates to the GitHub repo on your local machine you follow standard GitHub workflow to complete the changes.</p>
+  <p>If you are making changes to the <strong>Dev</strong> site via the Drupal UI, you must do the following to move the changes from <strong>Dev</strong> to <strong>Test</strong>:</p>
+    <ol class="bcls-tasklist">
+      <li>Manually backup both the <strong>Dev</strong> and <strong>Test</strong> instances. (You don't have to do this, but a good idea just in case.)</li>
+      <li>Move to the <strong>Test</strong> instance, and click on <strong>Database/Files</strong>.</li>
+      <li>Be sure the <strong>From this Environment</strong> dropdown has <strong>Development</strong> selected. (Don't think we even have any other options.)</li>
+      <li>Check the <strong>Run update.php</strong> and <strong>Clear Caches</strong> checkboxes.</li>
+      <li>Click the <strong>Clone the Database & the Files from Development into the Test Environment</strong> button.
+        <figure class="bcls-figure">
+            <img class="bcls-image" src="//learning-services-media.brightcove.com/doc-assets/player-development/getting-started/ooyala/pantheon-config.png" alt="Pantheon config">
+        </figure>
+      </li>
+      <li>Updates now implemented in the <strong>Test</strong> environment.</li>
+    </ol>
+</section>
+
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

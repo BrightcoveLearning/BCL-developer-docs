@@ -1,0 +1,419 @@
+openapi: '3.0.0'
+x-bc-implicit-head: true
+x-bc-implicit-options: true
+x-bc-upstream: 'http://backend_server'
+info:
+  description: |-
+    API for Brightcove SSAI
+
+    This API is used for managing operations related to Server-Side Ad Insertion (SSAI)
+
+    **Base URL:** https://ssai.api.brightcove.com/v1
+  version: 0.1.0
+  title: Brightcove SSAI API
+  x-bc-access: public
+servers:
+  - url: 'https://ssai.api.brightcove.com/v1'
+    variables: {}
+tags:
+  - name: Ad Configurations
+    description: Operations for managing ad configurations.
+paths:
+  '/accounts/{account_id}/ssai_configs':
+    get:
+      tags:
+        - Ad Configurations
+      summary: List the ad configurations for the account
+      description: |-
+        List the ad configurations defined for an account.
+      operationId: getAdConfigurations
+      security:
+        - BC_OAuth2:
+          - video-cloud/social/video/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdConfigList'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+  '/accounts/{account_id}/videos/{video_id}/status':
+    get:
+      tags:
+        - Status
+      summary: List the current status for the video.
+      description: >-
+        Gets the current status of the requested video for every Social Destination is has ever been distributed to.  Note that this endpoint has pagination.
+      operationId: getAccountVideoStatus
+      security:
+        - BC_OAuth2:
+          - video-cloud/social/status/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/Platform'
+        - $ref: '#/components/parameters/DestinationId'
+        - $ref: '#/components/parameters/Status'
+        - $ref: '#/components/parameters/Before'
+        - $ref: '#/components/parameters/Since'
+        - $ref: '#/components/parameters/PageKey'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PrettyPrint'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+  '/accounts/{account_id}/videos/history':
+    get:
+      tags:
+        - History
+      summary: List the lifetime social history for every video on the account.
+      description: >-
+        Gets the lifetime history of every video Social has ever attempted to distribute to a social platform.  Note that this endpoint has pagination.
+      operationId: getAccountVideosHistory
+      security:
+        - BC_OAuth2:
+          - video-cloud/social/status/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/Platform'
+        - $ref: '#/components/parameters/DestinationId'
+        - $ref: '#/components/parameters/Status'
+        - $ref: '#/components/parameters/Before'
+        - $ref: '#/components/parameters/Since'
+        - $ref: '#/components/parameters/PageKey'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PrettyPrint'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+  '/accounts/{account_id}/videos/{video_id}/history':
+    get:
+      tags:
+        - History
+      summary: List the lifetime social history the video.
+      description: >-
+        Gets the lifetime history of the requested video for every Social Destination is has ever been distributed to.  Note that this endpoint has pagination.
+      operationId: getAccountVideoHistory
+      security:
+        - BC_OAuth2:
+          - video-cloud/social/status/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/Platform'
+        - $ref: '#/components/parameters/DestinationId'
+        - $ref: '#/components/parameters/Status'
+        - $ref: '#/components/parameters/Before'
+        - $ref: '#/components/parameters/Since'
+        - $ref: '#/components/parameters/PageKey'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PrettyPrint'
+      responses:
+        '200':
+          description: A list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid query parameters
+        '500':
+          description: Server error
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: string
+          description: The error code returned recorded by the server, from the social platform, if any.
+        error_message:
+          type: string
+          description: The error message recorded by the server, or returned from the social platform, if any.
+        platform_error:
+          type: string
+          description: JSON representation of the error object returned from the social platform, if any.
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Brightcove ID for the video
+        account_id:
+          type: string
+          description: Brightcove ID of the account that owns this video
+        destination_id:
+          type: string
+          description: >-
+            Brightcove ID for the Social destination for which this status is
+            reported
+        remote_id:
+          type: string
+          description: Remote social platoforms ID for this video
+        remote_url:
+          type: string
+          format: url
+          description: >-
+            URL to the video on the remote social platform. Optional. Only exists
+            if the video has PUBLISHED or SYNCED status.
+        status:
+          type: string
+          description: Socials last known status for the video on the remote platform
+          enum:
+            - PUBLISHED
+            - DELETED
+            - ERROR
+            - HIDDEN
+            - NOT_FOUND
+            - SCHEDULED
+            - SYNCED
+            - ABANDONED
+        timetamp:
+          type: string
+          format: date-time
+          description: Timestamp at which this status was reported
+        published_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp at which the video was scheduled to be made visible on the remote social platform.  May be the same as `timestamp` if the video
+            was to be made visible immediately.
+        distribution_method:
+          type: string
+          description: >-
+            The mechanism which initiated the operation that put the video in this status.  `SYNC` if the most recent video operation was initiated by an AutoSync.  `MANUAL` if the video was distribution manually through the Social Studio module.
+          enum:
+            - MANUAL
+            - SYNC
+        autosync_id:
+          type: string
+          description: >-
+            Brightcove ID of the AutoSync that triggered this status.  Optional. Only exists if the `distribution_method` is `SYNC`
+        error:
+          $ref: '#/components/schemas/Error'
+        warning:
+          $ref: '#/components/schemas/Error'
+        action:
+          type: string
+          description: >-
+            The action attempted during this operation.
+          enum:
+            - UPLOAD
+            - UPDATE_SYNC
+            - UPDATE_UNSYNC
+            - DELETE
+        result:
+          type: string
+          description: >-
+            The result of this operation.
+          enum:
+            - SUCCESS
+            - ERROR
+    AdConfigList:
+      type: array
+      description: >-
+        Array of ad configuration objects
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the ad configuration
+          vmap_response_namespace:
+            type: string
+            description: >-
+              Adjusts the VMAP output to use the legacy Unicorn Once namespace format or to use the new Brightcove namespace format.
+            enum:
+              - bc
+              - ua
+            default: bc
+          account_id:
+            type: string
+            description: The Video Cloud account id
+          created_timestamp:
+            type: string
+            description: Date-time when the ad configuration was created
+          updated_timestamp:
+            type: string
+            description: Date-time when the ad configuration was last updated
+          ad_config:
+            $ref: '#/components/schemas/AdConfig'
+      example: >-
+        '[
+          {
+            "name": "VMAP Ad Server",
+            "vmap_response_namespace": "bc",
+            "config_id": "2ecc6beb-d6a4-4deb-a78e-37ac27e0f883",
+            "account_id": "57838016001",
+            "created_timestamp": "2017-07-24T19:28:34.976878586Z",
+            "updated_timestamp": "2017-07-24T19:28:34.976878586Z",
+            "ad_config": {
+              "expected_ad_response": "dfp_ad_rules",
+              "disable_server_beacons": false,
+              "template_url": {
+                  "template": "http://solutions.brightcove.com/bcls/ads/simple-ad-rules?ip={{ system.ip_address }}&vid={{ metadata.video_id }}&ppid={{ system.unique_user_id }}&p_vmap={{ url.p_vmap }}"
+              }
+            }
+          }
+        ]'
+    AdConfig:
+      type: object
+      description: Ad config part of an ad configuration object
+      properties:
+        expected_ad_response:
+          type: string
+          description: Which tech to use to parse the response
+          enum:
+            - dfp_ad_rules
+            - dfp_vmap
+            - smart_xml
+            - vast_3_0
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      description: ID of the account to query video statuses for
+      required: true
+      schema:
+        type: string
+    VideoId:
+      name: video_id
+      in: path
+      description: ID of the video to query video statuses for
+      required: true
+      schema:
+        type: string
+    Platform:
+      name: platform
+      in: query
+      description: |-
+        Limit the list of videos to a single social platform.  Valid values for this property are
+        - YOUTUBE
+        - FACEBOOK
+        - TWITTER
+
+        Note that this may conflict with `destination_id`, below.
+      required: false
+      schema:
+        type: string
+        enum:
+          - YOUTUBE
+          - FACEBOOK
+          - TWITTER
+    DestinationId:
+      name: destination_id
+      in: query
+      description: >
+        Limit the list of videos to a single Social destination, by it's ID. Note that this may conflict with `platform`, above. (e.g., Specifying `platform=YOUTUBE` and passing the ID of a Twitter destination will result in no statuses.)  Generally if you are passing a `destination_id` you probably don't want to be passing a `platform` as well, as destinations imply a platform.
+      required: false
+      schema:
+        type: string
+        format: uuid
+    Status:
+      name: status
+      in: query
+      description: >
+        Limit the list of videos to those with a specific status.  Valid values for this property are
+
+        - DELETED
+
+        - ERROR
+
+        - HIDDEN
+
+        - PROCESSING
+
+        - PUBLISHED
+
+        - SCHEDULED
+
+        - SYNCED
+
+        - ABANDONED
+      schema:
+        type: string
+    Before:
+      name: before
+      in: query
+      description: >-
+        Limit the list of videos to those whose last status change occurred before the specified date time.  Can accept either a full timestamp, or just a datestamp.  If passed just a datestamp, assumes 00:00:00 for the time, and the filter will be exclusive of the date specified.
+      required: false
+      schema:
+        type: string
+        format: date-time
+    Since:
+      name: since
+      in: query
+      description: >-
+        Limit the list of videos to those whose last status change occurred since the specified date time.  Can accept either a full timestamp, or just a datestamp.  If passed just a datestamp, assumes 00:00:00 for the time, and the filter will be inclusive of the date specified.
+      required: false
+      schema:
+        type: string
+        format: date-time
+    PageKey:
+      name: page_key
+      in: query
+      description: >-
+        Fetch the next page of data.  If the previous call to this endpoint returned a `page_key`, a subsequent call can be made with the same parameters and including the `page_key` to retrieve the next page.
+      required: false
+      schema:
+        type: string
+    PageSize:
+      name: page_size
+      in: query
+      description: >-
+        The number of entries to fetch in the next page of data.  Must be a number between 1 and 100, inclusive.  Defaults to 20.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+    PrettyPrint:
+      name: pretty_print
+      in: query
+      description: >-
+        Whether or not to pretty-print the JSON response.  Defaults to false.
+      required: false
+      schema:
+        type: boolean
+  securitySchemes:
+    BC_OAuth2:
+      type: oauth2
+      description: >-
+        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
+          scopes:
+            video-cloud/social/status/read: Read social sharing status and history

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Technical Workflow: Playback Authorization Service</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Technical Workflow: Playback Authorization Service</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to generate and register tokens when using Brightcove's Playback Authorization Service.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Introduction">Introduction</h2>
+
+<p>Brightcove's Playback Authorization Service (PAS) offers an extra level of security when using Dynamic Delivery with DRM-protected or HTTP Live Streaming Encryption (HLSe) content. </p>
+
+<p>This feature gives you control over your content playback by requiring a token to authorize playback. A valid JWT token is required to obtain a key, needed to decrypt encrypted HLS,  or a license, needed to decrypt DRM-protected content.</p>
+
+<p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: Playback Authorization Service</a> document.</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Workflow">Workflow</h2>
+
+<p>To use Playback Authorization Service, follow these steps:</p>
+<ol class="bcls-tasklist">
+	<li><a href="#Generate_public_private_key_pair">Generate public-private key pair</a></li>
+  <li>
+    <a href="#Register_public_key">Register public key with Brightcove</a>
+  </li>
+  <li>
+    <a href="#Generate_JWT_token">Generate JWT token for each playback session, signed with the private key</a>
+  </li>
+  <li>
+    <a href="#Configure_the_player">Configure the player to use the token</a>
+  </li>
+  <li>
+    <a href="#Blacklist_tokens">Blacklist tokens</a>
+  </li>
+  <li>
+    <a href="#Audit_an_account">Audit an account</a>
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Generate_public_private_key_pair">Generate public-private key pair</h2>
+
+<p>The publisher will generate a public-private key pair and provide the public key to Brightcove. The private key is used by the publisher to sign tokens, and is not shared with Brightcove.</p>
+
+<p>
+  There are many ways to generate the public-private key pair. Here are some examples:
+</p>
+<h3>
+  Example bash script:
+</h3>
+<p>
+  Example script to generate the key pair:
+</p>
+<pre class="line-numbers"><code class="language-bash">#!/bin/bash
+set -euo pipefail
+
+NAME=${1:-}
+test -z &quot;${NAME:-}&quot; &amp;&amp; NAME=&quot;brightcove-playback-auth-key-$(date +%s)&quot;
+mkdir &quot;$NAME&quot;
+
+CURVE_PEM=&quot;./$NAME/prime256v1.pem&quot;
+PRIVATE_PEM=&quot;./$NAME/private.pem&quot;
+PUBLIC_PEM=&quot;./$NAME/public.pem&quot;
+PUBLIC_TXT=&quot;./$NAME/public_key.txt&quot;
+
+openssl ecparam -name prime256v1 -out &quot;$CURVE_PEM&quot;
+openssl ecparam -in &quot;$CURVE_PEM&quot; -genkey -noout -out &quot;$PRIVATE_PEM&quot;
+openssl ec -in &quot;$PRIVATE_PEM&quot; -pubout -out &quot;$PUBLIC_PEM&quot; 2&gt;/dev/null
+openssl ec -in &quot;$PRIVATE_PEM&quot; -pubout -outform DER | base64 &gt; &quot;$PUBLIC_TXT&quot;
+
+rm &quot;$CURVE_PEM&quot;
+
+echo &quot;Public key saved in $PUBLIC_TXT&quot;
+</code></pre>
+<p>
+  If you put the above code into a file named <strong>keygen.sh</strong>, then you can use the following to run the script:
+</p>
+<pre><code class="language-bash">bash keygen.sh
+</code></pre>
+
+<h3 id="Example_using_Go" class="bcls-expander-head">Example using Go</h3>
+<div class="bcls-expander-content">
+<p>
+  Example using the Go programming language to generate the key pair:
+</p>
+<aside class="bcls-aside bcls-aside--tip">If you are new to Go, see the <a href="https://golang.org/">The Go Programming Language</a> homepage.</aside>
+<pre class="line-numbers"><code class="language-bash">package main
+
+import (
+	&quot;crypto/ecdsa&quot;
+	&quot;crypto/elliptic&quot;
+	&quot;crypto/rand&quot;
+	&quot;crypto/x509&quot;
+	&quot;encoding/base64&quot;
+	&quot;encoding/pem&quot;
+	&quot;flag&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	&quot;os&quot;
+	&quot;path&quot;
+	&quot;strconv&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	var out string
+
+	flag.StringVar(&amp;out, &quot;output-dir&quot;, &quot;&quot;, &quot;Output directory to write files into&quot;)
+	flag.Parse()
+
+	if out == &quot;&quot; {
+		out = &quot;ec-key_&quot; + strconv.FormatInt(time.Now().Unix(), 10)
+	}
+
+	if err := os.MkdirAll(out, os.ModePerm); err != nil {
+		panic(err.Error())
+	}
+
+	priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	privBytes, err := x509.MarshalECPrivateKey(priv)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	pubBytes, err := x509.MarshalPKIXPublicKey(priv.Public())
+	if err != nil {
+		panic(err.Error())
+	}
+
+	privOut, err := os.OpenFile(path.Join(out, &quot;private.pem&quot;), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if err := pem.Encode(privOut, &amp;pem.Block{Type: &quot;EC PRIVATE KEY&quot;, Bytes: privBytes}); err != nil {
+		panic(err.Error())
+	}
+
+	pubOut, err := os.OpenFile(path.Join(out, &quot;public.pem&quot;), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if err := pem.Encode(pubOut, &amp;pem.Block{Type: &quot;PUBLIC KEY&quot;, Bytes: pubBytes}); err != nil {
+		panic(err.Error())
+	}
+
+	var pubEnc = base64.StdEncoding.EncodeToString(pubBytes)
+
+	var pubEncOut = path.Join(out, &quot;public_key.txt&quot;)
+	if err := ioutil.WriteFile(pubEncOut, []byte(pubEnc+&quot;\n&quot;), 0600); err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println(&quot;Public key saved in &quot; + pubEncOut)
+}
+</code></pre>
+</div>
+
+<h3 id="Example_using_node_js" class="bcls-expander-head">Example using node.js</h3>
+<div class="bcls-expander-content">
+<p>
+  Example using node.js to generate the key pair:
+</p>
+<aside class="bcls-aside bcls-aside--tip">This script example requires node version 11 or later.</aside>
+<pre class="line-numbers"><code class="language-bash">var crypto = require(&quot;crypto&quot;);
+var fs = require(&quot;fs&quot;);
+
+crypto.generateKeyPair(
+  &quot;ec&quot;,
+  { namedCurve: &quot;prime256v1&quot; },
+  (err, publicKey, privateKey) =&gt; {
+    fs.writeFile(
+      &quot;public.pem&quot;,
+      publicKey.export({ type: &quot;spki&quot;, format: &quot;pem&quot; }),
+      err =&gt; {}
+    );
+    fs.writeFile(
+      &quot;public.txt&quot;,
+      publicKey.export({ type: &quot;spki&quot;, format: &quot;der&quot; }).toString(&quot;base64&quot;),
+      err =&gt; {}
+    );
+    fs.writeFile(
+      &quot;private.pem&quot;,
+      privateKey.export({ type: &quot;sec1&quot;, format: &quot;pem&quot; }),
+      err =&gt; {}
+    );
+  }
+);</code></pre>
+<p>
+  If you put the above code into a file named <strong>keygen.js</strong>, then you can use the following to run the script:
+</p>
+<pre><code class="language-bash">node keygen.js
+</code></pre>
+
+</div>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Register_public_key">Register public key</h2>
+
+<p>You will use the Key API to register your public key with Brightcove.</p>
+<h3>Key API</h3>
+<p>
+  The Key API is used to manage your public keys with Brightcove.
+</p>
+
+
+<h4>Base URL</h4>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com</code></pre>
+
+<h4>Account path</h4>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+
+<h4>Authorization</h4>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h4>Permissions</h4>
+<p>
+  Requests to the Key API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/playback-auth/key/read</code>
+  </li>
+  <li>
+    <code>video-cloud/playback-auth/key/write</code>
+  </li>
+</ul>
+
+<h4>Manage keys</h4>
+<p>
+  The Key API supports the following requests:
+</p>
+<aside class="bcls-aside bcls-aside--information">
+  <p>
+    Notes:
+  </p>
+  <ul>
+    <li>
+      It is not possible to edit an existing key, but you can delete and create a new one.
+    </li>
+    <li>
+      A maximum of 3 keys may be registered at a time and keys may be deleted, to support key rotation. In practice it is best to have only 1 key.
+    </li>
+  </ul>
+</aside>
+
+<p>
+  <strong>Register a new key:</strong>
+</p>
+<pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/keys
+    Content-Type: application/json
+    Body: {&quot;value&quot;: &quot;MFkwEwYHKoZIzj0CAQYIKoZIzj...MyeQviqploA==&quot;}
+</code></pre>
+
+<p>
+  <strong>List keys:</strong>
+</p>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/keys</code></pre>
+
+<p>
+  <strong>Get one key:</strong>
+</p>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/keys/{key_Id}</code></pre>
+
+<p>
+  <strong>Delete one key:</strong>
+</p>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/keys/{key_Id}</code></pre>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Generate_JWT_token">Generate JWT token</h2>
+
+<p>Publishers create a <a href="https://jwt.io/introduction/">JSON Web Token</a> (JWT). The token is signed with the <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm">Elliptic Curve Digital Signature Algorithm</a> (ECDSA) using the P-256 curve and the SHA-256 hash algorithm (identified in the JWT spec as "<a href="https://ldapwiki.com/wiki/ES256">ES256</a>"). No other JWT algorithms will be supported.</p>
+
+<h3>Claims</h3>
+<p>
+  A subset of the standard <a href="https://auth0.com/docs/tokens/jwt-claims">JSON Web Token claims</a> will be used, along with some private claims defined by Brightcove:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>accid</code></td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>The account id that owns the content being played</td>
+    </tr>
+    <tr>
+      <td><code>conid</code></td>
+      <td>String</td>
+      <td></td>
+      <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
+    </tr>
+    <tr>
+      <td><code>exp</code></td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
+    </tr>
+    <tr>
+      <td><code>iat</code></td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>Time this token was issued, in seconds since the Epoch</td>
+    </tr>
+    <tr>
+      <td><code>maxip</code></td>
+      <td>Integer</td>
+      <td></td>
+      <td>If present, this token will only be able to be used by this many different IP addresses</td>
+    </tr>
+    <tr>
+      <td><code>maxu</code></td>
+      <td>Integer</td>
+      <td></td>
+      <td>
+          If present, this token will only be valid for this many license requests
+        <br><br>
+        <ul>
+          <li>
+            For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
+          </li>
+          <li>
+            For DRM, one licence request is made per playback
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ua</code></td>
+      <td>String</td>
+      <td></td>
+      <td>If present, this token will only be valid for requests from this User-Agent</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>
+  Libraries are commonly available to generate JWT tokens. For details, see the <a href="https://jwt.io/">JSON Web Tokens</a> site.
+</p>
+<p>
+
+</p>
+<h3 id="Example_using_Go_token" class="bcls-expander-head">Example using Go</h3>
+<div class="bcls-expander-content">
+<p>
+  Here is an example of a reference Go implementation (as a cli tool) for generating tokens without the use of any 3rd party library:
+</p>
+<aside class="bcls-aside bcls-aside--tip">If you are new to Go, see the <a href="https://golang.org/">The Go Programming Language</a> homepage.</aside>
+<pre class="line-numbers"><code class="language-bash">package main
+
+import (
+	&quot;crypto/ecdsa&quot;
+	&quot;crypto/rand&quot;
+	&quot;crypto/sha256&quot;
+	&quot;crypto/x509&quot;
+	&quot;encoding/base64&quot;
+	&quot;encoding/json&quot;
+	&quot;encoding/pem&quot;
+	&quot;flag&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	&quot;os&quot;
+	&quot;time&quot;
+)
+
+// Header is the base64UrlEncoded string of a JWT header for the ES256 algorithm
+const Header = &quot;eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9&quot;
+
+// Claims represents constraints that should be applied to the use of the token
+type Claims struct {
+	Iat   float64 `json:&quot;iat,omitempty&quot;`   // Issued At
+	Exp   float64 `json:&quot;exp,omitempty&quot;`   // Expires At
+	Accid string  `json:&quot;accid,omitempty&quot;` // Account ID
+	Conid string  `json:&quot;conid,omitempty&quot;` // Content ID
+	Maxu  float64 `json:&quot;maxu,omitempty&quot;`  // Max Uses
+	Maxip float64 `json:&quot;maxip,omitempty&quot;` // Max IPs
+	Ua    string  `json:&quot;ua,omitempty&quot;`    // User Agent
+}
+
+func main() {
+	var key string
+
+	c := Claims{Iat: float64(time.Now().Unix())}
+
+	flag.StringVar(&amp;key, &quot;key&quot;, &quot;&quot;, &quot;Path to private.pem key file&quot;)
+	flag.StringVar(&amp;c.Accid, &quot;account-id&quot;, &quot;&quot;, &quot;Account ID&quot;)
+	flag.StringVar(&amp;c.Conid, &quot;content-id&quot;, &quot;&quot;, &quot;Content ID (eg, video_id or live_job_id)&quot;)
+	flag.Float64Var(&amp;c.Exp, &quot;expires-at&quot;, float64(time.Now().AddDate(0, 0, 1).Unix()), &quot;Epoch timestamp (in seconds) for when the token should stop working&quot;)
+	flag.Float64Var(&amp;c.Maxu, &quot;max-uses&quot;, 0, &quot;Maximum number of times the token is valid for&quot;)
+	flag.Float64Var(&amp;c.Maxip, &quot;max-ips&quot;, 0, &quot;Maximum number of unique IP addresses the token is valid for&quot;)
+	flag.StringVar(&amp;c.Ua, &quot;user-agent&quot;, &quot;&quot;, &quot;User Agent that the token is valid for&quot;)
+	flag.Parse()
+
+	if key == &quot;&quot; {
+		fmt.Printf(&quot;missing required flag: -key\n\n&quot;)
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	if c.Accid == &quot;&quot; {
+		fmt.Printf(&quot;missing required flag: -account-id\n\n&quot;)
+		flag.Usage()
+		os.Exit(2)
+	}
+
+	bs, err := json.Marshal(c)
+	if err != nil {
+		fmt.Println(&quot;failed to marshal token to json&quot;, err)
+		os.Exit(3)
+	}
+
+	kbs, err := ioutil.ReadFile(key)
+	if err != nil {
+		fmt.Println(&quot;failed to read private key&quot;, err)
+		os.Exit(4)
+	}
+
+	block, _ := pem.Decode(kbs)
+	if block == nil || block.Type != &quot;EC PRIVATE KEY&quot; {
+		fmt.Println(&quot;failed to decode PEM block containing ec private key&quot;)
+		os.Exit(5)
+	}
+
+	pkey, err := x509.ParseECPrivateKey(block.Bytes)
+	if err != nil {
+		fmt.Println(&quot;failed to parse ec private key&quot;, err)
+		os.Exit(6)
+	}
+
+	message := Header + &quot;.&quot; + base64.RawURLEncoding.EncodeToString(bs)
+	hash := sha256.Sum256([]byte(message))
+
+	r, s, err := ecdsa.Sign(rand.Reader, pkey, hash[:])
+	if err != nil {
+		fmt.Println(&quot;failed to sign token&quot;, err)
+		os.Exit(7)
+	}
+
+	curveBits := pkey.Curve.Params().BitSize
+
+	keyBytes := curveBits / 8
+	if curveBits%8 &gt; 0 {
+		keyBytes++
+	}
+
+	rBytes := r.Bytes()
+	rBytesPadded := make([]byte, keyBytes)
+	copy(rBytesPadded[keyBytes-len(rBytes):], rBytes)
+
+	sBytes := s.Bytes()
+	sBytesPadded := make([]byte, keyBytes)
+	copy(sBytesPadded[keyBytes-len(sBytes):], sBytes)
+
+	out := append(rBytesPadded, sBytesPadded...)
+
+	sig := base64.RawURLEncoding.EncodeToString(out)
+
+	fmt.Println(message + &quot;.&quot; + sig)
+}
+</code></pre>
+</div>
+
+<h3>Results</h3>
+<p>
+  Here is an example of a decoded token using <a href="https://jwt.io/">https://JWT.io</a> specifying the full set of claims:
+</p>
+<p>
+  HEADER:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;alg&quot;: &quot;ES256&quot;,
+  &quot;type&quot;: &quot;JWT&quot;
+}
+</code></pre>
+
+<p>
+  PAYLOAD:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;accid&quot;: &quot;1100863500123&quot;,
+  &quot;conid&quot;: &quot;51141412620123&quot;,
+  &quot;exp&quot;: 1554200832,
+  &quot;iat&quot;: 1554199032,
+  &quot;maxip&quot;: 10,
+  &quot;maxu&quot;: 10,
+  &quot;ua&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36&quot;
+}
+</code></pre>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Configure_the_player">Configure the player</h2>
+
+<p>The token is passed with the playback request. If the token is invalid or expired, access to the content will be restricted. The player must be configured to use the token.</p>
+
+<h3>Web player</h3>
+<p>
+  For details about configuring the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a> document.
+</p>
+<h3>Native Android player</h3>
+<p>
+  For details about configuring the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+</p>
+<h3>Native iOS player</h3>
+<p>
+  For details about configuring the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Blacklist_tokens">Blacklist tokens</h2>
+
+<p>A token that has been blacklisted will not be considered valid for license requests, even if it would otherwise have been approved. Customers may blacklist up to 100 tokens. If 100 tokens are already blacklisted, a customer must delete one or more tokens to make room for any additional entries.</p>
+
+<h3>Blacklist API</h3>
+<p>
+  The Blacklist API is used to manage your tokens which are blacklisted and considered not valid for license requests.
+</p>
+
+<h4>Base URL</h4>
+<p>
+  The base URL for the Blacklist API is:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com</code></pre>
+
+<h4>Account path</h4>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/blacklist
+</code></pre>
+
+<h4>Authorization</h4>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre ><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h4>Permissions</h4>
+<p>
+  Requests to the Blacklist API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/playback-auth/blacklist</code>
+  </li>
+</ul>
+
+<h4>Manage blacklisted tokens</h4>
+<p>
+  Updates to the blacklist may take up to a minute to propagate through the system. The Blacklist API supports the following requests:
+</p>
+
+<p>
+  <strong>Add a token to the blacklist:</strong>
+</p>
+<pre><code class="language-http">PUT (no req body)/v1/accounts/{accountID}/blacklist/tokens/{token}
+</code></pre>
+<p>
+  The entire encoded JWT string is included in the path.
+</p>
+
+<p>
+  <strong>Show current blacklist:</strong>
+</p>
+<pre><code class="language-http">GET /v1/accounts/{accountId}/blacklist
+</code></pre>
+
+<p>
+  <strong>Check if a token is on the blacklist:</strong>
+</p>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/blacklist/tokens/{token}
+</code></pre>
+<p>
+  The entire encoded JWT string is included in the path.
+</p>
+<p>
+  Responses:
+</p>
+<ul>
+  <li>
+    204 - the token is blacklisted
+  </li>
+  <li>
+    404 - the token is not blacklisted
+  </li>
+</ul>
+
+<p>
+  <strong>Remove a token from the blacklist:</strong>
+</p>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/blacklist/tokens/{token}
+</code></pre>
+<p>
+  The entire encoded JWT string is included in the path.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Audit_an_account">Audit an account</h2>
+
+<p>The Audit API allows you to generate a daily access report for your account's Playback Authorization Service usage. This report includes details along with the authorization response for each session.</p>
+
+<h3>Audit API</h3>
+<p>
+  Here are the details for the Audit API:
+</p>
+
+
+<h4>Base URL</h4>
+<p>
+  The base URL for the Audit API is:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com
+</code></pre>
+
+<h4>Account path</h4>
+<p>
+  In all cases, requests will be made for a specific Video Cloud account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/audit/accounts/{accountID}
+</code></pre>
+
+<h4>Authorization</h4>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}
+</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h4>Permissions</h4>
+<p>
+  Requests to the Audit API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/playback-auth/audit</code>
+  </li>
+</ul>
+
+<h4>Generate reports</h4>
+<p>
+  Use the Audit API to generate a daily access report with session details by following these steps:
+</p>
+<aside class="bcls-aside bcls-aside--information">
+  <p>
+    Notes:
+  </p>
+  <ul>
+    <li>
+      <p>
+        All Authorization access logs for Brightcove are in the UTC timezone. Remember to take timezones into account when requests do not show up in your report.
+      </p>
+    </li>
+    <li>
+      <p>
+        Brightcove recommends running Audit API query reports 6 hours after midnight for processing from all regions to complete for all authorization data from the previous day.
+Audit API calls for a given account and a given day are cached on API side. If you run a report before the suggested midnight+6 hours, you may find that your report is incorrect or incomplete.
+      </p>
+    </li>
+  </ul>
+</aside>
+
+<ol class="bcls-tasklist__restart">
+  <li>
+    <p>
+      Request a daily usage report
+    </p>
+
+    <h5>Parameters</h5>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+			    <th>Type</th>
+			    <th>Description</th>
+	    	</tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>accountID</code></td>
+			    <td>String</td>
+			    <td>Your Video Cloud account Id</td>
+		    </tr>
+        <tr>
+          <td><code>date</code></td>
+			    <td>String</td>
+			    <td>
+            Validations:
+            <ul>
+              <li>
+                Format YYYY-MM-DD
+              </li>
+              <li>
+                Date cannot be today (UTC time)
+              </li>
+              <li>
+                Date cannot be < 1 30 days in the past
+              </li>
+              <li>
+                Brightcove does not hold on to the authorization service usage reports after 30 days to follow GDPR compliance
+              </li>
+            </ul>
+          </td>
+		    </tr>
+      </tbody>
+    </table>
+
+    <h5>Request</h5>
+    <table class="bcls-table">
+      <tbody class="bcls-table__body">
+        <tr>
+          <th>Method</th>
+    			<td>POST</td>
+    		</tr>
+        <tr>
+          <th>URL</th>
+    			<td>https://playback-auth.api.brightcove.com/v1/audit/accounts/<span class="bcls-input">{accountID}</span>/query/<span class="bcls-input">{date}</span></td>
+    		</tr>
+        <tr>
+          <th rowspan="2">Headers</th>
+    			<td>Authorization: Bearer <span class="bcls-input">your access token</span></td>
+    		</tr>
+        <tr>
+          <td>Content-Type: application/json</td>
+    		</tr>
+      </tbody>
+    </table>
+
+    <h5>Response</h5>
+    <p>Sample response (200 OK):</p>
+
+<pre class="line-numbers">
+<code class="notranslate language-json">{
+	&quot;executionID&quot;: &quot;abcdef-asfdag-dvsbcd&quot;
+}</code></pre>
+
+    <p>
+      Details:
+    </p>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>executionID</code></td>
+          <td>String</td>
+          <td>A unique ID associated with a usage report for a specified <code>accountID</code> and <code>date</code>. This id is passed to the other endpoints below.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </li>
+  <li>
+    <p>
+      Check the status of your report
+    </p>
+
+    <h5>Request</h5>
+    <table class="bcls-table">
+      <tbody class="bcls-table__body">
+        <tr>
+          <th>Method</th>
+    			<td>GET</td>
+    		</tr>
+        <tr>
+          <th>URL</th>
+    			<td>https://playback-auth.api.brightcove.com/v1/audit/accounts/<span class="bcls-input">{accountID}</span>/execution/<span class="bcls-input">{executionID}</span>/status</td>
+    		</tr>
+        <tr>
+          <th rowspan="2">Headers</th>
+    			<td>Authorization: Bearer <span class="bcls-input">your access token</span></td>
+    		</tr>
+        <tr>
+          <td>Content-Type: application/json</td>
+    		</tr>
+      </tbody>
+    </table>
+
+    <h5>Response</h5>
+    <p>Sample response (200 OK):</p>
+
+<pre class="line-numbers">
+<code class="notranslate language-json">{
+	&quot;status&quot;: &quot;completed&quot;
+}
+</code></pre>
+
+    <p>
+      Details:
+    </p>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>status</code></td>
+          <td>String</td>
+          <td>Values: "completed", "processing", "failed"</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </li>
+  <li>
+    <p>
+      Fetch your report
+    </p>
+    <h5>Request</h5>
+    <table class="bcls-table">
+      <tbody class="bcls-table__body">
+        <tr>
+          <th>Method</th>
+    			<td>GET</td>
+    		</tr>
+        <tr>
+          <th>URL</th>
+    			<td>https://playback-auth.api.brightcove.com/v1/audit/accounts/<span class="bcls-input">{accountID}</span>/execution/<span class="bcls-input">{executionID}</span>/report</td>
+    		</tr>
+        <tr>
+          <th rowspan="2">Headers</th>
+    			<td>Authorization: Bearer <span class="bcls-input">your access token</span></td>
+    		</tr>
+        <tr>
+          <td>Content-Type: application/json</td>
+    		</tr>
+      </tbody>
+    </table>
+
+    <h5>Response</h5>
+    <p>Sample response (200 OK):</p>
+
+<pre class="line-numbers">
+<code class="notranslate language-json">{
+  &quot;signedURL&quot;: &quot;http://signed-url&quot;,
+  &quot;expirationTime&quot;: 1569219842
+}
+</code></pre>
+
+    <p>
+      Details:
+    </p>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>SignedURL</code></td>
+          <td>String</td>
+          <td>The results are returned as an S3 URL that you can download</td>
+        </tr>
+        <tr>
+          <td><code>expirationTime</code></td>
+          <td>Epoch Timestamp</td>
+          <td>Signed S3 URLs are valid for 15 minutes</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Limitations">Limitations</h2>
+
+<p>The following limitations apply with the initial release of this feature:</p>
+<ul>
+  <li>
+    There is a limit of 100 blacklisted tokens. After that, an error will be thrown.
+  </li>
+  <li>
+    For HLSe (AES-128), the token will be appended to the master manifest request, and will propagate to the encryption key URL. Because these URLs are appended to the master manifest, customers should consider restricting the number of uses to minimize exposure of their content.
+  </li>
+  <li>
+    For HLSe (AES-128), players will make mutlitple requests when playing a video, typically one per rendition. The <a href="#Generate_JWT_token">maxu claim</a> needs to be set high enough to account for these requests. You should consider additional claims to minimize the exposure of your content. Switching renditions will request a new license.
+  </li>
+  <li>
+    Tracking of the <a href="#Generate_JWT_token">maxu and maxip claims</a> is eventually consistent. This means that if a token using these claims is reused many times in quick succession, it is possible to see that token accepted more times than those claims declare. The tracking becomes consistent within a few seconds and after that window the token will be blocked as expected.
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Related_topics">Related topics</h2>
+
+<ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: Playback Authorization Service</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a>
+  </li>
+</ul>
+
+</section>
+
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

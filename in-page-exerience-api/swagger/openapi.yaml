@@ -4,10 +4,12 @@ x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
   title: Brightcove In-Page Experiences API Reference
-  description: >-
+  description: |-
     Reference for the Brightcove In-Page Experiences API, used to access and manage your In-Page Experiences.
 
-     **Base URL**: https://experiences.api.brightcove.com/v1
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/page-experience-api)**.
+
+    **Base URL**: https://experiences.api.brightcove.com/v1
   version: 1.0.0
   x-bc-access: public
 servers:
@@ -16,6 +18,8 @@ servers:
 tags:
   - name: Experiences
     description: Manage your In-Page Experiences.
+  - name: Interactions
+    description: Manage your In-Page Experience interactions.
   - name: Templates
     description: Manage templates for In-Page Experiences.
   - name: Themes
@@ -60,8 +64,6 @@ paths:
                 $ref: '#/components/schemas/ExperienceList'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       deprecated: false
       security:
         - BC_OAuth2:
@@ -88,8 +90,6 @@ paths:
           $ref: '#/components/responses/BadRequestExperience'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -115,8 +115,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -144,8 +142,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -162,8 +158,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -192,8 +186,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -224,8 +216,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -266,8 +256,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -293,8 +281,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -322,8 +308,122 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundExperience'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - BC_OAuth2:
+            - video-cloud/experience/all
+  '/accounts/{account_id}/interactions':
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/ContentType'
+    get:
+      summary: Get In-Page Experience Interactions
+      description: Retrieves a list of interactions related to the given accountId.
+      operationId: GetInteractions
+      tags:
+        - Interactions
+      responses:
+        '200':
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/experience/read
+    post:
+      summary: Create In-Page Experience Interaction
+      description: Creates an In-Page Experience Interaction
+      operationId: CreateInteraction
+      tags:
+        - Interactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Interaction'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+        '400':
+          $ref: '#/components/responses/BadRequestInteraction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - BC_OAuth2:
+            - video-cloud/experience/all
+  '/accounts/{account_id}/interactions/{interaction_id}':
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/InteractionId'
+      - $ref: '#/components/parameters/ContentType'
+    get:
+      summary: Get In-Page Experience Interaction
+      description: Gets a specific In-Page Experience interaction in the account
+      operationId: GetInteraction
+      tags:
+        - Interactions
+      responses:
+        '200':
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFoundInteraction'
+      security:
+        - BC_OAuth2:
+            - video-cloud/experience/read
+    put:
+      summary: Update an interaction
+      description: Updates an interaction
+      operationId: UpdateInteraction
+      tags:
+        - Interactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Interaction'
+      responses:
+        '200':
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+        '400':
+          $ref: '#/components/responses/BadRequestInteraction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFoundInteraction'
+      security:
+        - BC_OAuth2:
+            - video-cloud/experience/all
+    delete:
+      summary: Delete an interaction
+      description: Deletes an interaction
+      operationId: DeleteInteraction
+      tags:
+        - Interactions
+      responses:
+        '204':
+          description: SUCCESS
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFoundInteraction'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -361,8 +461,6 @@ paths:
                 $ref: '#/components/schemas/TemplateList'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -421,8 +519,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundTemplate'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -445,8 +541,6 @@ paths:
                 $ref: '#/components/schemas/ThemeList'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -472,8 +566,6 @@ paths:
           $ref: '#/components/responses/BadRequestTheme'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -506,8 +598,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundTheme'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -535,8 +625,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundTheme'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -553,8 +641,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundTheme'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -577,8 +663,6 @@ paths:
                 $ref: '#/components/schemas/FontList'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -604,8 +688,6 @@ paths:
           $ref: '#/components/responses/BadRequestFont'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -638,8 +720,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundFont'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/read
@@ -667,8 +747,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundFont'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -685,8 +763,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFoundFont'
-        '429':
-          $ref: '#/components/responses/TooManyRequests'
       security:
         - BC_OAuth2:
             - video-cloud/experience/all
@@ -880,8 +956,7 @@ components:
     ExperienceVideos:
       title: ExperienceVideos
       description: >-
-        Properties defining the videos in the In-Page Experience and behavior
-        related to videos
+        Properties defining the videos in the In-Page Experience and behavior related to videos
       type: object
       properties:
         type:
@@ -895,10 +970,7 @@ components:
           items:
             type: string
           description: >-
-            IDs of videos which are included in the In-Page Experience when type
-            is set to manual. For Video Cloud videos this is just the numeric
-            ID. For YouTube videos, a prefix of `youtube:` must be added to the
-            ID.
+            IDs of videos which are included in the In-Page Experience when type is set to manual. For Video Cloud videos this is just the numeric ID. For YouTube videos, a prefix of `youtube:` must be added to the ID.
         playlistId:
           type: string
           description: ID of the playlist to pull videos from when type is set to playlist
@@ -1295,8 +1367,249 @@ components:
       type: object
       additionalProperties:
         type: string
+    InteractionList:
+      title: Interaction List
+      description: >-
+        List of interatctions for the account.
+      type: object
+      readOnly: true
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interaction'
+      example: {
+          "items": [
+            {
+              "start": {
+                "quantity": 5,
+                "from": "start",
+                "unit": "seconds"
+              },
+              "end": {
+                "quantity": 10,
+                "from": "start",
+                "unit": "seconds"
+              },
+              "durationType": "span",
+              "type": "External",
+              "content": [
+                {
+                  "name": "Oregon Coast",
+                  "type": "text",
+                  "value": "<p>A peaceful morning on the coast of Oregon</p>"
+                }
+              ],
+              "createdAt": "2018-09-30T19:00:12.114Z",
+              "updatedAt": "2018-09-30T19:00:12.115Z",
+              "experience": "5bb11c8880b4990011750ed1",
+              "videoId": "5842159189001",
+              "lookup": "right",
+              "accountId": 57838016001,
+              "id": "5bb11d3c5cdcdc001222ce1d"
+            },
+            {
+              "start": {
+                "quantity": 5,
+                "from": "start",
+                "unit": "seconds"
+              },
+              "end": {
+                "quantity": 20.257,
+                "from": "start",
+                "unit": "seconds"
+              },
+              "durationType": "span",
+              "playbackBehavior": "none",
+              "type": "Card",
+              "createdAt": "2018-11-07T15:25:27.666Z",
+              "updatedAt": "2018-11-07T15:25:27.667Z",
+              "experience": "5bc4991f0f6f340011b3e968",
+              "videoId": "5857167159001",
+              "title": "test",
+              "img": null,
+              "description": "",
+              "href": "",
+              "linkText": "",
+              "openOnStart": false,
+              "accountId": 57838016001,
+              "id": "5be303e7b5cd1c00106dc287"
+            },
+            {
+              "start": {
+                "quantity": 50,
+                "from": "start",
+                "unit": "percent"
+              },
+              "end": {
+                "quantity": 70,
+                "from": "start",
+                "unit": "percent"
+              },
+              "durationType": "point",
+              "playbackBehavior": "none",
+              "type": "Card",
+              "createdAt": "2019-03-13T17:47:37.077Z",
+              "updatedAt": "2019-03-13T17:47:37.078Z",
+              "title": "Brightcove Support",
+              "description": "Get help using Brightcove products",
+              "linkText": "Brightcove Documentation",
+              "href": "https://support.brightcove.com",
+              "accountId": 57838016001,
+              "id": "5c89423903b4450016165450"
+            },
+            {
+              "start": {
+                "quantity": 50,
+                "from": "start",
+                "unit": "percent"
+              },
+              "end": {
+                "quantity": 70,
+                "from": "start",
+                "unit": "percent"
+              },
+              "durationType": "point",
+              "placement": "top-right",
+              "playbackBehavior": "none",
+              "type": "Link",
+              "createdAt": "2019-03-13T19:38:06.974Z",
+              "updatedAt": "2019-03-13T19:38:06.975Z",
+              "text": "Brightcove Documentation",
+              "href": "https://support.brightcove.com",
+              "accountId": 57838016001,
+              "id": "5c895c1e009c2a0015c104af"
+            }
+          ]
+        }
+    Interaction:
+      title: Interaction
+      description: >-
+        Object describing the interaction
+      required: [
+          'type'
+        ]
+      properties:
+        id:
+          type: string
+          description: The id for the interaction
+          readOnly: true
+        accountId:
+          type: string
+          description: >-
+            The id of the account that the interaction interaction belongs to.
+          readOnly: true
+        start:
+          type: object
+          description: Object describing the starting point where the interaction becomes active
+          properties:
+            quantity:
+              type: number
+              description: position of the start point, either in seconds or a percentage of the video duration
+            from:
+              type: string
+              description: where the `quantity` is measured from
+              enum:
+                - start
+                - end
+            unit:
+              type: string
+              description: what usits are used for the `quantity`
+              enum:
+                - percent
+                - seconds
+        end:
+          type: object
+          description: Object describing the end point where the interaction becomes inactive
+          properties:
+            quantity:
+              type: number
+              description: position of the end point, either in seconds or a percentage of the video duration
+            from:
+              type: string
+              description: where the `quantity` is measured from
+              enum:
+                - start
+                - end
+            unit:
+              type: string
+              description: what usits are used for the `quantity`
+              enum:
+                - percent
+                - seconds
+        createdAt:
+          type: string
+          readOnly: true
+          description: >-
+            A date-time string indicating when the interaction was created
+          example: '2019-03-13T17:47:37.077Z'
+        updatedAt:
+          type: string
+          readOnly: true
+          description: >-
+            A date-time string indicating when the interaction was last modified
+          example: '2019-03-13T17:47:37.077Z'
+        type:
+          type: string
+          description: |-
+            The type of interaction
+              - `Link` - A hyperlink
+              - `Card` - A card that can contain text, a link, and/or an image
+              - `External` - A custom type built with HTML, CSS, and JavaScript.
+          enum:
+            - Link
+            - Card
+            - External
+        durationType:
+          type: string
+          description: |-
+            Duration type of the interaction
+              - `point` - it appears at some point in playback
+              - `span` - it is available over some span of playback
+              - `end` - it is available at the end of playback
+              - `full` - it is always available
+            There is no need to set `durationType` if you are setting `start` and `end`. It will simply reflect what you set there. For `durationType` set to `end` or `full` **only**, you can use this as a shortcut instead of setting `start` and `end`.
+          enum:
+            - point
+            - span
+            - end
+            - full
+        experience:
+          type: string
+          description: |-
+            An experience id. If specified when you create an interaction, the interaction will belong to that experience. If you do not specify an experience, the interaction can be used by any experience.
+          example: '5bc4991f0f6f340011b3e968'
+        placement:
+          type: string
+          description: |-
+            Physical placement of a `Link` interaction. Used only for 'Link' tupes interactions
+          enum:
+            - top-left
+            - top-right
+            - bottom-left
+            - bottom-right
+        text:
+          type: string
+          description: |-
+            Link text for a hyperlink. Used for `Link` and `Card` type interactions.
+        href:
+          type: string
+          description: |-
+            The URL that a hyperlink points to. Used for `Link` and `Card` type interactions.
+        title:
+          type: string
+          description: |-
+            The title for a card. Used for`Card` type interactions.
+        description:
+          type: string
+          description: |-
+            The description for a card. Used for`Card` type interactions.
+        img:
+          type: string
+          description: |-
+            A URL pointing to the image for a card. Used for`Card` type interactions.
     TemplateList:
-      title: TemplateList
+      title: Template List
       description: List of In-Page Experience templates
       type: object
       readOnly: true
@@ -1649,6 +1962,15 @@ components:
       explode: false
       schema:
         type: string
+    InteractionId:
+      name: interaction_id
+      in: path
+      description: Iteraction ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
   responses:
     BadRequestExperience:
       description: >-
@@ -1663,6 +1985,18 @@ components:
               status: 400
               code: BAD_REQUEST
               message: Specified template does not exist
+    BadRequestInteraction:
+      description: >-
+        BAD_REQUEST: Invalid In-Page Experience interaction, see response for details
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/HttpError'
+            example:
+              status: 400
+              code: BAD_REQUEST
+              message: Interaction type is missing
     BadRequestTheme:
       description: 'BAD_REQUEST: Invalid Theme document, see response for details'
       content:
@@ -1691,11 +2025,18 @@ components:
       description: >-
         UNAUTHORIZED: Authentication failed - check to make sure your client
         credentials were correct for the access token
-    TooManyRequests:
-      description: >-
-        TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or
-        too many requests per second
     NotFoundExperience:
+      description: 'NOT_FOUND: The specified In-Page Experience does not exist'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/HttpError'
+            example:
+              status: 404
+              code: NOT_FOUND
+              message: Experience 123456 not found
+    NotFoundInteraction:
       description: 'NOT_FOUND: The specified In-Page Experience does not exist'
       content:
         application/json:

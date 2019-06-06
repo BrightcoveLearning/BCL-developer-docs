@@ -1,0 +1,25 @@
+var protocol_f_w_creative_rendition_01_p =
+[
+    [ "addCreativeRenditionAsset", "protocol_f_w_creative_rendition_01-p.html#a467b4aae8ec69c3cb7d58ad1a36a1e1b", null ],
+    [ "baseUnit", "protocol_f_w_creative_rendition_01-p.html#ac54314ca99a01b73e04db0bc51ed76e8", null ],
+    [ "contentType", "protocol_f_w_creative_rendition_01-p.html#ae560e0d5a73ac09bdf9511f16622e4d8", null ],
+    [ "creativeAPI", "protocol_f_w_creative_rendition_01-p.html#a96ca4163218a53ad6550eef325425d9e", null ],
+    [ "duration", "protocol_f_w_creative_rendition_01-p.html#ac9038ff68c4d278834d88cbe8f4840f2", null ],
+    [ "height", "protocol_f_w_creative_rendition_01-p.html#af23f2d92f2e5cc71ea567d4c3ec2dc41", null ],
+    [ "otherCreativeRenditionAssets", "protocol_f_w_creative_rendition_01-p.html#aa334465dc33e6995d0bace552ed087ef", null ],
+    [ "preference", "protocol_f_w_creative_rendition_01-p.html#a632b6cb0785541ff186f0b4c2421e84e", null ],
+    [ "primaryCreativeRenditionAsset", "protocol_f_w_creative_rendition_01-p.html#a1b33ec9138ad3fcad8997db247dc9c4b", null ],
+    [ "setContentType:", "protocol_f_w_creative_rendition_01-p.html#a62d65e28066ae8938ec68fdea04d3394", null ],
+    [ "setCreativeAPI:", "protocol_f_w_creative_rendition_01-p.html#a79f34f3e6dfc153dcc8d5e99208339fe", null ],
+    [ "setDuration:", "protocol_f_w_creative_rendition_01-p.html#ab8e4982e2b4cc91e9ca87fb126148a16", null ],
+    [ "setHeight:", "protocol_f_w_creative_rendition_01-p.html#ab10f03ad4952524608246a24f23cd639", null ],
+    [ "setParameter::", "protocol_f_w_creative_rendition_01-p.html#a106461ba6a5a4ce816f80874ebccde5b", null ],
+    [ "setParameter:withValue:", "protocol_f_w_creative_rendition_01-p.html#a90b61f46356b8af02a836c0032d307b3", null ],
+    [ "setPreference:", "protocol_f_w_creative_rendition_01-p.html#a6e2a48469768d4657d0660a519a0fdcc", null ],
+    [ "setWidth:", "protocol_f_w_creative_rendition_01-p.html#ad026463be6059190f8aaabeb3a68512b", null ],
+    [ "setWrapperType:", "protocol_f_w_creative_rendition_01-p.html#a4e01a807909950d4afa15d72b0c9c44c", null ],
+    [ "setWrapperUrl:", "protocol_f_w_creative_rendition_01-p.html#a00e575e99a328901e0833bd390b13aa7", null ],
+    [ "width", "protocol_f_w_creative_rendition_01-p.html#a2dc924d0380a1a77f4bb5b62bd2dc77a", null ],
+    [ "wrapperType", "protocol_f_w_creative_rendition_01-p.html#a46d394e29a9ea878f56df17e1deb351c", null ],
+    [ "wrapperUrl", "protocol_f_w_creative_rendition_01-p.html#a92430b5cd8cf96f8254f503526c2ef63", null ]
+];

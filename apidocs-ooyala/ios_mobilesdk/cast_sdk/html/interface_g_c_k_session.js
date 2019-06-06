@@ -1,0 +1,26 @@
+var interface_g_c_k_session =
+[
+    [ "endWithAction:", "interface_g_c_k_session.html#a6422c3e31fda277463648e0542a313e5", null ],
+    [ "GCK_DEPRECATED", "interface_g_c_k_session.html#ae81c85fefbc14e18647be7307f68a5a0", null ],
+    [ "initWithDevice:traits:sessionID:", "interface_g_c_k_session.html#ab7a1573fcf312ba8312fbec92ae4188b", null ],
+    [ "initWithDevice:traits:sessionID:sessionOptions:", "interface_g_c_k_session.html#abed06eeb67bdfdf3700a58dde7f9ae22", null ],
+    [ "notifyDidEndWithError:willTryToResume:", "interface_g_c_k_session.html#af005973fce692d71b3d0a8b431aa433a", null ],
+    [ "notifyDidFailToStartWithError:", "interface_g_c_k_session.html#a120392568d2087c8cd46fe4096ceae4b", null ],
+    [ "notifyDidReceiveDeviceStatus:", "interface_g_c_k_session.html#a926cc1acfe5ef381bd6459efcca7c335", null ],
+    [ "notifyDidReceiveDeviceVolume:muted:", "interface_g_c_k_session.html#aecfbb69e9476452294e02258d4bbe2d7", null ],
+    [ "notifyDidStartWithSessionID:", "interface_g_c_k_session.html#a1ebed677b93ece4f7049db8bac5985b4", null ],
+    [ "notifyDidSuspendWithReason:", "interface_g_c_k_session.html#a23aa422cb994fc643655f1a53852db5d", null ],
+    [ "setDeviceMuted:", "interface_g_c_k_session.html#aac1dc4461b6d7ae6f1f5f9dc93cafebd", null ],
+    [ "setDeviceVolume:", "interface_g_c_k_session.html#a68dcca2fdf1f4aebee394f0af56e7fb8", null ],
+    [ "start", "interface_g_c_k_session.html#afb4b46285c3a7520833a3950ff49094e", null ],
+    [ "connectionState", "interface_g_c_k_session.html#a15f8c15b38bf0d2f45007166464cf341", null ],
+    [ "currentDeviceMuted", "interface_g_c_k_session.html#a857055ee238f5af0720d83a6f3281449", null ],
+    [ "currentDeviceVolume", "interface_g_c_k_session.html#af4120ee98a679c4ed3abc6ba6b59cf12", null ],
+    [ "device", "interface_g_c_k_session.html#a30d6130e558b235e37f1cbded2d27ce8", null ],
+    [ "deviceStatusText", "interface_g_c_k_session.html#a1821f77bc0c0dc159419608105483a0a", null ],
+    [ "mediaMetadata", "interface_g_c_k_session.html#a8dbb7f0afa3b8ef806e7203278638d4f", null ],
+    [ "remoteMediaClient", "interface_g_c_k_session.html#a1a8e2db83593db698392d2a7504e7b11", null ],
+    [ "sessionID", "interface_g_c_k_session.html#af77a47f768c15bb8644aed6e75981fd3", null ],
+    [ "sessionOptions", "interface_g_c_k_session.html#a8c3b1685e8c434b8dc0f5c181028905b", null ],
+    [ "traits", "interface_g_c_k_session.html#ae0633197f2af22762692e3b5bbca4afe", null ]
+];

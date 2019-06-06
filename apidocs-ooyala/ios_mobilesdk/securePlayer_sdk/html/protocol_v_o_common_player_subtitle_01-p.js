@@ -1,0 +1,25 @@
+var protocol_v_o_common_player_subtitle_01_p =
+[
+    [ "enableSubtitle:", "protocol_v_o_common_player_subtitle_01-p.html#a0c9aec36075daf52390d9b34c828e211", null ],
+    [ "enableSubtitleAutoAdjustment:", "protocol_v_o_common_player_subtitle_01-p.html#aa80710d516658950d1508ee965d37d17", null ],
+    [ "previewSubtitle:view:", "protocol_v_o_common_player_subtitle_01-p.html#a81990fc0005cbeb2d4f6f85403853a61", null ],
+    [ "resetSubtitleParameter", "protocol_v_o_common_player_subtitle_01-p.html#a412538b566548028d799c7d770d14ede", null ],
+    [ "setSubtitleBoundingBox:leftPercent:bottomPercent:rightPercent:", "protocol_v_o_common_player_subtitle_01-p.html#a26bbfc648f243eb0a9eaf5b85cbc71ad", null ],
+    [ "setSubtitleFontBackgroundColor:", "protocol_v_o_common_player_subtitle_01-p.html#a9e077a8dea0503902da064a53ac2e461", null ],
+    [ "setSubtitleFontBackgroundOpacity:", "protocol_v_o_common_player_subtitle_01-p.html#ad1e4ca7beb69a2208bc454bbfdeaaf93", null ],
+    [ "setSubtitleFontBold:", "protocol_v_o_common_player_subtitle_01-p.html#ae6a0038b821b89f66c2bd1379013db63", null ],
+    [ "setSubtitleFontColor:", "protocol_v_o_common_player_subtitle_01-p.html#ae7603ccb332b59597abae607791b8147", null ],
+    [ "setSubtitleFontEdgeColor:", "protocol_v_o_common_player_subtitle_01-p.html#aa95ef0e5d8874da134e301eb4cfbf8a9", null ],
+    [ "setSubtitleFontEdgeOpacity:", "protocol_v_o_common_player_subtitle_01-p.html#a86d63b038e0ee6948d027df7dc46ffeb", null ],
+    [ "setSubtitleFontEdgeType:", "protocol_v_o_common_player_subtitle_01-p.html#a09f434da0a7e318a61be6f53b1500e69", null ],
+    [ "setSubtitleFontItalic:", "protocol_v_o_common_player_subtitle_01-p.html#a55c6c00b61b49e361612c941f1f09282", null ],
+    [ "setSubtitleFontName:", "protocol_v_o_common_player_subtitle_01-p.html#ada9be856c0db92fc55b7f5d84d659b96", null ],
+    [ "setSubtitleFontOpacity:", "protocol_v_o_common_player_subtitle_01-p.html#aa2d7565390495c52fafc34378116532c", null ],
+    [ "setSubtitleFontSizeScale:", "protocol_v_o_common_player_subtitle_01-p.html#a963a4790b8853c96961bd7a053f6efc6", null ],
+    [ "setSubtitleFontUnderline:", "protocol_v_o_common_player_subtitle_01-p.html#a02a724a3929b6c10f2e2cead0cb946ef", null ],
+    [ "setSubtitleGravity:vertical:", "protocol_v_o_common_player_subtitle_01-p.html#a1fbd2af06d05d79a93056b9c941af92f", null ],
+    [ "setSubtitlePath:", "protocol_v_o_common_player_subtitle_01-p.html#a487f4c4c24526a5e2bcda05eb794b947", null ],
+    [ "setSubtitleTrim:", "protocol_v_o_common_player_subtitle_01-p.html#aa85e1b7446eefc601c5b8b74bf41cdd8", null ],
+    [ "setSubtitleWindowBackgroundColor:", "protocol_v_o_common_player_subtitle_01-p.html#a19f504646ff15831cef3dad663981f4b", null ],
+    [ "setSubtitleWindowBackgroundOpacity:", "protocol_v_o_common_player_subtitle_01-p.html#acc4f5b4f3138e2ca28bfc32c7934ba53", null ]
+];

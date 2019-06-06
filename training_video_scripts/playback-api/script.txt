@@ -1,0 +1,68 @@
+(RC: I think you need to say something about the fact that for the web player, this is all handled transparently if you assign a video/playlist to the player in Studio. The API is for cases where you want to retrieve video/playlist content dynamically. (I'm not sure exactly what the case is for device apps - do you always need to request content via the API?))
+
+[question?]
+In most cases, making calls to the Playback API are transparent to you. With the web-based Brightcove Player, you can assign videos and playlists using Video Cloud Studio. When your player loads in the browser, it makes a call to the Playback API to retrieve your media content. Even the Native Player SDKs provide helper methods to return media data from the Playback API.
+
+There may be times when you want to retrieve your media content dynamically, and you may need access to more of your video and playlist metadata. For this, you can use the Playback API.
+
+[intro]
+Hi, I'm Jeff Doktor, a learning specialist at Brightcove. In this video, you will learn how to retrieve your media content from your Video Cloud library.
+
+[slides]
+In this video, you will learn how to retrieve your media content using the Playback API. Let's take a quick look now.
+
+[slides]
+The Playback API is used to dynamically return video and playlist data from your Video Cloud library.
+It can also be used to search videos in your library.
+This API is read only.
+
+The Playback API is optimized for use by your client-side web and mobile applications.
+To achieve this, the API is designed for low latency. This means the time it takes to access your data is minimal.
+To maximize performance, your data is cached for a short period of time.
+Lastly, the results are filtered to only return playable videos. This means that your player can start video playback as soon as one rendition exists.
+
+If you need a general media management API or need to return videos that are not currently playable, you should use the CMS API.
+
+To get started, you will need a Policy Key for your account.
+
+The Policy Key is used for authentication to access your media data using the Playback API.
+To perform a search with the Playback API you will need a search-enabled Policy Key.
+
+[https://support.brightcove.com/policy-api]
+For more information about Policy Keys, review the support documents for the Policy API.
+
+[https://support.brightcove.com/overview-policy-api#Search_videos]
+To learn how to create a search-enabled Policy Key, see the Search Videos section of the Policy API Overview document.
+
+
+[https://support.brightcove.com/overview-playback-api#Methods]
+The Playback API is read-only and supports requests to get a video or playlist using an ID. You can also retrieve multiple videos from a search request.
+
+If your search returns a large number of results, you can sort the results. You can also page through these results using the limit and offset parameters.
+
+Using a search-enabled Policy Key, you can use the q parameter to search your media using required and excluded terms, custom fields and date ranges.
+[https://support.brightcove.com/cmsplayback-api-videos-search#Basic_search]
+To get started with search, review the Videos search document. The q parameter can be used with either the Playback or CMS API.
+
+[https://support.brightcove.com/quick-start-playback-api#createPlayback]
+Let's take a look at the Quick Start provided for the Playback API.
+This example shows you what to expect when retrieving data from the API.
+The account ID and Policy Key will be used for all of the Playback API requests. Note that we are using a search-enabled Policy Key so that we can search videos.
+
+The "Get a Video" button uses the Video ID to return data for a specific video. When I select the button, we can see the request that was sent to the Playback API. Here we can see the account ID and video ID.
+
+The response contains the data details for the video.
+
+I am selecting the "Get a Playlist" button. In the API request, we can see the account ID and playlist ID.
+The response contains our playlist, which includes metadata for each video in the playlist.
+
+Finally, I am selecting the "Search for Videos" button.
+Here, the request contains my account ID and the q search parameter. In this example, we are retrieving all videos in my account that have a tag value of "sample".
+
+In the response, we can see a list of videos that meet the search criteria. If we look at one of the video's metadata, we can see that the tag value is "sample".
+
+Whether your client-side app uses a web browser, mobile device or TV, you can retrieve your Video Cloud media data using the Playback API.
+Now, you are ready to try it on your own.
+
+[https://support.brightcove.com/documentation-video-cloud-apis]
+By the way, the Playback API is one of several platform APIs. If you are an API developer, be sure to check out the other Brightcove APIs that are available.

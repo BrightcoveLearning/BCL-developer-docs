@@ -1,0 +1,8051 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Ad Manager Controller Documentation Class: AdManagerController</title>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+
+<body onload="onloadFunction()">
+
+<div class="container-fluid" style="padding-top:40px">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Ad Manager Controller Documentation</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="OO.Ads.html">OO.Ads</a>
+						</li>
+						
+						<li>
+							<a href="AdManagerControllerPlatform.html">AdManagerControllerPlatform</a>
+						</li>
+						
+						<li>
+							<a href="AdManagerControllerUi.html">AdManagerControllerUi</a>
+						</li>
+						
+						<li>
+							<a href="OO.AdManagerController.html">OO.AdManagerController</a>
+						</li>
+						
+						<li>
+							<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		<input type="input" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var current = possibleMatches[i].id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches[i].parentNode;
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var current = possibleMatches[i].id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches[i].parentNode;
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	document.getElementById("inputTxt").onkeypress =
+	function(ev)
+	{
+	    var event = ev || window.event;
+	    var charCode = event.which || event.keyCode;
+		/*  Enter is 13.  */
+	    if (charCode == "13") {searchClick();  return false;}
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var possibleMatches_i = possibleMatches[i];
+			var current = possibleMatches_i.id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches_i.parentNode;
+			if (possibleMatches_i.tagName == "DT") {dtParent = possibleMatches_i;}
+			
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	document.getElementById("inputTxt").onkeypress =
+	function(ev)
+	{
+	    var event = ev || window.event;
+	    var charCode = event.which || event.keyCode;
+		/*  Enter is 13.  */
+	    if (charCode == "13") {searchClick();  return false;}
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button></div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	<h1 class="page-title">Class: AdManagerController</h1>
+<section>
+
+<header>
+    <h2>
+    AdManagerController
+    </h2>
+    
+        <div class="class-description">The ad manager controller main class.  This class is registered as a module with the player.</div>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <h4 class="name" id="AdManagerController"><span class="type-signature"></span> AdManagerController<span class="signature">(messageBus, id)</span><span class="type-signature"></span></h4></dt><dd><div class="description">Initialize an instance of the current class using the <b>new</b> keyword along with this constructor.</div></dd><dt><br>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>messageBus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The player message bus</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ID of the player module</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adManagerSettings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ad settings used by the ad manager controller</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>playerSettings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ad settings specific to the player</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>backlotSettings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ad settings set in Backlot</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>pageSettings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ad settings set at the page level</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>ui</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current instance of AdManagerControllerUi class</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>platform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current instance of AdManagerControllerPlatform class</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>currentEmbedCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Code representing the current content video stream</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>movieMetadata</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Metadata for the content video stream</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>startTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The start position of the content video stream (seconds)</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>movieDuration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Duration of the content video stream (seconds)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="OO.AdManagerController_Ad.html">Ad</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt class="name" id="EVENTS">
+    <h4><span class="type-signature"></span>EVENTS<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Subscribable events by ad managers.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>INITIAL_PLAY_REQUESTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised the first time playback is requested</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>REPLAY_REQUESTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when a stream is replayed</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>PLAY_STARTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video first begins to play</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>PLAYHEAD_TIME_CHANGED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised periodically during content playback, reporting the
+                                         current position and duration</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>PAUSE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video is paused</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>RESUME</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video is resumed</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>CONTENT_COMPLETED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video completes</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>CONTENT_AND_ADS_COMPLETED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video and all ads have completed playing</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>SIZE_CHANGED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the size of the player is changed</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>CONTENT_CHANGED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the content video is changed</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>FULLSCREEN_CHANGED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raised when the player enters and exits fullscreen mode.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var amc = new AdManagerController(mb, id);
+amc.addPlayerListener(amc.EVENTS.INITIAL_PLAY_REQUESTED, callback);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="ADTYPE">
+    <h4><span class="type-signature"></span>ADTYPE<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Defines possible ad types.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>LINEAR_OVERLAY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type name for an ad that is not a video but requires the main
+                                  video be paused.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>NONLINEAR_OVERLAY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type name for an ad that is not a video and does not require
+                                     the main video be paused.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>LINEAR_VIDEO</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type name for an ad that is a video and requires the main video be
+                                paused.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>COMPANION</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type name for an ad that is a companion ad.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var amc = new AdManagerController(mb, id);
+var ad = new amc.Ad(position, duration, name, adObj, amc.ADTYPE.LINEAR_VIDEO);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="~handlePodStarted">
+    <h4><span class="type-signature">&lt;inner> </span>handlePodStarted<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="~clearAdTimeout">
+    <h4><span class="type-signature">&lt;inner> </span>clearAdTimeout<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Helper function that checks if a timeout exists for a particular adId and
+erases it.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="onPlayerCreated"><span class="type-signature">&lt;protected> </span>onPlayerCreated<span class="signature">(eventname, elementId, params)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Collects page settings, sets up event dependencies, attempts init, destroys self if required, sets
+up UI, platform, and interface classes, sets up root video element references in AdManagerControllerUi.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>elementId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ID of the root Ooyala element</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Page level parameters</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_ALL_READY</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onPlayerEmbedded"><span class="type-signature">&lt;protected> </span>onPlayerEmbedded<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the UI is ready. Sets up UI elements and adds a listeners on the video element.
+Calls the registerUi function in each registered ad manager.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onMetadataFetched"><span class="type-signature">&lt;protected> </span>onMetadataFetched<span class="signature">(eventname, metadata)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when Backlot settings are available.
+Attempts initialization.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>metadata</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Backlot metadata</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_ALL_READY</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onContentTreeFetched"><span class="type-signature">&lt;protected> </span>onContentTreeFetched<span class="signature">(eventname, content)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the movie metadata is available.
+Attempts initialization.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Movie metadata (duration in milliseconds)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_ALL_READY</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAuthorizationFetched"><span class="type-signature">&lt;protected> </span>onAuthorizationFetched<span class="signature">(event, authorization)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when authorization with the Ooyala server has completed.  Checks if the content is live or VOD.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>authorization</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="loadAdModule"><span class="type-signature"></span>loadAdModule<span class="signature">(adManager, path, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Loads an ad module asynchronously from the network.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adManager</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the ad manager making the request ({adManager}.name)</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The network path to the remote ad module to load</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Calls this function when the network request is complete with one parameter
+                           indicating success (true) or failure (false)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdManagerReady"><span class="type-signature"></span>onAdManagerReady<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        When one ad manager reports it is ready, the ad manager controller will check all of the managers
+registered to see if they are all ready.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_ALL_READY</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeAdManager"><span class="type-signature"></span>removeAdManager<span class="signature">(adManager)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Unregisters an ad manager.  This is called when an ad manager fails to setup or fails to become ready.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adManager</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Name of the ad manager</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_ALL_READY</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdManagerControllerAllReady"><span class="type-signature">&lt;protected> </span>onAdManagerControllerAllReady<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Destroys self if there are no ad managers registered.
+Resets the newStreamHandling flag as the handling is now completed.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="appendToTimeline"><span class="type-signature"></span>appendToTimeline<span class="signature">(adManagerTimeline)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Adds ads to the controller's ad timeline.  This function can be called at any time.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adManagerTimeline</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An array of ads to add to the timeline.
+                                                       The ads do not need to be in time order.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="showCompanion"><span class="type-signature"></span>showCompanion<span class="signature">(companion)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Raises an event on the message bus to notify listeners that a companion ad should be shown.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>companion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The companion ad to display</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:WILL_SHOW_COMPANION_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="adManagerWillControlAds"><span class="type-signature"></span>adManagerWillControlAds<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This blocks the AMC from bringing up the end screen until adManagerDoneControllingAds()
+is called.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="forceAdToPlay"><span class="type-signature"></span>forceAdToPlay<span class="signature">(adManager, ad, adType)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Forces an ad to play immediately, bypassing the timeline.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adManager</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the ad manager that will play the ad.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>ad</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object containing all the optional params for the ad.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>adType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="OO.AdManagerController.html#ADTYPE">OO.AdManagerController#ADTYPE</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type of ad you are trying to force</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="adManagerDoneControllingAds"><span class="type-signature"></span>adManagerDoneControllingAds<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This unblocks the AMC so it can bring up the end screen.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getTimeline"><span class="type-signature">&lt;protected> </span>getTimeline<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns the ad timeline.  This is used in unit testing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    An array of the ads to play during the current video,
+                                       arranged in order of time and ad type.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Array.&lt;<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getAdQueue"><span class="type-signature">&lt;protected> </span>getAdQueue<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns the ad queue.  This is used in unit testing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    An array of the ads in the queue to be played during the
+                                       current commercial break, arranged in play order.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Array.&lt;<a href="OO.AdManagerController_Ad.html">OO.AdManagerController#Ad</a>></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isLastAdPlayed"><span class="type-signature"></span>isLastAdPlayed<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns whether the last ad in the timeline is marked as played.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Whether the last ad in the timeline is marked as played.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">boolean</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="playAd"><span class="type-signature"></span>playAd<span class="signature">(ad)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Triggers playback of an ad.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>ad</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">From this.Ad, object representing the ad</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_NONLINEAR_AD</li>
+    
+        <li>OO.EVENTS.event:ADS_PLAYED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyPodStarted"><span class="type-signature"></span>notifyPodStarted<span class="signature">(adId, numberOfAds)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that an ad or a set of podded ads has begun.  This cancels any ad timeouts.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the ad (Ad.id)</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>numberOfAds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number of ads in the pod/set</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyPodEnded"><span class="type-signature"></span>notifyPodEnded<span class="signature">(adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that an ad or a set of podded ads has ended.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the ad (Ad.id)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AD_POD_ENDED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyNonlinearAdStarted"><span class="type-signature"></span>notifyNonlinearAdStarted<span class="signature">(adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that a nonlinear ad has begun.  This cancels any ad timeouts.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the ad (Ad.id)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyNonlinearAdEnded"><span class="type-signature"></span>notifyNonlinearAdEnded<span class="signature">(adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that a nonlinear ad has ended.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the ad (Ad.id)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:NONLINEAR_AD_PLAYED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyLinearAdStarted"><span class="type-signature"></span>notifyLinearAdStarted<span class="signature">(adId, properties)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that a single linear ad has started.  The ad may be within a pod of ads.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the AMC ad recieved from playad()</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>properties</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Properties of the ad.  This should be an object containing
+  name (string), duration (seconds), clickUrl (string), indexInPod (number indicating the position
+  among podded ads. 1 for first ad, 2 for second, etc), skippable (boolean)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notifyLinearAdEnded"><span class="type-signature"></span>notifyLinearAdEnded<span class="signature">(adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Notifies the player that a single linear ad has ended.  The ad may be within a pod of ads.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the ad (Ad.id)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:SINGLE_AD_PLAYED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="raiseAdPlayhead"><span class="type-signature"></span>raiseAdPlayhead<span class="signature">(playhead, duration)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Raises playhead event in the player.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>playhead</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current video position (seconds)</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current video duration (seconds)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:PLAYHEAD_TIME_CHANGED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="raiseAdError"><span class="type-signature">&lt;protected> </span>raiseAdError<span class="signature">(error)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Raises an ads error on the message bus.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The error name or information.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:ADS_ERROR</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="addPlayerListener"><span class="type-signature"></span>addPlayerListener<span class="signature">(eventname, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Adds listeners on events in AdManagerController.EVENTS which are triggered by this class.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The listener callback function</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removePlayerListener"><span class="type-signature"></span>removePlayerListener<span class="signature">(eventname, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Removes listeners on events in AdManagerController.EVENTS which are triggered by this class.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The listener callback function</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onPlay"><span class="type-signature">&lt;protected> </span>onPlay<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when playback is triggered.  Resumes ad playback if an ad was playing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:WILL_RESUME_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onInitialPlay"><span class="type-signature">&lt;protected> </span>onInitialPlay<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        A new stream is being played, checks the timeline for ads before playback begins.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:INITIAL_PLAY_REQUESTED</li>
+    
+        <li>OO.EVENTS.event:BUFFERING</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onReplay"><span class="type-signature">&lt;protected> </span>onReplay<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when a replay is triggered.  Resets AMC settings and triggers prerolls.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillPlayFromBeginning"><span class="type-signature">&lt;protected> </span>onWillPlayFromBeginning<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when a stream is first played.  Used to set the lastEmbedCode field.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onSetEmbedCode"><span class="type-signature">&lt;protected> </span>onSetEmbedCode<span class="signature">(eventname, embedCode, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the embed code is set for a movie.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>embedCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The video’s Ooyala content ID found in Backlot</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Page level settings for the new embed code</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onEmbedCodeChanged"><span class="type-signature">&lt;protected> </span>onEmbedCodeChanged<span class="signature">(eventname, embedcode)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when embed code is changed.<br/>
+If the embed code is new:<br/>
+<ul><li>ad timelines are reset</li>
+    <li>new metadata will be loaded</li>
+    <li>ad managers are marked as not ready</li>
+    <li>adManager['loadMetadata'] will be called containing the new metadata</li>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>embedcode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The video’s Ooyala content ID found in Backlot</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:CONTENT_CHANGED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onPlayheadTimeChanged"><span class="type-signature">&lt;protected> </span>onPlayheadTimeChanged<span class="signature">(eventname, playhead, duration)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when a video time changes.
+If the main video is not paused, scrubbing, or seeking, then the timeline is checked for ads to play.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>playhead</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current video time (seconds)</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Duration of the current video (seconds)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:PLAYHEAD_TIME_CHANGED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onPause"><span class="type-signature">&lt;protected> </span>onPause<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when pause is triggered.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:PAUSE</li>
+    
+        <li>OO.EVENTS.event:WILL_PAUSE_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillPauseAds"><span class="type-signature">&lt;protected> </span>onWillPauseAds<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when an ad will be paused.  Triggers pauseAd in the appropriate ad manager.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillResumeAds"><span class="type-signature">&lt;protected> </span>onWillResumeAds<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when an ad will be resumed.  Triggers resumeAd in the appropriate ad manager.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillPlay"><span class="type-signature">&lt;protected> </span>onWillPlay<span class="signature">(eventname, streamurl)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Handle scrub and seek.
+Note: This gets called on scrubber seek but not on button seek unless the player is paused.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>streamurl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The url of the stream about to play</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:PLAY_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onContentVideoEnded"><span class="type-signature">&lt;protected> </span>onContentVideoEnded<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the video in the main video element ends.
+Triggers postrolls.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The event object</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    
+        <li>this.EVENTS.event:CONTENT_COMPLETED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onPlayed"><span class="type-signature">&lt;protected> </span>onPlayed<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when a stream has completed.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:CONTENT_COMPLETED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onSeek"><span class="type-signature">&lt;protected> </span>onSeek<span class="signature">(eventname, playhead)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called while a video is seeking.  Updates the current playhead if a video ad is not playing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>playhead</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current video position (seconds)</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onSeeked"><span class="type-signature">&lt;protected> </span>onSeeked<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when a video has seeked.  If an ad is playing, do nothing.<br/>
+If it just returned from playing a video ad in single element mode, switch back to the content video.<br/>
+If the stream started from an offset note that the video has now started.<br/>
+If not currently scrubbing, check the timeline if any ads were skipped over.<br/>
+Note: Does not get called on seek to beginning.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Does get called while scrubbing and at scrubbed and after willPlay
+if weren't paused.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_VIDEO_UNSWITCHED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_ADS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onScrubbing"><span class="type-signature">&lt;protected> </span>onScrubbing<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Detects scrubbing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onScrubbed"><span class="type-signature">&lt;protected> </span>onScrubbed<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Detects done scrubbing.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onStreamPlayFailed"><span class="type-signature">&lt;protected> </span>onStreamPlayFailed<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Reset ad manager controller on stream play failed.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onSizeChanged"><span class="type-signature">&lt;protected> </span>onSizeChanged<span class="signature">(event, width, height)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the video size changes.  Note down the new size and raise event to ad managers.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The sizeChanged event name</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new player width</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new player height</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:SIZE_CHANGED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onControlsShown"><span class="type-signature">&lt;protected> </span>onControlsShown<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the control bar is shown. Raises event to ad managers.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:CONTROLS_SHOWN</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onControlsHidden"><span class="type-signature">&lt;protected> </span>onControlsHidden<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the control bar is shown. Raises event to ad managers.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>this.EVENTS.event:CONTROLS_HIDDEN</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="adsClicked"><span class="type-signature"></span>adsClicked<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        When an ad is clicked.  If the ad is playing and if possible, pause the ad and show controls.
+If the ad was paused, resume it and hide controls if necessary.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:ADS_CLICKED</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdManagerControllerWillSwitchVideo"><span class="type-signature">&lt;protected> </span>onAdManagerControllerWillSwitchVideo<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the controller indicates that it will unload the main content video and load an ad.
+Triggers the first ad in the set.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdManagerControllerVideoUnswitched"><span class="type-signature">&lt;protected> </span>onAdManagerControllerVideoUnswitched<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        When this function is called, the state switches to either Playback or Overlay, depending on the
+previous state.  This empty function must exist for the state machine to change states.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillPlayAds"><span class="type-signature">&lt;protected> </span>onWillPlayAds<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when ad mode is beginning.
+Either notifies that the main content video will be unloaded or triggers the first ad in the set.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_WILL_SWITCH_VIDEO</li>
+    
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdPodStarted"><span class="type-signature">&lt;protected> </span>onAdPodStarted<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        When this function is called, the state machine switches to LinearAd. This empty function must exist
+for the state machine to change states.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onWillPlayNonlinearAd"><span class="type-signature">&lt;protected> </span>onWillPlayNonlinearAd<span class="signature">(eventname, ad)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets overlay state.  Shows the overlay.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>ad</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ad that will be played</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdPodEnded"><span class="type-signature">&lt;protected> </span>onAdPodEnded<span class="signature">(eventname, adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Trigger next queued ad if the ended ad is the current ad.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the ad that finished playing</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:ADS_PLAYED</li>
+    
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onNonlinearAdPlayed"><span class="type-signature">&lt;protected> </span>onNonlinearAdPlayed<span class="signature">(eventname, adId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Trigger next queued ad if the ended ad is the current ad.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event for which this callback is called</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>adId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ID of the ad that has ended</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:ADS_PLAYED</li>
+    
+        <li>OO.EVENTS.event:AD_POD_STARTED</li>
+    
+        <li>OO.EVENTS.event:WILL_PLAY_SINGLE_AD</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdsPlayed"><span class="type-signature">&lt;protected> </span>onAdsPlayed<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Resumes the content video after ads are completed.  Re-enables controls and ends ad mode.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>OO.EVENTS.event:AMC_VIDEO_UNSWITCHED</li>
+    
+        <li>OO.EVENTS.event:AMC_ALL_ADS_DONE</li>
+    
+        <li>OO.EVENTS.event:AMC_PREROLLS_DONE</li>
+    
+        <li>OO.EVENTS.event:ENABLE_PLAYBACK_CONTROLS</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onAdsClicked"><span class="type-signature">&lt;protected> </span>onAdsClicked<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Alerts the ad manager that an ad has been clicked on and it should react.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="onDestroy"><span class="type-signature">&lt;protected> </span>onDestroy<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Called when the player is being destroyed.  Destroys the ad manager controller, including the state
+machine and all registered ad managers.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer><script src="scripts/searchBox.js"></script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><link type="text/css" rel="stylesheet" href="styles/feedbackAndSearch.css"><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script src="scripts/searchBox.js"></script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><link type="text/css" rel="stylesheet" href="styles/feedbackAndSearch.css"><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {/*var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}*/  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span>
+					
+					
+		<span style="display:none"><a href="https://brightcove.com">© 2016 Brightcove, Inc. •
+			All Rights Reserved</a>  • <a
+			href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html">Ooyala
+				Support - Developer Documentation</a>
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+	<script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : "100px"
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+		} );
+	 </script>
+
+
+
+	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
+	
+
+</body>
+</html>

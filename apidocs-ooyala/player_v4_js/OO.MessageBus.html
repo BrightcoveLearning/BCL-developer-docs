@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Player v4 JavaScript API Reference Class: MessageBus</title>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+
+<body onload="onloadFunction()"><div id="searchAnswers" class="modal"><div class="modal-content"><span class="close">&times;</span><p id="resultsTxt">No results found.</p></div></div>
+
+<div class="container-fluid" style="padding-top:40px">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Player v4 JavaScript API Reference</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="OO.html">OO</a>
+						</li>
+						
+						<li>
+							<a href="OO.STATE.html">OO.STATE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html">OO.EVENTS</a>
+						</li>
+						
+						<li>
+							<a href="OO.ERROR.html">OO.ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.ERROR.API.html">OO.ERROR.API</a>
+						</li>
+						
+						<li>
+							<a href="OO.ERROR.API.SAS.html">OO.ERROR.API.SAS</a>
+						</li>
+						
+						<li>
+							<a href="OO.ERROR.PLAYBACK.html">OO.ERROR.PLAYBACK</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="OO.Player.html">OO.Player</a>
+						</li>
+						
+						<li>
+							<a href="OO.MessageBus.html">OO.MessageBus</a>
+						</li>
+						
+						<li>
+							<a href="OO.PlayerApi.html">OO.PlayerApi</a>
+						</li>
+						
+						<li>
+							<a href="OO.Ads.html">OO.Ads</a>
+						</li>
+						
+						<li>
+							<a href="AdManagerControllerPlatform.html">AdManagerControllerPlatform</a>
+						</li>
+						
+						<li>
+							<a href="AdManagerControllerUi.html">AdManagerControllerUi</a>
+						</li>
+						
+						<li>
+							<a href="AdManagerController.html">AdManagerController</a>
+						</li>
+						
+						<li>
+							<a href="Ad.html">Ad</a>
+						</li>
+						
+						<li>
+							<a href="OO.Video.html">OO.Video</a>
+						</li>
+						
+						<li>
+							<a href="VideoControllerInterface.html">VideoControllerInterface</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYER_CREATED">OO.EVENTS#event_PLAYER_CREATED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SET_EMBED_CODE">OO.EVENTS#event_SET_EMBED_CODE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_EMBED_CODE_CHANGED">OO.EVENTS#event_EMBED_CODE_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_AUTH_TOKEN_CHANGED">OO.EVENTS#event_AUTH_TOKEN_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_GUID_SET">OO.EVENTS#event_GUID_SET</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CONTENT_TREE_FETCHED">OO.EVENTS#event_CONTENT_TREE_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_WILL_REQUIRE_EMBED_CODE_METADATA">OO.EVENTS#event_WILL_REQUIRE_EMBED_CODE_METADATA</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_WILL_FETCH_EMBED_CODE_METADATA">OO.EVENTS#event_WILL_FETCH_EMBED_CODE_METADATA</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_EMBED_CODE_METADATA_FETCHED">OO.EVENTS#event_EMBED_CODE_METADATA_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_METADATA_FETCHED">OO.EVENTS#event_METADATA_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_THUMBNAILS_FETCHED">OO.EVENTS#event_THUMBNAILS_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_AUTHORIZATION_FETCHED">OO.EVENTS#event_AUTHORIZATION_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_UPDATE_ASSET">OO.EVENTS#event_UPDATE_ASSET</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYBACK_READY">OO.EVENTS#event_PLAYBACK_READY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_INITIAL_PLAY">OO.EVENTS#event_INITIAL_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYHEAD_TIME_CHANGED">OO.EVENTS#event_PLAYHEAD_TIME_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BUFFERING">OO.EVENTS#event_BUFFERING</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BUFFERED">OO.EVENTS#event_BUFFERED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_DOWNLOADING">OO.EVENTS#event_DOWNLOADING</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BITRATE_INFO_AVAILABLE">OO.EVENTS#event_BITRATE_INFO_AVAILABLE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BITRATE_CHANGED">OO.EVENTS#event_BITRATE_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SEND_QUALITY_CHANGE">OO.EVENTS#event_SEND_QUALITY_CHANGE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CLOSED_CAPTIONS_INFO_AVAILABLE">OO.EVENTS#event_CLOSED_CAPTIONS_INFO_AVAILABLE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SET_CLOSED_CAPTIONS_LANGUAGE">OO.EVENTS#event_SET_CLOSED_CAPTIONS_LANGUAGE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_MULTI_AUDIO_FETCHED">OO.EVENTS#event_MULTI_AUDIO_FETCHED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_MULTI_AUDIO_CHANGED">OO.EVENTS#event_MULTI_AUDIO_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SET_CURRENT_AUDIO">OO.EVENTS#event_SET_CURRENT_AUDIO</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_MULTIAUDIO_ERROR">OO.EVENTS#event_MULTIAUDIO_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_ASSET_DIMENSION">OO.EVENTS#event_ASSET_DIMENSION</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SEEK">OO.EVENTS#event_SEEK</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SEEKED">OO.EVENTS#event_SEEKED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_LIVE_BUTTON_CLICKED">OO.EVENTS#event_LIVE_BUTTON_CLICKED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAY">OO.EVENTS#event_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PAUSE">OO.EVENTS#event_PAUSE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PAUSED">OO.EVENTS#event_PAUSED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYED">OO.EVENTS#event_PLAYED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_WILL_CHANGE_FULLSCREEN">OO.EVENTS#event_WILL_CHANGE_FULLSCREEN</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_FULLSCREEN_CHANGED">OO.EVENTS#event_FULLSCREEN_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SIZE_CHANGED">OO.EVENTS#event_SIZE_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CHANGE_VOLUME">OO.EVENTS#event_CHANGE_VOLUME</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VOLUME_CHANGED">OO.EVENTS#event_VOLUME_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CHANGE_MUTE_STATE">OO.EVENTS#event_CHANGE_MUTE_STATE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_MUTE_STATE_CHANGED">OO.EVENTS#event_MUTE_STATE_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_TOGGLE_STEREO">OO.EVENTS#event_TOGGLE_STEREO</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_TOGGLE_FULLSCREEN_VR">OO.EVENTS#event_TOGGLE_FULLSCREEN_VR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_MOVE_VR_TO_DIRECTION">OO.EVENTS#event_MOVE_VR_TO_DIRECTION</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CLEAR_VIDEO_TYPE">OO.EVENTS#event_CLEAR_VIDEO_TYPE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_RECREATING_UI">OO.EVENTS#event_RECREATING_UI</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CHANGE_CLOSED_CAPTION_LANGUAGE">OO.EVENTS#event_CHANGE_CLOSED_CAPTION_LANGUAGE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_ERROR">OO.EVENTS#event_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_API_ERROR">OO.EVENTS#event_API_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BITRATE_INITIAL">OO.EVENTS#event_BITRATE_INITIAL</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BITRATE_FIVE_SEC">OO.EVENTS#event_BITRATE_FIVE_SEC</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_BITRATE_STABLE">OO.EVENTS#event_BITRATE_STABLE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYBACK_START_ERROR">OO.EVENTS#event_PLAYBACK_START_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYBACK_MIDSTREAM_ERROR">OO.EVENTS#event_PLAYBACK_MIDSTREAM_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SKIN_CONFIG_LOADED">OO.EVENTS#event_SKIN_CONFIG_LOADED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PLUGIN_ERROR">OO.EVENTS#event_VC_PLUGIN_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_INITIAL_PLAY_STARTING">OO.EVENTS#event_INITIAL_PLAY_STARTING</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_REQUEST_PREVIOUS_VIDEO">OO.EVENTS#event_REQUEST_PREVIOUS_VIDEO</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_REQUEST_NEXT_VIDEO">OO.EVENTS#event_REQUEST_NEXT_VIDEO</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_DESTROY">OO.EVENTS#event_DESTROY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_READY">OO.EVENTS#event_VC_READY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_CREATE_VIDEO_ELEMENT">OO.EVENTS#event_VC_CREATE_VIDEO_ELEMENT</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_UPDATE_ELEMENT_STREAM">OO.EVENTS#event_VC_UPDATE_ELEMENT_STREAM</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_VIDEO_ELEMENT_CREATED">OO.EVENTS#event_VC_VIDEO_ELEMENT_CREATED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_FOCUS_VIDEO_ELEMENT">OO.EVENTS#event_VC_FOCUS_VIDEO_ELEMENT</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_VIDEO_ELEMENT_IN_FOCUS">OO.EVENTS#event_VC_VIDEO_ELEMENT_IN_FOCUS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_VIDEO_ELEMENT_LOST_FOCUS">OO.EVENTS#event_VC_VIDEO_ELEMENT_LOST_FOCUS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_DISPOSE_VIDEO_ELEMENT">OO.EVENTS#event_VC_DISPOSE_VIDEO_ELEMENT</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_VIDEO_ELEMENT_DISPOSED">OO.EVENTS#event_VC_VIDEO_ELEMENT_DISPOSED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_SET_VIDEO_STREAMS">OO.EVENTS#event_VC_SET_VIDEO_STREAMS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_ERROR">OO.EVENTS#event_VC_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_SET_INITIAL_TIME">OO.EVENTS#event_VC_SET_INITIAL_TIME</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PLAY">OO.EVENTS#event_VC_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_CAN_PLAY">OO.EVENTS#event_VC_CAN_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_WILL_PLAY">OO.EVENTS#event_VC_WILL_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PLAYING">OO.EVENTS#event_VC_PLAYING</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PLAYED">OO.EVENTS#event_VC_PLAYED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PLAY_FAILED">OO.EVENTS#event_VC_PLAY_FAILED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PAUSE">OO.EVENTS#event_VC_PAUSE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PAUSED">OO.EVENTS#event_VC_PAUSED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_SEEK">OO.EVENTS#event_VC_SEEK</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_SEEKING">OO.EVENTS#event_VC_SEEKING</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_SEEKED">OO.EVENTS#event_VC_SEEKED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PRELOAD">OO.EVENTS#event_VC_PRELOAD</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_RELOAD">OO.EVENTS#event_VC_RELOAD</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_PRIME_VIDEOS">OO.EVENTS#event_VC_PRIME_VIDEOS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_TAG_FOUND">OO.EVENTS#event_VC_TAG_FOUND</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_RELOAD_AND_PLAY">OO.EVENTS#event_VC_RELOAD_AND_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_WILL_RELOAD_AND_PLAY">OO.EVENTS#event_VC_WILL_RELOAD_AND_PLAY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VC_RELOADED">OO.EVENTS#event_VC_RELOADED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SSAI_PLAY_SINGLE_AD">OO.EVENT#event_SSAI_PLAY_SINGLE_AD</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_SSAI_SINGLE_AD_PLAYED">OO.EVENT#event_SSAI_SINGLE_AD_PLAYED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_WILL_PLAY_ADS">OO.EVENTS#event_WILL_PLAY_ADS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_ADS_PLAYED">OO.EVENTS#event_ADS_PLAYED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_ADS_ERROR">OO.EVENTS#event_ADS_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_ADS_CLICKED">OO.EVENTS#event_ADS_CLICKED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_WILL_SHOW_COMPANION_ADS">OO.EVENTS#event_WILL_SHOW_COMPANION_ADS</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PAGE_UNLOAD_REQUESTED">OO.EVENTS#event_PAGE_UNLOAD_REQUESTED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_PLAYLISTS_READY">OO.EVENTS#event_PLAYLISTS_READY</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_TOUCH_MOVE">OO.EVENTS#event_TOUCH_MOVE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_END_VR_MOVE">OO.EVENTS#event_END_VR_MOVE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CHECK_VR_DIRECTION">OO.EVENTS#event_CHECK_VR_DIRECTION</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VR_DIRECTION_CHANGED">OO.EVENTS#event_VR_DIRECTION_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_VIDEO_TYPE_CHANGED">OO.EVENTS#event_VIDEO_TYPE_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#.event:HA_ENABLED">OO.EVENTS.event:HA_ENABLED</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_HA_FAILOVER_NOW">OO.EVENTS#event_HA_FAILOVER_NOW</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_HA_WILL_FAILOVER">OO.EVENTS#event_HA_WILL_FAILOVER</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_HA_FAILOVER_COMPLETE">OO.EVENTS#event_HA_FAILOVER_COMPLETE</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_HA_FAILOVER_ERROR">OO.EVENTS#event_HA_FAILOVER_ERROR</a>
+						</li>
+						
+						<li>
+							<a href="OO.EVENTS.html#event_CANCEL_GEO_CHECKING">OO.EVENT#event_CANCEL_GEO_CHECKING</a>
+						</li>
+						
+						<li>
+							<a href="VideoController_EVENTS.html#.event:MULTI_AUDIO_AVAILABLE">VideoController#EVENTS.event:MULTI_AUDIO_AVAILABLE</a>
+						</li>
+						
+						<li>
+							<a href="VideoController_EVENTS.html#.event:MULTI_AUDIO_CHANGED">VideoController#EVENTS.event:MULTI_AUDIO_CHANGED</a>
+						</li>
+						
+						<li>
+							<a href="VideoController._EVENTS.html#.event:SET_CURRENT_AUDIO">VideoController.#EVENTS.event:SET_CURRENT_AUDIO</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		<input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button></div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	<h1 class="page-title">Class: MessageBus</h1>
+<section>
+
+<header>
+    <h2>
+        <span class="ancestors"><a href="OO.html">OO</a>.</span>
+    
+    MessageBus
+    </h2>
+    
+        <div class="class-description">Represents the Ooyala V4 Player Message Bus. Use message bus events to subscribe to or publish player events from video to ad playback.
+<p>When you create an <a href="OO.Player.html">OO.Player</a> object (for example, <code>myplayer = OO.Player.create(...)</code> ), that object contains a Message Bus object named <code>mb</code>.
+For example, you would access the <code><a href="#publish">publish()</a></code> method by calling <code>myplayer.mb.publish(...)</code>.</p></div>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <h4 class="name" id="MessageBus"><span class="type-signature"></span> MessageBus<span class="signature">()</span><span class="type-signature"></span></h4></dt><dd><div class="description">Initialize an instance of the current class using the new keyword along with this constructor.</div><dt class="name" id="description">
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="addDependent"><span class="type-signature"></span>addDependent<span class="signature">(eventName, dependentEvent, subscriber, onMergeParams)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Enables you to send a publish or subscribe message that is dependent on a condition or event.
+For example, you might want to change the UI based on the location or time of day.
+This method blocks the event (<code>eventName</code>) until the dependent event (<code>dependentEvent</code>) fires.
+For more information and examples of usage, see
+<a href="http://help-ooyala.brightcove.com/developers/documentation/reference/player_v3_dev_listenevent.html" target="target">Listening to a Message Bus Event</a>.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>dependentEvent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event that triggers the specified event name.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>subscriber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the subscriber to which the message bus will publish the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>onMergeParams</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Optional) A function used to pass data to the handler for the dependent event.
+This function is only necessary if need to complete a computation before passing data to the dependent event handler.
+This function can take up to four arguments and returns an array of arguments to be passed into the dependent event listener.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">//  This blocks the PAUSED event from firing until
+       // the &#x27;user_allowed_pause&#x27; event has fired
+       player.mb.addDependent(
+         OO.EVENTS.PAUSED,
+         &#x27;user_allowed_pause&#x27;,
+         &#x27;example&#x27;,
+         function(){}
+       );</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeDependent"><span class="type-signature"></span>removeDependent<span class="signature">(source, target)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Removes all dependencies on event 'source' by event 'target'
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The depending event that is blocked</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The dependent event that is blocking</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="publish"><span class="type-signature"></span>publish<span class="signature">(eventName)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Enables you to publish events to the message bus.<br/>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event. Comma-separated arguments for the event may follow the event name as needed.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">myplayer.mb.publish(OO.EVENTS.PLAY);</pre>
+
+    <pre class="sunlight-highlight-javascript">myplayer.mb.publish(OO.EVENTS.WILL_CHANGE_FULLSCREEN,true);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="subscribe"><span class="type-signature"></span>subscribe<span class="signature">(eventName, subscriber, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Subscribe to an event published to the message bus.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>subscriber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the subscriber to which the message bus will publish the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The function that will execute when the subscriber receives the event notification.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">myplayer.mb.subscribe(OO.EVENTS.METADATA_FETCHED, &#x27;example&#x27;, function(eventName) {});</pre>
+
+    <pre class="sunlight-highlight-javascript">// Subscribes to all events published by the Message Bus
+messageBus.subscribe(&quot;*&quot;, &#x27;example&#x27;, function(eventName) {});</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="unsubscribe"><span class="type-signature"></span>unsubscribe<span class="signature">(eventName, subscriber, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Unsubscribes from an event published to the message bus.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>eventName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>subscriber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the subscriber to which the message bus will unsubscribe from the event.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The function that normally executes when the subscriber receives the event notification.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">messageBus.unsubscribe(OO.EVENTS.METADATA_FETCHED, &#x27;example&#x27;, function(eventName) {});</pre>
+
+    <pre class="sunlight-highlight-javascript">// Unsubscribes from all events published by the Message Bus
+messageBus.unsubscribe(&quot;*&quot;, &#x27;example&#x27;, function(eventName) {});</pre>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer><script src="scripts/searchBox.js"></script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><link type="text/css" rel="stylesheet" href="styles/feedbackAndSearch.css"><span class="jsdoc-message"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span>
+					
+					
+		
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+	<script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : "100px"
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+		} );
+	 </script>
+
+
+
+	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
+	
+
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Source: ooyala-analytics.js</title>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+
+<style> .feedback-button, .feedback-button>a{background-color: #4F4E52; margin-left: auto; margin-right: auto; color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 10px; width: 150px; cursor: pointer;} </style><script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+
+<body onload="onloadFunction()">
+
+<div class="container-fluid" style="padding-top:40px">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Ooyala IQ JavaScript SDK</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="Ooyala.Analytics.Reporter.html">Ooyala.Analytics.Reporter</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		<input type="input" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var current = possibleMatches[i].id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches[i].parentNode;
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var current = possibleMatches[i].id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches[i].parentNode;
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	document.getElementById("inputTxt").onkeypress =
+	function(ev)
+	{
+	    var event = ev || window.event;
+	    var charCode = event.which || event.keyCode;
+		/*  Enter is 13.  */
+	    if (charCode == "13") {searchClick();  return false;}
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><script>
+	function stringDist(strA, strB)
+	{
+		var lenA = strA.length;  var lenB = strB.length;
+		if (lenA == 0) {return lenB;}  if (lenB == 0) {return lenA;}
+		var bounds = lenB + 1;
+		var prevCalc = [];  var calc = [];
+		for (var j = 0; j < bounds; j++) {prevCalc[j] = j;}
+		for (var i = 0; i < lenA; i++)
+		{
+			calc[0] = i + 1;
+			for (var j = 0; j < lenB; j++)
+			{
+				var cost = 1;
+				if (strA.charAt(i) == strB.charAt(j)) {cost = 0;}
+				var minimal = calc[j] + 1;
+				var temp = prevCalc[j + 1] + 1;  if (temp < minimal) {minimal = temp;}
+				temp = prevCalc[j] + cost;  if (temp < minimal) {minimal = temp;}
+				calc[j + 1] = minimal;
+			}
+			for (var j = 0; j < bounds; j++) {prevCalc[j] = calc[j];}
+		}
+		return calc[lenB];
+	}
+	function searchExit()
+	{
+		searchOut.style.display = "none";
+	}
+	function searchClick()
+	{
+		var searchOut = document.getElementById("searchAnswers");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		searchOut.style.display = "block";
+		closeBtn.onclick = function() {searchOut.style.display = "none";}
+		
+		var inputTxtUpper = document.getElementById("inputTxt").value;
+		var txtResults = document.getElementById("resultsTxt");
+		txtResults.innerHTML = "No results matching &quot;<b>" + inputTxtUpper + "</b>&quot;.";
+		var inputTxt = inputTxtUpper.toLowerCase();
+		if (inputTxt == "") {return false;}
+		var possibleMatches = [];
+		var possibleLen = 0;
+		{
+			var possMatches = document.getElementsByClassName("name");
+			possibleLen = possMatches.length;
+			for (var i = 0; i < possibleLen; i++)
+			{
+				possibleMatches[i] = possMatches[i];
+			}
+			possMatches = document.getElementsByClassName("readme-section-intro");
+			for (var i = 0; i < possMatches.length; i++)
+			{
+				possibleMatches[possibleLen + i] = possMatches[i];
+			}
+			possibleLen = possibleMatches.length;
+		}
+		
+		var actualMatches = [];
+		var semiMatches = [];
+		
+		for (var i = 0; i < possibleLen; i++)
+		{
+			var score = 0;
+			var possibleMatches_i = possibleMatches[i];
+			var current = possibleMatches_i.id;
+			if (current.length == 0) {continue;}
+			var stringsArray = current.toLowerCase().split(" ");
+			
+			var dtParent = possibleMatches_i.parentNode;
+			if (possibleMatches_i.tagName == "DT") {dtParent = possibleMatches_i;}
+			
+			var ddElement = dtParent.nextElementSibling;
+			if (ddElement)
+			{
+				if (ddElement.childNodes)
+				{
+					var descendantNodes = ddElement.childNodes;
+					var chilLen = descendantNodes.length;
+					
+					for (var j = 0; j < chilLen; j++)
+					{
+						if (descendantNodes[j].innerHTML)
+						{
+							stringsArray = stringsArray.concat(descendantNodes[j].innerHTML.trim().split(" "));
+						}
+					}
+				}
+			}
+			
+			var inputArray = inputTxt.trim().split(" ");
+			var inputLen = inputArray.length;
+			var stringsLen = stringsArray.length;
+			
+			var shouldBreak = false;
+			var scoreLim = 5;
+			for (var k = 0; k < inputLen; k++)
+			{
+				var currLength = inputArray[k].length;
+				if (currLength <= 1) {scoreLim = 1;  break;}
+				if (currLength < scoreLim + 1) {scoreLim = currLength - 1;}
+			}
+			
+			var bestScore = scoreLim + 1;
+			for (var j = 0; j < stringsLen; j++)
+			{
+				for (var k = 0; k < inputLen; k++)
+				{
+					score = stringDist(stringsArray[j].toLowerCase(), inputArray[k]);
+					if (score < bestScore) {bestScore = score;}
+					if (score == 0) {break;}
+				}
+				if (score == 0) {break;}
+			}
+			
+			if (bestScore == 0) {actualMatches[actualMatches.length] = current;}
+			else if (bestScore < scoreLim) {semiMatches[semiMatches.length] = current;}
+		}
+		
+		actualMatches.sort();  semiMatches.sort();
+		var actualLen = actualMatches.length;  var semiLen = semiMatches.length;
+		if ((actualLen == 0) && (semiLen == 0)) {return false;}
+		var outString = "";
+		if (actualLen > 0)
+		{
+			outString = "Results matching &quot;<b>" + inputTxtUpper + "</b>&quot;&#58;<br/><ul>";
+		}
+		for (var j = 0; j < actualLen; j++)
+		{
+			var linkOut = actualMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + actualMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (actualLen > 0) {outString += "</ul>";}
+		if (semiLen > 0)
+		{
+			if (actualLen > 0) {outString += "Or did you mean&#58;<br/><ul>";}
+			else {outString += "Did you mean&#58;<br/><ul>";}
+		}
+		for (var j = 0; j < semiLen; j++)
+		{
+			var linkOut = semiMatches[j];
+			if (linkOut == "readmeSectionIntro")
+			{
+				if (document.getElementsByClassName("brand").length > 0) {linkOut = document.getElementsByClassName("brand")[0].innerHTML;}
+			}
+			outString += "<li><a onclick=" + "searchExit()" + " href=#" + semiMatches[j] + ">" + linkOut + "</a></li>";
+		}
+		if (semiLen > 0) {outString += "</ul>";}
+		txtResults.innerHTML = outString;
+		return false;
+	}
+	document.getElementById("inputTxt").onkeypress =
+	function(ev)
+	{
+	    var event = ev || window.event;
+	    var charCode = event.which || event.keyCode;
+		/*  Enter is 13.  */
+	    if (charCode == "13") {searchClick();  return false;}
+	}
+	</script><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button><input type="input" placeholder="Search" id="inputTxt" style="margin-left: 15px;  margin-top: 7px;  margin-right: 4px;  margin-bottom: 3px;  height: 20px;"/><button id="searchButton" onclick="searchClick()" style="margin-top: 4px;">&#128270;</button></div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
+
+
+		<h1 class="page-title">Source: ooyala-analytics.js</h1>
+    
+<section>
+	<article>
+		<pre
+			class="sunlight-highlight-javascript linenums">// Requires:
+// reporter.js
+
+Ooyala.Util.createNamespace("Ooyala.Analytics")
+
+/**
+ * The Ooyala IQ JavaScript SDK enables the integration of Ooyala analytics with any player. The user 
+ * needs to obtain a provider code from Ooyala first before this can be used. The integration must conform 
+ * to calling the methods in the right order, otherwise analytics metrics are not guaranteed to be correct.
+ *
+ * @example
+ * var pCode = "xxxxxx"
+ * var ooyalaReporter = new Ooyala.Analytics.Reporter(pCode);
+ * ooyalaReporter.reportPlayerLoad();
+ * ..
+ * ooyalaReporter.initializeMedia("5612443");
+ * ooyalaReporter.setMediaDuration(60000);
+ * ooyalaReporter.reportPlayRequested();
+ * ooyalaReporter.reportPlaybackStarted();
+ * ..
+ * ooyalaReporter.reportPlayHeadUpdate(2000);
+ * ..
+ * ooyalaReporter.reportPlayHeadUpdate(4000);
+ * ..
+ * ooyalaReporter.reportPlayHeadUpdate(60000);
+ * ooyalaReporter.reportComplete();
+ *
+ * @constructor
+ * @param {string} pCode - The customer-specific provider code obtained from Ooyala.
+ */
+Ooyala.Analytics.Reporter = function (pCode) {
+
+    this._guidManager = new Ooyala.Analytics._GuidManager();
+    this._guid = this._guidManager.getOrGenerateGuid();
+    this._reporter = new Ooyala.Reporter(pCode,
+        {
+            "guid": this._guid,
+            "source": Ooyala.Logging.SourceType.STANDALONE_ANALYTICS
+        }
+    );
+};
+
+//TODO: make sure the order is maintained: initializeMedia -> setMediaDuration -> other calls
+Ooyala.Analytics.Reporter.prototype = {
+
+    /**
+     * Call this method to report that a player instance has fully loaded. This should only be called once per reporter.
+     * @method Ooyala.Analytics.Reporter#reportPlayerLoad
+     */
+    reportPlayerLoad: function () {
+        this._reporter.reportPlayerLoad();
+    },
+
+    /**
+     * Set the media id on which to report analytics information. This should also get called when the 
+     * video within the player changes (in the case of back-to-back videos coming from a single instance 
+     * of the player). This may only be called once per video and should only be called when the video has 
+     * been displayed to the end user.
+     * @method Ooyala.Analytics.Reporter#initializeMedia
+     * @param {string} mediaId - The customer-specific id for the media item.
+     */
+    initializeMedia: function (mediaId) {
+        this._reporter.initializeVideo(mediaId);
+    },
+
+    /**
+     * Call this method to set the duration of the video. 
+     * This can be called only after the Ooyala.Analytics.Reporter#initializeVideo has been called.
+     * @method Ooyala.Analytics.Reporter#setMediaDuration
+     * @param {number} durationMillis - The duration of the video in milliseconds.
+     */
+    setMediaDuration: function (durationMillis) {
+        this._reporter.setVideoDuration(durationMillis)
+    },
+
+    /**
+     * Call this method to report when the playback of the video has been requested.
+     * @method Ooyala.Analytics.Reporter#reportPlayRequested
+     * @param {boolean} isAutoPlay - true if the play was auto triggered.
+     */
+    reportPlayRequested: function (isAutoPlay) {
+        this._reporter.reportPlayRequested();
+    },
+
+    /**
+     * Call this method when the media has been requested to be *replayed*.
+     * @method Ooyala.Analytics.Reporter#reportReplay
+     */
+    reportReplay: function() {
+        this._reporter.reportReplay();
+    },
+
+    /**
+     * Call this method when playback of the media has actually begun.
+     * @method Ooyala.Analytics.Reporter#reportPlaybackStarted
+     */
+    reportPlaybackStarted: function () {
+        this._reporter.reportVideoStarted();
+    },
+
+    /**
+     * Call this method when playback pause has been triggered.
+     * @method Ooyala.Analytics.Reporter#reportPause
+     */
+    reportPause: function () {
+    },
+
+    /**
+     * Call this method when playback resume has been triggered.
+     * @method Ooyala.Analytics.Reporter#reportResume
+     */
+    reportResume: function () {
+    },
+
+    /**
+     * Call this method when playback of the media item is completed.
+     * @method Ooyala.Analytics.Reporter#reportComplete
+     */
+    reportComplete: function () {
+    },
+
+    /**
+     * Call this method to report that the playhead of the media was updated (either because some 
+     * amount of playback occurred or through scrubbing). It is important that this method gets called 
+     * frequently (every 2-3 seconds) as the media is being played.
+     * @method Ooyala.Analytics.Reporter#reportPlayHeadUpdate
+     * @param {number} playHeadPositionMillis - The current position of the playhead in milliseconds.
+     */
+    reportPlayHeadUpdate: function (playHeadPositionMillis) {
+        this._reporter.reportPlayheadUpdate(playHeadPositionMillis);
+    }
+};</pre>
+	</article>
+</section>
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer><script src="scripts/searchBox.js"></script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><link type="text/css" rel="stylesheet" href="styles/feedbackAndSearch.css"><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script src="scripts/searchBox.js"></script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><link type="text/css" rel="stylesheet" href="styles/feedbackAndSearch.css"><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {/*var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}*/  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var searchOut = document.getElementById("searchAnswers");  if (searchOut) {searchOut.style.display = "none";}  var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><script>function onloadFunction() {var theLink = document.getElementById("feedbackLink");  var linkStr = "mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20";  linkStr += encodeURIComponent(window.location);  linkStr +="%20%0A%0A%3Cyour%20comment%20here%3E";  theLink.href = linkStr;}</script><div class="feedback-button"><a id="feedbackLink" href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&body=I%20have%20a%20comment%20for%20the%20page%20%0A%0A%20%20%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><div class="feedback-button"><a href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&amp;body=I%20have%20comment%20for%20the%20page%20%0A%0A%20http%3A%2F%2Fhelp-ooyala.brightcove.com%2Fdevelopers%2Fdocumentation%2Fconcepts%2Fabout.html%20%0A%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #A0A0A0; /*margin-left: auto; margin-right: auto;*/ color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 14px; width: 150px; cursor: pointer;} </style><span class="jsdoc-message" style="border-top: 1px solid #4F4E52; padding-top: 3px;"><a href="https://brightcove.com" target="_blank">&copy; 2019 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull; All Rights Reserved </a><a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><div class="feedback-button"><a href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&amp;body=I%20have%20comment%20for%20the%20page%20%0A%0A%20http%3A%2F%2Fhelp-ooyala.brightcove.com%2Fdevelopers%2Fdocumentation%2Fconcepts%2Fabout.html%20%0A%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div><style> .feedback-button, .feedback-button>a{background-color: #4F4E52; margin-left: auto; margin-right: auto; color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 10px; width: 150px; cursor: pointer;} </style><span style="display:none"><a href="https://brightcove.com" target="_blank">&copy; 2015 Brightcove, Inc. &bull;</a><a href="https://www.brightcove.com/en/legal/privacy" target="_blank"> Website Privacy Policy &bull;</a><a href="https://www.brightcove.com/en/terms-and-conditions" target="_blank"> Terms of Service &bull;</a> All Rights Reserved <a href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html" target="_blank">&bull; Ooyala Support - Developer Documentation</a></span><div class="feedback-button"><a href="mailto:docs@brightcove.com?Subject=Feedback%20%7C%20Welcome&amp;body=I%20have%20comment%20for%20the%20page%20%0A%0A%20http%3A%2F%2Fhelp-ooyala.brightcove.com%2Fdevelopers%2Fdocumentation%2Fconcepts%2Fabout.html%20%0A%0A%0A%3Cyour%20comment%20here%3E" class="mailto">Send Feedback</a></div>
+					
+					
+		<span style="display:none">© 2015 Brightcove, Inc. •
+			All Rights Reserved</a>  • <a
+			href="https://help-ooyala.brightcove.com/video-platform/concepts/about.html">Ooyala
+				Support - Developer Documentation</a>
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+	<style> .feedback-button, .feedback-button>a{background-color: #4F4E52; margin-left: auto; margin-right: auto; color: #FFFFFF; text-align: center; text-decoration: none; padding: 3px; margin-bottom: 10px; width: 150px; cursor: pointer;} </style><script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : "100px"
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+		} );
+	 </script>
+
+
+
+	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
+	
+
+</body>
+</html>

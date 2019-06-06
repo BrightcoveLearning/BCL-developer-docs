@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Query API</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+<link rel="stylesheet" href="Contents/CustomStyle.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js">
+</script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script>
+<style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+<link rel="stylesheet" href="Contents/CustomUIStyle.css">
+
+<script>
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+{ (i[r].q=i[r].q||[]).push(arguments)}
+,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2728311-23', 'auto');
+ga('send', 'pageview');
+</script>
+</head>
+
+
+<script src="Contents/searchBox.js">
+</script>
+<body onload="onloadFunction()" onresize="ramlResize()" data-spy="scroll" data-target="#sidebar">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9" role="main">
+			<div class="page-header">
+				<img src="Contents/logo.png" class="ourLogo">
+				<img src="Contents/blankLogo.png" class="blankLogo">
+
+<h2>Query API</h2>
+
+<p>
+	The Query API can be used to request detailed information about your <a href="index.html#v2_assets_get">assets</a> in the <a href="index.html">Backlot API</a>.
+</p>
+
+<p>
+	Queries are built using a <b>SQL</b>-like interface.  A sample query might look like&#58;
+</p>
+	<p><code>
+/v2/assets?where=description='music video' AND duration &lt; 600&amp;orderby=created_at ascending&amp;limit=5
+	</code></p>
+
+<br/>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Query+Structure" class="panel-title">Query Structure</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+			<p>Queries look like normal calls to your assets collection with additional query string parameters.  The following parameters are supported&#58;</p>
+			
+			<pre><code>
+where: filter assets with a subset of SQL
+
+orderby: order the results of your query (defaults to creation time, descending)
+
+limit: number of assets returned on a result page
+			</code></pre>
+
+			<p>All query string values must be <strong>URI-encoded</strong>. For readability, the documentation uses the actual characters rather than the URI-encoded versions.</p>
+
+			<p>All strings must be <strong>enclosed in single-quotes</strong>: 'value', not "value". This will appear escaped as %27value%27.</p>
+
+			<p>If the string contains an apostrophe, it must be escaped with a backslash.
+			This will appear escaped as %5C%27 (for example name='Bob\'s' will be escaped as name=%27Bob%5C%27s%27)</p>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Supported++where++queries" class="panel-title">Supported <i>where</i> Queries</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+
+<p>The where query consists of one or more clauses joined by an <b>AND</b> or <b>OR</b> conjunction.</p>
+
+<p>Common words such as "a" and "the" are excluded from the search.</p>
+
+<p>Deleted assets will never be included in query results.</p>
+
+<p>Properties with null values cannot be searched for.</p>
+
+<p>Searches are case-insensitive and fuzzy match different forms of a word (e.g. plurals). For example, querying for</p>
+
+<pre><code>
+description = 'Cat videos'
+</code></pre>
+
+<p>Will return assets with the following descriptions:</p>
+
+<pre><code>
+"Videos about cats"
+
+"Funny video of a cat"
+
+"Cats watching videos"
+</code></pre>
+
+<h4 id="Comparison">Comparison</h4>
+
+<p>All comparison functions are supported for integer and string fields on assets. (&lt;, &lt;=, =, >=, >, !=)</p>
+
+<pre><code>
+name = 'Spiderman'
+
+duration &lt; 600
+</code></pre>
+
+<h4 id="Metadata">Metadata</h4>
+
+<p>Custom metadata can be queried using the following syntax:</p>
+
+<pre><code>
+metadata.key = value
+</code></pre>
+
+<p>The metadata key can be digits and word characters (a to z, A to Z, 0 to 9). In addition, the key can be
+one of the following special characters: - _ ! @ # $ &#37; &#38; &#94; * ( ) . ?</p>
+
+<p>Note: the following characters must be escaped. Please use HTML escape codes given in the table below&#58;</p>
+
+<table class="escapeCodes">
+  <tr><td>!</td><td>%21</td></tr>
+  <tr><td>#</td><td>%23</td></tr>
+  <tr><td>$</td><td>%24</td></tr>
+  <tr><td>&#94</td><td>%5E</td></tr>
+</table>
+
+
+<p>Queries can be combined with a query string parameter of "include=metadata" to include the metadata in the asset response hash.</p>
+
+<pre><code>
+/v2/assets?where=metadata.genre='Comedy'&amp;include=metadata
+</code></pre>
+
+<h4 id="Labels">Labels</h4>
+
+<p>Labels can be queried using the following syntax:</p>
+
+<pre><code>
+labels INCLUDES 'Sports'
+</code></pre>
+
+<p>The results do not include assets assigned to sub-labels. For example, 'Baseball' is a sublabel of 'Sports'.
+Querying for the assets assigned to 'Sports' will not return assets assigned to 'Baseball'.</p>
+
+<p>Queries for label intersection are supported:</p>
+
+<pre><code>
+/v2/assets?where=labels INCLUDES 'Sports' AND labels INCLUDES 'Baseball'
+</code></pre>
+
+<p>This query will return assets assigned to both 'Sports' and 'Baseball'.  We recommend you use no more than three <code>labels INCLUDES</code> in an API call.</p>
+
+<h4 id="Flight+times">Flight Times</h4>
+
+<p>Assets can be filtered based on start and end dates. For example, these restrictions limit the results to assets that are playable on February 20:</p>
+
+<pre><code>
+time_restrictions.start_date &lt;= '2011-02-20T00:00:00Z' and
+time_restrictions.end_date &gt;= '2011-02-21T00:00:00Z'
+</code></pre>
+
+<p>NULL end dates are treated as positive-infinity (the asset will continue to play forever).
+Thus, if your query specifies "end_date > (somedate)" all assets with no end date will also be returned.</p>
+
+<p>If an asset uses <em>recurring</em> flight times, the start and end dates will reflect the start and end dates of
+the full recurrence, and not individual recurrence windows.</p>
+
+<p>Note that querying for flight times will <em>not</em> take publishing rules into account. The query will only look at
+the flight time restrictions of the asset itself.</p>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Supported++orderby++queries" class="panel-title">Supported <i>orderby</i> Queries</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>Assets in query results can be ordered by <code>name</code>, <code>duration</code>, <code>asset_type</code>, or creation time (<code>created_at</code>). This can be in <code>ASCENDING</code> or <code>DESCENDING</code> order. The default ordering is <code>created_at</code>, in <code>DESCENDING</code> order (most recent first).</p>
+
+<p>Queries can not be ordered by metadata or labels.</p>
+
+<pre><code>
+orderby=name DESCENDING
+orderby=name ASCENDING
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Supported++*++wildcard+queries" class="panel-title">Supported Wildcard Queries Using *</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>Queries can contain <code>*</code> wildcards as the value of the 'where' query string parameter or within the search
+term.</p>
+
+<p>Using the <code>*</code> wildcard as the value of the 'where' query string parameter will search for an asset by title,
+metadata, and description but <strong>NOT</strong> by labels. For example, the following query returns all assets that
+contain an <em>exact match</em> of the word 'data' in their metadata, title, or description but <strong>NOT</strong> in its
+labels.</p>
+
+<pre><code>
+where=*='data'
+</code></pre>
+
+<p>Using the <code>*</code> wildcard within the search term allows for partial word searching. Note that partial words must
+be <strong>at least 3 characters</strong> long. For example, the following query returns all assets that contain a partial
+word of 'data' in their description.</p>
+
+<pre><code>
+where=description='*data*'
+</code></pre>
+
+<h4 id="Examples">Examples</h4>
+
+<p>The first 5 movies where the description is "Under the sea." that are greater than ten minutes long.
+The videos are ordered by created_at in ascending order.</p>
+
+
+<pre><code>
+SELECT * WHERE description = 'Under the sea.' AND duration &gt; 600 ORDER BY created_at descending
+
+/v2/assets?where=description='Under the sea.' AND duration &gt; 600&amp;orderby=created_at descending&amp;limit=5
+</code></pre>
+
+<p>Get assets given a list of embed codes</p>
+
+
+<pre><code>
+SELECT * WHERE embed_code IN ('g0YzBnMjoGiHUtGoWW4pFzzhTZpKLZUi',
+                              'g1YzBnMjrEWdqX0gNdtKwTwQREhEkf9e')
+
+/v2/assets?where=embed_code IN ('g0YzBnMjoGiHUtGoWW4pFzzhTZpKLZUi','g1YzBnMjrEWdqX0gNdtKwTwQREhEkf9e')
+</code></pre>
+
+<p>All assets with the genre "Instructional" using custom metadata.</p>
+
+
+<pre><code>
+SELECT * WHERE metadata.key='genre' AND metadata.value='Instructional'
+
+/v2/assets?where=metadata.genre = 'Instructional'
+</code></pre>
+
+<p>All assets tagged with the label "Case Study"</p>
+
+<pre><code>
+SELECT * WHERE labels INCLUDES 'Case Study'
+
+/v2/assets?where=labels INCLUDES 'Case Study'
+</code></pre>
+
+<p>All assets modified after a certain date/time</p>
+
+<pre><code>
+SELECT * WHERE updated_at &gt; '2011-06-04T01:22:50Z'
+
+/v2/assets?where=updated_at&gt;'2011-06-04T01:22:50Z'
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Funny+cats" class="panel-title">Example 1.  Funny Cats.</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>This example returns the first two assets that have "cat" and "funny" in the description, and are more than 10 minutes long:</p>
+
+<pre><code>
+[GET]/v2/assets?where=description='cat funny'+AND+duration>600&orderby=name&limit=2
+</code></pre>
+
+<p><b>Backlot API</b> returns a response similar to the following:</p>
+
+<pre><code>
+{  
+   "items":[  
+      {  
+         "asset_type":"video",
+         "duration":19000,
+         "name":"Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-25T15:32:57+00:00",
+         "embed_code":"IzNnllMjphu2XF3_UgPROoCi9B2Bwqwt",
+         "time_restrictions":null,
+         "updated_at":"2011-08-29T23:12:09+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-25 at 08.31.mov",
+         "description":"A video of funny cats.",
+         "status":"live"
+      },
+      {  
+         "asset_type":"video",
+         "duration":25959,
+         "name":"More Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/9hcDdkMjq4LUKvPP-vJcgDds_TPIsP0u/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-05T21:49:46+00:00",
+         "embed_code":"9hcDdkMjq4LUKvPP-vJcgDds_TPIsrte",
+         "time_restrictions":null,
+         "updated_at":"2011-06-01T23:13:40+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-05 at 14.44.mov",
+         "description":"Can there really be more funny cat videos? Yes.",
+         "status":"live"
+      }
+   ],
+   "next_page":"/v2/assets?limit=2&page_token=1314306109%3B1saGRyMjoOgjkUSjod_1TQINs_HOQnoU"
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Specified+embed+codes" class="panel-title">Example 2.  Specified Embed Codes.</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>This example gets a list of assets that match the specified embed codes:</p>
+
+<pre><code>
+[GET]/v2/assets?where=embed_code+IN+('IzNnllMjphu2XF3_UgPROoCi9B2Bwqwt','9hcDdkMjq4LUKvPP-vJcgDds_TPIsrte')
+</code></pre>
+
+<p><b>Backlot API</b> returns a response similar to the following:</p>
+
+<pre><code>
+{  
+   "items":[  
+      {  
+         "asset_type":"video",
+         "duration":19000,
+         "name":"Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-25T15:32:57+00:00",
+         "embed_code":"IzNnllMjphu2XF3_UgPROoCi9B2Bwqwt",
+         "time_restrictions":null,
+         "updated_at":"2011-08-29T23:12:09+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-25 at 08.31.mov",
+         "description":"A video of funny cats.",
+         "status":"live"
+      },
+      {  
+         "asset_type":"video",
+         "duration":25959,
+         "name":"More Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/9hcDdkMjq4LUKvPP-vJcgDds_TPIsP0u/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-05T21:49:46+00:00",
+         "embed_code":"9hcDdkMjq4LUKvPP-vJcgDds_TPIsrte",
+         "time_restrictions":null,
+         "updated_at":"2011-06-01T23:13:40+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-05 at 14.44.mov",
+         "description":"Can there really be more funny cat videos? Yes.",
+         "status":"live"
+      }
+   ]
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Cat+video+metadata" class="panel-title">Example 3.  Cat Video Metadata.</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>This example gets a list of assets that have a value of the <code>category</code> metadata key equal to "Cat Videos":</p>
+
+<pre><code>
+[GET]/v2/assets?where=metadata.category='Cat Videos'&include=metadata
+</code></pre>
+
+<p><b>Backlot API</b> generates a feed similar to the following:</p>
+
+<pre><code>
+{  
+   "items":[  
+      {  
+         "asset_type":"video",
+         "duration":19000,
+         "name":"Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-25T15:32:57+00:00",
+         "embed_code":"IzNnllMjphu2XF3_UgPROoCi9B2Bwqwt",
+         "time_restrictions":null,
+         "updated_at":"2011-08-29T23:12:09+00:00",
+         "external_id":null,
+         "metadata":{  
+            "category":"Cat Videos"            "rating":"G"
+         },
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-25 at 08.31.mov",
+         "description":"A video of funny cats.",
+         "status":"live"
+      },
+      {  
+         "asset_type":"video",
+         "duration":25959,
+         "name":"More Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/9hcDdkMjq4LUKvPP-vJcgDds_TPIsP0u/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-05T21:49:46+00:00",
+         "embed_code":"9hcDdkMjq4LUKvPP-vJcgDds_TPIsrte",
+         "time_restrictions":null,
+         "updated_at":"2011-06-01T23:13:40+00:00",
+         "external_id":null,
+         "metadata":{  
+            "category":"Cat Videos"            "rating":"PG"
+         },
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-05 at 14.44.mov",
+         "description":"Can there really be more funny cat videos? Yes.",
+         "status":"live"
+      }
+   ]
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Funny+overall" class="panel-title">Example 4.  Funny Overall.</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>This example returns <i>all</i> videos with the "funny" label:</p>
+
+<pre><code>
+[GET]/v2/assets?where=labels+INCLUDES+'funny'
+</code></pre>
+
+<p><b>Backlot API</b> returns a response similar to the following:</p>
+
+<pre><code>
+{  
+   "items":[  
+      {  
+         "asset_type":"video",
+         "duration":19000,
+         "name":"Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-25T15:32:57+00:00",
+         "embed_code":"IzNnllMjphu2XF3_UgPROoCi9B2Bwqwt",
+         "time_restrictions":null,
+         "updated_at":"2011-08-29T23:12:09+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-25 at 08.31.mov",
+         "description":"A video of funny cats.",
+         "status":"live"
+      },
+      {  
+         "asset_type":"video",
+         "duration":25959,
+         "name":"More Funny Cats",
+         "preview_image_url":"http://ak.c.ooyala.com/9hcDdkMjq4LUKvPP-vJcgDds_TPIsP0u/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-04-05T21:49:46+00:00",
+         "embed_code":"9hcDdkMjq4LUKvPP-vJcgDds_TPIsrte",
+         "time_restrictions":null,
+         "updated_at":"2011-06-01T23:13:40+00:00",
+         "external_id":null,
+         "hosted_at":null,
+         "original_file_name":"Movie on 2011-04-05 at 14.44.mov",
+         "description":"Can there really be more funny cat videos? Yes.",
+         "status":"live"
+      }
+   ]
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default text-panel">
+	<div class="panel-heading">
+		<h3 id="Flight+times+assets+playable" class="panel-title">Example 5.  Assets Playable in June 2011.</h3>
+	</div>
+	<div class="panel-body">
+		<div class="top-resource-description">
+			
+<p>Flight times restrict when content can be played. This example returns assets that were playable for the entirety of June 2011:</p>
+
+<pre><code>
+[GET]/v2/assets?where=time_restrictions.start_date<='2011-06-01T00:00:00Z'+AND+time_restrictions.end_date>='2011-07-01T00:00:00Z'
+</code></pre>
+
+<p><b>Backlot API</b> returns a response similar to the following:</p>
+
+<pre><code>
+{  
+   "items":[  
+      {  
+         "asset_type":"video",
+         "duration":3366,
+         "name":"My movie",
+         "preview_image_url":"http://ak.c.ooyala.com/B5bzAzMzrrnbUrxt_vBj0hLcjgdQSkSH/Ut_HKthATH4eww8X5hMDoxOjBrOw-uIx",
+         "created_at":"2011-01-21T23:37:28+00:00",
+         "embed_code":"B5bzAzMzrrnbUrxt_vBj0hLcjgdQSkSH",
+         "time_restrictions":{  
+            "type":"range",
+            "start_date":"2011-06-01T00:00:00Z",
+            "end_date":"2011-06-15T00:00:00Z"
+         }         "updated_at":"2011-11-29T00:40:37+00:00",
+         "external_id":null,
+         "original_file_name":"My movie.mov",
+         "hosted_at":null,
+         "description":null,
+         "status":"live"
+      },
+      {  
+         "asset_type":"video",
+         "duration":0,
+         "name":"My other movie",
+         "preview_image_url":null,
+         "created_at":"2011-01-01T19:40:32+00:00",
+         "embed_code":"QycmV4Mjp_iICcP6fhpiHsY81jDgmOUY",
+         "time_restrictions":{  
+            "type":"range",
+            "start_date":"2011-06-015T00:00:00Z",
+            "end_date":null
+         }         "updated_at":"2011-10-26T19:40:32+00:00",
+         "external_id":null,
+         "original_file_name":"My other movie.avi",
+         "hosted_at":null,
+         "description":null,
+         "status":"uploading"
+      }
+   ]
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+
+</div></div></div>
+
+<div class="feedback-button">
+<a id="feedbackLink" href="" class="mailto">Send Feedback</a>
+</div>
+<link type="text/css" rel="stylesheet" href="Contents/feedbackAndSearch.css">
+<span id="copyrightRAML">
+</span>
+</div>
+
+</body>
+</html>

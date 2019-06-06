@@ -4,12 +4,12 @@ x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
   title: Brightcove Ingest Profiles API Reference
-  description: >-
-    Reference for the Brightcove Ingest Profiles API, used to create and manage
-    ingest profiles that specify video and image renditions to be created, along
-    with instructions for archiving masters.
+  description: |-
+    Reference for the Brightcove Ingest Profiles API, used to create and manage ingest profiles that specify video and image renditions to be created, along with instructions for archiving masters.
 
-     **Base URL**: https://ingestion.api.brightcove.com/v1
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/ingest-profiles-api)**.
+
+    **Base URL**: https://ingestion.api.brightcove.com/v1
   version: 1.0.0
   x-bc-access: public
 servers:
@@ -426,8 +426,7 @@ components:
         version:
           type: number
           description: system-managed version number
-      example: >-
-        {
+      example: {
         	"version": 1526447969284,
         	"account_id": 57838016001,
         	"default_profile_id": "videocloud-default-v1",
@@ -502,9 +501,10 @@ components:
             - none
         distribute:
           type: boolean
-          description: >-
-            whether to make the master playable as a rendition by pushing it to
-            the CDN(s)
+          description: |-
+            whether to make the master playable as a rendition by pushing it to the CDN(s)
+
+            **Note that this option applies only to legacy ingest profiles, and will be ignored for Dynamic Delivery profiles**
           default: false
     IngestProfile.dynamicOrigin:
       title: IngestProfile.dynamic_origin
@@ -603,10 +603,49 @@ components:
             At least one rendition used in the profile will be baseline profile
             for **CAE profiles only**
           default: false
+        video_configurations:
+          type: array
+          description: |-
+            Array of specific rendition configurations that  is prioritized or mandated.
+
+            **Note: use of required video configurations is *not* recommended unless you must have renditions that must have specific resolutions. Use of video configurations decreases the efficiency of Context Aware Encoding.**
+          items:
+            $ref: >-
+              #/components/schemas/IngestProfile.dynamicOrigin.dynamicProfileOptions.video_configuration
+    IngestProfile.dynamicOrigin.dynamicProfileOptions.video_configuration:
+      title: IngestProfile.dynamicOrigin.dynamicProfileOptions.video_configuration
+      description: |-
+        A specific rendition resolution that is prioritized or mandated.
+
+        **Note: use of required video configurations is *not* recommended unless you must have renditions that must have specific resolutions. Use of video configurations decreases the efficiency of Context Aware Encoding**
+      type: object
+      properties:
+        width:
+          type: integer
+          required: true
+          description: Video frame width [pixels]
+        height:
+          type: integer
+          required: true
+          description: Video frame height [pixels]
+        required:
+          type: boolean
+          description: >-
+            Setting this to true will guarantee that a rendition will be created with these specifications
+          default: false
+      example: {
+          "width": 428,
+          "height": 240,
+          "required": true
+        }
     IngestProfile.dynamicOrigin.dynamicProfileOptions.minResolution:
       title: IngestProfile.dynamic_origin.dynamic_profile_options.min_resolution
       description: Defines the minimum resolution for for **CAE profiles only** renditions
       type: object
+      required: [
+          height,
+          width
+        ]
       properties:
         height:
           type: integer
@@ -620,24 +659,25 @@ components:
       title: IngestProfile.dynamic_origin.dynamic_profile_options.max_resolution
       type: object
       description: Defines the maximum resolution for renditions for **CAE profiles only**
+      required: [
+      height,
+      width
+      ]
       properties:
         height:
           type: integer
           description: >-
-            Maximum height for renditions for **CAE profiles only** - defaults
-            to the source height
+            Maximum height for renditions for **CAE profiles only** - defaults to the source height
           format: int32
         width:
           type: integer
           description: >-
-            Maximum width for renditions for **CAE profiles only** - defaults to
-            the source width
+            Maximum width for renditions for **CAE profiles only** - defaults to the source width
           format: int32
     IngestProfile.renditions:
       title: IngestProfile.renditions
       description: >-
-        Rendition definitions **Legacy Ingest Only**  - should be an empty array
-        for Dynamic Delivery
+        Rendition definitions **Legacy Ingest Only**  - should be an empty array for Dynamic Delivery
       required:
         - audio_bitrate
         - audio_codec
@@ -660,8 +700,7 @@ components:
         max_aac_profile:
           type: string
           description: >-
-            max aaic profile - `aac-lc` is the recommended value **Legacy Ingest
-            only**
+            max aaic profile - `aac-lc` is the recommended value **Legacy Ingest only**
           default: aac-lc
           enum:
             - aac-lc
@@ -670,8 +709,7 @@ components:
         format:
           type: string
           description: >-
-            video format, e.g. `mp4`, `ts` (for HLS), `m4f` for video, `png` or
-            `jpg` for images **Legacy Ingest only**
+            video format, e.g. `mp4`, `ts` (for HLS), `m4f` for video, `png` or `jpg` for images **Legacy Ingest only**
         video_bitrate:
           type: integer
           description: target video bitrate in kbps **Legacy Ingest only**
@@ -1027,8 +1065,7 @@ components:
           description: description of the profile
         digital_master:
           $ref: '#/components/schemas/IngestProfile.digitalMaster'
-      example: >-
-        {
+      example: {
         	"version": 2,
         	"name": "multi-platform-standard-static",
         	"display_name": "Multiplatform Standard",
@@ -1040,11 +1077,11 @@ components:
         	"digital_master": {
         		"rendition": "passthrough",
         		"distribute": false
-        	},
-        	"renditions": [
-        	],
-        	"packages": [
-        	],
+          },
+          "renditions": [
+          ],
+          "packages": [
+          ],
         	"dynamic_origin": {
         		"renditions": [
         			"default/audio64",
@@ -1056,20 +1093,20 @@ components:
         			"default/audio96",
         			"default/video450",
         			"default/video900"
-        		],
+            ],
         		"images": [
         			{
         				"label": "poster",
         				"height": 720,
         				"width": 1280
-        			},
-        			{
+              },
+              {
         				"label": "thumbnail",
         				"height": 90,
         				"width": 160
-        			}
-        		]
-        	},
+              }
+            ]
+          },
         	"id": "6198c17bbbdc42a4bb60a41f"
         }
   securitySchemes:

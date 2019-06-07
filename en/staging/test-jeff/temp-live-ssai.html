@@ -58,14 +58,35 @@
 <p><span class="”notranslate”">SSAI</span> allows you display ads during a live streaming event at specified times. The main features include:</p>
 
 <ul>
-	<li>Ad blockers will not work, since ads are stitched into the live stream on the server side</li>
-	<li>Ads are inserted at cue points sent from your encoder or you can create an instant cue point using the <span class="notranslate">Live API</span></li>
-	<li>You can ingest "slate" assets to fill any unused ad time</li>
+	<li>Insert ads using cue points sent from your encoder or create an instant cue point using the <span class="notranslate">Live API</span></li>
+	<li>Ingest "slate" assets to fill any unused ad time</li>
+	<li>Avoid ad blockers with ads that are stitched into the live stream on the server side</li>
 </ul>
 
-<p>Besides using the API, a lot of the SSAI setup can be managed in Video Cloud Studio as well. For details, see the <a href="/node/18588">Managing Live Settings</a> document.</p>
-
 <aside class="bcls-aside bcls-aside--information">Before you can use <span class="”notranslate”">SSAI</span>, it must be enabled for your account. Contact your account manager for details.</aside>
+
+<p>
+  To create a Live stream with server-side ads, follow these steps:
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    <a href="#General_information">Review the general information about the Live API</a>
+  </li>
+  <li>
+    <a href="Create_an_ad_configuration">Create a live ad configuration</a>. You can also do this in <a href="node/18748#bc-ipnav-1">Video Cloud Studio</a>. See the sections below for details about managing your ad configurations using the Live API.
+  </li>
+  <li>
+    <a href="#Managing_slates">Create slate assets</a>. If you prefer a UI, you can <a href="node/18753#fill_slate">manage slates in Studio</a>.
+  </li>
+  <li>
+    Optional: <a href="#node/18835">Insert cue points and ad beacons</a>.
+  </li>
+  <li>
+    Now, you are ready to <a href="node/17765/">create a Live stream Using the Live API</a>. If you prefer to use Studio, you can <a href="node/18753">implement server-side ads in the Live module</a>
+  </li>
+</ol>
+
+<p>See the rest of this document for details about custom headers, ad config variables, using DFP and ad macros.</p>
 </section>
 
 <section class="bcls-section">
@@ -104,19 +125,14 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications</code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications</code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
-
 
 <h3>Sample request body</h3>
 
@@ -175,12 +191,11 @@
 }</code></pre>
 </section>
 
-
-
 <section class="bcls-section">
 <h2 id="Update_an_ad_configuration">Update an ad configuration</h2>
 
 <p>Updating an ad configuration is very similar to creating one. Make a <code>PUT</code> request as follows:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -189,15 +204,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">Application_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">Application_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -260,6 +271,7 @@
 <h2 id="Get_all_ad_configurations">Get all ad configurations</h2>
 
 <p>To retrieve all the ad configurations for an account, submit a <code>GET </code> request as follows:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -268,15 +280,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/account/<span class="bcls-input">Account_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/account/<span class="bcls-input">Account_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -323,6 +331,7 @@
 <h2 id="Get_an_ad_configuration">Get an ad configuration</h2>
 
 <p>You can also retrieve a specific ad configuration by its <code>application_id </code> by sending a <code>GET</code> request as follows:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -331,15 +340,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">Application_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">Application_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -370,6 +375,7 @@
 <h2 id="Delete_an_ad_configuration">Delete an ad configuration</h2>
 
 <p>To delete an ad configuration, send a <code>DELETE</code> request as follows:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -378,15 +384,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">APPLICATION_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">APPLICATION_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -404,9 +406,8 @@
 <h2 id="Custom_headers_for_ad_requests">Custom headers for ad requests</h2>
 
 <p>The <span class="”notranslate”">SSAI</span> platform can pass custom headers with the Ad calls and all beacons used by the backend platform. Some ad servers such as VideoPlaza require custom headers.</p>
-<p>
-  Custom headers are specified as a set of key-value pairs in an <code>ad_configuration_headers</code> object, which is part of the <code>application_ad_configuration </code> (see the <a href="#Create_an_ad_configuration">Create an ad configuration</a> section).
-</p>
+
+<p>Custom headers are specified as a set of key-value pairs in an <code>ad_configuration_headers</code> object, which is part of the <code>application_ad_configuration </code> (see the <a href="#Create_an_ad_configuration">Create an ad configuration</a> section).</p>
 
 <h3>Notes</h3>
 
@@ -600,7 +601,6 @@
 </table>
 </section>
 
-
 <section class="bcls-section">
 <h2 id="Managing_slates">Managing slates</h2>
 
@@ -611,6 +611,7 @@
 <h3>Add slate asset</h3>
 
 <p>To ingest a new slate media source asset, submit a <code>POST</code> request:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -619,15 +620,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates</code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates</code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -643,7 +640,7 @@
 </code>
 </pre>
 
-<aside class="bcls-aside bcls-aside--information">The <code>account_id </code> here is the Live Account ID.  When omitted, Account ID of the requesting user is used.</aside>
+<aside class="bcls-aside bcls-aside--information">The <code>account_id </code> here is the Live Account ID. When omitted, Account ID of the requesting user is used.</aside>
 
 <h4>Sample response</h4>
 
@@ -663,6 +660,7 @@
 <h3>Delete slate asset</h3>
 
 <p>To delete a slate media source asset, send a <code>DELETE</code> request:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -671,15 +669,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates/slate/<span class="bcls-input">Slate_MSA_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates/slate/<span class="bcls-input">Slate_MSA_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -699,6 +693,7 @@
 <h3>Get slate assets</h3>
 
 <p>You can retrieve an array of all the slate media source assets for an account by sending a <code>GET</code> request:</p>
+
 <table class="bcls-table">
 	<tbody class="bcls-table__body">
 		<tr>
@@ -707,15 +702,11 @@
 		</tr>
 		<tr>
 			<th>URL</th>
-			<td>
-        <code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates/account/<span class="bcls-input">Account_ID</span></code>
-    </td>
+			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/slates/account/<span class="bcls-input">Account_ID</span></code></td>
 		</tr>
 		<tr>
 			<th>Header</th>
-			<td>
-          <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code>
-      </td>
+			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
 		</tr>
 	</tbody>
 </table>
@@ -745,7 +736,6 @@
 ]</code></pre>
 </section>
 
-
 <section class="bcls-section">
 <h2 id="Notes_about_DFP">Notes about DFP</h2>
 
@@ -773,52 +763,45 @@
 </section>
 
 <section class="bcls-section">
-  <h2 id="Targeting_ads_using_ad_macros">Targeting ads using ad macros</h2>
+<h2 id="Targeting_ads_using_ad_macros">Targeting ads using ad macros</h2>
 
-  <p>When you <a href="#Create_an_ad_configuration">create an ad configuration</a>, your ad tag will typically look something like this:</p>
-  <pre>
+<p>When you <a href="#Create_an_ad_configuration">create an ad configuration</a>, your ad tag will typically look something like this:</p>
+
+<pre>
   <code class="language-http">https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;
   num={{random.int32}}&amp;ses={{session.session_id}}&amp;IDFA={{deviceid}}&amp;
   sitesection={{sitesection}}&amp;breakid={{breakid}}&amp;breaktheme={{breaktheme}}</code></pre>
 
-  <p>The items inside the double curly braces are variables, also called ad macros, which Brightcove Live will replace with values, if they exist, when it sends the ad request.</p>
+<p>The items inside the double curly braces are variables, also called ad macros, which Brightcove Live will replace with values, if they exist, when it sends the ad request.</p>
 
-  <aside class="bcls-aside bcls-aside--information">The variables that will be useful depend on the ad server.</aside>
+<aside class="bcls-aside bcls-aside--information">The variables that will be useful depend on the ad server.</aside>
 
-  <p>Ad macro values can be supplied in following ways:</p>
-  <ul>
-    <li>
-      <a href="#Using_header_information">Using header information</a>
-    </li>
-    <li>
-      <a href="#Appending_the_URL">Appending the URL</a>
-    </li>
-    <li>
-      <a href="#Adding_URLs_dynamically">Adding URLs dynamically</a>
-    </li>
-    <li>
-      <a href="#Using_manual_cue_points">Using manual cue points</a>
-    </li>
-  </ul>
+<p>Ad macro values can be supplied in following ways:</p>
 
-  <h3 id="Using_header_information">Using header information</h3>
-  <p>
-    Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> section above, is available for any request. Simply specify the variables you want with the appropriate key names in your ad configuration.
-  </p>
+<ul>
+	<li><a href="#Using_header_information">Using header information</a></li>
+	<li><a href="#Appending_the_URL">Appending the URL</a></li>
+	<li><a href="#Adding_URLs_dynamically">Adding URLs dynamically</a></li>
+	<li><a href="#Using_manual_cue_points">Using manual cue points</a></li>
+</ul>
 
-  <h3 id="Appending_the_URL">Appending the URL</h3>
-  <p>
-    Additional session values can be appended to the URL for the live stream, like this:
-  </p>
-  <pre>
+<h3 id="Using_header_information">Using header information</h3>
+
+<p>Header information, detailed in the <a href="#Ad_configuration_variables">Ad configuration variables</a> section above, is available for any request. Simply specify the variables you want with the appropriate key names in your ad configuration.</p>
+
+<h3 id="Appending_the_URL">Appending the URL</h3>
+
+<p>Additional session values can be appended to the URL for the live stream, like this:</p>
+
+<pre>
   <code class="language-http">http://playback.bcovlive.io/e058d9f2737e18/us-west-2/NA/
   playlist.m3u8<span class="bcls-highlight">?deviceid=123456&amp;sitesection=services</span>"</code></pre>
 
-  <h3 id="Adding_URLs_dynamically">Adding URLs dynamically</h3>
-  <p>
-    You can add URLs dynamically, using Javascript and the Brightcove Player API:
-  </p>
-  <pre class="line-numbers">
+<h3 id="Adding_URLs_dynamically">Adding URLs dynamically</h3>
+
+<p>You can add URLs dynamically, using Javascript and the Brightcove Player API:</p>
+
+<pre class="line-numbers">
   <code class="language-html">&lt;!DOCTYPE html&gt;
   &lt;body&gt;
     &lt;video
@@ -850,13 +833,13 @@
   &lt;/script&gt;
 
   &lt;/body&gt;</code></pre>
-  	<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
 
-    <h3 id="Using_manual_cue_points">Using manual cue points</h3>
-    <p>
-      Values for specific ad breaks can be sent with the manual cue point insertion request. For details, see the <a href="#Manual_cue_point_insertion">Live API: Cue Points and Ad Beacons</a> document.
-    </p>
-  </section>
+<p>Note that the key names in this example correspond to the variable names in the ad tag shown above.</p>
+
+<h3 id="Using_manual_cue_points">Using manual cue points</h3>
+
+<p>Values for specific ad breaks can be sent with the manual cue point insertion request. For details, see the <a href="#Manual_cue_point_insertion">Live API: Cue Points and Ad Beacons</a> document.</p>
+</section>
 
 <section class="bcls-section">
 <h2 id="Known_issues">Known issues</h2>
@@ -877,7 +860,6 @@
 	<li>The first time the ad is seen by our system, it will not play until it is transcoded and ready to deliver.</li>
 </ul>
 </section>
-
 </article>
 
 

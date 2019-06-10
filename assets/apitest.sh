@@ -1,7 +1,7 @@
 bold=`tput bold`
 normal=`tput sgr0`
-$CLIENT_ID='0c372722-ef25-4d2e-a25e-0011463086eb'
-$CLIENT_SECRET='Mulxn2M15RAUCGXzhSz7lrlyL9S6y5rdPEoWEARhjpTcYrAnDkQbklDpPzPBZJG37652RAdBahr71bxAvMuIdQ'
+$CLIENT_ID="0c372722-ef25-4d2e-a25e-0011463086eb"
+$CLIENT_SECRET="Mulxn2M15RAUCGXzhSz7lrlyL9S6y5rdPEoWEARhjpTcYrAnDkQbklDpPzPBZJG37652RAdBahr71bxAvMuIdQ"
 echo 'Enter the full API call:'
 read API_CALL
 echo Your API call: $API_CALL

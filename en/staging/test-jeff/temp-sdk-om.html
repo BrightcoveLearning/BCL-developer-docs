@@ -51,7 +51,7 @@
 
   <section class="bcls-section">
     <h2 id="iOS">iOS</h2>
-    <p>The Brightcove Native SDK for iOS supports using the OM SDK. For more information about implementing third-party ad measurement, see the <a href="https://developers.google.com/interactive-media-ads/docs/sdks/ios/omsdk">Open Measurement SDK with the IMA SDK for iOS</a> document.</p>
+    <p>The Brightcove Native SDK for iOS supports using the OM SDK. For more information about implementing third-party ad measurement, see the <a href="https://developers.google.com/interactive-media-ads/docs/sdks/ios/omsdk">Open Measurement in the IMA SDK for iOS</a> document.</p>
     <h3>UI overlays</h3>
     <p>
       If you are using UI control elements which overlay the IMA ad view, then you'll want to register these with the OM SDK. For details, see the <a href="https://github.com/brightcove/brightcove-player-sdk-ios-ima#registering-ad-overlays">Registering Ad Overlays</a> section of the Native SDK for iOS reference.
@@ -66,8 +66,8 @@ imaSettings.playerVersion = [BCOVIMAComponent versionIdentifier];</code></pre>
     <p>
       You may want to override these values. One example would be to get advertising metrics reported directly from Google IMA. To use your own values, set the following on the <code>imaSettings</code> object:
     </p>
-    <pre class="line-numbers"><code class="language-objectivec">imaSettings.playerType = @&quot;Your player type&quot;;
-imaSettings.playerVersion = @&quot;Your player version&quot;</code></pre>
+    <pre class="line-numbers"><code class="language-objectivec">imaSettings.playerType = @&quot;<span class="bcls-input">your-player-type</span>&quot;;
+imaSettings.playerVersion = @&quot;<span class="bcls-input">your-player-version</span>&quot;</code></pre>
     <aside class="bcls-aside bcls-aside--information">The maximum length for each property is 20 characters.</aside>
     <p>
       For code details about using IMA ads with the Native SDK for iOS, see the <a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/IMA/BasicIMAPlayer">BasicIMAPlayer sample</a>.
@@ -77,7 +77,7 @@ imaSettings.playerVersion = @&quot;Your player version&quot;</code></pre>
 
   <section class="bcls-section">
     <h2 id="Android">Android</h2>
-    <p>The Brightcove Native SDK for Android supports using the OM SDK. For more information about implementing third-party ad measurement, see the <a href="https://developers.google.com/interactive-media-ads/docs/sdks/android/omsdk">Open Measurement SDK with the IMA SDK for Android</a> document.</p>
+    <p>The Brightcove Native SDK for Android supports using the OM SDK. For more information about implementing third-party ad measurement, see the <a href="https://developers.google.com/interactive-media-ads/docs/sdks/android/omsdk">Open Measurement in the IMA SDK for Android</a> document.</p>
 
     <h3>UI overlays</h3>
     <p>
@@ -92,11 +92,22 @@ imaSettings.playerVersion = @&quot;Your player version&quot;</code></pre>
  @Override
  protected void onCreate(Bundle savedInstanceState) {
    // ...
+   adOverlayView = findViewById(R.id.ad_overlay);
    setupGoogleIMA();
    // ...
  }
 
  private void setupGoogleIMA() {
+   // Show adOverlayView
+   eventEmitter.on(EventType.AD_BREAK_STARTED, (event) -&gt;  {
+       adOverlayView.setVisibility(View.VISIBLE);
+   });
+
+   // Hide adOverlayView
+   eventEmitter.on(EventType.AD_BREAK_COMPLETED, (event) -&gt;  {
+       adOverlayView.setVisibility(View.GONE);
+   });
+
    // Create ImaSdkFactory
    final ImaSdkFactory sdkFactory = ImaSdkFactory.getInstance();
    eventEmitter.on(GoogleIMAEventType.ADS_REQUEST_FOR_VIDEO, new EventListener() {
@@ -128,8 +139,8 @@ imaSdkSettings.setPlayerVersion(&quot;&lt;replaced with current sdk version&gt;&
       You may want to override these values. One example would be to get advertising metrics reported directly from Google IMA. To use your own values, set the following on the <code>imaSdkSettings</code> object:
     </p>
     <pre class="line-numbers"><code class="language-java">ImaSdkSettings imaSdkSettings = imaSdkFactory.createImaSdkSettings();
-imaSdkSettings.setPlayerType(&quot;Your player type&quot;);
-imaSdkSettings.setPlayerVersion(&quot;Your player version&quot;);
+imaSdkSettings.setPlayerType(&quot;<span class="bcls-input">your-player-type</span>&quot;);
+imaSdkSettings.setPlayerVersion(&quot;<span class="bcls-input">your-player-version</span>&quot;);
 GoogleIMAComponent googleIMAComponent = new GoogleIMAComponent(brightcoveVideoView, eventEmitter, imaSdkSettings);</code></pre>
     <aside class="bcls-aside bcls-aside--information">The maximum length for each property is 20 characters.</aside>
     <p>

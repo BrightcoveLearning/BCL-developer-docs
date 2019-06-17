@@ -1,19 +1,17 @@
 openapi: 3.0.0
 info:
   title: Playback API Reference
-  version: 1.0.0
+  version: 2.0.0
   description: |-
     Reference for the Brightcove Playback API, used for client-side access video and playlist information.
-
-    Customers using IP Restriction must use `https://edge-elb.api.brightcove.com/playback/v1` instead of the standard URL (Use `edge-elb.api...` vs the `normal edge.api...`). To learn how to restrict playback for all the players in an account, see the [Restricting Video Playback Using IP Address](https://support.brightcove.com/restricting-video-playback-using-ip-address) document.
 
     The raw API JSON response is not suitable for the player. Use the `player.catalog.transformVideoResponse()` function to convert each video object in the response into a format compatible with the player. This includes duration times and https image compatibility. For details, see the [Player Catalog](https://support.brightcove.com/player-catalog) document.
 
     For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/node/18380)**.
 
-    **Base URL**: https://edge.api.brightcove.com/playback/v1
+    **Base URL**: https://playback.api.brightcove.com/v2
 servers:
-  - url: 'https://edge.api.brightcove.com/playback/v1'
+  - url: 'https://playback.api.brightcove.com/v2'
 tags:
   - name: Videos
     description: Operations for retrieving videos.
@@ -387,7 +385,10 @@ components:
           description: 'map of fieldname-value pairs '
           readOnly: true
         cue_points:
+          type: object
+          description: 'array of cue point maps '
           $ref: '#/components/schemas/video.cue_points'
+          readOnly: true
         description:
           type: string
           description: 'video short description '
@@ -438,7 +439,10 @@ components:
           description: 'URL for the default thumbnail source image '
           readOnly: true
         link:
+          type: object
+          description: 'map of scheduling properties '
           $ref: '#/components/schemas/video.link'
+          readOnly: true
         long_description:
           type: string
           description: 'video long description '
@@ -446,10 +450,6 @@ components:
         offline_enabled:
           type: boolean
           description: 'whether video is enabled for offline viewing '
-          readOnly: true
-        published_at:
-          type: string
-          description: 'when the video was published '
           readOnly: true
         reference_id:
           type: string
@@ -468,7 +468,10 @@ components:
             $ref: '#/components/schemas/video.sources'
           readOnly: true
         text_tracks:
+          type: object
+          description: 'array of text track maps '
           $ref: '#/components/schemas/video.text_tracks'
+          readOnly: true
         updated_at:
           type: string
           description: 'when the video was last modified '
@@ -524,10 +527,6 @@ components:
           "created_at": "2018-07-20T20:09:59.754Z"
         }
     video.cue_points:
-      type: object
-      description: >-
-        array of cue point objects
-      readOnly: true
       properties:
         name:
           type: string
@@ -572,9 +571,6 @@ components:
             available, such as http and https)
           readOnly: true
     video.link:
-      type: object
-      description: 'map of scheduling properties '
-      readOnly: true
       properties:
         text:
           type: string
@@ -631,9 +627,6 @@ components:
           description: 'the type (for HLS streams) '
           readOnly: true
     video.text_tracks:
-      type: object
-      description: 'array of text track maps '
-      readOnly: true
       properties:
         src:
           type: string

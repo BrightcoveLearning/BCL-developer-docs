@@ -56,12 +56,46 @@
   <h2 id="Steps">Steps</h2>
 
   <ol class="bcls-tasklist">
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>In the custom plugin code, place an <code>options</code> parameter in the anonymous function that defines the plugin.
+      <pre class="line-numbers">
+<code class="language-javascript">videojs.registerPlugin('navigateOnVideoEnd', function (<span class="bcls-highlight">options</span>) {
+  var myPlayer = this;
+  ...
+});</code></pre>
+    </li>
+    <li>Use desired properties of the parameter object in your plugin code for customization:
+      <pre class="line-numbers">
+<code class="language-javascript">videojs.registerPlugin('navigateOnVideoEnd', function (<span class="bcls-highlight">options</span>) {
+  var myPlayer = this;
+  ...
+  window.location.href = <span class="bcls-highlight">options.redirectURL</span>;
+});</code></pre>
+    </li>
+    <li>In the HTML page that calls the plugin, build an object with the required property/properties:
+      <pre class="line-numbers">
+<code class="language-javascript">&lt;script&gt;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this,
+       <span class="bcls-highlight">options = {&quot;redirectURL&quot;: &quot;http://support.brightcove.com&quot;};</span>
+    ...
+  });
+&lt;/script&gt;</code></pre>
+    </li>
+    <li>When calling the custom plugin, pass the <code>options</code> object as a parameter:
+      <pre class="line-numbers">
+<code class="language-javascript">&lt;script&gt;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this,
+       options = {&quot;redirectURL&quot;: &quot;http://support.brightcove.com&quot;};
+    <span class="bcls-highlight">myPlayer.navigateOnVideoEnd(options);</span>
+  });
+&lt;/script&gt;</code></pre>
+    </li>
+    <li>If using Studio, pass the options object in the <strong>Options(JSON)</strong> form element:
+      <figure class="bcls-figure">
+          <img class="bcls-image" src="//learning-services-media.brightcove.com/doc-assets/player-development/developer-basics/custom-plugin/pass-data/studio-plugin-configuration.png" alt="studio plugin configuration">
+      </figure>
+    </li>
   </ol>
 </section>
 

@@ -869,42 +869,43 @@ components:
       description: >-
         Get live events success response
       example: {
-        interval: [33, 44],
-        data: [
-          {
-            dimensions: { "video": "789", "country": "UK" },
-            points: [
-              { "timestamp": 33, "live_unique_viewers": 336 },
-              { "timestamp": 34, "live_unique_viewers": 361 },
-            ]
-          },
-          {
-            dimensions: { "video": "789", "country": "US" },
-            points: [
-              { "timestamp": 33, "live_unique_viewers": 418 }
-            ]
-          }
-        ]
+        "data": [
+                  {
+                    "dimensions": { "country": "US" },
+                    "totals": {
+                      "live_unique_viewers": 1267,
+                      "video_seconds_viewed": 126755,
+                      "alive_ss_ad_start": 1274
+                    }
+                  },
+                  {
+                    "dimensions": { "country": "GB" },
+                    "totals": {
+                      "live_unique_viewers": 2267,
+                      "video_seconds_viewed": 136005,
+                      "alive_ss_ad_start": 1024
+                    }
+                  }      
+                ]
       }
       properties:
-        interval:
+        data:
           type: array
           description: >-
-            array containing the start and end points for the interval in the units specified by the `bucket_duration` parameter
+            array containing metrics per dimension(s)
           items:
-            type: integer
-        dimensions:
-          type: object
-          description: >-
-            A set of dimension/value pairs corresponding to the dimensions specified in the `dimensions` parameter
-        points:
-          type: array
-          description: >-
-            An array of objects containing metrics for the points in the time-series
-          items: 
             type: object
             description: >-
-              An object containing the `timestamp` value (in the units specified in the `bucket_duration` parameter) and values of the metrics (specified in the `metrics` parameter) at the timestamp
+              object containing `dimensions` and `totals` objects
+            properties:
+              dimensions:
+                type: object
+                description: >-
+                  Object containing dimension/value that the associated metrics are for
+              totals:
+                type: object
+                description: >-
+                  Object containing metric/value pairs for the associated dimensions
     Get_Video_Engagement_Response:
       title:  Get Video Engagement Response
       required:

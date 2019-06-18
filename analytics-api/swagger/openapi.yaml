@@ -320,13 +320,64 @@ paths:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Accept-Encoding'
         - $ref: '#/components/parameters/account_id'
-        - $ref: '#/components/parameters/dimensions'
+        - $ref: '#/components/parameters/live_dimensions'
         - $ref: '#/components/parameters/bucket_limit'
         - $ref: '#/components/parameters/bucket_duration'
         - $ref: '#/components/parameters/metrics'
         - $ref: '#/components/parameters/where'
         - $ref: '#/components/parameters/from'
         - $ref: '#/components/parameters/to'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Time_Series_Response'
+        '400':
+          description: >-
+            BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
+
+            INVALID_PARAM: The message fields of the response contains information about what invalid params were specifed or required params were missing
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: This error occurs when the api request is made with an HTTP method other than GET
+        '500':
+          description: >-
+            SERVER_ERROR: Issue in Brightcove system; try again later
+
+            PROCESSING: The analytics API may send back this message if it encounters a long running query. Once the query has finished it will be stored in the server’s cache for up to 5 minutes. Therefore we suggest querying the API 4 minutes after receiving this error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /events/accounts/{account-id}:
+    get:
+      tags:
+        - Live Analytics
+      summary: Get Live Analytics event
+      description: >-
+        Provides a summary of analytics data collected for a live stream.
+      operationId: GetLiveEvents
+      security:
+        - BC_OAuth2:
+          - video-cloud/analytics/read
+      parameters:
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Accept-Encoding'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/live_dimensions'
+        - $ref: '#/components/parameters/metrics'
+        - $ref: '#/components/parameters/where'
       responses:
         '200':
           description: '200'

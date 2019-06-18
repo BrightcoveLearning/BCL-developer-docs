@@ -384,7 +384,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Get_Time_Series_Response'
+                $ref: '#/components/schemas/Get_Events_Response'
         '400':
           description: >-
             BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
@@ -519,6 +519,27 @@ components:
       explode: true
       schema:
         type: string
+    bucket_limit:
+      name: bucket_limit
+      in: query
+      description: >-
+        'Max number of points to be returned for a time-series'
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    bucket_duration:
+      name: bucket_limit
+      in: query
+      description: >-
+        'Intervals duration in the form of an integer plus `m` (minutes), `h` (hours), or `d` (days)'
+      example: 5m
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
     dimensions:
       name: dimensions
       in: query
@@ -526,7 +547,6 @@ components:
         One or more dimensions to report on; see [Multiple Dimensions](https://support.brightcove.com/overview-analytics-api-v1#metrics) or which combined dimensions are supported
 
         Dimensions:
-          - account
           - account
           - browser_type
           - city
@@ -551,10 +571,37 @@ components:
       explode: true
       schema:
         $ref: '#/components/schemas/Dimensions'
+    live_dimensions:
+      name: dimensions for live analytics
+      in: query
+      description: |-
+        One or more dimensions to report on for Live Analytics requests
+
+        Dimensions:
+          - account
+          - country
+          - device_type
+          - video
+      required: true
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Dimensions'
     limit:
       name: limit
       in: query
       description: Number of items to return
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        default: 10
+        example: 10
+    metrics:
+      name: metrics
+      in: query
+      description: Data metrics to return for live analytics requests
       style: form
       explode: true
       schema:

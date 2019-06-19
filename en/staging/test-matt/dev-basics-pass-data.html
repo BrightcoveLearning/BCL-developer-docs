@@ -49,7 +49,12 @@
 <article class="bcls-article">
 
 <!-- iframe of video here -->
-
+<iframe src="//players.brightcove.net/20318290001/E16-WGGOe_default/index.html?videoId=6049688546001"
+  allowfullscreen=""
+  webkitallowfullscreen=""
+  mozallowfullscreen=""
+  allow="encrypted-media"
+  width="830" height="466"></iframe>
 
 
 <section class="bcls-section">
@@ -91,7 +96,7 @@
   });
 &lt;/script&gt;</code></pre>
     </li>
-    <li>If using Studio, pass the options object in the <strong>Options(JSON)</strong> form element:
+    <li>If using Studio, pass the options object to the custom plugin via the <strong>Options(JSON)</strong> form element:
       <figure class="bcls-figure">
           <img class="bcls-image" src="//learning-services-media.brightcove.com/doc-assets/player-development/developer-basics/custom-plugin/pass-data/studio-plugin-configuration.png" alt="studio plugin configuration">
       </figure>
@@ -101,28 +106,60 @@
 
 <section class="bcls-section">
   <h2 id="Completed_Code">Complete Code</h2>
-
+  <h3>Plugin code</h3>
   <pre class="line-numbers">
-  <code class="language-html"></code></pre>
+<code class="language-javascript">videojs.registerPlugin('navigateOnVideoEnd', function (options) {
+  var myPlayer = this;
+  myPlayer.on('ended', function () {
+    window.location.href = options.redirectURL;
+  });
+});</code></pre>
+  <h3>HTML page calling code</h3>
+  <pre class="line-numbers">
+<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
+  data-video-id=&quot;5701193190001&quot;
+  data-account=&quot;1752604059001&quot;
+  data-player=&quot;default&quot;
+  data-embed=&quot;default&quot;
+  data-application-id
+  class=&quot;video-js&quot;
+  controls
+  width=&quot;640&quot;
+  height=&quot;360&quot;&gt;&lt;/video-js&gt;
+&lt;script src=&quot;//players.brightcove.net/1752604059001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;redirect.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  videojs.getPlayer('myPlayerID').ready(function() {
+    var myPlayer = this,
+       options = {&quot;redirectURL&quot;: &quot;http://support.brightcove.com&quot;};
+    myPlayer.navigateOnVideoEnd(options);
+  });
+&lt;/script&gt;</code></pre>
   </section>
 
 </article>
 <link rel="stylesheet" href="https://learning-services-media.brightcove.com/doc-assets/css/learning-paths/learning-paths.css" /><script>
     var learning_path = [
       {
-        node: '18823',
-        title: 'Developer Basics: Generating Player Code (1:33)'
+        node: '18854',
+        title: 'Developer Basics: Custom Plugin - Why and How (2:56)'
       },
       {
-        node: '18824',
-        title: 'Developer Basics: Preparing to Write Code (1:20)'
+        node: '18855',
+        title: 'Developer Basics: Custom Plugin - Converting Code (2:26)'
       },
       {
-        node: '18827',
-        title: 'Developer Basics: Autoplaying a Video (2:00)'
+        node: '18856',
+        title: 'Developer Basics: Custom Plugin - Using Studio (1:40)'
+      },
+      {
+        node: '18857',
+        title: 'Developer Basics: Custom Plugin - Passing Data (2:43)'
       }
     ]
-  </script><script src="https://learning-services-media.brightcove.com/doc-assets/js/learning-paths/learning-paths.js"></script>
+    </script><script src="https://learning-services-media.brightcove.com/doc-assets/js/learning-paths/learning-paths.js"></script>
 
       <!-- END DRUPAL CONTENT -->
     </div>

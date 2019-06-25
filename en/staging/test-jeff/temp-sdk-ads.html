@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Advertising with the SDKs</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Advertising with the SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn about the advertising solutions that are supported with the Brightcove Native Player SDKs.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>The Brightcove Native SDKs offer a suite of options to help you monetize your content. The Native SDKs and their integrations enable publishers to decide how to best optimize the advertising in their player with features such as pre-, mid- and post-roll advertisements, as well as companion ads.</p>
+
+<aside class="bcls-aside bcls-aside--information">
+<p>Notes:</p>
+
+<ul>
+	<li class="language-editable">The Brightcove Native SDKs do NOT support VPAID ads.</li>
+	<li class="language-editable">For the Android <code class="notranslate">MediaPlayer</code>, there are known limitations with the use of mid-roll ads while playing HLS videos. Using Brightcove's Native Player SDK solves many of these issues. Learn more about <a href="/node/18212">HLS Playback with the Native SDK for Android</a>.</li>
+</ul>
+</aside>
+
+<h3>Cue points</h3>
+
+<p>Advertising URLs can be defined with ad cue points or within a VMAP ad tag URL:</p>
+
+<ul>
+	<li class="language-editable">With ad cue points, each should be configured with a VAST ad tag URL.</li>
+	<li class="language-editable">Without ad cue points, you can use a VMAP ad tag URL to define when ads will be played.</li>
+</ul>
+
+<aside class="bcls-aside bcls-aside--tip">The VMAP URL is a playlist of ads, where a VAST URL defines an individual ad. For general information, see the <a href="/node/18143">Learning Guide: Video Advertising</a> document.</aside>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Brightcove_advertising_plugins">Brightcove advertising plugins</h2>
+
+<ul>
+	<li class="language-editable"><a href="#Client_Side_plugins">Client-Side plugins</a></li>
+	<li class="language-editable"><a href="#Server_Side_Ad_Insertion">Server-Side Ad Insertion (SSAI)</a></li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Client_Side_plugins">Client-Side plugins</h2>
+
+<p>Client-side advertising is the traditional approach of having ad requests and ad insertion performed on the client device. With this method, the main video plays back until a specific ad cue point is hit. At this point, a request is made to the configured ad server, which responds with the appropriate ad details. The player then begins playback of the requested ad.</p>
+
+<p>Brightcove integrations make this process simple by handling the work of making the ad requests, interpreting the advertising specifics and displaying the ads.</p>
+
+<h3 id="ima" class="BCL_subsectionTitle">Google's Interactive Media Ads (IMA)</h3>
+
+<p>Brightcove was the first online video platform to partner with <a href="https://www.google.com/doubleclick/">Google DoubleClick</a> and develop support for <a href="https://developers.google.com/interactive-media-ads/">Google's IMA SDK</a> across both web (Flash/HTML5) and mobile platforms (iOS/Android). Our close relationship with Google allows us to stay current with upcoming features and bug fixes.</p>
+
+<p>Publishers can use the Brightcove IMA SDK to request and display ads served by DoubleClick for Publishers (DFP), the Google AdSense network. They can also use it to parse their own VMAP playlist so long as it adheres to the VMAP standard as interpreted by the Brightcove IMA SDK.</p>
+
+<p>Using Google's IMA SDK for both iOS and Android, we offer a simple-to-use integration for both platforms, which ensures that you will stay up-to-date with any Google updates.</p>
+<aside class="bcls-aside bcls-aside--information">The Brightcove Native SDK for tvOS does not support IMA ads.</aside>
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Feature</th>
+      <th style="text-align: center;">Android SDK</th>
+			<th style="text-align: center;">iOS SDK</th>
+			<th style="text-align: center;">tvOS SDK</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td>Pre-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="no" width="20" height="20" src="//img.brightcove.com/unchecked-box.png" /></td>
+		</tr>
+		<tr>
+			<td>Mid-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="no" width="20" height="20" src="//img.brightcove.com/unchecked-box.png" /></td>
+		</tr>
+		<tr>
+			<td>Post-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="no" width="20" height="20" src="//img.brightcove.com/unchecked-box.png" /></td>
+		</tr>
+		<tr>
+			<td>Skippable Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="no" width="20" height="20" src="//img.brightcove.com/unchecked-box.png" /></td>
+		</tr>
+		<tr>
+			<td>Companion Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="no" width="20" height="20" src="//img.brightcove.com/unchecked-box.png" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="freewheel" class="BCL_subsectionTitle">Freewheel</h3>
+
+<p>A leading technology partner in advertising, Brightcove has been working closely with <a href="https://freewheel2018.tv/">FreeWheel</a> for years to ensure joint customers are able to monetize their content across numerous platforms. We are excited to continue this partnership by offering integrations for both the Brightcove SDK for iOS and Android.</p>
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Feature</th>
+			<th style="text-align: center;">Android SDK</th>
+      <th style="text-align: center;">iOS SDK</th>
+      <th style="text-align: center;">tvOS SDK</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td>Pre-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Mid-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Post-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Skippable Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Companion Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+	</tbody>
+</table>
+</section>
+
+<section class="bcls-section">
+<h2 id="Server_Side_Ad_Insertion">Server-Side Ad Insertion (SSAI)</h2>
+
+<p>Server-side ad-stitching is an innovative approach to delivering advertising to your viewers. Providing a single continuous stream, ads are embedded in the content. This removes ad requests and reduces load times. It also prevents viewers from blocking ads. The Brightcove Native Player SDKs provide the proper logic and advertising UI to ensure that the playback experience of switching between ads and content is smoother than ever.</p>
+
+<!-- <h3 id="onceux" class="BCL_subsectionTitle">SSAI ad stitching</h3>
+<p>Built on the <a href="//www.iab.net/">IAB ad standards</a>, the Brightcove Once UX integration leverages the benefits of community adopted VMAP with server-side ad stitching. This allows Once UX to deliver high quality streams to all platforms while still offering hot features such as skippable ads.</p> -->
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Feature</th>
+			<th style="text-align: center;">Android SDK</th>
+      <th style="text-align: center;">iOS SDK</th>
+      <th style="text-align: center;">tvOS SDK</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td>Pre-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Mid-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Post-rolls</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Skippable Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+		<tr>
+			<td>Companion Ads</td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+      <td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<br>
+
+<p>For more information, see the <a href="/node/18364">Implementing Server-Side Ads with the Native Player SDKs</a> document.</p>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

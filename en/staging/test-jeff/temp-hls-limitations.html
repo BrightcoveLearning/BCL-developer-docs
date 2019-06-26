@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Architecture: Brightcove Player SDK for Android</title>
+  	<title>HLS limitations without Brightcove's Native SDK</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,78 +33,79 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Architecture: Brightcove Player SDK for Android</h1>
+			<h1>HLS limitations without Brightcove's Native SDK</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <p>In this topic, you will learn about the some of the main components for Native SDK for Android and how they interact with each other.</p>
+      <p>In this topic, you will learn about the limitations with HLS playback on Android devices when you DO NOT use the Native SDK for Android.</p>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
 
 
 <article class="bcls-article">
-<section class="bcls-section" id="top">
-<p>&nbsp;</p>
-</section>
-
 <section class="bcls-section" id="Overview">
 <h2>Overview</h2>
 
-<p>The Brightcove Native SDK for Android simplifies integration of video playback with Brightcove Video Cloud and many popular advertising, analytics, and DRM solutions.</p>
+<p>The Brightcove Player SDK for Android solves most of the issues around HLS video playback on Android devices. For details about this solution, see the <a href="/node/18212">HLS Playback with the Player SDK for Android</a> document.</p>
 
-<p>The Native SDK also provides closed captioning support for pre-KitKat devices and easily customizable player controls with similar look and feel to the Brightcove Web Player to provide a consistent user experience across platforms.</p>
+<p>If you need to use Android's <code>MediaPlayer</code> for HLS playback, you may run into some limitations. See the section below for details about these limitations.</p>
 </section>
 
-<section class="bcls-section" id="Component_flow_diagram">
-<h2>Component flow diagram</h2>
+<section class="bcls-section" id="Known_limitations">
+<h2>Known limitations</h2>
 
-<p>This diagram shows some of the components in the Native SDK for Android and how they relate to each other.</p>
+<p>If you are using <a href="/node/18212">HLS Playback with the Player SDK for Android</a>, the limitations in this section do not apply.</p>
 
-<figure class="bcls-figure"><img class="bcls-image" alt="Android Architecture" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/getting-started/overview/android-architecture.png" />
-<figcaption class="bcls-caption--image">Android Architecture</figcaption>
-</figure>
+<p>You will only experience the issues in this section if you choose to use Android's <code>MediaPlayer</code> for HLS playback without Brightcove's solution. Here are the limitations:</p>
+
+<ul>
+	<li>Android 2.3
+	<ul>
+		<li>HLS and Widevine playback not supported by SDK due to OS limitations.</li>
+	</ul>
+	</li>
+	<li>Android 3.x
+	<ul>
+		<li>Not supported</li>
+	</ul>
+	</li>
+	<li>Android 4.x
+	<ul>
+		<li>HLS streams only seek to the beginning of segments due to an OS bug.
+		<p>As a result, midroll ads are only supported with non-HLS streams, or with the Brightcove Player SDK (Android 4.1 or newer).</p>
+		</li>
+		<li>HLS streams do not consistently report the correct video duration due to an OS bug.
+		<p>The Brightcove Player SDK (Android 4.1 or newer) does not have this limitation.</p>
+		</li>
+		<li>
+		<p>The timer, counter, Learn More button overlay and some AdEvent events are missing with Google IMA midrolls due to a reported bug in the Google IMA SDK.</p>
+		</li>
+		<li>We have seen issues with Widevine content on some Samsung devices. The Widevine teams advise upgrading to the latest Android version.</li>
+	</ul>
+	</li>
+	<li>Android 4.4.2
+	<ul>
+		<li>Playback will start, pause after a few seconds and then play from the start again.</li>
+	</ul>
+	</li>
+</ul>
 </section>
-&nbsp;
 
-<p>Now that you have a basic understanding of the component flow, you are ready to learn about the <code>BrightcovePlayer </code> activity in the next document.</p>
+<section class="bcls-section" id="FAQ">
+<h2>FAQ</h2>
 
-<div style="text-align:center"><button class="bcls-button" type="button" title="Next button" onclick="location.href='/node/18252';">Next &gt;</button></div>
+<p><strong>How can I get HLS to work on Android?</strong></p>
+
+<p>To be able to provide adaptive streaming on Android, Brightcove's Player SDK provides HLS playback functionality for Android 4.1 and newer.</p>
+<!--
+            <p><strong>Are there any other options for adaptive streaming?</strong></p>
+            <p>Widevine playback on Android provides its own proprietary adaptive streaming technology but is coupled with Widevine encryption and DRM.</p>
+-->
+
+<p><strong>What about HLSe?</strong></p>
+
+<p>HLSe has the same limitations and recommendations as above.</p>
+</section>
 </article>
-<!-- Learning path right navigation -->
-<link rel="stylesheet" href="https://learning-services-media.brightcove.com/doc-assets/css/learning-paths/learning-paths.css">
-  <script>
-    var learning_path = [
-      {
-        node: '18250',
-        title: 'Native SDK Architecture'
-      },
-      {
-        node: '18252',
-        title: 'Understand the Activity Class'
-      },
-      {
-        node: '18248',
-        title: 'Choose a Video View'
-      }
-      ,
-      {
-        node: '18247',
-        title: 'Register Your App'
-      },
-      {
-        node: '18251',
-        title: 'Use Media Content'
-      },
-      {
-        node: '18249',
-        title: 'Understand Events'
-      },
-      {
-        node: '18238',
-        title: 'Step-by-Step: Simple Video App'
-      }
-    ]
-  </script>
-  <script src="https://learning-services-media.brightcove.com/doc-assets/js/learning-paths/learning-paths.js"></script>
 
 
 <!-- END DRUPAL CONTENT -->

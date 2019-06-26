@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Embedding Player V4: General Recommendations"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_embed_bestpractices.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_embed_general_recommendations"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Embedding Player V4: General Recommendations</title>
+</head>
+<body id="pbv4_embed_general_recommendations">
+
+
+    <h1 class="title topictitle1">Embedding Player V4: General Recommendations</h1>
+
+    
+    <div class="body refbody">
+        <div class="section">
+            <p class="p">This article offers a breakdown of some general best practice recommendations when you are embedding Ooyala Player V4.</p>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">Always use OO.ready when creating a new player</h2>
+            <div class="p">Player V4 requires all of
+                its critical resources to be loaded before player initialization. While the use of
+                the OO.ready API does not provide any performance benefits, player creation is not
+                guaranteed to succeed if not executed within the context of the OO.ready callback.
+                <div class="note note"><span class="notetitle">Note:</span> Initializing the player after the DOMContentLoaded event is not a
+                    substitute for OO.ready. You are free to use DOMContentLoaded, but it’s still
+                    necessary to use OO.ready when initializing the player from within the
+                    DOMContentLoaded handler, otherwise initialization might fail depending on the
+                    timing.</div>
+</div>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">var player;
+var playerParams = {}; 
+                    
+OO.ready(function() {
+  player = OO.Player.create('oo-container', 
+'5kbmU5MzE6ivgWkobhscmQwGuD7fyNIa', playerParams);
+});</pre>
+</div>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">Use standard embed</h2>
+                <p class="p">Standard embed allows loading most of the player resources (player core script,
+                plugin scripts and stylesheets) using a single http request. Reducing the number of
+                requests going out to the player.ooyala.com domain will free up connection resources
+                in the browser which can be used to download other resources in the page. </p>
+<p class="p">Parsing a large JavaScript file is still a resource-intensive operation, so unless the standard
+                embed script is loaded asynchronously, the performance gains of using it will be
+                mostly network-related. </p>
+<p class="p">Another common downside of downloading a
+                        single large file is that caching will be less effective since a small change in one
+                        of the file’s components will require invalidating the cache of the whole file. This
+                        downside is less relevant in the case of the Ooyala player since every new player
+                        release results in the invalidation of the all the cached player resources.</p>
+
+            <div class="note note"><span class="notetitle">Note:</span> This suggestion will become less relevant when using http2 since multiplexing will
+                reduce the latency involved with requesting multiple files at once. At the time this
+                was written, Ooyala-hosted player resources still use http, so the recommendation
+                still applies. Remember that multiplexing is not a silver bullet, so bundling
+                resources might still apply in some cases (see <a class="xref" href="http://engineering.khanacademy.org/posts/js-packaging-http2.htm" target="_blank">http://engineering.khanacademy.org/posts/js-packaging-http2.htm</a>.</div>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;script src="//player.ooyala.com/core/player_branding_id"&gt;&lt;/script&gt;
+&lt;script&gt;
+var player;
+var playerParams = {};
+                    
+OO.ready(function() {
+  player = OO.Player.create('oo-container', 'embed_code', playerParams);
+});
+&lt;/script&gt;</pre>
+</div>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">PCODE - What it is and Why it is Important</h2>
+            <p class="p"><strong class="ph b">First, what is a PCODE?</strong>
+                Abbreviation for partner code, provider code, or publisher ID. An Ooyala-assigned
+                API credential that is required when embedding the Ooyala Player when using the
+                Advanced Player embed. If you are using the Standard embed, it is not a required
+                parameter., as well as some of the Ooyala APIs.</p>
+
+            <p class="p">The PCode is used for API requests. Generally, you should use the one that is
+                assigned in the embed code for Advanced Embed or the one automatically used in
+                Advanced Embed. The only time you may want to use a different PCode value is for
+                Master/Sub-account setups where you want IQ data rolling up to the master account
+                (by default, it will go to the sub account). However, using a different PCode than
+                what is provided automatically should only be done with guidance from Ooyala
+                Technical support to ensure your setup is correct, as incorrect setups can result in
+                IQ data loss. For more on the PCODE page-level parameter, please see <a class="xref" href="../api/pbv4_api_embedparams.html#pbv4_api_embedparams__pcode">here</a>.</p>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">Additional info about PCODEs and IQ Data and Master/Sub-Account Setups</h2><ul class="ul">
+                <li class="li">If accessing Master account Backlot, data for master and subs will be shown (it
+                    rolls up), granted that the master-sub relationship exists in the database. All
+                    player and content names are resolved correctly in the UI/API (no 'Unknown'
+                    names). One thing to note here is that currently there is no way to separate the
+                    data per account, so using player-id's particular to each account is strongly
+                    recommended to be able to use player as a proxy to account.</li>
+
+                <li class="li">If accessing Sub Account Backlot, data collected using this account's pcode will
+                    be shown. If for some reason, the player-id or asset played belongs to another
+                    account (from the master, or a sibling account), the UI/API will resolve those
+                    names to 'Unknown' since they are unknown to this particular account.</li>
+
+            </ul>
+ </div>
+
+           <div class="section"><h2 class="title sectiontitle">Always specify plugins when using the standard embed code</h2>
+            <p class="p">The standard embed code script url accepts a “plugins” query string parameter which allows specifying which plugins to bundle inside the script. By default the script contains several plugins which aren’t needed in all cases, so it is recommended to always specify only the necessary plugins.</p>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;script src="https://player.ooyala.com/core/&lt;playerid&gt;?plugins=main,bm,ima,disc"&gt;&lt;/script&gt;</pre>
+</div>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">Use inline Skin overrides instead of skin.json customizations</h2>
+            <p class="p">The more recent Player V4 versions allow customizing the skin by specifying only the subset of properties that the user wants to change. It is no longer necessary to provide a full skin.json file that contains all of the default values along with user customizations. It is also recommended to avoid using a skin.json file altogether and instead provide any overrides inline in order to avoid the extra network request.</p>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">var player;
+var playerParams = {
+  pcode: '1tZ2YyOrJS54quNwfWyNWCYUoNex',
+  playerBrandingId: 'a931ae1f41d849acbbeee7cea03afcf6',
+  skin: {
+     inline: {
+        skipControls: {
+          enabled: true // This will enable skip controls and use default values for all other skin settings
+        }
+      }
+    }
+ };
+                    
+OO.ready(function() {
+ player = OO.Player.create('oo-container', 
+'5kbmU5MzE6ivgWkobhscmQwGuD7fyNIa', playerParams);
+});</pre>
+</div>
+</div>
+
+            <div class="section"><h2 class="title sectiontitle">Use minified, Ooyala-hosted player resources</h2>
+            <div class="p">It is not recommended for customers to build or host their own player scripts unless strictly necessary due to the need for specific customization. Using Ooyala-hosted player resources will provide the following benefits:
+                <ul class="ul"><li class="li">Leverage Ooyala CDN for faster access to scripts and other resources across different regions.</li>
+
+                    <li class="li">Leverage the pre-existing caching policy of Ooyala-hosted resources.</li>
+
+                    <li class="li">Leverage automatic gzipping of Ooyala-hosted assets</li>
+
+                    <li class="li">Since browsers limit the number of concurrent requests per domain, offloading some requests to player.ooyala.com will free up some network resources for the rest of the page.</li>
+</ul>
+
+                <div class="note note"><span class="notetitle">Note:</span> Make sure to always use the <samp class="ph codeph">.min.js</samp> or <samp class="ph codeph">.min.css</samp> extension of the files instead of the <samp class="ph codeph">.js</samp> or <samp class="ph codeph">.css</samp> extensions.</div>
+</div>
+
+            </div>
+
+        <div class="section"><h2 class="title sectiontitle">Use https when loading player resources</h2>
+            <p class="p">This recommendation is not necessarily performance-related, but worth mentioning.
+                It’s best practice for web development in general to use https whenever possible.
+                Loading player resources over https will avoid mixed-content issues if your site
+                itself is being hosted using https. Https is also a requirement for DRM playback on
+                Chrome.</p>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;script src="https://player.ooyala.com/core/&lt;playerid&gt;?plugins=main,bm,ima,disc"&gt;&lt;/script&gt;</pre>
+</div>
+
+        </div>
+            
+                
+    </div>
+
+    
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/pbv4_embed_bestpractices.html">Embedding Player V4: Best Practices</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Customizing the Scrubber for iOS playback"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_controls.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_aboutcustomcontrols.html"/>
+<meta name="DC.Relation" scheme="URI" content="mobile_sdk_ios_custom_controls.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_controls.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_ios_custom_scrubber"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Customizing the Scrubber for iOS playback</title>
+</head>
+<body id="mobile_sdk_ios_custom_scrubber">
+
+
+    <h1 class="title topictitle1">Customizing the Scrubber for iOS playback</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc"/>
+
+        <div class="section context">
+            <p class="p">Learn how to customize the player scrubber for iOS.</p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand"><span class="ph cmd">Prepare the app for customizations using the steps in <a class="xref" href="mobile_sdk_ios_custom_controls.html" title="Learn how to customize player controls for iOS playback. Note that these steps are specific to inline controls. Use the same process for fullscreen controls but replace the inline source files with the fullscreen source files.">Implementing Inline Custom Controls for iOS</a>.</span></li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Use the following steps to change the color of the scrubber bar to red:</span>
+                <ol type="a" class="ol substeps">
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd"> Open <samp class="ph codeph">CustomInlineIOS7ControlsView.m</samp> for editing. </span>
+                    </li>
+
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Change the <samp class="ph codeph">navigationBar.backgroundColor</samp> to red. This is shown in
+                            the following code sample:</span>
+                         
+                            <pre class="pre codeblock">navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 36, self.bounds.size.width, 36)];
+if (navigationBar) {
+    nav igationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    <strong class="ph b">navigationBar.backgroundColor = [UIColor redColor];</strong>              </pre>
+
+                        
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd"> Edit <samp class="ph codeph">ViewController.m</samp> to include
+                    <samp class="ph codeph">OoyalaPlayerViewController</samp> and call the custom controls code. This step
+                    is showing in the following code example: </span>
+                 
+                    <pre class="pre codeblock">  _ooyalaPlayerViewController = [[OOOoyalaPlayerViewController alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN]];
+  CustomInlineIOS7ViewController *inlineController = [CustomInlineIOS7ViewController new];
+  MyFullScreenIOS7ViewController *fullscreenController = [MyFullScreenIOS7ViewController new];
+  [_ooyalaPlayerViewController setInlineViewController:inlineController];
+  [_ooyalaPlayerViewController setFullScreenViewController:fullscreenController];
+...</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Edit <samp class="ph codeph">ViewController.m</samp> to attach the custom controllers to the current
+                    view as shown in the following code sample: </span>
+                 
+                    <pre class="pre codeblock"> // Attach to current view
+  [self addChildViewController:_ooyalaPlayerViewController];
+  [_ooyalaPlayerViewController.view setFrame:_playerView.bounds];
+  [self addChildViewController:_ooyalaPlayerViewController];
+  [_playerView addSubview:_ooyalaPlayerViewController.view];
+...</pre>
+
+                
+                 
+                    <p class="p">Your app now includes custom controls for the player scrubber bar. For
+                        information about how to customize other player interface elements see <a class="xref" href="../concepts/mobile_sdk_ios_controls.html#mobile_sdk_ios_controls" title="The DefaultControlsSource directory contains the default Ooyala player skin.">Layout Controls</a>.</p>
+
+                
+            </li>
+</ol>
+
+    </div>
+
+    <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/mobile_sdk_ios_controls.html" title="The DefaultControlsSource directory contains the default Ooyala player skin.">Layout Controls</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/mobile_sdk_ios_aboutcustomcontrols.html">About Custom Controls for iOS</a></div>
+<div><a class="link" href="../concepts/mobile_sdk_ios_controls.html" title="The DefaultControlsSource directory contains the default Ooyala player skin.">Layout Controls</a></div>
+</div>
+<div class="relinfo reltasks"><strong>Related tasks</strong><br/>
+<div><a class="link" href="mobile_sdk_ios_custom_controls.html" title="Learn how to customize player controls for iOS playback. Note that these steps are specific to inline controls. Use the same process for fullscreen controls but replace the inline source files with the fullscreen source files.">Implementing Inline Custom Controls for iOS</a></div>
+</div>
+</div>
+
+</body>
+</html>

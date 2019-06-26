@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Player Token Expiration"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/player_v3dev_authoverview.html"/>
+<meta name="DC.Relation" scheme="URI" content="player_v3dev_authoverview.html"/>
+<meta name="DC.Relation" scheme="URI" content="player_v3dev_authtoken.html"/>
+<meta name="DC.Relation" scheme="URI" content="player_v3dev_tokenexpire.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3dev_tokenexpire.xml"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Player Token Expiration</title>
+</head>
+<body id="player_v3dev_tokenexpire.xml">
+
+
+ <h1 class="title topictitle1">Ooyala Player Token Expiration</h1>
+
+ <div class="body conbody">
+ <div class="section">The Ooyala Player Token is valid for the ooyala domain: <a class="xref" href="http://player.ooyala.com/" target="_blank">player.ooyala.com</a>.
+      When using the
+      Ooyala Player Token, you need to be aware of the various types of session expiration: <ul class="ul" id="player_v3dev_tokenexpire.xml__internal-source-marker_0.9329864937735756">
+        <li class="li">
+          <p class="p"><strong class="ph b">URL Token Request Expiration</strong> - Shorter in duration than the expiration time you
+            set in Backlot, this expiration is selected by the provider on the server-side and
+            included in the token request URL directly. </p>
+
+        </li>
+
+        <li class="li">
+          <p class="p"><strong class="ph b">Set Token Expiration</strong> - This expiration time is set by the content provider in
+            Backlot. Information about setting this type of expiration is described in the topic,
+              <a class="xref" href="../tasks/player_v3dev_settoken.html#player_v3dev_settoken" title="The Backlot UI provides you with an option to secure your content by setting a Syndication group flag adding your content assets to this syndication group. This will enable you to set up your web page to run your player(s), and send the authorization token. (Available only if your Ooyala account includes the Ooyala Player Token. To enable this functionality, contact your account manager.)">Setting the Ooyala Player Token</a>,
+            in this document.</p>
+
+        </li>
+
+        <li class="li">
+          <p class="p"><strong class="ph b">Interaction Token Expiration</strong> - This type of token expiration originates from
+            user actions that close the player. </p>
+
+        </li>
+
+      </ul>
+
+      <p class="p">To clear the Ooyala Player Token set in player.ooyala.com, call the
+<samp class="ph codeph">player.ooyala.com/sas/revoke_embed_token/:pcode</samp> API where :pcode is substituted with your
+        provider pcode.</p>
+
+      <p class="p"><strong class="ph b">Note: </strong>When the Ooyala Player Token has been created using the "all" embed code
+        parameter, there is no syndication group associated with it, so you cannot configure the
+        expiration time in a Backlot syndication group. Instead you must create a provider attribute
+        called "wildcard_opt_expiration_time" and give it a value in seconds. If you do not create
+        this attribute, then a default expiration time of 10 minutes will be used for the
+      token.</p>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle"> Token Request URL Expiration Time </h2>
+   
+   <p class="p">The token request URL has an expiration that is separate from the token’s expiration time that you set in Backlot (or via the
+    API). Per the discussion at the bottom in the prior topic, “How Does It Work” we recommend that
+    you use short expiration time. You set the Token Request URL expiration time within the URL
+    itself.  The format is similar to the following example:</p>
+
+   <div class="p"><pre class="pre codeblock">expires={expiredTimeInPOSIXTime}</pre>
+</div>
+
+   <div class="note note"><span class="notetitle">Note:</span> For more information about constructing the Token Request URL, see the topic <a class="xref" href="player_v3dev_authtoken.html#player_v3dev_authtoken" title="You can authorize playback using the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Controlling Playback with the Ooyala Player Token</a> in this document. </div>
+
+  </div>
+
+   <div class="section"><h2 class="title sectiontitle">Setting Token Expiration Time In Backlot</h2>
+    
+    <p class="p">When Ooyala authorizes playback and responds to the token request with a token object,
+        the user is authorized to play the video or audio content until token expiration
+        time occurs. Following expiration, the user no longer has playback authorization and must
+        reload the page to playback the content. If a user was authorized initially, and
+        mid-playback the token expires, playback does not cease. Once authorized for playback, this
+        mechanism does not revoke access unless a user reloads the page (or navigates away and
+        returns). For more information about setting the expiration time in Backlot, see step 5 in
+        the following topic, <a class="xref" href="../tasks/player_v3dev_settoken.html#player_v3dev_settoken" title="The Backlot UI provides you with an option to secure your content by setting a Syndication group flag adding your content assets to this syndication group. This will enable you to set up your web page to run your player(s), and send the authorization token. (Available only if your Ooyala account includes the Ooyala Player Token. To enable this functionality, contact your account manager.)">Setting the Ooyala Player Token</a> later in this document.</p>
+
+   </div>
+
+    <div class="section"><h2 class="title sectiontitle">Interaction Token Expiration Time</h2>
+     <p class="p">The token remains on the browser even if the user navigates away from the page or stops playback,
+        though it can certainly expire in the meanwhile. Users can trigger token flushing only by
+        closing the browser. To get another token object, the user would
+        then have to reload the page, re-triggering the pathway discussed in <a class="xref" href="player_v3dev_authtoken.html#player_v3dev_authtoken" title="You can authorize playback using the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Controlling Playback with the Ooyala Player Token</a> earlier in this
+        document.</p>
+
+  </div>
+
+</div>
+
+  <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="player_v3dev_authoverview.html">Ooyala Player Token for Player V3 (Deprecated)</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="player_v3dev_authoverview.html">Ooyala Player Token for Player V3 (Deprecated)</a></div>
+<div><a class="link" href="player_v3dev_authtoken.html" title="You can authorize playback using the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Controlling Playback with the Ooyala Player Token</a></div>
+<div><a class="link" href="player_v3dev_tokenexpire.html">Ooyala Player Token Expiration</a></div>
+</div>
+</div>
+
+</body>
+</html>

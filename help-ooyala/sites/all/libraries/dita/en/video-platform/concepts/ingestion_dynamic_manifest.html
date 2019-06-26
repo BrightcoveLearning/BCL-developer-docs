@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Dynamic Manifests"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ingestion_ois.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ingestion_ois.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ingestion_ftp"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Dynamic Manifests</title>
+</head>
+<body id="ingestion_ftp">
+
+
+ <h1 class="title topictitle1">Dynamic Manifests</h1>
+
+ <div class="body conbody">
+  <div class="section">If you are using Microsoft Azure Media Services to store uploaded assets,
+   you can use a predefined filter to generate a customized, dynamic manifest for transcoding.
+   Filters are server-side rules that are most commonly used to specify a subset of
+   audio and video renditions to provide the best viewing experience on a given device.
+   For example, you can set up a filter to request that when an asset is transcoded,
+   only HD and SD renditions are created.
+   <p class="p">A dynamic manifest is created when a viewer requests to stream a video that has a filter associated with it. This is in comparison to other types of Ooyala manifest files, which are uploaded along with the assets and remain the same for all viewing requests
+    (see <a class="xref" href="../tasks/ingestion_ftp_csv.html" title="When ingesting videos, you can use CSV manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use CSV manifest files when you ingest content with FTP or Aspera.">CSV Manifest File</a> or <a class="xref" href="../tasks/ingestion_ftp_xml.html" title="When ingesting videos, you can use XML manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use XML manifest files when you ingest content with FTP, Aspera, or MRSS.">XML Manifest File</a>). An asset can have both a static manifest file and a dynamic manifest filter.</p>
+<p class="p">
+    Dynamic manifests are useful when you need more flexibility than what can be defined in the asset’s default manifest file. With a dynamic manifest, you can:</p>
+<ul class="ul">
+   <li class="li">Better control the customer viewing experience on various device types</li>
+
+   <li class="li">Reduce CDN usage</li>
+
+  </ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Setting Up Dynamic Manifests</h2>
+   
+   <p class="p">To enable dynamic manifests, contact your Ooyala support representative and provide the desired filter criteria. The Ooyala team configures the filter for your account and sends you the name of the filter.</p>
+<p class="p">    
+    You can specify the desired output in terms of:</p>
+<ul class="ul">
+     <li class="li">Bitrate (single bitrate or range of bitrates)</li>
+
+      <li class="li">Bitrate for audio stream only</li>
+
+      <li class="li">Bitrate for video stream only</li>
+
+    </ul>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Using Filters</h2>
+   
+   <p class="p">To put a filter into effect, include the filter name when you embed the Ooyala Player on a web page or when you make an iOS SDK or Android SDK call to display video in a mobile app.</p>
+
+   <p class="p"><strong class="ph b">Example: Web Player</strong></p>
+
+   <pre class="pre codeblock">var playerParam = {"dynamicFilters": "filterA,filterB,filterC"};
+OO.Player.Create(DIV, embed_code, playerParam);</pre>
+
+   <p class="p"><strong class="ph b">Example: Android SDK</strong></p>
+
+   <pre class="pre codeblock">List&lt;String&gt; dynamicFilters = Arrays.asList("filterA", "filterB", "filterC");
+    
+Options options = new Options.Builder().setDynamicFilters(dynamicFilters).build();
+player = new OoyalaPlayer(pcode, new PlayerDomain(domain), null, options);</pre>
+
+   <p class="p"><strong class="ph b">Example: iOS SDK with Swift</strong></p>
+
+   <pre class="pre codeblock">let options: OOOptions = OOOptions()!
+options.dynamicFilters = ["filterA", " filterB", "filterC ", " filterD "]
+player = OOOoyalaPlayer(pcode: pcode, domain: domain, embedTokenGenerator: nil, options: options)! </pre>
+ 
+   <p class="p"><strong class="ph b">Example: iOS SDK with Objective-C</strong></p>
+
+   <pre class="pre codeblock">OOOptions *options = [OOOptions new];
+options.dynamicFilters = [[NSArray alloc]
+initWithObjects:@"filterA",@"filterB",@"filterC",nil];
+OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] 
+initWithPcode:self.pcode domain:[[OOPlayerDomain alloc] 
+initWithString:self.playerDomain] options:options];</pre>
+ 
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Limitations</h2>
+   
+   You can include multiple filters on a single asset, up to a maximum of three (3) filters per asset.</div>
+
+  <div class="section"><h2 class="title sectiontitle">Error Handling</h2>
+   
+  If the filter name in the embed parameter or SDK call does not match any defined filter
+  (for example, in case of a typographical error in your code), the filter is not applied
+  and the video transcodes normally as if no filter had been requested.</div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="ingestion_ois.html">Ooyala Ingestion Service (OIS)</a></div>
+</div>
+</div>
+
+</body>
+</html>

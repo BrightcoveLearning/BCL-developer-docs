@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Differences Between Player Versions"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_migration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_migration_versions"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Differences Between Player Versions</title>
+</head>
+<body id="pbv4_migration_versions">
+
+
+    <h1 class="title topictitle1">Differences Between Player Versions</h1>
+
+    <div class="body conbody">
+        <div class="section">For customers familiar with Player V3, this topic describes some of the differences
+            you will see in Player V4. <ul class="ul">
+                <li class="li">Customizing the UI</li>
+
+                <li class="li">Third-Party Analytics Plugins from Player V3</li>
+
+                <li class="li">Ad Configuration Parameters and Settings</li>
+
+                <li class="li">Other JavaScript API Changes</li>
+
+            </ul>
+</div>
+
+            <div class="section" id="pbv4_migration_versions__ui"><h2 class="title sectiontitle">Customizing the Player Appearance</h2>To customize the Player
+            V4 UI, you can configure the player interface using a variety of ways - the Backlot UI,
+            page-level parameters, in-line overrides, the <samp class="ph codeph">skin.json</samp> config file,
+            and CSS properties. For instructions, see <a class="xref" href="pbv4_customize.html">Customizing the Player V4 Appearance</a>. </div>
+
+        <div class="section" id="pbv4_migration_versions__analytics"><h2 class="title sectiontitle">Third-Party Analytics Plugins from Player V3</h2>
+            
+            <p class="p">The <a class="xref" href="pbv4_analytics_framework.html">Analytics Framework</a> allows you
+                to integrate third-party analytics with the player.</p>
+
+                <p class="p"><strong class="ph b">Plugins</strong></p>
+
+                <p class="p">You can use the Analytics Framework to re-create your
+                integrations with third-party analytics providers. We offer out-of-the box
+                integration plugins for top third-party analytics providers. Alternatively, you
+                could work with Ooyala Professional Services to assist with your migration. </p>
+
+            <p class="p"><strong class="ph b">Event Messages</strong></p>
+
+            <p class="p" id="pbv4_migration_versions__af_events">The Analytics Framework uses event messages that are different from the Player V3 and
+                Player V4 events. The table below shows the mapping between the events the Analytics
+                Framework is expecting and the Player V3/Player V4 events. You can use this mapping
+                to create analytics plugins. </p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="pbv4_migration_versions__analytics_framework_events" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d471687e75">Event in the Player OO.EVENTS namespace (Example:
+                                OO.EVENTS.PLAYER_CREATED)</th>
+
+                            <th class="entry" valign="top" id="d471687e78">Event in the Analytics Framework OO.Analytics.EVENTS namespace
+                                (Example: OO.Analytics.EVENTS.VIDEO_PLAYER_CREATED)</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PLAYER_CREATED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_PLAYER_CREATED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">EMBED_CODE_CHANGED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_SOURCE_CHANGED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">METADATA_FETCHED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_STREAM_METADATA_UPDATED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">CONTENT_TREE_FETCHED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_CONTENT_METADATA_UPDATED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">INITIAL_PLAY</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">INITIAL_PLAYBACK_REQUESTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PLAYED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PLAYBACK_COMPLETED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PLAY</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_PLAY_REQUESTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PLAYING</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_PLAYING</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PAUSE</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_PAUSE_REQUESTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">PAUSED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_PAUSED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">REPLAY</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_REPLAY_REQUESTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">SEEK</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_SEEK_REQUESTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">SEEKED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_SEEK_COMPLETED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">DOWNLOADING</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_STREAM_DOWNLOADING</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">BUFFERING</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_BUFFERING_STARTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">BUFFERED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">VIDEO_BUFFERING_ENDED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">WILL_PLAY_ADS</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">AD_BREAK_STARTED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">ADS_PLAYED</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">AD_BREAK_ENDED</samp></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">DESTROY</samp></td>
+
+                            <td class="entry" valign="top" headers="d471687e75 d471687e78 "><samp class="ph codeph">DESTROY</samp></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <p class="p">Each Analytics Framework message may have data sent with it. To see what data is sent
+                with each event, please read the documentation for the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/analytics_framework/OO.Analytics.EVENTS.html" target="_blank">Analytics Framework API</a>.</p>
+
+        </div>
+
+        
+        <div class="section" id="pbv4_migration_versions__ads"><h2 class="title sectiontitle">Ad Configuration Parameters and Settings</h2>
+            
+            <p class="p">With the <a class="xref" href="pbv4_ads_framework.html">Ad Manager Framework</a> Ad Manager
+                Framework for Player V4, configuration parameters and some page level settings are
+                different from Player V3. If you don't have any page level overrides to Backlot
+                settings, your ads will have full backwards compatibility. </p>
+
+            <p class="p"><strong class="ph b">General Ad Changes</strong></p>
+
+            <div class="p">The following global ad parameters are new in Player V4. See <a class="xref" href="pbv4_configure_ads_embedded_params.html">Configuring Ad Parameters</a> for
+                full descriptions of these parameters.<ul class="ul">
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__pauseAdOnClick">pauseAdOnClick</a></samp></li>
+
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__replayAds">replayAds</a></samp>
+                    </li>
+
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__showNonLinearCloseButton">showNonLinearCloseButton</a></samp></li>
+
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__showLinearAdSkipButton">showLinearAdSkipButton</a></samp>
+                    </li>
+
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__linearAdSkipButtonStartTime">linearAdSkipButtonStartTime</a></samp>
+                    </li>
+
+                    <li class="li"><samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__allowAdClickThroughOnVideo">allowAdClickThroughOnVideo</a></samp>
+                    </li>
+
+                </ul>
+The following ad parameters are not supported by Player V4. </div>
+<div class="p">
+                
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e384">Global Ad Parameters Not Supported by Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e387">Player V4 Equivalent</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e384 d471687e387 "><samp class="ph codeph">showInAdControlBar</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e384 d471687e387 "><span class="ph">Modify <a class="xref" href="../reference/pbv4_skin_schema_docs.html">skin.json</a> 
+                                    to modify ad control bar functionality. This applies to the FreeWheel ad plugin and the VAST and VPAID plugin when rendering VAST 2.0 or VAST 3.0 ads.</span></td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e384 d471687e387 "><samp class="ph codeph">showAdMarquee</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e384 d471687e387 "><span class="ph">For the Google IMA ad plugin, this parameter will be ignored. It will not display the ad control bar for ads unless you use the page level override (showAdControls) for the plugin. Google provides its own UI and this prevents our UI from obscuring it. For the VAST and VPAID plugin, rendering VPAID 2.0 ads, the ad control also is forcibly set to off. This is done to avoid blocking ad interactivity.</span></td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p">With the new Ad Manager Framework, ad manager plugins are used to integrate ad
+                managers with the player. For Google IMA, VAST, FreeWheel, VPAID, and any other ad
+                manager, you must load the ad manager plugin in the HTML page (for example,
+                ad_manager_vast.min.js) before the player is created for the ad integration to work
+                for your player. </p>
+<p class="p"><strong class="ph b">Google IMA-Specific Changes</strong></p>
+
+            <div class="p">You no longer load Google IMA ads on the page with:
+                <pre class="pre codeblock">"google-ima-ads-manager": {
+          "adTagUrl": "yourAdTagUrl"    
+        }</pre>
+Ad
+                tags are now wrapped in an array, and <samp class="ph codeph">adTagUrl</samp> has been renamed
+                    <samp class="ph codeph">tag_url</samp>. See <a class="xref" href="pbv4_ads_dev_google_ima.html">Integrating Google IMA Ads</a> for full details
+                on how to implement Google IMA ads.</div>
+
+            <div class="p">The following IMA-specific parameters are not supported by Player V4: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e457">IMA Parameters Not Supported by Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e460">Player V4 Equivalent</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">adTagUrl</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">Use <samp class="ph codeph">tag_url</samp>. See <a class="xref" href="pbv4_ads_dev_google_ima.html">Integrating Google IMA Ads</a> for full details on how to implement Google IMA ads.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">useStyledNonLinearAds</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">showInAdControlBar</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">This parameter is deprecated globally and for this ad
+                                    manager. For the Google IMA ad plugin, the ad control bar
+                                    configurations in skin.json are ignored (and are forcibly set to
+                                    off) to avoid blocking ad interactivity.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">showAdMarquee</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">For the Google IMA ad plugin, the ad marquee configurations
+                                    in skin.json are ignored (and are forcibly set to off) to avoid
+                                    blocking ad interactivity.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">playWhenAdClick</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">Use the <samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__pauseAdOnClick">pauseAdOnClick</a></samp> global
+                                    parameter.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 "><samp class="ph codeph">adRequestTimeout</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e457 d471687e460 ">Use the <samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__adLoadTimeout">adLoadTimeout</a></samp> global parameter</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+ The following table compares which ad positions are supported in Player V4
+                (HTML5 players and mobile SDKs for iOS and Android) and Player V3 (HTML players and
+                mobile SDKs for iOS and Android). 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e556">Supported Ad Position</th>
+
+                                <th class="entry" valign="top" id="d471687e559">Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e562">Player V3</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Pre-Roll</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Mid-Roll</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Post-Roll</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Podded</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Skippable</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Clickthrough</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Overlay</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 "> </td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 ">Companion</td>
+
+                                <td class="entry" align="center" valign="top" headers="d471687e556 d471687e559 d471687e562 ">✔</td>
+
+                                <td class="entry" valign="top" headers="d471687e556 d471687e559 d471687e562 "> </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+</div>
+
+            <p class="p"><strong class="ph b">Freewheel-specific Changes</strong></p>
+ The following table compares which ad positions
+            are supported in Player V4 (HTML5 players and mobile SDKs for iOS and Android) and
+            Player V3 (HTML players and mobile SDKs for iOS and Android). 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d471687e679">Supported Ad Position</th>
+
+                            <th class="entry" valign="top" id="d471687e682">Player V4</th>
+
+                            <th class="entry" valign="top" id="d471687e685">Player V3</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Pre-Roll</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Mid-Roll</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 "> </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Post-Roll</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Podded</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 "> </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Skippable</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 "> </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Clickthrough</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 ">Overlay</td>
+
+                            <td class="entry" align="center" valign="top" headers="d471687e679 d471687e682 d471687e685 ">✔</td>
+
+                            <td class="entry" valign="top" headers="d471687e679 d471687e682 d471687e685 "> </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <p class="p"><strong class="ph b">VAST-specific Changes</strong></p>
+
+            <p class="p">The <samp class="ph codeph">vastAds</samp> parameter is not currently supported with the new VAST
+                plugin. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for
+                details about VAST ad integration.</p>
+
+            <p class="p"><strong class="ph b">VPAID-Specific Changes</strong></p>
+
+            <div class="p">VAST and VPAID ad integration functionality is now combined in one plugin. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for details about VAST
+                and VPAID ad integration. The following VPAID-specific parameters are not supported
+                by Player V4: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e809">VPAID Parameters Not Supported by Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e812">Player V4 Equivalent</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">vpaid-ads-manager</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">Use <samp class="ph codeph">vast-ads-manager</samp>. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for
+                                    full details on how to implement VPAID ads.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">adLayout</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">adTag</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">Use <samp class="ph codeph">tag_url</samp>. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for
+                                    full details on how to implement VPAID ads.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">showAdMarquee</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">For the VAST and VPAID plugin rendering VPAID 2.0 ads, the ad
+                                    marquee configurations in skin.json are ignored (and are
+                                    forcibly set to off) to avoid blocking ad interactivity.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">showInAdControlBar</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">For the VAST and VPAID plugin rendering VPAID 2.0 ads, the ad
+                                    control bar configurations in skin.json are ignored (and are
+                                    forcibly set to off) to avoid blocking ad interactivity.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 "><samp class="ph codeph">playWhenAdClick</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e809 d471687e812 ">Use the <samp class="ph codeph"><a class="xref" href="pbv4_configure_ads_embedded_params.html#pbv4_configure_ads_embedded_params__pauseAdOnClick">pauseAdOnClick</a></samp> global
+                                    parameter.</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+</div>
+
+            <p class="p"><strong class="ph b">LiveRail-Specific Changes</strong></p>
+
+            <p class="p">Player V4 supports LiveRail VAST ad tags through the VAST and VPAID plugin. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for details about the
+                VAST and VPAID ad integration.</p>
+
+            <p class="p">The VAST and VPAID plugin supports LiveRail ad tag URLs that are VAST XML. This
+                correlates to the LiveRail (VAST) Overlay and LiveRail (VAST) In-Stream ad set types
+                in Backlot. </p>
+
+            <div class="note note"><span class="notetitle">Note:</span> The VAST and VPAID plugin does not support  LiveRail ads that do not use the VAST
+                XML format.</div>
+
+            <div class="p"> The following LiveRail-specific parameters are not supported by Player V4: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e930">LiveRail Parameters Not Supported by Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e933">Player V4 Equivalent</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 "><samp class="ph codeph">liverail-ads-manager</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 ">Use <samp class="ph codeph">vast-ads-manager</samp>. See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for
+                                    full details on how to implement VAST ads.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 "><samp class="ph codeph">LR_PUBLISHER_ID </samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 "><samp class="ph codeph">LR_PARTNERS</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 "><samp class="ph codeph">LR_TAGS</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 ">Use <samp class="ph codeph">tag_url</samp> for the LiveRail VAST ad tag.
+                                    See <a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a> for full details on how to implement VPAID ads.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 "><samp class="ph codeph">LR_ADMAP</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e930 d471687e933 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+</div>
+
+        </div>
+
+
+
+        
+        <div class="section" id="pbv4_migration_versions__api"><h2 class="title sectiontitle">Other JavaScript API Changes</h2> In addition to the changes
+            described above, this section describes changes in the Player JavaScript API for Player
+            V4. <p class="p"><strong class="ph b">Embedded Parameters</strong></p>
+In Player V4, there are some changes to the
+            embedded parameters (called "page-level parameters" in Player V4) that you pass to the
+                <span class="keyword apiname">OO.Player.create()</span> method. See <a class="xref" href="../api/pbv4_api_embedparams.html">Page-level Parameters for Player V4</a> for full descriptions of
+            supported embedded parameters. <p class="p"><strong class="ph b">New Embedded Parameters in V4</strong>. The following
+                parameters are among those that have been added in Player V4:</p>
+<ul class="ul">
+                <li class="li"><samp class="ph codeph"><a class="xref" href="../api/pbv4_api_embedparams.html#pbv4_api_embedparams__encodingPriority">encodingPriority</a></samp></li>
+
+                <li class="li"><samp class="ph codeph"><a class="xref" href="../api/pbv4_api_embedparams.html#pbv4_api_embedparams__initialVolume">initialVolume</a></samp></li>
+
+                <li class="li"><samp class="ph codeph"><a class="xref" href="../api/pbv4_api_embedparams.html#pbv4_api_embedparams__initialBitrate">initialBitrate</a></samp></li>
+
+            </ul>
+ For a complete list, see <a class="xref" href="../api/pbv4_api_embedparams.html">Page-level Parameters for Player V4</a>. <p class="p"><strong class="ph b">Embedded Parameters Not Supported in V4</strong>. Certain Player
+                V3 parameters are no longer supported in Player V4, including (but not limited to)
+                the following:</p>
+<div class="p">
+                
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d471687e1067">Global Parameters Not Supported by Player V4</th>
+
+                                <th class="entry" valign="top" id="d471687e1070">Player V4 Equivalent</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><strong class="ph b">Embedded Parameters</strong></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "> </td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">in-stream</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">locale</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">Modify <a class="xref" href="../reference/pbv4_skin_schema_docs.html">skin.json</a> to modify localization of the
+                                    Player UI. See <a class="xref" href="android_ios_web_v4_localization.html">Setting the Language for the Ooyala Player</a> for details. </td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">prebuffering</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">tvRatingsPosition</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">tvRatingsTimer</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">useFirstVideoFromPlaylist</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">enableChannels</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">showInAdControlBar</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><span class="ph" id="pbv4_migration_versions__control_bar_note">Modify <a class="xref" href="../reference/pbv4_skin_schema_docs.html">skin.json</a> 
+                                    to modify ad control bar functionality. This applies to the FreeWheel ad plugin and the VAST and VPAID plugin when rendering VAST 2.0 or VAST 3.0 ads.</span></td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">showAdMarquee</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><span class="ph" id="pbv4_migration_versions__ad_marquee_note">For the Google IMA ad plugin, this parameter will be ignored. It will not display the ad control bar for ads unless you use the page level override (showAdControls) for the plugin. Google provides its own UI and this prevents our UI from obscuring it. For the VAST and VPAID plugin, rendering VPAID 2.0 ads, the ad control also is forcibly set to off. This is done to avoid blocking ad interactivity.</span></td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><strong class="ph b">Custom Module Parameters</strong></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "> </td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">devModuleCategory</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">devModuleURL</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">hide</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">layout</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 "><samp class="ph codeph">thruParam_dev-other</samp></td>
+
+                                <td class="entry" valign="top" headers="d471687e1067 d471687e1070 ">No Player V4 equivalent.</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+<p class="p"><strong class="ph b">Query String Parameters</strong></p>
+<p class="p">Player V3 query string parameters
+                    (<samp class="ph codeph">namespace</samp>, <samp class="ph codeph">platform</samp>, and
+                    <samp class="ph codeph">tweaks</samp>) are not applicable in Player V4.</p>
+<p class="p"><strong class="ph b">Player
+                    Events</strong></p>
+ Player events have changed between Player V3 and Player V4.
+                    <div class="p"><strong class="ph b">Deprecated Player Event</strong>. The following Player V3 event has been
+                deprecated in Player V4, and will not work. Ooyala has removed this event.<ul class="ul">
+                    <li class="li"><samp class="ph codeph">SET_TARGET_BITRATE_QUALITY</samp></li>
+
+                </ul>
+
+                <strong class="ph b">New Player Events</strong>. The following events are among those that have been added
+                in Player V4. You can see detailed event descriptions at <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/player_v4_js/OO.EVENTS.html#toc0" target="_blank">docs.brightcove.com/apidocs-ooyala/</a>. <ul class="ul">
+                    <li class="li"><samp class="ph codeph">BITRATE_INFO_AVAILABLE</samp></li>
+
+                    <li class="li"><samp class="ph codeph">BITRATE_CHANGED</samp></li>
+
+                    <li class="li"><samp class="ph codeph">SET_TARGET_BITRATE</samp></li>
+
+                    <li class="li"><samp class="ph codeph">SET_CLOSED_CAPTIONS_LANGUAGE</samp></li>
+
+                    <li class="li"><samp class="ph codeph">CLOSED_CAPTIONS_INFO_AVAILABLE</samp></li>
+
+                </ul>
+</div>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_migration.html">Migrating to Player V4</a></div>
+</div>
+</div>
+
+</body>
+</html>

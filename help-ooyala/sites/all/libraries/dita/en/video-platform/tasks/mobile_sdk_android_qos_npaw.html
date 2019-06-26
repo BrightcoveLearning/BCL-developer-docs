@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Using the QoS Solution Powered by NPAW for Android"/>
+<meta name="abstract" content="The mobile implementation of the Ooyala QoS Solution powered by the NicePeopleAtWork (NPAW) YOUBORA platform provides analytics for events on Ooyala's Android players."/>
+<meta name="description" content="The mobile implementation of the Ooyala QoS Solution powered by the NicePeopleAtWork (NPAW) YOUBORA platform provides analytics for events on Ooyala's Android players."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/qos_solution_npaw_youbora.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/qos_solution_npaw_youbora.html"/>
+<meta name="DC.Relation" scheme="URI" content="https://github.com/ooyala/android-sample-apps/tree/stable/NPAWSampleApp"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/qos_solution_npaw_youbora.html"/>
+<meta name="DC.Relation" scheme="URI" content="http://developer.nicepeopleatwork.com/product-documentation/"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/faq_qos_solution.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_qos_npaw"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Using the QoS Solution Powered by NPAW for Android</title>
+</head>
+<body id="mobile_sdk_android_qos_npaw">
+
+
+    <h1 class="title topictitle1">Using the QoS Solution Powered by <span class="ph">NPAW</span> for Android</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc">The mobile implementation of the <span class="ph">Ooyala</span> QoS Solution powered
+        by the <span class="ph">NicePeopleAtWork (NPAW) YOUBORA</span> platform provides analytics
+        for events on <span class="ph">Ooyala's</span> Android players. </p>
+
+        
+        <div class="section prereq p">Before implementing the <span class="ph">Ooyala</span> QoS Solution powered by <span class="ph">YOUBORA</span>, you should have: <ul class="ul">
+                <li class="li">A customer relationship with <span class="ph">NPAW</span> that includes accounts
+                    for <span class="ph">YOUBORA</span>. Ask your <span class="ph">Ooyala</span>
+                    contact person for an <span class="ph">NPAW</span> account ID and User ID for
+                    the device.</li>
+
+                <li class="li">An <span class="ph">Ooyala</span>
+                    <a class="xref" href="https://backlot.ooyala.com/backlot/web" target="_blank"><span class="ph">Backlot</span></a> account.</li>
+
+                <li class="li">Experience in Android development.</li>
+
+            </ul>
+</div>
+
+        <div class="section context">To integrate <span class="ph">NPAW's YOUBORA</span> with an existing <span class="ph">Ooyala</span> Player application, add some  plugin code to your project
+            and  add some code snippets to your code. </div>
+
+     <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Log in to <a class="xref" href="http://youbora.com/">http://youbora.com/</a>.</span>
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Add to your <samp class="ph codeph">build.gradle</samp></span>
+              <pre class="pre codeblock">maven {
+                 url  "http://dl.bintray.com/npaw/youbora"
+                 }
+             </pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Add to your dependencies:</span>
+                 <pre class="pre codeblock">dependencies {
+                    ...
+                    compile 'com.npaw.youbora.adapters:ooyala-adapter:6.0.+'
+                    ...
+                    }
+                </pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Add the following import statements to the code that creates the Ooyala player.
+                    (In the the Ooyala example, this code goes in
+                        <samp class="ph codeph">BasicPlaybackVideoPlayerActivity</samp>.)</span>
+                 
+                    <pre class="pre codeblock">import com.npaw.youbora.lib6.ooyala.adapters.OoyalaAdapter;
+import com.npaw.youbora.lib6.plugin.Plugin;</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Create a field to hold the plugin instance in this class:</span>
+                 
+                    <pre class="pre codeblock">private Plugin youboraPlugin;</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">As soon as the player is created, instance the adapter passing it the player
+                    and set it to the plugin. This is usually done in the <samp class="ph codeph">onCreate</samp>
+                    method.</span>
+                 <pre class="pre codeblock">youboraPlugin = new Plugin(options);
+youboraPlugin.setAdapter(new OoyalaAdapter(player));</pre>
+The
+                        <samp class="ph codeph">options</samp> argument is a
+                        <samp class="ph codeph">com.npaw.youbora.lib6.plugin.Options</samp> class that includes
+                    information related to the client YOUBORA account, device information, media
+                    info, and more. For more information about these options, see our developer
+                    portal.
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Insert code that stops tracking analytics, call
+                        <samp class="ph codeph">removeAdapter()</samp> when, for example, the end user stops the
+                    fullscreen player. Place <samp class="ph codeph">removeAdapter()</samp> in the “back button”
+                    or <samp class="ph codeph">onBackPressed()</samp> method. Alternatively, override Activity's
+                        <samp class="ph codeph">onStop()</samp> and check for the <samp class="ph codeph">isFinishing()</samp>
+                    result. For example:</span>
+                 <pre class="pre codeblock">@Override
+protected void onStop() {
+ super.onStop();
+ Log.d(TAG, "Player Activity Stopped");
+ if (player != null) {
+ player.suspend();
+ }
+ if (isFinishing()) {
+ pluginOoyala.removeAdapter();
+ }
+}</pre>
+The
+                        <samp class="ph codeph">removeAdapter()</samp> method unregisters everything set by the
+                        <samp class="ph codeph">setAdapter()</samp> method, and also sends a
+                        <samp class="ph codeph">/stop</samp> event that closes any ongoing YOUBORA
+                    sessions.
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">To pause and resume monitoring, such as when the user goes away from the app,
+                    use <samp class="ph codeph">fireStop()</samp>. This ensures that the app does not send pings
+                    while it is in the background. This is usually done from the Activity's
+                        <samp class="ph codeph">onStop()</samp> method, if <samp class="ph codeph">isFinishing()</samp> returns
+                    false.</span>
+                 
+                    <pre class="pre codeblock">@Override protected void onStop() {
+  super.onStop();
+  Log.d(TAG, "Player Activity Stopped");
+  if (player != null) {
+    player.suspend();
+  }
+  if (isFinishing()) {
+    pluginOoyala.removeAdapter();
+  } else {
+    youboraPlugin.getAdapter().fireStop();
+  }
+}</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">To enable logs, if you want the plugin to print logs, call
+                        <samp class="ph codeph">YouboraLog.setDebugLevel()</samp> before anything else, prior to
+                    the plugin creation.</span>
+                 <pre class="pre codeblock">YouboraLog.setDebugLevel(logLevel);</pre>
+<p class="p">where
+                            <samp class="ph codeph">logLevel</samp> is one of the following constants defined in
+                        the <samp class="ph codeph">YBLog</samp> class (ordered by verbosity):</p>
+<ul class="ul" id="mobile_sdk_android_qos_npaw__ul_ezn_t3w_tw">
+                        <li class="li">
+                            <p class="p"><samp class="ph codeph">YouboraLog.Level.SILENT</samp></p>
+
+                        </li>
+
+                        <li class="li">
+                            <p class="p"><samp class="ph codeph">YouboraLog.Level.ERROR</samp></p>
+
+                        </li>
+
+                        <li class="li"><samp class="ph codeph">YouboraLog.Level.WARNING</samp></li>
+
+                        <li class="li"><samp class="ph codeph">YouboraLog.Level.NOTICE</samp></li>
+
+                        <li class="li"><samp class="ph codeph">YouboraLog.Level.DEBUG</samp></li>
+
+                        <li class="li"><samp class="ph codeph">YouboraLog.Level.VERBOSE</samp></li>
+
+                    </ul>
+You can download a fully integrated example from <a class="xref" href="http://smartplugin.youbora.com/v5/android/ooyala/5.3.0/example.zip" target="_blank">http://smartplugin.youbora.com/v5/android/ooyala/5.3.0/example.zip</a>.
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">(Optional) You can supplement or customize the metadata the app sends to <span class="ph">NPAW</span>:</span>
+                 
+                    <pre class="pre codeblock">YouboraMetadata metadata = new YouboraMetadata();
+ /*
+* YouboraMetadata
+*/
+ metadata.setParam1("ooyala1");
+ metadata.setParam2("ooyala2");
+ metadata.setCdn("Akamai");
+ metadata.setIp("8.8.4.4");
+ metadata.setIsp("Telefonica");
+ metadata.setTransaction("ooyala-transaction");
+ metadata.setResource("http://1234");
+ 
+ /*
+  * Youbora metadata map
+  */
+ Map&lt;String, String&gt; metadataMap = new HashMap&lt;String, String&gt;();
+ metadataMap.put("title", "custom title");
+ metadataMap.put("genre", "genre");
+ metadataMap.put("language", "langugae");
+ metadataMap.put("year", "year");
+ metadataMap.put("cast", "cast");
+ metadataMap.put("director", "director");
+ metadataMap.put("owner", "owner");
+ metadataMap.put("duration", "10000");
+ metadataMap.put("parental", "parental");
+ metadataMap.put("price", "1000");
+ metadataMap.put("rating", "100");
+ metadataMap.put("audioType", "6");
+ metadataMap.put("audioChannels", "2");
+ 
+ /*
+  * Youbora device metadata map
+  */
+ Map&lt;String, String&gt; deviceMap = new HashMap&lt;String, String&gt;();
+ deviceMap.put("manufacturer", "manufacturer");
+ deviceMap.put("type", "type");
+ deviceMap.put("year", "year");
+ deviceMap.put("firmware", "firmware");
+ /*
+  * Youbora properties map
+  */
+ Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;();
+ properties.put("filename", "filename");
+ properties.put("content_id", "content_id");
+ properties.put("transaction_type", "transaction_type");
+ properties.put("quality", "quality");
+ properties.put("content_type", "content_type");
+ properties.put("custom property1", "custom property 1");
+ 
+ /*
+  * Put the override maps into the properties before updating
+  */
+ properties.put("content_metadata", metadataMap);
+ properties.put("device", deviceMap);
+ /*
+  * Put the combined properties map into the YouboraMetadata
+  */
+ metadata.setProperties(properties);
+ Youbora.updateYouboraMetadata(metadata);
+                 </pre>
+
+                    <p class="p"><strong class="ph b">YouboraMetadata</strong></p>
+
+                    <p class="p">A class that accepts metadata about the environment. This is added into <span class="ph">YOUBORA</span> using <span class="ph">Youbora.updateYouboraMetadata(metadata);</span>.</p>
+
+                    <p class="p">This class has (but is not limited to) the following methods. For a full list
+                        of keys you can use along with detailed descriptions and examples, see the
+                            <span class="ph">YOUBORA</span>
+                        <a class="xref" href="http://developer.nicepeopleatwork.com/product-documentation/" target="_blank">product
+                        documentation</a>.</p>
+
+                    
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                            <thead class="thead" align="left">
+                                <tr class="row">
+                                    <th class="entry" valign="top" id="d1064288e316">Method</th>
+
+                                    <th class="entry" valign="top" id="d1064288e319">Automatically Filled</th>
+
+                                    <th class="entry" valign="top" id="d1064288e322">Description</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="tbody">
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setParam1</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 "> </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setParam2</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 "> </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setCdn</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">
+                                        <p class="p">Allows you to override the <span class="ph">CDN</span>
+                                            automatic detection that <span class="ph">YOUBORA
+                                                Analytics</span> does. This is an optional method.</p>
+
+                                        <p class="p">The <span class="ph">CDN</span> detection is done based
+                                            on the host of the resource/video URL <span class="ph">YOUBORA</span> receives from the player. However, you
+                                            could embed API URLs that may cause <span class="ph">YOUBORA</span> automatic system to return a wrong <span class="ph">CDN</span> (or unknown). If you use the
+                                                <span class="ph">YOUBORA Smartswitch</span> or know
+                                            which <span class="ph">CDN</span> is sending the
+                                            content, you can override the automatic value.</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setIp</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">
+                                        <p class="p">Allows you to override the IP automatic detection that
+                                            Analytics does. This is an optional method.</p>
+
+                                        <p class="p">The IP comes from the request IP from the end user. If
+                                            you use a middle-ware between the plugin and the
+                                            analytics server for the <span class="ph">Smartswitch</span> feature, <span class="ph">YOUBORA</span> would only get the middleware IP
+                                            instead of the user's.</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setIsp</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">
+                                        <p class="p">Allows overriding the <span class="ph">ISP</span>
+                                            automatic detection that Analytics does. This is an
+                                            optional method.</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setTransaction</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">Sets the transaction code value inside <span class="ph">YOUBORA</span> analytics. The transaction code is a
+                                        specific code you can use to identify the view within the
+                                        Analytics tool and make searches. This code means whatever
+                                        you want it to (<span class="ph">purchaseCode,
+                                            sessionCode</span>, and so on). </td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">YouboraMetadata.setResource</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">No</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e316 d1064288e319 d1064288e322 ">Overwrites the video URL metadata sent to the <span class="ph">YOUBORA</span> system. This means that even
+                                        though the player plays one different URL, you can set up a
+                                        new one as metadata (not as the video that will be played)
+                                        just for the <span class="ph">CDN</span> detection.</td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+</div>
+
+                    <p class="p"><strong class="ph b">Properties Map</strong></p>
+
+                    <div class="p">A <span class="ph">HashMap</span> of properties that contains information
+                        about the current playback. Added into <span class="ph">YOUBORA</span> using
+                            <span class="ph">metadata.setProperties()</span>, where metadata is a
+                            <span class="ph">YouboraMetadata</span> object. This <span class="ph">HashMap</span> accepts (but is not limited to) the following keys. For a
+                        full list of keys you can use along with detailed descriptions and examples,
+                        see the <span class="ph">YOUBORA</span>
+                        <a class="xref" href="http://developer.nicepeopleatwork.com/product-documentation/" target="_blank">product documentation</a>.
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                                <thead class="thead" align="left">
+                                    <tr class="row">
+                                        <th class="entry" valign="top" id="d1064288e514">Key</th>
+
+                                        <th class="entry" valign="top" id="d1064288e517">Automatically Filled</th>
+
+                                        <th class="entry" valign="top" id="d1064288e520">Description</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody class="tbody">
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">filename</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">No</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">File name of the current media content.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">content_id</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Yes</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Defaults to the <span class="ph">Ooyala Embed
+                                                Code/Content ID</span>.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">transaction_type</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">No</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 "><span class="ph">Rent</span>: Media for rental.<p class="p"><span class="ph">Subscription</span>: Media acquired
+                                                as part of a subscription.</p>
+
+                                            <span class="ph">EST (Electronic Sell Through)</span>:
+                                            Media purchased.<p class="p"><span class="ph">Free: Media</span>
+                                                with no economical transaction.</p>
+</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">quality</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">No</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 "><span class="ph">HD or SD</span>.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">content_type</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">No</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Trailer, Episode, or Movie.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">content_metadata</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Yes</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">A <span class="ph">HashMap</span> of many other
+                                            metadata entries related to the content.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">device</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Yes</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">A <span class="ph">HashMap</span> of many other
+                                            metadata entries related to the content.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">&lt;Any text&gt;</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">No</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e514 d1064288e517 d1064288e520 ">Can be any text string, which would be passed through
+                                            to <span class="ph">NPAW</span>.</td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+</div>
+</div>
+
+                    <p class="p"><strong class="ph b">MetadataMap</strong></p>
+
+                    <div class="p">A <span class="ph">HashMap</span> of information about the content. Added
+                        into the properties <span class="ph">HashMap</span> using <span class="ph">properties.put("content_metadata", metadataMap);</span> This <span class="ph">HashMap</span> accepts (but is not limited to) the
+                        following keys. For a full list of keys you can use along with detailed
+                        descriptions and examples, see the <span class="ph">YOUBORA</span>
+                        <a class="xref" href="http://developer.nicepeopleatwork.com/product-documentation/" target="_blank">product documentation</a>.
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                                <thead class="thead" align="left">
+                                    <tr class="row">
+                                        <th class="entry" valign="top" id="d1064288e689">Key</th>
+
+                                        <th class="entry" valign="top" id="d1064288e692">Automatically Filled</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody class="tbody">
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">title</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">Yes</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">genre</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">language</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">year</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">cast</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">director</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">owner</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">duration</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">Yes</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">parental</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">price</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">rating</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">audioType</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">audioChannels</td>
+
+                                        <td class="entry" valign="top" headers="d1064288e689 d1064288e692 ">No</td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+</div>
+</div>
+
+                    <p class="p"><strong class="ph b">Device Metadata Map</strong></p>
+
+                    <p class="p">A <span class="ph">HashMap</span> of information about the device This <span class="ph">HashMap</span> accepts (but is not limited to) the
+                        following keys. For a full list of keys you can use along with detailed
+                        descriptions and examples, see the <span class="ph">YOUBORA</span>
+                        <a class="xref" href="http://developer.nicepeopleatwork.com/product-documentation/" target="_blank">product
+                        documentation</a>.</p>
+
+                    
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                            <thead class="thead" align="left">
+                                <tr class="row">
+                                    <th class="entry" valign="top" id="d1064288e850">Key</th>
+
+                                    <th class="entry" valign="top" id="d1064288e853">Automatically Filled</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="tbody">
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">manufacturer</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">No</td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">type</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">No</td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">year</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">No</td>
+
+                                </tr>
+
+                                <tr class="row">
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">firmware</td>
+
+                                    <td class="entry" valign="top" headers="d1064288e850 d1064288e853 ">No</td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+</div>
+
+                
+            </li>
+</ol>
+
+        <div class="section result">When you have configured <span class="ph">Ooyala</span> and <span class="ph">Youbora</span> correctly, you will be able to see <span class="ph">NPAW</span> requests in network traces going to http://test-nqs.nice264.com/, as well as see logs in <span class="ph">Logcat</span> tagged with <span class="ph">NICE_PEOPLE_OOYALA and NICE_PEOPLE_BASE</span>.</div>
+ 
+        <div class="example">In our <a class="xref" href="https://github.com/ooyala/android-sample-apps/tree/master/NPAWSampleApp" target="_blank">public Android <span class="ph">Sample Apps Github
+                repository</span></a> you can find a sample application with two examples.<ol class="ol">
+                <li class="li">The minimum required configuration.</li>
+
+                <li class="li">A configuration using all optional parameters.</li>
+
+            </ol>
+
+        </div>
+
+    </div>
+
+    <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/qos_solution_npaw_youbora.html" title="Ooyala now offers a Quality of Service (QoS) solution powered by the NICE PEOPLE AT WORK (NPAW) YOUBORA Analytics platform. This is an add-on service is available for all Ooyala customers.">Ooyala QoS Solution Powered by NPAW's YOUBORA</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/qos_solution_npaw_youbora.html" title="Ooyala now offers a Quality of Service (QoS) solution powered by the NICE PEOPLE AT WORK (NPAW) YOUBORA Analytics platform. This is an add-on service is available for all Ooyala customers."><span class="ph">Ooyala QoS Solution powered by NPAW's YOUBORA</span> Overview</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../reference/faq_qos_solution.html" title="Frequently asked questions about Quality of Service (QoS) Analytics.">Quality of Service FAQ</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br/>
+<div><a class="link" href="https://github.com/ooyala/android-sample-apps/tree/stable/NPAWSampleApp" target="_blank">NPAW Integration for Android Sample App</a></div>
+<div><a class="link" href="http://developer.nicepeopleatwork.com/product-documentation/" target="_blank">Product documentation on the NPAW Developer Portal</a></div>
+</div>
+</div>
+    
+
+</body>
+</html>

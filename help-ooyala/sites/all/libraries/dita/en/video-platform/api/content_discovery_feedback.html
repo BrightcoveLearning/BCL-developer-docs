@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Providing Feedback"/>
+<meta name="abstract" content="To help tune recommendations, make sure to record displays and plays."/>
+<meta name="description" content="To help tune recommendations, make sure to record displays and plays."/>
+<meta name="DC.Relation" scheme="URI" content="../api/content_discovery.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/content_discovery.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="content_discovery_feedback"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Providing Feedback</title>
+</head>
+<body id="content_discovery_feedback">
+
+
+    <h1 class="title topictitle1">Providing Feedback</h1>
+
+    
+    <div class="body refbody"><p class="shortdesc">To help tune recommendations, make sure to record displays and plays. </p>
+
+        <div class="section">
+            <p class="p">If recommendations appear in the player endscreen, you do not need to do anything. If
+                you display the recommendations outside the player, make sure to record each display
+                and play event.</p>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Record a Display</h2>
+            <pre class="pre codeblock">[POST]/v2/discover/feedback/impression{  
+   <var class="keyword varname">bucket_info</var>,
+   <var class="keyword varname">device_id</var>
+}</pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Record a Play</h2>
+            
+            <pre class="pre codeblock">[POST]/v2/discover/feedback/play{  
+    <var class="keyword varname">bucket_info</var>,
+    <var class="keyword varname">device_id</var>
+}</pre>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Properties</h2>
+            
+            <p class="p">The following table describes the query string parameters of the routes.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="22.22222222222222%" id="d67445e71">Property</th>
+
+                            <th class="entry" valign="top" width="55.55555555555556%" id="d67445e74">Description</th>
+
+                            <th class="entry" valign="top" width="22.22222222222222%" id="d67445e77">Required?</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" width="22.22222222222222%" headers="d67445e71 "><span class="keyword parmname">bucket_info</span></td>
+
+                            <td class="entry" valign="top" width="55.55555555555556%" headers="d67445e74 ">Container. The <span class="keyword parmname">bucket_info</span> structure returned by Ooyala Discovery for trending, related, or other recommendations.<p class="p"><strong class="ph b">Note:</strong> The contents of <span class="keyword parmname">bucket_info</span> need to be escaped in the JSON data.</p>
+</td>
+
+                            <td class="entry" valign="top" width="22.22222222222222%" headers="d67445e77 ">Yes</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="22.22222222222222%" headers="d67445e71 "><span class="keyword parmname">device_id</span></td>
+
+                            <td class="entry" valign="top" width="55.55555555555556%" headers="d67445e74 ">ID of the device or user for which you want to return recommendations. <p class="p">Type: String  </p>
+<p class="p">Default: None
+                                    </p>
+<p class="p">Example: pmd2xzMjrCg4TpQd6cwz9HP4U-pcFSHH </p>
+</td>
+
+                            <td class="entry" valign="top" width="22.22222222222222%" headers="d67445e77 ">Yes</td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Examples</h2><div class="sectiondiv">
+                <div class="note note"><span class="notetitle">Note:</span>  The 200 response that Ooyala returns for this route has no body text. </div>
+
+                <p class="p">The following example records a display: </p>
+
+                <pre class="pre codeblock">[POST]/v2/discover/feedback/impression{  
+   "bucket_info":"1{ 
+ \"encoded\":\"eNpNj1EOgyAQRO+y36ZBQRAuY4hsqIkoWYiJsd69tNbGz9mZeZndIVrCOfdr\\n7EcHBqTWnAvxalTNOFSA68fNW0QwdQURaSgH64tkj7atIGWyGf1Wup4Q3VZK\\ndvILjfkZ+kK3IYHZIQ0L4Q8EZGe3BDju0dmGr4VT4blCIRz6aUz5XCW0kucq\\nI3UjZCcu1THONLuUYoLxf1IJ1bDupri6fjve7Q5Lhg==\", \"position\":0
+ }",
+   "device_id":"<kbd class="ph userinput">device_id</kbd>"
+}</pre>
+
+                <p class="p">which returns a 200 response.</p>
+
+            </div>The following example records a play:
+                <pre class="pre codeblock">[POST]/v2/discover/feedback/play{  
+   "device_id":"<kbd class="ph userinput">device_id</kbd>",
+   "bucket_info":"1{ 
+
+ \"encoded\":\"eNpVT9sOgjAM/Zc+EzNQkfEzSwPNaMItW11C0H+3eEF96+npuXSFGQON4tLs\\nuIUaSltZcylvxSU3R8iA0sbKMhPUeQYzhUYX6BWagzlngL2fAks3OHXCIUK9\\ngg84XnvU9aKWhdoID6oAnWIzBXobQkuBEwonUkb1wsLTGLfL+6/1iE+5aNU2\\n6mmgxvUc5VPYmlfhWlFlq+KLrDH/3OmX+0N5edrf1lzv9nyN6dh3rqUGF7g/\\nAEHSXq0=\", \"position\":0}"
+}</pre>
+<p class="p">which
+                returns a 200 response.</p>
+<div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="content_discovery.html">Discovery REST API Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

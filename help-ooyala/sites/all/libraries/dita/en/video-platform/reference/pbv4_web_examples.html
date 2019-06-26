@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Examples of Player V4 Web Page Embedding"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_embed.html"/>
+<meta name="DC.Relation" scheme="URI" content="pbv4_web_tutorial.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_web_examples"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Examples of Player V4 Web Page Embedding</title>
+</head>
+<body id="pbv4_web_examples">
+
+
+    <h1 class="title topictitle1">Examples of Player V4 Web Page Embedding</h1>
+
+
+    <div class="body refbody">
+        <div class="section">This topic provides examples of how you embed Player V4 on a web page. Embedding
+            involves decisions on which plugins you want to load, along with the degree to which you
+            want to customize the skin and CSS. <div class="note note"><span class="notetitle">Note:</span> 
+                <p class="p">You only need to declare the location of the <span class="ph filepath">skin.json</span>
+                        (<samp class="ph codeph">"config": "url_where_hosted/skin.json"</samp>) for the following
+                    reasons:</p>
+
+                <ul class="ul">
+                    <li class="li">You do not want to use the Ooyala-hosted/managed default
+                            <span class="ph filepath">skin.json</span> as the reference
+                            <span class="ph filepath">skin.json</span> file.</li>
+
+                    <li class="li">You do not want any Player configurations set in Backlot
+                            (<span class="ph uicontrol">Manage</span> tab) used. Note that a
+                            <span class="ph filepath">skin.json</span> file in the page has priority over any
+                        settings set in the <span class="ph uicontrol">Manage</span> tab in Backlot. For more
+                        information about Ooyala Web Player Skin priorities, please see <a class="xref" href="../../../../../../../video-platform/concepts/pbv4_precedence.html" target="_blank">Order of Precedence in Player
+                            V4 Settings</a>.</li>
+
+                </ul>
+
+                <p class="p">When you see <samp class="ph codeph">url_where_hosted</samp> in sample code, replace this (in
+                    your code) with the URL that points to where the resource is hosted. For a list
+                    of Ooyala-hosted paths, see <a class="xref" href="../concepts/pbv4_resources.html">Ooyala-hosted Player V4 Resources</a>. The URL can point to a location on the same host (internal
+                    link) or on a separate host (prefixed with <span class="ph filepath">http://</span> or
+                        <span class="ph filepath">https://</span>). If you host resources yourself (see <a class="xref" href="../concepts/pbv4_host.html">Hosting Player V4 Resources</a>), be sure to check for any
+                    path dependencies within the files. </p>
+
+            </div>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Embed a Player with a Video</h2>
+            To create a player with a video, add the
+            content ID for the video. You can get the content ID from your Backlot account. For more
+            information, see <a class="xref" href="../tasks/gsg_dev_publishingvideo.html" title="Ooyala supports numerous ways to publish content. You can publish to YouTube, Boxee feeds, iPhone feeds, and so on, or embed a video on a web site.">Publishing a Video</a>. </div>
+
+        <div class="section">
+            <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;script src="//player.ooyala.com/core/YOUR_PLAYER_ID"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            OO.ready(function() {
+              window.pp = OO.Player.create("container", "YOUR_ASSET_ID");
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="p">This uses the Backlot configuration of the player associated with <strong class="ph b">YOUR_ASSET_ID</strong>. It
+                includes the following plugins: <ul class="ul">
+                    <li class="li">skin-plugin/ <ul class="ul">
+                            <li class="li">html5-skin.min.css</li>
+
+                            <li class="li">html5-skin.min.js</li>
+
+                        </ul>
+</li>
+
+                    <li class="li">video-plugin/ <ul class="ul">
+                            <li class="li">main_html5.min.js</li>
+
+                            <li class="li">bit_wrapper.min.js</li>
+
+                        </ul>
+</li>
+
+                    <li class="li">ad-plugin/ <ul class="ul">
+                            <li class="li">pulse.min.js</li>
+
+                            <li class="li">google_ima.min.js</li>
+
+                            <li class="li">freewheel.min.js</li>
+
+                            <li class="li">ad_manager_vast.min.js</li>
+
+                        </ul>
+</li>
+
+                    <li class="li">other-plugin/ <ul class="ul">
+                            <li class="li">discovery_api.min.js</li>
+
+                        </ul>
+</li>
+
+                </ul>
+</div>
+
+            
+        </div>
+
+      
+      
+        <div class="section" id="pbv4_web_examples__inline_customization"><h2 class="title sectiontitle">Embed a Simple Player with Inline Player Skin Modifications</h2>
+      The following
+      example shows how to use the inline parameter to make inline player skin modifications.
+      skin.inline will overwrite any settings in the skin.json config file. The JSON object within
+      the <a class="xref" href="../api/pbv4_api_embedparams.html#pbv4_api_embedparams__skin.inline">skin.inline</a> page-level parameter must have the same structure as skin.json (all
+      parent objects going all the way back to the root object). For example, if you want to
+      overwrite the start screen play button color using inline, you need to include the start
+      screen object, playIconStyle object, and color, as shown in the following code. </div>
+
+        <div class="section">
+      <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;script src="//player.ooyala.com/core/YOUR_PLAYER_ID"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            var playerParam = {
+              "skin": {
+                  <strong class="ph b">"inline": {
+                      //Put your player customizations here to override settings in skin.json. The JSON object must match the structure of skin.json
+                      "startScreen": {"showDescription": false, "playIconStyle": {"color": "blue"}}
+                  }</strong>
+              }
+            };
+            OO.ready(function() {
+              window.pp = OO.Player.create("container", <strong class="ph b">"YOUR_ASSET_ID"</strong>, playerParam);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+For
+      additional information, see <a class="xref" href="pbv4_skin_schema_docs.html">Customizing the Player V4 Skin with skin.json</a>. </div>
+
+        <div class="section"><h2 class="title sectiontitle">Embed a Player With Optional Embedded Parameters</h2>
+            For a more advanced use
+            of the Player embed style, you can create a player with optional embedded parameters.
+            Add parameters within the <samp class="ph codeph">playerParam</samp> variable. See <a class="xref" href="../api/pbv4_api_embedparams.html">Page-level Parameters for Player V4</a> for a full list of embedded
+            parameters.<pre class="pre codeblock" id="pbv4_web_examples__params">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;script src="//player.ooyala.com/core/YOUR_PLAYER_ID"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            var playerParam = {
+             <strong class="ph b">// Add Optional Embedded Parameters Here</strong>
+            };
+            OO.ready(function() {
+              window.pp = OO.Player.create("container", <strong class="ph b">"YOUR_ASSET_ID"</strong>, playerParam);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Embed a Player With External Identifiers</h2>
+            For a more advanced use of the
+            Player embed style, you can create a player using external identifiers. The following
+            example creates a player using an external Id.
+            <pre class="pre codeblock"> &lt;script&gt;
+            var playerParam = {
+              "skin": {
+                // Config contains the configuration setting for player skin. Change to your local config when necessary.
+                "config": "<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/skin.json"
+              }
+            };
+            OO.ready(function() {
+              window.pp = OO.Player.create("container", <strong class="ph b">"extId:&lt;name:numeric_id&gt;"</strong>, <strong class="ph b">"YOUR_ASSET_ID"</strong>, playerParam);
+            });
+&lt;/script&gt; </pre>
+</div>
+
+    </div>
+
+    <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/pbv4_embed.html">Embedding Player V4 on a Web Page</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="pbv4_web_tutorial.html">Basic Tutorial for Player V4</a></div>
+</div>
+</div>
+
+</body>
+</html>

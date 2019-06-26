@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Using the Android Options Configuration Class"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="droid_usingconfigclass"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Using the Android Options Configuration Class</title>
+</head>
+<body id="droid_usingconfigclass">
+
+
+    <h1 class="title topictitle1">Using the Android Options Configuration Class</h1>
+
+    <div class="body taskbody">
+        <div class="section context">
+            <p class="p">Use the following steps to instantiate the <samp class="ph codeph">OOOptions</samp> class for your
+                app.</p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Make sure your main activity imports the configuration options class. This step
+                    is described in the following code sample:</span>
+                 
+                    <pre class="pre codeblock">import com.ooyala.android.configuration.Options;</pre>
+
+                    <div class="note important"><span class="importanttitle">Important:</span> For TV Ratings, you must also import the FCC Ratings
+                        configuration class. For more information see <a class="xref" href="../concepts/mobile_sdk_android_fccratings.html">About using Android FCC Ratings</a>.</div>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Instantiate any of the option methods. For a list see <a class="xref" href="../concepts/droid_aboutconfigclass.html#droid_aboutconfigclass__options_implementations">Table 1</a>.</span>
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Add the configuration parameters instance and configure any method options
+                    specific to your implementation. One possible configuration is showing in the
+                    following Preload options configuration example:</span>
+                 
+                    <pre class="pre codeblock">                  public class PreloadOptionsPlayerActivity extends Activity implements OnClickListener, Observer {
+/**
+  * Called when the activity is first created.
+  */
+  private final String TAG = this.getClass().toString();
+  private final String PCODE = "R2d3I6s06RyB712DN0_2GsQS-R-Y";
+  private final String DOMAIN = "http://ooyala.com";
+  private String EMBEDCODE = "";
+
+  private OptimizedOoyalaPlayerLayoutController playerLayoutController;
+  private OoyalaPlayer player;
+  private Button setButton;
+  private ToggleButton preloadButton;
+  private ToggleButton showPromoImageButton;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+   String localeString = getResources().getConfiguration().locale.toString();
+   Log.d(TAG, "locale is " + localeString);
+   LocalizationSupport.useLocalizedStrings(LocalizationSupport
+       .loadLocalizedStrings(localeString));
+   
+   super.onCreate(savedInstanceState);
+   setContentView(R.layout.player_toggle_button_layout);
+   EMBEDCODE = getIntent().getExtras().getString("embed_code");
+   
+   setButton = (Button) findViewById(R.id.setButton);
+   setButton.setText("Create Video");
+   setButton.setOnClickListener(this);
+   
+   preloadButton = (ToggleButton) findViewById(R.id.toggleButton1);
+   preloadButton.setTextOn("Preload On");
+   preloadButton.setTextOff("Preload Off");
+   preloadButton.setChecked(true);
+   
+   showPromoImageButton = (ToggleButton) findViewById(R.id.toggleButton2);
+   showPromoImageButton.setTextOn("Show PromoImage On");
+   showPromoImageButton.setTextOff("Show PromoImage Off");
+   showPromoImageButton.setChecked(true);</pre>
+
+                
+            </li>
+</ol>
+
+        <div class="section postreq">The exact implementation for any method will differ based on your coding needs and
+            the app requirements. To test a working app with options included see <a class="xref" href="droid_testoptionssampleapp.html">Testing the Android Options Sample App</a>.</div>
+
+    </div>
+
+
+</body>
+</html>

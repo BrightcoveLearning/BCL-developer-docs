@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Key Concepts"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_rightslocker.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="concept_m2n_5td_v3"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Key Concepts</title>
+</head>
+<body id="concept_m2n_5td_v3">
+
+
+ <h1 class="title topictitle1">Key Concepts</h1>
+
+ <div class="body conbody">
+  <div class="p">Some essential terms are introduced to help define concepts that are key to Rights
+   Locker.
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="concept_m2n_5td_v3__table_bhy_nmd_v3" class="table" frame="border" border="1" rules="all">
+     
+     
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" width="20%" id="d628368e25">Term</th>
+
+       <th class="entry" valign="top" width="80%" id="d628368e28">Definition/Description</th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Asset</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">In <span class="ph">Backlot</span>, your materials (videos and the like) are
+        called “assets” and are identified by an asset identifier or asset_id (also called “embed
+        code”). <div class="note note"><span class="notetitle">Note:</span> You <em class="ph i">cannot</em> use external
+         identifiers with Rights Locker. The values passed must be real embed codes
+         (asset IDs). </div>
+</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Label</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">In <span class="ph">Backlot</span>, you can associate your assets with labels you define to
+        categorize your assets. Labels are identified by label_id.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Provider</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">A provider is the entity that owns the assets to which you assign entitlements. The
+        provider is identified by a provider_id, which is displayed in the <span class="ph">Backlot UI</span>'s <span class="ph uicontrol">ACCOUNT</span> tab, <span class="ph uicontrol">Developers</span> subtab and is called "Partner Code."
+        You need this provider ID to make calls to the Rights Locker API.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Account</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">An account identifies one of your video consumers to whom you grant entitlement to
+        assets. The account is identified by an account_id, which should be secured in a manner
+        recommended in <a class="xref" href="rightslocker_accountsecurity.html#concept_m2n_5td_v3">Your Users, Your Accounts: Security</a>. Rights
+        Locker uses your account IDs only to create the entitlement and for no other reason. Account
+        IDs are unique by provider.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Publishing Rule</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">A publishing rule is a set of restrictions on content, such as
+        geographic or time limitations. In <span class="ph">Backlot</span> and Rights Locker, there are
+        two kinds of publishing rules: <ol class="ol">
+         <li class="li">Asset publishing rules intrinsic to the asset itself, such as licensing or global
+          restrictions for a piece of content</li>
+
+         <li class="li">Entitlement publishing rules, which are per user, per label (content-group) for
+          modeling business restrictions around particular transactions or products sold to the
+          user.</li>
+
+        </ol>
+</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Entitlement</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 "><p class="p">An entitlement is a single combination of provider, account, and single content (asset
+        or label) tied to a publishing rule. It is a reflection of the statement:</p>
+<p class="p">User X is allowed
+        to watch content Y under the conditions Z.</p>
+<p class="p">For every tuple of label_id, user_id,
+         external_product_id, there can be only one entitlement. Any updates with the same three
+         values will overwrite the previous entitlement. A user can have multiple entitlements to
+         the same label, as long as they are under different external_product_ids.</p>
+</td>
+
+      </tr>
+
+ 
+      <tr class="row">
+       <td class="entry" valign="top" width="20%" headers="d628368e25 ">Product</td>
+
+       <td class="entry" valign="top" width="80%" headers="d628368e28 ">
+        <p class="p">One or more entitlements together reflect a user's "ownership" (using
+         the term loosely) of a product offered by the provider. These products
+         are grouped by external_product_id. </p>
+<p class="p">For example, a user might subscribe to the "silver" package and therefore have access to back
+         catalog sitcoms (which are group by a label) on all devices, sports channels (a label) only
+         on desktops.</p>
+
+        <p class="p">A user can "own" different products, and so they can have many
+         different entitlements, grouped under different external_product_ids.
+         For instance, continuing the above example, the user could own both
+         the silver package that grants access to sports channels on desktop
+         and also own the mobile package that grants access to the sports
+         channel on mobile phones.</p>
+
+       </td>
+
+      </tr>
+
+
+     </tbody>
+
+    </table>
+</div>
+</div>
+
+ </div>
+
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="chapter_rightslocker.html">Rights Locker</a></div>
+</div>
+</div>
+
+</body>
+</html>

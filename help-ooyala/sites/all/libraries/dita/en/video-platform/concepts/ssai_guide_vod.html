@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="SSAI User Guide for VOD Assets"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/book_user_map.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ssai_guide_pulse_dfp"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>SSAI User Guide for VOD Assets</title>
+</head>
+<body id="ssai_guide_pulse_dfp">
+
+
+    <h1 class="title topictitle1">SSAI User Guide for VOD Assets</h1>
+
+    <div class="body conbody">
+    <div class="section"><p class="p">This document describes how to use SSAI for VOD assets for the two Ad Servers
+        supported by Ooyala’s SSAI offering - Pulse and DFP. For information on integrating SSAI
+        with the Ooyala Live stream, please see <a class="xref" href="../../../../../../../video-platform/concepts/liveplatform_pulse.html" target="_blank">here</a>. For an end-to-end guide to SSAI, please see
+        <a class="xref" href="ssai_guide.html">here</a>.</p>
+</div>
+
+    
+        <div class="section"><h2 class="title sectiontitle">Step-by-Step Guide for VOD SSAI with DFP Ad Server</h2> 
+            <p class="p">Complete the following steps to use Server Side Ad Insertion (SSAI) on your customer
+                content with DFP Ad Server.</p>
+
+            <p class="p"><strong class="ph b">Steps</strong></p>
+
+            <p class="p"><u class="ph u">Enable SSAI VOD</u></p>
+
+            <p class="p">You can enable the SSAI service for all assets in a Backlot account, or on a
+                per-asset basis. The initial enablement of the SSAI service must be completed by the
+                Ooyala team.</p>
+
+                <ol class="ol" id="ssai_guide_pulse_dfp__ol_jjs_s2h_v2b">
+                    <li class="li">Make a request with Ooyala to enable SSAI VOD.</li>
+
+                    <li class="li">Make sure to specify whether you need account level enablement or asset
+                        level enablement in your enablement request.
+                    <ul class="ul">
+                        <li class="li">If you are requesting asset-level enablement, you must also provide a
+                            value for <span class="ph uicontrol">ssai_vod_enabled</span> custom metadata for the desired assets
+                                for SSAI in order to enable SSAI for these assets. If you leave this
+                                value empty, SSAI is disabled by default for the respective
+                                asset(s). The allowed values are <samp class="ph codeph">TRUE</samp> or <samp class="ph codeph">FALSE</samp>.</li>
+
+                            <li class="li">If you are requesting provider-level enablement, all relevant assets
+                                are served up through SSAI for the providers of this content.</li>
+
+                    </ul>
+</li>
+
+                </ol>
+
+            <p class="p"><u class="ph u">Onboard DFP Ad Provider</u></p>
+
+            <p class="p">There are three ways to enable DFP SSAI for a given asset. If all three options are set for an asset, the SSAI service takes the highest priority out of the following three:</p>
+
+            <ul class="ul">
+                <li class="li">Ad Set in Backlot (Priority 3 - lowest priority)</li>
+
+                <li class="li">Custom Metadata (Priority 2)</li>
+
+                <li class="li">Player-level Parameters (Priority 1 - highest priority)</li>
+
+            </ul>
+
+            <p class="p">These are described in more detail below.</p>
+
+            <p class="p"><u class="ph u">Ad Set Option (Priority 3)</u></p>
+
+            <ol class="ol">
+                <li class="li">Click the <span class="ph uicontrol">Monetize</span> tab in<a class="xref" href="https://backlot.ooyala.com/backlot/web#monetize_tab" target="_blank">backlot</a>.</li>
+
+                <li class="li">Click <span class="ph uicontrol">New</span> to create a new Ad Set. Select
+                        <span class="ph uicontrol">Google IMA V3</span> as <span class="ph uicontrol">Ad Source</span>:
+                    <p class="p"><img class="image" src="../image/ad_sets.png"/></p>
+</li>
+
+                <li class="li"><span class="ph uicontrol">Ad Tag</span> is the tag url obtained from DFP and is used to retrieve ads.</li>
+
+                <li class="li">Your DFP account must be whitelisted for SSAI. To do this, you must contact DFP
+                    and requesting approval. If you are not whitelisted and just want to test the
+                    functionality, make sure the tag url contains <samp class="ph codeph">&amp;ss_req=0</samp> at the end of the
+                    query string. With this setting, however, impression counts and geo targeting
+                    might not function correctly. </li>
+
+                <li class="li">The DFP Ad tag request call should return VAST. Information on how to manually
+                    create this tag can be found here. In addition, DFP has some tools to help
+                    create this tag.
+                <ul class="ul">
+                    <li class="li">The url can contain the following macros that SSAI resolves when making ad
+                            calls:
+                    <ul class="ul">
+                        <li class="li">[timestamp]</li>
+
+                                <li class="li">[referrer_url]</li>
+
+                                <li class="li">[random]</li>
+
+                                <li class="li">[cache_buster]</li>
+
+                    </ul>
+</li>
+
+                    <li class="li"><span class="ph uicontrol">Ad Position</span> is used to select the position where these ad(s) will be
+                            inserted. Currently, Ad Rules is not supported.</li>
+
+                    <li class="li">When <span class="ph uicontrol">Ad Position</span> is set to <span class="ph uicontrol">In-Stream</span>, you must also specify when the ad
+                            should play. SSAI only supports the time option and not percent.</li>
+
+                        <li class="li">All other fields are ignored by SSAI.</li>
+
+                        <li class="li">You must add an entry for each position where you want ads
+                            inserted.</li>
+
+                        <li class="li">Once VOD content is added to Backlot, it must be associated with an Ad
+                            Set. To do this, select VOD content in Backlot and then click on the
+                                <span class="ph uicontrol">Monetize</span> tab.<img class="image" src="../image/monetize.png"/></li>
+
+                </ul>
+</li>
+
+            </ol>
+
+            <p class="p"><u class="ph u">Override Ad Set with Custom Metadata (Priority 2)</u></p>
+
+            <p class="p">After content is associated with an Ad Set, ad breaks will be inserted using
+                information from the Ad Set. This information can be overridden by adding custom
+                metadata.When overriding Ad Set information for DFP, one option exists.</p>
+
+            <p class="p">Add a custom metadata entry with the name custom_params. This field will contain json
+                that contains the override information. If this field exists in custom metadata, all
+                other custom metadata is ignored.</p>
+
+            <p class="p">Example data for the <samp class="ph codeph">custom_params</samp> field:</p>
+
+            <p class="p">Ad positions are in milliseconds.</p>
+
+            <pre class="pre codeblock">{
+ "google-ima-ads-manager": {
+  "metadata": {
+   "all_ads": [{
+    "position": "70000",
+    "tag_url": "https://pubads.g.doubleclick.net/gampad/ads?env=vp&amp;gdfp_req=1&amp;output=xml_vast3&amp;sz=1280x720&amp;unviewed_position_start=1&amp;ad_rule=0&amp;pmnd=0&amp;pmxd=90000&amp;pmad=15&amp;d_impl=1&amp;d_imp_hdr=1&amp;iu=/7521029/live_ad_unit&amp;url=[referrer_url]&amp;cust_params=ibc_test_unit%3Dat&amp;ss_req=0"
+   }, {
+    "position": "20000",
+    "tag_url": "https://pubads.g.doubleclick.net/gampad/ads?env=vp&amp;gdfp_req=1&amp;output=xml_vast3&amp;sz=1280x720&amp;unviewed_position_start=1&amp;ad_rule=0&amp;pmnd=0&amp;pmxd=90000&amp;pmad=15&amp;d_impl=1&amp;d_imp_hdr=1&amp;iu=/7521029/live_ad_unit&amp;url=[referrer_url]&amp;cust_params=libc_test_unit%3Dma&amp;ss_req=0"
+   }, {
+    "position": "10000",
+    "tag_url": "https://pubads.g.doubleclick.net/gampad/ads?env=vp&amp;gdfp_req=1&amp;output=xml_vast3&amp;sz=1280x720&amp;unviewed_position_start=1&amp;ad_rule=0&amp;pmnd=0&amp;pmxd=90000&amp;pmad=15&amp;d_impl=1&amp;d_imp_hdr=1&amp;iu=/7521029/live_ad_unit&amp;url=[referrer_url]&amp;cust_params=ibc_test_unit%3Dsa&amp;ss_req=0"
+   }, {
+    "position": "90000",
+    "tag_url": "https://pubads.g.doubleclick.net/gampad/ads?env=vp&amp;gdfp_req=1&amp;output=xml_vast3&amp;sz=1280x720&amp;unviewed_position_start=1&amp;ad_rule=0&amp;pmnd=0&amp;pmxd=90000&amp;pmad=15&amp;d_impl=1&amp;d_imp_hdr=1&amp;iu=/7521029/ibc_ad_unit&amp;url=[referrer_url]&amp;cust_params=ibc_test_unit%3Dtj&amp;ss_req=0"
+   }]
+  }
+ }
+}</pre>
+
+            <p class="p">Backlot has a 2048 character limit for custom metadata fields. If the size of the
+                <samp class="ph codeph">json</samp> exceeds 2048 characters, you can put the data into multiple custom metadata
+                entries using the naming convention <span class="ph filepath">custom_params1</span>, <span class="ph filepath">custom_params2</span>, etc. Each entry
+                would have the same <samp class="ph codeph">json</samp> structure with elements of all_ads array spread across the
+                custom metadata entries. </p>
+
+            <p class="p"><u class="ph u">Override custom metadata with Player Page level parameters (Priority 1)</u></p>
+
+            <p class="p">Ad tags set in custom metadata information can also be overridden at the player page
+                level. This method takes precedence over custom metadata.</p>
+
+            <p class="p">Add a querystring entry with the name <samp class="ph codeph">player_params</samp>. This field will contain url
+                encoded <samp class="ph codeph">json</samp> that contains the override information. If this field exists in
+                querystring, all other querystring fields are ignored. An example is the same <samp class="ph codeph">json</samp>
+                described in the custom metadata for DFP. </p>
+
+            <p class="p"><strong class="ph b">Ad CMS Video Retention Policy</strong></p>
+
+            <p class="p">When the SSAI service encounters a new ad, it is downloaded from DFP server at run
+                time. This means for the first few playback requests, the ad is not inserted while
+                it is being transcoded to match the correct HLS bitrate of the VOD content. Ooyala’s
+                AD CMS maintains these transcoded Ad Sets in storage.</p>
+
+            <p class="p">Once an ad is transcoded, it is kept as long as the ad is being used. After seven
+                continuous days of inactivity, the ad is deleted from Ooyala’s Ad CMS. After seven
+                days of inactivity, if the ad is used again, SSAI service redownloads and
+                re-transcodes it. This setting of seven days can be modified.</p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Step-by-Step Guide for VOD SSAI with PULSE Ad Server</h2> 
+            <p class="p"><strong class="ph b">SSAI VOD enabling</strong>
+            </p>
+
+            <div class="p">If you only want some of your content served up through SSAI, you can enable only the
+                desired assets.<ul class="ul">
+                    <li class="li">Add the <samp class="ph codeph">ssai_vod_enabled</samp>ssai_vod_enabled movie custom metadata value. If this value is
+                        empty, SSAI is disabled for this asset. Set the value to <samp class="ph codeph">hls</samp> to enable
+                        SSAI.</li>
+
+                </ul>
+</div>
+
+            <p class="p"><img class="image" src="../image/pulse.png"/></p>
+
+            <p class="p"><strong class="ph b">Enabling ad provider
+            </strong></p>
+
+            <p class="p">Create an Ad Set under the Monetize tab in <a class="xref" href="https://backlot.ooyala.com/backlot/web#monetize_tab" target="_blank">backlot</a>.</p>
+
+            <div class="p"><u class="ph u">For AdTech(Pulse):</u><ul class="ul">
+                <li class="li">Click <span class="ph uicontrol">New</span> to create a new Ad Set. Select <span class="ph uicontrol">Videoplaza</span> as <span class="ph uicontrol">Ad Source</span>.</li>
+
+                <li class="li"><span class="ph uicontrol">Ad Position</span>: select the desired location to insert ads.</li>
+
+                <li class="li"><span class="ph uicontrol">vpDomain</span>: This is the sub-domain value in your Pulse account. It should not include <samp class="ph codeph">https://</samp> or <samp class="ph codeph">http://</samp>.</li>
+
+                    <li class="li"/>
+
+                <li class="li"><span class="ph uicontrol">Player level midroll ad breaks</span> is a comma delimited list of positions(seconds) within video where ads are inserted.</li>
+
+                <li class="li"><span class="ph uicontrol">Player level tags</span> are the Pulse tags you want to associate with the video.</li>
+
+                <li class="li"><span class="ph uicontrol">Player level shares</span> is the Pulse category you want to associate with the video.</li>
+    
+                <li class="li"><span class="ph uicontrol">Account ID</span> is the account id value in your pulse account.</li>
+
+                <li class="li">All other fields are ignored by SSAI.</li>
+
+            </ul>
+</div>
+
+            <p class="p"><u class="ph u">Using Ad Set and/or Custom Metadata</u></p>
+
+            <ul class="ul">
+                <li class="li">Once VOD content is added to Backlot, it must be associated with an Ad Set. To
+                    do this, select VOD content in Backlot and then click on the
+                        <span class="ph uicontrol">Monetize</span> tab. <img class="image" src="../image/adsets2.png"/></li>
+
+                <li class="li">After content is associated with an Ad Set, ad breaks will be inserted using information from the Ad Set. This information can be overridden by adding custom metadata.</li>
+
+                <li class="li">When overriding Ad Set information for AdTech(Pulse), two options exist:<ul class="ul">
+                        <li class="li">Override specific fields of an Ad Set.<ul class="ul">
+                            <li class="li">You cannot override the <span class="ph uicontrol">vpDomain</span> field in an Ad Set. This value
+                                    must always come from the Ad Set.</li>
+
+                            <li class="li">To override player level tags in an Ad Set, add a custom metadata entry with the name <samp class="ph codeph">pulse_tags</samp>.</li>
+
+                            <li class="li">To override player level shares in an Ad Set, add a custom metadata entry with the name <samp class="ph codeph">pulse_category</samp>.</li>
+
+                            <li class="li">To override player level midroll ad breaks in an Ad Set, add a custom metadata entry with the name <samp class="ph codeph">pulse_linear_cuepoints</samp>.</li>
+
+                            </ul>
+</li>
+
+                    <li class="li">Add a custom metadata entry with the name <samp class="ph codeph">custom_params</samp>.
+                            This field will contain <samp class="ph codeph">json</samp> that contains the override
+                            information. If this field exists in custom metadata, all other custom
+                            metadata is ignored. <p class="p">Example data for the
+                                    <samp class="ph codeph">custom_params</samp> field:
+                            </p>
+<pre class="pre codeblock">{
+ "videoplaza-ads-manager": {
+  "metadata": {
+   "all_ads": [{
+    "position": "7"
+   }],
+   "playerLevelCuePoints": "30,10,20",
+   "playerLevelShares": "cat",
+   "playerLevelTags": "tags"
+  }
+ }
+}
+</pre>
+
+                            The value for <samp class="ph codeph">position</samp> is a bit field:<ul class="ul">
+                                <li class="li">Bit 0=Pre-roll</li>
+
+                                <li class="li">Bit 1=mid-roll</li>
+
+                                <li class="li">Bit2=post-roll</li>
+
+                            </ul>
+<p class="p">So, a value of 7 means that ad breaks should exist for pre-roll,
+                                mid-roll, and post-roll.</p>
+</li>
+
+                    </ul>
+</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="book_user_map.html" title="This topic describes how to use the Ooyala Video Platform.">User Guide</a></div>
+</div>
+</div>
+
+</body>
+</html>

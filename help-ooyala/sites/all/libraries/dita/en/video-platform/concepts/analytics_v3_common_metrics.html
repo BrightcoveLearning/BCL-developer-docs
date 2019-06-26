@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Common Metric Definitions and Examples"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_user_intro.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_overview.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="common_metric_defs_and_examples"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Common Metric Definitions and Examples</title>
+</head>
+<body id="common_metric_defs_and_examples">
+
+
+        <h1 class="title topictitle1"> Common Metric Definitions and Examples</h1>
+
+        <div class="body conbody">
+                    <div class="section"><h2 class="title sectiontitle">Common Metric Breakdown</h2>
+                        
+                        <p class="p">Here are descriptions of some of the common metrics utilized in <span class="ph">Ooyala IQ</span>. This is not an inclusive list.</p>
+
+                        <p class="p"><strong class="ph b">Displays: </strong>Measures the number of times that a piece of video
+                content is loaded and displayed within the player before it gets played. Displays
+                are related to each individual video. Each time an embed code is changed, this event
+                gets triggered.</p>
+
+                        <p class="p" id="common_metric_defs_and_examples__plays_requested"><strong class="ph b">Plays Requested: </strong>Measures the number of times that the "Play"
+                button is triggered either manually or automatically. The requested content could be
+                ad content or the actual video content. A plays requested is counted regardless of
+                which type of content is requested to play. Plays requested currently doesn’t
+                include the Replay event.</p>
+
+                        <p class="p" id="common_metric_defs_and_examples__video_starts"><strong class="ph b">Video Starts: </strong>Measures the number of times that actual non-ad
+                video content starts playing. If the user initiates the playback experience and only
+                watches a pre-roll ad without continuing on to the actual video content, a Plays
+                requested count is reported, but not a Video Start. Video Starts is only recorded if
+                the user waits until the actual video starts playing back.</p>
+
+            <p class="p" id="common_metric_defs_and_examples__hours_watched"><strong class="ph b">Hours Watched: </strong>The amount of time (in the format HH:MM:SS) all users spent
+                watching the selected video asset(s).  The value of this metric will increase if a
+                user rewinds and re-watches part of the video.</p>
+
+            <p class="p" id="common_metric_defs_and_examples__replays">
+                <strong class="ph b">Replays:</strong> Measures the number of times the end user replays specific contents.
+            </p>
+
+            <p class="p" id="common_metric_defs_and_examples__average_time_watched_per_video"><strong class="ph b">Average Time Watched per Video: </strong>The average time watched across
+                            all the users viewing this content across the different platforms.
+                            Today, we compute Average Time Watched (per video) = hours watched/video
+                            starts, converted to HH:MM:SS format.</p>
+
+                        <p class="p"><strong class="ph b">Note:</strong> This number will be smaller than the duration of the video
+                in most cases. However, seeks within the player can influence this number. If the
+                user seeks back and forth during a playback, this will push up the time watched and
+                can potentially cause the average time watched to be greater than the duration of
+                the video.</p>
+
+                        <div class="p" id="common_metric_defs_and_examples__playthrough"><strong class="ph b">Playthrough</strong>
+                            <ul class="ul">
+                                <li class="li"><strong class="ph b">Playthrough 25%</strong>: The number of video plays for the
+                                    selected video assets that reached the state of 25% of
+                                    completion.</li>
+
+                                <li class="li"><strong class="ph b">Playthrough 50%</strong>: The number of video plays for the
+                                    selected video assets that reached the state of 50% of
+                                    completion.</li>
+
+                                <li class="li"><strong class="ph b">Playthrough 75%</strong>: The number of video plays for the
+                                    selected video assets that reached the state of 75% of
+                                    completion.</li>
+
+                                <li class="li"><strong class="ph b">Playthrough 100%</strong>: The number of video plays for the
+                                    selected video assets that reached the state of 100% of
+                                    completion.</li>
+
+                            </ul>
+</div>
+
+                        <p class="p"><strong class="ph b">Note: </strong> No matter how many times the user rewinds within the same
+                view session, once the "state" is reached it won't be counted again.</p>
+
+                        <p class="p" id="common_metric_defs_and_examples__segments_watched"><strong class="ph b">Segments Watched</strong>: The number of times each segment of a piece of
+                            video content is watched. 1 segment is defined as 2.5% of video length. </p>
+
+                        <p class="p"><strong class="ph b">Note</strong>: If a user rewinds and watches the same segment N times,
+                            Segments Watched for that segment will count as N times.</p>
+
+                        <div class="p" id="common_metric_defs_and_examples__unique_users"><strong class="ph b">Unique Users: </strong>
+                            <ul class="ul" id="common_metric_defs_and_examples__unique_user">
+                                <li class="li"><strong class="ph b"><span class="ph">Ooyala</span> mobile SDK for iOS:</strong> The
+                            <span class="ph">Ooyala</span> mobile SDK for iOS generates and stores a
+                        random unique ID which is application-specific. The unique ID is generated
+                        in the <span class="ph">"OOClientID"</span> class and is stored in the <span class="ph">"standardUserDefaults"</span> object. The unique ID is
+                        valid until the application is deleted. This unique ID cannot be erased or
+                        reset by the end user without deleting the app. The application developer
+                        can store a different ID than the generated ID by erasing the existing ID
+                            <span class="ph">[OOClientID resetID]</span> and setting a new ID <span class="ph">[OOClientID setID:New_ID]</span>. </li>
+
+                                <li class="li"><strong class="ph b"><span class="ph">Ooyala</span> mobile SDK for Android:</strong>
+                        The <span class="ph">Ooyala</span> mobile SDK for Android generates and
+                        store a random unique ID which is application-specific. The unique ID is
+                        generated in the <span class="ph">"OOClientID"</span> class and is stored in
+                        the <span class="ph">"SharedPreferences"</span> file. The unique ID is valid
+                        until the application is deleted. This unique ID cannot be erased or reset
+                        by the end user without deleting the app. The application developer can
+                        store a different ID by erasing the existing ID <span class="ph">[ClientID.resetID(context)]</span> and setting a new ID <span class="ph">[ClientID.resetID(NEW_ID)]</span>.</li>
+
+                                <li class="li"><strong class="ph b">All other environments (HTML5, Flash, Chromecast): </strong>In
+                                    other environments, a unique user is identified by local storage
+                                    or cookie. To generate the <span class="ph">GUID</span>, Flash
+                                    players use the timestamp of when the <span class="ph">GUID</span> is generated and append random data to it. The
+                                    string is then converted to <span class="ph">base64</span>. To
+                                    generate the <span class="ph">GUID</span>, HTML5 players use the
+                                    current time, browser information, and random data and hash it
+                                    and convert it to <span class="ph">base64</span>. Within the
+                                    same browser on desktop, once a <span class="ph">GUID</span> is
+                                    set by one platform it is used for both platforms for the user.
+                                    If a user clears their browser cache, that user/device's ID will
+                                    get regenerated next time they watch video. Incognito modes will
+                                    track a user for a single session, but once the browser is
+                                    closed the <span class="ph">GUID</span> is erased. </li>
+
+                            </ul>
+</div>
+
+                        <p class="p" id="common_metric_defs_and_examples__unique_user_deduplication">The generated IDs are completely random
+                            and don't include any user-identifiable information. When such
+                            information is not available for a user (there is no local storage or
+                            cookie), a new unique identifier will be created for that user. We
+                            de-duplicate when calculating the number of unique users over time. For
+                            example, day 1 has users A, B, C; day 2 has users B, E., then when you
+                            pick date range = day 1 and day 2, then total unique users = 4 (A, B, C,
+                            E), Daily Avg. Unique Users = (3+2) / 2 = 3 (2.5 is converted to the
+                            closed integer). </p>
+
+                    </div>
+
+                    <div class="section"><h2 class="title sectiontitle">Examples</h2>
+            
+            <p class="p">The following examples show how many displays, plays requested and video starts <span class="ph">Ooyala IQ</span> would record in different situations. </p>
+
+            <p class="p"><strong class="ph b">Example 1: Pre-roll Ads</strong></p>
+
+            <p class="p">The publisher has pre-roll ads delivered during playback.</p>
+
+            <div class="p">User A begins watching video X with 2 pre-roll ads but leaves after the first ad.
+                User B begins watching video X (again with 2 pre-roll ads), and leaves after both
+                ads and one minute of play time. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Metric Tallies for Example 1</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e215"> </th>
+
+                                <th class="entry" valign="top" id="d196905e217">Displays</th>
+
+                                <th class="entry" valign="top" id="d196905e220">Plays Requested</th>
+
+                                <th class="entry" valign="top" id="d196905e223">Video Starts</th>
+
+                                <th class="entry" valign="top" id="d196905e226">Avg. Time Watched/Video</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">0</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">00:00:00</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">00:01:00</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">Video X in total (User A + User B)</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e215 d196905e217 d196905e220 d196905e223 d196905e226 ">00:01:00</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+</div>
+
+            <p class="p"><strong class="ph b">Example 2: Replays</strong></p>
+
+            <p class="p">The user clicks replay to play the content again during the same viewing
+                experience.</p>
+
+            <div class="p">User A begins watching Video X with 1 pre-roll ad, watches the ad and the content all
+                the way through and then hits re-play and watches it all the way again.
+                Alternatively, User B, in the second replay, watches the ad and then exits. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 2. Metric Tallies for Example 2</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e311"> </th>
+
+                                <th class="entry" valign="top" id="d196905e313">Displays</th>
+
+                                <th class="entry" valign="top" id="d196905e316">Plays Requested</th>
+
+                                <th class="entry" valign="top" id="d196905e319">Video Starts</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e311 d196905e313 d196905e316 d196905e319 ">1</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p"><strong class="ph b">Example 3: Mid-roll Ads</strong></p>
+
+            <p class="p">The publisher also delivers mid-roll ads during the content playback experience.</p>
+
+            <div class="p">User A begins watching Video X with 2 pre-roll ads, watches the ads, starts watching
+                the content, sees a mid-roll ad and exits the video. User B begins watching Video X
+                with 2 pre-roll ads, watches the ads, starts watching the content, watches the
+                mid-roll ads and completes the video. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 3. Metric Tallies for Example 3</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e380"> </th>
+
+                                <th class="entry" valign="top" id="d196905e382">Displays</th>
+
+                                <th class="entry" valign="top" id="d196905e385">Plays Requested</th>
+
+                                <th class="entry" valign="top" id="d196905e388">Video Starts</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">Video X in total (User A + User B)</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e380 d196905e382 d196905e385 d196905e388 ">2</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p"><strong class="ph b">Example 4: Seeks</strong></p>
+
+            <p class="p">The user can also seek through content back and forth during a single viewing
+                experience within the player. </p>
+
+            <div class="p">User A begins watching Video X with 2 pre-roll ads, watches both ads, starts watching
+                the content, watches a mid-roll ad, continues watching and then seeks back to the
+                beginning and plays the content. The user is now shown the mid-roll ad again. This
+                results in 1 display, 1 play requested, 1 video start. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 4. Metric Tallies for Example 4</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e465"> </th>
+
+                                <th class="entry" valign="top" id="d196905e467">Displays</th>
+
+                                <th class="entry" valign="top" id="d196905e470">Plays Requested</th>
+
+                                <th class="entry" valign="top" id="d196905e473">Video Starts</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e465 d196905e467 d196905e470 d196905e473 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e465 d196905e467 d196905e470 d196905e473 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e465 d196905e467 d196905e470 d196905e473 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e465 d196905e467 d196905e470 d196905e473 ">1</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p"><strong class="ph b">Example 5: Autoplays</strong></p>
+
+            <p class="p">The publisher has autoplay turned on - this means that the video player starts
+                playing the content automatically when the user visits the page containing the
+                player.</p>
+
+            <div class="p">User A visits the page (where autoplay is turned on) with 1 pre-roll ad, watches the
+                ad and exits before the video begins playing. User B visits the page (where autoplay
+                is turned on) with 1 pre-roll ad, and exits the page halfway through the video
+                content. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 5. Metric Tallies for Example 5</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e519"> </th>
+
+                                <th class="entry" valign="top" id="d196905e521">Displays</th>
+
+                                <th class="entry" valign="top" id="d196905e524">Plays Requested</th>
+
+                                <th class="entry" valign="top" id="d196905e527">Video Starts</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">0</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">Video X in total (User A + User B)</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">2</td>
+
+                                <td class="entry" valign="top" headers="d196905e519 d196905e521 d196905e524 d196905e527 ">1</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p"><strong class="ph b">Example 6: Playthrough</strong></p>
+<p class="p">This example shows how playthrough is counted.
+                The video in this example is 4 minutes in length. </p>
+<p class="p">User A watches the video
+                content from its beginning to 2 minutes and 30 seconds and then stops
+                watching.</p>
+<p class="p">User B watches the video content from its beginning to 3 minutes and
+                30 seconds, then rewinds to the beginning and watches all the way to 1 minute and 30
+                seconds, then stops watching.</p>
+<div class="p">User C seeks to 2 minutes directly and watches
+                from there to 2 minutes and 30 seconds then stops watching.
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 6. Metric Tallies for Example 6</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e606"> </th>
+
+                                <th class="entry" valign="top" id="d196905e608">Playthrough 25%</th>
+
+                                <th class="entry" valign="top" id="d196905e611">Playthrough 50%</th>
+
+                                <th class="entry" valign="top" id="d196905e614">Playthrough 75%</th>
+
+                                <th class="entry" valign="top" id="d196905e617">Playthrough 100%</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">0</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">0</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">0</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">User C</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">1</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">0</td>
+
+                                <td class="entry" valign="top" headers="d196905e606 d196905e608 d196905e611 d196905e614 d196905e617 ">0</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+</div>
+
+            <p class="p"><strong class="ph b">Example 7: Segments Watched and Hours Watched</strong></p>
+
+            <p class="p">In this example a video is 20-minutes in length. This video has 40 buckets assigned
+                to it, where each bucket is 30 seconds in length.
+                </p>
+
+            <p class="p">User A plays the video and watches it through 1 minute.</p>
+<p class="p">User B plays the video
+                and watches it through 1 minute, then rewinds to 40 seconds and watches through 1
+                minute again during the same video view session (the user didn't reload the
+                player).</p>
+User C plays the video and watches it through 1 minute, then
+            fast-forwards to 19 minutes and 31 seconds of the video content and watches through the
+            end from there. <div class="p">
+                
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 7. Metric Tallies for Example 7</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e707"> </th>
+
+                                <th class="entry" valign="top" id="d196905e709">Segments Watched</th>
+
+                                <th class="entry" valign="top" id="d196905e712">Hours Watched</th>
+
+                                
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">User A</td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">
+                                    <p class="p">1st bucket has 1 play</p>
+
+                                    <p class="p">2nd bucket has 1 play</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">00:01:00</td>
+
+                                
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">User B</td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">
+                                    <p class="p">1st bucket has 1 play</p>
+
+                                    <p class="p">2nd bucket has 2 plays</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">00:01:20</td>
+
+                                
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">User C</td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">
+                                    <p class="p">1st bucket has 1 play</p>
+
+                                    <p class="p">2nd bucket has 1 play</p>
+
+                                    <p class="p">40th bucket has 1 play</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" headers="d196905e707 d196905e709 d196905e712 ">00:01:29</td>
+
+                                
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+            <p class="p">In User B's scenario, the second bucket has 2 plays because the user rewinded within
+                the second bucket. This is because segments watched captures the total number of
+                plays each specific segment incurs in order to measure its popularity (no matter if
+                it's from the same user rewinding or from different users watching it). So within
+                the same video view session the segments watched number could increase if a user
+                rewinds. Percentage watched is still 5% for user B because the user still only
+                watched 2 buckets (1st and 2nd). Percentage watched is used to measure the
+                percentage of the whole video content that ever got watched (the count won't
+                increase if the same user rewinds within the bucket that already got watched during
+                the same video view session).</p>
+
+            <p class="p">Percentage watched measures how many percentages of the whole video content ever got
+                watched (40% watched could mean the first 40% of the content got watched or it could
+                mean first 20% of the content got watched and last 20% of the content got watched). </p>
+
+            <p class="p"><strong class="ph b">Example 8: Unique Users</strong></p>
+
+            <p class="p">This illustrates how unique users are counted. You have a video on your website
+                “myExampleSite.com”.</p>
+
+            <p class="p">Situation A: User W watches your video on their iPhone with application 1. Later in
+                the day they decide to watch the video again on their iPhone with application 1.</p>
+
+            <p class="p">Situation B: User X watches your video on their laptop. They leave the browser window
+                up and go about their day. Twelve hours later they come back to their laptop and
+                re-watch the video. </p>
+
+            <p class="p">Situation C: User Y watches your video on their tablet. They then watch the video on
+                their laptop, while still using the same wifi network as before.</p>
+
+            <p class="p">Situation D: User Z watches your video on their laptop in Browser 1. After the video
+                finishes they clear their cookies. They then watch the video again in Browser 1 on
+                their laptop.</p>
+
+            <div class="p">
+                
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 8. Metric Tallies for Example 8</span></caption>
+                        <thead class="thead" align="left">
+                            <tr class="row">
+                                <th class="entry" valign="top" id="d196905e819"> </th>
+
+                                <th class="entry" valign="top" id="d196905e821">Unique Users</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">Situation A</td>
+
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">Situation B</td>
+
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">1</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">Situation C</td>
+
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">2</td>
+
+                            </tr>
+
+                            <tr class="row">
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">Situation D</td>
+
+                                <td class="entry" valign="top" headers="d196905e819 d196905e821 ">2</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+    <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_user_intro.html">Introduction to Ooyala IQ</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../api/analytics_v3_api_overview.html">Overview</a></div>
+</div>
+</div>
+
+</body>
+</html>

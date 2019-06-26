@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="A Closer Look at the Android Sample App"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_googleima.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobilesdk_ios_googleima_sampleapp_decomposed"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>A Closer Look at the Android Sample App</title>
+</head>
+<body id="mobilesdk_ios_googleima_sampleapp_decomposed">
+
+
+
+   <h1 class="title topictitle1">A Closer Look at the Android Sample App</h1>
+
+   <div class="body conbody">
+
+
+      <p class="p">A closer look at the source code of the sample app highlights the configuration points you
+         need focus on to build your own app.</p>
+
+      <div class="section"><h2 class="title sectiontitle">Setup the Library for Your Project</h2><p class="p">For a new project, be
+            sure to put the following jar files in the lib or libs directory:</p>
+<ul class="ul">
+            <li class="li"><samp class="ph codeph">OoyalaSDK.jar</samp>: The jar file from the baseline Ooyala Mobile SDK for
+               Android.</li>
+
+            <li class="li"><samp class="ph codeph">OoyalaIMASDK.jar</samp>: The jar file from the Ooyala SDK for Google IMA
+               on Android. </li>
+
+         </ul>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Update the AndroidManifest.xml File</h2>In the
+            <samp class="ph codeph">AndroidManifest.xml</samp> file, add the
+            <samp class="ph codeph">android:configChanges</samp> attribute (see highlighted line below) on the
+         applications' <samp class="ph codeph">&lt;activity&gt;</samp> declaration. <p class="p"><strong class="ph b">Note: </strong>This is only
+            required if you use the <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp>, which is
+            recommended. This is discussed further
+         below.</p>
+<pre class="pre codeblock">&lt;application&gt;
+  &lt;activity
+    android:name="com.ooyala.android.imasampleapp.IMASampleAppActivity"
+    android:label="@string/app_name"
+    <strong class="ph b">android:configChanges="orientation|keyboardHidden"</strong> &gt;
+...
+  &lt;/activity&gt;
+&lt;/application&gt;</pre>
+</div>
+
+      <div class="section"><h2 class="title sectiontitle">The Source for the Sample App</h2>
+         
+         <p class="p">Open the
+               <samp class="ph codeph">IMASampleApp/src/ooyala/com/android/imasampleapp/IMASampleAppActivity.java</samp>
+            file.</p>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">The Imports</h2>
+         
+         <div class="p">Examine the <samp class="ph codeph">import</samp> statements at the top of the file:<ul class="ul">
+               <li class="li">The first two import statements pull in definitions from the Ooyala SDK for
+                  Google IMA.</li>
+
+               <li class="li">The next four are standard Android imports.</li>
+
+               <li class="li">The final three pull definitions for players and view controllers from the
+                  baseline Ooyala Mobile SDK for Android.</li>
+
+            </ul>
+</div>
+
+         <pre class="pre codeblock"><strong class="ph b">import com.ooyala.android.imasdk.*;
+import com.ooyala.android.imasampleapp.R;</strong>
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ViewGroup;
+<strong class="ph b">import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.OptimizedOoyalaPlayerLayoutController; </strong>
+...</pre>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">The Constants</h2><div class="p">The topic <a class="xref" href="../tasks/mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">Creating a Basic Android App</a> introduces
+            the constants <samp class="ph codeph">PCODE</samp>, <samp class="ph codeph">EMBED</samp>, and <samp class="ph codeph">new
+               PlayerDomain(DOMAIN)</samp>:
+            <pre class="pre codeblock">  final String <strong class="ph b">EMBED</strong>  = "h5OWFoYTrG4YIPdrDKrIz5-VhobsuT-M";  //Embed Code, or Content ID
+  final String <strong class="ph b">PCODE</strong>  = "R2d3I6s06RyB712DN0_2GsQS-R-Y";
+  final String <strong class="ph b">new PlayerDomain(DOMAIN)</strong> = "http://www.ooyala.com";
+...</pre>
+
+            Whereas the sample app defines these as constants, you probably want to define
+            variables, especially for the <samp class="ph codeph">EMBED</samp> constant (asset ID or content ID). </div>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Set Up the Controller, Initialize the
+               <samp class="ph codeph">OoyalaIMAManager</samp> and Classes</h2>
+         <p class="p">Various layout controllers
+            combined with the <samp class="ph codeph">OoyalaIMAManager</samp> are included with the SDK. <a class="xref" href="mobile_sdk_android_controls.html">The basic views you can choose from are
+               included in the baseline Mobile SDK for Android.</a></p>
+<div class="note note"><span class="notetitle">Note:</span> For working with
+            Google IMA, it is highly recommended that you use the
+               <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp> layout controller.
+            </div>
+<p class="p">In the sample app, a layout controller is declared of type
+               <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp>. </p>
+<p class="p">Finally, the
+               <samp class="ph codeph">imaManager</samp> object is initialized as type
+               <samp class="ph codeph">OOIMAManager</samp> with a player:</p>
+<pre class="pre codeblock">  OptimizedOoyalaPlayerLayoutController playerLayoutController;
+  <strong class="ph b">OoyalaIMAManager</strong> imaManager;
+/**
+   * Called when the activity is first created.
+   */
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    OoyalaPlayerLayout playerLayout = (OoyalaPlayerLayout) findViewById(R.id.ooyalaPlayer);
+    <strong class="ph b">playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout, PCODE, new PlayerDomain(DOMAIN));</strong>
+    OoyalaPlayer player = playerLayoutController.getPlayer();
+
+    //Initialize IMA classes
+    <strong class="ph b">imaManager = new OoyalaIMAManager(player);</strong></pre>
+
+         <div class="note note"><span class="notetitle">Note:</span> For reference documentation about the <samp class="ph codeph">OoyalaIMAManager</samp>, see the
+            Ooyala IMA SDK-Android API Documentation.</div>
+</div>
+
+      <div class="section"><h2 class="title sectiontitle">Companion Ad Slot</h2>
+         
+         <p class="p">A companion view is declared of type <samp class="ph codeph">ViewGroup</samp>, and companion ad slot
+            with that view, with width and height in pixels, is defined for the
+               <samp class="ph codeph">imaManager</samp> object. </p>
+
+         <pre class="pre codeblock">    ViewGroup companionView = (ViewGroup) findViewById(R.id.companionFrame);
+    imaManager.addCompanionSlot(companionView, 300, 50);</pre>
+
+      </div>
+
+      <div class="section" id="mobilesdk_ios_googleima_sampleapp_decomposed__adtagparameters"><h2 class="title sectiontitle">Append Ad Tag Parameters to your Ad Tag URL</h2><p class="p">To
+            append your own ad tags to your Google-supplied ad tag URL, use the
+               <samp class="ph codeph">setAdTagParameters()</samp> method.</p>
+<ol class="ol">
+            <li class="li">First, create a <samp class="ph codeph">HashMap</samp> with two strings to hold the parameters you
+               want to add to the ad tag URL. In the sample app, the hash is called
+                  <samp class="ph codeph">adTagParameters</samp>.
+               <pre class="pre codeblock">  Map&lt;String, String&gt; adTagParameters = new HashMap&lt;String, String&gt;();
+  <strong class="ph b">adTagParameters.put("vid", EMBED);</strong>
+  adTagParameters.put("url", "[referrer_url]");
+  adTagParameters.put("pod", "2");
+  adTagParameters.put("ppos", "2");
+  adTagParameters.put("vpos", "preroll");
+  adTagParameters.put("mridx", "2");
+  imaManager.setAdTagParameters(adTagParameters);</pre>
+</li>
+
+            <li class="li">For each parameter you want to add, use <samp class="ph codeph">put()</samp> to place the tag
+               name/value pair into the hash. In the sample, notice that the first ad tag name/value
+               pair sets the <samp class="ph codeph">vid</samp> tag to the value of the <samp class="ph codeph">EMBED</samp>
+               constant (the video or asset ID).</li>
+
+            <li class="li">Finally, after you have populated the hash, pass it to the
+                  <samp class="ph codeph">imaManager.setadTagParameters()</samp> method. <p class="p">As an example, suppose
+                  you have an adTagUrl that looks like the following (this URL is broken across
+                  several lines for
+               readability:</p>
+<pre class="pre codeblock">
+http://pubads.g.doubleclick.net/gampad/ads?sz=400x300&amp;iu=%2F6062%2Fhanna_MA_group%2Fwrapper_with_comp
+&amp;ciu_szs=728x90&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;output=xml_vast2&amp;unviewed_position_start=1
+&amp;m_ast=vast&amp;correlator=[timestamp]</pre>
+
+               After setting up your ad tag parameters as shown in the sample app, the ad tag URL
+               would look like this, with the extra tags highlighted:
+               <pre class="pre codeblock">http://pubads.g.doubleclick.net/gampad/ads?sz=400x300&amp;iu=%2F6062%2Fhanna_MA_group%2Fwrapper_with_comp
+&amp;ciu_szs=728x90&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;output=xml_vast2&amp;unviewed_position_start=1
+&amp;m_ast=vast&amp;correlator=[timestamp]
+<strong class="ph b">&amp;mridx=2&amp;vpos=preroll&amp;ppos=2&amp;vid=h5OWFoYTrG4YIPdrDKrIz5-VhobsuT-M&amp;pod=2&amp;url=[referrer_url]</strong></pre>
+</li>
+
+         </ol>
+You can also override the base value of the ad tag URL itself. See the discussion in
+            <a class="xref" href="mobile_sdk_android_googleima_adtagurloverride.html#mobilesdk_android_googleima_adurloverride">Overriding the Ad Tag URL on Android</a>. </div>
+
+      <div class="section" id="mobilesdk_ios_googleima_sampleapp_decomposed__play"><h2 class="title sectiontitle">Play the Video</h2>
+         
+         <p class="p">Finally, the video is played with the <samp class="ph codeph">setEmbedCode()</samp> method, which
+            comes with <a class="xref" href="../tasks/mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">the baseline Mobile
+            SDK</a>:</p>
+
+         <pre class="pre codeblock">  if (player.<strong class="ph b">setEmbedCode</strong>(EMBED)) {
+    player.play();
+  } else {
+    Log.d(this.getClass().getName(), "Something Went Wrong!");
+   </pre>
+
+      </div>
+
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_android_googleima.html">Integration with Google IMA on Android</a></div>
+</div>
+</div>
+
+</body>
+</html>

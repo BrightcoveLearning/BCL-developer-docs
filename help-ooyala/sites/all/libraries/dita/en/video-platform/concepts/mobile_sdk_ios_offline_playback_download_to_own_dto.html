@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Offline Playback: Download to Own (DTO) and Rentals (DTR) for iOS"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_about.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="offline_playback_download_to_own_dto_for_ios"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Offline Playback: Download to Own (DTO) and Rentals (DTR) for iOS</title>
+</head>
+<body id="offline_playback_download_to_own_dto_for_ios">
+
+
+    <h1 class="title topictitle1">Offline Playback: Download to Own (DTO) and Rentals (DTR) for iOS</h1>
+
+    
+    <div class="body conbody"><p class="shortdesc"/>
+
+        <p class="p">Apple released new APIs capable of downloading HLS assets to iOS devices. We're using
+            these APIs to enable downloading of assets in our Ooyala SDK. Use the Ooyala SDK if you
+            wish to download Ooyala assets stored in one of our CMSs (e.g. Backlot). Assets
+            otherwise cannot be downloaded by default.</p>
+
+        <p class="p"><strong class="ph b">Overview</strong></p>
+
+        <p class="p">With the Ooyala SDK you will be able to:</p>
+
+        <ul class="ul">
+            <li class="li">Download an asset. <ul class="ul">
+          <li class="li">If the HLS master playlist contains multiple bitrates, you can select which one to
+            download by specifying a minimum bitrate.</li>
+
+        </ul>
+</li>
+
+            <li class="li">Cancel a download in progress.</li>
+
+            <li class="li">Listen to updates on the download process.</li>
+
+            <li class="li">Delete a downloaded asset.</li>
+
+            <li class="li">Play a downloaded asset.</li>
+
+            <li class="li">Prevent a downloaded asset from being played after a specific date.</li>
+
+        </ul>
+
+        <p class="p">We do not currently support:</p>
+
+        <ul class="ul">
+            <li class="li">Closed captions for the downloaded asset.</li>
+
+            <li class="li">A promo or static image representing the downloaded asset.</li>
+
+            <li class="li">Multi-audio (e.g. Spanish, English, etc). The SDK will download only the default language for
+                the asset.</li>
+
+            <li class="li">Pausing a download in progress.</li>
+
+            <li class="li">Resume a download. If a download is explicitly canceled by the user, what has been downloaded to this point will be deleted.</li>
+
+            <li class="li">Estimating the size of the video to download.</li>
+
+            <li class="li">Checking the license expiration date. The license is readable by iOS only.</li>
+
+            <li class="li">Auto delete assets that have an expired license.</li>
+
+        </ul>
+
+        <div class="note note"><span class="notetitle">Note:</span> When uninstalling the app used to download assets, the contents of the downloaded
+      assets will also be deleted. This is expected behavior because downloaded files within iOS
+      apps are downloaded to an inner container specific to the app, and that container will persist
+      as long the app is installed. When you delete the app, this container will be removed too,
+      meaning all downloaded assets will be deleted.</div>
+
+        <p class="p"><strong class="ph b">Requirements</strong></p>
+
+        <p class="p">DTO and DTR using the Ooyala SDK requires:</p>
+
+        <ul class="ul">
+            <li class="li">iOS 10 and above.</li>
+
+            <li class="li">iOS Ooyala SDK v4.21.0 and above.</li>
+
+            <li class="li">DTR additionally requires FairPlay HLS assets.</li>
+
+        </ul>
+
+        <p class="p">iOS supports downloading the following video formats:</p>
+
+        <ul class="ul">
+            <li class="li">Regular non-protected HLS assets.</li>
+
+            <li class="li">FairPlay HLS assets.
+                <ul class="ul">
+                    <li class="li">Our integration of DTO assumes that the master playlist of a FairPlay HLS asset contains the EXT-X-SESSION-KEY tag. If it doesn't have it, the download will never start. You can know more about EXT-X-SESSION-KEY here: <a class="xref" href="https://tools.ietf.org/html/draft-pantos-http-live-streaming-20#section-4.3.4.5" target="_blank">https://tools.ietf.org/html/draft-pantos-http-live-streaming-20#section-4.3.4.5</a>.</li>
+
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <p class="p"><strong class="ph b">Offline Playback Use-Cases: Buy and Rent</strong></p>
+
+        <p class="p">There are several use cases for offline videos. We expose the same client APIs for
+            Download to Own (DTO) and Download to Rent (DTR), but the difference is that we consider
+            assets to be DTO if they are clear HLS or FairPlay HLS with an infinite license, meaning
+            the license will never expire, and if you download an asset with these characteristics
+            you will be able to play as long as it remains on your device. On the other hand,
+            Rentals (DTR) requires FairPlay HLS assets with a finite license. The access windows are
+            defined by the entitlement settings, setting the expiration date for when a downloaded
+            asset will no longer be playable by the user.</p>
+
+        <p class="p">To add rental access period rules for your assets, you must set entitlements for them.
+            For more information, see <a class="xref" href="../api/rightslocker.html#reference_rj1_dzd_v3">Rights Locker API Reference</a>.</p>
+
+        <p class="p"><strong class="ph b">Caveats</strong></p>
+
+        <ul class="ul">
+            <li class="li">If the FairPlay license expires when the user is playing the offline video, they will be able to continue the video content until the player is destroyed. We can't force the video session to end because the license is being enforced by iOS and the license is only retrieved when the player is initialized with a new asset.</li>
+
+        </ul>
+
+        <p class="p"><strong class="ph b">Using the Ooyala SDK for iOS DTO and DTR capabilities</strong></p>
+
+        <p class="p">First, you must setup your app with the Ooyala SDK. If you are not familiar on linking a
+            framework like the Ooyala SDK.framework into an iOS app, follow the tutorial we created
+            on the following page: <a class="xref" href="../tasks/mobile_sdk_ios_gettingstarted.html#mobile_sdk_ios_gettingstarted" title="Learn how to set up a basic project using the Ooyala Mobile SDK for iOS and Xcode.">Getting Started: Setting Up Your Environment in Xcode</a>.</p>
+
+        <p class="p">We provide the following classes for DTO:</p>
+
+        <div class="p">
+            <div class="fig fignone" id="offline_playback_download_to_own_dto_for_ios__fig_avq_v23_fy">
+                <img class="image" id="offline_playback_download_to_own_dto_for_ios__image_fsl_x23_fy" src="../image/mobile_sdk_ios_dto_uml.png" height="733" width="755"/>
+            </div>
+
+        </div>
+
+        <p class="p">You must use an <samp class="ph codeph">OOAssetDownloadManager</samp> object to start a download process. He
+            also needs to implement <samp class="ph codeph">OOAssetDownloadManagerDelegate</samp> and set the
+            instance to be the delegate of <samp class="ph codeph">OOAssetDownloadManager</samp>. This way the
+            developer will be able to get updates about a download process.</p>
+
+        <p class="p"><strong class="ph b">Sample App</strong></p>
+
+        <p class="p">We provide a sample app that you can use as a guide to build your own. It uses the classes we
+            introduced for DTO and shows you how to manage multiple downloable assets in your app.
+            Here is the link to the sample app: <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/PlaybackLab/DownloadToOwnSampleApp" target="_blank">https://github.com/ooyala/ios-sample-apps/tree/stable/PlaybackLab/DownloadToOwnSampleApp</a>.
+            See the README for more information about the application setup.</p>
+
+        <p class="p"><strong class="ph b">Starting a download</strong></p>
+
+        <p class="p">To start a download, you must use an instance of <samp class="ph codeph">OOAssetDownloadManager</samp> and call
+            the <samp class="ph codeph">startDownload</samp> method. <samp class="ph codeph">OOAssetDownloadManager</samp> needs
+            an <samp class="ph codeph">OOAssetDownloadOptions</samp> object to know which asset to download. The
+            developer supplies options like the pcode, embed code, domain, and embed token
+            generator. The embedTokenGenerator is required for FairPlay assets, as OPT is needed for
+            all DRM assets. Look at the <samp class="ph codeph">BasicEmbedTokenGenerator</samp> in the sample app
+            for an example of an <samp class="ph codeph">OOEmbedTokenGenerator implementation</samp>.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)startDownload {
+    // Initialize an options with the configuration of the asset that is going to be downloaded
+    OOAssetDownloadOptions *options = [[OOAssetDownloadOptions alloc] init];
+    options.pcode = self.pcode;
+    options.embedCode = self.embedCode;
+    options.domain = [OOPlayeDomain domainWithString:self.domain];
+    options.embedTokenGenerator = self.embedTokenGenerator;
+    OOAssetDownloadManager *manager = [[OOAssetDownloadManager alloc] initWithOptions:options];
+ 	
+    // set the OOAssetDownloadManager delegate to receive download callbacks
+    manager.delegate = self;
+  
+    [downloadManager startDownload];
+}</pre>
+</div>
+
+        <p class="p"> It is important to set a delegate for the manager. The delegate is an instance of
+                <samp class="ph codeph">OOAssetDownloadManagerDelegate</samp> and its methods will be called
+            during a download process, even if there's an error. After calling the
+                <samp class="ph codeph">startDownload</samp> method in the example above, the
+                <samp class="ph codeph">downloadManager:downloadTaskStartedWithError:</samp> method of the
+            delegate will be called. </p>
+
+        <div class="p"><pre class="pre codeblock">- (void)downloadManager:(OOAssetDownloadManager *)manager downloadTaskStartedWithError:(OOOoyalaError *)error {
+    if (error) {
+        // Download failed to start
+    } else { 
+        // Download started successfully
+    }
+}</pre>
+</div>
+
+        <p class="p"><samp class="ph codeph">OOAssetDownloadManager</samp> has an <samp class="ph codeph">embedCode property</samp> which you can use to identify which is the asset being downloaded.</p>
+
+        <p class="p"><strong class="ph b">Selecting bitrate to download</strong></p>
+
+        <p class="p">When building the <samp class="ph codeph">OOAssetDownloadOptions</samp> instance supplied to <samp class="ph codeph">OOAssetDownloadManager</samp>, you can select the minimum bitrate to download.</p>
+
+        <div class="p"><pre class="pre codeblock">OOAssetDownloadOptions *options = [[OOAssetDownloadOptions alloc] init];
+// set other options
+options.minimumBitrate = 1500000;
+OOAssetDownloadManager *manager = [[OOAssetDownloadManager alloc] initWithOptions:options];</pre>
+</div>
+
+        <p class="p">If you supply a minimum bitrate to download, when the download process begins it will search for the first bitrate greater or equal to the minimum bitrate supplied in your options object.</p>
+
+        <p class="p">The following example HLS master playlist shows 4 different variants:</p>
+
+        <div class="p"><pre class="pre codeblock">#EXTM3U
+#EXT-X-VERSION:6
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2855600,CODECS="avc1.4d001f,mp4a.40.2",RESOLUTION=960x540
+medium.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=5605600,CODECS="avc1.640028,mp4a.40.2",RESOLUTION=1280x720
+high.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1755600,CODECS="avc1.42001f,mp4a.40.2",RESOLUTION=640x360
+low.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=545600,CODECS="avc1.42001e,mp4a.40.2",RESOLUTION=416x234
+cellular.m3u8</pre>
+</div>
+
+        <p class="p">Let's assume that we are going to download that example HLS asset. If we use the bitrate provided in the code snippet above (minimumBitrate = 1500000), then it will select the variant with <samp class="ph codeph">BANDWIDTH</samp> of 1755600. That is the variant that will be downloaded because that is the first variant with a value greater or equal to 1500000.</p>
+
+        <p class="p"><strong class="ph b">Checking download progress</strong></p>
+
+        <p class="p"><samp class="ph codeph">OOAssetDownloadManagerDelegate</samp> lets you know about the progress of a download
+            through its <samp class="ph codeph">downloadManager:downloadPercentage:</samp> method.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)downloadManager:(OOAssetDownloadManager *)manager downloadPercentage:(Float64)percentage {
+    // percentage is a number from 0.0 to 1.0
+}</pre>
+</div>
+
+        <p class="p"><strong class="ph b">Storing the downloaded asset</strong></p>
+
+        <p class="p"><samp class="ph codeph">OOAssetDownloadManagerDelegate</samp> has the <samp class="ph codeph">downloadManager:downloadCompletedAtLocation:withError:</samp> method, which lets you know about the location where the asset was stored. You persist this location yourself because you need it to playback the content.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)downloadManager:(OOAssetDownloadManager *)manager downloadCompletedAtLocation:(NSURL *)location withError:(OOOoyalaError *)error {
+    if (error) {
+        //download failed
+    } else {
+        // Example showing how to store the location in NSUserDefaults
+        [[NSUserDefaults standardUserDefaults] setURL:location forKey:manager.embedCode];
+    }
+}</pre>
+</div>
+
+        <p class="p">You do not have to store the video yourself; it is already stored and you are only given
+            its location through the <samp class="ph codeph">location</samp> parameter of this method.</p>
+
+        <p class="p"><strong class="ph b">Storing the FairPlay license (optional)</strong></p>
+
+        <p class="p">This step is only necessary if the asset is DRM protected with FairPlay. During the download process, you get authorized for that particular asset. Part of this authorization asks our FairPlay server if the asset can be downloaded. If yes, <samp class="ph codeph">OOAssetDownloadManagerDelegate</samp> has a <samp class="ph codeph">downloadManager:persistedContentKeyAtLocation:</samp> method that will be called when the license was persisted successfully.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)downloadManager:(OOAssetDownloadManager *)manager persistedContentKeyAtLocation:(NSURL *)location {
+    // Example showing how to store the location of the license in NSUserDefaults
+    // As an example, if we had an embed code of "myEmbedCode" it will save the location using the NSString key "DTO_myEmbedCode.key"
+    [[NSUserDefaults standardUserDefaults] setURL:location forKey:[NSString stringWithFormat:@"DTO_%@.key", manager.embedCode]];
+}</pre>
+</div>
+
+        <p class="p">For FairPlay assets, you also need the license when playing an offline video. That's why we need to save the location for later use.</p>
+
+        <p class="p"><strong class="ph b">Playing an offline video</strong></p>
+
+        <p class="p">Now that you have an offline video, you can play it back using the <samp class="ph codeph">OOOoyalaPlayer</samp>. The following code assumes you have a <samp class="ph codeph">UIViewController</samp> with a <samp class="ph codeph">UIView</samp> that will become the <samp class="ph codeph">OOOoyalaPlayer</samp>'s view.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)initializePlayer {
+    OOOptions *options = [[OOOptions alloc] init];
+    options.secureURLGenerator = ... // instance of a OOSecureURLGenerator required for FairPlay assets
+  
+    OOOoyalaPlayer *player = [[OOOoyalaPlayer alloc] initWithPcode:self.pcode 
+                                domain:[OOPlayerDoamin domainWithString:self.domain] 
+                                embedTokenGenerator:self.embedTokenGenerator 
+                                options:options];
+ 	
+    /*
+     * This comment block assumes there's code to set the OOOoyalaPlayer into an OOOoyalaPlayerViewController
+     */
+ 
+    // Initialize an OOOfflineVideo with the location of the downloaded video and FairPlay license
+    NSURL *videoLocation = [[NSUserDefaults standardUserDefaults] URLForKey:self.embedCode];
+    NSURL *keyLocation = [[NSUserDefaults standardUserDefaults] URLForKey:[NSString stringWithFormat:@"DTO_%@.key", self.embedCode]];
+    OOOfflineVideo *video = [OOOfflineVideo videoWithVideoLocation:videoLocation fairplayKeyLocation:keyLocation];
+    [player setUnbundledVideo:video];
+}</pre>
+</div>
+
+        <p class="p">After calling <samp class="ph codeph">setUnbundledVideo:</samp> you should be able to playback the offline asset successfully using the <samp class="ph codeph">OOOoyalaPlayer</samp>.</p>
+
+        <p class="p"><strong class="ph b">Deleting a downloaded asset</strong></p>
+
+        <p class="p">Here's a code snippet showing how to delete both the contents and license of an asset. If you followed the examples above, you might want to clear the keys in the <samp class="ph codeph">NSUserDefaults</samp> object.</p>
+
+        <div class="p"><pre class="pre codeblock">- (void)deleteAsset:(NSString *)embedCode {
+    // Delete the video content
+    [OOAssetDownloadManager deleteFileAtLocation:[[NSUserDefaults standardUserDefaults] URLForKey:embedCode]];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:embedCode];
+
+    // Delete the FairPlay license content
+    [OOAssetDownloadManager deleteFileAtLocation:[[NSUserDefaults standardUserDefaults] URLForKey:[NSString stringWithFormat:@"DTO_%@.key", embedCode]]];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"DTO_%@.key", embedCode]];
+}</pre>
+</div>
+
+        <p class="p"><strong class="ph b">Reference</strong></p>
+
+        <ul class="ul">
+            <li class="li"><a class="xref" href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/MediaPlaybackGuide/Contents/Resources/en.lproj/HTTPLiveStreaming/HTTPLiveStreaming.html" target="_blank">Apple's General HLS page</a></li>
+ 
+            <li class="li"><a class="xref" href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/MediaPlaybackGuide/Contents/Resources/en.lproj/HTTPLiveStreaming/HTTPLiveStreaming.html" target="_blank">Apple's basic HLS offline playback docs</a></li>
+ 
+        </ul>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_ios_about.html">Working with the Ooyala Mobile SDK for iOS</a></div>
+</div>
+</div>
+
+</body>
+</html>

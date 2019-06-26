@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Setting Privacy and Other Considerations for YouTube Syndication"/>
+<meta name="abstract" content="You can set the default privacy settings for an asset that you syndicate with Youtube."/>
+<meta name="description" content="You can set the default privacy settings for an asset that you syndicate with Youtube."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/api_syndication_youtube.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_syndication_youtube_privacy"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Setting Privacy and Other Considerations for YouTube Syndication</title>
+</head>
+<body id="api_syndication_youtube_privacy">
+
+
+ <h1 class="title topictitle1">Setting Privacy and Other Considerations for YouTube Syndication</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">You can set the default privacy settings for an asset that you syndicate with
+    Youtube.</p>
+
+  <div class="section context">
+    
+    <p class="p">The default privacy settings for videos syndicated to YouTube can be set with the <samp class="ph codeph">/v2/syndications</samp> route.</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd">To see the current privacy settings of the syndication use <samp class="ph codeph">[GET] /v2/syndications</samp> and the syndication ID. Look for the <samp class="ph codeph">asset_defaults</samp> block in the response.</span>
+         The response body looks similar to the following.
+          <pre class="pre codeblock">[GET]/v2/syndications/fbdd2472css9476496cdaa5dc05ce6fb{  
+   "name":"YouTube",
+   "created_at":"2011-06-15T23:05:51Z",
+   "require_access_key":false,
+   "should_create_youtube_videos":true,
+   "include_labels":[  
+      "64df5faas3fcx27383d80744345ac866"
+   ],
+   "asset_types":[  
+      "video",
+      "ad"
+   ],
+   <strong class="ph b">"asset_defaults":{  
+      "private":true
+   },</strong>
+   "username":"GeorgeBush",
+   "id":"fbdd2472css9476496cdaa5dc05ce6fb",
+   "include_all_content":false,
+   "type":"youtube",
+   "unrestricted_youtube_account":false,
+   "should_delete_youtube_videos":true
+}</pre>
+
+        
+      </li>
+<li class="li step stepexpand">
+      <span class="ph cmd">To change the privacy setting, use <samp class="ph codeph">PATCH /v2/syndications</samp> with the
+          syndication ID and the <samp class="ph codeph">asset_defaults</samp> block with the
+            <samp class="ph codeph">private</samp> property. Valid values for this property are true and or
+          false.</span>
+       
+ <pre class="pre codeblock">[PATCH]/v2/syndications/syndication_id{  
+   "assets_default":{  
+      "private":false
+   }
+}</pre>
+
+      
+    </li>
+</ol>
+
+ </div>
+
+ 
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/api_syndication_youtube.html">Syndication with YouTube</a></div>
+</div>
+</div>
+
+</body>
+</html>

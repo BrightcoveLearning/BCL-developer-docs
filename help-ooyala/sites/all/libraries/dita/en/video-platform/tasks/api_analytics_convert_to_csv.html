@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Converting Analytics JSON to CSV (Deprecated)"/>
+<meta name="abstract" content="With the Backlot UI you can download data in comma-separated value (CSV) format. Here is a general approach for doing this programmatically."/>
+<meta name="description" content="With the Backlot UI you can download data in comma-separated value (CSV) format. Here is a general approach for doing this programmatically."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_analytics.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_custom_analytics"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Converting Analytics JSON to CSV (Deprecated)</title>
+</head>
+<body id="api_custom_analytics">
+
+
+ <h1 class="title topictitle1">Converting Analytics JSON to CSV (Deprecated) </h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">With the <span class="ph">Backlot UI</span> you can download data in
+        comma-separated value (CSV) format. Here is a general approach for doing this
+        programmatically.</p>
+
+  <div class="section context">
+   <div class="p">
+    <div class="note warning"><span class="warningtitle">Warning:</span> The v2 Analytics API has been deprecated. See <a class="xref" href="../concepts/ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a> for more details on the new v3 Analytics
+     API.</div>
+
+   </div>
+
+   <p class="p">All responses by the Analytics API are in the form of JavaScript Object Notation (JSON). Much
+    useful analysis can be done with spreadsheet programs, which can in general read CSV data. </p>
+
+   <p class="p">Because the <span class="ph">Backlot API</span> is language-neutral, we do not focus on
+                any particular language, relying on JavaScript to illustrate the conversion. The
+                Internet has many free converter tools for many different languages.</p>
+
+   <div class="p">Below is a sample JavaScript program (based somewhat on ideas from json.org) that converts the
+                JSON in an array (named <samp class="ph codeph">json3</samp>) to CSV. In actual practice, instead
+                of defining an array, you might want to save the JSON responses to files and read
+                the file, or change the script below to read from some other data source. Likewise,
+                this script opens a new window to prompt to download the CSV data; you might want to
+                change this
+                behavior.<pre class="pre codeblock">
+&lt;script src="scripts/json.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+var json3 = { "d": "[{\"Id\":1,\"UserName\":\"Sam Smith\"},{\"Id\":2,\"UserName\":\"Fred Frankly\"},{\"Id\":1,\"UserName\":\"Zachary Zupers\"}]" }
+
+DownloadJSON2CSV(json3.d);
+
+function DownloadJSON2CSV(objArray)
+{
+   var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+
+   var str = '';
+
+   for (var i = 0; i &lt; array.length; i++) {
+       var line = '';
+
+       for (var index in array[i]) {
+            line += array[i][index] + ',';
+       }
+
+       // Here is an example where you would wrap the values in double quotes
+       // for (var index in array[i]) {
+       //    line += '"' + array[i][index] + '",';
+       // }
+
+       line.slice(0,line.Length-1); 
+
+       str += line + '\r\n';
+   }
+   // Might want to change this output
+   window.open( "data:text/csv;charset=utf-8," + escape(str))
+}
+&lt;/script&gt;
+    </pre>
+
+            </div>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd">Make the API requests necessary to retrieve the data you want.</span>
+     Be sure that you are dealing with data that is amenable to conversion and that you are including similar dimensions in the data, regardless of type.
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Convert the data to CSV by using the desired converter program, either a variant of the
+     JavaScript shown above or for your own preferred language.</span>
+   </li>
+</ol>
+
+ </div>
+
+
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_analytics.html" title="Ooyala had the basic analytics feature of retrieving data with the v2 Analytics API.">v2 Analytics (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

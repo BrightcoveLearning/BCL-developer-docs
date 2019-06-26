@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Embedding an HTML5 Player V3 in an HTML iframe (Deprecated)"/>
+<meta name="abstract" content="Using a special page from Ooyala, you can embed your player in an iframe."/>
+<meta name="description" content="Using a special page from Ooyala, you can embed your player in an iframe."/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_iframe"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Embedding an HTML5 Player V3 in an HTML iframe (Deprecated)</title>
+</head>
+<body id="player_v3_iframe">
+
+
+ <h1 class="title topictitle1">Embedding an HTML5 Player V3 in an HTML iframe (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">Using a special page from Ooyala, you can embed your player in an iframe.</p>
+
+  <div class="section">
+   <div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+
+   With the HTML <samp class="ph codeph">&lt;iframe&gt;</samp> ("inline frame") tag, you can embed content in
+   a separately defined "container" of a web page. Detailed here is how you can embed the Ooyala
+   player in an <samp class="ph codeph">&lt;iframe&gt;</samp>. <p class="p">To use this feature, you should already have
+    created a web page and should know where you want to embed the "iframed" player.</p>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Ooyala HTML for iframe</h2>
+    Examine the following HTML. You should put this in your web
+   page where you want the player to appear. <p class="p">This <samp class="ph codeph">iframe.html</samp> page provided by
+    Ooyala does all the work of embedding your player in the iframe. It takes the values you specify
+    in the <samp class="ph codeph">&lt;iframe&gt;</samp> attributes and invokes the Ooyala Player in the inline
+    frame.</p>
+The lines below have been broken for readability; in actual use, be sure to put this
+   all on a single
+   line.<pre class="pre codeblock">
+&lt;iframe width="480" height="320" src="http://player.ooyala.com/iframe.html?
+<strong class="ph b">ec</strong>=<em class="ph i">embedcode</em>
+&amp;<strong class="ph b">pbid</strong>=<em class="ph i">player_branding_id</em>
+&amp;<strong class="ph b">docUrl</strong>=<em class="ph i">http%3A%2F%2Fexample.com</em>
+&amp;<strong class="ph b">platform</strong>=<em class="ph i">platform</em>
+&amp;<strong class="ph b">options</strong>[<em class="ph i">optionname</em>]=<em class="ph i">value</em>&amp;options[<em class="ph i">optionname</em>]=<em class="ph i">value</em>..."
+frameborder="0" allowfullscreen&gt;
+&lt;/iframe&gt;  
+</pre>
+Explanation
+   of the <samp class="ph codeph">&lt;iframe&gt;</samp> attributes:<ul class="ul" id="player_v3_iframe__ul_psf_wtn_fm">
+    <li class="li">Width and height: You can modify these as desired to fit your web page, although the values
+     shown are optimal.</li>
+
+    <li class="li">The value for <samp class="ph codeph">src</samp>: Leave this as is, except for the protocol
+      (<samp class="ph codeph">http</samp> or <samp class="ph codeph">https</samp>) and the values for <samp class="ph codeph">ec</samp>,
+      <samp class="ph codeph">pbid</samp>, <samp class="ph codeph">docUrl</samp>, and <samp class="ph codeph">platform</samp> (detailed
+     below). </li>
+
+    <li class="li">Depending on the security of the web page where you will put this iframe, set the protocol
+     to either <samp class="ph codeph">http</samp> or <samp class="ph codeph">https</samp>. Insecure iframes (served by
+      <samp class="ph codeph">http</samp>) in a secure web page (served by <samp class="ph codeph">https</samp>) cause alarming
+     error messages about security mismatches in a user's browser. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_iframe__iframe_parms" class="table" frame="border" border="1" rules="all">
+       
+       
+       <thead class="thead" align="left">
+        <tr class="row">
+         <th class="entry" valign="top" width="36.36363636363637%" id="d908579e156">Parameter</th>
+
+         <th class="entry" valign="top" width="63.63636363636363%" id="d908579e159">Description of Value</th>
+
+        </tr>
+
+       </thead>
+
+       <tbody class="tbody">
+        <tr class="row">
+         <td class="entry" valign="top" width="36.36363636363637%" headers="d908579e156 "><samp class="ph codeph">ec</samp> or <samp class="ph codeph">embedCode</samp></td>
+
+         <td class="entry" valign="top" width="63.63636363636363%" headers="d908579e159 ">The Ooyala embed code (asset or content ID) for the desired video.</td>
+
+        </tr>
+
+        <tr class="row">
+         <td class="entry" valign="top" width="36.36363636363637%" headers="d908579e156 "><samp class="ph codeph">pbid</samp></td>
+
+         <td class="entry" valign="top" width="63.63636363636363%" headers="d908579e159 ">A "player branding ID" (or simply "player ID") for a player you have defined in
+          Ooyala Backlot.</td>
+
+        </tr>
+
+        <tr class="row">
+         <td class="entry" valign="top" width="36.36363636363637%" headers="d908579e156 "><samp class="ph codeph">docUrl</samp></td>
+
+         <td class="entry" valign="top" width="63.63636363636363%" headers="d908579e159 ">This parameter can be used to specify the analytics URL of a video (must be URL
+          encoded). This causes analytics events for the video to be grouped under the URL specified
+          rather than the URL the player is placed on.</td>
+
+        </tr>
+
+        <tr class="row">
+         <td class="entry" valign="top" width="36.36363636363637%" headers="d908579e156 "><samp class="ph codeph">platform</samp></td>
+
+         <td class="entry" valign="top" width="63.63636363636363%" headers="d908579e159 ">Any of the defined values for the <samp class="ph codeph">platform</samp> parameter detailed at
+           <a class="xref" href="../api/player_v3_api_qparams.html">Player V3 Query String Parameters (Deprecated)</a>, such as <samp class="ph codeph">flash</samp> or
+           <samp class="ph codeph">html5-fallback</samp></td>
+
+        </tr>
+
+        <tr class="row">
+         <td class="entry" valign="top" width="36.36363636363637%" headers="d908579e156 "><samp class="ph codeph">options</samp></td>
+
+         <td class="entry" valign="top" width="63.63636363636363%" headers="d908579e159 ">Standard Ooyala player runtime options, described in the next section. The
+            <samp class="ph codeph"><em class="ph i">optioname</em></samp>s of nested passthrough parameters (for instance, ad
+          manager parameters) are in dotted notation of the form
+            <samp class="ph codeph"><em class="ph i">parameter</em>.<em class="ph i">subparameter</em></samp>, like
+           <samp class="ph codeph">ad-manager.url</samp>. Values must be URL-encoded.</td>
+
+        </tr>
+
+       </tbody>
+
+      </table>
+</div>
+
+    </li>
+
+   </ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Passing Embedded Parameters to the Player in an &lt;iframe&gt;</h2>
+    Standard Ooyala Player
+   syntax allows you to specify certain runtime arguments as the third argument on the player
+   invocation, such as <samp class="ph codeph">autoplay:true</samp>, <samp class="ph codeph">initialTime:122</samp>, and other
+   options detailed at <a class="xref" href="../api/player_v3_api_embedparams.html">Embedded Parameters</a>. <p class="p">With Ooyala's
+     <samp class="ph codeph">&lt;iframe&gt;</samp> you can pass the same embedded parameters with the
+     <samp class="ph codeph">&amp;options=</samp> attribute. You can repeat the <samp class="ph codeph">&amp;options</samp>
+    attribute and values as many times as you like. The only limit is the maximum length of a
+    URL.</p>
+<p class="p">Following the syntax in the code sample above, the <samp class="ph codeph">&amp;options=</samp>
+    attributes look like the following. Be sure to URL-encode values that require it, such as
+    URLs.</p>
+
+   <div class="p">
+    <pre class="pre codeblock">&lt;iframe width="480" height="320" src="http://player.ooyala.com/iframe.html?
+ec=<em class="ph i">embedcode</em>
+&amp;pbid=<em class="ph i">player_branding_id</em>
+&amp;platform=<em class="ph i">platform</em>
+<strong class="ph b">&amp;options[autoplay]=true&amp;options[initialTime]=122</strong>"
+frameborder="0" allowfullscreen&gt;
+&lt;/iframe&gt;       
+   </pre>
+
+   </div>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Example: Passing Google IMA Ad Tags</h2>
+   <p class="p">In the example below, the embedded parameters to set the Google Interactive Media Ads (IMA)
+     <samp class="ph codeph">adTagUrl</samp> and other parameters are specified in the
+     <samp class="ph codeph">&amp;options</samp> attribute for the iframe.</p>
+<pre class="pre codeblock">&lt;iframe width="480" height="320" src="http://player.ooyala.com/iframe.html?
+ec=<em class="ph i">embedcode</em>
+&amp;pbid=<em class="ph i">player_branding_id</em>
+&amp;platform=<em class="ph i">platform</em>
+&amp;options[google-ima-ads-manager.adTagUrl]=<em class="ph i">someUrlThatIsURLencoded</em>
+&amp;options[google-ima-ads-manager.additionalAdTagParameters.cust_params]=env%3Dmobilevcmshost%26siteview%3D1%26pth%3Djsbin.com
+&amp;options[google-ima-ads-manager.additionalAdTagParameters.vid]=547632
+&lt;/iframe&gt;</pre>
+</div>
+
+ </div>
+
+ 
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Player Token for Player V4"/>
+<meta name="abstract" content="Content publishers and providers can secure their content with the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)"/>
+<meta name="description" content="Content publishers and providers can secure their content with the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/authentication_overview.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/player_v3dev_authtemplate.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_dev_bitbuff"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Player Token for Player V4</title>
+</head>
+<body id="player_v3_dev_bitbuff">
+
+
+  <h1 class="title topictitle1">Ooyala Player Token for <span class="ph">Player V4</span></h1>
+
+ 
+ <div class="body conbody" id="conbody_cth_l3r_3s"><p class="shortdesc">Content publishers and providers can secure their content with the Ooyala Player Token.
+    (Available only if your Ooyala account includes this functionality. To enable Ooyala Player
+    Token, contact your account manager.) </p>
+
+  <div class="section">Use the Ooyala Player Token to protect content from users who may try to make
+      unauthorized use of your digital content. For example, a user may take the embedded player
+      Javascript (.js) script tag generated in Backlot and distribute it without permission to
+      others for replay, or attempt other similar replay attacks.<p class="p">To prevent such unauthorized
+        usage, Ooyala provides the Ooyala Player Token, which helps protect your content from these
+        types of risks. Use this feature to secure your monetized content and prevent unauthorized
+        distribution.</p>
+<p class="p">The Ooyala Player Token provides a secure process that
+          <dfn class="term">authenticates</dfn> the player before allowing it to replay digital content.
+        Token-based authentication ensures that digital content cannot be downloaded or played until
+        the client player has been authenticated.</p>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Using the Ooyala Player Token</h2>
+   
+   <div class="p">The following steps describe how to use the Ooyala Player Token in a basic web application:<ul class="ul">
+     <li class="li"><a class="xref" href="#player_v3_dev_bitbuff__section_xq4_p3r_3s">Step 1: Set up the Ooyala Player Token in Backlot</a></li>
+
+     <li class="li"><a class="xref" href="#player_v3_dev_bitbuff__section_ecl_3yt_js">Step 2: Create a Basic HTML Page</a></li>
+
+     <li class="li"><a class="xref" href="#player_v3_dev_bitbuff__section_mfy_xzt_js">Step 3: Specify the embedToken Embedded Parameter</a></li>
+
+     <li class="li"><a class="xref" href="#player_v3_dev_bitbuff__section_dbx_pc5_js">Step 4: Construct and Assign the Token Request Value</a></li>
+
+     <li class="li"><a class="xref" href="#player_v3_dev_bitbuff__section_eww_vc5_js">Complete Web Example: Authorize Playback and Obtain a Token</a></li>
+
+    </ul>
+</div>
+
+   <p class="p">For more information on how to build web applications with the Ooyala Player JavaScript API,
+        see <a class="xref" href="pbv4_api.html">Player V4 JavaScript API</a>.</p>
+
+  </div>
+
+  <div class="section" id="player_v3_dev_bitbuff__section_xq4_p3r_3s"><h2 class="title sectiontitle">Step 1: Set up the Ooyala Player Token in Backlot</h2>
+   
+   <p class="p">In the <span class="ph">Backlot UI</span>, set a <span class="ph uicontrol">Syndication</span> group
+        flag and add your content assets to this syndication group. Then you can set up a web page
+        to run one or more player(s) and send the authorization token.</p>
+
+   
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Securing Playback Content with the Ooyala Player Token</h2>
+   
+   <p class="p">Follow these steps to secure your content in Backlot:</p>
+
+   <ol class="ol">
+    <li class="li">Log in to your Backlot account.</li>
+
+    <li class="li">Click the PUBLISH tab, and select the
+      Syndication Controls tab.</li>
+
+    <li class="li">Select a video from a syndication group, or set up a syndication group and then select your
+     video.</li>
+
+     <li class="li">In the Syndication Controls pane, click
+     the <span class="ph uicontrol">Require Ooyala Player Token</span> checkbox.</li>
+
+    <li class="li">(Optional) In the Expiration field, set the expiration time (in seconds) for the viewing session.
+          If you do not specify a time, the recommended default of ten minutes is used. The field
+          only accepts numeric entries (for example, 600). You may set a longer expiration time for the
+          token if you prefer, since the Same Origin Policy protects its distribution. For more
+          information about the expiration time, see <a class="xref" href="player_v3dev_tokenexpire.html">Ooyala Player Token Expiration</a>.</li>
+
+    <li class="li">Click the MANAGE tab, and select the
+      Embed tab.</li>
+
+    <li class="li">Click the <span class="ph uicontrol">Copy</span> button to get the player JavaScript
+      <samp class="ph codeph">&lt;script&gt;</samp> tag to paste into your web page. This content must be
+     in the syndication group in which you specified the Ooyala Player Token as a required
+     option.</li>
+
+   </ol>
+
+  </div>
+
+   <div class="section" id="player_v3_dev_bitbuff__section_ecl_3yt_js"><h2 class="title sectiontitle">Step 2: Create a Basic HTML Page</h2>
+      
+      <div class="p">Create a basic HTML page that includes a call to <samp class="ph codeph">OO.Player.create()</samp>. For a
+        complete tutorial, see <a class="xref" href="../reference/pbv4_web_examples.html">Examples of Player V4 Web Page Embedding</a>.
+        <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;!-- Load Ooyala Player --&gt;
+        &lt;script src="http://player.ooyala.com/core/YOUR_PLAYER_ID"&gt;
+        &lt;/script&gt;
+    &lt;/head&gt;
+ 
+    &lt;body&gt;
+        &lt;!-- Player Placement --&gt;
+        &lt;div id="container" style="width:640px; height:360px"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            OO.ready(function() {
+                OO.Player.create(
+                    'container', 
+                     "YOUR_CONTENT_ID", {
+                     }
+                );
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<div class="note note"><span class="notetitle">Note:</span> While this basic example illustrates the token request value on a web page, it is recommended that you do not actually store such information on static web pages since token requests contain sensitive information.</div>
+
+    </div>
+
+   <div class="section" id="player_v3_dev_bitbuff__section_mfy_xzt_js"><h2 class="title sectiontitle">Step 3: Specify the embedToken Embedded Parameter</h2>
+      
+      <p class="p">In the call to <samp class="ph codeph">OO.Player.create()</samp>, specify <samp class="ph codeph">embedToken</samp> as
+        an embedded parameter:</p>
+
+       <pre class="pre">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;!-- Load Ooyala Player --&gt;
+        &lt;script src="http://player.ooyala.com/core/YOUR_PLAYER_ID"&gt;
+        &lt;/script&gt;
+    &lt;/head&gt;
+ 
+    &lt;body&gt;
+      &lt;!-- Player Placement --&gt;
+        &lt;div id="container" style="width:640px; height:360px"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            OO.ready(function() {
+                OO.Player.create(
+                    'container', 
+                    "YOUR_CONTENT_ID", {
+                        embedToken : 'token value to be added here'
+                    }
+                );
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    </div>
+
+   <div class="section" id="player_v3_dev_bitbuff__section_dbx_pc5_js"><h2 class="title sectiontitle">Step 4: Construct and Assign the Token Request Value</h2>
+      
+      <p class="p">Construct the token request value and assign it to the <samp class="ph codeph">embedToken</samp> embedded
+        parameter. The value is in the form of a URL that has the following segments:</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_dev_bitbuff__table_tdh_315_js" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="15.503875968992247%" id="d476564e193">URL Segment</th>
+
+              <th class="entry" valign="top" width="84.49612403100775%" id="d476564e196">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="15.503875968992247%" headers="d476564e193 ">Protocol and domain</td>
+
+              <td class="entry" valign="top" width="84.49612403100775%" headers="d476564e196 "><samp class="ph codeph">http://player.ooyala.com</samp></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="15.503875968992247%" headers="d476564e193 ">Request path</td>
+
+              <td class="entry" valign="top" width="84.49612403100775%" headers="d476564e196 "><samp class="ph codeph">/sas/embed_token/{pcode}/{comma-separated content IDs}</samp></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="15.503875968992247%" headers="d476564e193 ">Query string parameters</td>
+
+              <td class="entry" valign="top" width="84.49612403100775%" headers="d476564e196 ">
+                <pre class="pre codeblock">?account_id=<strong class="ph b">{optional account ID}</strong>
+&amp;api_key=<strong class="ph b">{apikey}</strong>
+&amp;expires=<strong class="ph b">{expiration time}</strong> 
+&amp;postal_code=<strong class="ph b">{optional ZIP Code™}</strong>
+&amp;return_json=1
+&amp;signature=<strong class="ph b">{computed signature}</strong> </pre>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+     <div class="note note"><span class="notetitle">Note:</span> The <samp class="ph codeph">return_json</samp> query parameter is optional. Set this parameter to
+       <samp class="ph codeph">1</samp> if you would like the authentication token to be returned in the JSON
+       response.</div>
+
+     <p class="p">The rest of this section explains how to specify the required values shown in the table.</p>
+
+     <div class="p">Following is an example call to <samp class="ph codeph">OO.Player.create()</samp> that includes the
+          <samp class="ph codeph">embedToken</samp> parameter. In this example, the following fictitious values
+        are used (see below for detailed instructions on how to construct these values): <ul class="ul">
+          <li class="li"><strong class="ph b">pcode:</strong> <samp class="ph codeph">F0xxxxxxxxxxxxxxxxxxxxAQ2t1</samp></li>
+
+          <li class="li"><strong class="ph b">content ID:</strong> <samp class="ph codeph">A5exxxxxxxxxxxxxxxxxxxxxxxxxGWGU</samp></li>
+
+          <li class="li"><strong class="ph b">api_key:</strong> <samp class="ph codeph">F0xxxxxxxxxxxxxxxxxxxxAQ2t1.7xxxX</samp></li>
+   
+          <li class="li"><strong class="ph b">expires:</strong> <samp class="ph codeph">1549988253</samp></li>
+
+          <li class="li"><strong class="ph b">signature:</strong> <samp class="ph codeph">sp4Cew3qqX1iBrlKSfjlryuPlbHIaLMzLh7%2Ff39IBM4</samp></li>
+
+        </ul>
+
+      </div>
+
+       <pre class="pre">OO.Player.create('container', "A5exxxxxxxxxxxxxxxxxxxxxxxxxGWGU", { 
+  embedToken : 'http://player.ooyala.com/sas/embed_token/F0xxxxxxxxxxxxxxxxxxxxAQ2t1/A5exxxxxxxxxxxxxxxxxxxxxxxxxGWGU?api_key=F0xxxxxxxxxxxxxxxxxxxxAQ2t1.7xxxX&amp;expires=1549988253&amp;signature=sp4Cew3qqX1iBrlKSfjlryuPlbHIaLMzLh7%2Ff39IBM4'
+});</pre>
+
+     <p class="p">The following table shows how to obtain the values needed for the
+          <samp class="ph codeph">embedToken</samp> parameter:</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_dev_bitbuff__table_d5s_3d5_js" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="50%" id="d476564e337">Value</th>
+
+              <th class="entry" valign="top" width="50%" id="d476564e340">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">account_id</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 "><strong class="ph b">(<em class="ph i">Optional</em>)</strong> Your account or user identifier. While not always
+                necessary in the Ooyala Player Token, the account ID is required for working with
+                entitlements (such as eCommerce), concurrent stream limits, cross-device resume, or
+                device registration. Use this parameter in conjunction with <a class="xref" href="chapter_rightslocker.html#chapter_rightslocker">Rights Locker</a> and <a class="xref" href="device_registration.html#concept_r24_32h_3k">Device Registration API</a>.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">api_key</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 ">If API access is enabled for your account, Ooyala provides you with an API key.
+                To find your API key, log in to your Ooyala Backlot Web Account. Select the
+                  <span class="ph uicontrol">Account</span> tab and click <span class="ph uicontrol">Developers</span>.
+                The API key contains two sets of characters separated by a period (<strong class="ph b">.</strong>). This
+                is a required field. For more information about the API key, see <a class="xref" href="api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">comma-separated content IDs</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 ">Supply one or more content IDs that represent the players that will be embedded
+                on the page. You can list up to 50 content IDs. If you have more than 50 assets, or
+                you do not want to list them all individually, specify <samp class="ph codeph">all</samp>. This is
+                useful when using the rights locker with applications to create the playback token
+                for multiple assets.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">expires</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 ">The POSIX time when the token expires. Use a short expiration time so the URL
+                snippet cannot be successfully replicated across other domains.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">pcode</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 ">Get the partner code (<em class="ph i"><strong class="ph b">pcode</strong></em>) from your Ooyala Backlot Web
+                Account. Select the <span class="ph uicontrol">Account</span> tab and click
+                <span class="ph uicontrol">Developers</span>. In the API key, the set of characters to the
+                left of the period is the <strong class="ph b">pcode</strong>. This is a required field.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">postal_code</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 ">(<em class="ph i">Optional</em>) Five-digit US ZIP Code™ of the geographic
+                area where viewing the content is permitted. In the Syndication Controls tab of the
+                PUBLISH page in Backlot, you must set the postal code under Geographic Controls and
+                check Require Ooyala Player Token. Works only in the U.S.A. Enforcement depends on
+                user permissions, accuracy of the third-party device and its geolocation service,
+                and whether the device is stationary or in motion.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d476564e337 "><samp class="ph codeph">signature</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d476564e340 "><em class="ph i">This must be the last parameter.</em> Generate this signature on the server by following the instructions provided in
+                  <a class="xref" href="../tasks/api_signing_requests.html#api_signing_requests" title="Every request made to Backlot requires three query string parameters for authentication: API key, request expiration, and signature. This topic tells how to generate the signature.">General Algorithm for Signing Requests</a>.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+   <div class="section" id="player_v3_dev_bitbuff__section_eww_vc5_js"><h2 class="title sectiontitle">Complete Web Example: Authorize Playback and Obtain a Token</h2>
+      
+     <p class="p">In the following example, when the embedded player is loaded, the event triggers the
+        communication of the token request URL to the player. The player then requests authorization
+        and a token from the Ooyala authorization server, using the token request. The postal code in the
+          <samp class="ph codeph">embedToken</samp> parameter restricts the geographic region where playback is
+        allowed. Depending on whether the request made justifies playback, either a valid
+        authorization response is returned, or an unauthorized response is returned.</p>
+
+     <pre class="pre">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V4 Web Page&lt;/title&gt;
+        &lt;!-- Load Ooyala Player --&gt;
+        &lt;script src="http://player.ooyala.com/core/YOUR_PLAYER_ID"&gt;
+        &lt;/script&gt;
+    &lt;/head&gt;
+ 
+    &lt;body&gt;
+      &lt;!-- Player Placement --&gt;
+        &lt;div id="container" style="width:640px; height:360px"&gt;&lt;/div&gt; 
+        &lt;script&gt;
+          var playerParam = {
+            'pcode':'F0xxxxxxxxxxxxxxxxxxxxAQ2t1',
+            'playerBrandingId':YOUR_PLAYER_ID,
+            'autoplay':false,
+            'loop':false,
+            'embedToken': 'http://player.ooyala.com/sas/embed_token/F0xxxxxxxxxxxxxxxxxxxxAQ2t1/A5exxxxxxxxxxxxxxxxxxxxxxxxxGWGU?api_key=F0xxxxxxxxxxxxxxxxxxxxAQ2t1.7xxxX&amp;expires=1549988253&amp;postal_code=92802&amp;signature=sp4Cew3qqX1iBrlKSfjlryuPlbHIaLMzLh7%2Ff39IBM4',
+            'skin': 
+              {'config': '//player.ooyala.com/static/v4/production/latest/skin-plugin/skin.json'}
+            };
+            OO.ready(function() {
+                OO.Player.create('container', "A5exxxxxxxxxxxxxxxxxxxxxxxxxGWGU", playerParam);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    </div>
+
+   <div class="section"><h2 class="title sectiontitle">Ooyala Player Token Sample Client Code</h2>
+     
+     <p class="p">To explore this OPT code sample in GitHub, go to <a class="xref" href="https://github.com/ooyala/opt-generation-scripts/blob/master/OoyalaPlayerTokenGenerator.rb" target="_blank">https://github.com/ooyala/opt-generation-scripts/blob/master/OoyalaPlayerTokenGenerator.rb</a>.</p>
+
+     <p class="p">The Ruby script implements Ooyala Player Token authentication content protection. In this Player Token sample, we use the following
+       Player V4 APIs and parameters:</p>
+
+     <ul class="ul">
+       <li class="li"><samp class="ph codeph">OO.ready()</samp> - This function indicates that the script has loaded, initialized completely, 
+         and that the player is ready for playback.</li>
+
+       <li class="li"><samp class="ph codeph">OO.Player.create()</samp> - This function creates a new message bus, creates any registered modules,
+         and connects registered modules to the message bus. In the sample, you should note that 
+         <samp class="ph codeph">OO.Player.create</samp> is used with <samp class="ph codeph">embedToken</samp> in the hash with the embed 
+         token URL as part of the key value pair.</li>
+
+       <li class="li"><samp class="ph codeph">platform</samp> - This parameter is used to control selection of HTML5 or Flash playback. 
+         In the sample, it is set to Flash as the priority choice for playback.</li>
+
+     </ul>
+
+     <p class="p">To implement the sample, do the following (explained in more detail earlier in this page):</p>
+
+     <ol class="ol">
+       <li class="li">Manually set the Require Ooyala Player Token checkbox in Backlot.</li>
+
+       <li class="li">Craft an authorization request using the URL token request template.</li>
+ 
+       <li class="li">Create the trigger to request authorization and a token from the Ooyala authorization server, 
+         using the token request.</li>
+
+       <li class="li">Generate a computed signature. You need to generate signature using an HTTP method.
+         You can use the PHP SDK or Ruby SDK to do this.
+         The included PHP SDK has a mechanism to generate the signature needed by the Ooyala Player Token.
+         When you generate the signature, you will have two parameters:
+         <ul class="ul">
+           <li class="li">Query parameter</li>
+
+           <li class="li">HTTP method. For the Ooyala Player Token, you need to use a GET request for the HTTP method.</li>
+
+         </ul>
+</li>
+
+         <li class="li">Assemble the request and concatenate the results.</li>
+
+     </ol>
+
+   </div>
+
+ </div>
+
+ 
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="player_v3dev_authtemplate.html">Constructing the URL Token Request</a></strong><br/>
+Here is how to construct an Ooyala Player Token  request.</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="authentication_overview.html">Authentication</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integrating with Ooyala Pulse on tvOS"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_tvos_integration.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_tvos_pulse_parameters.html"/>
+<meta name="DC.Relation" scheme="URI" content="http://help-ooyala.brightcove.com/video-advertising/oadtech/ad_serving/dg/pulse_sdks_parameter.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_tvos_pulse"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrating with Ooyala Pulse on tvOS</title>
+</head>
+<body id="mobile_sdk_tvos_pulse">
+
+
+
+   <h1 class="title topictitle1">Integrating with Ooyala Pulse on tvOS</h1>
+
+   <div class="body conbody">
+
+      <div class="section"><h2 class="title sectiontitle">What You Need</h2>
+         <p class="p">With the Ooyala SDK for integrating Ooyala Pulse, the same advertising experience you have
+        created on the desktop can be created on mobile devices when supported. </p>
+
+         
+         <p class="p">To get started with the integration between your Ooyala Player V4 and ad serving from
+            Ooyala Pulse on tvOS, you will need the following:</p>
+
+         <ul class="ul">
+            <li class="li">Ooyala Mobile SDK for tvOS (available at <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>)</li>
+
+            <li class="li">Ooyala Skin SDK for tvOS (available at <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>). For more information, see
+                  <a class="xref" href="ios_v4_gettingthesdk.html">Player Skin for iOS</a>.</li>
+
+            <li class="li">Ooyala SDK for Ooyala Pulse tvOS (available at <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>) </li>
+
+            <li class="li">Ooyala Video Advertising tvOS 2.x SDK framework (available at <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>)</li>
+
+            <li class="li"><a class="xref" href="https://developer.apple.com/xcode/" target="_blank">Apple
+                  Xcode</a></li>
+
+
+         </ul>
+
+      </div>
+
+
+      <div class="section"><h2 class="title sectiontitle">Sample Application</h2>
+         
+         <p class="p">The Ooyala Pulse sample app is part of the TVOSSampleApp and is available for download
+            at  <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/PlaybackLab/TVOSSampleApp" target="_blank">Ooyala Samples GitHub</a>. </p>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Getting Started</h2>
+         
+         <p class="p">A simple Getting Started tutorial is included in the SDK reference documentation for the
+            iOS SDK, which is very similar to the tvOS SDK: <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/ios_mobilesdk/pulse_integration/html/index.html" target="_blank">Ooyala Player v4 Pulse Integration</a>.</p>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Essential Parameters, Custom Metadata and Videoplaza Ad Set</h2>
+         <p class="p">To make use of
+            Ooyala Pulse ad serving in the Mobile SDK, you must create an ad set of type
+               <span class="ph uicontrol">Videoplaza</span> in Backlot. See the Backlot User Guide for details.
+            Ooyala allows you to store Ooyala Pulse related parameters in a variety of locations. In
+            order of precedence, Pulse parameters and their values can be defined in: </p>
+<ol class="ol">
+            <li class="li">Your app itself.</li>
+
+            <li class="li">In the Backlot <span class="ph uicontrol">MANAGE</span> tab, for each video asset as custom
+               metadata defined in the <span class="ph uicontrol">Custom Metadata</span> tab.</li>
+
+            <li class="li">In the Backlot <span class="ph uicontrol">MONETIZE</span> tab, <span class="ph uicontrol">Ad Sets</span>
+               subtab for the <span class="ph uicontrol">Videoplaza</span> type of ad set. </li>
+
+         </ol>
+<div class="note note"><span class="notetitle">Note:</span> When setting parameters directly in your app, you have to set them before the
+            Ooyala Pulse Session is created.</div>
+<div class="p">The following parameter has to be set either
+            directly in your app, in Backlot as custom metadata on the asset, or in the Videoplaza
+            ad set (recommended) associated with the asset: <ul class="ul">
+               <li class="li"><strong class="ph b">Pulse host</strong>: the URL to your Ooyala Pulse account. In the app, you would
+                  set this parameter with the <samp class="ph codeph">setPulseHost</samp> method, where you can
+                  also set the <samp class="ph codeph">deviceContainer</samp> and the
+                     <samp class="ph codeph">persistentId</samp>. It is recommended to set
+                     <samp class="ph codeph">deviceContainer</samp> to <samp class="ph codeph">nil</samp>. For
+                  example:<pre class="pre codeblock">[OOPulse setPulseHost:@"https://pulse-demo.videoplaza.tv"
+      deviceContainer:nil
+         persistentId:nil];</pre>
+</li>
+
+            </ul>
+</div>
+<div class="p">Other significant parameters are set through the following objects:<ul class="ul">
+               <li class="li"><strong class="ph b">Request settings object</strong>: information about the ad positions and quality of
+                  ads you want to request from Ooyala Pulse. The properties of this object are
+                  listed on <a class="xref" href="http://pulse-sdks.ooyala.com/ios_2/latest/Classes/VPRequestSettings.html" target="_blank">VPRequestSettings</a>.</li>
+
+               <li class="li"><strong class="ph b">Content metadata object</strong>: information about the video content chosen for
+                  playback in the app, which helps in requesting targeted ads from Ooyala Pulse. The
+                  properties of this object are listed on <a class="xref" href="http://pulse-sdks.ooyala.com/ios_2/latest/Classes/VPContentMetadata.html" target="_blank">VPContentMetadata</a>.</li>
+
+            </ul>
+</div>
+For an overview of each parameter, where it can be set, and where the base
+         values are located, see <a class="xref" href="mobile_sdk_ios_pulse_parameters.html">Parameters for Ooyala Pulse on iOS</a>. </div>
+
+   </div>
+
+   <div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="mobile_sdk_tvos_pulse_parameters.html">Parameters for Ooyala Pulse on tvOS</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_ios_tvos_integration.html">Mobile SDK for tvOS</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br/>
+<div><a class="link" href="../../../../../../../video-advertising/oadtech/ad_serving/dg/pulse_sdks_parameter.html">Parameter Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

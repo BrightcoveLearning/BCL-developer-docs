@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Binding Viewer Devices to Entitlements"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/rights_management_overview.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="reightslocker_devicebinding"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Binding Viewer Devices to Entitlements</title>
+</head>
+<body id="reightslocker_devicebinding">
+
+
+ <h1 class="title topictitle1">Binding Viewer Devices to Entitlements</h1>
+
+ <div class="body conbody">
+  <p class="p">To protect your assets and ensure that you realize all possible revenue, with Rights Locker in
+      conjunction with the <a class="xref" href="../concepts/device_registration.html#concept_r24_32h_3k">Device Registration API</a>, you can
+      programmatically bind the entitlements your viewers purchase to the viewers' devices.  This
+      binding can prevent your customers from accessing content that they have not purchased.</p>
+
+    <div class="section"><h2 class="title sectiontitle">Relationship of Device Limits and Device Binding</h2>
+      
+      <p class="p">There are several different limits associated with  devices and device binding that interact with each other.</p>
+
+    <ul class="ul" id="reightslocker_devicebinding__ul_ub4_3qm_kk">
+        <li class="li">With the <a class="xref" href="../concepts/device_registration.html#concept_r24_32h_3k">Device Registration API</a> you can build a
+          portal for your users or customer support to manage registered devices. An essential
+          parameter is the <a class="xref" href="device_registration_properties.html#device_registration_properties__device_limit"><samp class="ph codeph"><span class="keyword parmname">device_limit</span></samp></a>: the upper bound on the
+          number of devices each of your viewers can register. This setting is at the provider level
+          and prevents multiple viewers from sharing the same account.</li>
+
+        <li class="li">Rights Locker gives you the ability to "bind", or associate, the viewer's devices to
+          your content via entitlements. The essential parameter is the allowable number of devices
+          that can be bound: <span class="keyword parmname">num_devices_to_bind</span>. This setting is at the viewer
+          level. For example, after a viewer purchases a video, once a viewer starts watching a
+          purchased video on a particular device, the video is restricted to that specific device.
+     </li>
+
+    </ul>
+
+      <p class="p">You can bind as many devices as is limited by the device registration <a class="xref" href="device_registration_properties.html#device_registration_properties__device_limit"><samp class="ph codeph"><span class="keyword parmname">device_limit</span></samp></a>.</p>
+
+      <p class="p">These limits are shown graphically below.</p>
+<div class="fig fignone"><img class="image" id="reightslocker_devicebinding__image_z1b_mlm_kk" src="../image/device_limits_and_binding.png" height="319" width="624"/></div>
+
+      <ul class="ul">
+        <li class="li">On the left ("A") is the normal relationship: number of devices to bind is a subset of the overall device limit.</li>
+
+        <li class="li">The right ("B") shows a case that is possible but that you should make sure to prevent.
+        <p class="p">When you create a device-bound entitlement, Ooyala does not check the number of bindable devices against the upper limit of devices per provider.
+          This is both for speed of performance and for separation of concern. Most logically, a device-bound entitlement is part of your checkout or purchasing process on your site.
+          Ooyala has made the creation of entitlements simple to fit in with your checkout, but <em class="ph i">it is up to you to ensure that "Case B" shown above does not occur</em>, because at playback time, in "Case B", a viewer is denied authorization to access the asset.</p>
+</li>
+
+      </ul>
+
+      Thus, in the design of your device registration portals and your checkout, you need to keep track of the counts of viewers' device such that "Case B" is avoided.
+    </div>
+
+   <div class="section"><h2 class="title sectiontitle">Creating a Device-bound Entitlement</h2>
+      
+      <p class="p">When you <a class="xref" href="../tasks/rightslocker_extendedexample.html#concept_m2n_5td_v3__create_entitlement">create an entitlement</a>, include
+          <samp class="ph codeph"><span class="keyword parmname">num_devices_to_bind</span></samp> in the body of the request, for
+        either assets or labels as described in <a class="xref" href="rightslocker.html">Rights Locker API Reference</a>
+         and highlighted
+        below.</p>
+
+      <pre class="pre codeblock">        
+{
+ “assets” : 	[
+     { “content_id” : “<em class="ph i">an_embed_code</em>”,
+       “publishing_rule_id” : “<em class="ph i">publishing_rule_id</em>”,
+	   “external_product_id” : “<em class="ph i">your_product_id</em>”,
+       “start_time” : <em class="ph i">YYYYMMDD</em>,
+       “end_time” : <em class="ph i">YYYYMMDD</em>,
+       <strong class="ph b">"num_devices_to_bind"</strong> = <em class="ph i">upper limit number of devices to bind to content</em> 
+     },
+     { “content_id” : “<em class="ph i">another_embed_code</em>”,
+          .
+          .
+          .                        
+          },
+     .
+     . 
+     .
+     ],
+ “labels” :	[
+     { “content_id” : “<em class="ph i">a_label_id</em>”,
+       “publishing_rule_id” : “<em class="ph i">publishing_rule</em>”,
+	   “external_product_id” : “<em class="ph i">your_product_id</em>”,
+       “start_time” : <em class="ph i">YYYYMMDD</em>,
+       “end_time” : <em class="ph i">YYYYMMDD</em>
+       <strong class="ph b">"num_devices_to_bind"</strong> = <em class="ph i">upper limit number of devices to bind to content</em>
+     },
+     { “content_id” : “<em class="ph i">another_label_id</em>”,
+          .
+          .
+          .                        
+          },
+     .
+     . 
+     .
+     ]
+}
+   </pre>
+
+      <div class="note note"><span class="notetitle">Note:</span> Ooyala recommends that you create device-bound entitlements only for assets, not for
+        labels. A label-based device-bound entitlement means that the viewer must access all assets
+        under the label only from the same device, which is a bad user experience. </div>
+
+    </div>
+
+  <div class="section"><h2 class="title sectiontitle">Modifying an Entitlement's num_devices_to_bind: Create New Entitlement</h2>
+   
+  
+   <p class="p">You cannot change the value of an existing entitlement's
+          <span class="keyword parmname">num_devices_to_bind</span>.</p>
+
+      <p class="p">Instead, delete the outdated entitlement, and create a new entitlement with the desired
+        value of <span class="keyword parmname">num_devices_to_bind</span>.</p>
+
+      <p class="p"/>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Basic Workflow with Device Registration and Binding</h2>
+   
+   <div class="p">The following use case illustrates a basic pattern in device binding. (As detailed in the
+          <a class="xref" href="../concepts/device_registration.html#concept_r24_32h_3k">Device Registration API</a>, actual device registration is
+        automatic. You do not need to make any explicit request.) <div class="note note"><span class="notetitle">Note:</span> Not included in this
+          workflow is any necessary interaction with the device registration portal or with your
+          checkout process.</div>
+<ol class="ol">
+          <li class="li">A viewer purchases a single-device movie.</li>
+
+          <li class="li">You create an entitlement for that viewer, including
+                <samp class="ph codeph"><span class="keyword parmname">num_devices_to_bind</span> = 1</samp>.</li>
+
+          <li class="li">The viewer starts watching the movie on an iPhone.</li>
+
+            <li class="li">The player application makes a request to Ooyala services for authorization, using the <a class="xref" href="../concepts/player_v3_authorization_api.html" title="The Authorization API request is a key element of Ooyala's content protection features.">Player Authorization API for Player V3</a>.</li>
+
+          <li class="li">Ooyala services determine that the single-use entitlement has not yet been used and
+            registers the iPhone for that entitlement.</li>
+
+          <li class="li">The viewer tries to watch the same movie on a laptop.</li>
+
+            <li class="li">The player application makes the authorization request, using the <a class="xref" href="../concepts/player_v3_authorization_api.html" title="The Authorization API request is a key element of Ooyala's content protection features.">Player Authorization API for Player V3</a>.</li>
+
+          <li class="li">Ooyala services determine that the single-use entitlement has already been used and
+            playback is <em class="ph i">not</em> authorized.</li>
+
+        </ol>
+
+      </div>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Some Behavior to Consider</h2>
+   
+   <div class="p">Discussed below are some basic behaviors of device binding and some possible "corner cases" to
+        take into consideration, including programmatic action (if any) you need to take.
+              <ul class="ul">
+                <li class="li"><strong class="ph b">Context</strong>: The viewer has two entitlements:<ol class="ol" id="reightslocker_devicebinding__ol_fnv_mv5_3k">
+              <li class="li">Asset-based entitlement restricting access to a single device</li>
+
+              <li class="li">Label-based entitlement (that includes the asset in (1) using the viewer-level
+                device restriction</li>
+
+            </ol>
+ The viewer has already registered the device for (2). <p class="p"><strong class="ph b">Behavior or
+                Result:</strong> When the viewer tries to watch the asset on the same device, playback is
+              authorized but Ooyala does not re-register the device for entitlement (1).</p>
+</li>
+
+              </ul>
+
+             
+                <ul class="ul"><li class="li"><strong class="ph b">Context:</strong> A viewer has two entitlements:<ol class="ol" id="reightslocker_devicebinding__ol_lc2_tv5_3k">
+              <li class="li">Asset-based entitlement that restricts access to a single device for this
+                asset</li>
+
+              <li class="li">Label-based entitlement (that includes the asset in (1) that uses the viewer-level
+                device restriction</li>
+
+            </ol>
+<p class="p">The viewer is using a new, different device that has not been bound to either
+              entitlement.</p>
+<p class="p"><strong class="ph b">Behavior or Result:</strong> Ooyala binds the new device randomly to
+              one and only one of the entitlements.</p>
+</li>
+
+                               </ul>
+
+              
+              <ul class="ul">
+                <li class="li"><strong class="ph b">Context:</strong> Single-device entitlements created based on a label
+                <p class="p"><strong class="ph b">Behavior or Result:</strong> Because this restriction will require the viewer to
+              use the same device to watch all the assets in that label, this usage is not
+              recommended because it is a bad user experience.</p>
+
+          </li>
+
+              </ul>
+
+              <ul class="ul">
+                <li class="li"><strong class="ph b">Context:</strong> Purchasing the same movie for two different single-device
+            entitlements <p class="p">A viewer buys a single-device movie and watches it on his T-box. He also
+              wants to watch this on his mobile phone, so he buys the movie a second
+                time.</p>
+<p class="p"><strong class="ph b">Your action:</strong> The first purchase results in
+                  <samp class="ph codeph"><span class="keyword parmname">num_devices_to_bind</span> = 1</samp>. With the second
+              purchase, you need to increase the viewer's existing entitlement. You first need to
+              delete the existing entitlement and then create a new one with
+                  <samp class="ph codeph"><span class="keyword parmname">num_devices_to_bind</span> = 2</samp>. This means that you
+              must keep track of how many devices a viewer can register for an entitlement., as
+              discussed in the introduction.</p>
+</li>
+
+              </ul>
+
+           </div>
+
+  </div>
+
+ </div>
+
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/rights_management_overview.html">Rights Management</a></div>
+</div>
+</div>
+
+</body>
+</html>

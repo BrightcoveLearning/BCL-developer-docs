@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Custom Metadata API (Deprecated)"/>
+<meta name="abstract" content="The custom metadata API is now part of the assets API. You can now view, update, replace, or delete custom metadata or an asset."/>
+<meta name="description" content="The custom metadata API is now part of the assets API. You can now view, update, replace, or delete custom metadata or an asset."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1_v2_migration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_v2_custom_metadata"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Custom Metadata API (Deprecated)</title>
+</head>
+<body id="v1_v2_custom_metadata">
+
+
+ <h1 class="title topictitle1">Custom Metadata API (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The custom metadata API is now part of the assets API. You can now view, update, replace, or delete custom metadata or an asset.</p>
+
+  <div class="section">
+   <p class="p">For more information about the custom metadata API, see <a class="xref" href="../api/asset_metadata.html" title="You can add up to 100 name-value pairs to any type of asset.">Custom Metadata</a>.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Backlot API v1</h2>
+   
+   <pre class="pre codeblock">
+http://api.ooyala.com/partner/set_metadata
+?pcode=&lt;pcode&gt;
+&amp;signature=&lt;signature&gt;
+&amp;expires=&lt;expiration&gt;
+&amp;embedCode=&lt;embedCode&gt;
+&amp;attribute1=&lt;new value&gt;
+&amp;attribute2=&lt;new value&gt;
+&amp;delete=writer%00copyright 
+    
+   </pre>
+
+  </div>
+
+  
+  <div class="section"><h2 class="title sectiontitle">Backlot API v2</h2>
+   
+   <pre class="pre codeblock">
+[PATCH] /v2/assets/&lt;asset_id&gt;/metadata
+{
+  properties
+}
+    
+   </pre>
+
+  </div>
+
+  
+  <div class="section"><h2 class="title sectiontitle">Examples</h2>
+   
+   <div class="sectiondiv">
+    <p class="p">This example creates custom metadata for the specified asset:</p>
+
+    <pre class="pre codeblock">
+[PUT] /v2/assets/IzNnllMjphu2XF3_UgPROoCi9B2rtWs/metadata
+{
+ "director" : "Michel Gondry",
+ "year" : "2004",
+ "rating" : "R"
+}
+    </pre>
+
+    <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+<pre class="pre codeblock">
+{
+ "director" : "Michel Gondry",
+ "year" : "2004",
+ "rating" : "R"
+}
+</pre>
+
+   </div>
+   
+   <div class="sectiondiv">
+    <p class="p">This example replaces the director for the specified asset:</p>
+
+    <pre class="pre codeblock">
+[PATCH] /v2/assets/IzNnllMjphu2XF3_UgPROoCi9B2rtWs/metadata
+{
+ "director" : "Spike Jonze"
+}
+    </pre>
+
+    <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+    <pre class="pre codeblock">
+{
+ "director" : "Spike Jonze",
+ "year" : "2004",
+ "rating" : "R"
+}
+</pre>
+
+   </div>
+   
+  </div>
+
+  
+  
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1_v2_migration.html" title="The Ooyala V1 APIs had a limited set of functions. The Ooyala V2 APIs provide more control over your resources and are easier to update when new functionality is released.">Ooyala API V1 (Deprecated) to API V2 Migration</a></div>
+</div>
+</div>
+
+</body>
+</html>

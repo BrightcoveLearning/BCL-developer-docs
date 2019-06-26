@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Attribute Update API (Deprecated)"/>
+<meta name="abstract" content="The attribute update API is now part of the asset API. You can perform a GET against an asset to return its data or a POST to update attribute settings."/>
+<meta name="description" content="The attribute update API is now part of the asset API. You can perform a GET against an asset to return its data or a POST to update attribute settings."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1_v2_migration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_v2_attribute_update"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Attribute Update API (Deprecated)</title>
+</head>
+<body id="v1_v2_attribute_update">
+
+
+ <h1 class="title topictitle1">Attribute Update API (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The attribute update API is now part of the asset API. You can perform a GET against an asset to return its data or a POST to update attribute settings.</p>
+
+  <div class="section"><h2 class="title sectiontitle">Backlot API v1</h2>
+   
+   <pre class="pre codeblock">
+http://api.ooyala.com/partner/edit
+?pcode=&lt;pcode&gt;
+&amp;embedCode=&lt;embedCode&gt;
+&amp;expires=&lt;expiration&gt;
+&amp;signature=&lt;signature&gt;   
+&amp;attribute1=&lt;new value&gt;
+&amp;attribute2=&lt;new value&gt;    
+    
+   </pre>
+
+  </div>
+
+  
+  <div class="section"><h2 class="title sectiontitle">Backlot API v2</h2>
+   
+   <pre class="pre codeblock">
+[PATCH] https://api.ooyala.com/v2/assets/&lt;embedCode&gt;
+{
+  “attribute1” : “&lt;new value&gt;”,
+  “attribute2” : “&lt;new value&gt;”  
+}
+    
+   </pre>
+
+  </div>
+
+  
+  <div class="section"><h2 class="title sectiontitle">Example</h2>
+   
+   <div class="sectiondiv">
+    <p class="p"> This example updates the name and description of the specified asset.</p>
+
+    <pre class="pre codeblock">
+[POST] https://api.ooyala.com/v2/assets/ODUzYWNiZGJiZjFlYjFjNjQ3NDljYzFh
+{
+  "name": "Honey Badger",
+  "description": “Honey badger don’t care.”
+}
+    </pre>
+
+    <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+<pre class="pre codeblock">
+{
+  "name": "Honey Badger",
+  "preview_image_url": null,
+  "asset_type": "video",
+  "duration": 0,
+  "embed_code": "ODUzYWNiZGJiZjFlYjFjNjQ3NDljYzFh",
+  "created_at": "2011-10-26T19:40:32+00:00",
+  "time_restrictions": null,
+  "updated_at": "2011-10-26T19:40:32+00:00",
+  "external_id": null,
+  "hosted_at": null,
+  "original_file_name": "honeybadger.avi",
+  "description": “Honey badger don’t care.”,
+  "status": "uploading"
+}	   
+</pre>
+
+   </div>
+  </div>
+
+  
+  
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1_v2_migration.html" title="The Ooyala V1 APIs had a limited set of functions. The Ooyala V2 APIs provide more control over your resources and are easier to update when new functionality is released.">Ooyala API V1 (Deprecated) to API V2 Migration</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Integrate with Ooyala Chromecast HTML5 Player"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chromecast_integrate_with_ooyala_html5_player"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrate with Ooyala Chromecast HTML5 Player</title>
+</head>
+<body id="chromecast_integrate_with_ooyala_html5_player">
+
+
+    <h1 class="title topictitle1">Integrate with Ooyala Chromecast HTML5 Player</h1>
+
+    <div class="body taskbody">
+        <div class="section prereq p">
+            <p class="p"><strong class="ph b">Prerequisites</strong></p>
+
+            <ul class="ul">
+                <li class="li">Register with Cast as a developer to get a receiver application ID (this shows the sender application which receiver to send to). The Cast developer license can be found at <a class="xref" href="https://cast.google.com/publish/#/overview" target="_blank">https://cast.google.com/publish/#/overview</a>.</li>
+
+                <li class="li">Enable CORS. For information on how to enable CORS, go to <a class="xref" href="https://developers.google.com/cast/docs/player" target="_blank">https://developers.google.com/cast/docs/player</a>.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section context">
+            <div class="sectiondiv">
+                <p class="p">Ooyala already empowers the Chromecast experience by integrating our V3 HTML5
+                    player with Google Media Library v.1.0.0 which you can start leveraging.
+                    To deploy Ooyala’s Chromecast solution, you can collaborate with Ooyala to build
+                    our customized Sender-Receiver experience. Sender and Receiver applications are
+                    to be built in partnership with Ooyala or 3rd party developers, integrating
+                    these applications with Ooyala desktop, mobile SDKs (only required for
+                    mobile-based Senders) and V3 HTML5 player (Receiver). Please contact your
+                    Customer Success Manager for sample sender and receiver applications and more
+                    information on deploying Ooyala's Chromecast solution. </p>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p"><strong class="ph b">Sender Application</strong></p>
+
+                <p class="p">The sender application is the application of the ‘primary’ viewing device and is
+                    responsible for locating nearby Chromecast devices.</p>
+
+                <p class="p">Build your own sender application that integrates with <a class="xref" href="../concepts/sdk_overview.html" title="Ooyala provides mobile SDKs for Android and iOS to enable you to integrate your content with other environments and services.">Ooyala's Mobile
+                        SDKs</a>. Please see Google's <a class="xref" href="https://developers.google.com/cast/docs/sender_apps" target="_blank">Sender App Development </a> documentation to
+                    learn how to develop your own sender application.</p>
+
+                <div class="p">We recommend that your sender application uses the <a class="xref" href="https://developers.google.com/cast/docs/reference/receiver/cast.receiver.CastMessageBus" target="_blank">Cast Message Bus</a> via the
+                    Google Cast Custom Channel namespace to facilitate the following: <ul class="ul">
+                        <li class="li">Transmits the embed_code, player_branding_id and OPT (optional if OPT is
+                            enabled in Backlot) to the Receiver application for launch of the Ooyala
+                            HTML5 player.</li>
+
+                        <li class="li">Transmits basic player functions (stop, play, pause etc) to the Receiver
+                            application to control the Ooyala HTML5 player.</li>
+
+                        <li class="li">Via Custom Channel Listener, receives Ooyala-related player errors based
+                            on player message bus events and translates them to application-friendly
+                            user messages. An example use case is if the Ooyala Device Management
+                            feature is used. The /last_Result messages are published in the player
+                            message bus and passed back to the Sender. Based on these results, the
+                            appropriate message is passed back to the application.</li>
+
+                    </ul>
+</div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p"><strong class="ph b">Receiver Application</strong></p>
+
+                <p class="p">The receiver application is the web page that embeds and loads the Ooyala V3
+                    HTML5 player using the embed_code passed by the Sender application. </p>
+
+                <p class="p">Integration is done through standard Ooyala player integration and is documented
+                    in our <a class="xref" href="../concepts/book_player_dg.html" title="You can customize your Player using query parameters and JavaScript-based APIs in your web pages.">Player Developer Guide</a>. For
+                    additional information on receiver application development, please see <a class="xref" href="https://developers.google.com/cast/docs/receiver_apps" target="_blank">Google's Receiver Application Development
+                        documentation</a>.The below sample shows the high-level steps to
+                    integrate with Ooyala’s Chromecast-compatible player:</p>
+
+            </div>
+        </div>
+
+        
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Include the following script tag in your Chromecast receiver page:</span>
+                 <pre class="pre codeblock"> &lt;script type="text/javascript" src="http://player.ooyala.com/v3/&lt;player_branding_id&gt;?platform=html5-cast&gt;&lt;/script&gt;</pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">To create an instance of our player, use the following JavaScript snippet:</span>
+                 <pre class="pre codeblock">var player = OO.Player.create('player', "&lt;embed code&gt;", {&lt;options hash&gt;});</pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">If you don't want to load an asset when the page loads, you can provide an
+                    empty string and later call: </span>
+                 
+                    <pre class="pre codeblock">player.setEmbedCode(“&lt;embed code&gt;”); </pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Once you've successfully created the player you can also pass an onCreate
+                    function to the options hash to execute logic: </span>
+                 <pre class="pre codeblock">onCreate: function(player) {};</pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">To access the player message bus and inspect OO.EVENTS that are happening in
+                    the player, use the following:</span>
+                 <pre class="pre codeblock">onCreate: function(player) {
+//subscribe to all ooyala events
+player.mb.subscribe(“*”, “test”, function(event){});
+};</pre>
+
+            </li>
+</ol>
+
+        
+    </div>
+
+
+</body>
+</html>

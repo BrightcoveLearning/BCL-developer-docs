@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Google IMA Ad Plugin"/>
+<meta name="DC.Relation" scheme="URI" content="mobile_sdk_android_googleima.html"/>
+<meta name="DC.Relation" scheme="URI" content="mobile_sdk_ios_googleima.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_ads_dev_chapter_googleima"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Google IMA Ad Plugin</title>
+</head>
+<body id="pbv4_ads_dev_chapter_googleima">
+
+
+    <h1 class="title topictitle1">Google IMA Ad Plugin</h1>
+
+
+    <div class="body conbody">
+        <div class="section">Use the <samp class="ph codeph">google_ima.js</samp> plugin to load Google IMA ads in Player V4.
+            The way the <samp class="ph codeph">google_ima.js</samp> plugin works, ads will be loaded dynamically
+            before the ad position. The plugin was developed using the <a class="xref" href="pbv4_ads_framework.html">Ad Manager Framework</a>.</div>
+
+        <div class="section"><h2 class="title sectiontitle">Google IMA v3</h2>
+            
+            <p class="p">Google IMA v3 is an ad server and ad management platform. The Google Interactive
+                Media Ads (IMA) SDK enables publishers to display linear, non-linear, and companion
+                ads in interactive media content such as videos and games. Publishers can use the
+                IMA SDK to request and display ads served by DoubleClick for Publishers (DFP), the
+                Google AdSense network, or any VAST-compliant ad server. Common scenarios for using
+                the IMA SDK include displaying pre-rolls or overlays in video content.</p>
+
+            <div class="note note"><span class="notetitle">Note:</span> Google IMA's HTML5 SDK is not supported on all browsers. For a list of browsers
+                supported by Google IMA, go to <a class="xref" href="https://developers.google.com/interactive-media-ads/compatibility#platforms" target="_blank">https://developers.google.com/interactive-media-ads/compatibility#platforms</a>.</div>
+
+            <div class="p"><a class="xref" href="https://developers.google.com/interactive-media-ads/" target="_blank">Per Google</a>, the Google IMA SDK is intended
+                for the following publishers: <ul class="ul">
+                    <li class="li"><strong class="ph b">DoubleClick for Publishers (DFP) users</strong>: Publishers can use DFP to
+                        traffic, target, and serve their directly-sold ads. The IMA SDK offers
+                        advanced video ad serving features.</li>
+
+                    <li class="li"><strong class="ph b">AdSense publishers</strong>: Publishers can also use the Google AdSense
+                        Network (AdSense for Video (AFV) and AdSense for Games (AFG)) to monetize
+                        their inventory. If you only want to display AFV/AFG ads, DFP is not
+                        required. However, AFV/AFG ads still require the IMA SDK. </li>
+
+                    <li class="li"><strong class="ph b">Publishers using VAST ads</strong> from a third-party ad server: Publishers
+                        can book their VAST ads in DFP and use the IMA SDK to request and display
+                        them. VAST ad responses are parsed prior to ad playback. Refer to the VAST
+                        guidelines for details.</li>
+
+                    <li class="li"><strong class="ph b">AdExchange for Video</strong>: Publishers can make use of remnant ad inventory
+                        from AdExchange for Video via the Google AdSense Network.</li>
+
+                </ul>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Supported Platforms</h2>
+            <div class="p">Ooyala supports the Google IMA ads served by DFP or AdSense generated in VAST 2.0 and
+                3.0 and VPAID 1.0 and 2.0 format on the following platforms for this release of
+                Player V4: <ul class="ul">
+                    <li class="li">HTML5</li>
+
+                    <li class="li">iOS mobile SDK</li>
+
+                    <li class="li">Android mobile SDK</li>
+
+                </ul>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Ad Rules</h2>
+            <div class="p">Ad Rules define how ads display with video content. Publishers can create Ad Rules on
+                their DFP Premium account to determine when ads play in a video, for how long, and
+                as a result of which triggers, such as content targeting parameters. They can also
+                target Ad Rules so that they apply to: <ul class="ul">
+                    <li class="li">Specific videos, such as all episodes of a particular TV show.</li>
+
+                    <li class="li">Video metadata, such as videos in the "sports" genre.</li>
+
+                    <li class="li">Users' geography.</li>
+
+                    <li class="li">Users' browsers.</li>
+
+                    <li class="li">Custom targeting keys and values that you define.</li>
+
+                </ul>
+</div>
+
+            <p class="p">For more information about the supported platforms for Ad Rules, go to <a class="xref" href="https://developers.google.com/interactive-media-ads/video_features_and_sdk_versions#html5_footnote" target="_blank">https://developers.google.com/interactive-media-ads/video_features_and_sdk_versions#html5_footnote</a></p>
+
+            <div class="note note"><span class="notetitle">Note:</span> Google IMA's AdRules feature supports ad-breaks without additional code. Do not
+                use AdRules with other types of ads. We highly discourage you from mixing other
+                adTagUrls with an AdRule adTag as it may lead to unexpected behavior. </div>
+
+            <p class="p">For ad rule ads, Google handles all ad management and placement of Google IMA ads.
+                For ad rule ads, the Ooyala plugin only tells Google what point the video is at on
+                the video's timeline. One ad tag is used to represent the group of ad rule ads. By
+                default, Ooyala supports Google IMA Ad Rules on iOS Safari (HTML5) with  Player V4.
+                See Google's <a class="xref" href="https://developers.google.com/interactive-media-ads/compatibility" target="_blank">Supported video player platforms</a> for more
+                information.</p>
+<p class="p">For ads without ad rules, Google plays and renders the ad, but the Ad
+                Manager Controller determines when to play the ad. One ad tag is used for each
+                ad.</p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Supported Ad Positions</h2>
+            <div class="p">For this release, ads are supported on Player V4 HTML5 players and the mobile SDKs
+                for iOS and Android for the following ad positions: <ul class="ul">
+                    <li class="li">Pre-Roll</li>
+
+                    <li class="li">Mid-Roll</li>
+
+                    <li class="li">Post-Roll</li>
+
+                    <li class="li">Podded</li>
+
+                    <li class="li">Skippable</li>
+
+                    <li class="li">Clickthrough</li>
+
+                    
+                    <li class="li">Overlay (not supported with Ad Rules ads)</li>
+
+                    <li class="li">Companion</li>
+
+                </ul>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Ads and Firefox Private Browsing</h2>For
+   consumers using <a class="xref" href="https://developer.mozilla.org/en-US/Firefox/Privacy/Tracking_Protection" target="_blank">Private Browsing windows</a> in Firefox, some ads may fail to load because
+   privacy mode blocks certain kinds of tracking URLs.</div>
+
+    </div>
+
+    <div class="related-links"><div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="mobile_sdk_android_googleima.html">Integration with Google IMA on Android</a></div>
+<div><a class="link" href="mobile_sdk_ios_googleima.html">Integration with Google IMA on iOS</a></div>
+</div>
+</div>
+
+</body>
+</html>

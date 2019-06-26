@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="What Filters Can I Use?"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reporting_examples.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reporting_examples.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="reporting_api_examples_filters"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>What Filters Can I Use?</title>
+</head>
+<body id="reporting_api_examples_filters">
+
+
+  <h1 class="title topictitle1">What Filters Can I Use?</h1>
+ 
+   <div class="body refbody">
+      <div class="section"> Some example filters are shown below. These are not fully formed requests (see <a class="xref" href="analytics_v3_api_reporting_syntax.html#analytics_reporting">v3 Analytics Reporting API Syntax</a> for complete syntax),
+      only examples of the <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters"><samp class="ph codeph">filters</samp></a> query parameter. <p class="p" id="reporting_api_examples_filters__filtervaluewarning">For queries with query parameters that would exceed the HTTP GET
+        specification limit of 230 characters , please use a <a class="xref" href="analytics_v3_api_reporting_syntax.html">POST request</a>.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> For up to 2 filters you can set a date range of up to 1 year (366 days). For 3 filters
+        you can set a date range of up to 1 month (31 days). <span class="ph">Queries using the <samp class="ph codeph">hour</samp> and
+                      <samp class="ph codeph">15min</samp> time segments can only be made with a date rage of up
+                    to 7 days.</span>
+      </div>
+
+    </div>
+
+     <div class="section"><h2 class="title sectiontitle">Grouping Filters</h2> 
+       <ul class="ul">
+        <li class="li">Return data with the country Australia (AU; see <a class="xref" href="../reference/location_codes.html#reference" title="These country codes are used in a variety of Ooyala features.">Country and Location Codes</a>) and the <samp class="ph codeph">mobile</samp> device type:
+          <pre class="pre codeblock">
+...&amp;filters=((country=='AU')) AND ((device_type=='mobile'))      
+          </pre>
+
+        </li>
+
+        <li class="li">Mobile and tablet devices in Colombia:
+          <pre class="pre codeblock">
+...&amp;filters=country==’CO’,device_type==’mobile’,device_type=='tablet'           
+          </pre>
+
+        </li>
+
+        <li class="li">Only mobile in Columbia and the US:
+          <pre class="pre codeblock">
+...&amp;filters=((device_type==’mobile’) AND (country==’CO’,country=='US'))          
+        </pre>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+     
+    <div class="section" id="reporting_api_examples_filters__example_filter_by_label"><h2 class="title sectiontitle">Filtering by Label</h2>
+      Ooyala labels are a mechanism for grouping videos. In Ooyala
+      Analytics, labels can be used to filter. Use the label id to
+      identify the label filter.<div class="p"> Keep in mind the following points about working with labels in
+   Ooyala IQ: <ul class="ul">
+    <li class="li">Correlations among labels and associated videos are not pre-aggregated or pre-summarized
+     (rolled up) but are resolved at the time of an API request.</li>
+
+    <li class="li">The Ooyala system aggregates based on a label's parent hierarchy. For example, imagine two
+     labels, the parent "Cycle World" and its child label "Sport Bikes". A video labeled with the
+     child "Sport Bikes" is rolled up into the parent label "Cycle World". If you request data for a
+     label, the metrics returned are for that label and its child labels. </li>
+
+   </ul>
+
+  </div>
+
+      This request returns totals for <em class="ph i">all</em> metrics, grouped by a label with the label id
+      123abc456yui123xyz.
+      <pre class="pre codeblock">
+...&amp;filters=label=='123abc456yui123xyz'        
+       </pre>
+</div>
+
+     
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_api_reporting_examples.html">v3 Analytics Reporting API Request Examples</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Considerations for HEVC"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/hevc.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="hevc"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Considerations for HEVC</title>
+</head>
+<body id="hevc">
+
+
+    <h1 class="title topictitle1"><strong class="ph b" id="docs-internal-guid-a59b3690-9618-44d6-56c2-a663338d519c">Considerations for HEVC</strong></h1>
+
+    
+    <div class="body conbody">
+<div class="section">Before you add HEVC as an available codec for
+    your video streaming, be sure to consider the benefits versus the additional costs that
+    are associated. While the HEVC codec is more efficient and will subsequently provide
+    lower CDN usage and a better playback experience in general, how significant these
+    benefits will be depends upon your audience possessing devices that can support HEVC.
+    Because support for the HEVC varies by platform, HEVC stream usage potential might not
+    be significant for your audience. And while adding HEVC streams is not an additional
+    direct cost from Ooyala, it does typically mean you will have more encoding costs. This
+    is because you will typically need by HEVC (h.265) and AVC (h.264) stream support,
+    meaning HEVC is an additive codec rather than a replacement.</div>
+
+        <div class="section"><h2 class="title sectiontitle">Customer
+        Considerations for Adding HEVC Streams</h2><p class="p">Before adding HEVC to their
+            profile, customers should consider the following issues:</p>
+<ul class="ul">
+                <li class="li"><strong class="ph b">Bitrate and bandwidth savings.</strong> Compared with H.264, adding the HEVC codec
+                    will provide approximately 30% bitrate savings. For playback at the same
+                    resolution, HEVC will therefore require approximately 30% less bandwidth. In
+                    addition to some CDN savings, audiences will enjoy a higher quality of
+                    experience (higher resolutions will be achieved at the same bandwidth). </li>
+
+                <li class="li"><strong class="ph b">Increased transcoding time and costs.</strong> HEVC codecs will typically double
+                    the amount of transcoding needed per asset, because unsupported devices will
+                    still need the AVC assets. Increased transcoding time increases transcoding
+                    costs. Because HEVC cannot be appended to an existing asset, adding HEVC to
+                    already transcoded assets will require the reprocessing of those assets. </li>
+
+                <li class="li"><strong class="ph b">Support for the HEVC codec is limited.</strong> Therefore, based on anticipated
+                    audience consumption for the supported environments, customers should determine
+                    whether the device coverage they gain is worth the additional transcoding
+                    costs.</li>
+
+            </ul>
+</div>
+<div class="section"><h2 class="title sectiontitle">Supported Environments for HEVC</h2>
+                
+               
+            <p class="p"><u class="ph u">Web Browsers</u></p>
+<p class="p">The
+                following browsers support the HEVC codec:</p>
+<div class="p">
+                    <ul class="ul" id="hevc__ul_ubc_zyc_kdb">
+                        <li class="li"><strong class="ph b">Microsoft Edge:</strong> Windows 10+ hardware with HEVC decoding</li>
+
+                        <li class="li"><strong class="ph b">Safari:</strong> With MacOS High Sierra</li>
+
+                    </ul>
+
+                </div>
+<div class="p"><strong class="ph b">App Environments Supporting HEVC</strong><ul class="ul" id="hevc__ul_wwn_5dd_kdb">
+                    <li class="li"><strong class="ph b">Android:</strong> Android 5+ devices, and only devices that have either
+                        hardware or software decoders for HEVC. The Ooyala Player will confirm at
+                        run-time, prior to playback. whether an HEVC decoder (hardware or software)
+                        is available on the device. Additionally, since our stream encoders are
+                        generating CMAF HLS to be compatible with iOS devices, only MPEG-DASH
+                        streams are supported with HEVC. </li>
+
+                    <li class="li"><strong class="ph b">iOS:</strong> iOS 11 plus A10+ Chips (iPhone 7 and greater models).
+                        Additionally, iPhone 6 (A8 chipset) can support HEVC). iPhone 5 has some
+                        support with the A7 chip, but cannot support the higher bitrates compared to
+                        the later chipsets. </li>
+
+                </ul>
+</div>
+<div class="note note"><span class="notetitle">Note:</span> <strong class="ph b">For older Apple devices:</strong> On some older devices, support for
+                    HEVC is also affected by the resolution and frame rate (fps) of the video. However,
+                    Ooyala does not support these older devices, in order to reduce the risk of a
+                    bitrate ladder ramp that fails. Devices in this category include: <ul class="ul" id="hevc__ul_eft_g2d_kdb">
+                        <li class="li">iPhone 6, iPhone 6 Plus, and iPad Air 2 working with HEVC video that was
+                            captured at no greater than 1080p/240 fps. </li>
+
+                        <li class="li">iPhone 5s, iPad Air, and iPad mini (Retina models) working with HEVC video
+                            that was captured at no greater than 1080p/60 fps or 720p/240 fps. </li>
+
+                    </ul>
+</div>
+</div>
+<div class="section"><h2 class="title sectiontitle">Known Limitations</h2>
+                        
+                        <div class="p">In addition to environment limitations, the
+                        following functional limitations will block the ability of a browser and/or device
+                        to receive HEVC assets: <ul class="ul" id="hevc__ul_kj3_52d_kdb">
+                            <li class="li">For Web players, if autoplay is blocked by the browser settings, it will not
+                                be possible to test whether the HEVC codec is supported. As a result, the
+                                device will always receive AVC manifest during this playback session. </li>
+
+                            <li class="li">For Android, only MPEG-DASH streams are supported with HEVC. </li>
+
+                        </ul>
+</div>
+</div>
+<div class="section"><h2 class="title sectiontitle">Supported Features/Combinations for HEVC</h2>
+                            
+                            <div class="p">Ooyala currently supports
+                            the following HEVC Media Formats:<ul class="ul" id="hevc__ul_rcs_ffd_kdb">
+                                <li class="li">Streams in the following packaging types:<ul class="ul" id="hevc__ul_e54_gfd_kdb">
+                                    <li class="li">Clear HLS</li>
+
+                                    <li class="li">Clear MPEG-DASH</li>
+
+                                </ul>
+</li>
+
+                            </ul>
+<div class="note note"><span class="notetitle">Note:</span> HEVC streaming with DRM is not yet supported.</div>
+</div>
+</div>
+<div class="section"><h2 class="title sectiontitle">Unsupported
+                                    Environments when using HEVC</h2>
+                                
+                                <div class="p">Because HEVC encryption uses the CMAF
+                                    specification when using a single manifest, devices unable to support the CMAF
+                                    standard cannot be supported. These include:<ul class="ul" id="hevc__ul_z13_wfd_kdb">
+                                        <li class="li">HLS<ul class="ul" id="hevc__ul_ohc_xfd_kdb">
+                                            <li class="li">iOS 9 - devices</li>
+
+                                        </ul>
+</li>
+
+                                        <li class="li">DASH<ul class="ul" id="hevc__ul_yyg_zjx_rdb">
+                                            <li class="li">Android 4.4 and lower devices, and Android devices otherwise lacking
+                                                h.265 decryption hardware</li>
+
+                                        </ul>
+</li>
+
+                                    </ul>
+</div>
+</div>
+<div class="section"><h2 class="title sectiontitle">Unsupported Features/Formats with HEVC</h2>
+                                        
+                                        <div class="p">Ooyala currently does not
+                                        support the following features with the HEVC codec:<ul class="ul" id="hevc__ul_ukt_ngd_kdb">
+                                            <li class="li">Streams with Multi-Audio Tracks (only single audio track streams are
+                                                supported)</li>
+
+                                            <li class="li">HEVC with Server-side Ad Insertion (SSAI)</li>
+
+                                            <li class="li">Adding HEVC CODEC to an asset without full reprocessing. If a customer
+                                                already has HLS in h.264, the h.264 streams must be reprocessed when adding
+                                                HEVC. This is the same for DASH. </li>
+
+                                        </ul>
+</div>
+</div>
+
+    </div>
+
+    
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="hevc.html">Introduction to HEVC Streams with Ooyala</a></div>
+</div>
+</div>
+
+</body>
+</html>

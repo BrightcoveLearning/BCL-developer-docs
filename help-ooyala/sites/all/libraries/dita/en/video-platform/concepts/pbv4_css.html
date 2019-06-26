@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Customizing the Player V4 Appearance Using CSS"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_customize.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_css"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Customizing the Player V4 Appearance Using CSS</title>
+</head>
+<body id="pbv4_css">
+
+
+    <h1 class="title topictitle1">Customizing the <span class="ph">Player V4</span> Appearance Using CSS</h1>
+
+
+    <div class="body conbody">
+        <div class="section">
+            You can use Cascading Style Sheets (CSS) to customize the appearance of your <span class="ph">Ooyala Player V4 for HTML5</span>. 
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">When to Use CSS to Customize the Player</h2>
+            <span class="ph">Player V4</span> provides a
+            default CSS file (<samp class="ph codeph">html5-skin.min.css</samp>) with detailed settings that
+            define the <span class="ph">Player V4</span>
+            user interface. These CSS settings are in addition to the  <samp class="ph codeph">skin.json</samp>
+            file (see <a class="xref" href="../reference/pbv4_skin_schema_docs.html">Customizing the Player V4 Skin with skin.json</a>) that you can use to change
+            mostly <span class="ph">Player V4</span>
+            behavioral settings. The JSON settings do not overlap the CSS settings. 
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">What You Can Customize</h2> The CSS allows you to configure  <span class="ph">Player V4</span>  display
+            settings (such as fonts, colors, icons, and measurements) for: <ul class="ul">
+                <li class="li">player elements (control bar, scrubber bar, buttons, spinner, slider, video
+                    quality)</li>
+
+                <li class="li">state screens (start, pause, share, error)</li>
+
+                <li class="li">ads (ad screen, overlays, panel)</li>
+
+                <li class="li">discovery (screen, up next panel, countdown clock)</li>
+
+                <li class="li">closed captions (screen, options)</li>
+
+                <li class="li">responsive design (width, minimum width, height)</li>
+
+                <li class="li">other settings (base settings, plug-ins, and so on)</li>
+
+            </ul>
+<div class="note note"><span class="notetitle">Note:</span> Before you make CSS changes, you should have expertise in working with CSS
+                files. </div>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Where to Look</h2>Ooyala generates the
+                <samp class="ph codeph">html5-skin.min.css</samp> file using the Sass (<a class="xref" href="http://sass-lang.com/" target="_blank">http://sass-lang.com/</a>) (SCSS) for CSS
+            preprocessor and modular SCSS files stored in the source repository
+            (https://github.com/ooyala/html5-skin/tree/stable/scss). This folder includes source
+            files for: <ul class="ul">
+                <li class="li">base elements (including typography rules, fonts, icons, colors, measurements,
+                    enable/disable flags, etc.)</li>
+
+                <li class="li">Player V4 components (buttons, forms, screens, other components)</li>
+
+                <li class="li">Player V4 skin (default values pulled from /skin-plugin/config/skin.json)</li>
+
+            </ul>
+Refer to the README (<a class="xref" href="https://github.com/ooyala/html5-skin/blob/stable/README.md" target="_blank">https://github.com/ooyala/html5-skin/blob/stable/README.md</a>) for the latest description of the source files. For example, if
+            you wanted to learn which CSS settings are associated with the scrubber bar, you could
+            look at <a class="xref" href="https://github.com/ooyala/html5-skin/blob/stable/scss/components/_scrubber-bar.scss" target="_blank">https://github.com/ooyala/html5-skin/blob/stable/scss/components/_scrubber-bar.scss</a>
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Ways to Configure CSS Settings</h2>You can approach CSS configuration in
+            several ways. <p class="p"><strong class="ph b">Make a Copy the Default File</strong></p>
+You can copy the default
+            html5-skin.min.css file (see Hosting Ooyala Player V4 for HTML5 Resources), make
+            changes, host it, and the point to it from the web page on which you initialize the
+            Player V4. For example:
+                    <pre class="pre codeblock">&lt;link rel="stylesheet" href="url_where_hosted/my_custom.css"/&gt;</pre>
+<p class="p"><strong class="ph b">Append
+                    Your Changes Using a Separate CSS</strong></p>
+ You can also make a separate CSS file
+            that overrides or appends settings. For example:
+            <pre class="pre codeblock">&lt;link rel="stylesheet" href="url_where_hosted/html5-skin.min.css"/&gt;
+&lt;link rel="stylesheet" href="url_where_hosted/my_custom_overrides.css"/&gt;</pre>
+The
+            order on the page determines the winner when identical elements have different values.
+            Specify the CSS file with the overrides after the default CSS on the HTML page. Where
+            the elements are the same, the settings in the latter file prevail. For example: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="50%" id="d454922e140">html5-skin.min.css</th>
+
+                            <th class="entry" valign="top" width="50%" id="d454922e143">my_custom_overrides.css</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="50%" headers="d454922e140 ">
+                                <pre class="pre codeblock">.innerWrapper .oo-control-bar {
+    -moz-user-select: none;
+    background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0;
+    font-size: 18px;
+    height: 60px;
+    list-style: outside none none;
+    margin: 0;
+    position: absolute;
+    transition: bottom 0.5s ease 0s, height 0.25s ease 0s;
+    width: 100%;
+    z-index: 12500;
+}</pre>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="50%" headers="d454922e143 ">
+                                <pre class="pre codeblock">.innerWrapper .oo-control-bar {
+    background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+    height: 50px;
+}</pre>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+          <p class="p"><strong class="ph b">Embed Inline Settings on the HTML Page</strong></p>
+<p class="p">You can override CSS settings on
+                an HTML page from which you launch Player V4. To specify in-line CSS settings in
+                your code, add a <samp class="ph codeph">&lt;style&gt;</samp> tag immediately below the
+                    <samp class="ph codeph">&lt;link&gt;</samp> tag that points to the CSS file. For example, to
+                change the color of the start screen
+                    text:</p>
+<pre class="pre codeblock">&lt;link rel="stylesheet" href="//myserver.com/html5-skin.min.css"/&gt;             
+&lt;style type='text/css'&gt;
+  .oo-player_skin .oo-startScreen .oo-state-screen-title
+  Unknown macro: { color}
+&lt;/style&gt;</pre>
+<p class="p"><strong class="ph b">Modify
+                    the Source html5-skin SCSS Files</strong></p>
+<p class="p">Although more involved, you might
+                prefer to build your own CSS using a local copy of <a class="xref" href="https://github.com/ooyala/html5-skin/blob/stable/README.md" target="_blank">https://github.com/ooyala/html5-skin/blob/stable/README.md</a>, modifying the source SCSS files, building the
+                html5-skin.min.css file, hosting the built file, and point to it from the web page
+                on which you initialize the Player V4.</p>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_customize.html">Customizing the Player V4 Appearance</a></div>
+</div>
+</div>
+
+</body>
+</html>

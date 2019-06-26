@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="High Performance API (Deprecated)"/>
+<meta name="abstract" content="In addition to our standard API, Ooyala also offers a high performance caching layer for API requests."/>
+<meta name="description" content="In addition to our standard API, Ooyala also offers a high performance caching layer for API requests."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_high_performance"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>High Performance API (Deprecated)</title>
+</head>
+<body id="v1_high_performance">
+
+
+  <h1 class="title topictitle1">High Performance API (Deprecated)</h1>
+
+  
+  
+ <div class="body refbody"><p class="shortdesc">In addition to our standard API, Ooyala also offers a high performance caching layer for API requests.  </p>
+
+   <div class="section">
+     <div class="note note"><span class="notetitle">Note:</span> This software is deprecated. Use the latest version.</div>
+
+     <p class="p">
+       This caching layer may not be necessary for all applications, but it is ideal for the following cases:</p>
+
+     <ul class="ul">
+       <li class="li">Your application generates a large number of API requests</li>
+
+       <li class="li">There a number of duplicate API requests such as each user generating the same query against a label</li>
+
+     </ul>
+
+     <p class="p">
+       If these reflect your use case, we recommend using the high performance API.
+     </p>
+
+     
+     <p class="p">High Performance API Usage</p>
+
+     <p class="p">
+       Here is what you need to know when using the high performance API:
+     </p>
+
+     <ol class="ol">
+       <li class="li">API requests need to be made to <strong class="ph b">cdn-api.ooyala.com</strong> instead of api.ooyala.com.
+       </li>
+
+       <li class="li"><p class="p">While the high performance caching layer will keep a copy of your response for a few minutes, your expires parameter needs to be made "cache friendly." Unlike regular API requests where you'll often set the expires time to be just a few minutes from the current time, you'll find better performance setting it to a fixed time further out. For example, we can set it to always be the start of tomorrow with the following snippet:</p>
+
+       <p class="p">
+         <samp class="ph codeph">today = Date.today</samp>
+         <samp class="ph codeph">expires = Time.mktime(today.year, today.month, today.day) + 86400
+         </samp>
+       </p>
+
+         <p class="p">Alternatively, if you're generating urls to be used directly from a Flash / Flex application, you can simply pre-generate a url with an expires time years into the future.</p>
+
+       </li>
+
+       <li class="li">
+         <p class="p">
+         High Performance doesn't mean it is better in all cases. Caching queries to the CDN is ideal for repeated, non-unique requests, but if you're generating unique requests (i.e. from search terms) each and every time, you'll want to query Ooyala directly.
+         </p>
+
+       <p class="p">
+         Additionally, in scenarios where you always need the most up to date response, and can't wait a few minutes for a cached response to return, you should use api.ooyala.com
+       </p>
+
+       </li>
+
+     </ol>
+
+     
+   
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1.html" title="This version of the Backlot API is deprecated. We strongly recommend that any new development work occurs on Version 2 of our APIs. For information about using our V2 APIs, go to the Developer Documentation section of the Ooyala Support Center.">Ooyala Backlot API Reference V1 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

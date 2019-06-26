@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Working with Multi-Resolution Players on Widevine"/>
+<meta name="abstract" content="To support ABR for video content with multiple resolutions on Google Widevine, you can set the maximum dimensions of the video stream."/>
+<meta name="description" content="To support ABR for video content with multiple resolutions on Google Widevine, you can set the maximum dimensions of the video stream."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_about.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_multiresolutionwidevine"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Working with Multi-Resolution Players on Widevine</title>
+</head>
+<body id="mobile_sdk_android_multiresolutionwidevine">
+
+
+  <h1 class="title topictitle1">Working with Multi-Resolution Players on Widevine</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">To support ABR for video content with multiple resolutions on Google Widevine, you can
+    set the maximum dimensions of the video stream.</p>
+
+    <p class="p">To allow your multi-resolution videos to be played at maximal size on a mobile device, you
+      can set the maximum width and height of the video stream, as shown in the code fragment below.
+      The stream selected will have a resolution smaller or equal to the maximum dimensions you
+      define.</p>
+
+    <ol class="ol">
+      <li class="li">Extend the <samp class="ph codeph">DefaultPlayerInfo</samp> class.<p class="p">The <samp class="ph codeph">maxHeight</samp> and
+            <samp class="ph codeph">maxWidth</samp> should accommodate the highest resolution you have to
+          serve.</p>
+</li>
+
+      <li class="li">Set the static <samp class="ph codeph">StreamPlayer.DefaultPlayerInfo</samp> to an instance of your new
+        class, in the code snippet, <samp class="ph codeph">CustomPlayerInfo</samp>.</li>
+
+    </ol>
+
+    <pre class="pre codeblock">// Android
+  class CustomPlayerInfo extends DefaultPlayerInfo {
+    public int getMaxWidth() { return 1200; }
+    public int getMaxHeight() { return 700; }
+  }
+
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    StreamPlayer.defaultPlayerInfo = new CustomPlayerInfo();
+
+    ...
+
+    OoyalaPlayerLayoutController playerLayoutController = new OoyalaPlayerLayoutController(playerLayout, PCODE, new PlayerDomain(DOMAIN));
+    ...</pre>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_android_about.html">Working with the Android SDK</a></div>
+</div>
+</div>
+
+</body>
+</html>

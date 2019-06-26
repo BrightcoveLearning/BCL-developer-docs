@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Setting an Asset's Post-processing Status"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_commonfunctions.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_asset_associate_with_labels"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Setting an Asset's Post-processing Status</title>
+</head>
+<body id="api_asset_associate_with_labels">
+
+
+  <h1 class="title topictitle1">Setting an Asset's Post-processing Status</h1>
+
+  
+  <div class="body taskbody"><p class="shortdesc"/>
+
+    <div class="section context">
+      <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+      <div class="p">After an asset has been uploaded and transcoded, you might not want it to go live
+        immediately, which is the default. By setting the asset's post-processing status, you can
+        instruct the system to not immediately publish the asset. There are only two statuses:<ul class="ul" id="api_asset_associate_with_labels__ul_apd_4fv_bl">
+          <li class="li"><samp class="ph codeph">live</samp> (default)</li>
+
+          <li class="li"><samp class="ph codeph">paused</samp></li>
+
+        </ul>
+</div>
+
+    </div>
+
+    <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd">To set an asset's post-processing status to <samp class="ph codeph">paused</samp>.</span>
+         <pre class="pre codeblock">[PATCH]/v2/assets/BjMDVrOTrLeHriLAq43T5y{
+   "status" : "paused"
+}</pre>
+
+         <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+            following.</p>
+
+          <pre class="pre codeblock">{
+   "duration": "5038",
+   "asset_type": "video",
+   "name": "bleebleblobble.mov",
+   "preview_image_url": "http://ak.c.ooyala.com/w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82/Ut_HKthATH4eww8X4xMDoxOmdtO40mAx",
+   "original_file_name": "bleebleblobble.mov",
+   "embed_code": "w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82",
+   "hosted_at": "",
+   "publishing_rule_id": "11a2b0702959459cb60db9cd5b7adb62",
+   "description": "geeble gobble",
+   "status": "paused",
+   "external_id": "ABC124",
+   "time_restrictions": null,
+   "created_at": "2012-10-10T15:24:40Z",
+   "updated_at": "2013-08-06T15:32:17Z",
+   "ad_set_id": null
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">To set an asset's post-processing status to <samp class="ph codeph">live</samp>.</span>
+         <pre class="pre codeblock">[PATCH]/v2/assets/BjMDVrOTrLeHriLAq43T5y{
+   "status" : "live"
+}</pre>
+
+         <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+            following.</p>
+
+          <pre class="pre codeblock">{
+   "time_restrictions": null,
+   "original_file_name": "bleebleblobble.mov",
+   "created_at": "2012-10-10T15:24:40Z",
+   "external_id": "ABC124",
+   "name": "bleebleblobble.mov",
+   "preview_image_url": "http://ak.c.ooyala.com/w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82/Ut_HKthATH4eww8X4xMDoxOmdtO40mAx",
+   "ad_set_id": null,
+   "asset_type": "video",
+   "duration": "5038",
+   "status": "live",
+   "updated_at": "2013-08-06T15:32:53Z",
+   "hosted_at": "",
+   "description": "geeble gobble",
+   "embed_code": "w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82",
+   "publishing_rule_id": "11a2b0702959459cb60db9cd5b7adb62"
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        
+      </li>
+</ol>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/content_commonfunctions.html" title="Some functions are common to all assets, regardless of their type.">Common Tasks with All Assets: PUT or PATCH and Qualifiers</a></div>
+</div>
+</div>
+
+</body>
+</html>

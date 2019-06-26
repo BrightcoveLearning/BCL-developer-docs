@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating an Integrated iOS Sender Application"/>
+<meta name="abstract" content="Review the following content for information about creating an integrated Chromecast sender application using the Ooyala mobile SDK for iOS."/>
+<meta name="description" content="Review the following content for information about creating an integrated Chromecast sender application using the Ooyala mobile SDK for iOS."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chromecast_gsg.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/chromecast_ios_mini_controller.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chromecast_ios_sender_app"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating an Integrated iOS Sender Application</title>
+</head>
+<body id="chromecast_ios_sender_app">
+
+
+    <h1 class="title topictitle1">Creating an Integrated iOS Sender Application</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc">Review the following content for information about creating an integrated Chromecast
+        sender application using the Ooyala mobile SDK for iOS.</p>
+
+        <div class="section prereq p">
+            <div class="note important"><span class="importanttitle">Important:</span> This topic contains older information and has been deprecated. For the
+        latest information about Ooyala integration with Chromecast, see <a class="xref" href="../concepts/chromecast/index.html">Chromecast Integration</a>.</div>
+
+            <ul class="ul">
+                <li class="li">Download the Ooyala SDK for iOS from the <a class="xref" href="../../../../../../../downloads.html">Ooyala Mobile and Client SDKs Downloads Page</a>.</li>
+
+                <li class="li">Download the Cast SDK for iOS.</li>
+
+                <li class="li">Download the <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/ChromecastSampleApp" target="_blank">ChromecastSampleApp</a> from
+                    the Ooyala SDK for iOS Sample Apps repository.</li>
+
+                <li class="li">Install the iOS Sender API libraries for GoogleCastFramework 2.2.1 or later on
+                    your system (see <a class="xref" href="https://developers.google.com/cast/docs/ios_sender" target="_blank">https://developers.google.com/cast/docs/ios_sender</a>).</li>
+
+                <li class="li">Your system must be running iOS version 6 or newer.</li>
+
+                <li class="li">Review the <a class="xref" href="https://developers.google.com/cast/docs/ios_sender" target="_blank">iOS sender application development details</a> on the Google Developers portal.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section context">The sender includes the following classes: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d1032521e72">Class</th>
+
+                            <th class="entry" valign="top" id="d1032521e75">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d1032521e72 d1032521e75 ">OOCastPlayer</td>
+
+                            <td class="entry" valign="top" headers="d1032521e72 d1032521e75 ">The interface between chromecast device and sender app. It is the
+                                object that sends/receives messages. It listens to the action from
+                                Ooyala CoreSDK and send the action to the receiver app, and it also
+                                listens to the message from the receiver app and transfer it to
+                                Ooyala Core SDK.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d1032521e72 d1032521e75 ">OOCastManager</td>
+
+                            <td class="entry" valign="top" headers="d1032521e72 d1032521e75 ">The interface between customer application/CoreSDK and the
+                                OOCastPlayer. It manages the switch between "cast mode" and "local
+                                playback mode" and all basic connections between sender app and
+                                chromecast device.</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+ Use the following steps to integrate with the sender application
+                <samp class="ph codeph">UIViewController</samp> with <samp class="ph codeph">OOOoyalaPlayer</samp> (where the
+                <samp class="ph codeph">UIViewController</samp> in the sender application contains a player).
+                <div class="note note"><span class="notetitle">Note:</span> The following code is based on the PlayerViewController class in the
+                ChromecastSampleApp.</div>
+</div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Initial Configuration</span>
+                 Open the ChromecastSampleApp project in Xcode.
+                <ol type="a" class="ol substeps">
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Make sure you have -ObjC linker flag enabled.</span>
+                    </li>
+
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Link the following libraries as static libraries:</span>
+                         <pre class="pre codeblock">OoyalaSDK.framework
+OoyalaCastSDK.framework
+GoogleCast.framework
+libz.dylib</pre>
+
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Initializing the Cast Manager</span>
+                <ol type="a" class="ol substeps">
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Open OOCastManagerFetcher.m and specify your own NameSpace and App ID
+                            values:</span>
+                         
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                                <tbody class="tbody">
+                                    <tr class="row">
+                                        <td class="entry" valign="top">App ID</td>
+
+                                        <td class="entry" valign="top">The ID you were given when you register the receiver app with which you are trying to connect.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top">NameSpace</td>
+
+                                        <td class="entry" valign="top">The namespace to identify the protocol of the message being sent for the related receiver app. <div class="note note"><span class="notetitle">Note:</span> The namespace should not be changed unless you modify the receiver app source code.</div>
+</td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+</div>
+
+                    </li>
+
+                </ol>
+
+            </li>
+</ol>
+
+        <div class="section postreq"><a class="xref" href="chromecast_ios_mini_controller.html" title="Review the following content for information about configuring the mini controller using the Ooyala mobile SDK for iOS.">Configuring the Chromecast Mini Controller for iOS</a></div>
+
+    </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="chromecast_ios_mini_controller.html">Configuring the Mini Controller (Default) for iOS</a></strong><br/>
+Review the following content for information about configuring the mini controller         using the Ooyala mobile SDK for iOS. </li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chromecast_gsg.html">Getting Started with Chromecast</a></div>
+</div>
+</div>
+
+</body>
+</html>

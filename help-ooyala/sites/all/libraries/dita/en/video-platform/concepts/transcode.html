@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Transcoding Service (OTS)"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_encoding.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/express_process.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_encoding.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/express_process.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="book_ingest"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Transcoding Service (OTS)</title>
+</head>
+<body id="book_ingest">
+
+
+ <h1 class="title topictitle1">Ooyala Transcoding Service (OTS)</h1>
+
+ <div class="body conbody">
+  <div class="section">Transcoding is a process that converts a video file from one format to another so that the video can be played across various platforms and devices. The Ooyala Transcoding Service (OTS) takes video and audio assets that a customer has loaded into Backlot (see <a class="xref" href="book_ingest.html" title="This documentation describes how to ingest (upload) content to Ooyala.">Ingestion</a>) and performs whatever processing is required to prepare them for optimized playback.</div>
+
+  <div class="section"> Transcoding involves: <ul class="ul">
+    <li class="li">converting video content into multiple streams of varying bitrate and resolution appropriate
+     for all target devices</li>
+
+    <li class="li">encryption and packaging for DRM</li>
+
+    <li class="li">storing processed content and delivering via a content delivery network (CDN) to expedite
+     playback</li>
+
+   </ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">OTS Run-time Workflow</h2> The following figure shows what occurs to a video
+   asset after being loaded into Backlot. <div class="fig fignone">
+    <img class="image" src="../image/transcode_workflow.png"/>
+   </div>
+Using a processing profile associated with the Ooyala account, the OTS converts the
+   uploaded source file to one or more encoded streams that are stored on a content delivery network
+   (CDN) for optimized playback. <p class="p"><strong class="ph b">Source Files</strong></p>
+Source files are videos that have been
+   loaded into Backlot (see <a class="xref" href="book_ingest.html" title="This documentation describes how to ingest (upload) content to Ooyala.">Ingestion</a>). They
+   represent the input into the transcoding process. Each video file consists of a container that
+   includes: <div class="fig fignone">
+    <img class="image" src="../image/transcode_input_file.png"/>
+   </div>
+<ul class="ul">
+    <li class="li">video codec</li>
+
+    <li class="li">audio codec</li>
+
+   </ul>
+<div class="note note"><span class="notetitle">Note:</span> Ooyala recommends source files that use the H.264 format for video codec and AAC
+    format for audio codecs.</div>
+For a list of supported container formats, video codecs and audio
+   codecs, as well as file conventions, see <a class="xref" href="../reference/input_formats.html" title="Before uploading content to Backlot, make sure you are using a supported file format and following the best practices for source files.">Supported Ingest Formats</a>. <p class="p"><strong class="ph b">Processing Profile</strong></p>
+ A processing profile mandates the number,
+   formatting, and characteristics of the encoded streams that the transcoding process will generate
+   for an ingested asset, such as: <ul class="ul">
+    <li class="li">encoding settings (such as such as content width, resolution, and video and audio bitrates;
+     see <a class="xref" href="encodings_settings.html" title="Encoding settings determine how the Ooyala Transcoding Service (OTS) encodes streams created during the transcoding process.">Encoding Settings</a>)</li>
+
+    <li class="li">delivery protocol (see <a class="xref" href="encodings_deliverymethods.html" title="Ooyala supports several methods for delivering content.">Delivery Protocols</a>)</li>
+
+    <li class="li">output formats (see <a class="xref" href="../reference/output_formats.html" title="Backlot supports a large number of popular output formats.">Supported Output Formats</a>)</li>
+
+   </ul>
+<p class="p"><strong class="ph b">Encoded Stream Files</strong></p>
+<p class="p">Encoded stream files represent the output of the transcoding
+    process. Transcoding produces a collection of specific streaming formats that are optimized for
+    playback across various platforms and devices. These files reside in a storage location (origin)
+    that the CDN can access for delivery.</p>
+A variety of validations can be performed to ensure the
+   correctness of the encoded stream files. If you would like some or all of the following checks to
+   be performed, contact your Ooyala account representative. Choose from the following types of
+   validation:<p class="p"><strong class="ph b">Pre-Transcoding Video Quality Check</strong></p>
+<ul class="ul">
+    <li class="li">Codec</li>
+
+    <li class="li">Bitrate</li>
+
+    <li class="li">Frame rate</li>
+
+    <li class="li">Height</li>
+
+    <li class="li">Width</li>
+
+    <li class="li">Color space</li>
+
+    <li class="li">Bit depth</li>
+
+    <li class="li">Aspect ratio</li>
+
+    <li class="li">Chroma subsampling</li>
+
+    <li class="li">GOP size</li>
+
+   </ul>
+<p class="p"><strong class="ph b">Pre-Transcoding Audio Quality Check</strong></p>
+<ul class="ul">
+    <li class="li">Codec</li>
+
+    <li class="li">Bitrate</li>
+
+    <li class="li">Frame rate</li>
+
+    <li class="li">Compression mode</li>
+
+    <li class="li">Channels</li>
+
+   </ul>
+<p class="p"><strong class="ph b">Post-Transcoding Output File Check</strong></p>
+<ul class="ul">
+    <li class="li">Duration mismatch</li>
+
+    <li class="li">Presence of streams based on the processing profile</li>
+
+    <li class="li">Presence of manifest</li>
+
+    <li class="li">Peak signal-to-noise ratio (PSNR) validation</li>
+
+   </ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Playback Support</h2> Ooyala supports streaming to the following players: <ul class="ul">
+   <li class="li"><a class="xref" href="pbv4_about.html">Player V4</a></li>
+
+   <li class="li"><a class="xref" href="chapter_sdk_ios.html">Mobile SDK for iOS</a></li>
+
+   <li class="li"><a class="xref" href="chapter_sdk_android.html">Mobile SDK for Android</a></li>
+
+   <li class="li"><a class="xref" href="player_overview.html">Player V3 (Deprecated)</a>, which includes <a class="xref" href="player_flash.html" title="Flash Player V3 documentation.">Flash Player V3 (Deprecated)</a> and <a class="xref" href="player_html5.html" title="HTML5 Player V3 documentation.">HTML5 Player V3 (Deprecated)</a></li>
+
+  </ul>
+<div class="note note"><span class="notetitle">Note:</span> If you plan to deliver to other players and devices (including Silverlight, Consumer
+   Electronics Devices like LG, Samsung, etc), contact Sales, your Customer Success Manager, or
+   Technical Support.</div>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Setting up OTS</h2>During customer onboarding, you work with your Ooyala
+   representative to define your transcoding requirements and design your transcoding policies. <p class="p">
+    Every customer starts with a default profile that provides for basic output streams (such as MP4
+    and HLS streams at various bitrates) and no DRM or encryption. Your Ooyala representative helps
+    you customize one or more processing profiles to implement your transcoding policies. For more
+    information, see <a class="xref" href="chapter_encoding.html" title="Master videos cannot be streamed directly on the Internet. They must be converted or transcoded first into a streaming format. Use the Ooyala Transcoding Service (OTS) to convert your files from a source format to an output format.">Transcoding Setup</a>.</p>
+<p class="p">Regardless of how you load a video asset into
+    Backlot (via the OIS, the Backlot UI, or the Backlot REST API), transcoding begins automatically
+    according to whatever processing profile you have - default or customized. You can even
+    customize multiple profiles so that, if you use OIS with a manifest file, you can choose which
+    processing profile to apply to an asset during the transcoding process.</p>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Transcoding Considerations </h2><p class="p">Your viewers will view your content on many
+   different device types, in different countries, under different circumstances, and over
+   different connections where the bandwidth varies widely. One of the key challenges with
+   streaming video is finding the right balance of bitrate (amount of bits in one second of video)
+   and resolution (amount of pixels in a second of video) for each viewer’s connection and device.
+  </p>
+When determining which encodes to create, consider the following: <ul class="ul">
+   <li class="li">Playback environment</li>
+
+   <li class="li">Security requirements</li>
+
+   <li class="li">Playback quality and its associated operational costs</li>
+
+   <li class="li">Number of encodings - The more encodings you have, the more options the player has to
+    optimize content for the device and available bandwidth. The number of encodings available to
+    your account is determined by the encoding profile that you choose.</li>
+
+  </ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">In-Region Ingestion and Transcoding</h2>Leveraging Azure’s Media Service,
+    Ooyala Ingestion Service and Ooyala Transcoding Service support ingestion and transcoding
+    of video assets performed in your local region. This reduces transcoding time and keeps content
+    geographically contained.
+    In-region ingestion is supported for files uploaded using the Backlot API, FTP, or Aspera.<p class="p">
+    To see whether your account is eligible for in-region ingestion and transcoding,
+    contact your Ooyala account representative.</p>
+<p class="p"><strong class="ph b">Limitations:</strong></p>
+<ul class="ul">
+     <li class="li">Not supported for processing profiles that include asset files in Flash format</li>
+
+     <li class="li">Not supported for processing profiles that mix clear and DRM assets</li>
+
+     <li class="li">Does not support multi-DRM configuration for the same muxing format</li>
+
+     <li class="li">Does not support thumbnail</li>
+
+     <li class="li">Does not support closed captions</li>
+</ul>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Transcode Processing Queue</h2>
+   
+   <p class="p">The standard processing queue for VOD content follows FIFO (first in first out) logic. Every customer can process 10 jobs in parallel - additional assets remain in the queue and are processed based on FIFO. </p>
+
+   <p class="p">In addition to the standard processing queue, an express processing queue is available. The express processing queue can process 5 jobs in parallel. A job in the express processing queue gets higher priority than jobs in standard processing, and is picked ahead of jobs in the standard processing queue. The express processing queue also uses FIFO logic, and any more than five assets submitted to this queue remain queued until an open slot is available.</p>
+
+   <p class="p">See <a class="xref" href="express_process.html">here</a> for more details about express
+    processing.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Transcoding and Billing</h2>OTS is a billable service. Your Ooyala account will
+   be charged according to billing metrics, such as transcoded minutes and delivery. Factors that
+   can affect billing include the number of encoded stream files, the length of the source video,
+   and higher bitrates (which can increase delivery usage). For billing details, contact your Ooyala
+   representative. </div>
+
+  
+  <div class="section"><h2 class="title sectiontitle">See Also</h2>
+   <ul class="ul">
+    <li class="li"><a class="xref" href="chapter_encoding.html" title="Master videos cannot be streamed directly on the Internet. They must be converted or transcoded first into a streaming format. Use the Ooyala Transcoding Service (OTS) to convert your files from a source format to an output format.">Transcoding Setup</a></li>
+
+    <li class="li"><a class="xref" href="ovp_intro.html">Introducing the Online Video Platform</a></li>
+
+   </ul>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="express_process.html">Express Processing Assets</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="chapter_encoding.html" title="Master videos cannot be streamed directly on the Internet. They must be converted or transcoded first into a streaming format. Use the Ooyala Transcoding Service (OTS) to convert your files from a source format to an output format.">Transcoding Setup</a></div>
+</div>
+</div>
+
+</body>
+</html>

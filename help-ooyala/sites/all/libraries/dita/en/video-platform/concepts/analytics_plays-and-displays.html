@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Displays, Plays, and Play Starts (Deprecated)"/>
+<meta name="abstract" content="Ooyala Player usage is subdivided by events for displays, plays, and plays starts."/>
+<meta name="description" content="Ooyala Player usage is subdivided by events for displays, plays, and plays starts."/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_overview.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="concept_hyx_qlc_ck"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Displays, Plays, and Play Starts (Deprecated)</title>
+</head>
+<body id="concept_hyx_qlc_ck">
+
+
+ <h1 class="title topictitle1">Displays, Plays, and Play Starts (Deprecated) </h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc">Ooyala Player usage is subdivided by events for displays, plays, and plays
+  starts.</p>
+
+  <div class="p">
+   <div class="note warning"><span class="warningtitle">Warning:</span> The v2 Analytics API has been deprecated. See <a class="xref" href="ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a> for more details on the new v3 Analytics
+    API.</div>
+
+  </div>
+
+  <div class="p">As recorded for Ooyala Analytics, the Ooyala Player categorizes video play events by three
+   sub-events: displays, plays, and play starts. These data are gathered from discrete events in the
+   Ooyala Player, as described below. In the Analytics reports from the <span class="ph">Backlot UI</span>, these events are selectable from the <span class="ph uicontrol">Plays</span> menu: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="concept_hyx_qlc_ck__table_nsm_jld_ck" class="table" frame="border" border="1" rules="all">
+     
+     
+     <tbody class="tbody">
+      <tr class="row">
+       <td class="entry" valign="top" width="50%">
+        <div class="fig fignone">
+         <img class="image" src="../image/analytics_plays_example_ui.png" height="124" width="108"/>
+        </div>
+
+       </td>
+
+       <td class="entry" valign="top" width="50%">
+        <p class="p"><span class="ph uicontrol">Plays</span> = Play Events</p>
+
+        <p class="p"><span class="ph uicontrol">Initial Plays</span> = Play Start Events</p>
+
+        <p class="p"><span class="ph uicontrol">Player Loads</span> = Display Events</p>
+
+       </td>
+
+      </tr>
+
+     </tbody>
+
+    </table>
+</div>
+</div>
+
+  <div class="section" id="concept_hyx_qlc_ck__displays"><h2 class="title sectiontitle">Display Events, or "Player Loaded"</h2>
+   
+   <p class="p">Displays measure the number of times that a piece of video content is loaded and displayed
+    within the player before it gets played (displays are related to each individual asset). Each
+    time an embed code is changed, this event gets triggered by the Ooyala Player event
+     <samp class="ph codeph">CONTENT_TREE_FETCHED</samp>, as noted in <a class="xref" href="../api/player_v3_api_events.html" title="Use message bus events to subscribe to or publish player events from video to ad playback.">Player V3 Message Bus Events (Deprecated)</a>.</p>
+
+   <p class="p">Loading the player does not necessarily mean a video will be played, only that player has
+    loaded. Some scenarios in which display events are generated but there is no play include the
+    following:</p>
+
+   <ul class="ul" id="concept_hyx_qlc_ck__ul_olj_dmc_ck">
+    <li class="li">
+     <p class="p"> No video autoplay, and the consumer does not click “play.”</p>
+
+    </li>
+
+    <li class="li">
+     <p class="p"> Autoplay enabled, but consumer abandons page before player has time to start playing.</p>
+
+    </li>
+
+   </ul>
+
+   <p class="p">Similarly, a single display event (or player load) can result in multiple video plays, for
+    example if multiple videos in a playlist are viewed consecutively within the same player
+    instance.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Play Events</h2>
+   
+   <p class="p">A play event measures the number of times that the "Play" button is triggered either manually
+    or automatically. The requested content could be ad content or the actual video content (a play
+    is counted regardless of which type of content is requested to play). Plays currently don’t
+    include the Replay event.</p>
+
+   <p class="p">This is triggered by the Ooyala Player event <samp class="ph codeph">WILL_PLAY_FROM_BEGINNING</samp>, as
+    noted in <a class="xref" href="../api/player_v3_api_events.html" title="Use message bus events to subscribe to or publish player events from video to ad playback.">Player V3 Message Bus Events (Deprecated)</a>. </p>
+
+   <p class="p">No distinction is made between pre-roll ads and the actual video asset itself. Either
+    constitutes a "play." </p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Play Start Events</h2>
+   
+   <p class="p">A "play start" event measures the number of times that actual non-ad video content starts
+    playing. If the user initiates the playback experience and only watches a pre-roll ad without
+    continuing on to the actual video content, a Play count is reported, but not a Start. Play
+    Starts is only recorded if the user waits until the actual video starts playing back.</p>
+
+   <p class="p">This is triggered by the Ooyala Player event <samp class="ph codeph">PLAYHEAD_TIME_CHANGED</samp>, as noted
+    in <a class="xref" href="../api/player_v3_api_events.html" title="Use message bus events to subscribe to or publish player events from video to ad playback.">Player V3 Message Bus Events (Deprecated)</a>.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Examples</h2>
+   
+   <div class="p">In this example, a player configured to autoplay plays four videos back-to-back without
+    interruption. An assumption here is that either there are no pre-roll ads or the viewer lets all
+    pre-roll ads play and finally views the videos. <div class="fig fignone"><span class="figcap">Figure 1. Autoplay Four Consecutive Videos</span>
+     
+     <img class="image" src="../image/analytics_plays_example1.png" height="185" width="408"/>
+    </div>
+</div>
+
+   <div class="p"> Below, the key difference from the first example is that the viewer abandons viewing during
+    the pre-roll ad before the third video starts. In this example, for the third video, only the
+    "play" event is recorded, not "play start" because the viewer abandons during the ad before the
+    "play start" event can be recorded. <div class="fig fignone"><span class="figcap">Figure 2. Autoplayer with Pre-roll Ads, Viewer Abandons during Pre-roll Ad of Third Consecutive
+      Video</span>
+     
+     <img class="image" src="../image/analytics_plays_example2.png" height="168" width="321"/>
+    </div>
+</div>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../api/analytics_overview.html" title="Based on your account, different analytics packages are available.">v2 Analytics API (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

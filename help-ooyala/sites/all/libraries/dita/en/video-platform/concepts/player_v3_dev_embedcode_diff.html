@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Comparing Embed Code Styles in Player V3 and Player V2 (Deprecated)"/>
+<meta name="abstract" content="Before migrating from prior player versions, it will help to understand the difference between the embed code models."/>
+<meta name="description" content="Before migrating from prior player versions, it will help to understand the difference between the embed code models."/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_createplayers.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_embedmultipleplayers.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_embedcode_diff"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Comparing Embed Code Styles in Player V3 and Player V2 (Deprecated)</title>
+</head>
+<body id="player_v3_embedcode_diff">
+
+
+ <h1 class="title topictitle1"> Comparing Embed Code Styles in Player V3 and Player V2 (Deprecated)</h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc">Before migrating from prior player versions, it will help to understand the difference between the
+    embed code models. </p>
+
+   <div class="note note"><span class="notetitle">Note:</span> Ooyala Player V3 and V2 have been deprecated and are scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 and Player V2 will no longer
+    play your video or audio content. Customers still using older players need to migrate to Player
+    V4 (see <a class="xref" href="pbv4_about.html">Player V4</a>.</div>
+
+   <div class="section"><h2 class="title sectiontitle">Elements of the Embed Code</h2>
+     
+     <p class="p">Before starting, it might help to review the elements of an embed code that you get from
+        Backlot. Typically, your embed code is a URL that looks something like the following: </p>
+
+   </div>
+
+   <div class="section">
+     
+     <pre class="pre codeblock">
+&lt;script src="http://player.ooyala.com/v3/&lt;player_branding_id&gt;"&lt;/script&gt;  
+&lt;div id='playerContainer'&gt;&lt;/div&gt;  
+</pre>
+ 
+   </div>
+
+   <div class="section">The embed code is constructed of the following segments:  
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_embedcode_diff__table_phy_4cn_lh" class="table" frame="border" border="1" rules="all">
+       
+       
+       <tbody class="tbody">
+         <tr class="row">
+           <td class="entry" valign="top" width="16.474464579901152%"><strong class="ph b">This segment...</strong></td>
+
+           <td class="entry" valign="top" width="83.52553542009885%"><strong class="ph b">Contains...</strong></td>
+
+         </tr>
+
+         <tr class="row">
+           <td class="entry" valign="top" width="16.474464579901152%">protocol and domain</td>
+
+           <td class="entry" valign="top" width="83.52553542009885%">http://player.ooyala.com/v3/ You can use either http or https protocols. To use the
+                player, you need to specify the /v3/ directory. You must add a valid player branding
+                id after the protocol and domain. You need to do this as there is no single player;
+                it is compiled specifically for the player id that you provide.</td>
+
+         </tr>
+
+         <tr class="row">
+           <td class="entry" valign="top" width="16.474464579901152%">player branding id</td>
+
+           <td class="entry" valign="top" width="83.52553542009885%">This segment enables you to identify a specific named and styled player. When you
+                specify a new player in Backlot and assign it some attributes, the named player is
+                comprised of the player branding id and any additional assigned attributes. For more
+                information see <a class="xref" href="../tasks/player_create.html" title="You can create and configure as many players as you want in Backlot. You can associate a player with as many videos as you want. For Player V3, you can also associate a player with audio assets, channels, or channel sets.">Creating a Player in Backlot</a> and <a class="xref" href="../tasks/api_player_create.html" title="You can create as many players as you like and assign them to videos, channels, or channel sets.">Creating a Player Using the Backlot REST API</a>.</td>
+
+         </tr>
+
+         <tr class="row">
+           <td class="entry" valign="top" width="16.474464579901152%">div id</td>
+
+           <td class="entry" valign="top" width="83.52553542009885%">The div id enables you to specify a unique id for the div tag. You can use this
+             id to reference the player container in CSS or JavaScript files. Your id must be
+             unique so that the reference to the div is correct.</td>
+
+         </tr>
+
+       </tbody>
+
+     </table>
+</div>
+</div>
+
+   <div class="section"><h2 class="title sectiontitle">Construct an Embed Code</h2>You can cut and paste your embed
+      code from Backlot. For information about how to do this, see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>.
+      
+      
+      If you are
+      not be able to cut-and-paste your embed snippet into your web page, can construct the embed
+      snippet manually. To do this: <ul class="ul" id="player_v3_embedcode_diff__ul_l2h_y4p_lh">
+        <li class="li">
+          <p class="p">Start by providing the protocol and domain:</p>
+
+        </li>
+
+      </ul>
+<pre class="pre codeblock">http://player.ooyala.com/v3/</pre>
+<ul class="ul" id="player_v3_embedcode_diff__ul_q3h_y4p_lh">
+        <li class="li">
+          <p class="p">Get the player-branding-id from Backlot. For example:</p>
+
+        </li>
+
+      </ul>
+<pre class="pre codeblock">&lt;script src='http://player.ooyala.com/v3/&lt;'replace_with_player_branding_id'&gt;'&gt;&lt;/script&gt;</pre>
+<ul class="ul" id="player_v3_embedcode_diff__ul_t3h_y4p_lh">
+        <li class="li">
+          <p class="p">Get the embed code from Backlot or you can get it via the <a class="xref" href="../archive/cat_js_embed.html" title="Embed Code JavaScript APIs can be used to handle getting and setting embedCode for assets, getting asset descriptions, getting images and fetching metadata for assets.">getEmbedCode/setEmbedCode</a><samp class="ph codeph">&gt;</samp> API request. </p>
+
+        </li>
+
+      </ul>
+</div>
+
+  <div class="section">Before you begin migrating from prior player versions, it will help to understand the difference between the
+      embed code models. The following examples show the difference between legacy player embed code
+      and the current Player embed code. </div>
+
+  <div class="section"><h2 class="title sectiontitle">Simple Legacy Player Embed Code</h2>
+   
+    <p class="p">With legacy Ooyala players, you referenced the player by providing a
+          <samp class="ph codeph">playerId</samp> parameter to the player. For example, you might specify
+        'myPlayer' for the playerId. You then reference the player using the DOM element lookup
+          <samp class="ph codeph">$('#myPlayer')</samp>. In these legacy players you reference the player object
+        (player.js) and specify some customization attributes such as width and height using Ooyala
+        query string parameters. In the following example this is followed by the actual embed code
+        string that you obtain from Backlot or create manually. </p>
+
+  </div>
+
+  <div class="section">
+<pre class="pre codeblock">
+&lt;script src="http://player.ooyala.com/player.js?width=&lt;width&gt;&amp;height=&lt;height&gt;
+&amp;embedCode=replace_with_embed_code&gt;&lt;/script&gt;  
+</pre>
+ 
+  </div>
+
+   <div class="section"><h2 class="title sectiontitle">Simple Player Embed Code</h2>In contrast with prior legacy
+      players, the current Ooyala Player enables you to reference the player object directly. To
+      reference the current Ooyala Player equivalent of the legacy player.js, you just call the
+      object returned from the <span class="keyword apiname">OO.Player.create()</span>. This object can be safely
+      stored anywhere for future use. The following example illustrates the way that you create of a
+      simple Ooyala Player. <div class="note note"><span class="notetitle">Note:</span> To work, the URL <samp class="ph codeph">"http://player.ooyala.com/v3/..."
+        </samp> always requires a valid player branding id. </div>
+<pre class="pre codeblock">
+&lt;script src="http://player.ooyala.com/v3/&lt;player_branding_id&gt;"&gt;&lt;/script&gt;  
+&lt;div id='playerContainer'&gt;&lt;/div&gt;  
+&lt;script&gt;
+var myPlayer = OO.Player.create('playerContainer', 'replace_with_embed_code', {
+  width: &lt;width&gt;, height: &lt;height&gt;
+});
+&lt;/script&gt;  
+</pre>
+
+    </div>
+ 
+ </div>
+
+  <div class="related-links"><div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../reference/player_v3_dev_createplayers.html" title="You can create three types of players with the new embed style.">Creating an HTML5 Player</a></div>
+<div><a class="link" href="../reference/player_v3_dev_embedmultipleplayers.html" title="Learn to use advanced layout techniques to embed and present multiple players.">Advanced Layout: Embedding Multiple Players (HTML5 Player V3) (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

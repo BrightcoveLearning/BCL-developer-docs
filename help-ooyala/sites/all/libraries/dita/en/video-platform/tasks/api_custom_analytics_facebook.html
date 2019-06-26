@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Recording Facebook Data within Custom Analytics (Deprecated)"/>
+<meta name="abstract" content="If your users log into your site through Facebook Connect, you have access to their basic information (demographics, education, work history, likes or preferences, and more)."/>
+<meta name="description" content="If your users log into your site through Facebook Connect, you have access to their basic information (demographics, education, work history, likes or preferences, and more)."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_custom_analytics.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_custom_analytics"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Recording Facebook Data within Custom Analytics (Deprecated)</title>
+</head>
+<body id="api_custom_analytics">
+
+
+ <h1 class="title topictitle1">Recording Facebook Data within Custom Analytics (Deprecated) </h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">If your users log into your site through Facebook Connect, you have access to their basic information (demographics, education, work history, likes or preferences, and more).
+</p>
+
+  <div class="section context">
+   <div class="p">
+    <div class="note warning"><span class="warningtitle">Warning:</span> The v2 Analytics API has been deprecated. See <a class="xref" href="../concepts/ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a> for more details on the new v3 Analytics
+     API.</div>
+
+   </div>
+
+   <p class="p">The following is an example of the type of information you can obtain from Facebook
+    Connect:</p>
+
+   <pre class="pre codeblock">
+https://graph.facebook.com/btaylor    
+   </pre>
+
+   <p class="p">which returns a response similar to the following:</p>
+
+   <pre class="pre codeblock">{
+   "id": "220439",
+   "name": "Bret Taylor",
+   "first_name": "Bret",
+   "last_name": "Taylor",
+   "link": "http://www.facebook.com/btaylor",
+   "username": "btaylor",
+   "gender": "male",
+   "locale": "en_US"
+}</pre>
+
+   <div class="note note"><span class="notetitle">Note:</span> For more information about how to use Facebook Connect, refer to the <a class="xref" href="http://developers.facebook.com/docs/guides/web/#login" target="_blank">Facebook Developers</a> site.</div>
+
+   <p class="p">The following example describes how to create record a user's gender based from Facebook data using JavaScript.</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd">Create a tag for each piece of information to record. In this example, you create a <samp class="ph codeph">male</samp> and <samp class="ph codeph">female</samp> tag.</span>
+     <p class="p">The following example creates a <samp class="ph codeph">male</samp> tag:</p>
+
+     <pre class="pre codeblock">[PUT] /v2/analytics/tags/male{
+   “display_name”: "Male"
+}</pre>
+
+     <p class="p">The following example creates a <samp class="ph codeph">female</samp> tag:</p>
+
+     <pre class="pre codeblock">[PUT] /v2/analytics/tags/female{
+   “display_name”: "Female"
+}</pre>
+     
+    
+     If the requests are successful, <span class="ph">Backlot</span> returns a 200
+     response.
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">
+     Initialize FB.api and make sure the user is logged in. For more information, refer to the <a class="xref" href="http://developers.facebook.com/docs/reference/javascript/" target="_blank">Facebook JavaScript SDK</a>.  
+    </span>
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Embed the client code that records the male or female tag through the <samp class="ph codeph">playerAPICallback</samp> call.</span>
+     
+     <p class="p">The following example code gets the gender of the user by making a call to the Facebook API and records the gender each time the <samp class="ph codeph">playerAPICallback</samp> call is made.
+     </p>
+
+     <pre class="pre codeblock">
+var tags = new Array();
+
+FB.api( "/me", function(response) {
+	tags[0] = response.gender;
+});
+
+function playerAPICallback(playerId, eventName, eventParams) {
+	if(eventName=="playerEmbedded"){
+		document.getElementById(playerId).setModuleParams({
+			"analytics":{
+				"tags": tags
+			}
+		});
+	}
+}      
+      
+     </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Embed the client code that embeds the player, specifying the <samp class="ph codeph">OnCreate</samp>
+     embedded parameter with the name of your previously defined function
+     <samp class="ph codeph">playerAPICallback</samp>. </span>
+     The following is a basic example of a player V3 creation. The third argument is a hash of
+     name/value pairs (detailed in the <em class="ph i">Player API Reference</em>).
+     <pre class="pre codeblock">
+  window.player = OO.Player.create('playerwrapper','w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82', {
+    onCreate: window.playerAPICallback, 
+    .
+    .
+    .
+    }
+.
+.
+.</pre>
+
+    
+   </li>
+</ol>
+
+  <div class="section postreq">
+   <p class="p">You can begin viewing the results through the <span class="ph">Backlot UI</span> or <span class="ph">Backlot API</span>.</p>
+
+  </div>
+
+ </div>
+
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_custom_analytics.html" title="As users consume your content, Ooyala collects detailed information such as how long they watched, the amount of data delivered, conversion rates, source domains, sharing, and so on. Although this is a substantial amount of analytics, you might have information that is unavailable to Ooyala.">Custom Analytics (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

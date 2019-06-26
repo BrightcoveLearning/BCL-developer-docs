@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Upload API Example (Deprecated)"/>
+<meta name="abstract" content="This section provides a simple example in PHP."/>
+<meta name="description" content="This section provides a simple example in PHP."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_upload_widget.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="widget_example"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Upload API Example (Deprecated)</title>
+</head>
+<body id="widget_example">
+
+
+    <h1 class="title topictitle1">Upload API Example (Deprecated)</h1>
+
+  
+    
+ <div class="body refbody"><p class="shortdesc">This section provides a simple example in PHP. </p>
+
+     <div class="section">         
+         <p class="p">A simple but working PHP example illustrating use of the API by 
+             integrating the partner upload widget into a web page. This code is 
+             available for download at <a class="xref" href="http://www.ooyala.com/api/uploadWidget.php" target="_blank">http://www.ooyala.com/api/uploadWidget.php</a>.</p>
+
+<pre class="pre codeblock">
+&lt;?php
+
+// You can find your partner and secret code under Account &gt; API
+// Settings in Backlot and replace these values.
+
+define('OOYALA_PARTNER_CODE', 'lsNTrbQBqCQbH-VA6ALCshAHLWrV');
+define('OOYALA_SECRET_CODE', 'hn-Rw2ZH-YwllUYkklL5Zo_7lWJVkrbShZPb5CD1');
+
+class OoyalaPartnerAPI 
+{ 
+  static function signed_params($params) 
+  { 
+    if (!array_key_exists('expires', $params)) { 
+      $params['expires'] = time() + 900;  // 15 minutes 
+    } 
+ 
+    $string_to_sign = OOYALA_SECRET_CODE; 
+    $param_string = 'pcode='.OOYALA_PARTNER_CODE; 
+    $keys = array_keys($params); 
+    sort($keys); 
+ 
+    foreach ($keys as $key) { 
+      $string_to_sign .= $key.'='.$params[$key]; 
+      $param_string .= '&amp;'.rawurlencode($key).'='.rawurlencode($params[$key]); 
+    } 
+      
+    $digest = hash('sha256', $string_to_sign, true); 
+    $signature = ereg_replace('=+$', '', trim(base64_encode($digest))); 
+    return $param_string.'&amp;signature='.rawurlencode($signature); 
+  } 
+} 
+ 
+// Define any default labels to assign and the dynamic label prefix  
+// for any user-selected dynamic labels 
+  
+$param_string = OoyalaPartnerAPI::signed_params(array( 
+  'status' =&gt; 'pending', 
+  'label[0]' =&gt; '/uploader-demo/foo', 
+  'label[1]' =&gt; '/uploader-demo/bar', 
+  'dynamic[0]' =&gt; '^/uploader-demo/dynamic/', 
+  )); 
+?&gt; 
+ 
+&lt;html&gt; 
+  &lt;head&gt; 
+    &lt;title&gt;Uploader Demo&lt;/title&gt; 
+  &lt;/head&gt; 
+   
+  &lt;body&gt; 
+    &lt;script src="http://www.ooyala.com/partner/uploadButton?width=100&amp;height=20&amp;label=Browse%20Button"&gt;&lt;/script&gt; 
+ 
+    &lt;script type="text/javascript"&gt; 
+      function onFileSelected(file) 
+      { 
+        document.getElementById('file_name').value = file.name; 
+      } 
+      function onProgress(event) 
+      { 
+        document.getElementById('status').innerHTML = (parseInt(event.ratio * 10000) / 100) + '%';  
+      } 
+      function onUploadComplete() 
+      { 
+        document.getElementById('status').innerHTML = 'Done!'; 
+      } 
+      function onUploadError(text) 
+      { 
+        document.getElementById('status').innerHTML = 'Upload Error: ' + text; 
+      } 
+      function onEmbedCodeReady(embedCode) 
+      { 
+        // Not used 
+        // document.getElementById('embedCode').innerHTML = embedCode; 
+      } 
+ 
+      function onOoyalaUploaderReady()  
+      { 
+        try 
+        { 
+          ooyalaUploader.setParameters('&lt;?php print $param_string ?&gt;'); 
+        } 
+        catch(e) 
+        { 
+          alert(e); 
+        } 
+        ooyalaUploader.addEventListener('fileSelected', 'onFileSelected');  
+        ooyalaUploader.addEventListener('progress', 'onProgress');  
+        ooyalaUploader.addEventListener('complete', 'onUploadComplete');  
+        ooyalaUploader.addEventListener('error', 'onUploadError');  
+        ooyalaUploader.addEventListener('embedCodeReady', 'onEmbedCodeReady');  
+          
+        document.getElementById('uploadButton').disabled = false;  
+      } 
+  
+      function startUpload() 
+      { 
+        try 
+        { 
+          ooyalaUploader.setTitle(document.getElementById('file_name').value); 
+          ooyalaUploader.setDescription(document.getElementById('description').value); 
+
+          if (document.getElementById('dynamic_label').value) 
+          { 
+            ooyalaUploader.addDynamicLabel('/uploader-demo/dynamic/' + document.getElementById('dynamic_label').value); 
+          } 
+          var errorText = ooyalaUploader.validate();  
+
+          if (errorText)  
+          {  
+            alert(errorText);  
+            return false;  
+          }  
+          ooyalaUploader.upload(); 
+        }  
+        catch(e)  
+        {  
+          alert(e); 
+        } 
+        return false; 
+      } 
+    &lt;/script&gt; 
+    
+    &lt;table border="1" cellspacing="0" cellpadding="1"&gt; 
+      &lt;tr&gt; 
+        &lt;td&gt;Filename:&lt;/td&gt; 
+        &lt;td&gt;&lt;textarea id="file_name" rows="1" cols="29"&gt;&lt;/textarea&gt;&lt;/td&gt;
+      &lt;/tr&gt; 
+      &lt;tr&gt; 
+        &lt;td&gt;Description:&lt;/td&gt; 
+        &lt;td&gt;&lt;textarea id="description" rows="5" cols="29"&gt;&lt;/textarea&gt;&lt;/td&gt; 
+      &lt;/tr&gt; 
+      &lt;tr&gt; 
+        &lt;td&gt;Category:&lt;/td&gt; 
+        &lt;td&gt; 
+          &lt;select id="dynamic_label" name="dynamic_label" /&gt; 
+            &lt;option value=""&gt;None 
+            &lt;option value="Sports"&gt;Sports 
+            &lt;option value="Drama"&gt;Drama 
+            &lt;option value="News"&gt;News 
+            &lt;option value="Action"&gt;Action 
+          &lt;/select&gt; 
+        &lt;/td&gt; 
+      &lt;/tr&gt; 
+    &lt;/table&gt; 
+    &lt;button id="uploadButton" disabled onclick="return startUpload();"&gt;Upload!&lt;/button&gt;  
+    &lt;div id="status"&gt;&lt;/div&gt;  
+  &lt;%= partial :"ganalytics" %&gt;
+&lt;/body&gt; 
+&lt;/html&gt; 
+
+</pre>
+
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_upload_widget.html" title="The v1 upload widget is based on the v1 API and is therefor deprecated. Instead, use the Uploader JavaScript Libarary.">Deprecated: Upload Widget API v1 Reference (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

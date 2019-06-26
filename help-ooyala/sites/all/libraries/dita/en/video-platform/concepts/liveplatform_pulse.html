@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Live Stream Integration (SSAI)"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ooyala_live_user_guide.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="liveplatform_pulse_integeration"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Live Stream Integration (SSAI)</title>
+</head>
+<body id="liveplatform_pulse_integeration">
+
+
+    <h1 class="title topictitle1">Ooyala Live Stream Integration (SSAI)</h1>
+
+    <div class="body conbody">
+    <div class="section"><p class="p">This document describes how to integrate SSAI with the Ooyala Live stream. For
+        information on using SSAI for VOD assets, please see <a class="xref" href="../../../../../../../video-platform/concepts/ssai_guide_vod.html" target="_blank">here</a>. For an end-to-end guide to SSAI, please see <a class="xref" href="ssai_guide.html">here</a>.</p>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Unsupported Formats with SSAI</h2>
+            
+            <div class="p">We do not currently support the following with SSAI Live or VOD:<ul class="ul">
+                    <li class="li">Streams with multi-audio tracks (only single-audio track streams are
+                        supported).</li>
+
+                    <li class="li">HEVC codec.</li>
+
+                    <li class="li">DASH, Smooth output streams.</li>
+
+                </ul>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Processing Profile for Ads in Live SSAI</h2>
+            
+            <p class="p">For Live SSAI, ads are downloaded and transcoded as per each Live channel
+                profile.</p>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Step By Step Guide:
+            </h2>
+            
+            <p class="p">This is a walkthrough of setting up an SSAI channel, and how to use the SSAI feature to insert ads in stream.</p>
+
+            <p class="p"><strong class="ph b">Ooyala Live Stream Integration with SSAI</strong></p>
+
+            <p class="p">Integrate DFP or Ooyala Pulse with Ooyala live for seamless server-side ad insertion
+                (SSAI).</p>
+
+        
+        <p class="p"><span class="ph" id="liveplatform_pulse_integeration__live_ssai_intro_paragraph">Ooyala Live offers integration with Google’s DFP and
+                    Ooyala Pulse to enable SSAI. Your Ooyala representative will onboard your Pulse
+                    account and integrate it with your Live account, which will have exclusive
+                    access to theAd server account. Your ads will be automatically downloaded and
+                    transcoded. </span></p>
+
+        <div class="note note" id="liveplatform_pulse_integeration__live_ssai_intro_note"><span class="notetitle">Note:</span> This capability supports only HTTP Live Streaming (HLS ).
+            Therefore, when you create your channel, use an HLS output template. </div>
+
+        <p class="p">With <dfn class="term">Personalized SSAI</dfn>, the ad server customizes the ads it displays to each
+                individual user. Different users might get the same set of ads in the same order,
+                but the decisions are still made individually for each user.</p>
+
+        <p class="p">When you create a channel for a personalized ad (personalized for users), you must create
+            a publishing rule called SSAI in your Backlot account (see <a class="xref" href="../tasks/publishing_rules_create.html#publishing_rules_create" title="You can create as many publishing rules as you like and assign them to videos, channels, or channel sets. During playback, the most restrictive rule as applied.">Creating Publishing Rules</a>).</p>
+
+        <div class="note note"><span class="notetitle">Note:</span> You should use Ooyala Player V4, which supports playback in HLS. Ooyala Player V3 does
+                not support HLS on the web. </div>
+
+            <div class="note note"><span class="notetitle">Note:</span> <p class="p">Before you create a channel, make sure at least one ad slate has been added to the
+                Live account:</p>
+<ul class="ul">
+                    <li class="li">Click on 'Slates' in Live. It is located near the top right of the Live
+                        app.</li>
+
+                    <li class="li">If no slates have the <span class="ph uicontrol">Ad Slate</span> field checked, add an
+                        ad slate, which must be an MP4 video at least 5 seconds long, and cannot be
+                        an image.</li>
+
+                </ul>
+</div>
+
+        <p class="p">To integrate Pulse ads in your live stream, follow these steps in the Ooyala Live UI:</p>
+
+        <div class="p">
+            <ol class="ol" id="liveplatform_pulse_integeration__ol_xpb_vcw_zv">
+                <li class="li">In <span class="ph uicontrol">General Setup</span>, select <span class="ph uicontrol">Ooyala
+                        Package</span> and <span class="ph uicontrol">Ooyala Encode</span> and click
+                        <span class="ph uicontrol">Next Step</span>. </li>
+
+                <li class="li">Create a channel - go to Channels, click Add Channel and go through the
+                        following steps to create an HLS channel:<ol class="ol" type="a">
+                            <li class="li">Select the <span class="ph uicontrol">Encoding Setup</span> according to your
+                                profile and click <span class="ph uicontrol">Next Step</span>. </li>
+
+                            <li class="li">In <span class="ph menucascade"><span class="ph uicontrol">Packaging Setup</span> &gt; <span class="ph uicontrol">Packager Output Filter Template</span></span>, select any compliant output package. For example, if
+                                you select <span class="ph uicontrol">HLS_Only</span>, your <span class="ph uicontrol">Output
+                                    Type</span> will be <span class="ph filepath">hls</span>. Click
+                                    <span class="ph uicontrol">Next Step</span>. <div class="note note"><span class="notetitle">Note:</span> Details of non-compliant
+                                    output packages are also listed. However, if you select a
+                                    non-compliant output package, you will not be able to click the
+                                    ad <span class="ph uicontrol">Enabled</span> check box in the next
+                                    step.</div>
+While going through the channel creation process, if
+                                you are on-boarded with at least one ad provider, an Ad Setup page
+                                will be displayed. If you cannot choose your ad provider, it may be
+                                due to an incompatible elemental-live encoding output profile. If
+                                this is the case, you should see list of detected issues on the
+                                screen. You will either need to choose a compatible profile or
+                                correct the current one before you proceed. </li>
+
+                        </ol>
+</li>
+
+                <li class="li">On the <span class="ph uicontrol">Ad Setup</span> screen, click
+                            <span class="ph uicontrol">Enabled</span> and click <span class="ph uicontrol">Next
+                            Step</span>. </li>
+
+                <li class="li">If you want to create an SSAI channel with the 'Adtech' ad provider, i.e. Pulse,
+                        as the ad-server, select <span class="ph uicontrol">Adtech</span>. The following is
+                    displayed: <p class="p"><img class="image" src="../image/adtech.png"/></p>
+<ol class="ol" type="a">
+                        <li class="li">The <span class="ph uicontrol">Slate</span> field contains the desired ad slate to use with the
+                                    channel. The ad slate is used to fill ad breaks when an ad is
+                                    not available to be inserted.</li>
+
+                        <li class="li">Check <span class="ph uicontrol">Personalize Ads</span> for each user to get their
+                                    own list of ads. When unchecked, the SSAI server will retrieve
+                                    one set of ads to be used by all users on the SSAI server.</li>
+
+                        <li class="li"><span class="ph uicontrol">Ads Prefetch Mode</span> has 3 options: <span class="ph uicontrol">Auto</span>,
+                                    <span class="ph uicontrol">ON</span>, and <span class="ph uicontrol">OFF</span>.
+                                Prefetch mode is used to prefetch modes in advance of an ad break
+                                and is useful during very large events. Auto mode is a good default
+                                option. With this option, SSAI will automatically turn pre-fetch
+                                mode on when it deems necessary.</li>
+
+                        <li class="li">The <span class="ph uicontrol">Tags</span> field is specific to AdTech(Pulse) and can be used to
+                                    aid in targeting of ads.</li>
+
+                        <li class="li">The <span class="ph uicontrol">Categories</span> field is specific to AdTech(Pulse) and can be
+                                    used to aid in targeting of ads.</li>
+
+                            </ol>
+</li>
+
+                <li class="li">If you want to create an SSAI channel with the 'Dfp' ad provider, select
+                            <span class="ph uicontrol">Dfp</span>. The following is displayed: <img class="image" src="../image/dfp.png"/><ol class="ol" type="a">
+                                <li class="li">Select a <span class="ph uicontrol">Slate</span> that will ensure the entire ad break is filled. The
+                                slate field contains the desired ad slate to use with the channel.
+                                The ad slate is used to fill ad breaks when an ad is not available
+                                to be inserted. </li>
+
+                                <li class="li">Check <span class="ph uicontrol">Personalize Ads</span> for each user to get their own list of ads.
+                                When unchecked, the SSAI server will retrieve one set of ads to be
+                                used by all users on the SSAI server.</li>
+
+                                <li class="li"><span class="ph uicontrol">Ads Prefetch Mode</span> has 3 options: <span class="ph uicontrol">Auto</span>, <span class="ph uicontrol">ON</span>, and <span class="ph uicontrol">OFF</span>. Prefetch mode is
+                                used to prefetch modes in advance of an ad break and is useful
+                                during very large events. <span class="ph uicontrol">Auto</span> mode is a good default option. With
+                                this option, SSAI will automatically turn pre-fetch mode on when it
+                                deems necessary.</li>
+
+                                <li class="li">The <span class="ph uicontrol">Tag Url</span> field is specific to DFP and
+                                is used by SSAI to retrieve ads from DFP:<ul class="ul">
+                                    <li class="li">The customer's DFP account must be whitelisted for SSAI. The
+                                        customer must contact DFP to request approval. If the
+                                        customer is not whitelisted and just wants to test the
+                                        functionality, the tag url must include <samp class="ph codeph">&amp;ss_req=0</samp> at the
+                                        end of the query string. With this setting, however,
+                                        impression counts and geo targeting will not function
+                                        correctly. </li>
+
+                                    <li class="li">This call should return VAST. Information on how to create
+                                        this tag manually can be found <a class="xref" href="https://support.google.com/dfp_premium/answer/1068325?hl=en" target="_blank">here</a>. In addition,
+                                        DFP has tools to help create this tag.</li>
+
+                                    <li class="li">The url can contain the following macros that SSAI will
+                                        resolve when making ad calls:<ul class="ul">
+                                            <li class="li"><samp class="ph codeph">[timestamp]</samp></li>
+
+                                            <li class="li"><samp class="ph codeph">[referrer_url]</samp></li>
+
+                                            <li class="li"><samp class="ph codeph">[random]</samp></li>
+
+                                            <li class="li"><samp class="ph codeph">[cache_buster]</samp></li>
+
+                                        </ul>
+</li>
+
+                                </ul>
+</li>
+
+                        </ol>
+</li>
+
+                <li class="li"><strong class="ph b">Testing</strong><ol class="ol" type="a">
+                            <li class="li">After you create and start the channel, to test it, view its details
+                                and click on the <span class="ph uicontrol">Monitor</span> tab.</li>
+
+                    <li class="li">Click <span class="ph uicontrol">Ad Insert</span> to display ad break duration fields
+                                and start/stop buttons:<img class="image" src="../image/ad_insert.png"/>
+                        <p class="p">Enter the desired ad break duration and click <span class="ph uicontrol">START</span> to insert the
+                                    ad break. The player on the left, which shows the encoder
+                                    output, should display a black screen during the ad break. The
+                                    player on the right displays the inserted ads and/or ad slate.
+                                </p>
+</li>
+
+                        </ol>
+</li>
+
+                <li class="li">You will be provided with a standalone ad test page with the Ooyala Player Token
+                        enabled: this test page allows you to view the ads that a user would see
+                        during an ad break. On that test page, click <span class="ph uicontrol">Optional</span>
+                        and specify a tag to be used for personalized ads. For each tag you specify,
+                        you will see a unique personalized ad associated with that tag.</li>
+
+            </ol>
+
+        </div>
+
+        <p class="p">To insert third-party ads mid-roll into a Live stream, first use Pulse to add a
+            third-party ad for a campaign goal. Then, create an SSAI channel for the Pulse campaign
+            that has the third-party ad. </p>
+
+        <div class="p">
+            <ol class="ol" id="liveplatform_pulse_integeration__ol_s14_x4l_gx">
+                <li class="li">In Pulse, add a third-party ad for a campaign goal: <ol class="ol" type="a" id="liveplatform_pulse_integeration__ol_mkd_2ql_gx">
+                        <li class="li"> In the <span class="ph uicontrol">Add a new ad for goal</span> dialog, click the
+                                tab. </li>
+
+                        <li class="li"> In the <span class="ph uicontrol">3rd Party Ad URL (VAST)</span> field, enter the
+                                URL of the ad’s VAST file. To test, you can use <a class="xref" href="https://developer.amazon.com/public/solutions/devices/fire-tv/docs/fire-tv-media-players#exoplayer" target="_blank">http://aptest.adtech-union.tv/proxy/distributor/v2?rt=vast_3.0&amp;t=midroll2</a>. </li>
+
+                        <li class="li">Click <span class="ph uicontrol">Save</span>. </li>
+
+                        <li class="li">Wait from 5 to 10 minutes for the changes to take effect. </li>
+
+                    </ol>
+</li>
+
+                <li class="li">Insert the third-party ad into an Ooyala Live stream:<ol class="ol" type="a" id="liveplatform_pulse_integeration__ol_ejb_qql_gx">
+                            <li class="li">In Ooyala Live, create an SSAI channel for the Pulse campaign that
+                                has the third-party ad.</li>
+
+                            <li class="li">Insert an ad break. </li>
+
+                            <li class="li">Start the SSAI channel, play some of the ads, verify the slate that
+                                was played, and stop the channel. </li>
+
+                        </ol>
+</li>
+
+            </ol>
+
+        </div>
+
+        <div class="note note"><span class="notetitle">Note:</span> The first time a specific third-party ad is encountered; it does not play because
+            it has not been transcoded. Instead, it is submitted for transcoding. After transcoding,
+            when it the third-party ad is encountered, it plays. </div>
+
+        <p class="p">To change an ad slate for an SSAI channel:</p>
+
+        <div class="p">
+            <ol class="ol" id="liveplatform_pulse_integeration__ol_xqz_dxl_gx">
+                <li class="li">In Live, if only one ad slate exists, upload a new ad slate. </li>
+
+                <li class="li">Wait up to 10 minutes for the ad to be transcoded. </li>
+
+                <li class="li">View the status of the new ad slate. </li>
+
+                <li class="li">In Live, click <span class="ph uicontrol">View channel details</span>. </li>
+
+                <li class="li">Click <span class="ph uicontrol">Ad Settings</span>. </li>
+
+                <li class="li">Change the <span class="ph uicontrol">Ad Slate</span> parameter to the new ad slate. </li>
+
+                <li class="li">Start the channel, insert an ad break, and verify that the new ad slate has been
+                    played.</li>
+
+            </ol>
+
+        </div>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Live Ad Insertion API Call</h2>
+            
+            <p class="p">You can insert the ad segments through a button on the UI or through API calls. </p>
+
+            <p class="p">The following example shows the details of the API call to be made to insert the ad
+                markers in the stream, which determines where the ad segments will be inserted.</p>
+
+            <pre class="pre codeblock">METHOD: POST
+URL: https://live.ooyala.com/v2/channels/&lt;channel_id&gt;/insertAdMarkers
+BODY: {"duration":60000,"delay":0}</pre>
+
+            <div class="note note"><span class="notetitle">Note:</span> 
+                <ul class="ul">
+                    <li class="li"><samp class="ph codeph">duration</samp> should be no less than 1000.</li>
+
+                    <li class="li">60000 is equal to 60 seconds.</li>
+
+                    <li class="li">The delay is in milliseconds.</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="ooyala_live_user_guide.html" title="This documentation describes how to use Ooyala Live to harnesses the power of big data to help broadcasters, operators and media companies personalize Linear TV and Live Event experiences through data driven programming and interactive playback.">Ooyala Live User Guide</a></div>
+</div>
+</div>
+
+</body>
+</html>

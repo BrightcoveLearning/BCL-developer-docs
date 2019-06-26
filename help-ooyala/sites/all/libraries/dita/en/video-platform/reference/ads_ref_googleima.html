@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Google IMA Ads Embedded Parameters in Player V3 (Deprecated)"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_adsparams.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ads_ref_googleima"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Google IMA Ads Embedded Parameters in Player V3 (Deprecated)</title>
+</head>
+<body id="ads_ref_googleima">
+
+
+ <h1 class="title topictitle1">Google IMA Ads Embedded Parameters in Player V3 (Deprecated)</h1>
+
+ <div class="body refbody">
+   <div class="section"><div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+ You can pass Google IMA ad-service-related tags to the Player with the embedded
+      parameters. <div class="note note"><span class="notetitle">Note:</span> To use Ooyala’s Google IMA ad manager, log into the Support Center and
+        submit a ticket requesting that this ad source be added to your account. Once it’s enabled,
+        you’ll be able create adsets for your player.</div>
+Ads positions behave somewhat
+      differently on desktop and mobile devices. See <a class="xref" href="../concepts/ads_integration_overview.html">Client Side Ad Integration</a> for a comprehensive list of
+      ad postion support by platform.</div>
+<div class="section"><h2 class="title sectiontitle">Google IMA Parameter</h2>
+       Use the <span class="keyword parmname">google-ima-ads-manager</span>
+      parameter to pass Google IMA ad server or network tags to the Ooyala player. The parameter is
+      a container that takes a key value pair representing the ad server or network URL along with
+      the other parameters described below. <p class="p"><strong class="ph b">Set the adTagUrl Parameter to Override the Backlot
+          URL</strong></p>
+ One of the parameters for the <samp class="ph codeph">google-ima-ads-manager</samp> is a key
+      value pair in the form <samp class="ph codeph"><em class="ph i">adTagUrl: "some url"</em></samp>. <p class="p"><em class="ph i">Valid Values:
+        </em>Any URL.</p>
+For example:
+      <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", {
+  height: "100%",
+  width: "100%",
+  "google-ima-ads-manager": {
+    adTagUrl: "some url",
+    ...
+  },
+});</pre>
+
+      You need to change the key value "some url" to the actual google-ima ad tag containing the
+      response. This URL value for the adTag key value pair represents the ad server or network URL.
+      This adTag URL overrides the one in Backlot. For example:<div class="p">
+        <pre class="pre codeblock">adTagUrl: "http://myAdServer.com/myGoogle-ima-ads-manager"</pre>
+
+      </div>
+ You can have additional adTag parameters appended to the end of the URL that you get from
+      Backlot. <p class="p"><strong class="ph b">Set the useStyledNonLinearAds Parameter to Hide the Close Button for Non-Linear
+          Ads on Flash Players</strong></p>
+<div class="note note"><span class="notetitle">Note:</span> This parameter is for Flash only.</div>
+ Another
+      parameter you can set is <samp class="ph codeph">useStyledNonLinearAds</samp>, which shows a close button
+      for non-linear ads when set to true. This parameter is optional - by default the button to
+      close an ad is shown for non-linear ads. <p class="p"><em class="ph i">Valid Values: </em> yes | true | no |
+          false</p>
+<p class="p"><em class="ph i">Default: </em> true</p>
+ Set this parameter to false to hide the close ad
+      button, as shown in the following example: <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", {
+  height: "100%",
+  width: "100%",
+  "google-ima-ads-manager": {
+    adTagUrl: "some url",
+    useStyledNonLinearAds: false,
+    ...
+  },
+});</pre>
+
+      <p class="p"><strong class="ph b">Use showInAdControlBar to Show or Hide the Player Controls Bar During Ad
+        Playback</strong></p>
+ You can use <samp class="ph codeph">showInAdControlBar</samp> to show/hide player
+      controls bar during ad playback. <p class="p"><em class="ph i">Valid Values: </em> yes | true | no |
+          false</p>
+<p class="p"><em class="ph i">Default: </em> no</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> There is a <a class="xref" href="player_v3_hide_controller.html" title="Hide the control bar during ad playback through an option hash tag.">general
+          player parameter also called 'showInAdControlBar'</a>. You should not use both
+        showInAdControlBar parameters simultaneously. The preferred method is to use the general
+        player showInAdControlBar parameter outside of the 'google-ima-ads-manager' hash. </div>
+
+      For example: <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", { 
+    height: "100%", 
+    width: "100%",
+    "google-ima-ads-manager": { 
+        showInAdControlBar: true,
+        ... } 
+    }
+);
+              </pre>
+
+      <p class="p"><strong class="ph b">Use showAdMarquee to Show or Hide the Ad Marquee During Ad Playback</strong></p>
+ Use
+        <samp class="ph codeph">showAdMarquee</samp> to show or hide the ad marquee during ad playback. When set
+      to false or no, the adMarquee of an add will be hidden. If set to true, yes, or omitted the
+      adMarquee will be displayed during ad playback.<p class="p"><em class="ph i">Valid Values: </em> true |
+          false</p>
+<p class="p"><em class="ph i">Default: </em> true</p>
+ For example: <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", { 
+    height: "100%", 
+    width: "100%",
+    "google-ima-ads-manager": { 
+        showAdMarquee: true ,
+        ... } 
+    }
+);
+              </pre>
+
+      <p class="p"><strong class="ph b">Use playWhenAdClick to Set Ad Playback Behavior After Ad is Clicked</strong></p>
+ If
+        <samp class="ph codeph">playWhenAdClick</samp> is set to yes, ad playback will continue regardless of
+      click. <p class="p"><em class="ph i">Valid Values: </em> yes | true | no | false</p>
+<p class="p"><em class="ph i">Default: </em> no</p>
+<div class="note note"><span class="notetitle">Note:</span> For
+        Flash, if playWhenAdClick is set to false with no ad controls, after the user clicks on the
+        ad and is redirected, ad playback will continue when the user clicks on the ad the second
+        time. We are aware that this causes some undesired behavior where the ad url opens for both
+        ad pause and ad play events. We are working with the Google IMA team to fix this behavior.
+        Otherwise, ad playback will pause.</div>
+ For example:
+          <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", { 
+    height: "100%", 
+    width: "100%",
+    "google-ima-ads-manager": { 
+        playWhenAdClick: true ,
+        ... } 
+    }
+);
+              </pre>
+<p class="p"><strong class="ph b">Set
+          the additionalAdTagParameters to Append More Parameters</strong></p>
+You can use
+        <samp class="ph codeph">additionalAdTagParameters</samp> to add functionality to your ad handling such as
+      adding demographic targeting for ads. These added ad tag parameters have a dependency on how
+      the ad tag is set up in Backlot. Also, the additional adTagUrl parameter key-value pairs are
+      part of the adTagUrl parameter and need to be in the form of a dictionary with key-value
+      pairs. You can use any of the internal key/value pairs that google-ima supports. Google IMA
+      documentation lists these parameters at this site: <a class="xref" href="https://support.google.com/dfp_premium/answer/1068325?hl=en" target="_blank">https://support.google.com/dfp_premium/answer/1068325?hl=en</a>. When you use these parameters, we append them to the end of the ad tag.
+        <strong class="ph b">Appended parameters</strong> do not override anything in the URL from Backlot.<div class="note note"><span class="notetitle">Note:</span>  The ad
+        tag <strong class="ph b">Url</strong> overrides the Url in Backlot. </div>
+To start using these parameters, you can
+      specify something like the following:
+        <pre class="pre codeblock">additionalAdTagParameters: {
+  "parameter1": "value1",
+  "parameter2": "value2"
+}       </pre>
+<p class="p">In
+        Backlot, if you specify the ad tag URL
+          as:<samp class="ph codeph">http://www.example.com/example?param1=test</samp>, the resulting request made
+        with the following parameters would be:<samp class="ph codeph"> "<a class="xref" href="http://www.example.com/example?param1=test&amp;cust_params=env%3Dmobilevcmshost%26siteview%3D1%26pth%3Djsbin.com&amp;vid=code&amp;pod=2" target="_blank">www.example.com/example?param1=test&amp;cust_params=env%3Dmobilevcmshost%26siteview%3D1%26pth%3Djsbin.com&amp;vid=code&amp;pod=2</a>"</samp>
+      </p>
+<p class="p">This request would look something like the following example:</p>
+<pre class="pre codeblock">"google-ima-ads-manager": {
+  additionalAdTagParameters: {
+    cust_params: "env%3Dmobilevcmshost%26siteview%3D1%26pth%3Djsbin.com",
+    vid: "code",
+    pod: "2"
+  }
+}</pre>
+<p class="p">
+        <strong class="ph b">adTagUrl Parameters from Google IMA Documentation</strong></p>
+<p class="p">You use the key value pairs
+        from the <span class="keyword parmname">google-ima-ads-manager</span> to append to the adTagUrl parameter.
+        You can find lists of these parameters in the <a class="xref" href="https://support.google.com/dfp_premium/answer/1068325?hl=en" target="_blank">Google IMA </a>documentation. The following examples show how to use
+        some of these parameters as key-value pairs of the google-ima-ads-manager parameter: </p>
+
+      <samp class="ph codeph"><em class="ph i">cust_params</em></samp>
+      <p class="p">This value pair enables you to pass custom targeting parameters to the Ooyala player. You
+        can put any kind of key values for the cust_params. For example: </p>
+<pre class="pre codeblock">cust_params: "partner%3Dpartner_1%26gender%3Dfemale%26anotherKey%3Dvalue1%2Cvalue2"</pre>
+
+      <samp class="ph codeph"><em class="ph i">vid</em></samp>
+      <div class="p">This parameter is a unique identifier for the video assets and should take the value of
+        your Ooyala video asset ID (embed code). You can get your video embed code from Backlot.
+          <div class="note note"><span class="notetitle">Note:</span> This value is required for using DFP to target against content metadata.</div>
+For
+        example:</div>
+<pre class="pre codeblock">vid: "1234Fakeoi5Xv3Dav6uuEIeVJto9Ju7R"</pre>
+
+      <samp class="ph codeph"><em class="ph i">vpos</em></samp>
+      <p class="p">You can use this value to specify the position of the ad in the video stream.
+        </p>
+<pre class="pre codeblock">vpos: "preroll"</pre>
+<p class="p">The following example demonstrates the use of
+        the google-ima adTagUrl parameter on a client-side web page.</p>
+<pre class="pre codeblock">&lt;!doctype html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;style rel="stylesheet" type="text/css"&gt;
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #container {
+      width: 800px;
+      height: 500px;
+      margin: 0 auto;
+    }
+  &lt;/style&gt;
+  &lt;script src="http://player.ooyala.com/v3/123fake9ddb1446ea9bb7cad08711d36?platform=html5-priority"&gt;&lt;/script&gt;--&gt;
+  &lt;script&gt;
+    OO.ready(function () {
+      OO.Player.create("container", "123fakeZpXSpOwupKby1s74Q8FQbRwPn", {
+        "google-ima-ads-manager": {
+          "showInAdControlBar": true,
+          "adTagUrl": "http://1fake4ads.g.doubleclick.net/gampad/ads?sz=640x480&amp;iu=%2F6376%2Fbr.
+      College_Football%2Fvideo&amp;ciu_szs=300x250%2C728x90&amp;impl=s
+      &amp;gdfp_req=1&amp;env=vp&amp;output=xml_vast2&amp;unviewed_position_start=1
+      &amp;url=[referrer_url]&amp;correlator=[timestamp]",
+          "additionalAdTagParameters": {
+            "cust_params": "env%3Dmobilevcmshost%26siteview%3D1%26pth%3Djsbin.com",
+            "vid": "code",
+            "vpos": "preroll"
+          }
+        }
+      });
+    });
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div id="container"&gt;&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</pre>
+<p class="p">In this example, we set the adTagUrl with several key value pairs such as
+          <var class="keyword varname">ciu_szs</var>, <var class="keyword varname">unviewed_position</var>, <var class="keyword varname">url</var>,
+          <var class="keyword varname">correlator</var> and others. </p>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">adRequestTimeout Parameter</h2>
+      <p class="p">Set the adRequestTimeout to set the timeout before continuing video playback. This
+        parameter is for Flash and HTML5. </p>
+Use the key value pair in the form
+          <samp class="ph codeph"><em class="ph i">adRequestTimeout: "some integer"</em></samp> to customize the time taken, in
+      milliseconds, to make a timeout for the ad request and continue the video playback. We
+      recommend using whole milliseconds (e.g. 2001 milliseconds instead of 2000.5
+          milliseconds).<p class="p"><em class="ph i">Valid Values: </em> any integer greater than or equal to
+          1000.</p>
+<p class="p"><em class="ph i">Default: </em> 3000</p>
+For example:
+      <pre class="pre codeblock">var videoPlayer = OO.Player.create("playerwrapper", "embed_code", { 
+    height: "100%", 
+    width: "100%",
+    adRequestTimeout: 1000
+    "google-ima-ads-manager": { 
+        adTagUrl: "some url",
+        ... }, 
+    }
+);
+              </pre>
+
+    </div>
+
+        <div class="section"><h2 class="title sectiontitle">Google IMA for Mobile
+        Devices</h2>
+        <div class="p">Ooyala supports Google IMA for both desktop and mobile. For information
+        about working with Google IMA for mobile devices, see the following mobile SDK Android and
+        iOS topics.<ul class="ul" id="ads_ref_googleima__ul_xrz_4w4_dm">
+          <li class="li">Android - <a class="xref" href="../concepts/mobile_sdk_android_googleima.html#mobile_sdk_android_googleima">Integration with Google IMA on Android</a> and <a class="xref" href="../concepts/mobile_sdk_android_googleima_tutorial.html#mobilesdk_android_googleima_tutorial">See the IMA Sample App in Action on Android</a></li>
+
+          <li class="li">iOS - <a class="xref" href="../concepts/mobile_sdk_ios_googleima.html#mobilesdk_ios_googleima">Integration with Google IMA on iOS</a> and <a class="xref" href="../concepts/mobile_sdk_ios_googleima_tutorial.html#mobilesdk_ios_googleima_tutorial">See the IMA Sample App in Action on iOS</a></li>
+
+        </ul>
+</div>
+
+    </div>
+
+ </div>
+
+ <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="player_v3_dev_adsparams.html" title="Customize ads using embedded parameters.">Player V3 Embedded Parameters for Ads (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

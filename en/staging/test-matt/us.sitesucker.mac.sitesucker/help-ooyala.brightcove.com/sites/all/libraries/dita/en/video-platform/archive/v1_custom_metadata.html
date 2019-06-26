@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Custom Metadata API (Deprecated)"/>
+<meta name="abstract" content="The Custom Metadata API enables you to associate arbitrary name/value pairs with any of your assets. Metadata is manipulated using signed REST-style GET calls to http://api.ooyala.com/partner/set_metadata."/>
+<meta name="description" content="The Custom Metadata API enables you to associate arbitrary name/value pairs with any of your assets. Metadata is manipulated using signed REST-style GET calls to http://api.ooyala.com/partner/set_metadata."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_custom_metadata"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Custom Metadata API (Deprecated)</title>
+</head>
+<body id="v1_custom_metadata">
+
+
+ <h1 class="title topictitle1">Custom Metadata API (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The Custom Metadata API enables you to associate arbitrary name/value pairs with any of your assets. Metadata is manipulated using signed REST-style GET calls to <samp class="ph codeph">http://api.ooyala.com/partner/set_metadata</samp>.</p>
+
+  <div class="section">
+   <div class="note note"><span class="notetitle">Note:</span> This software is deprecated. Use the latest version.</div>
+
+   <p class="p">Required Parameters</p>
+
+   
+   <ul class="ul">
+    <li class="li">pcode – Provider Code</li>
+
+    <li class="li">expires – Query expiration date in seconds since epoch (00:00:00 1/1/1970 GMT)</li>
+
+    <li class="li">embedCode – The embed code to add or delete metadata to</li>
+
+    <li class="li">signature – The digital signature of the request. The signature should be calculated using SHA-256 with the signature generation rules.
+    </li>
+
+   </ul>
+
+   
+   <p class="p">Optional Parameters</p>
+
+   
+   <ul class="ul">
+    <li class="li">delete – A list of names to delete. These names should be separated by the null character ("\0", URI-encoded as "%00").</li>
+
+    <li class="li">name=value pairs – A series of name=value metadata pairs to associate with the embed code.</li>
+
+   </ul>
+
+   
+   <p class="p">Restrictions</p>
+
+   <ul class="ul">
+    <li class="li">A maximum of 100 name/value pairs can be set per asset.</li>
+
+    <li class="li">Names can be up to 128 characters in length, and values can be up to 2048 characters in length.</li>
+
+   </ul>
+
+   
+   <p class="p">Responses are XML with the following structure</p>
+
+   
+   <div class="p">
+    <pre class="pre codeblock">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result code="success"&gt;ok&lt;/result&gt;</pre>
+
+   </div>
+
+   
+   <p class="p">When the request is successful, "code" will be "success". When the request is unsuccessful, "code" will be an HTTP status code indicating the reason for the failure.</p>
+
+   
+   <p class="p">As a reminder, all keys and values must be properly URI escaped.</p>
+
+   
+   <p class="p">Example:</p>
+
+   
+   <pre class="pre codeblock">http://api.ooyala.com/partner/set_metadata?pcode=&lt;pcode&gt;&amp;signature=&lt;signature&gt;&amp;expires=&lt;expiration&gt;&amp;embedCode=&lt;embedCode&gt;&amp;director=Francis%20Ford%20Coppola&amp;actor=Marlon%20Brando&amp;delete=writer%00copyright
+</pre>
+
+   
+   <p class="p">
+    This query will assign the value of "Francis Ford Coppola" to "director", the value "Marlon Brando" to "actor", and will delete the names "writer" and "copyright".
+   </p>
+
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1.html" title="This version of the Backlot API is deprecated. We strongly recommend that any new development work occurs on Version 2 of our APIs. For information about using our V2 APIs, go to the Developer Documentation section of the Ooyala Support Center.">Ooyala Backlot API Reference V1 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

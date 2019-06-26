@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="HTTP Response Codes and Messages"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ooyala_iq_developer_guide.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ooyala_iq_api_reference.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="response_codes"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>HTTP Response Codes and Messages</title>
+</head>
+<body id="response_codes">
+
+
+   <h1 class="title topictitle1">HTTP Response Codes and Messages</h1>
+
+   <div class="body refbody">
+      <div class="section">The top of all responses contain the following message format. Possible values for
+         <em class="ph i">status message</em> and <em class="ph i">code</em> are described in the table below. Unless otherwise
+         indicated, these codes pertain to the <span class="ph">Ooyala IQ</span> Reporting API. In the case of an error, the
+         response includes the errors key, with an explanatory message.<pre class="pre codeblock">{
+  “status”: “<em class="ph i">status message</em>”,
+  “statusCode”: <em class="ph i">code</em>
+  "errors" : "<em class="ph i">explanatory message</em>"
+}
+</pre>
+
+         <div class="p">Example:
+            <pre class="pre codeblock">
+ {  
+    “status”: “Invalid parameter”,
+    “statusCode”: “400”,
+    “errors”: [“filter has invalid syntax: invalid character . at position 4”]
+}              
+            </pre>
+
+         </div>
+<div class="p">
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="response_codes__response_codes" class="table" frame="border" border="1" rules="all">
+                  
+                  
+                  
+                  <thead class="thead" align="left">
+                     <tr class="row">
+                        <th class="entry" valign="top" width="13.793103448275861%" id="d26449e55">HTTP Response code</th>
+
+                        <th class="entry" valign="top" width="19.310344827586206%" id="d26449e58">General Meaning</th>
+
+                        <th class="entry" valign="top" width="66.89655172413794%" id="d26449e61">Detailed Description</th>
+
+                     </tr>
+
+                  </thead>
+
+                  <tbody class="tbody">
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">200</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Success</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">The request was successful.</td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">204 No Content</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Successfully received</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">Returned by the Event Ping API. No response body is returned.
+                           </td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">400</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Bad request</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">The request is incorrect. For example, it does not contain required
+                           query string parameters.</td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">401</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Not authorized</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">Either the credentials (<span class="ph">Ooyala</span>-provided API key and secret) are
+                           missing or their values are not valid.</td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">403</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Insufficient permission</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">The credentials in the request do not have sufficient permission for
+                           data requested.</td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">429</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Quota exceeded</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">The requester's quota of API calls has been exceeded. Quotas are
+                           described at <a class="xref" href="../concepts/api_rate_limiting.html" title="Through the Ooyala APIs, you are allowed 300 requests per minute. Each minute, the counter resets.">API Rate Limiting</a></td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">500</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">System error</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">Possible problem in the <span class="ph">Ooyala</span> system.</td>
+
+                     </tr>
+
+                     <tr class="row">
+                        <td class="entry" valign="top" width="13.793103448275861%" headers="d26449e55 ">503</td>
+
+                        <td class="entry" valign="top" width="19.310344827586206%" headers="d26449e58 ">Service Unavailable</td>
+
+                        <td class="entry" valign="top" width="66.89655172413794%" headers="d26449e61 ">There is a temporary service outage.</td>
+
+                     </tr>
+
+                  </tbody>
+
+               </table>
+</div>
+
+         </div>
+</div>
+
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/ooyala_iq_api_reference.html">v3 Analytics (Ooyala IQ) API</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integrating Multiple Ad Managers"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_integrate_ads_multiple"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrating Multiple Ad Managers</title>
+</head>
+<body id="pbv4_integrate_ads_multiple">
+
+
+    <h1 class="title topictitle1">Integrating Multiple Ad Managers</h1>
+
+    <div class="body conbody">
+        <div class="section">You can load and use multiple ad plugins (only the Freewheel, VAST, and Google IMA
+            ad plugins) on a single page. If all three were loaded on a page, for example, and you
+            had multiple embedded players on the page, Player A and Player B could both use IMA,
+            Player C could use Freewheel, and Player D could use VAST. <div class="note note"><span class="notetitle">Note:</span> If you want to use the
+                Pulse plug-in, consider using an iFrame instead. If you load the pulse plugin and do
+                not give it ads, you get unexpected behaviors.</div>
+ 
+            See <a class="xref" href="pbv4_ads_framework.html">Ad Manager Framework</a> for an overview and <a class="xref" href="../tasks/pbv4_integrate_ads.html">Integrating Ads</a> for an introduction.</div>
+
+        <div class="section"><h2 class="title sectiontitle">Step 1: Load the Plugins on the Page</h2>Consider the following
+            requirements: <ul class="ul">
+                <li class="li">You can load multiple ad plugins on a page, as long as you use only the
+                    Freewheel, VAST, and Google IMA ad plugins.</li>
+
+                <li class="li">Plugins should all be the same Player V4 version.</li>
+
+                <li class="li">You can load only one version of the same ad plugin on a page. For example, you
+                    cannot load two different versions of the Freewheel plugin on the same
+                    page.</li>
+
+                <li class="li">Load only the plugins you intend to use on that page.</li>
+
+
+            </ul>
+<div class="p">To load an ad plugin, add the following script (after you load <samp class="ph codeph">core.min.js</samp>) to
+                the page where you are loading the players. For example, to load all three ad
+                plugins:
+                <pre class="pre codeblock">&lt;script language=“javascript" src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/freewheel.min.js"&gt;&lt;/script&gt;
+&lt;script language=“javascript" src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/ad_manager_vast.min.js"&gt;&lt;/script&gt;
+&lt;script language=“javascript" src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/google_ima.min.js"&gt;&lt;/script&gt;                </pre>
+
+                Replace <samp class="ph codeph">url_where_hosted</samp> with the URL where you host the resource.
+            </div>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Step 2: Load and Configure Players on the Page</h2> Consider the
+            following requirements: <ul class="ul">
+                <li class="li">Multiple embedded players on a page can access the same ad plugin.</li>
+
+                <li class="li">However, you can use only one ad plugin per embedded player. For example, Player
+                    A and Player B can use only IMA, not IMA and VAST.</li>
+
+            </ul>
+After the applicable ad managers are enabled on your page, you can <a class="xref" href="pbv4_configure_ads_embedded_params.html">configure
+                general ad settings</a> with embedded parameters. You can also configure your ad
+            manager-specific settings, as described in: <ul class="ul">
+                <li class="li"><a class="xref" href="pbv4_ads_dev_vast.html">Integrating VAST and VPAID Ads</a></li>
+
+                <li class="li"><a class="xref" href="pbv4_ads_dev_freewheel.html">Integrating FreeWheel Ads</a></li>
+
+                <li class="li"><a class="xref" href="pbv4_ads_dev_google_ima.html">Integrating Google IMA Ads</a></li>
+
+            </ul>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Example</h2>Replace <samp class="ph codeph">url_where_hosted</samp> with the URL where
+            you host the resource.
+            <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+   &lt;head&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/core.js"&gt;&lt;/script&gt;
+<strong class="ph b">      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/ad-plugin/freewheel.js"&gt;&lt;/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/ad-plugin/ad_manager_vast.js"&gt;&lt;/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/ad-plugin/google_ima.js"&gt;&lt;</strong>/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/video-plugin/bit_wrapper.min.js"&gt;&lt;/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/video-plugin/main_html5.min.js"&gt;&lt;/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/video-plugin/osmf_flash.min.js"&gt;&lt;/script&gt;
+      &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/skin-plugin/html5-skin.min.js"&gt;&lt;/script&gt;
+      &lt;link rel="stylesheet" href="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/skin-plugin/html5-skin.min.css"/&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+      &lt;!-Shared Feature iframe-&gt;
+      &lt;div id='ima' style="width:900px;height:600px"&gt;&lt;/div&gt;
+      &lt;div id='vast' style="width:900px;height:600px"&gt;&lt;/div&gt;
+      &lt;div id='freewheel' style="width:900px;height:600px"&gt;&lt;/div&gt;
+      &lt;script&gt;
+          var playerParam = {
+            "autoPlay": false,
+            "pcode": "your_pcode",
+            "playerBrandingId": "your_brandingid",
+            'debug':true,
+            "skin": {
+            "config": "//player.ooyala.com/static/v4/stable/latest/skin-plugin/skin.json",
+            "inline": {"shareScreen": {"embed":
+                 {"source": "&lt;iframe width='640' height='480' frameborder='0' allowfullscreen src='//player.ooyala.com/static/v4/stable/latest/skin-plugin/iframe.html?ec=&lt;ASSET_ID&gt;&amp;pbid=&lt;PLAYER_ID&gt;&amp;pcode=&lt;PUBLISHER_ID&gt;'&gt;&lt;/iframe&gt;"}
+                     }}
+                },
+             };
+          var playerParamFreewheel = {
+             "autoPlay": false,
+             "pcode": "your_pcode",
+             "playerBrandingId": "your_brandingid",
+             'debug':true,
+              "skin":
+                  {
+                      "config": "//player.ooyala.com/static/v4/stable/latest/skin-plugin/skin.json",
+                      "inline":
+                      {
+                        "shareScreen":
+                          {
+                             "embed":
+                              { "source": "&lt;iframe width='640' height='480' frameborder='0' allowfullscreen src='//player.ooyala.com/static/v4/stable/latest/skin-plugin/iframe.html?ec=&lt;ASSET_ID&gt;&amp;pbid=&lt;PLAYER_ID&gt;&amp;pcode=&lt;PUBLISHER_ID&gt;'&gt;&lt;/iframe&gt;" }
+                           }
+                       }
+                     },
+                     "freewheel-ads-manager":
+                        { "fw_video_asset_id":"111111111111111111111111111111111", "html5_ad_server":"//g1.v.fwmrm.net", "html5_player_profile":"90750:ooyala_html5", "fw_mrm_network_id":"380912" }
+                 };
+             <strong class="ph b">OO.ready(function()
+             { window.pp = OO.Player.create('ima', '222222222222222222222222222222222', playerParam); 
+               window.pp2 = OO.Player.create('vast', '333333333333333333333333333333333', playerParam); 
+               window.pp3 = OO.Player.create('freewheel', '444444444444444444444444444444444', playerParamFreewheel); }</strong>
+           );
+       &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>

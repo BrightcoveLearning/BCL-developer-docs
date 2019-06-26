@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Working with AirPlay and Widevine Encrypted Assets"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_integrations.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_ios_airplay_widevine"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Working with AirPlay and Widevine Encrypted Assets</title>
+</head>
+<body id="mobile_sdk_ios_airplay_widevine">
+
+
+    <h1 class="title topictitle1">Working with AirPlay and Widevine Encrypted Assets</h1>
+
+    <div class="body conbody">
+        <p class="p">The Ooyala SDK allows you to enable/disable AirPlay. With the latest Ooyala SDK the
+            AirPlay button is enabled from Ooyala APIs on iOS 7.</p>
+
+        
+        <div class="p">The AirPlay button, along with other ways of external playback, can be disabled/enabled
+            (given studio rights compliance rules) through the
+                property:'<samp class="ph codeph">allowExternalPlayback</samp>'. To fully enable the AirPlay
+            feature with a Widevine encrypted asset you will need to make the following changes on
+            the client SDK and Widevine DRM policy: <ol class="ol">
+                <li class="li"> Ensure that the Widevine DRM Policy has the default policy settings with the
+                    exception of allowing analog and digital output. Allowing the digital output on
+                    the Widevine policy enables the use of AirPlay. For customers who want to change
+                    other Widevine policy settings, please contact Brightcove Technical Support for your
+                    desired policy requirement. For more information about configurable DRM see the
+                        <a class="xref" href="chapter_configurable_drm.html" title="Digital Rights Management (DRM) enables you to control how viewers consume and access your high value content through DRM policies. DRM policies can be set at the account or asset level.">Configurable DRM</a>.</li>
+
+                <li class="li">The Ooyala client SDK should also be configured with the following parameters: <pre class="pre codeblock">[OOOoyalaPlayer setEncryptedLoopback:true];</pre>
+
+                    <p class="p">and then to enable Widevine on AirPlay: </p>
+
+                    <pre class="pre codeblock">[ooyalaPlayerViewController.player setEmbedCode:EMBEDCODE] </pre>
+
+                </li>
+
+            </ol>
+<div class="note note"><span class="notetitle">Note:</span> Content with Widevine Classic DRM is not supported in AirPlay mode. Using
+                them together causes playback issues and visual problems for the end user.
+                Additionally, Google is deprecating Widevine Classic DRM. We recommend that you use
+                eHLS as an alternative, and are testing to see if AirPlay with PlayReady HLS is a
+                viable alternative, as well.</div>
+</div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_ios_integrations.html">iOS Third Party Integrations</a></div>
+</div>
+</div>
+
+</body>
+</html>

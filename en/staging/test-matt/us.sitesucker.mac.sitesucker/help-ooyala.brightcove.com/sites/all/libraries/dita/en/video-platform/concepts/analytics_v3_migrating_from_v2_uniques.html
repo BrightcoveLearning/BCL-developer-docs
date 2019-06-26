@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Certain &#34;Unique&#34; Metrics Confusing in v2 Analytics (Deprecated)"/>
+<meta name="abstract" content="In v2 Analytics, certain &#34;unique&#34; metrics were unexpectedly returned in responses."/>
+<meta name="description" content="In v2 Analytics, certain &#34;unique&#34; metrics were unexpectedly returned in responses."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_migrating_from_v2.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_migrating_from_v2.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="concept_okg_sv4_3n"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Certain "Unique" Metrics Confusing in v2 Analytics (Deprecated)</title>
+</head>
+<body id="concept_okg_sv4_3n">
+
+
+  <h1 class="title topictitle1">Certain <span class="ph">"Unique"</span> Metrics Confusing in <span class="ph">v2
+      Analytics</span> (Deprecated) </h1>
+
+  
+ <div class="body conbody"><p class="shortdesc">In <span class="ph">v2 Analytics</span>, certain <span class="ph">"unique"</span>
+    metrics were unexpectedly returned in responses.</p>
+
+    <div class="p">
+      <div class="note warning"><span class="warningtitle">Warning:</span> The v2 Analytics API has been deprecated. See <a class="xref" href="ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a> for more details on the new v3
+        Analytics API.</div>
+
+    </div>
+
+   <div class="p">In the <span class="ph">v2 Analytics</span> API, you can request that the system return the
+        <span class="ph">"daily uniques"</span> (unique viewership details) for a given date.
+      Unfortunately, the API response included not just the <span class="ph">"daily uniques"</span>
+      but sometimes unexpectedly the "weekly" and "monthly" <span class="ph">uniques</span>. This
+      presented difficulty to the user, who had to determine exactly which metric was the one he
+      wanted among those he had requested and those not expected in the response. These metrics are
+      shown in the snippet of a <span class="ph">v2 Analytics</span> response shown below:
+      <pre class="pre codeblock">
+    .
+    .
+    .
+"metrics": {
+    "video": {
+     "uniq_replays": {
+     <strong class="ph b"> "monthly_uniqs": "40",
+      "daily_uniqs": "45",
+      "weekly_uniqs": "40"</strong>
+     },  
+     .
+     .
+     . </pre>
+</div>
+
+   <p class="p">In  <span class="ph">Ooyala IQ</span>, this behavior has been corrected such that only a single <span class="ph">"unique"</span> metric is
+   returned in the response. The single unique metric corresponds to the time frame specified on the
+   request (daily, weekly, and so forth).</p>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_migrating_from_v2.html" title="Here are some considerations for when you migrate from v2 Analytics to v3 Analytics (Ooyala IQ).">Migrating from v2 Analytics (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

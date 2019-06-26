@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Routes and Attributes Common to All Asset Types"/>
+<meta name="abstract" content="The basic routes common to all assets have the same syntax, regardless of their type, in the Backlot REST API."/>
+<meta name="description" content="The basic routes common to all assets have the same syntax, regardless of their type, in the Backlot REST API."/>
+<meta name="DC.Relation" scheme="URI" content="../api/assets.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/assets.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="assets_common_routes"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Routes and Attributes Common to All Asset Types</title>
+</head>
+<body id="assets_common_routes">
+
+
+ <h1 class="title topictitle1">Routes and Attributes Common to All Asset Types</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The basic routes common to all assets have the same syntax, regardless of their type, in
+    the Backlot REST API.</p>
+
+  <div class="section">
+    <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+   <p class="p">The common routes for all assets are the create, read, update, and delete (CRUD) operations.
+        Except for creation and updating, which requires certain <a class="xref" href="asset_properties.html#asset_properties" title="Some basic properties are common to all assets, regardless of their type, in the Backlot REST API.">properties</a> or workflow depending on
+        the asset type, most of these common routes require only the identifier of the asset
+          (<span class="keyword parmname">asset_id</span>).</p>
+
+  </div>
+
+  
+
+   <div class="section refsyn"><h2 class="title sectiontitle">Create Asset</h2>
+   <pre class="pre codeblock">[POST]/v2/assets{
+   <a class="xref" href="asset_properties.html#asset_properties" title="Some basic properties are common to all assets, regardless of their type, in the Backlot REST API."><kbd class="ph userinput">properties</kbd></a>
+}</pre>
+
+     <div class="p">Certain asset types have considerable variation in how they are created:
+       <ul class="ul">
+         <li class="li"><a class="xref" href="asset_video.html#assets_videos" title="When you upload a video to Ooyala, Ooyala automatically transcodes it using the settings specified for your account and makes the videos available for playback through your player.">Video and audio</a></li>
+
+         <li class="li"><a class="xref" href="asset_remote.html#assets_remote" title="A remote asset is a piece of content that is hosted outside of Backlot. Instead of uploading, transcoding, and storing the content in Backlot, you simply upload its URL and other descriptive information so that Backlot can find the content when needed.">Remote assets</a></li>
+
+         <li class="li"><a class="xref" href="asset_livestream.html#asset_livestream" title="Live streaming is the delivery of video content in real time.">Live streams</a></li>
+
+         <li class="li"><a class="xref" href="asset_livestream.html#asset_livestream" title="Live streaming is the delivery of video content in real time.">YouTube assets</a></li>
+
+       </ul>
+</div>
+
+   </div>
+<div class="section refsyn"><h2 class="title sectiontitle">List All Assets</h2>
+   <pre class="pre codeblock">[GET]/v2/assets</pre>
+
+   </div>
+<div class="section refsyn"><h2 class="title sectiontitle">List Specific Asset</h2>
+   <pre class="pre codeblock">[GET]/v2/assets/<a class="xref" href="#assets_common_routes__asset_id"><kbd class="ph userinput">asset_id</kbd></a></pre>
+
+   </div>
+<div class="section refsyn" id="assets_common_routes__modify"><h2 class="title sectiontitle">Modify Asset</h2>
+   <pre class="pre codeblock">[PATCH]/v2/assets/<a class="xref" href="#assets_common_routes__asset_id"><kbd class="ph userinput">asset_id</kbd></a></pre>
+
+   </div>
+<div class="section refsyn" id="assets_common_routes__replacement"><h2 class="title sectiontitle">Replace Asset</h2>
+   <pre class="pre codeblock">[POST]/v2/assets/<a class="xref" href="#assets_common_routes__asset_id"><kbd class="ph userinput">asset_id</kbd></a>/replacement</pre>
+
+   </div>
+<div class="section refsyn"><h2 class="title sectiontitle">Delete Asset</h2>
+   <pre class="pre codeblock">[DELETE]/v2/assets/<a class="xref" href="#assets_common_routes__asset_id"><kbd class="ph userinput">asset_id</kbd></a></pre>
+
+   </div>
+
+  
+  <div class="section" id="assets_common_routes__route_attributes"><h2 class="title sectiontitle">Route Attributes</h2>
+   
+   <p class="p">The following table describes the attributes common to all variations of the
+          <span class="keyword apiname">/v2/assets</span> routes.</p>
+
+   
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" id="d37232e167">Route Attribute</th>
+
+       <th class="entry" valign="top" id="d37232e170">Description</th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+       
+        
+        
+       
+          
+         
+          
+        
+            
+           
+   
+     <tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__ad_set_id">ad_set_id</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">ID of an ad set. For details, see <a class="xref" href="../concepts/monetization_ads_adsets.html" title="An ad set is a group of one or more advertisements (linear and/or non-linear) that you can assign to videos.">Ad Sets</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/ad_set/PROoCi9B2BwPROoCi9B2Bw123 </p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+       <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__asset_id">asset_id</var></td>
+
+       <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+        <p class="p">ID of the asset. This value is referred to by different names depending on where you look
+                  for it. In the Backlot API, <samp class="ph codeph">asset_id</samp> is the identifier for a
+                  specific asset. <samp class="ph codeph">asset_id</samp> has the same value as the content ID
+                  referred to in the Backlot UI (which represents a piece of content). For details,
+                  see <a class="xref" href="../concepts/chapter_asset_manage.html" title="In Backlot, an asset is a piece of content of various types, such as video, audio, live stream, and more.">Managing Assets</a>. </p>
+
+        <p class="p">Type: String </p>
+
+        <p class="p">Default: None </p>
+
+        <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg </p>
+
+       </td>
+
+      </tr>
+<tr class="row">
+       <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__channel_id">channel_id</var> (deprecated)</td>
+
+       <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+         <p class="p">ID or embed code of a channel. For details, see <a class="xref" href="../concepts/chapter_channels.html" title="You can create and manage channels.">Channels (Deprecated)</a>. </p>
+
+         <p class="p">Type: String</p>
+
+         <p class="p">Default: None</p>
+
+         <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg </p>
+
+       </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__channel_set_id">channel_set_id</var> (deprecated)</td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">ID of a channel set. For details, see <a class="xref" href="../concepts/chapter_channels.html" title="You can create and manage channels.">Channels (Deprecated)</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg  </p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__drm_type">drm_type</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">For Digital Rights Management (DRM), the type of DRM system. For details, see
+             <a class="xref" href="../concepts/drm_overview.html">Digital Rights Management</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Valid Values: widevine | playready</p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/drm_attributes/widevine</p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__embed_code">embed_code</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">The content ID from Backlot or embed code of a video within a channel. In the Backlot
+                  UI, the <samp class="ph codeph">embed_code</samp> is sometimes referred to as the
+                    <em class="ph i">asset_id</em> or the <em class="ph i">content ID</em>. Please note that in the Backlot UI,
+                  the field for embed code refers to the embed snippet that you embed on a web
+                  page.</p>
+
+           <p class="p">Type: String</p>
+
+           <p class="p">Default: None</p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg</p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__external_id">external_id</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">External ID of a video within a channel, if applicable. For details, see <a class="xref" href="../concepts/chapter_external_ids.html" title="External identifiers enable you to assign custom identifiers to your assets so they are easier to organize, update, and modify. They are sometimes used to correlate with your own internal identifiers.">Using External Identifiers</a>. <p class="p">Type:
+                  String</p>
+<p class="p">Default: None</p>
+<p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg
+                  </p>
+<div class="note note"><span class="notetitle">Note:</span> Do not add a video with a null <samp class="ph codeph">external_id</samp>, that is, an
+                    <samp class="ph codeph">external_id</samp> with no value (<samp class="ph codeph">""</samp>) or a value of
+                    <samp class="ph codeph">"null"</samp>. Such null external IDs cannot be searched for later.
+                </div>
+</td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__label_id">label_id</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">ID of a label. For details, see <a class="xref" href="../concepts/chapter_channels.html" title="You can create and manage channels.">Channels (Deprecated)</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/labels/QtsjklrewsddROoCi9B2B45drs </p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__player_id">player_id</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">ID of a player. For details, see <a class="xref" href="../concepts/chapter_players.html" title="Describes how to create and configure Ooyala players using the Backlot UI.">Managing Players in Backlot</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Example: /players/b4f1a93b779145b4a9c8ef15f8502345 </p>
+
+         </td>
+
+       </tr>
+<tr class="row">
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 "><var class="keyword varname" id="assets_common_routes__publishing_rule_id">publishing_rule_id</var></td>
+
+         <td class="entry" valign="top" headers="d37232e167 d37232e170 ">
+           <p class="p">ID of a publishing rule. For details, see <a class="xref" href="../concepts/chapter_publishing_rules.html" title="Publishing rules give you complete control over your content by enabling you to control where and when it can be viewed.">Publishing Rules</a>. </p>
+
+           <p class="p">Type: String </p>
+
+           <p class="p">Default: None </p>
+
+           <p class="p">Example: /assets/IzNnllMjphu2XF3_UgPROoCi9B2BwtSg/publishing_rule/QtsjklrewsddROoCi9B2B45drs </p>
+
+         </td>
+
+       </tr>
+</tbody>
+
+    </table>
+</div>
+
+   </div>
+
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="assets.html" title="The /v2/assets route deals with all types of assets.">Assets</a></div>
+</div>
+</div>
+
+</body>
+</html>

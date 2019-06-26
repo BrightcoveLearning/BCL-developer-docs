@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Migrating from Player V3"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_migration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_migration_from_v3"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Migrating from Player V3</title>
+</head>
+<body id="pbv4_migration_from_v3">
+
+
+    <h1 class="title topictitle1">Migrating from Player V3</h1>
+
+    <div class="body conbody">
+        <div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is
+    scheduled to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play
+    your video or audio content. Customers still using Player V3 need to migrate to Player
+    V4.</div>
+ 
+        <div class="section">For customers familiar with Player V3, this section describes common migration
+            tasks. <ul class="ul">
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__existing">Using Existing Video Assets and Players</a></li>
+
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__types">Common Types of Migrations from Player V3</a></li>
+
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__tasks">Migration Tasks</a></li>
+
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__content_protection">Migrating Content Protection from Player V3</a></li>
+
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__ads">Migrating Ads</a></li>
+
+                <li class="li"><a class="xref" href="#pbv4_migration_from_v3__streaming">Determining Streaming Options</a></li>
+
+            </ul>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Before You Migrate</h2>Before you begin, learn about Player V4, starting
+            with: <ul class="ul">
+                <li class="li"><a class="xref" href="pbv4_about.html">Player V4</a> for an overview</li>
+
+                <li class="li"><a class="xref" href="pbv4_gs.html">Getting Started with Player V4</a> to help you assess your
+                    technical requirements for Player V4 deployment</li>
+
+                <li class="li"><a class="xref" href="../reference/pbv4_web_tutorial.html">Basic Tutorial for Player V4</a>
+                    for a walkthrough of basic Player V4 features</li>
+
+            </ul>
+The easiest way to begin migrating to Player V4 is to start by using Ooyala as the
+            default host for Player V4 resources (see <a class="xref" href="pbv4_resources.html">Ooyala-hosted Player V4 Resources</a>). </div>
+
+        <div class="section" id="pbv4_migration_from_v3__existing"><h2 class="title sectiontitle">Using Existing Video Assets and Players</h2>If you have
+            already been publishing videos using Ooyala Player V3, you can re-use the following
+            elements in Ooyala Player V4 for HTML5. <p class="p"><strong class="ph b">Existing Video Assets</strong></p>
+ If you
+            already have video assets defined in Backlot, you can play them (using their Content
+            IDs) in Player V4 if they are supported by HTML5 Player V3, along with HLS on additional
+            devices and DASH on additional platforms. <div class="note note"><span class="notetitle">Note:</span> The HTTP Dynamic Streaming (HDS), including Akamai HDS (or HD2)
+    streaming protocol, use Flash. Browsers have been disabling and blocking the Flash plugin. As a
+    result, Ooyala strongly recommends that customers encode and use HLS and Dash moving
+    forward.</div>
+
+            <p class="p"><strong class="ph b">Existing Players</strong></p>
+If you have existing players defined in Backlot, you can
+            re-use them by converting them to a Player V4 player. In the Backlot UI, simply go to
+            PUBLISH &gt; Player Branding &gt; Player, select your player, then change the player version
+            to V4. Note that any existing Player V3 settings that are not supported in Player V4
+            will be lost. Alternatively, you can simply start over and create a new player (see
+                <a class="xref" href="../tasks/player_create.html" title="You can create and configure as many players as you want in Backlot. You can associate a player with as many videos as you want. For Player V3, you can also associate a player with audio assets, channels, or channel sets.">Creating a Player in Backlot</a>). <p class="p"><strong class="ph b">Other Assets</strong></p>
+
+            You can also re-use images, remote assets, and closed captions (supported formats only;
+            see <a class="xref" href="pbv4_closed_caption_settings.html">Closed Captions in Player V4</a>). </div>
+
+        <div class="section" id="pbv4_migration_from_v3__types"><h2 class="title sectiontitle">Common Types of Migrations from <span class="ph">Player V3</span></h2> This section
+            describes a few common types of migrations from <span class="ph">Player V3</span> to <span class="ph">Player V4</span>. <p class="p"><strong class="ph b">Basic
+                    Migration</strong></p>
+<p class="p">If you do not have existing Player V3 ad plugins or
+                customizations, dynamic skinning, or Discovery, your migration tasks are
+                straightforward. For each HTML page on which you have embedded Player V3, replace
+                the HTML Embed Code (from Backlot) with the new V4 HTML5 Standard Player Embed Code
+                (from Backlot, see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>), then save and test your changes. See <a class="xref" href="pbv4_embed.html">Embedding Player V4 on a Web Page</a> for more information.
+                    </p>
+<p class="p"><strong class="ph b">Customers Using Ads</strong></p>
+If you use ads with Player V3, you will
+            need to start using the Player V4 ad plugins. <ul class="ul">
+                <li class="li">To use an ad plugin, <a class="xref" href="../tasks/pbv4_integrate_ads.html">load the ad plugin</a> on the HTML5 page where you load your
+                    video player and test to see that your ad functionality works as expected. See
+                        <a class="xref" href="pbv4_ads.html">Ads in Player V4</a> for
+                    details.</li>
+
+                <li class="li">If you use Backlot to generate your HTML embed code (see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>): <ul class="ul">
+                        <li class="li">The V4 HTML5 Standard Player Embed Code automatically includes the
+                            Pulse, Google IMA, Freewheel and VAST ad plugins. Do not add these
+                            plugins on the web page. If your player deployment requires a plugin
+                            that is not automatically included, you must add any required plugins
+                            manualy.</li>
+
+                        <li class="li">The V4 HTML5 Player Embed Code (Advanced) does <em class="ph i">not</em> include ad
+                            plugins, even if you apply ad settings in Backlot. You must also
+                            manually add the desired ad plugins.</li>
+
+                    </ul>
+</li>
+
+                <li class="li">If you used page-level ad parameters with Player V3, see <a class="xref" href="pbv4_migration_versions.html">Ad
+                        Configuration Parameters and Settings</a> for changes to the ad
+                    configuration parameters and settings. Some of the parameters you used in Player
+                    V3 might be deprecated in Player V4. You might need to update your page-level
+                    settings accordingly.</li>
+
+            </ul>
+ For more information, see Migrating Ads. </div>
+
+        <div class="section"><p class="p"><strong class="ph b">Customers Using Discovery</strong></p>
+If you used Discovery with Player V3 and
+            want to continue to use it with Player V4, you might need to load the Player V4
+            Discovery plugin on the HTML5 page where you load your video player. If you use Backlot
+            to generate your HTML embed code (see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>): <ul class="ul" id="pbv4_migration_from_v3__ul_ukr_n25_b1b">
+                <li class="li">The V4 HTML5 Standard Player Embed Code automatically includes the Discovery
+                    plugins. Do not add the Discovery plugin on the web page. If your player
+                    deployment requires a plugin that is not automatically included, you must add
+                    any required plugins manually.</li>
+
+                <li class="li">The V4 HTML5 Player Embed Code (Advanced) does <em class="ph i">not</em> include the Discovery
+                    plugin, even if you apply discovery settings in Backlot. You must manually add
+                    the Discovery plugin. For example:
+                    <pre class="pre codeblock">&lt;script src="//player.ooyala.com/core/MY_PLAYER_ID"&gt;&lt;/script&gt;
+&lt;script src="//player.ooyala.com/static/v4/production/other-plugin/discovery_api.min.js"&gt;&lt;/script&gt;</pre>
+</li>
+
+            </ul>
+ See <a class="xref" href="pbv4_discovery.html">Discovering Content in Player V4</a> for full details.
+                    <p class="p"><strong class="ph b">Customers with Custom Plugins, CSS, and JS</strong></p>
+ If you use customized
+            plugins, CSS, and JavaScript with Player V3, read through the rest of this topic to
+            identify which Player V4 changes affect your ad plugins, analytics plugins, and the
+            Player API. Take the appropriate actions to implement the changes in Player V4. For CSS
+            customization, see <a class="xref" href="pbv4_css.html">Customizing the Player V4 Appearance Using CSS</a>. </div>
+
+        <div class="section" id="pbv4_migration_from_v3__tasks"><h2 class="title sectiontitle">Migration Tasks</h2>To use existing video assets with Player V4:<ol class="ol">
+            <li class="li">Either convert an existing Player V3 player to V4 by changing its version (see above), or create and configure a new Player V4 player. </li>
+
+                <li class="li">Follow the instructions in <a class="xref" href="../reference/pbv4_web_tutorial.html">Basic Tutorial for Player V4</a> and create a V4 player, substituting your
+                    own <samp class="ph codeph">assetId</samp>, <samp class="ph codeph">playerBrandingId</samp>, and
+                        <samp class="ph codeph">pcode</samp> from step 1. Alternatively, for a more customized UI
+                    for your player, you can go to the Player V4 html5-skin repo README at <a class="xref" href="https://github.com/ooyala/html5-skin#examples" target="_blank">https://github.com/ooyala/html5-skin#examples</a> and substitute your <samp class="ph codeph">assetId</samp>,
+                        <samp class="ph codeph">playerBrandingId</samp>, and <samp class="ph codeph">pcode</samp> into the
+                    example page.</li>
+
+                <li class="li">If you have any other assets, such as images, you can specify them when you
+                    configure the Player V4, as described in <a class="xref" href="pbv4_customize.html">Customizing the Player V4 Appearance</a>.</li>
+
+            </ol>
+<div class="note note"><span class="notetitle">Note:</span> All resources not hosted by Ooyala (video, audio, images, closed captions,
+                css, js, etc.) that are used with your HTML5-based playback must have the
+                appropriate CORS headers configured. For details, see <a class="xref" href="pbv4_host.html">Hosting Player V4 Resources</a> and <a class="xref" href="pbv4_cors.html">Cross-Origin Resource Sharing (CORS)</a>.</div>
+</div>
+
+        <div class="section" id="pbv4_migration_from_v3__embed_code"><h2 class="title sectiontitle">Migrating from Advanced to the Standard Embed Code</h2>
+            If you have existing Player V4 pages that use the prior (now Advanced) embed code and
+            want to use the new standard embed option: <ol class="ol">
+                <li class="li">In the Backlot UI, go to the Embed sub-tab (MANAGE &gt; Embed).</li>
+
+                <li class="li">Under Generate Embed Code, choose the following embed code type from the
+                            list:<p class="p"><strong class="ph b">V4 HTML5 Standard Player Embed Code
+                    (recommended)</strong></p>
+</li>
+
+                <li class="li">Click Copy to copy the embed code to your clipboard.</li>
+
+                <li class="li">In a web page editor, open the web page on which you have embedded a Player V4
+                    player.</li>
+
+                <li class="li">Paste the new embed code into your page.</li>
+
+                <li class="li">Copy and paste any of the advanced plugins (only) into the &lt;head&gt; section.
+                        <div class="note important"><span class="importanttitle">Important:</span> Do not specify any of the standard plugins that have
+                        already been included in the standard embed code. Refer to the <a class="xref" href="pbv4_release_notes.html">Ooyala Player V4 Release Notes</a> to see which
+                        player plugins are included. Any inline plugin references in your page code
+                        should be removed when transitioning to the standard plugin. Any plugins NOT
+                        included in the standard embed should remain as added inline.</div>
+
+                </li>
+
+                <li class="li">Copy and paste any other code (e.g. page-level parameters or inline overrides)
+                    from the old embed code into the new embed code. </li>
+
+            </ol>
+
+            For general instructions, see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>.
+        </div>
+
+        <div class="section" id="pbv4_migration_from_v3__content_protection"><h2 class="title sectiontitle">Migrating Content Protection from Player V3</h2>
+            You can use the following content protection features with Player V4: <ul class="ul">
+                <li class="li">Ooyala Player Token</li>
+
+                <li class="li">Rights Locker API</li>
+
+                <li class="li">encrypted stream AES-128 for HLS</li>
+
+                <li class="li">Widevine Modular, PlayReady and FairPlay DRM support</li>
+
+            </ul>
+If you are currently using Widevine Classic (which is deprecated), please contact
+            Technical Support or your account manager to help you transition to Widevine Modular. </div>
+
+        <div class="section" id="pbv4_migration_from_v3__ads"><h2 class="title sectiontitle">Migrating Ads</h2>
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d469520e354"> </th>
+
+                            <th class="entry" valign="top" id="d469520e356">VPAID 1.0</th>
+
+                            <th class="entry" valign="top" id="d469520e359">VPAID 2.0</th>
+
+                            <th class="entry" valign="top" id="d469520e362">VAST 3.0</th>
+
+                            <th class="entry" valign="top" id="d469520e365">VMAP</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Player Platform</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">HTML5</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">HTML5</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">HTML5</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">HTML5</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Device Reach</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">desktop only</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">desktop and mobile</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">desktop and mobile</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">desktop and mobile</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Ad Presentation</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Flash Ads in SWF</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">JavaScript based</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">N/A</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">N/A</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Advantages</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">Flash creatives ad inventory still high </li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">mobile ads interactivity</li>
+
+                                    <li class="li">greater device reach</li>
+
+                                    <li class="li">lightweight, JS-based interaction</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">supports ad pods</li>
+
+                                    <li class="li">better error reporting</li>
+
+                                    <li class="li">skippable linear ads</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">create and manage ad playlist</li>
+
+                                    <li class="li">program ad breaks</li>
+
+                                    <li class="li">VAST 3.0 responses</li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">Disadvantages</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">more risk of blockage (due to Flash)</li>
+
+                                    <li class="li">no mobile support</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">
+                                <ul class="ul">
+                                    <li class="li">still emerging</li>
+
+                                    <li class="li">not much testing</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">-</td>
+
+                            <td class="entry" valign="top" headers="d469520e354 d469520e356 d469520e359 d469520e362 d469520e365 ">-</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="pbv4_migration_from_v3__streaming"><h2 class="title sectiontitle">Determining Streaming Options</h2>
+            
+            <p class="p">The following table describes Player V4 stream options, including migration from Player V3.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d469520e542">Player V3 Usage</th>
+
+                            <th class="entry" valign="top" id="d469520e545">Player V4 Stream Options (and plugin)</th>
+
+                            <th class="entry" valign="top" id="d469520e548">Notes</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">Flash Player V3 with (CLEAR) HDS streams</td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">Player V4 HLS (<a class="xref" href="pbv4_resources.html#pbv4_resources__bitmovin_plugin">bit_wrapper.min.js</a>)
+                                        (recommended)</li>
+
+                                    <li class="li">HDS (<a class="xref" href="pbv4_resources.html#pbv4_resources__flash_hds">osmf_flash.min.js</a>)
+                                        <div class="note note"><span class="notetitle">Note:</span> The HTTP Dynamic Streaming (HDS), including Akamai HDS (or HD2)
+    streaming protocol, use Flash. Browsers have been disabling and blocking the Flash plugin. As a
+    result, Ooyala strongly recommends that customers encode and use HLS and Dash moving
+    forward.</div>
+
+                                    </li>
+ 
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">HLS requires preprocessing</li>
+
+                                    <li class="li">HLS: Use <a class="xref" href="pbv4_resources.html#pbv4_resources__bitmovin_plugin">bit_wrapper.min.js</a> (Chrome v47+,
+                                        Firefox v43+, Safari v8+)</li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">HTML5 Player V3 with MP4 Streams</td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">Player V4 HLS (<a class="xref" href="pbv4_resources.html#pbv4_resources__bitmovin_plugin">bit_wrapper.min.js</a>)
+                                        (recommended) or</li>
+
+                                    <li class="li">MP4 (<a class="xref" href="pbv4_resources.html#pbv4_resources__hls_mp4">main_html5.min.js</a>)</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">MP4 is progressive. Not using adaptive bitrate (ABR).</li>
+
+                                    <li class="li">HLS requires preprocessing</li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">HTML5 Player V3 with HLS on Safari and MP4 on other
+                                browsers</td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">Player V4 HLS (<a class="xref" href="pbv4_resources.html#pbv4_resources__bitmovin_plugin">bit_wrapper.min.js</a>) and</li>
+
+                                    <li class="li">MP4 (<a class="xref" href="pbv4_resources.html#pbv4_resources__hls_mp4">main_html5.min.js</a>)</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">There is an option to use the encoding priority if you are not
+                                satisfied with MP4</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">Flash Player V3 with Adobe Access HDS Streams</td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">Player V4 HLS (<a class="xref" href="pbv4_resources.html#pbv4_resources__bitmovin_plugin">bit_wrapper.min.js</a>)</td>
+
+                            <td class="entry" valign="top" headers="d469520e542 d469520e545 d469520e548 ">
+                                <ul class="ul">
+                                    <li class="li">You must preprocess assets</li>
+
+                                    <li class="li">DASH requires preprocessing</li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_migration.html">Migrating to Player V4</a></div>
+</div>
+</div>
+
+</body>
+</html>

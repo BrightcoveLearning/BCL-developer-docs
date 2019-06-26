@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="JSONP"/>
+<meta name="abstract" content="You can specify the name of a JavaScript callback function on GET requests to the high performance API endpoint."/>
+<meta name="description" content="You can specify the name of a JavaScript callback function on GET requests to the high performance API endpoint."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_api_setup.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_jsonp"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>JSONP</title>
+</head>
+<body id="api_jsonp">
+
+
+ <h1 class="title topictitle1">JSONP</h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc">You can specify the name of a JavaScript callback function on <samp class="ph codeph">GET</samp>
+    requests to the high performance API endpoint.</p>
+
+  <p class="p">To avoid cross-domain restrictions when invoking API requests from web pages, on
+        <samp class="ph codeph">GET</samp> requests from embedded JavaScript <samp class="ph codeph">&lt;script&gt;</samp>s you can
+      specify the name of a JavaScript callback function by using the callback query string
+      parameter. This is supported only on <samp class="ph codeph">GET</samp> requests.</p>
+
+   <div class="note note"><span class="notetitle">Note:</span> For performance, JSONP is available only from the high performance cached API. For more information, see <a class="xref" href="api_high_performance.html" title="The high performance API endpoint caches repeated requests from large volume web sites.">High Performance API Endpoint</a>.
+   </div>
+ 
+   <p class="p">In the following example, a standard <samp class="ph codeph">GET</samp> request returns all labels within the account:</p>
+
+   <pre class="pre codeblock">[GET]/v2/labels</pre>
+
+   <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+   <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "full_name":"/Hobbies/Hockey",
+         "id":"85042f300fc143c093e8f4ee01892af8",
+         "name":"Hockey",
+         "parent_id":"d5751b77a0c24972888bf906734d8c34"
+      },
+      {  
+         "full_name":"/Hobbies",
+         "id":"d5751b77a0c24972888bf906734d8c34",
+         "name":"Hobbies",
+         "parent_id":null
+      },
+      {  
+         "full_name":"/Sports/Motorcycle Racing",
+         "id":"bace921fdea44cc18a5a273155514522",
+         "name":"Motorcycle Racing",
+         "parent_id":"814efb109416490a98ee3f4fcd6784cf"
+      },
+      {  
+         "full_name":"/Sports",
+         "id":"814efb109416490a98ee3f4fcd6784cf",
+         "name":"Sports",
+         "parent_id":null
+      }
+   ]
+}</pre>
+
+   
+    <p class="p">In the following example, when the <samp class="ph codeph">GET</samp> request is triggered from a
+        <samp class="ph codeph">&lt;script&gt;</samp>, the results are returned with the
+      <samp class="ph codeph">get_my_labels</samp> function. </p>
+
+  <pre class="pre codeblock">[GET]/v2/labels?callback=get_my_labels</pre>
+
+  <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+  <pre class="pre codeblock"> get_my_labels({"items":
+[{"name":"Hobbies","full_name":"/Hobbies","id":"d5751b77a0c24972888bf906734d8c34","parent_id":null},
+{"name":"Hockey","full_name":"/Hobbies/Hockey","id":"85042f300fc143c093e8f4ee01892af8","parent_id":"d5751b77a0c24972888bf906734d8c34"},
+{"name":"Motorcycle Racing","full_name":"/Sports/Motorcycle Racing","id":"bace921fdea44cc18a5a273155514522","parent_id":"814efb109416490a98ee3f4fcd6784cf"},
+{"name":"Sports","full_name":"/Sports","id":"814efb109416490a98ee3f4fcd6784cf","parent_id":null}]})
+  </pre>
+ 
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="chapter_api_setup.html" title="Ooyala provides a REST-based interface that enables you to make requests to the Backlot platform.">Using the Backlot REST API</a></div>
+</div>
+</div>
+
+</body>
+</html>

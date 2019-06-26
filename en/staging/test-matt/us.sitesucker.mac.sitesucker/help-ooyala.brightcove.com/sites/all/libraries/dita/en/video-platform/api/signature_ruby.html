@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Sample Signature Code (Ruby)"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_signing_requests_appendix.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="signature_ruby"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Sample Signature Code (Ruby)</title>
+</head>
+<body id="signature_ruby">
+
+
+ <h1 class="title topictitle1">Sample Signature Code (Ruby)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc"/>
+
+  <div class="section">
+   <p class="p">This following is Ruby sample code for generating signatures:</p>
+
+   <pre class="pre codeblock">
+require "digest/sha2"
+require "base64"
+
+# Both of these values should be obtained from the Developers tab in Backlot.
+API_KEY = ""
+SECRET = ""
+
+module OoyalaApi
+  def self.generate_signature(secret, http_method, request_path, query_string_params, request_body)
+    string_to_sign = secret + http_method + request_path
+    sorted_query_string = query_string_params.sort { |pair1, pair2| pair1[0] &lt;=&gt; pair2[0] }
+    string_to_sign += sorted_query_string.map { |key, value| "#{key}=#{value}"}.join
+    string_to_sign += request_body.to_s
+    signature = Base64::encode64(Digest::SHA256.digest(string_to_sign))[0..42].chomp("=")
+    return signature
+  end
+end
+
+# Example usage of the generate_signature function:
+#
+# Set `expires` in 1-hour intervals for higher caching performance:
+# t = Time.now
+# expires = Time.local(t.year, t.mon, t.day, t.hour + 1).to_i
+#
+# params = { "api_key" =&gt; API_KEY, "expires" =&gt; expires }
+# signature = OoyalaApi.generate_signature(SECRET, "GET", "/v2/players/HbxJKM", params, nil)
+   </pre>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../tasks/api_signing_requests_appendix.html" title="Here is a collection of sample code in various programming languages for signing your requests.">Sample Code for Signing Requests</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Pulse Ad Parameters"/>
+<meta name="DC.Relation" scheme="URI" content="http://help-ooyala.brightcove.com/video-advertising/oadtech/ad_serving/dg/pulse_sdks_parameter.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ads_dev_pulse_parameters"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Pulse Ad Parameters</title>
+</head>
+<body id="ads_dev_pulse_parameters">
+
+
+  <h1 class="title topictitle1">Ooyala Pulse Ad Parameters</h1>
+
+
+  <div class="body conbody">
+    <div class="section">Use the following parameters to configure Ooyala Pulse ads in Player V4 using the <a class="xref" href="pbv4_ads_dev_chapter_pulse.html">Ooyala Pulse Ad Plugin</a>. See <a class="xref" href="pbv4_ads_dev_pulse.html">Integrating Ooyala Pulse Ads</a> for details. <div class="note note"><span class="notetitle">Note:</span> These
+        parameters are specific to Ooyala Pulse ads. You can also set global parameters for Pulse
+        ads. See <a class="xref" href="pbv4_configure_ads_embedded_params.html">Configuring Ad Parameters</a> for
+        details.</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Ooyala Pulse-specific Embedded Parameters</h2>
+      
+      
+      
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="ads_dev_pulse_parameters__vast_parameters" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="25.432415118513774%" id="d422447e49"><strong class="ph b">Name</strong></th>
+
+              <th class="entry" valign="top" width="58.03971812940423%" id="d422447e53"><strong class="ph b">Description</strong></th>
+
+              <th class="entry" valign="top" width="6.406149903907751%" id="d422447e57"><strong class="ph b">Type</strong></th>
+
+              <th class="entry" valign="top" width="10.121716848174248%" id="d422447e61"><strong class="ph b">Required?</strong></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__videoplazaAdsManager"><span class="keyword parmname">videoplaza-ads-manager</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                The parent parameter for Ooyala Pulse ads embedded parameters.
+                <p class="p"><strong class="ph b">Required:</strong> Yes</p>
+</td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 "> </td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">Yes</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseHost"><span class="keyword parmname">pulse_host</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <div class="p"><strong class="ph b">host URL:</strong> When the SDK is initialised, the host for the Ooyala
+              Pulse account must be provided. This is used to identify which Pulse account to
+              request ads from. The host is derived from the "sub-domain” found in the Pulse UI and
+              is formulated like this: <pre class="pre codeblock">http://[sub-domain].videoplaza.tv</pre>
+</div>
+
+                <div class="note note"><span class="notetitle">Note:</span> The Pulse host must be set in the integration with this parameter, or as
+                  Custom Metadata on the video asset in Backlot, or as vpDomain in the Backlot Ad
+                  Set associated with the video asset.</div>
+</td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">See Note</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseCallbacks"><span class="keyword parmname">pulse_callbacks</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 "><p class="p">Allow clients to provide callbacks which can be used to provide internal
+                instances not otherwise available from the plugin.</p>
+<p class="p">An array of callback
+                  functions. The following functions are available:</p>
+<ul class="ul" id="ads_dev_pulse_parameters__ul_e5h_nc1_px">
+                    <li class="li"><samp class="ph codeph">onSessionCreated</samp>: argument is the session and the function is
+                      called whenever a Pulse session is created. This way you get access to the
+                      session object, and can extend the session when needed. See <a class="xref" href="http://pulse-sdks.ooyala.com/pulse-html5/latest/#toc22__anchor" target="_blank">HTML5 Pulse SDK</a> for an example of
+                      session extension and further links to the SDK documentation.</li>
+
+                    <li class="li"><samp class="ph codeph">onAdPlayerCreated</samp>: argument is the ad player and the function
+                      is called whenever a Pulse ad player is created.</li>
+
+                  </ul>
+Example:<pre class="pre codeblock">pulse_callbacks: {
+  onSessionCreated: function(session){ 
+    console.log('&gt; Session created:', session); }
+  ,
+  onAdPlayerCreated: function(adPlayer){ 
+    console.log('&gt; Ad player created:', adPlayer); }
+}</pre>
+</td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">array</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseCategory"><span class="keyword parmname">pulse_category</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">category</strong>: The category is a string that is used to associate
+              content with a category that has been defined for the client's account in the Ooyala
+              Pulse UI. The value of the category can be the Pulse native ID of the category found
+              in the Pulse UI or a human readable "alias” that has been associated with the category
+              in the Pulse UI. Categories are used for reporting and targeting purposes in Pulse UI.
+              It is also possible to apply individual ad policies to each category, controlling how
+              many and what type of ads are returned.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseContentForm"><span class="keyword parmname">pulse_content_form</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">content form</strong>: A piece of video content can be defined as
+              either long form or short form content. Long form content can be the entire episode of
+              a program, a full-length feature movie, or just a piece of content that is more than
+              10 minutes long. It is up to the client to define the threshold between short and long
+              form. In the Pulse UI it is possible to configure individual ad policies for long and
+              short form, adding an additional ad policy dimension to a category.</p>
+
+                <p class="p">Valid Values: <samp class="ph codeph">"longForm"</samp>, <samp class="ph codeph">"shortForm"</samp></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseContentId"><span class="keyword parmname">pulse_content_id</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">content ID</strong>: Content ID is used for forwarding the ID of the
+              main content to third party trackers and to Pulse for reporting. This value can be
+              added to request URLs for third party ad requests or additional tracking URLs through
+              a placeholder macro in the Pulse UI.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseContentPartner"><span class="keyword parmname">pulse_content_partner</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">content partner</strong>: The content partner is used to add an
+              additional reporting dimension to the ads that are displayed. The content partner
+              value can use the Pulse native ID of the content partner found in the Pulse UI or a
+              human readable "alias” that has been associated with the content partner in the Pulse
+              UI.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseCustomParameters"><span class="keyword parmname">pulse_custom_parameters</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p">Any custom parameters you need to set in the integration. An array of key value
+                  pairs. Example: <samp class="ph codeph">{key1: value1, key2: value2}</samp></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">array</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseDeviceContainer"><span class="keyword parmname">pulse_device_container</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">device container:</strong> The device container in Ooyala Pulse is
+              used for targeting and reporting purposes. This device container attribute is only
+              used if you want to override the Pulse device detection algorithm on the Pulse ad
+              server. This should only be set if normal device detection does not work and only
+              after consulting Ooyala personnel. An incorrect device container value can result in
+              no ads being served or incorrect ad delivery and reports.</p>
+</td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseDuration"><span class="keyword parmname">pulse_duration</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">duration</strong>: This is the total duration of the main content.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseEnforceCacheBusting"><span class="keyword parmname">pulse_enforce_cachebusting</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">cache busting:</strong> Enable or disable the addition of the
+              [CACHEBUSTING] macro to tracking URLs in third party VAST 2.0 tickets. The macro adds
+              a randomised number to the tracking URL each time the associated event is triggered to
+              ensure tracking. Without the randomised number, the URL may be cached and not handled
+              properly. By default, cache busting is enabled.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">Boolean</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseFlags"><span class="keyword parmname">pulse_flags</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">flags</strong>: The flags are used to apply special rules and conditions to
+              an ad request. For example, a piece of premium content has been sponsored and no
+              pre-rolls should be displayed. Adding the flag "noprerolls” will prevent pre-rolls
+              from being returned but mid-rolls and post-rolls will be available as normal.</p>
+<div class="p">Supported flags are:<ul class="ul">
+                <li class="li">nocom: No ads are returned at all</li>
+
+                <li class="li">noprerolls: No pre-rolls are returned</li>
+
+                <li class="li">nomidrolls: No mid-rolls are returned</li>
+
+                <li class="li">nopostrolls: No post-rolls are returned</li>
+
+                <li class="li">nooverlays: No overlays are returned</li>
+
+              </ul>
+</div>
+
+                <p class="p">A string containing a comma-separated list of values. </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseHeight"><span class="keyword parmname">pulse_height</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">height:</strong> The height of the video player. This is used to determine
+              the best size of the delivered media files.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseInsertionPointFilter"><span class="keyword parmname">pulse_insertion_point_filter</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <div class="p"><strong class="ph b">insertion point type:</strong> This is the point, in relation to
+              the main content, where the ad spot should be inserted. This will determine what type
+              of ads are requested by the SDK. The insertion point types are defined as constants in
+              the SDKs and are as follows:<ul class="ul">
+                <li class="li">
+                  <p class="p" id="ads_dev_pulse_parameters__d25026e141"><strong class="ph b">On before content:</strong> Linear ads that are played
+                    before the main content starts (Pre-rolls).</p>
+
+                </li>
+
+                <li class="li">
+                  <p class="p" id="ads_dev_pulse_parameters__d25026e149"><strong class="ph b">On content end:</strong> Linear ads that are played after the
+                    main content has ended (Post-rolls).</p>
+
+                </li>
+
+                <li class="li">
+                  <p class="p" id="ads_dev_pulse_parameters__d25026e157"><strong class="ph b">On playback position:</strong> Linear ads that are to be
+                    displayed at a certain point on the main content's timeline (Mid-rolls). This
+                    value requires that you also set the playback position (see <a class="xref" href="../../../../../../../video-advertising/oadtech/ad_serving/dg/pulse_sdks_parameter.html#pulse_sdks_parameter__playbackPosition" target="_blank">playback position</a>).</p>
+
+                </li>
+
+                <li class="li">
+                  <p class="p" id="ads_dev_pulse_parameters__d25026e168"><strong class="ph b">On pause content:</strong> Linear ads that are played when the
+                    content is paused.</p>
+
+                </li>
+
+                <li class="li">
+                  <p class="p" id="ads_dev_pulse_parameters__d25026e176"><strong class="ph b">On playback time:</strong> This is for non-linear ads that
+                    should be displayed after the user has viewed the main content for X seconds
+                    (Overlays).</p>
+
+                </li>
+
+              </ul>
+</div>
+
+                <p class="p">A string containing a comma-separated list of valid values. </p>
+
+                <p class="p">Valid Values: <samp class="ph codeph">"onBeforeContent"</samp>, <samp class="ph codeph">"playbackPosition"</samp>, <samp class="ph codeph">"onContentEnd"</samp>, <samp class="ph codeph">"onPause"</samp>,
+                  <samp class="ph codeph">"playbackTime"</samp></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseLinearCuepoints"><span class="keyword parmname">pulse_linear_cuepoints</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">playback position:</strong> This is the point on the main content
+              timeline, in seconds, that the "on playback position" (Mid-roll) ad slot should be
+              displayed. A warning may be triggered if this value is higher than the duration of the
+              main content.</p>
+
+                <p class="p">A string containing a comma-separated list of positions, in seconds. Example:
+                <samp class="ph codeph">"10,20,40"</samp></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseLinearSlotSize"><span class="keyword parmname">pulse_linear_slot_size</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">Number of linear ads per slot. This value overrides the value set in Ooyala Pulse.</td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseMaxBitrate"><span class="keyword parmname">pulse_max_bitrate</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">max bandwidth:</strong> The maximum bandwidth in Kbps that your device has access to.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 ">
+                <p class="p"><span class="keyword parmname">pulse_max_linear_break_duration</span></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">max break duration:</strong> Set the maximum duration for a
+              linear ad break in seconds. For more information about this feature and its
+              limitations, refer to <a class="xref" href="../../../../../../../video-advertising/oadtech/relnotes/2016-05-19.html#release20160519__tbb_release_note" target="_blank">Time Based Breaks</a>.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseNonLinearCuepoints"><span class="keyword parmname">pulse_non_linear_cuepoints</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">On playback time:</strong> This is for non-linear ads that
+                    should be displayed after the user has viewed the main content for X seconds
+                    (Overlays).</p>
+
+                <p class="p">A string containing a comma-separated list of positions, in seconds. Example:
+                <samp class="ph codeph">"10,20,40"</samp></p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseOverrideMetadata"><span class="keyword parmname">pulse_override_metadata</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p">Set this parameter to <samp class="ph codeph">true</samp> if you want the <samp class="ph codeph">pulse_flags</samp> and <samp class="ph codeph">pulse_tags</samp> to
+                  completely override any values coming from the Backlot Ad Set and
+                  Backlot Custom Data associated with the video asset. If not set, then
+                  all values are merged.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">Boolean</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulsePersistentId"><span class="keyword parmname">pulse_persistent_id</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">persistent identifier:</strong> The persistent identifier is used to
+              identify the end user and is the basis for frequency capping, uniqueness, DMP
+              targeting information and more. Ooyala will normally generate and attempt to save a
+              persistent ID as a cookie on your device. In environments that do not support third
+              party cookies, such as iOS and Android native applications, this automatic id
+              management does not work and it is then up to the integration to provide an id that is
+              consistent for the individual end user and that persists between sessions.</p>
+<p class="p">This ID can be any string as long as it is unique to each
+              individual end user, although the GUID or UUID format is recommended. If the
+              application has a login or other user ID that is consistent across devices, this ID
+              can be used to track uniqueness across devices and reuse DMP tracking data across
+              devices and platforms.</p>
+
+                </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseReferrerUrl"><span class="keyword parmname">pulse_referrer_url</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">referrer URL:</strong> To override the URL from where the ad requests
+              originate in the HTTP header's referrer property.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseSeekMode"><span class="keyword parmname">pulse_seekmode</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">seek mode:</strong> Set how the session behaves when a viewer seeks or
+              scrubs past one or more mid-roll ad breaks. The different modes allow you to ignore
+              any scrubbed ad breaks (default), play all scrubbed ad breaks, play only the first
+              scrubbed ad break, or play only the last scrubbed ad break.</p>
+
+                Valid values:
+                <ul class="ul">
+                  <li class="li"><samp class="ph codeph">IGNORE</samp> - Do not enforce midroll ad breaks to be played. This is the default.</li>
+
+                  <li class="li"><samp class="ph codeph">PLAY_FIRST</samp> - If the viewer seeks past one or more ad breaks, the first one is played before content resumes.</li>
+
+                  <li class="li"><samp class="ph codeph">PLAY_LAST</samp> - 	If the viewer seeks past one or more ad breaks, the last one is played before content resumes.</li>
+
+                  <li class="li"><samp class="ph codeph">PLAY_ALL</samp> - If the viewer seeks past one or more ad breaks, all of them are played before content resumes.</li>
+
+                </ul>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseShowAdTitle"><span class="keyword parmname">pulse_show_ad_title</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p">Show the ad title in the ad marquee. The default value is <samp class="ph codeph">'false'</samp>.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">Boolean</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseTags"><span class="keyword parmname">pulse_tags</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">tags</strong>: Tags are freeform keywords that can be used for targeting and
+              reporting purposes. Although the tags keywords are able to handle UTF-8 characters, we
+              recommend refraining from using special characters like quotes (‘ and ") ampersand
+              (&amp;) comma (,) semi-colon (;).</p>
+
+                <div class="p"><div class="note note"><span class="notetitle">Note:</span> In an integration between Ooyala Player V4 and Ooyala Pulse, no special characters are allowed.</div>
+</div>
+
+                <p class="p">A string containing a comma-separated list of values. </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">string</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseUseVastSkipOffset"><span class="keyword parmname">pulse_use_vast_skipoffset
+              </span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">VAST skip offset:</strong> This parameter only applies to the HTML5
+              SDK. Enable or disable using the skip offset defined in third party VAST tickets over
+              using the skip offset defined in the insertion policies in Pulse. By default, the skip
+              offset from Pulse is used.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">Boolean</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="25.432415118513774%" headers="d422447e49 "><p class="p" id="ads_dev_pulse_parameters__pulseWidth"><span class="keyword parmname">pulse_width</span></p>
+</td>
+
+              <td class="entry" valign="top" width="58.03971812940423%" headers="d422447e53 ">
+                <p class="p"><strong class="ph b">width:</strong> The width of the video player. This is used to determine the
+              best size of the delivered media files.</p>
+
+                </td>
+
+              <td class="entry" valign="top" width="6.406149903907751%" headers="d422447e57 ">integer</td>
+
+              <td class="entry" valign="top" width="10.121716848174248%" headers="d422447e61 ">No</td>
+
+            </tr>
+
+            
+            
+
+
+            
+            
+
+
+
+
+
+            
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+          
+    <div class="section" id="ads_dev_pulse_parameters__summary"><h2 class="title sectiontitle">Where Parameters Are Read From</h2>
+      <p class="p">The following table lists the parameters you can set in the Ooyala Pulse ad plugin for Player V4, and the
+        relationship between the different locations where these parameters are read from, if not set in the integration. </p>
+
+      <div class="note note"><span class="notetitle">Note:</span> Consider the following rules when reading the table:
+        <ul class="ul" id="ads_dev_pulse_parameters__ul_wtz_gkx_rv">
+          <li class="li">In general:
+            <ul class="ul">
+              <li class="li">Embedded parameters override custom metadata set on individual assets in the Backlot UI.</li>
+
+              <li class="li">Custom metadata overrides ad set parameters set in the Backlot UI.</li>
+
+              <li class="li">Ad set parameters override content metadata from assets in the Backlot UI.</li>
+
+            </ul>
+
+          </li>
+
+          <li class="li"><sup class="ph sup">(1)</sup> indicates the location from which the base value for that particular parameter is read.</li>
+
+          <li class="li"><sup class="ph sup">(2)</sup> indicates that values set here are merged with the column(s) to right.</li>
+
+          <li class="li"><sup class="ph sup">(3)</sup> indicates that values set here override, or are merged with, the column(s) to the right, depending on the value for <span class="keyword parmname">pulse_override_metadata</span>.</li>
+
+        </ul>
+</div>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="ads_dev_pulse_parameters__table_a43_xsw_rv" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="25%" id="d422447e898">Embedded Parameters</th>
+
+              <th class="entry" valign="top" width="25%" id="d422447e901">Custom Metadata</th>
+
+              <th class="entry" valign="top" width="25%" id="d422447e904">Ad Set Parameters</th>
+
+              <th class="entry" valign="top" width="25%" id="d422447e907">Content Metadata</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" colspan="4" valign="top" headers="d422447e898 d422447e901 d422447e904 d422447e907 "><strong class="ph b">Pulse Settings</strong></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_device_container</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_host</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_host</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><span class="keyword parmname">vpDomain</span><p class="p">vpDomain</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_persistent_id</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" colspan="4" valign="top" headers="d422447e898 d422447e901 d422447e904 d422447e907 "><strong class="ph b">Pulse Request Settings</strong></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_enforce_cachebusting</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_height</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_insertion_point_filter</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_insertion_point_filter</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Ad Position</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_linear_cuepoints</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_linear_cuepoints</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Player level midroll ad breaks</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_linear_slot_size</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_linear_slot_size</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_max_bitrate</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_max_linear_break_duration</span></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_max_linear_break_duration</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_non_linear_cuepoints</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_non_linear_cuepoints</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Non-Linear ad breaks</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_referrer_url</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_referrer_url</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_seekmode</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_use_vast_skipoffset</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_width</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" colspan="4" valign="top" headers="d422447e898 d422447e901 d422447e904 d422447e907 "><strong class="ph b">Pulse Content Metadata</strong></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_category</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_category</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Player level shares</p>
+<sup class="ph sup">(1)</sup><p class="p">In the ad set, this parameter contains both the category and
+                  the content partner separated by a comma.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_content_form</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_content_form</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Short form content max. length (sec.)</p>
+<sup class="ph sup">(1)</sup><p class="p">This parameter together with the video asset's duration
+                  determine the content form.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_content_id</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_content_id</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "><p class="p">content ID</p>
+<sup class="ph sup">(1)</sup></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_content_partner</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_content_partner</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Player level shares</p>
+<sup class="ph sup">(1)</sup><p class="p">In the ad set, this parameter contains both the category and
+                  the content partner separated by a comma.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_custom_parameters</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_duration</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_duration</span>
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "><span class="keyword parmname">length</span><sup class="ph sup">(1)</sup></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_flags</span><sup class="ph sup">(3)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_flags</span><sup class="ph sup">(2)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Player level Videoplaza flags</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_tags</span><sup class="ph sup">(3)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "><span class="keyword parmname">pulse_tags</span><sup class="ph sup">(2)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "><p class="p">Player level tags</p>
+<sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" colspan="4" valign="top" headers="d422447e898 d422447e901 d422447e904 d422447e907 "><strong class="ph b">Other</strong></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_override_metadata</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="25%" headers="d422447e898 "><span class="keyword parmname">pulse_show_ad_title</span><sup class="ph sup">(1)</sup></td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e901 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e904 "> </td>
+
+              <td class="entry" valign="top" width="25%" headers="d422447e907 "> </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+  </div>
+
+  <div class="related-links"><div class="relinfo"><strong>Related information</strong><br/>
+<div><a class="link" href="../../../../../../../video-advertising/oadtech/ad_serving/dg/pulse_sdks_parameter.html">Parameter Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Advanced Player Options in Twitter Cards"/>
+<meta name="abstract" content="Using a special page from Ooyala, you can create a Player URL to embed a video in Twitter's Player Card, including all available Ooyala player options."/>
+<meta name="description" content="Using a special page from Ooyala, you can create a Player URL to embed a video in Twitter's Player Card, including all available Ooyala player options."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_twitter.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_tframe_example1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_tframe"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Advanced Player Options in Twitter Cards</title>
+</head>
+<body id="player_v3_tframe">
+
+
+ <h1 class="title topictitle1">Advanced Player Options in Twitter Cards</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">Using a special page from Ooyala, you can create a Player URL to embed a video in
+  Twitter's Player Card, including all available Ooyala player options.</p>
+
+  <div class="section"> As shown in <a class="xref" href="../tasks/twitter_metadata_request.html#twitter_metadata_request" title="For Twitter to correctly set up your Twitter Card, you need to provide metadata about each video; this information is in the form of HTML &lt;meta&gt; tags. This section describes how to manually generate these &lt;meta&gt; tags for any specific video. You will want to automate this process. Note that Flash content is no longer supported by Twitter, which requires HTML5 content.">Manually Getting Twitter &lt;meta&gt; Tags for Ooyala Player</a>, in Twitter Player Cards, the basic HTML <samp class="ph codeph">&lt;meta&gt;</samp> tag to define an Ooyala
+   video player looks like the following. This is the most basic invocation of the Ooyala player:<div class="p">
+    <pre class="pre codeblock">.
+.
+.
+&lt;meta name="twitter:player" content="<strong class="ph b">https://player.ooyala.com/tframe.html?embedCode=<em class="ph i">videoID</em>&amp;pbid=<em class="ph i">playerID</em></strong>"/&gt;
+.
+.
+.</pre>
+
+   </div>
+To include more advanced player options, you can construct a URL and then replace the basic
+   invocation highlighted above. After replacing the basic URL with your customized one, be sure to
+   follow the remaining steps in getting your Twitter Player card into production.</div>
+
+   <div class="section refsyn"><h2 class="title sectiontitle">Syntax for Advanced Player Options</h2>
+   Examine the following URL syntax. You can
+   construct this URL to use as the value of the <samp class="ph codeph">content</samp> attribute for Twitter's
+    <samp class="ph codeph">twitter:player</samp>
+   <samp class="ph codeph">&lt;meta&gt;</samp> tag shown above. <p class="p"><strong class="ph b">Note:</strong>The lines below have been broken for
+    readability; in actual use, be sure to put this all on a single
+    line.</p>
+<pre class="pre codeblock">https://player.ooyala.com/tframe.html?
+<strong class="ph b">ec</strong>=<em class="ph i">embedcode</em>
+&amp;<strong class="ph b">pbid</strong>=<em class="ph i">player_branding_id</em>
+&amp;<strong class="ph b">platform</strong>=<em class="ph i">platform</em>
+&amp;<strong class="ph b">options</strong>[<em class="ph i">optionname</em>]=<em class="ph i">value</em>&amp;options[<em class="ph i">optionname</em>]=<em class="ph i">value</em>..." 
+</pre>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_tframe__iframe_or_tframe_parms" class="table" frame="border" border="1" rules="all">
+     
+     
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" width="36.36363636363637%" id="d912687e114">Parameter</th>
+
+       <th class="entry" valign="top" width="63.63636363636363%" id="d912687e117">Description of Value</th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr class="row">
+       <td class="entry" valign="top" width="36.36363636363637%" headers="d912687e114 "><samp class="ph codeph">ec</samp> or <samp class="ph codeph">embedCode</samp></td>
+
+       <td class="entry" valign="top" width="63.63636363636363%" headers="d912687e117 ">The Ooyala embed code (asset or content ID) for the desired video.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="36.36363636363637%" headers="d912687e114 "><samp class="ph codeph">pbid</samp></td>
+
+       <td class="entry" valign="top" width="63.63636363636363%" headers="d912687e117 ">A "player branding ID" (or simply "player ID") for a player you have defined in Ooyala
+        Backlot.</td>
+
+      </tr>
+
+      
+      <tr class="row">
+       <td class="entry" valign="top" width="36.36363636363637%" headers="d912687e114 "><samp class="ph codeph">platform</samp></td>
+
+       <td class="entry" valign="top" width="63.63636363636363%" headers="d912687e117 ">Any of the defined values for the <samp class="ph codeph">platform</samp> parameter detailed at
+         <a class="xref" href="../api/player_v3_api_qparams.html">Player V3 Query String Parameters (Deprecated)</a>, such as <samp class="ph codeph">flash</samp> or
+         <samp class="ph codeph">html5-fallback</samp></td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" width="36.36363636363637%" headers="d912687e114 "><samp class="ph codeph">options</samp></td>
+
+       <td class="entry" valign="top" width="63.63636363636363%" headers="d912687e117 ">Standard Ooyala player runtime options, described in the next section. The
+          <samp class="ph codeph"><em class="ph i">optioname</em></samp>s of nested passthrough parameters (for instance, ad
+        manager parameters) are in dotted notation of the form
+          <samp class="ph codeph"><em class="ph i">parameter</em>.<em class="ph i">subparameter</em></samp>, like
+         <samp class="ph codeph">ad-manager.url</samp>. Values must be URL-encoded.</td>
+
+      </tr>
+
+     </tbody>
+
+    </table>
+</div>
+</div>
+
+  <div class="section"><h2 class="title sectiontitle">Passing Embedded Parameters to the Player in a tframe</h2>
+   Standard Ooyala player syntax
+   allows you to specify certain runtime arguments as the third argument on the player invocation
+   (sometimes called the "options hash"), such as <samp class="ph codeph">autoplay:true</samp>,
+    <samp class="ph codeph">initialTime:122</samp>, and other options detailed at <a class="xref" href="../api/player_v3_api_embedparams.html">Embedded Parameters</a> and <a class="xref" href="player_v3_dev_adsparams.html" title="Customize ads using embedded parameters.">Ads Embedded Parameters</a>. <p class="p">With Ooyala's
+     <samp class="ph codeph">tframe.html</samp> you can pass the same embedded parameters with the
+     <samp class="ph codeph">options</samp> attribute. You can repeat the <samp class="ph codeph">&amp;options</samp> attribute
+    and values as many times as you like. The only limit is the maximum length of a
+    URL.</p>
+<p class="p">According to the syntax above, the <samp class="ph codeph">options</samp> attributes look like the
+    following.</p>
+<div class="p">
+    <pre class="pre codeblock">https://player.ooyala.com/tframe.html?
+ec=<em class="ph i">embedcode</em>
+&amp;pbid=<em class="ph i">player_branding_id</em>
+&amp;platform=<em class="ph i">platform</em>
+<strong class="ph b">&amp;options[autoplay]=true&amp;options[initialTime]=122</strong>       </pre>
+
+   </div>
+Nested options (that is, a hash key that is itself a hash, like ad tags), are expressed in
+   dotted notation. See <a class="xref" href="player_v3_dev_tframe_example1.html#player_v3_tframe_example1" title="This example of tframe.html includes several ad manager options.">Example: Passing Multiple IMA Ad Tags for Pre-roll</a>.</div>
+
+<div class="section"><h2 class="title sectiontitle">Possible "Ooyala Exception: Invalid query parameter" Errors</h2>
+    If your parameters for
+   tframe.html are not correctly formatted or constructed, you will see the following error message,
+   and the player will not load: <pre class="pre codeblock">Ooyala Exception: Invalid query parameter  </pre>
+
+   <p class="p">Check your syntax carefully to eliminate this problem before you attempt to go into production
+    with your Twitter Player Card.</p>
+
+  </div>
+
+ </div>
+
+ 
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="player_v3_dev_tframe_example1.html">Example: Passing Multiple IMA Ad Tags for Pre-roll</a></strong><br/>
+This example of tframe.html includes several ad manager options.</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_twitter.html" title="Twitter player cards enable you to embed your video content directly in Twitter sites and mobile applications.">Integration with Twitter Player Cards</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Device Management API for User Portals"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/device_registration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="reference_wzy_ffh_3k"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Device Management API for User Portals</title>
+</head>
+<body id="reference_wzy_ffh_3k">
+
+
+  
+    <h1 class="title topictitle1">Device Management API for User Portals</h1>
+
+    <div class="body refbody">
+      <div class="section">
+    <p class="p">Part of Ooyala Player API family, these APIs can be called from either the client
+      application itself or from a user self-service portal portal, and forms.</p>
+
+    <div class="p">
+      <div class="note note"><span class="notetitle">Note:</span> The endpoint for these calls is <samp class="ph codeph">player.ooyala.com</samp>.</div>
+
+    </div>
+
+
+      </div>
+ 
+  <div class="section refsyn" id="reference_wzy_ffh_3k__last_result_for_user_portals"><h2 class="title sectiontitle">Get Reason for Registration Failure</h2>
+      
+      <p class="p">Use this request to get a fuller explanation of why the license request might have failed.  </p>
+
+    <div class="note note"><span class="notetitle">Note:</span> The <var class="keyword varname">auth_token</var> returned in the failed registration response must be
+        used to get the last result. The response applies only to the playback session associated
+        with the supplied <var class="keyword varname">auth_token</var>.</div>
+
+      <p class="p">Device registration is tied to the issuing of the license by the DRM client, because it is
+        the DRM client that supplies the required device ID. Unfortunately, if a license request
+        fails, an Ooyala-specific error response cannot be returned because the DRM clients require
+        a response in a particular, non-Ooyala format.</p>
+
+      <p class="p">Therefore, use this GET request to obtain more detailed information about a possible
+        licensing/registration failure.</p>
+
+      <p class="p">This request returns error messages if either the device limit or the entitlement limit is
+        reached, in addition to other error conditions. The request also returns a list of
+        previously registered devices, so the user can determine if they are correct. </p>
+
+      <div class="p">
+        <pre class="pre codeblock">[GET]player.ooyala.com/sas/api/v1/device_management/auth_token/<a class="xref" href="device_registration_properties.html#device_registration_properties__auth_token"><kbd class="ph userinput">auth_token</kbd></a>/last_result</pre>
+
+      </div>
+
+      <p class="p"><strong class="ph b">Example Response</strong></p>
+
+      <pre class="pre codeblock">{  
+   "<a class="xref" href="device_registration_properties.html#device_registration_properties__user_agent">user_agent</a>":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0",
+   "<a class="xref" href="device_registration_properties.html#device_registration_properties__registration_time">registration_time</a>":"2013-09-09 12:41:40 -0700",
+   "<a class="xref" href="device_registration_properties.html#device_registration_properties__result">result</a>":"device binding failed",
+   "<a class="xref" href="device_registration_properties.html#device_registration_properties__public_device_id">public_device_id</a>":null,
+   
+   "devices":[  
+      {  
+         "<a class="xref" href="device_registration_properties.html#device_registration_properties__public_device_id">public_device_id</a>":"aadf73a0-54ec-424d-9666-c70d17bc8f8b",
+         "<a class="xref" href="device_registration_properties.html#device_registration_properties__public_device_id">nickname</a>":null,
+         "<a class="xref" href="device_registration_properties.html#device_registration_properties__user_agent">user_agent</a>":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0"
+      }
+   ]
+}</pre>
+
+      <ul class="ul">
+        <li class="li">200 <samp class="ph codeph">result</samp> : Either success or a specific error message about why the
+          registration failed. The following are possible results: <ul class="ul" id="reference_wzy_ffh_3k__ul_z5k_cbv_wj">
+            <li class="li">new device registered</li>
+
+            <li class="li">device binding failed. This message is returned if the entitlement-level device
+              limit has been reached. The <samp class="ph codeph">devices</samp> array contains only the device
+              IDs that are already bound to the entitlement.</li>
+
+            <li class="li">no device registration action</li>
+
+            <li class="li">device limit reached</li>
+
+          </ul>
+</li>
+
+        <li class="li">404 <samp class="ph codeph">device registration last result not found</samp></li>
+
+      </ul>
+
+    </div>
+
+  <div class="section refsyn"><h2 class="title sectiontitle">Get List of Registered Devices for a viewer</h2>
+    
+    <pre class="pre codeblock">[GET]player.ooyala.com/sas/api/v1/device_management/auth_token/<a class="xref" href="device_registration_properties.html#device_registration_properties__auth_token"><kbd class="ph userinput">auth_token</kbd></a>/devices</pre>
+
+    <p class="p"><strong class="ph b">Response</strong></p>
+
+    <p class="p">The array <samp class="ph codeph">devices</samp> includes the following fields for each device
+      registered with the viewer.</p>
+
+    <pre class="pre codeblock">{  
+   “<a class="xref" href="device_registration_properties.html#device_registration_properties__device_limit">device_limit</a>”:“<kbd class="ph userinput">maximum number of devices allowed</kbd>”,
+   “<a class="xref" href="device_registration_properties.html#device_registration_properties__next_delete_time">next_delete_time</a>”:“<kbd class="ph userinput">The time at which the device can be deleted (ISO 8601)</kbd>”,
+   “devices”:[  
+      {  
+          "<a class="xref" href="device_registration_properties.html#device_registration_properties__public_device_id">public_device_id</a>":“<kbd class="ph userinput">sample_device_id</kbd>”,
+            "<a class="xref" href="device_registration_properties.html#device_registration_properties__user_agent">user_agent</a>":”<kbd class="ph userinput">sample_user_agent</kbd>”,
+            "<a class="xref" href="device_registration_properties.html#device_registration_properties__registration_time">registration_time</a>":“<kbd class="ph userinput">time at which registered (ISO 8601)</kbd>”,
+            "<a class="xref" href="device_registration_properties.html#device_registration_properties__nickname">nickname</a>":“<kbd class="ph userinput">device_nickname</kbd>”
+      },
+      . 
+      . 
+      .
+   ]
+}</pre>
+
+    
+  </div>
+
+  <div class="section refsyn"><h2 class="title sectiontitle">Update a device’s nickname</h2>
+    <div class="p">
+      <pre class="pre codeblock">[PUT]player.ooyala.com/sas/api/v1/device_management/auth_token/<a class="xref" href="device_registration_properties.html#device_registration_properties__auth_token"><kbd class="ph userinput">auth_token</kbd></a>/devices/<a class="xref" href="device_registration_properties.html#device_registration_properties__public_device_id"><kbd class="ph userinput">public_device_id</kbd></a>{
+   "<a class="xref" href="device_registration_properties.html#device_registration_properties__nickname">nickname</a>":"<kbd class="ph userinput">someNickname</kbd>"
+}</pre>
+
+    </div>
+    
+    <p class="p"><strong class="ph b">Responses</strong></p>
+
+    <p class="p">200 {"message": "OK"} - Request succeeded.</p>
+
+    <p class="p">404 {"message": "Device Not Found"} - Returned if device with the given
+          <var class="keyword varname">public_device_id</var> was not found.</p>
+
+    <p class="p">403 {"message": "Invalid Token"} - Returned if the <var class="keyword varname">auth_token</var> was
+        invalid.</p>
+
+  </div>
+
+  <div class="section refsyn"><h2 class="title sectiontitle">Delete Devices</h2>
+    <p class="p">This is checked against the provider's deletion limits.</p>
+
+    <div class="p">
+      <pre class="pre codeblock">[DELETE]player.ooyala.com/sas/api/v1/device_management/auth_token/<a class="xref" href="device_registration_properties.html#device_registration_properties__auth_token"><kbd class="ph userinput">auth_token</kbd></a>/devices/<kbd class="ph userinput">public_device_id</kbd></pre>
+
+    </div>
+
+    
+    <p class="p"><strong class="ph b">Responses</strong></p>
+
+    <p class="p">200 {"message": "OK"} - Request succeeded.</p>
+
+    <p class="p">404 {"message": "Device Not Found"} - Returned if device with the given
+          <var class="keyword varname">public_device_id</var> was not found.</p>
+
+    <p class="p">403 {"message": "Invalid Token"} - Returned if the <var class="keyword varname">auth_token</var> was
+        invalid.</p>
+
+    <p class="p">429 {"message": "Delete Limit Reached"} - Returned if deletion was not allowed because of
+        recent attempts</p>
+
+  </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/device_registration.html">Device Registration API</a></div>
+</div>
+</div>
+
+</body>
+</html>

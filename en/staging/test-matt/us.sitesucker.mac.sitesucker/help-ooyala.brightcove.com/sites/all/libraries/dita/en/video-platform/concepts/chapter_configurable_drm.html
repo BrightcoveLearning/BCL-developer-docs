@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Configurable DRM"/>
+<meta name="abstract" content="Digital Rights Management (DRM) enables you to control how viewers consume and access your high value content through DRM policies. DRM policies can be set at the account or asset level."/>
+<meta name="description" content="Digital Rights Management (DRM) enables you to control how viewers consume and access your high value content through DRM policies. DRM policies can be set at the account or asset level."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/drm_overview.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_configurable_drm_assign.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_configurable_drm_delete.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chapter_configurable_drm"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Configurable DRM</title>
+</head>
+<body id="chapter_configurable_drm">
+
+
+ <h1 class="title topictitle1">Configurable DRM</h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc">Digital Rights Management (DRM) enables you to control how viewers consume and access your high value content through DRM policies. DRM policies can be set at the account or asset level.</p>
+
+   
+  <div class="p">Ooyala DRM policies support these DRM technologies:<ul class="ul" id="chapter_configurable_drm__ul_ivb_y33_gn">
+    <li class="li">Adobe Access, which is used to secure Flash playback.</li>
+
+    <li class="li">Widevine Modular, which is used for mobile devices.</li>
+
+    <li class="li">PlayReady is used when specifically set up for your account.</li>
+
+    <li class="li">FairPlay Streaming is Apple's DRM for content protection.</li>
+
+      </ul>
+</div>
+
+   
+   <p class="p">With configurable DRM, your Customer Success Manager or Ooyala Support creates multiple DRM policies.
+     Once enabled, you can assign any policy to any asset after ingestion.
+     Then, you can change the policy for an asset at any time. 
+     For example, you might have new content to which you want to assign your most stringent DRM policy.
+     After the content is no longer new and in high demand, you might choose to loosen the DRM protection by using a less restrictive policy.</p>
+
+   <div class="p">In general, Ooyala gives you the ability to choose from multiple pre-defined policies. These policies are determined at license issuance time and can include policies issued on a package
+     or more commonly issued as policies enforced on output controls (such as enforcing no playback if HDCP is not present). In general these types of output control policies take the form:
+    <ol class="ol">
+      <li class="li">no policy.</li>
+
+      <li class="li">use if available.</li>
+
+      <li class="li">required.</li>
+
+      <li class="li">no output.</li>
+
+    </ol>
+
+       
+     
+     </div>
+
+   
+  <p class="p">The following is an example of a DRM policy:</p>
+
+  <pre class="pre codeblock">{  
+   {  
+      "id":"86ff97ae7c81495eacbd9a01feff0e10",
+      "name":"HD Policy",
+      "playready_policy":{  
+         "analog_video_extension_guid":"<kbd class="ph userinput">guid_#</kbd>",
+         "expiration_date":"60",
+         "compressed_digital_video":"500",
+         "analog_video":"150",
+         "uncompressed_digital_video":"300"
+      },
+      "flashaccess_policy":{  
+         "analog_output_protection":"use_if_available_all",
+         "digital_output_protection":"required",
+         "minimum_security_level":10000
+      },
+      "widevine_modular_policy":{  
+         "can_play":true,
+         "can persist":true,
+         "can_renew":true,
+         "rental_duration_seconds":0,
+         "playback_duration_seconds":0,
+         "license_duration_seconds":0,
+         "renewal_recovery_duration_seconds":0,
+         "renewal_server_url":"",
+         "renewal_delay_seconds":0,
+         "renewal_retry_interval_seconds":0,
+         "renew_with_usage":true,
+         "hdcp":"",
+         "cgms":""
+      },
+      "fairplay_policy":{ 
+         "airplay":true, 
+         "adapter":true,
+         "hdcp":true,
+         "lease_duration_seconds":0,
+         "rental_duration_seconds":0
+      }
+   }
+}</pre>
+
+ </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="../tasks/api_configurable_drm_assign.html">Assigning DRM Policies</a></strong><br/>
+Once configured, you can assign a DRM policy at the account or asset level.</li>
+<li class="link ulchildlink"><strong><a href="../tasks/api_configurable_drm_delete.html">Deleting DRM Policies</a></strong><br/>
+You can quickly and easily remove DRM policies from an asset or your     account.</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="drm_overview.html">Digital Rights Management</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Sample Signature Code (C#)"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_signing_requests_appendix.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="signature_csharp"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Sample Signature Code (C#)</title>
+</head>
+<body id="signature_csharp">
+
+
+ <h1 class="title topictitle1">Sample Signature Code (C#)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc"/>
+
+  <div class="section">
+   <p class="p">This following is C# sample code for generating signatures:</p>
+
+   <pre class="pre codeblock">
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+
+public class OoyalaAPI
+{
+	public const String BaseURL = "https://api.ooyala.com";
+
+	/// &lt;summary&gt;
+	/// Takes in the necessary parameters to build a V2 signature for the Ooyala API
+	/// &lt;/summary&gt;
+	/// &lt;param name="apiKey"&gt;
+	/// The API key for the Ooyala account to generate the URL for. You can find this key in the Developers tab in Backlot
+	/// &lt;/param&gt;
+	/// &lt;param name="secretKey"&gt;
+	/// The Secret key for the Ooyala account to generate the URL for. You can find this key in the Developers tab in Backlot
+	/// &lt;/param&gt;
+	/// &lt;param name="HTTPMethod"&gt;
+	/// The method to be used for the request. Possible values are: GET, POST, PUT, PATCH or DELETE
+	/// &lt;/param&gt;
+	/// &lt;param name="path"&gt;
+	/// The path to use for the request
+	/// &lt;/param&gt;
+	/// &lt;param name="parameters"&gt;
+	/// A hash containing the list of parameters that will be included in the request.
+	/// &lt;/param&gt;
+	/// &lt;param name="body"&gt;
+	/// A String containing the JSON representation of the data to be sent on the request. If its a GET request, the body parameter will not be used to generate the signature.
+	/// &lt;/param&gt;
+	/// &lt;returns&gt;
+	/// The URL to be used in the HTTP request.
+	/// &lt;/returns&gt;
+	public String generateURL (String apiKey, String secretKey, String HTTPMethod, String path, Dictionary&lt;System.String,System.String&gt; parameters, String body)
+	{
+		var url = BaseURL + path;
+
+		parameters.Add("api_key", apiKey);
+
+		//Sorting the keys
+		var sortedKeys = new String[parameters.Keys.Count];
+		parameters.Keys.CopyTo(sortedKeys,0);
+		Array.Sort(sortedKeys);
+
+		for (int i = 0; i &lt; sortedKeys.Length; i++) {
+			url += (i == 0 ? "?" : "&amp;") + sortedKeys[i] + "=" + parameters[sortedKeys[i]];
+		}
+
+		url += "&amp;signature=" + this.generateRequestSignature(secretKey, HTTPMethod, path, sortedKeys, parameters, body);
+
+		return url;
+	}
+
+	public String generateRequestSignature(String secretKey, String HTTPMethod, String path, String[] sortedParameterKeys, Dictionary&lt;String,String&gt; parameters, String body){
+		var StringToSign = secretKey + HTTPMethod + path;
+
+		for (int i = 0; i &lt; sortedParameterKeys.Length; i++) {
+			StringToSign += sortedParameterKeys[i] + "=" + parameters[sortedParameterKeys[i]];
+		}
+
+                stringToSign += body;
+
+                var sha256 = new SHA256Managed();
+		byte[] digest = sha256.ComputeHash(Encoding.ASCII.GetBytes(StringToSign));
+           String signedInput = Convert.ToBase64String(digest);
+
+		//Removing the trailing = signs
+		var lastEqualsSignIndex = signedInput.Length - 1;
+		while (signedInput[lastEqualsSignIndex] == '=')
+		{
+			lastEqualsSignIndex--;	
+		}
+
+		signedInput = signedInput.SubString(0, lastEqualsSignIndex + 1);
+
+           return HttpUtility.UrlEncode(signedInput.SubString(0, 43));
+	}
+
+}
+
+   </pre>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../tasks/api_signing_requests_appendix.html" title="Here is a collection of sample code in various programming languages for signing your requests.">Sample Code for Signing Requests</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Embedding Player V4: Optimizing for Page Load"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_embed_bestpractices.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_embed_optimizing_pageload"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Embedding Player V4: Optimizing for Page Load</title>
+</head>
+<body id="pbv4_embed_optimizing_pageload">
+
+
+    <h1 class="title topictitle1">Embedding Player V4: Optimizing for Page Load</h1>
+
+    
+    <div class="body refbody">
+     <div class="section">
+            <p class="p">There will be cases where a customer might be more concerned with overall load time of their website than with how fast the player is presented to the end-user. In such cases it might make sense to optimize for page load and treat player assets as secondary resources.
+            </p>
+
+         <div class="p"><strong class="ph b">When to use</strong><ul class="ul"><li class="li">You care most about how the page scores on PageSpeed insights, Lighthouse or similar page
+            performance tools</li>
+<li class="li">The video content is not part of the critical rendering path (i.e. below the fold of the
+            page)</li>
+<li class="li">The video content is secondary to the overall purpose of the page</li>
+<li class="li">The video content is loaded dynamically after user interaction</li>
+</ul>
+</div>
+
+         <div class="p"><strong class="ph b">When to avoid</strong><ul class="ul"><li class="li">The video content is shown above the fold</li>
+<li class="li">The video content is critical to the experience of the page</li>
+<li class="li">The video content is configured to autoplay</li>
+</ul>
+</div>
+
+            </div>
+
+        <div class="section"><h2 class="title sectiontitle">Optimization: Load player resources asynchronously</h2>
+           <p class="p">Modern browsers support loading scripts asynchronously through the “async” attribute.  Scripts loaded asynchronously will begin downloading immediately after being encountered, but they will not block the parsing or rendering of the html document while the download is in progress. Each async script executes at the first opportunity after it is finished downloading and before the window’s load event.</p>
+
+            <div class="note note"><span class="notetitle">Note:</span> Script that are loaded asynchronously are not guaranteed to be executed in the order that they were declared. It is of particular importance to be aware of this when working with the Ooyala player, since the order of the video plugins determines the priority that the player core will give them when choosing a plugin that can handle the current stream. For this reason, the use of the “async” attribute is only recommended when using the standard embed.</div>
+
+            <div class="p"><strong class="ph b">Pros</strong>
+                <ul class="ul"><li class="li">Parsing of the html document will not get blocked while the script is being downloaded</li>
+
+                    <li class="li">Might help give priority to other critical elements in the page while also allowing player resources to be loaded as early as possible</li>
+</ul>
+</div>
+
+            <div class="p"><strong class="ph b">Cons</strong>
+                <ul class="ul"><li class="li">Script execution order is not guaranteed</li>
+
+                    <li class="li">Not recommended when loading several player plugins scripts individually</li>
+
+                    <li class="li">The network request will still happen as soon as the script is encountered, so this will compete with other network resources</li>
+</ul>
+</div>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Ooyala Video Test&lt;/title&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;script&gt;
+    var playerParams = {
+      pcode: '9odGgyOhmvtSyMbOojUa85Ug4if_',
+      playerBrandingId: 'e4c115a4f4e74866817e1c7fa60dfc39',
+    };
+    // Note: This function will be called after the player script is loaded,
+    // so it needs to be declared before it
+    window.initOoyalaPlayer = function() {
+      OO.ready(function() {
+        window.player = OO.Player.create('oo-player', 
+'5kbmU5MzE6ivgWkobhscmQwGuD7fyNIa', playerParams);
+                    
+       });
+     };
+  &lt;/script&gt;
+  &lt;script
+    async
+                    
+src="//player.ooyala.com/core/e4c115a4f4e74866817e1c7fa60dfc39?plugins=bm,main,ima,pl"
+   onload="initOoyalaPlayer()"&gt;
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="above-the-fold-content"&gt;
+    &lt;!-- Content at the top of the page would be here --&gt;
+  &lt;/div&gt;
+  &lt;div class="below-the-fold-content"&gt;
+    &lt;div style="width:640px" id="oo-player"&gt;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+</div>
+
+
+            <div class="section"><h2 class="title sectiontitle">Optimization: Defer player scripts</h2>
+            <p class="p">Similar to the “async” attribute described above, the “defer” attribute will cause a script to be downloaded immediately without blocking the parsing of the html document, with the difference that the script execution will begin until after the page is loaded. Once again this approach is only useful if the video content is secondary to the user experience of the page. Script loaded with the “defer” are guaranteed to be executed in order except on IE9 and below.</p>
+
+            <div class="p"><strong class="ph b">Pros</strong>
+                <ul class="ul"><li class="li">Parsing of the html document will not get blocked while the script is being downloaded</li>
+
+                    <li class="li">Might help give priority to other critical elements in the page while also allowing player resources to be loaded as early as possible</li>
+</ul>
+</div>
+
+            <div class="p"><strong class="ph b">Cons</strong>
+                <ul class="ul"><li class="li">The network request will still happen as soon as the script is encountered, so this will compete with other network resources</li>
+
+                    <li class="li">Player initialization will occur after page load</li>
+</ul>
+</div>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+                    
+  &lt;title&gt;Ooyala Video Test&lt;/title&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;script&gt;
+   var playerParams = {
+     pcode: '9odGgyOhmvtSyMbOojUa85Ug4if_',
+     playerBrandingId: 'e4c115a4f4e74866817e1c7fa60dfc39',
+   };
+   // Note: This function will be called after the player script is loaded,
+   // so it needs to be declared before it
+   window.initOoyalaPlayer = function() {
+     OO.ready(function() {
+      window.player = OO.Player.create('oo-player', 
+'5kbmU5MzE6ivgWkobhscmQwGuD7fyNIa', playerParams);
+      });
+    };
+  &lt;/script&gt;
+  &lt;script
+    defer
+                    
+src="//player.ooyala.com/core/e4c115a4f4e74866817e1c7fa60dfc39?plugins=bm,main,ima,pl"
+    onload="initOoyalaPlayer()"&gt;
+   &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="above-the-fold-content"&gt;
+    &lt;!-- Content at the top of the page would be here --&gt;
+  &lt;/div&gt;
+  &lt;div class="below-the-fold-content"&gt;
+    &lt;div style="width:640px" id="oo-player"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+            <p class="p">For more information about the “async” and “defer” attributes please see: <a class="xref" href="https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html" target="_blank">https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html</a>
+            </p>
+</div>
+         
+            <div class="section"><h2 class="title sectiontitle">Optimization: Load player resources at the end of the body tag</h2>
+            <p class="p">This is a simple tried and true optimization that will allow the rest of the page to
+        be loaded and parsed before the player resources. This approach makes sense when the video
+        content is not the main focus of the page, is revealed only after user interaction, or is
+        significantly below the fold of the page.</p>
+
+            <div class="p"><strong class="ph b">Example:</strong>
+                <pre class="pre codeblock">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Ooyala Video Test&lt;/title&gt;
+  &lt;meta charset="UTF-8"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="above-the-fold-content"&gt;
+     &lt;!-- Content at the top of the page would be here --&gt;
+  &lt;/div&gt;
+  &lt;div class="below-the-fold-content"&gt;
+     &lt;div style="width:640px" id="oo-player"&gt; &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Player resources are right at the end of the body tag --&gt;
+  &lt;script src="//player.ooyala.com/core/e4c115a4f4e74866817e1c7fa60dfc39?plugins=bm,main,ima,pl"&gt; &lt;/script&gt;
+  &lt;script&gt;
+    var playerParams = {
+      pcode: '9odGgyOhmvtSyMbOojUa85Ug4if_',
+      playerBrandingId: 'e4c115a4f4e74866817e1c7fa60dfc39',
+    };
+    OO.ready(function() {
+      window.player = OO.Player.create('oo-player', 
+'5kbmU5MzE6ivgWkobhscmQwGuD7fyNIa', playerParams);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt; </pre>
+</div>
+
+        </div>
+
+       
+    </div>
+
+    
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/pbv4_embed_bestpractices.html">Embedding Player V4: Best Practices</a></div>
+</div>
+</div>
+
+</body>
+</html>

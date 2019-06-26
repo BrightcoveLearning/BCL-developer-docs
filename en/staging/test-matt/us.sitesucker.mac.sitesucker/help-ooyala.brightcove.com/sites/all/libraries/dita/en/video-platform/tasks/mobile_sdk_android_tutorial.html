@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating a Basic Android App"/>
+<meta name="abstract" content="Learn how to quickly create a basic player app."/>
+<meta name="description" content="Learn how to quickly create a basic player app."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_getstarted.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_tutorial"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating a Basic Android App</title>
+</head>
+<body id="mobile_sdk_android_tutorial">
+
+
+  <h1 class="title topictitle1">Creating a Basic Android App</h1>
+
+  
+  <div class="body taskbody"><p class="shortdesc">Learn how to quickly create a basic player app.</p>
+
+    <div class="section prereq p">
+      <div class="p">For this tutorial, you need: <ul class="ul">
+          <li class="li">The Ooyala provided <samp class="ph codeph">PCODE</samp>. To obtain your <samp class="ph codeph">PCODE</samp>, log
+            into your Backlot account and navigate to <span class="ph uicontrol">Account</span> &gt;
+              <span class="ph uicontrol">Developers</span>. In your <span class="ph uicontrol">API Key</span>, the
+            alphanumeric characters preceding the period (".") represent the <samp class="ph codeph">PCODE</samp>
+            constant to use in the tutorial. For example, if the API key is
+              <samp class="ph codeph">xxxxxxxxxxxxxxxxxxxxxxxxxxxx.0000</samp>, then use the first 28 characters
+              (<samp class="ph codeph">xxxxxxxxxxxxxxxxxxxxxxxxxxxx</samp>) for the <samp class="ph codeph">PCODE</samp>. For
+            details, see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>.</li>
+
+
+          <li class="li">The embed code (content ID or asset ID) of a video you want to play.</li>
+
+        <li class="li"><a class="xref" href="http://developer.android.com/sdk/index.html" target="_blank">Android Studio</a> installed and configured on your system. </li>
+
+        </ul>
+</div>
+
+    </div>
+
+
+    <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd">Get the Basic Playback Sample App from the GitHub repository:</span>
+           <p class="p"><a class="xref" href="https://github.com/ooyala/android-sample-apps" target="_blank">Ooyala
+          Mobile SDK for Android Sample Apps</a></p>
+
+        
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd"> Open Android Studio and select <span class="ph uicontrol">File</span> &gt; <span class="ph uicontrol">Import Project</span>.</span>
+      </li>
+<li class="li step stepexpand"><span class="ph cmd"> Navigate to the BasicPlaybackSampleApp and select <span class="ph uicontrol">OK</span>.</span>
+    <img class="image" src="../image/androidstudio_import.png" height="308" width="273" alt="Import Project to Android Studio"/>
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Open BasicPlaybackVideoPlayerActivity for editing:</span>
+         
+          <pre class="pre codeblock">BasicPlaybackSampleApp/app/java/com.ooyala.sample/players/BasicPlaybackVideoPlayerActivity.java</pre>
+
+          <img class="image" src="../image/basicplayeractivity.png" height="369" width="625" alt="BasicPlaybackVideoPlayerActivity"/>
+          <p class="p">Notice the import statements. The following statements are the standard imports for any
+            player app:</p>
+<ul class="ul">
+            <li class="li"><samp class="ph codeph">import com.ooyala.android.OoyalaPlayer;</samp></li>
+
+            <li class="li"><samp class="ph codeph">import com.ooyala.android.OoyalaPlayerLayout</samp></li>
+
+            <li class="li"><samp class="ph codeph">import com.ooyala.android.PlayerDomain</samp></li>
+
+            <li class="li"><samp class="ph codeph">import com.ooyala.android.OoyalaPlayerLayoutController</samp>; </li>
+
+          </ul>
+
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Enter your own EMBED and PCODE values:</span>
+         
+          <pre class="pre codeblock">  final String EMBED  = "<em class="ph i">yourEmbedCodeHere</em>";  //Embed Code, or Content ID
+  final String PCODE  = "<em class="ph i">yourPcodeHere</em>";</pre>
+<div class="note note"><span class="notetitle">Note:</span> Leave the <samp class="ph codeph">DOMAIN</samp> constant unchanged as <samp class="ph codeph">http://www.ooyala.com</samp>.
+            This works in conjunction with <strong class="ph b">Syndication Controls</strong> (publishing rules) in
+            Backlot. If you have set Internet domain restrictions on videos in Backlot, the
+              <var class="keyword varname">domain</var> variable here can be set to one of those allowed domains. If
+            you have not set these <strong class="ph b">Syndication Controls</strong>, the <samp class="ph codeph">DOMAIN</samp> constant
+            here has no effect.</div>
+
+        
+      </li>
+<li class="li step stepexpand"><span class="ph cmd">Test the app:</span>
+        <ol type="a" class="ol substeps">
+          <li class="li substep substepexpand">
+            <span class="ph cmd">Click <span class="ph uicontrol">Play</span>.</span>
+             <img class="image" src="../image/androidstudio_play.png" height="38" width="210" alt="Play to test the app"/>
+          </li>
+
+        </ol>
+
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Choose the test device or emulator and select <span class="ph uicontrol">OK</span>.</span>
+         <img class="image" src="../image/androidstudio_emulator.png" height="243" width="285" alt="Pick Play Device"/>
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Navigate the unlock options for the test device and select a Basic Playback option.</span>
+         <img class="image" src="../image/androidstudio_selectasset.png" height="484" width="270" alt="Select Play Option"/>
+      </li>
+</ol>
+
+    <div class="section result"><p class="p">The video plays.</p>
+
+      <img class="image" src="../image/androidstudio_videoplays.png" height="457" width="252" alt="Video Plays"/>
+    </div>
+
+    <div class="section postreq">
+      <p class="p">Study the code elements used to initialize the player:</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="mobile_sdk_android_tutorial__table_nb2_rmh_4r" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Initializing the Player</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="50%" id="d1067578e266">Description</th>
+
+              <th class="entry" valign="top" width="50%" id="d1067578e269">Sample Code</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d1067578e266 "><p class="p">Set the layout to the <samp class="ph codeph">OoyalaPlayerLhayout</samp>.</p>
+ 
+                <div class="note note"><span class="notetitle">Note:</span>  For more about layouts, see <a class="xref" href="../concepts/mobile_sdk_android_controls.html">Layout Controls</a></div>
+
+              </td>
+
+              <td class="entry" valign="top" width="50%" headers="d1067578e269 ">
+                <pre class="pre codeblock">OoyalaPlayerLayout playerLayout = (OoyalaPlayerLayout) findViewById(R.id.ooyalaPlayer);</pre>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d1067578e266 ">                <p class="p">Create an <samp class="ph codeph">OoyalaPlayerController</samp> object (named
+                    <samp class="ph codeph">playerLayoutController</samp>).</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="50%" headers="d1067578e269 ">
+                <pre class="pre codeblock">playerLayoutController = new OoyalaPlayerLayoutController(playerLayout, PCODE, new PlayerDomain(DOMAIN));</pre>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d1067578e266 ">    <p class="p">Instantiate a player object with the <samp class="ph codeph">playerLayoutController.getPlayer()</samp>
+                  method.</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="50%" headers="d1067578e269 ">
+                <pre class="pre codeblock"> player = playerLayoutController.getPlayer();</pre>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="50%" headers="d1067578e266 "><p class="p"> The <samp class="ph codeph">if</samp> test with <samp class="ph codeph">player.setEmbedCode()</samp> function with the
+                  identifier of the video to play (<samp class="ph codeph">hEMBED</samp>).</p>
+
+                <div class="note note"><span class="notetitle">Note:</span> For more sophisticated applications, rather than hard coding the video identifier,
+                  pass a variable to the <samp class="ph codeph">setEmbedCode()</samp> function.</div>
+
+                
+                
+              </td>
+
+              <td class="entry" valign="top" width="50%" headers="d1067578e269 ">
+                <pre class="pre codeblock">player.addObserver(this);
+
+    if (player.setEmbedCode(EMBED)) {
+      player.play();
+    }
+    else {
+      Log.e(TAG, "Asset Failure");
+    }
+  }</pre>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+      
+          
+    </div>
+
+  </div>
+
+ 
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/mobile_sdk_android_getstarted.html">Getting Started with the Ooyala Android SDK</a></div>
+</div>
+</div>
+
+</body>
+</html>

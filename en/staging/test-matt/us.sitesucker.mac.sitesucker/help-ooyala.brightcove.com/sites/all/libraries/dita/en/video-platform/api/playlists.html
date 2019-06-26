@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Playlists"/>
+<meta name="abstract" content="A playlist consists of a list of movies. Playlists can be organized, and can be asset-based or label-based. Playlists are generally very lightweight and fast."/>
+<meta name="description" content="A playlist consists of a list of movies. Playlists can be organized, and can be asset-based or label-based. Playlists are generally very lightweight and fast."/>
+<meta name="DC.Relation" scheme="URI" content="../api/players.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/players.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="playlists"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Playlists</title>
+</head>
+<body id="playlists">
+
+
+    <h1 class="title topictitle1">Playlists</h1>
+
+    
+    <div class="body refbody"><p class="shortdesc">A playlist consists of a list of movies. Playlists can be organized, and can be
+        asset-based or label-based. Playlists are generally very lightweight and fast. </p>
+
+        <div class="section"> Each playlist has a unique ID. <div class="note note"><span class="notetitle">Note:</span> Playlist names must also be unique.</div>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Create a Playlist</h2>
+            <pre class="pre codeblock">
+[POST] /v2/playlists 
+{
+     "name": "Test Movie Playlist",
+     "type": "movie"
+} 
+   </pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Replace a Playlist</h2> You can replace an existing playlist with any new
+            content you specify in your API request. Your new playlist maintains the old playlist's
+                <samp class="ph codeph">playlist_id</samp>.
+            <pre class="pre codeblock">
+[PUT] /v2/playlists/<var class="keyword varname">playlist_id</var>
+{
+     "name": "new name",
+     "type": "movie",
+     "items": [
+        "M0YWNmODqougN5VrA1FIk02F3CH7Mq_d",
+        "81YWNmODqT-3NfNatUGgJq9_XAR6blq8"
+     ]
+}
+   </pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Modify a Playlist</h2>
+            <div class="p">You can modify the parameters of any playlist. <div class="note note"><span class="notetitle">Note:</span> Modifying a playlist's type
+                    deletes all associated items.</div>
+</div>
+
+            <pre class="pre codeblock">
+[PATCH] /v2/playlists/<var class="keyword varname">playlist_id</var>
+{
+     "name": "new name"
+}</pre>
+</div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Delete a Playlist</h2>
+            <pre class="pre codeblock">
+[DELETE] /v2/playlists/<var class="keyword varname">playlist_id</var>
+   </pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">View All Playlists</h2>
+            <pre class="pre codeblock">[GET] /v2/playlists</pre>
+</div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">View a Specific Playlist</h2>
+            <pre class="pre codeblock">[GET] /v2/playlists/<var class="keyword varname">playlist_id</var></pre>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Route Attributes</h2>
+            
+            <p class="p">The following table describes all attributes that can be expressed through the
+                route.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d113549e101">Route Attribute</th>
+
+                            <th class="entry" valign="top" id="d113549e104">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" headers="d113549e101 d113549e104 "><var class="keyword varname">playlist_id</var></td>
+
+                            <td class="entry" valign="top" headers="d113549e101 d113549e104 "><p class="p">The ID of the playlist. To get a list of playlists, perform a
+                                        <samp class="ph codeph">GET</samp> against the <samp class="ph codeph">/playlists</samp>
+                                    route. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: /playlists/86e224258a0441fbb19c8af7f8733d0f </p>
+
+                            </td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Properties</h2>
+            
+            <p class="p">The following table describes all parameters that can be expressed when accessing the
+                URL of the playlist.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="20%" id="d113549e161">Property</th>
+
+                            <th class="entry" valign="top" width="53.333333333333336%" id="d113549e164">Description</th>
+
+                            <th class="entry" valign="top" width="26.666666666666668%" id="d113549e167">Required?</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">created_at</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">The date when the playlist was created.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "2013-01-25T00:14:40Z" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">items</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">The contents in the playlist.</p>
+
+                                <p class="p">Type: Array of Strings </p>
+
+                                <p class="p">Default: none</p>
+
+                                <div class="p">Valid values: <ul class="ul">
+                                        <li class="li">If the type is <samp class="ph codeph">movie</samp>, a list of the
+                                            embed codes in this playlist.</li>
+
+                                        <li class="li">If the type is <samp class="ph codeph">label_and</samp> or
+                                                <samp class="ph codeph">label_or</samp>, a list of the label ids
+                                            in this playlist.</li>
+
+                                    </ul>
+</div>
+
+                                <p class="p">Example:"items": [ "M0YWNmODqougN5VrA1FIk02F3CH7Mq_d",
+                                    "81YWNmODqT-3NfNatUGgJq9_XAR6blq8" ] </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">limit</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">Maximum number of items to show when viewing the playlist.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid values: The maximum valid value is 64.</p>
+
+                                <p class="p">Example: "10" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">name</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">A name for the playlist. </p>
+
+                                <div class="note note"><span class="notetitle">Note:</span> Playlist names must also be unique.</div>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "Test Movie Playlist" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">provider_id</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">A unique identifier of a content provider. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "27645" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">sort_by</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">Determines how the playlists are sorted.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <div class="p">Default: <ul class="ul">
+                                        <li class="li">If the playlist type="movie", the default value is
+                                            "custom".</li>
+
+                                        <li class="li">For all other playlist types, the default value is
+                                            "date_desc".</li>
+
+                                    </ul>
+
+                                </div>
+
+                                <p class="p">Valid values: null | random | date | custom | date_desc | name |
+                                    name_desc </p>
+
+                                <p class="p"/>
+<div class="note note"><span class="notetitle">Note:</span> The custom value is only valid for movie-based
+                                    playlists.</div>
+
+                                <p class="p">Example: "random" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">type</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">The type of content the playlist contains. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid values: movie | label_and | label_or</p>
+
+                                <p class="p">Default: none </p>
+
+                                <p class="p">Example: "movie" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">Yes</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="20%" headers="d113549e161 "><span class="keyword parmname">updated_at</span></td>
+
+                            <td class="entry" valign="top" width="53.333333333333336%" headers="d113549e164 "><p class="p">The date when the playlist was last updated.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "2013-01-25T00:14:40Z" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="26.666666666666668%" headers="d113549e167 ">No</td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Output Values</h2>
+            <p class="p">The following table describes output values that are associated with a playlist.</p>
+
+            
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="27.27272727272727%" id="d113549e422">Value</th>
+
+                            <th class="entry" valign="top" width="72.72727272727273%" id="d113549e425">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                        
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" width="27.27272727272727%" headers="d113549e422 "><span class="keyword parmname">created_at</span></td>
+
+                            <td class="entry" valign="top" width="72.72727272727273%" headers="d113549e425 "><p class="p">The date when the playlist was created.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "2013-01-25T00:14:40Z" </p>
+
+                            </td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="27.27272727272727%" headers="d113549e422 "><span class="keyword parmname">provider_id</span></td>
+
+                            <td class="entry" valign="top" width="72.72727272727273%" headers="d113549e425 "><p class="p">A unique identifier of a content provider. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "27645" </p>
+
+                            </td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="27.27272727272727%" headers="d113549e422 "><span class="keyword parmname">updated_at</span></td>
+
+                            <td class="entry" valign="top" width="72.72727272727273%" headers="d113549e425 "><p class="p">The date when the playlist was last updated.</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Example: "2013-01-25T00:14:40Z" </p>
+
+                            </td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Examples</h2>
+            
+            <div class="sectiondiv"/>
+            <div class="sectiondiv">
+                <p class="p"> This example creates a playlist called "Test Movie Playlist". </p>
+
+                <pre class="pre codeblock">
+[POST] /v2/playlists
+{
+     "name": "Test Movie Playlist",
+     "type": "movie"
+}
+    </pre>
+
+                <p class="p"> Backlot returns a response similar to the following:</p>
+
+                <pre class="pre codeblock">
+{
+     "name": "Test Movie Playlist",
+     "items": [  ],
+     "sort_by": "custom",
+     "updated_at": "2013-07-10T18:24:32Z",
+     "provider_id": "61670",
+     "created_at": "2013-07-10T18:24:32Z",
+     "type": "movie",
+     "id": "625622dfd22c47e9b7dcd0e8d1843638",
+     "limit": null
+}
+    </pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p">This example shows all of your playlists.</p>
+
+                <pre class="pre codeblock">
+[GET] /v2/playlists
+          </pre>
+
+                <p class="p">Backlot returns a response similar to the following:</p>
+
+                <pre class="pre codeblock">
+{
+     "items": [   {
+        "sort_by": "custom",
+        "limit": null,
+        "type": "movie",
+        "id": "625622dfd22c47e9b7dcd0e8d1843638",
+        "created_at": "2013-07-10T18:24:32Z",
+        "name": "Modified New Movie Playlist",
+        "updated_at": "2013-07-10T18:35:17Z",
+        "provider_id": "61670"
+     }  ]
+}
+          </pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p">This example retrieves a specific playlist
+                    (id=625622dfd22c47e9b7dcd0e8d1843638).</p>
+
+                <pre class="pre codeblock">
+[GET] /v2/playlists/625622dfd22c47e9b7dcd0e8d1843638
+          </pre>
+
+                <p class="p">Backlot returns a response similar to the following:</p>
+
+                <pre class="pre codeblock">
+{
+     "sort_by": "custom",
+     "limit": null,
+     "type": "movie",
+     "id": "625622dfd22c47e9b7dcd0e8d1843638",
+     "items": [  ],
+     "created_at": "2013-07-10T18:24:32Z",
+     "name": "Modified New Movie Playlist",
+     "updated_at": "2013-07-10T18:35:17Z",
+     "provider_id": "61670"
+}
+          </pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p">This example replaces the playlist with the playlist_id of
+                    625622dfd22c47e9b7dcd0e8d1843638 with a new playlist, "New Movie Playlist",
+                    which contains two movies.</p>
+
+                <pre class="pre codeblock">
+[PUT] /v2/playlists/625622dfd22c47e9b7dcd0e8d1843638
+{
+     "name": "New Movie Playlist"
+     "type": "movie"
+     "items": ["M0YWNmODqougN5VrA1FIk02F3CH7Mq_d", "81YWNmODqT-3NfNatUGgJq9_XAR6blq8"]
+}    
+          </pre>
+
+                <p class="p">Backlot returns a response similar to the following:</p>
+
+                <pre class="pre codeblock">{
+     "name": "New Movie Playlist",
+     "items": [  ],
+     "sort_by": "custom",
+     "updated_at": "2013-07-10T18:30:36Z",
+     "provider_id": "61670",
+     "created_at": "2013-07-10T18:24:32Z",
+     "type": "movie",
+     "id": "625622dfd22c47e9b7dcd0e8d1843638",
+     "limit": null
+}</pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p">This example modifies the name of a playlist
+                    (id=625622dfd22c47e9b7dcd0e8d1843638).</p>
+
+                <pre class="pre codeblock">
+[PATCH] v2/playlists/625622dfd22c47e9b7dcd0e8d1843638
+{
+     "name": "Modified New Movie Playlist"
+}
+          </pre>
+
+                <p class="p">Backlot returns a response similar to the following:</p>
+
+                <pre class="pre codeblock">
+ {
+     "sort_by": "custom",
+     "limit": null,
+     "type": "movie",
+     "id": "625622dfd22c47e9b7dcd0e8d1843638",
+     "items": [  ],
+     "created_at": "2013-07-10T18:24:32Z",
+     "name": "Modified New Movie Playlist",
+     "updated_at": "2013-07-10T18:35:17Z",
+     "provider_id": "61670"
+}
+          </pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p">This example deletes a playlist (id=625622dfd22c47e9b7dcd0e8d1843638).</p>
+
+                <pre class="pre codeblock">
+[DELETE] /v2/playlists/625622dfd22c47e9b7dcd0e8d1843638
+          </pre>
+
+                <p class="p">Backlot returns a 200 response.</p>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="players.html">Players (Backlot REST API)</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Working with Events"/>
+<meta name="abstract" content="Learn how to extend the Activity object to include Ooyala notifications."/>
+<meta name="description" content="Learn how to extend the Activity object to include Ooyala notifications."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_about.html"/>
+<meta name="DC.Relation" scheme="URI" content="mobile_sdk_android_errors.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_events"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Working with Events</title>
+</head>
+<body id="mobile_sdk_android_events">
+
+
+  <h1 class="title topictitle1">Working with Events</h1>
+
+  
+  <div class="body taskbody"><p class="shortdesc">Learn how to extend the Activity object to include Ooyala notifications.</p>
+
+    <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd">Implement the Observer object in your Activity. For example:</span>
+         <pre class="pre codeblock">public class OoyalaAndroidTestAppActivity extends Activity implements OnClickListener, Observer  </pre>
+
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Attach your activity to the player, like this:</span>
+         
+          <pre class="pre codeblock"> player.addObserver(this);</pre>
+
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Implement the <samp class="ph codeph">update</samp> method in the Activity:</span>
+         <pre class="pre codeblock">@Override
+        public void <strong class="ph b">update</strong>(Observable arg0, Object arg1) {
+        Log.d(TAG, "Notification Recieved: " + arg1 + " - state: " + player.getState());
+        if (arg1 == OoyalaPlayer.CONTENT_TREE_READY_NOTIFICATION) {
+        metadataReady = true;
+        Log.d(TAG, "AD - metadata true!");
+        } else if (arg1 == OoyalaPlayer.METADATA_READY_NOTIFICATION) {
+        Log.d(TAG, "Woot, here is the current metadata: " + player.getMetadata());
+        }
+        // if (((String)arg1).equals(OoyalaPlayer.STATE_CHANGED_NOTIFICATION) &amp;&amp; ((OoyalaPlayer)arg0).getState()
+        // == State.READY) {
+        // player.play();
+        // }
+        }</pre>
+<ul class="ul">
+            <li class="li"><samp class="ph codeph">arg0</samp> is always the player instance</li>
+
+            <li class="li"><samp class="ph codeph">arg1</samp> is the notification </li>
+
+          </ul>
+
+      </li>
+</ol>
+
+    <div class="section result"> The following notifications are defined as part of the <samp class="ph codeph">OoyalaPlayer</samp>
+      class:
+      <pre class="pre codeblock"> public static final String <strong class="ph b">TIME_CHANGED_NOTIFICATION</strong> = "timeChanged";
+ public static final String <strong class="ph b">STATE_CHANGED_NOTIFICATION</strong> = "stateChanged";
+ public static final String <strong class="ph b">BUFFER_CHANGED_NOTIFICATION</strong> = "bufferChanged";
+ public static final String <strong class="ph b">CONTENT_TREE_READY_NOTIFICATION</strong> = "contentTreeReady";
+ public static final String <strong class="ph b">AUTHORIZATION_READY_NOTIFICATION</strong> = "authorizationReady";
+ public static final String <strong class="ph b">ERROR_NOTIFICATION</strong> = "error";
+ public static final String <strong class="ph b">PLAY_STARTED_NOTIFICATION</strong> = "playStarted";
+ public static final String <strong class="ph b">PLAY_COMPLETED_NOTIFICATION</strong> = "playCompleted";
+ public static final String <strong class="ph b">CURRENT_ITEM_CHANGED_NOTIFICATION</strong> = "currentItemChanged";
+ public static final String <strong class="ph b">AD_STARTED_NOTIFICATION</strong> = "adStarted";
+ public static final String <strong class="ph b">AD_COMPLETED_NOTIFICATION</strong> = "adCompleted";
+ public static final String <strong class="ph b">AD_SKIPPED_NOTIFICATION</strong> = "adSkipped";
+ public static final String <strong class="ph b">AD_ERROR_NOTIFICATION</strong> = "adError";
+ public static final String <strong class="ph b">METADATA_READY_NOTIFICATION</strong> = "metadataReady"; 
+ public static final String <strong class="ph b">SEEK_COMPLETED_NOTIFICATION</strong> = "seekCompleted"; </pre>
+</div>
+
+  </div>
+
+  <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_android_about.html">Working with the Android SDK</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="mobile_sdk_android_errors.html" title="You need to listen for error notifications on the player object.">Dealing with Android Mobile SDK Errors</a></div>
+</div>
+</div>
+
+</body>
+</html>

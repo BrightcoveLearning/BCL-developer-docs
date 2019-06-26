@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Labels"/>
+<meta name="abstract" content="When added to external publishing targets, labels specify which videos, channels, and channel sets to publish externally. Additionally, labels are also useful for organizing your video library, searching for videos, and retrieving targeted analytics."/>
+<meta name="description" content="When added to external publishing targets, labels specify which videos, channels, and channel sets to publish externally. Additionally, labels are also useful for organizing your video library, searching for videos, and retrieving targeted analytics."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/book_api.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/book_api.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="labels"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Labels</title>
+</head>
+<body id="labels">
+
+
+  <h1 class="title topictitle1">Labels</h1>
+
+  
+  <div class="body refbody"><p class="shortdesc">When added to external publishing targets, labels specify which videos, channels, and
+    channel sets to publish externally. Additionally, labels are also useful for organizing your
+    video library, searching for videos, and retrieving targeted analytics.</p>
+
+    <div class="section"><div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+</div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">Create a Label</h2>
+      <pre class="pre codeblock">[POST]/v2/labels{ 
+   <a class="xref" href="#labels__label_properties"><kbd class="ph userinput">properties</kbd></a>
+} </pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">Create multiple labels using full label name</h2>
+      <p class="p">The full paths of labels must be CGI-escaped (URL-encoded) - they must begin with a leading
+        forward slash ("/") as a delimiter to define the level in the label hierarchy, and comma
+        (",") as a delimiter to support the creation of multiple hierarchal labels. All components
+        of the path are created using this method.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> 
+        <p class="p">If a label specified in a request already exists, the system returns the identifier and
+          other information about that pre-existing label. For example, if your request contains two
+          new labels and two that already exist, the two new labels are created. The identifiers and
+          other information for all four labels are returned in the response.</p>
+
+        <p class="p">If there are multiple labels with the same full path name (for example, two labels with
+          the exactly same full path name "/a/b/c"), and you try to create a label with the full
+          path name "/a/b/c/d", the system responds with error 400 because it does not know which
+          "/a/b/c" to use.</p>
+
+      </div>
+
+      <pre class="pre codeblock">[POST]/v2/labels/by_full_path/<kbd class="ph userinput">/full/path/label1</kbd>,<kbd class="ph userinput">/full/path/label2</kbd>,...</pre>
+
+      <p class="p">You can also use a leading slash and a comma as delimiters in your label names but in that
+        case you MUST ALSO USE tilda ("~") as an escape character in combination to the slash/comma.
+        This is required so that the system would "know" if the slash/comma escape characters are
+        used for hierarchy levels and multiple labels, or for delimiting label names within the same
+        label path definition. For instance:</p>
+
+      <pre class="pre codeblock">[POST]/v2/labels/by_full_path//sports/football/NFL~,soccer,/animal%20videos/buffaloes~/horses
+[
+  {
+    "name" : "NFL,soccer",
+    "id" : "1ac6255456ba41c8860a3a32bfd1bb7e",
+    "parent_id" : "dba57e8e48414613aeb471fe0a3228c8",
+    "full_name" : "/sports/football/NFL,soccer"
+  },
+  {
+    "full_name" : "/animal videos/buffaloes/horses",
+    "parent_id" : "c93e078454304c05a5182c7eb3017911",
+    "id" : "3206f660f49e4badb891d18c3b5c4fac",
+    "name" : "buffaloes/horses"
+  }
+]</pre>
+<div class="p">In this example: <ul class="ul">
+          <li class="li">The first full path definition in the request URL creates a label with a comma (,) in
+            it using tilda ("~") as an escape character before the comma:
+              <samp class="ph codeph">NFL~,soccer</samp></li>
+
+          <li class="li">The second full path definition creates a label with a forward slash ("/") in it using
+            tilda ("~")  as an escape character before the slash:
+            <samp class="ph codeph">buffaloes~/horses</samp></li>
+
+        </ul>
+</div>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">List Labels</h2>
+      <pre class="pre codeblock">[GET]/v2/labels</pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">List All Top-level Labels</h2>
+      <pre class="pre codeblock">[GET]/v2/labels?is_root=true</pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">Get assets assigned to a label</h2>
+      <pre class="pre codeblock">[GET]/v2/labels/<a class="xref" href="#labels__label_id"><kbd class="ph userinput">label_id</kbd></a>/assets</pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">View Label Information</h2>
+      <pre class="pre codeblock">[GET]/v2/labels/<a class="xref" href="#labels__label_id"><kbd class="ph userinput">label_id</kbd></a></pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">View All Sub-labels Associated With a Label</h2>
+      <pre class="pre codeblock">[GET]/v2/labels/<a class="xref" href="#labels__label_id"><kbd class="ph userinput">label_id</kbd></a>/children</pre>
+
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">View Label Information by Full Path Names</h2>
+      <p class="p">The full paths of labels must be CGI-escaped (URL-encoded) - they must begin with a leading
+        forward slash ("/") as a delimiter to define the level in the label hierarchy, and comma
+        (",") as a delimiter to support the creation of multiple hierarchal labels.</p>
+ 
+      <p class="p">The services returns 400 if any
+        paths do not exist. The response body states which components of the paths already exist or
+        are
+      missing.</p>
+<pre class="pre codeblock">[GET]/v2/labels/by_full_path/<kbd class="ph userinput">/full/path/label1</kbd>,<kbd class="ph userinput">/full/path/label2</kbd></pre>
+
+      
+      
+      <p class="p">You can also delimit label names in your request using a leading slash or comma, but in that case
+        you must also use tilda ("~") as an escape character in combination to the slash/comma. This
+        is required so that the system would "know" if the slash/comma escape characters are used for hierarchy levels and multiple labels, or for delimiting label names within the same label path definition. For instance:</p>
+
+      <pre class="pre codeblock">[GET]/v2/labels/by_full_path//sports/football/NFL~,soccer,/animal videos/buffaloes~/horses
+{
+  "items" : [
+    {
+      "id" : "1ac6255456ba41c8860a3a32bfd1bb7e",
+      "full_name" : "/sports/football/NFL,soccer",
+      "name" : "NFL,soccer",
+      "parent_id" : "dba57e8e48414613aeb471fe0a3228c8"
+    },
+    {
+      "full_name" : "/animal videos/buffaloes/horses",
+      "name" : "buffaloes/horses",
+      "parent_id" : "c93e078454304c05a5182c7eb3017911",
+      "id" : "3206f660f49e4badb891d18c3b5c4fac"
+    }
+  ]
+}</pre>
+<div class="p">In this example, multiple labels are retrieved based on the following label full path
+        definitions: <ul class="ul">
+          <li class="li">The first full path definition in the request URL returns a label with a comma (,) in
+            it using tilda ("~") as an escape character before the comma:
+              <samp class="ph codeph">NFL~,soccer</samp></li>
+
+          <li class="li">The second full path definition returns a label with a forward slash ("/") in it using
+            tilda ("~") as an escape character before the slash:
+            <samp class="ph codeph">buffaloes~/horses</samp></li>
+
+        </ul>
+</div>
+
+      
+      
+    </div>
+
+    <div class="section refsyn"><h2 class="title sectiontitle">Delete a Label</h2>
+      <pre class="pre codeblock">[DELETE]/v2/labels/<a class="xref" href="#labels__label_id"><kbd class="ph userinput">label_id</kbd></a></pre>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Route Attributes</h2>
+      
+      <p class="p">The following table describes all attributes that can be expressed through the route.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d74120e203">Route Attribute</th>
+
+              <th class="entry" valign="top" id="d74120e206">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            
+          <tr class="row">
+              <td class="entry" valign="top" headers="d74120e203 d74120e206 "><var class="keyword varname" id="labels__label_id">label_id</var></td>
+
+              <td class="entry" valign="top" headers="d74120e203 d74120e206 ">
+                <p class="p">The ID of the label. To get a list of labels, perform a get against the
+                    <samp class="ph codeph">/v2/labels</samp> route. </p>
+
+                <p class="p">Type: String </p>
+
+                <p class="p">Default: None </p>
+
+                <p class="p">Example: /labels/r28ertfe44ea4e648fd07d4509123254 b </p>
+
+              </td>
+
+            </tr>
+</tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Query String Parameters</h2>
+      
+      <p class="p">The following table describes all parameters that can be expressed through the route.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d74120e259">Parameter</th>
+
+              <th class="entry" valign="top" id="d74120e262">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            
+          <tr class="row">
+              <td class="entry" valign="top" headers="d74120e259 d74120e262 "><var class="keyword varname">is_root</var></td>
+
+              <td class="entry" valign="top" headers="d74120e259 d74120e262 "><p class="p">Retreives all top-level labels.</p>
+
+                <p class="p">Type: Boolean</p>
+
+                <p class="p">Default: If is_root is not specified, default value is false.</p>
+
+                <p class="p">Example: /v2/labels?is_root=true</p>
+
+              </td>
+
+            </tr>
+</tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section" id="labels__label_properties"><h2 class="title sectiontitle">Properties</h2>
+      
+      <p class="p">The following table describes all properties that can be associated with a label.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="22.22222222222222%" id="d74120e316">Property</th>
+
+              <th class="entry" valign="top" width="55.55555555555556%" id="d74120e319">Description</th>
+
+              <th class="entry" valign="top" width="22.22222222222222%" id="d74120e322">Required?</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            
+            
+            
+            
+            
+            
+          <tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">asset_count</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">Read-only. Specifies the number of assets using the label. Returned when you make
+                  a get request against a specific label ID. </p>
+
+                <p class="p">Type: Integer </p>
+
+                <p class="p">Example: 42 </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">No</td>
+
+            </tr>
+<tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">full_name</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">Full path to the label, including any parents. </p>
+
+                <p class="p">Type: String </p>
+
+                <p class="p">Example: "/Sports/Motorcycle Racing" </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">Yes</td>
+
+            </tr>
+<tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">id</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">Read only. ID of a label. </p>
+
+                <p class="p">Type: String </p>
+
+                <p class="p">Example: "814efb109416490a98ee3f4fcd673244" </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">Yes</td>
+
+            </tr>
+<tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">items</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">Array containing labels. Returned by a get request to
+                  <samp class="ph codeph">/v2/labels</samp>. </p>
+
+                <p class="p">Type: Array </p>
+
+                <p class="p">Example: n/a </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">No</td>
+
+            </tr>
+<tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">name</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">Name of a label. To use non-Latin characters, make sure they are UTF-8 and
+                  URI-encoded. </p>
+
+                <p class="p">Type: String </p>
+
+                <p class="p">Example: "Motorcycle Racing" </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">Yes</td>
+
+            </tr>
+<tr class="row">
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e316 "><span class="keyword parmname">parent_id</span></td>
+
+              <td class="entry" valign="top" width="55.55555555555556%" headers="d74120e319 ">
+                <p class="p">ID of the parent label. </p>
+
+                <p class="p">Type: String </p>
+
+                <p class="p">Condition: Required when adding a child label to a parent label. </p>
+
+                <p class="p">Example: "Sports" </p>
+
+              </td>
+
+              <td class="entry" valign="top" width="22.22222222222222%" headers="d74120e322 ">Conditional</td>
+
+            </tr>
+</tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section" id="labels__bestPractices"><h2 class="title sectiontitle">Best Practices for Labels</h2>
+      
+      <div class="p">The following best practices will ensure that you have optimal performance and speed in Theme Builder. <ul class="ul">
+        <li class="li">Limit the use of excess labels in your Backlot account as a low this will
+          keep load times low in Theme Builder. </li>
+
+        <li class="li">Create broad and categorical labels as  labels that apply to only 1 or 2
+          movies will result in many labels that are of limited usefulness.</li>
+
+      </ul>
+
+      </div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Examples</h2>
+      
+      <p class="p">This section provides additional examples on using the <samp class="ph codeph">labels</samp> API.</p>
+
+      <p class="p"> This example creates a top-level label: </p>
+<pre class="pre codeblock">[POST]/v2/labels{  
+   "name":"Hobbies"
+}</pre>
+
+      <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+      <pre class="pre codeblock">{
+   "name":"Hobbies",
+   "id":"d5751b77a0c24972888bf906734d4522",
+   "full_name":"/Hobbies",
+   "parent_id":null
+}</pre>
+
+      <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      <p class="p"> This example adds a child label to a parent label: </p>
+
+      <pre class="pre codeblock">[POST]/v2/labels{  
+   "name":"Hockey",
+   "parent_id":"d5751b77a0c24972888bf906734d4522"
+}</pre>
+
+      <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+      <pre class="pre codeblock">{  
+   "name":"Hockey",
+   "id":"85042f300fc143c093e8f4ee01894355",
+   "full_name":"/Hobbies/Hockey",
+   "parent_id":"d5751b77a0c24972888bf906734d4522"
+}</pre>
+
+      <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      <div class="sectiondiv"> This example creates multiple labels, specified by their full path names, in a
+        single call. <pre class="pre codeblock">[POST]/v2/labels/by_full_path//sports/football/NFL,/animal videos/buffaloes</pre>
+
+        <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      </div>
+      <div class="sectiondiv"> This example creates multiple labels with combined label names, specified by
+        their full path names, using tilda ("~") as an escape character before the slash/comma
+        delimiting the label names, in a single call.
+          <pre class="pre codeblock">[POST]/v2/labels/by_full_path//sports/football/NFL~,soccer,/animal%20videos/buffaloes~/horses
+[
+  {
+    "name" : "NFL,soccer",
+    "id" : "1ac6255456ba41c8860a3a32bfd1bb7e",
+    "parent_id" : "dba57e8e48414613aeb471fe0a3228c8",
+    "full_name" : "/sports/football/NFL,soccer"
+  },
+  {
+    "full_name" : "/animal videos/buffaloes/horses",
+    "parent_id" : "c93e078454304c05a5182c7eb3017911",
+    "id" : "3206f660f49e4badb891d18c3b5c4fac",
+    "name" : "buffaloes/horses"
+  }
+]</pre>
+<div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+</div>
+      <div class="sectiondiv">
+        <p class="p"> This example lists all labels: </p>
+
+        <pre class="pre codeblock">[GET]/v2/labels</pre>
+
+        <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+        <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "name":"Sports",
+         "id":"814efb109416490a98ee3f4fcd6784cf",
+         "parent_id":null,
+         "full_name":"/Sports"
+      },
+      {  
+         "name":"Motorcycle Racing",
+         "id":"bace921fdea44cc18a5a273155514522",
+         "parent_id":"814efb109416490a98ee3f4fcd673244",
+         "full_name":"/Sports/Motorcycle Racing"
+      },
+      {  
+         "name":"Hockey",
+         "id":"85042f300fc143c093e8f4ee01894355",
+         "parent_id":"d5751b77a0c24972888bf906734d8c34",
+         "full_name":"/Hobbies/Hockey"
+      },
+      {  
+         "name":"Hobbies",
+         "id":"d5751b77a0c24972888bf906734d4522",
+         "parent_id":null,
+         "full_name":"/Hobbies"
+      }
+   ]
+}</pre>
+
+        <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      </div>
+      <div class="sectiondiv">
+        <p class="p"> This example deletes a label: </p>
+
+        <pre class="pre codeblock">[DELETE]/v2/labels/85042f300fc143c093e8f4ee01894355</pre>
+
+        <p class="p"><span class="ph">Backlot</span> returns a 200 response.</p>
+
+        <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      </div>
+    </div>
+
+    
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/book_api.html" title="Use the Backlot REST API to customize the chrome (design elements) of your player. This includes UI elements such as fonts, colors, scrubber bar and so forth.">Backlot REST API</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Fundamental CC Methods on Android"/>
+<meta name="abstract" content="A simple programming example shows the basic methods on Android to get and set the closed caption (CC) language."/>
+<meta name="description" content="A simple programming example shows the basic methods on Android to get and set the closed caption (CC) language."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_cc.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_cc"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Fundamental CC Methods on Android</title>
+</head>
+<body id="mobile_sdk_android_cc">
+
+
+  <h1 class="title topictitle1">Fundamental CC Methods on Android</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">A simple programming example shows the basic methods on Android to get and set the
+    closed caption (CC) language.</p>
+
+    <div class="p"><strong class="ph b">Note:</strong>Be sure you have setup the required DFXP (now TTML) files for all your videos, as
+      detailed <a class="xref" href="mobile_sdk_cc_basicinbacklot.html#mobile_sdk_ios_cc" title="Learn how to set up closed captions (CC) on mobile devices using Backlot.">Required Closed Caption Setup in Backlot</a>. This simple
+      example shows some of the basic method calls for programming with closed captions on Android:
+        <ul class="ul" id="mobile_sdk_android_cc__ol_omc_rjn_1n">
+        <li class="li">Shown first here is a check for the <samp class="ph codeph">CURRENT_ITEM_CHANGED_NOTIFICATION</samp>
+          event, which in this context indicates that the video and its associated DFXP (now TTML)
+          file have been loaded. (Event programming is not required for working with closed
+          captions, but is shown here only as a useful feature. If you are interested in more
+          details about event programming, see <a class="xref" href="mobile_sdk_android_events.html" title="Learn how to extend the Activity object to include Ooyala notifications.">Working with Events</a>.)</li>
+
+        <li class="li">To find out what languages are available for the video, use the
+            <samp class="ph codeph">getAvailableClosedCaptionsLanguages()</samp> method, which returns the
+          information in a string named <samp class="ph codeph">languages</samp> in this example.. </li>
+
+        <li class="li">Then, with the <samp class="ph codeph">setClosedCaptionsLanguage()</samp> method, you can actually set
+          the desired language. This example checks if English (<samp class="ph codeph">"en"</samp>) is available
+          and sets the captions to that language.</li>
+
+      </ul>
+</div>
+
+    <pre class="pre codeblock">if (notification == OoyalaPlayer.<strong class="ph b">CURRENT_ITEM_CHANGED_NOTIFICATION</strong>) {
+
+    Set&lt;String&gt; languages = player.<strong class="ph b">getAvailableClosedCaptionsLanguages</strong>();
+
+    if (languages.contains("en")) {
+
+       player.<strong class="ph b">setClosedCaptionsLanguage</strong>("en");
+
+    }
+
+    }</pre>
+
+    
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_android_cc.html" title="With the Mobile SDK, there are many ways you can work with closed captions, from the most basic features that need no programming to more advanced programming features.">Working with Closed Captions for Android</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Assigning Publishing Rules to Assets"/>
+<meta name="abstract" content="After you add an asset to Backlot, you can assign publishing rules that affect when and where the content can be played."/>
+<meta name="description" content="After you add an asset to Backlot, you can assign publishing rules that affect when and where the content can be played."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_commonfunctions.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_publishing_rules.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_video_manage_publishing_rules"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Assigning Publishing Rules to Assets</title>
+</head>
+<body id="api_video_manage_publishing_rules">
+
+
+ <h1 class="title topictitle1">Assigning Publishing Rules to Assets</h1>
+
+  
+ <div class="body taskbody"><p class="shortdesc">After you add an asset to <span class="ph">Backlot</span>, you can assign publishing rules that affect when and where the content can be played. 
+ </p>
+
+  <div class="section context">
+    <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+
+        <div class="note note"><span class="notetitle">Note:</span> When you first create a remote asset with POST, do not include
+        the <samp class="ph codeph">time_retsrictions</samp> property in the
+        initial POST. The remote asset must first be created so that the embed code (content ID or
+        asset ID) exists in the Ooyala system. After you have received the returned embed code for
+        the asset, then you can use
+        PUT with <samp class="ph codeph">time_retsrictions</samp>. See an example in <a class="xref" href="api_externalid_edit.html#api_channelset_create" title="You can add an external ID to an asset at any time.">Adding an External ID to an Existing Asset</a>.</div>
+
+      
+   <p class="p">For information about setting up publishing rules, see <a class="xref" href="../concepts/chapter_publishing_rules.html" title="Publishing rules give you complete control over your content by enabling you to control where and when it can be viewed.">Publishing Rules</a>.</p>
+
+   <p class="p">To work with a publishing rules and  assets:</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd"> Assign a rule using a <samp class="ph codeph">PUT</samp> with the <samp class="ph codeph">/v2/assets</samp> route, the
+          asset ID, and the <samp class="ph codeph">/publishing_rules</samp> qualifier. </span>
+     The following example adds the <samp class="ph codeph">79feefbe24d9424786</samp> publishing rule to the <samp class="ph codeph">Y1dTdvMjq9QtOM</samp> asset:
+     <pre class="pre codeblock">[PUT]/v2/assets/Y1dTdvMjq9QtOM/publishing_rule/79feefbe24d9424786</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a 200 response.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> To verify that the publishing rule was added, use <samp class="ph codeph">GET</samp> with the
+            <samp class="ph codeph">/v2/assets</samp> route, the asset ID, and the
+            <samp class="ph codeph">/publishing_rules</samp> qualifier. </span>
+     The following example gets the publishing rule for the asset with the <samp class="ph codeph">Y1dTdvMjq9QtOM</samp> ID:
+     <pre class="pre codeblock">[GET]/v2/assets/Y1dTdvMjq9QtOM/publishing_rule</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns the details of the publishing rule. In this example,
+            the rule allows playback on desktops/notebooks, at any time, from any domain, in the US
+            and Great Britain:</p>
+
+     <pre class="pre codeblock">{  
+   "name":"My Publishing Rule",
+   "allowed_devices":[  
+      "desktop"
+   ],
+   "time_restrictions":{  
+      "start_date":"2007-04-05T00:00:00+00:00",
+      "type":"range",
+      "end_date":null
+   },
+   "domain_restrictions":{  
+      "domains":[  
+
+      ],
+      "type":"blacklist"
+   },
+   "geographic_restrictions":{  
+      "type":"whitelist",
+      "locations":[  
+         "GB",
+         "US"
+      ]
+   },
+   "id":"79feefbe24d9424786"
+}</pre>
+
+      <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+     
+   </li>
+<li class="li step stepexpand">
+      <span class="ph cmd"> To remove a publishing rule from an asset, use <samp class="ph codeph">DELETE</samp> with the
+        <samp class="ph codeph">/v2/assets</samp> route, the asset ID, the <samp class="ph codeph">/publishing_rule</samp>
+        qualifier, and a label ID.  </span>
+       <div class="note note"><span class="notetitle">Note:</span> To permanently delete a publishing rule and remove it from all assets, see <a class="xref" href="api_publishing_rules_delete.html" title="You can delete a publishing rule at any time. Any videos, channels, or channel sets that use the publishing rule will automatically have any restrictions removed.">Deleting Publishing Rules</a>.</div>
+<p class="p">The following example deletes the <samp class="ph codeph">79feefbe24d9424786</samp> publishing rule from the <samp class="ph codeph">JxbzdkMjqBEsO</samp> asset.</p>
+
+       <pre class="pre codeblock">[DELETE]/v2/assets/JxbzdkMjqBEsO/labels/</pre>
+
+       
+        <p class="p"><span class="ph">Backlot</span> returns a 200 response.</p>
+
+        <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+      
+    </li>
+</ol>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/content_commonfunctions.html" title="Some functions are common to all assets, regardless of their type.">Common Tasks with All Assets: PUT or PATCH and Qualifiers</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/chapter_publishing_rules.html" title="Publishing rules give you complete control over your content by enabling you to control where and when it can be viewed.">Publishing Rules</a></div>
+</div>
+</div>
+
+</body>
+</html>

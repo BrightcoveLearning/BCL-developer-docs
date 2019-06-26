@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integration with Omniture on iOS"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_integrations.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobilesdk_ios_omniture"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integration with Omniture on iOS</title>
+</head>
+<body id="mobilesdk_ios_omniture">
+
+
+   <h1 class="title topictitle1">Integration with Omniture on iOS</h1>
+
+   <div class="body conbody">
+      <p class="p">We have integrated the Ooyala SDK with Adobe Video Analytics' Heartbeat library. We call
+         this integration the "Ooyala Adobe Analytics SDK."</p>
+
+      <p class="p">This document uses an example application to show you how to use Ooyala Adobe Analytics SDK
+         in an Xcode project to capture and send native video app activity (user, usage, behavior,
+         gestures, etc.) to Adobe servers for SiteCatalyst® reporting. </p>
+
+      <div class="section" id="mobilesdk_ios_omniture__section_et5_khy_tw"><h2 class="title sectiontitle">What You Need</h2>
+         
+         <p class="p">Download the following items:</p>
+
+         <ul class="ul" id="mobilesdk_ios_omniture__ul_j3v_lhy_tw">
+            <li class="li"><a class="xref" href="http://static.ooyala.com.s3.amazonaws.com/sdk/ios/release/OoyalaAdobeAnalyticsSDK-iOS.zip" target="_blank">Ooyala Adobe Analytics SDK</a></li>
+
+            <li class="li"><a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/OmnitureSampleApp/iOSOmnitureSampleApp" target="_blank">Ooyala Omniture Sample App for iOS</a>
+            </li>
+
+            <li class="li"><a class="xref" href="https://github.com/Adobe-Marketing-Cloud/mobile-services/releases" target="_blank">Adobe® Marketing Cloud libraries (SDK's) for
+               iOS</a></li>
+
+            <li class="li"><a class="xref" href="https://github.com/Adobe-Marketing-Cloud/video-heartbeat/releases" target="_blank">Adobe VideoHeartbeat library for iOS</a>
+               (<span class="ph filepath">.zip</span> file, version 1.5.6 or higher)</li>
+
+            <li class="li">
+               <a class="xref" href="https://developer.apple.com/xcode/" target="_blank">Apple
+                  Xcode</a>. </li>
+
+         </ul>
+
+         <p class="p">As part of its capacity to capture analytics, Omniture draws from and provides
+            information to the Adobe SiteCatalyst website. Before starting, you will also need to do
+            the following:</p>
+
+         <ol class="ol" id="mobilesdk_ios_omniture__ol_t13_vwy_tw">
+            <li class="li">Have or get an account with login credentials for Adobe’s SiteCatalyst. </li>
+
+            <li class="li">Login to Adobe Marketing Cloud's <a class="xref" href="https://my.omniture.com/login/" target="_blank">Reports and Analytics</a> site (previously, the
+               Omniture SiteCatalyst site). </li>
+
+            <li class="li">Get the following information: <ul class="ul">
+               <li class="li">Report Suite ID</li>
+
+               <li class="li">Tracking Server                     <p class="p">The following image shows sample tracking server information from
+                  SiteCatalyst.</p>
+<div class="fig fignone">
+                     <img class="image" src="../image/Omniture_SiteCatalyst_snapshot.png"/>
+                  </div>
+</li>
+
+            </ul>
+</li>
+
+         </ol>
+
+      </div>
+
+      <div class="section" xml:lang="en-us" lang="en-us" id="mobilesdk_ios_omniture__whatYouNeed.d0e14"><h2 class="title sectiontitle">Set Up Your Development Environment</h2>
+         
+         <ol class="ol" id="mobilesdk_ios_omniture__ol_skj_gdx_tw">
+            <li class="li">When Adobe VideoHeartbeat library for iOS download is complete, open the
+               <span class="ph filepath">.zip</span> file in Mac OS Finder.</li>
+
+            <li class="li">In Xcode, open your project and link to the following libraries in the
+               <span class="ph filepath">VideoHeartbeatLibrary-ios-tvos-v*</span>  folder:<ul class="ul" id="mobilesdk_ios_omniture__ul_jw1_l5w_tw">
+                  <li class="li"><span class="ph filepath">libs/VideoHearbeat.a</span></li>
+
+                  <li class="li"><span class="ph filepath">samples/BasicPlayerSample/libs/AdobeMobile/ADBMobile.h</span></li>
+
+                  <li class="li"><span class="ph filepath">samples/BasicPlayerSample/libs/AdobeMobile/AdobeMobileLibrary.a</span></li>
+
+               </ul>
+</li>
+
+            <li class="li">Download <span class="ph filepath">ADBMobileConfig.json</span> from your Adobe account.
+               Alternatively, you can use file in the the Ooyala Omniture Sample App for iOS (e.g.,
+               <span class="ph filepath">VideoHeartbeatLibrary-ios-tvos-v*/samples/BasicPlayerSample/libs/AdobeMobile/ADBMobileConfig.json</span>).</li>
+
+            <li class="li">In Xcode, link to <span class="ph filepath">ADBMobileConfig.json</span> file.</li>
+
+            <li class="li">In Xcode, update the following properties in the
+               <span class="ph filepath">ADBMobileConfig.json</span> with the values you obtained from
+               SiteCatalyst:<pre class="pre codeblock">    "analytics" : {
+        "rsids" : "sample-account",
+        "server" : "example.com",</pre>
+<pre class="pre codeblock">    "marketingCloud": {
+        "org": "sample-marketing-cloud-org-id"</pre>
+</li>
+
+         </ol>
+
+      </div>
+
+      <div class="section" xml:lang="en-us" lang="en-us" id="mobilesdk_ios_omniture__openTheIosSampleApp.d0e141"><h2 class="title sectiontitle">Use the iOS Sample App</h2>
+         
+         <p class="p">To practice the integration process works and test whether it works, you can use the
+            Ooyala Omniture Sample App for iOS.</p>
+
+         <div class="p">
+            <ol class="ol" id="mobilesdk_ios_omniture__ol_jgp_4dx_tw">
+               <li class="li">Using Mac OS Finder, open the downloaded <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/OmnitureSampleApp/iOSOmnitureSampleApp" target="_blank">Ooyala Omniture Sample App for iOS</a> file,
+                  <span class="ph filepath">OmnitureSampleApp_iOS.zip</span>. </li>
+
+               <li class="li">Using Xcode, open
+                  <span class="ph filepath">~/Downloads/OmnitureSampleApp/OmnitureSampleApp</span><span class="ph filepath">OmnitureSampleApp/OmnitureSampleApp.xcodeproj</span>. </li>
+
+               <li class="li">In Xcode, update the following properties in
+                  <span class="ph filepath">VideoHeartbeatLibrary-ios-tvos-v1.5.7/samples/BasicPlayerSample/libs/AdobeMobile/ADBMobileConfig.json</span>
+                  as
+                  follows:<pre class="pre codeblock">"analytics" : {
+     "rsids" : "ovppooyala",
+     "server" : "ovppartners.sc.omtrdc.net"</pre>
+<pre class="pre codeblock">"marketingCloud": {
+     "org": "2A5D3BC75244638C0A490D4D@AdobeOrg"</pre>
+</li>
+
+               <li class="li">Open the file <span class="ph filepath">Players/BasicPlayerViewController.m</span> file and
+                  pdate the following variables as
+                  follows:<pre class="pre codeblock">self.hbTrackingServer = @"ovppartners.hb.omtrdc.net";
+self.hbProvider = @"ooyalatester";</pre>
+This
+                  file uses these two properties in the following example. When the app starts, it
+                  creates an Adobe analytics session that starts capturing and sending data to the
+                  tracking server using a <samp class="ph codeph">OOAdobeHeartbeatConfiguration</samp>
+                  object:<pre class="pre codeblock">  // Start adobe analytics
+  OOAdobeHeartbeatConfiguration *hbConfig = [[OOAdobeHeartbeatConfiguration alloc]
+                                             initWithHeartbeatTrackingServer:self.hbTrackingServer
+                                             heartbeatPublisher:self.hbProvider];
+  self.adobeAnalyticsManager = [[OOAdobeAnalyticsManager alloc] initWithPlayer:player config:hbConfig];
+  [self.adobeAnalyticsManager startCapture];</pre>
+</li>
+
+               <li class="li">Build and run the sample app. If successful, you will be able to see the
+                  analytics on the Adobe Marketing Cloud's <a class="xref" href="https://my.omniture.com/login/" target="_blank">Reports
+                     and Analytics</a> site (previously, the Omniture SiteCatalyst site). </li>
+
+               <li class="li">Use either Adobe Debug proxy or Charles proxy to detect data the apps sends to
+                  the tracking server.</li>
+
+            </ol>
+
+         </div>
+
+      </div>
+
+      <div class="section" id="mobilesdk_ios_omniture__section_p42_tfx_tw"><h2 class="title sectiontitle">Test Server Pings Using Adobe Debug Proxy</h2>
+         
+         <p class="p">You can use the <a class="xref" href="https://debug.adobe.com" target="_blank">Adobe Debug dashboard</a> to check if the pings from the sample app are reaching
+            the Adobe server. To use the dashboard, follow it's Get Started instructions on how to
+            install the Adobe debug proxy.</p>
+
+         <div class="p">
+            <ol class="ol" id="mobilesdk_ios_omniture__ol_z3k_k3x_tw">
+               <li class="li">Each time you want to record an HTTP listening session, click the <span class="ph uicontrol">New
+                  Report</span> button on the dashboard. </li>
+
+               <li class="li">In the form that opens, name the report. Also select the <span class="ph uicontrol">Adobe
+                  Analytics</span> and <span class="ph uicontrol">Video Heartbeats</span> checkboxes.
+                  Don't edit the fields shown after selecting the checkboxes. </li>
+
+               <li class="li">Then, click <span class="ph uicontrol">Start Debug Report</span>. </li>
+
+               <li class="li">When prompted, open the report page for the active session. </li>
+
+               <li class="li">When you stop the session, you won't be able to restart it in the same report.
+                  (Create a new report for each new session.)</li>
+
+            </ol>
+
+         </div>
+
+      </div>
+
+      <div class="section" id="mobilesdk_ios_omniture__section_l4n_yfx_tw"><h2 class="title sectiontitle">Test Server Pings Using Charles Proxy</h2>
+         
+         <p class="p">You can use the Charles Web Debugging Proxy Application instead of the Adobe Debug
+            proxy. To download and install the Charles proxy, visit <a class="xref" href="https://www.charlesproxy.com/">https://www.charlesproxy.com/</a>.</p>
+
+         <p class="p">If you run the sample app on the development system, the HTTP traffic from the sample
+            app appears in Charles proxy.</p>
+
+         <p class="p">If you run the sample app on a real iOS device, follow these steps to configure the iOS
+            device to use the Charles proxy:</p>
+
+         <ol class="ol" id="mobilesdk_ios_omniture__ol_t31_sjx_tw">
+            <li class="li">Connect both the iOS device and the development system running Charles proxy to the
+               same local network. (Doing this makes network traffic from the device visible to the
+               proxy on the development system.)</li>
+
+            <li class="li">Get the IP address of the development system that is running the Charles proxy.</li>
+
+            <li class="li">On the iOS device, open <span class="ph uicontrol">Settings</span>.</li>
+
+            <li class="li">Go to the <span class="ph uicontrol">Wi-Fi</span> settings.</li>
+
+            <li class="li">Click the "info" icon for the network.</li>
+
+            <li class="li">In the network's advanced options change the following settings: <div class="p">
+               <ul class="ul" id="mobilesdk_ios_omniture__ul_ctt_5kx_tw">
+                  <li class="li">For <span class="ph uicontrol">HTTP Proxy</span>, select
+                     <span class="ph uicontrol">Manual</span>.</li>
+
+                  <li class="li">For <span class="ph uicontrol">Server</span>, enter the IP address of the development
+                     system that runs Charles proxy.</li>
+
+                  <li class="li">For <span class="ph uicontrol">Port</span>, enter the port number that Charles proxy
+                     uses. Unless you changed the default value, this port number is
+                     <samp class="ph codeph">8888</samp>.</li>
+
+               </ul>
+
+            </div>
+</li>
+
+            <li class="li">When you run the sample app on the iOS device, the Charles proxy software shows the
+               HTTP requests from the iOS device.</li>
+
+         </ol>
+
+      </div>
+
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_ios_integrations.html">iOS Third Party Integrations</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Adding Custom Metadata"/>
+<meta name="abstract" content="You can add up to 100 name/value pairs to an asset."/>
+<meta name="description" content="You can add up to 100 name/value pairs to an asset."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_custom_metadata.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_metadata_create"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Adding Custom Metadata</title>
+</head>
+<body id="api_metadata_create">
+
+
+ <h1 class="title topictitle1">Adding Custom Metadata</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">You can add up to 100 name/value pairs to an asset. </p>
+
+  <div class="section context">
+   <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+    The name is limited to 128 characters, and the value to 2,048 characters.
+   <p class="p">To add custom metadata to an asset:</p>
+
+  </div>
+
+<ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd"> To add metadata without replacing the current metadata, use PATCH with the
+            <samp class="ph codeph">/v2/assets</samp> route. </span>
+     The following example adds the director and copyright custom metadata to the <samp class="ph codeph">JxbzdkMjqBEsO</samp> asset.
+     <pre class="pre codeblock">[PATCH]/v2/assets/JxbzdkMjqBEsO/metadata{  
+   "director":"Peter Jackson",
+   "copyright":"2002"
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the following.</p>
+
+     <pre class="pre codeblock">{  
+   "director":"Peter Jackson",
+   "copyright":"2002",
+   "category":"Adventure",
+   "custom_id":"54678934"
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> To add metadata that entirely replaces the current metadata, use PUT with the
+            <samp class="ph codeph">/v2/assets</samp> route. </span>
+     The following example replaces custom metadata for the <samp class="ph codeph">JxbzdkMjqBEsO</samp> asset.
+     <pre class="pre codeblock">[PUT]/v2/assets/JxbzdkMjqBEsO/metadata{  
+   "director":"Not Really Peter Jackson",
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the following.</p>
+
+     <pre class="pre codeblock">{  
+   "director":"Not Really Peter Jackson",
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">To get the current custom metadata, you can perform a GET at any time.</span>
+   </li>
+</ol>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_custom_metadata.html" title="Custom metadata enables you to add useful information to your assets. You can associate custom metadata with any type of asset.">Managing Custom Metadata</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating a Simple Custom XML Syndication"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_fms.html"/>
+<meta name="DC.Relation" scheme="URI" content="api_asset_associate_with_labels.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_syndication_create"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating a Simple Custom XML Syndication</title>
+</head>
+<body id="api_syndication_create">
+
+
+ <h1 class="title topictitle1">Creating a Simple Custom XML Syndication</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc"/>
+
+  <div class="section context">
+   <p class="p">To create a simple custom XML syndication:</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd"> Create an advanced syndication. </span>
+     The following example creates the "My Custom XML Feed" advanced syndication.
+     <pre class="pre codeblock">[POST]/v2/syndications{  
+   "name":"My Custom XML Feed",
+   "type":"advanced"
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the following,
+      which includes the URL where the feed can be accessed.</p>
+
+     <pre class="pre codeblock">{  
+   "name":"My Custom XML Feed",
+   "include_encodings":[  
+
+   ],
+   "destination_url":"",
+   "require_access_key":false,
+   "title":"",
+   "include_labels":[  
+
+   ],
+   "asset_types":[  
+      "video",
+      "ad"
+   ],
+   "syndication_url":"http://api.ooyala.com/syndications/6b6e72dd71bd4fa/feed?pcode=Y4cG06BlqYMLIjPGyv1NbacSK-x3",
+   "id":"6b6e72dd71bd4fa",
+   "include_all_content":false,
+   "type":"advanced",
+   "description":""
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Create a Universal Syndication Template Language (USTL) template.</span>
+     The following template creates a simple list of assets, which specifies the name,
+     description, and length of each asset.
+     
+     <pre class="pre codeblock">
+&lt;feed header&gt;List of My Assets&lt;/feed header&gt;
+{% for asset in assets %}
+  &lt;item&gt;
+    &lt;title&gt; {{asset.name}} &lt;/title&gt;
+    &lt;description&gt; {{asset.description}} &lt;/description&gt;
+    &lt;length&gt; {{asset.duration}} minutes&lt;/length&gt;
+  &lt;/item&gt;
+{% endfor assets %}
+
+    </pre>
+
+    
+     
+     <div class="note note"><span class="notetitle">Note:</span> For more information about USTL, see the Universal Syndication Template Language section
+      of the <span class="ph">Backlot</span> API Reference.</div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Attach the Universal Syndication Template Language (USTL) template</span>
+     The following example attaches the template to the newly created syndication.
+     
+     <pre class="pre codeblock">[PUT]/v2/syndications/6b6e72dd71bd4fa/template 
+ &lt;feed header&gt;List of My Assets&lt;/feed header&gt;{  
+   % for asset in assets %
+}&lt;item&gt; 
+ &lt;title&gt;{  
+   {  
+      asset.name
+   }
+}&lt;/title&gt; 
+ &lt;description&gt;{  
+   {  
+      asset.description
+   }
+}&lt;/description&gt; 
+ &lt;length&gt;{  
+   {  
+      asset.duration
+   }
+}minutes&lt;/length&gt; 
+ &lt;/item&gt;{  
+   % endfor assets %
+}</pre>
+
+     <span class="ph">Backlot</span> returns a 200 response.
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">For the feed to contain videos and other assets, you must add labels. Whenever you add a
+     label to an asset that is associated with a feed, the asset is automatically added to the feed. </span>
+     The following example adds the <samp class="ph codeph">638aed2a18734375b</samp> and
+      <samp class="ph codeph">c42b225963ad481b9</samp> labels to the <samp class="ph codeph">6b6e72dd71bd4fa</samp>
+     syndication.
+     <pre class="pre codeblock">[PATCH]/v2/syndications/6b6e72dd71bd4fa{  
+   "include_labels":[  
+      "638aed2a18734375b",
+      "c42b225963ad481b9"
+   ]
+}</pre>
+
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+      following.</p>
+
+     <pre class="pre codeblock">{  
+   "name":"My iPhone Feed",
+   "include_encodings":[  
+
+   ],
+   "destination_url":"",
+   "require_access_key":false,
+   "title":"",
+   "include_labels":[  
+      "638aed2a18734375b",
+      "c42b225963ad481b9"
+   ],
+   "asset_types":[  
+      "video",
+      "ad"
+   ],
+   "syndication_url":"http://api.ooyala.com/syndications/6b6e72dd71bd4fa/feed?pcode=Y4cG06BlqYMLIjPGyv1NbacSK-x3",
+   "id":"6b6e72dd71bd4fa",
+   "include_all_content":false,
+   "type":"iphone",
+   "description":""
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">To view the results of the feed, open the syndication URL. If you do not have it, you can
+     get it by making a get request against the syndication ID.</span>
+     In this example, the
+      <samp class="ph codeph">http://api.ooyala.com/syndications/6b6e72dd71bd4fa/feed?pcode=Y4cG06BlqYMLIjPGyv1NbacSK-x3</samp>
+     URL returns results similar to the following:
+     
+     <pre class="pre codeblock">
+&lt;feed header&gt;List of My Assets&lt;/feed header&gt;
+&lt;item&gt;
+  &lt;title&gt;Presidential Speech #125784&lt;/title&gt;
+  &lt;video_info&gt;The president said something important today about something that happened.&lt;/video_info&gt;
+&lt;/item&gt;
+  &lt;title&gt;Presidential Speech #125785&lt;/title&gt;
+  &lt;video_info&gt;The president said something important today about something that should happen.&lt;/video_info&gt;
+&lt;/item&gt;
+
+    </pre>
+
+    
+   </li>
+</ol>
+
+ </div>
+
+
+ <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_fms.html" title="Universal Syndication enables you to easily create and modify custom feeds, in any format that meets your needs. Once configured, you can immediately deliver video to new partners, devices, and distribution channels such as Roku, Boxee, AppleTV, and so on.">Universal Syndication</a></div>
+</div>
+<div class="relinfo reltasks"><strong>Related tasks</strong><br/>
+<div><a class="link" href="api_asset_associate_with_labels.html">Working with Labels</a></div>
+</div>
+</div>
+
+
+</body>
+</html>

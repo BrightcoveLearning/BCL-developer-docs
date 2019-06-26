@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Trending and Popular Content"/>
+<meta name="abstract" content="Trending enables viewers to discover videos that are popular or have gained significant momentum during the time period you specify."/>
+<meta name="description" content="Trending enables viewers to discover videos that are popular or have gained significant momentum during the time period you specify."/>
+<meta name="DC.Relation" scheme="URI" content="../api/content_discovery.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/content_discovery.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="content_discovery_trending"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Trending and Popular Content</title>
+</head>
+<body id="content_discovery_trending">
+
+
+ <h1 class="title topictitle1">Trending and Popular Content</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">Trending enables viewers to discover videos that are popular or have gained significant
+  momentum during the time period you specify. </p>
+
+  <div class="section">
+   <div class="note note"><span class="notetitle">Note:</span> Rather than
+        constructing ad hoc requests (with individual parameters for each request), consider using
+        discovery profiles to centralize your settings and recommendations behavior. Discovery
+        profiles are defined configurations of settings created by you, which you then reuse by
+        reference on the <samp class="ph codeph">GET</samp> routes. For more information, see <a class="xref" href="../concepts/content_discovery_profile.html" title="You can create reusable discovery profiles that configure Ooyala Discovery settings for content recommendations that appear in a player.">Discovery Profiles</a>.</div>
+
+  </div>
+
+  <div class="section refsyn"><h2 class="title sectiontitle">Get Videos with the Most Momentum</h2>
+   
+   <pre class="pre codeblock">[GET] /v2/discover/trending/momentum</pre>
+
+  </div>
+
+  <div class="section refsyn"><h2 class="title sectiontitle">Get the Most Popular Videos</h2>
+   
+   <pre class="pre codeblock">[GET] /v2/discover/trending/top   </pre>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Query String Parameters</h2>
+   
+   <p class="p">The following table describes the query string parameters specific to this route.</p>
+
+   
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+     
+     
+     
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" width="22.22222222222222%" id="d68709e73">Parameter</th>
+
+       <th class="entry" valign="top" width="55.55555555555556%" id="d68709e76">Description</th>
+
+       <th class="entry" valign="top" width="22.22222222222222%" id="d68709e79">Required?</th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      
+      
+      
+      
+     <tr class="row">
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e73 ">Editorial functions</td>
+
+       <td class="entry" valign="top" width="55.55555555555556%" headers="d68709e76 ">See the descriptions of editorial functions, such as <span class="keyword parmname">discovery_profile_id</span>, in <a class="xref" href="content_discovery_common_queryparms.html#content_discovery_common_queryparms" title="These query string parameters can be used on API requests for similar/related assets, trending, and personalized recommendations.">Query String Parameters</a></td>
+
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e79 ">No</td>
+
+      </tr>
+<tr class="row">
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e73 "><span class="keyword parmname">countries</span></td>
+
+       <td class="entry" valign="top" width="55.55555555555556%" headers="d68709e76 ">Specifies the country or countries to evaluate. <p class="p">Type: String  </p>
+<p class="p">Valid Values:
+         all | valid ISO-639-1 two-digit country codes </p>
+<p class="p">Default all </p>
+<p class="p">Example:
+         countries=us,uk,ca </p>
+</td>
+
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e79 ">No</td>
+
+      </tr>
+<tr class="row">
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e73 "><span class="keyword parmname">time</span></td>
+
+       <td class="entry" valign="top" width="55.55555555555556%" headers="d68709e76 "> Specifies the end date and time of the data to return. For example, if you specify
+        December 31st with a monthly window, it returns results from the month of December. If you
+        specify December 31st with a weekly window, it returns data from December 31st and the
+        previous six days. <div class="note note"><span class="notetitle">Note:</span> You can specify a date up to 30 days old.</div>
+<p class="p">Type: String
+         </p>
+<p class="p">Valid Values: now | YYYY-MM-DD | YYYY-MM-DD-HH </p>
+<p class="p">Default now </p>
+<p class="p">Example:
+         time=2013-12-31 </p>
+</td>
+
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e79 ">No</td>
+
+      </tr>
+<tr class="row">
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e73 "><span class="keyword parmname">window</span></td>
+
+       <td class="entry" valign="top" width="55.55555555555556%" headers="d68709e76 ">Specifies the window of time to evaluate. For example, you might want to return the
+        most popular videos for the day for frequent visitors and the most popular videos for the
+        week for less frequent visitors. <p class="p">Type: String  </p>
+<p class="p">Valid Values: hour | day | week |
+         month </p>
+<p class="p">Default day </p>
+<p class="p">Example: window=week </p>
+</td>
+
+       <td class="entry" valign="top" width="22.22222222222222%" headers="d68709e79 ">No</td>
+
+      </tr>
+</tbody>
+
+    </table>
+</div>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Examples</h2><div class="sectiondiv"> The following example returns the five most popular
+    videos for the day:
+     <pre class="pre codeblock">[GET] /v2/discover/trending/top?countries=all&amp;time=now&amp;window=day&amp;limit=5</pre>
+<p class="p">The
+     return response is similar to the
+    following:</p>
+<pre class="pre codeblock">		{
+		  "results": [
+		    {
+		      "name": "Cat Video #145678434",
+		      "description": "More cats!",
+		      "embed_code": "<var class="keyword varname">embed_code</var>",
+		      "external_id": "<var class="keyword varname">external_id</var>",
+		      "preview_image_url": "<var class="keyword varname">image_url</var>",
+		      "duration": "91000",
+		      "hostedAtURL": null,
+		      "bucket_info": "<var class="keyword varname">bucket_info_id</var>",
+		      "reason": "top"
+		    },
+		    {
+		      "name": "Cat Video #145678435",
+		      "description": "Even more cats!",
+		      "embed_code": "<var class="keyword varname">embed_code</var>",
+		      "external_id": "<var class="keyword varname">external_id</var>",
+		      "preview_image_url": "<var class="keyword varname">image_url</var>",
+		      "duration": "91000",
+		      "hostedAtURL": null,
+		      "bucket_info": "<var class="keyword varname">bucket_info_id</var>",
+		      "reason": "top"
+		    },
+		    {
+		      "name": "Cat Video #145678436",
+		      "description": "Yet even more cats!",
+		      "embed_code": "<var class="keyword varname">embed_code</var>",
+		      "external_id": "<var class="keyword varname">external_id</var>",
+		      "preview_image_url": "<var class="keyword varname">image_url</var>",
+		      "duration": "91000",
+		      "hostedAtURL": null,
+		      "bucket_info": "<var class="keyword varname">bucket_info_id</var>",
+		      "reason": "top"
+		    },
+		    {
+		      "name": "Cat Video #145678437",
+		      "description": "Can you believe it?",
+		      "embed_code": "<var class="keyword varname">embed_code</var>",
+		      "external_id": "<var class="keyword varname">external_id</var>",
+		      "preview_image_url": "<var class="keyword varname">image_url</var>",
+		      "duration": "91000",
+		      "hostedAtURL": null,
+		      "bucket_info": "<var class="keyword varname">bucket_info_id</var>",
+		      "reason": "top"
+		    },
+		    {
+		      "name": "Dog Video #0000001",
+		      "description": "Dogs",
+		      "embed_code": "<var class="keyword varname">embed_code</var>",
+		      "external_id": "<var class="keyword varname">external_id</var>",
+		      "preview_image_url": "<var class="keyword varname">image_url</var>",
+		      "duration": "91000",
+		      "hostedAtURL": null,
+		      "bucket_info": "<var class="keyword varname">bucket_info_id</var>",
+		      "reason": "top"
+		    }
+		  ]}  </pre>
+
+   </div>
+   <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="content_discovery.html">Discovery REST API Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

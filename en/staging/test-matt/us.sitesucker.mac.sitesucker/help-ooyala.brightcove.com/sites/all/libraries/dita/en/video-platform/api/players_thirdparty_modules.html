@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Managing Player V3 Third-Party Modules Using the Backlot REST API (Deprecated)"/>
+<meta name="abstract" content="With third-party modules, you can associate additional features with V3 players."/>
+<meta name="description" content="With third-party modules, you can associate additional features with V3 players."/>
+<meta name="DC.Relation" scheme="URI" content="../api/players.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/players.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="thirdparty_modules_core"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Managing Player V3 Third-Party Modules Using the Backlot REST API (Deprecated)</title>
+</head>
+<body id="thirdparty_modules_core">
+
+
+    <h1 class="title topictitle1">Managing Player V3 Third-Party Modules Using the Backlot REST API (Deprecated)</h1>
+
+    
+    <div class="body refbody"><p class="shortdesc">With third-party modules, you can associate additional features with
+       V3 players.</p>
+
+        <div class="section"><div class="note note"><span class="notetitle">Note:</span> For more information about REST API commands for the Ooyala
+    player, see the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+</div>
+  
+        <div class="section">
+            <div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+
+            <div class="p">The following third-party modules are currently available for Player V3: <ul class="ul">
+                    <li class="li">Playlists/Pods, module ID d42a1c8d4f91437c88db1c25cb8d6d04</li>
+
+                </ul>
+ To see descriptions of all available third-party modules, use the
+                    <samp class="ph codeph">[GET] /v2/third_party_modules</samp> request.</div>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">List Available Third-Party Modules</h2>
+            
+            <pre class="pre codeblock">[GET]/v2/third_party_modules</pre>
+
+            <p class="p">The system responds with an <samp class="ph codeph">items</samp> hash describing all available
+                third-party modules. For example:</p>
+
+            <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "description":"Playlists",
+         "is_flash":"false",
+         "is_v3":"true",
+         "id":"d42a1c8d4f91437c88db1c25cb8d6d04",
+         "type":"v3-playlists"
+      }
+   ]
+}</pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Associate Third-Party Module with a Player</h2>
+            
+            <p class="p">When you associate a third-party module with a player, you can optionally include
+                properties that set certain characteristics.</p>
+
+            <pre class="pre codeblock">[PUT] /v2/players/<a class="xref" href="#thirdparty_modules_core__player_id"><kbd class="ph userinput">player_id</kbd></a>/third_party_modules/<a class="xref" href="#thirdparty_modules_core__third_party_module_id"><kbd class="ph userinput">third_party_module_id</kbd></a>{  
+   {  
+      "parameters":{  
+         <a class="xref" href="#thirdparty_modules_core__player_core_properties"><kbd class="ph userinput">properties</kbd></a>
+      }
+   }
+}</pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">View Third-Party Modules Associated with a Player</h2>
+            
+            <p class="p">To view all third-party modules associated with a player:</p>
+
+            <pre class="pre codeblock">[GET]/v2/players/<a class="xref" href="#thirdparty_modules_core__player_id"><kbd class="ph userinput">player_id</kbd></a>/third_party_modules</pre>
+
+            <p class="p">To view details about a single third-party module associated with a player:</p>
+
+            <pre class="pre codeblock">[GET]/v2/players/<a class="xref" href="#thirdparty_modules_core__player_id"><kbd class="ph userinput">player_id</kbd></a>/third_party_modules/<a class="xref" href="#thirdparty_modules_core__third_party_module_id"><kbd class="ph userinput">third_party_module_id</kbd></a></pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Update Third-Party Module Information</h2>
+            
+            <div class="p">New properties are added, and existing properties are updated. Parameters not
+                included in the <samp class="ph codeph">parameters</samp> hash are not affected or
+                    deleted.<div class="note note"><span class="notetitle">Note:</span> If you need to delete a parameter (rather than simply update its
+                    value), you can first DELETE the original association and then recreate it with
+                    the original PUT request but excluding the undesired parameter.</div>
+</div>
+
+            <pre class="pre codeblock">[PATCH]/v2/players/<a class="xref" href="#thirdparty_modules_core__player_id"><kbd class="ph userinput">player_id</kbd></a>/third_party_modules/<a class="xref" href="#thirdparty_modules_core__third_party_module_id"><kbd class="ph userinput">third_party_module_id</kbd></a>{  
+   {  
+      "parameters":{  
+         <a class="xref" href="#thirdparty_modules_core__player_core_properties"><kbd class="ph userinput">properties</kbd></a>
+      }
+   }
+}</pre>
+
+        </div>
+
+        <div class="section refsyn"><h2 class="title sectiontitle">Delete Association of Third-Party Module with a Player</h2>
+            
+            <pre class="pre codeblock">[DELETE]/v2/players/<a class="xref" href="#thirdparty_modules_core__player_id"><kbd class="ph userinput">player_id</kbd></a>/third_party_modules/<a class="xref" href="#thirdparty_modules_core__third_party_module_id"><kbd class="ph userinput">third_party_module_id</kbd></a></pre>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Route Attributes</h2>
+            
+            <p class="p">The following table describes all attributes that can be expressed through the
+                route.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" id="d111034e195">Route Attribute</th>
+
+                            <th class="entry" valign="top" id="d111034e198">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" headers="d111034e195 d111034e198 "><var class="keyword varname" id="thirdparty_modules_core__player_id">player_id</var></td>
+
+                            <td class="entry" valign="top" headers="d111034e195 d111034e198 ">
+                                <p class="p">The ID of the player. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Default: None </p>
+
+                                <p class="p">Example: b4f1a93b779145b4a9c8ef15f8502345 </p>
+
+                            </td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" headers="d111034e195 d111034e198 "><var class="keyword varname" id="thirdparty_modules_core__third_party_module_id">third_party_module_id</var></td>
+
+                            <td class="entry" valign="top" headers="d111034e195 d111034e198 ">
+                                <p class="p">The ID of the third-party module. </p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Default: None </p>
+
+                                <p class="p">Example: d42a1c8d4f91437c88db1c25cb8d6d04</p>
+
+                            </td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="thirdparty_modules_core__player_core_properties"><h2 class="title sectiontitle">Properties</h2>
+            
+            <p class="p">The following table describes all properties that can be associated with a
+                player.</p>
+
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="31.670281995661608%" id="d111034e275">Property</th>
+
+                            <th class="entry" valign="top" width="46.63774403470716%" id="d111034e278">Description</th>
+
+                            <th class="entry" valign="top" width="21.69197396963124%" id="d111034e281">Third-Party Module</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    <tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">activeMenuColor</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">Background color of selected tab in pod<p class="p">Type: Hexadecimal color
+                                    value </p>
+<p class="p">Default: #ffbb00</p>
+<p class="p">Example: "#ffbb00"
+                                </p>
+</td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">caption</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Format of title, description, and duration displayed in a
+                                    pod.</p>
+
+                                <div class="p">Values can be combined in any order, with a dash as delimiter,
+                                    like the following examples:<ul class="ul" id="thirdparty_modules_core__ul_dl5_hbn_wk">
+                                        <li class="li"> "title" - to display only title </li>
+
+                                        <li class="li"> "title-description" - to display title and description </li>
+
+                                        <li class="li"> "title-description-duration" - to display all info </li>
+
+                                        <li class="li"> "title-duration" - to display title and duration only
+                                        </li>
+
+                                    </ul>
+</div>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid Values: title | description | duration</p>
+
+                                <p class="p">Default: title </p>
+
+                                <p class="p">Example: "title-description-duration"</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">captionPosition</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Position of caption relative to thumbnails</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid Values: inside | outside </p>
+
+                                <p class="p">Default: inside</p>
+
+                                <p class="p">Example: "outside" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">parameters</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">Parent element for all properties for a specific third-party
+                                module</td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 "> </td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">podType</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Format of pod.</p>
+
+                                <p class="p">Type: Boolean </p>
+
+                                <p class="p">Valid Values: scrolling | paging </p>
+
+                                <p class="p">Default: scrolling </p>
+
+                                <p class="p">Example: "scrolling" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">position</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Position of PODs relative to a player,.</p>
+
+                                <p class="p">Note that in playerless PODs, in which we have no player, top and
+                                    bottom are rendered the same way, as are "right" and "left".</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid Values: top | bottom | left | right | none   </p>
+
+                                <p class="p">Default: bottom </p>
+
+                                <p class="p">Example: "top" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">rowsNumber</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">Set number of rows, only when <span class="keyword parmname">podType</span> is
+                                “paging”. Value is not limited.<p class="p">Type: Integer </p>
+<p class="p">Default:
+                                    1</p>
+<p class="p">Example: "10" </p>
+</td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">theme</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Color scheme of pod</p>
+
+                                <p class="p">Type: String </p>
+
+                                <p class="p">Valid Values: dark | light </p>
+
+                                <p class="p">Default: dark</p>
+
+                                <p class="p">Example: "light" </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">thumbnailsSize</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Width of thumbnails in pixels; heigth is calculated from
+                                    this.</p>
+
+                                <p class="p">Type: Integer </p>
+
+                                <p class="p">Default: 150</p>
+
+                                <p class="p">Example: "175"</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">thumbnailsSpacing</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Spacing between thumbnails in pixels</p>
+
+                                <p class="p">Type: Integer </p>
+
+                                <p class="p">Default: 3px</p>
+
+                                <p class="p">Example: "4px"</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+<tr class="row">
+                            <td class="entry" valign="top" width="31.670281995661608%" headers="d111034e275 "><span class="keyword parmname">wrapperFontSize</span></td>
+
+                            <td class="entry" valign="top" width="46.63774403470716%" headers="d111034e278 ">
+                                <p class="p">Baseline font size in pixels. All other text sizing is relative
+                                    to this.</p>
+
+                                <p class="p">Type: Integer </p>
+
+                                <p class="p">Default: 14px</p>
+
+                                <p class="p">Example: 12px </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="21.69197396963124%" headers="d111034e281 ">Playlists/Pods</td>
+
+                        </tr>
+</tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Examples</h2>
+            
+            <div class="sectiondiv">
+                <p class="p"> This example displays information about all available third-party modules: </p>
+
+                <pre class="pre codeblock">[GET]/v2/third_party_modules</pre>
+
+                <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+                    following:</p>
+
+                <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "description":"Playlists",
+         "is_flash":"false",
+         "is_v3":"true",
+         "id":"d42a1c8d4f91437c88db1c25cb8d6d04",
+         "type":"v3-playlists"
+      }
+   ]
+}</pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div><div class="sectiondiv">
+                <p class="p"> This example associates the Playlists/Pods third-party module (identified by
+                    d42a1c8d4f91437c88db1c25cb8d6d04) with a player:</p>
+
+                <pre class="pre codeblock">[PUT]/v2/players/e18ab1da1813483499554ea2d8e67fbd/third_party_modules/d42a1c8d4f91437c88db1c25cb8d6d04{  
+   "parameters":{  
+      "menuFontSize":"10",
+      "thumbnailsSpacing":"0",
+      "thumbnailsSize":"150",
+      "activeMenuColor":"#f50505",
+      "caption":"",
+      "wrapperFontSize":"",
+      "podType":"scrolling",
+      "tabsFontSize":"",
+      "position":"bottom",
+      "captionPosition":"inside",
+      "theme":"dark"
+   }
+}</pre>
+
+                <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+                    following:</p>
+
+                <pre class="pre codeblock">{  
+   "description":"Playlists",
+   "is_flash":"false",
+   "parameters":{  
+      "menuFontSize":"10",
+      "thumbnailsSize":"150",
+      "position":"bottom",
+      "podType":"scrolling",
+      "activeMenuColor":"#f50505",
+      "tabsFontSize":"",
+      "caption":"",
+      "wrapperFontSize":"",
+      "captionPosition":"inside",
+      "thumbnailsSpacing":"0",
+      "theme":"dark"
+   },
+   "is_v3":"true",
+   "id":"d42a1c8d4f91437c88db1c25cb8d6d04",
+   "type":"v3-playlists"
+}</pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div>
+            <div class="sectiondiv">
+                <p class="p"> This example lists all third-party modules associated with player
+                    e18ab1da1813483499554ea2d8e67fbd: </p>
+
+                <pre class="pre codeblock">[GET]/v2/players/e18ab1da1813483499554ea2d8e67fbd/third_party_modules</pre>
+
+                <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+                    following:</p>
+
+                <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "parameters":{  
+            "activeMenuColor":"#f50505",
+            "position":"bottom",
+            "caption":"",
+            "podType":"scrolling",
+            "menuFontSize":"10",
+            "thumbnailsSize":"150",
+            "wrapperFontSize":"",
+            "thumbnailsSpacing":"0",
+            "tabsFontSize":"",
+            "theme":"dark",
+            "captionPosition":"inside"
+         },
+         "type":"v3-playlists",
+         "id":"d42a1c8d4f91437c88db1c25cb8d6d04",
+         "is_flash":"false",
+         "description":"Playlists",
+         "is_v3":"true"
+      }
+   ]
+}</pre>
+
+                <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+            </div></div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="players.html">Players (Backlot REST API)</a></div>
+</div>
+</div>
+
+</body>
+</html>

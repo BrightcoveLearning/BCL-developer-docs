@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="General Algorithm for Signing Requests"/>
+<meta name="abstract" content="Every request made to Backlot requires three query string parameters for authentication: API key, request expiration, and signature. This topic tells how to generate the signature."/>
+<meta name="description" content="Every request made to Backlot requires three query string parameters for authentication: API key, request expiration, and signature. This topic tells how to generate the signature."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_api_setup.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reporting_setup.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_signing_requests"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>General Algorithm for Signing Requests</title>
+</head>
+<body id="api_signing_requests">
+
+
+ <h1 class="title topictitle1">General Algorithm for Signing Requests</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">Every request made to <span class="ph">Backlot</span> requires three
+  query string parameters for authentication:  API key,  request expiration, and signature. This
+  topic tells how to generate the signature.</p>
+
+  <div class="section context">
+   <p class="p">To sign a request:</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd">Start with your 40-character secret key. Find it in the <span class="ph uicontrol">Developers</span> tab in the <span class="ph">Backlot UI</span>). The secret key is unique for each user and should
+     always be kept secure and private. For details, see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>.</span>
+     This example uses the following fictitious secret key:
+     <pre class="pre codeblock">
+329b5b204d0f11xxxxxxxxxxxxxxxxxxxx18xqh5
+    </pre>
+
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Append the HTTP method (e.g. "GET", "POST", or "PUT"):</span>
+     
+     <pre class="pre codeblock">
+     329b5b204d0f11xxxxxxxxxxxxxxxxxxxx18xqh5<strong class="ph b">GET</strong>
+    </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Append the request path or route:</span>
+     
+     <pre class="pre codeblock"> 
+      329b5b204d0f11xxxxxxxxxxxxxxxxxxxx18xqh5GET<strong class="ph b">/v2/players/HbxJK</strong>      
+     </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Append any query string parameters, sorted alphabetically. This includes the
+     required API key, found in the <span class="ph uicontrol">Developers</span> tab in the <span class="ph">Backlot UI</span>, and the
+      <samp class="ph codeph">expires</samp> parameter. Omit the parameter prefix characters, such as &amp; or
+     ?.</span>
+     This example uses the following fictitious API key:
+     <pre class="pre codeblock">
+     7xxxX
+    </pre>
+
+     
+     <p class="p"><strong class="ph b">Note: </strong>Do not URL-encode these parameters. This is done in a later step.</p>
+
+     <pre class="pre codeblock">
+      329b5b204d0f11xxxxxxxxxxxxxxxxxxxx18xqh5GET/v2/players/HbxJK<strong class="ph b">api_key=7xxxXexpires=1299991855</strong>
+    </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> If your request has a body, append the entire request body to the string. </span>        
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">From this string, generate a SHA-256 digest in base64.  You might use <strong class="ph b">bash</strong> or <strong class="ph b">node.js</strong> for this.
+     The encoding need not necessarily be unique.</span>
+      In <samp class="ph codeph">bash</samp>, you might use the following piped commands:
+     <pre class="pre codeblock">echo -n "329b5b204d0f11xxxxxxxxxxxxxxxxxxxx18xqh5GET/v2/players/HbxJKapi_key=7xxxXexpires=1299991855" | shasum -a 256 | awk '{print $1}' | xxd -r -p | base64</pre>
+
+     (This command works for Mac OS X. If you are using another version of Linux, you might prefer
+     to use <samp class="ph codeph">sha256sum</samp> instead of <samp class="ph codeph">shasum -a 256</samp>.)
+     
+     <p class="p">The output is a string like the following example:</p>
+
+     <pre class="pre codeblock">ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg4OTA5OTYzNzIxN2FmN2YxYzVjYWQ2YjVjZDIyYjY4ZSAgLQo=</pre>
+
+    
+    </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Truncate the string to 43 characters and remove any trailing <samp class="ph codeph">=</samp> signs. For
+     example:</span>
+     
+     <pre class="pre codeblock">
+ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg
+    </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Now URL-encode the signature. For example, <samp class="ph codeph">/</samp> becomes <samp class="ph codeph">%2F</samp>
+     and <samp class="ph codeph">+</samp> becomes <samp class="ph codeph">%2B</samp>. In this example, the string remains the
+     same: </span>
+     
+     <pre class="pre codeblock">
+ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg
+    </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Append this signature to your request URL as a query string parameter. If you use query
+     string parameters with non-ASCII letters or <samp class="ph codeph">'</samp> characters, make sure they are escaped. You can
+     now visit this URL to make your request. The following example is the final signed URL: </span>
+     <pre class="pre codeblock">
+https://api.ooyala.com/v2/players/HbxJKM?api_key=7xxxX&amp;expires=1299991855<strong class="ph b">&amp;signature=ZWU3NGYzM2RkZDMxZTJmMjgxOTY0OThhOWM3YjcyOTg</strong>
+    </pre>
+         
+   </li>
+</ol>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_api_setup.html" title="Ooyala provides a REST-based interface that enables you to make requests to the Backlot platform.">Using the Backlot REST API</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../api/analytics_v3_api_reporting_setup.html">Setup/Mechanics for the v3 Analytics Reporting API</a></div>
+</div>
+</div>
+
+</body>
+</html>

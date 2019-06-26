@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating a Live Audio Stream (Deprecated)"/>
+<meta name="abstract" content="Ooyala live streaming acts as a controller and skin over your existing live streaming URL."/>
+<meta name="description" content="Ooyala live streaming acts as a controller and skin over your existing live streaming URL."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_livestreams_audio.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_encoding.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="livestream_upload_audio"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating a Live Audio Stream (Deprecated)</title>
+</head>
+<body id="livestream_upload_audio">
+
+
+<h1 class="title topictitle1">Creating a Live Audio Stream (Deprecated)</h1>
+
+
+<div class="body taskbody"><p class="shortdesc">Ooyala live streaming acts as a controller and skin over your existing live streaming URL.</p>
+
+ <div class="section context"><div class="note note"><span class="notetitle">Note:</span> Backlot Live streaming has been deprecated and is scheduled to
+    be disabled. For details and alternatives, see the <a class="xref" href="../relnotes/2017-06-04.html">OVP
+     Release Notes</a>. </div>
+
+  <p class="p">To add a live audio stream to Backlot, you must have an HTTP encoder URL at the location from which you are broadcasting. Currently, Ooyala does not pull audio from the incoming stream, so you must run your live event capture through an audio encoder that generates a URL. </p>
+
+  <p class="p">Before you begin, make sure you have the following:</p>
+
+  <ul class="ul">
+   <li class="li">Encoding software that can stream over HTTP (e.g., Windows Media Encoder, Ogg Vorbis, Speex, or Adobe Flash Media Live Encoder (FMLE)).</li>
+
+   <li class="li">Streaming server (e.g., Akamai Media Delivery, Flash Media Server, Wowza Media Server, Flumotion for Linux, Icecast for Unix/Linux, Red5).</li>
+
+   <li class="li">Distribution software (Ooyala Backlot and Ooyala Player).</li>
+
+   <li class="li">Web page where you will embed the Ooyala embed code.</li>
+
+  </ul>
+
+  <div class="note note"><span class="notetitle">Note:</span> With audio encoding software installed (such as FMLE), you can push live streams to your Content Delivery Network (CDN) such as Akamai through an HTTP connection. Your CDN must have live streaming enabled.</div>
+
+  
+  <p class="p">To create an audio live stream for HTTP:</p>
+
+  <ol class="ol">
+   <li class="li">Set up the audio source to be connected (or played) to a computer.</li>
+
+   <li class="li"><p class="p">Run the live streaming event through a software encoder (such as Adobe FMLE, Windows Media Encoder, or Ogg Vorbis) to create the dedicated audio stream.</p>
+
+    <div class="note note"><span class="notetitle">Note:</span> If using FMLE 3.2, you must change the format from mp3 to ogg. Additionally, make sure you can stream using HTTP.
+    </div>
+
+   </li>
+
+   <li class="li">
+    <p class="p">
+   Set your software encoder to push the audio stream to a streaming server or CDN (such as Akamai ) that hosts the URL. You will need the following information from your software encoder computer:
+    </p>
+
+    <ul class="ul">
+     <li class="li">Hostname or IP address and port number of the encoder. 
+     </li>
+
+     <li class="li">Username and password (the username might not be necessary).
+     </li>
+
+     <li class="li">Mount point (Flumotion HTTP Audio Streaming).
+     </li>
+
+     <li class="li">Name of the live stream (specified through the software encoder).
+     </li>
+
+    </ul>
+
+   </li>
+
+   <li class="li"><p class="p">To push the audio stream to your media server or CDN, get the URL for your media server or CDN and specify it in the software audio encoder. For example, in the Adobe FMLE encoder, specify the streaming server or CDN information in the <span class="ph uicontrol">FMS URL</span> field.</p>
+
+    <div class="note note"><span class="notetitle">Note:</span> The streaming server or CDN URL information is provided in different locations depending upon the available administration tools. For example, the Flomotion media server provides this information in the <span class="ph uicontrol">Statistics</span> tab of the Flomotion Administration tool, while other tools might provide it in an <span class="ph uicontrol">Output</span> tab or dialog box.  To locate this information, refer to the documentation that accompanied the software software.
+    </div>
+
+   </li>
+
+   <li class="li">
+   During the encoding process, the encoder creates one or more index or manifest files that contain the URLs of individual live audio segment files. The index can be periodically refreshed to accommodate live audio broadcasts.
+   </li>
+
+   <li class="li">To provide the live streaming URL to Backlot for these files, you get the URL from the streaming server or CDN administration tools. You can also provision Backlot directly from the software encoder by supplying the software encoder’s IP address, port number and live stream name. All of this information is available in the encoder software.</li>
+
+</ol>
+
+  <p class="p">The audio is compressed and delivered over HTTP to any device that connects to the stream via the Ooyala embedded player link. Our audio player picks up this link and broadcasts the live stream based on the URL that identifies the stream.</p>
+
+  
+ </div>
+
+</div>
+
+ 
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/content_livestreams_audio.html" title="Live audio streaming is the delivery of audio content in real time.">Live Audio Streams (Deprecated)</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/chapter_encoding.html" title="Master videos cannot be streamed directly on the Internet. They must be converted or transcoded first into a streaming format. Use the Ooyala Transcoding Service (OTS) to convert your files from a source format to an output format.">Transcoding Setup</a></div>
+</div>
+</div>
+
+
+</body>
+</html>

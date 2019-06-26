@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Metrics"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="analytics_v3_metrics"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Metrics</title>
+</head>
+<body id="analytics_v3_metrics">
+
+
+  <h1 class="title topictitle1">Metrics</h1>
+
+  
+  <div class="body refbody"><p class="shortdesc"/>
+
+    <div class="section">
+      <p class="p">Here are the complete reference details for all metrics for the <span class="ph">v3
+          Analytics</span>
+        <a class="xref" href="analytics_v3_api_reporting_overview.html#analytics_reporting">Reporting
+          API</a>.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> All metrics, except for <span class="ph">player_loads</span>, are associated with the
+        asset <span class="ph">pcode</span>. The <span class="ph">player_loads</span> metric is
+        associated with the player <span class="ph">pcode</span>.</div>
+
+      <p class="p">Metrics are specified with the <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics"><samp class="ph codeph">metrics=</samp></a> query string parameter. Multiple values
+        must be comma-separated with no spaces.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> You can retrieve the entire set of metrics by not including <samp class="ph codeph">metrics</samp> in your query.  </div>
+
+      <div class="note warning"><span class="warningtitle">Warning:</span> If you don't specify metrics for the <samp class="ph codeph">url</samp> dimension, an
+        error message will be returned. Supported metrics for the <samp class="ph codeph">url</samp> dimension
+        include: <ul class="ul">
+          <li class="li"><samp class="ph codeph">displays</samp></li>
+
+          <li class="li"><samp class="ph codeph">plays_requested</samp></li>
+
+          <li class="li"><samp class="ph codeph">video_starts</samp></li>
+
+          <li class="li"><samp class="ph codeph">time_watched</samp></li>
+
+          <li class="li"><samp class="ph codeph">player_loads</samp></li>
+
+          <li class="li"><samp class="ph codeph">replays</samp></li>
+
+          <li class="li"><samp class="ph codeph">uniq_plays_requested</samp></li>
+
+          <li class="li"><samp class="ph codeph">uniq_displays</samp></li>
+
+          <li class="li"><samp class="ph codeph">uniq_video_starts</samp></li>
+
+          <li class="li"><samp class="ph codeph">playthrough_25</samp></li>
+
+          <li class="li"><samp class="ph codeph">playthrough_50</samp></li>
+
+          <li class="li"><samp class="ph codeph">playthrough_75</samp></li>
+
+          <li class="li"><samp class="ph codeph">playthrough_100</samp></li>
+
+        </ul>
+</div>
+
+      <p class="p">To retrieve a specific metric, specify it as in the following examples:</p>
+
+      <ul class="ul" id="analytics_v3_metrics__ul_hh2_ps2_fm">
+        <li class="li"><samp class="ph codeph">metrics=plays_requested</samp></li>
+
+        <li class="li"><samp class="ph codeph">metrics=uniq_plays_requested</samp></li>
+
+        <li class="li"><samp class="ph codeph">metrics=displays,uniq_displays</samp></li>
+
+      </ul>
+
+    </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting GET</h2>
+            
+            <p class="p">The base syntax of the route and query string is as follows. For ease of reading, the
+               single-line request has been split across several lines. </p>
+
+            <pre class="pre codeblock" id="analytics_v3_metrics__d1794e40">
+<strong class="ph b">[GET] /v3/analytics/reports/?</strong>
+            <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>=<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>=<a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>=<a class="xref" href="#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>=<a class="xref" href="analytics_v3_api_reporting_filters.html#analytics_v3_filters"><var class="keyword varname">filter_type=='filter_value'</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>=<var class="keyword varname">date</var>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>=date
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>
+            <strong class="ph b">&amp;api_key=your_api_key</strong>
+         </pre>
+
+            <ul class="ul">
+               <li class="li">The <strong class="ph b">required</strong> query string parameters (shown in bold) are <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><samp class="ph codeph">report_type</samp></a>, <samp class="ph codeph">start_date</samp>, and api_key. </li>
+
+               <li class="li">If no dimensions are specified, total values across all dimension are returned. </li>
+
+               <li class="li">For time ranges up to 1 month you can query by up to 3 dimensions at a time with
+                  unlimited rows of data. For time ranges greater than one month you can query by up
+                  to 2 dimensions at a time with up to 10,000 rows of data. </li>
+
+               <li class="li">If no metrics are specified, all metrics are returned. </li>
+
+            </ul>
+
+            <div class="note note"><span class="notetitle">Note:</span> You may pass the API key either as a query parameter or via the header X-API-KEY.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> At this time, the only valid value for <var class="keyword varname">report_type</var> is
+                  <samp class="ph codeph">performance</samp>.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> You can only use 1 dimension (<samp class="ph codeph">url</samp>) for <samp class="ph codeph">url</samp>
+               queries.</div>
+
+         </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting Long Queries POST</h2>
+            
+            <p class="p">For queries with query parameters that would exceed the HTTP GET specification limit
+               of 230 characters , please use a POST request. Some browsers and http clients may
+               support more than 230 characters, but we will not provide official support for
+               queries that violate the HTTP GET specification. For POST requests, pass a JSON
+               object in the request body instead of the query string parameters. </p>
+
+            <pre class="pre codeblock">
+<strong class="ph b">[POST] /v3/analytics/reports
+
+{</strong>
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>":"<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>":"<a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>":"<a class="xref" href="#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>":"(<a class="xref" href="analytics_v3_api_reporting_filters.html#analytics_v3_filters"><var class="keyword varname">filter_type==\"filter_value\")</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>":"<var class="keyword varname">date</var>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>":"date",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>":"other_param_value",
+   <strong class="ph b"> "api_key":"your_api_key"
+}</strong>
+         </pre>
+
+         </div>
+
+    <div class="section"><h2 class="title sectiontitle">Unique Users</h2>
+     <p class="p">You may want to measure the number of unique users. To measure
+        unique users, use the <samp class="ph codeph">uniq_plays_requested</samp> metric described
+        below. The <span class="ph">Ooyala</span> mobile SDKs generate and store a random unique ID
+        which is application-specific. In other environments, a unique user is identified by local
+        storage or cookie. If a user clears their browser cache, that user/device's ID will get
+        regenerated next time they watch video. The generated IDs are completely random and don't
+        include any user-identifiable information. When such information is not available for a
+        user, a new unique identifier will be created for that user. We de-duplicate when
+        calculating the number of unique users over time. For example, day 1 has users A, B, C; day
+        2 has users B, E., then when you pick date range = day 1 and day 2, then total unique users
+        = 4 (A, B, C, E), Daily Avg. Unique Users = (3+2) / 2 = 3 (2.5 is converted to the closed
+        integer). </p>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Video and Engagement-Related Metrics</h2>
+      
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_metrics__analytics_v3_metrics_video" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="37.5%" id="d18313e380">Metric Name </th>
+
+              <th class="entry" valign="top" width="37.5%" id="d18313e383">Meaning </th>
+
+              <th class="entry" valign="top" width="25%" id="d18313e386">Related Event, UI Label</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            
+            
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__plays">plays_requested</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">The number of times that the "Play" button is triggered either manually or
+                automatically for any content (including video and ad content). This metric does not
+                include the replay event.
+                <div class="note note"><span class="notetitle">Note:</span> We have improved our calculation of this metric. You may see the number of plays requested from your HTML5 and SDK players increase after 11/11/2014 due to this implementation.</div>
+
+                
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "><a class="xref" href="../concepts/analytics_v3_user_workspace_content.html" title="Use the Business Intelligence page to view details in your data filtered in various ways to isolate specific points of interest."><span class="ph uicontrol">Plays Requested</span></a> on Business Intelligence page</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__displays">displays</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">The number of times that the particular video content is loaded and displayed
+                within the player before it gets played (displays are related to each individual
+                asset). Each time an embed code is changed this event gets triggered. </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "><a class="xref" href="../concepts/analytics_v3_user_workspace_content.html" title="Use the Business Intelligence page to view details in your data filtered in various ways to isolate specific points of interest."><span class="ph uicontrol">Displays</span></a> on Business Intelligence page</td>
+
+            </tr>
+
+            
+            
+           
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__replays">replays</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of times the replay button is clicked. </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__video_starts">video_starts</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of times the actual non-ad video content begins playback. Thus, not
+                fired until the completion of pre-roll ads and actual asset playback has begun. If a
+                user clicks on the “Play” button, a pre-roll ad starts playing, and the user drops
+                off before the actual video content starts playing, this event won’t be triggered.
+                  <div class="note note"><span class="notetitle">Note:</span> We have improved our calculation of this metric. You may see the number of
+                  video starts from your HTML5 and SDK players decrease after 11/11/2014 due to this
+                  implementation.</div>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "><a class="xref" href="../concepts/analytics_v3_user_workspace_content.html" title="Use the Business Intelligence page to view details in your data filtered in various ways to isolate specific points of interest."><span class="ph uicontrol">Video Starts</span></a> on Business Intelligence page</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__time_watched">time_watched</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Amount of time the user spent playing back the video asset, in milliseconds. (In the UI, this value is converted to HH:MM:SS format.)
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__playthrough_25">playthrough_25</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of video plays for the selected assets that reached the state of 25%
+                completion of the video asset. No matter how many times the user rewinds within the
+                same view/play session, once the "state" is reached it won't be marked/counted
+                again. For example, within the same video viewing session (i.e. a user didn't
+                refresh the page or reload the player), if a user rewinds and watches through the
+                25% quartile multiple times, Playthrough 25% will only count once.<p class="p">Applies only to video-on-demand (VOD), not live streams.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__playthrough_50">playthrough_50</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of video plays for the selected assets that reached the state of 50%
+                completion of the video asset. No matter how many times the user rewinds within the
+                same view/play session, once the "state" is reached it won't be marked/counted
+                again. For example, within the same video viewing session (i.e. a user didn't
+                refresh the page or reload the player), if a user rewinds and watches through the
+                50% quartile multiple times, Playthrough 50% will only count once.<p class="p">Applies only to video-on-demand (VOD), not live streams.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__playthrough_75">playthrough_75</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of video plays for the selected assets that reached the state of 75%
+                completion of the video asset. No matter how many times the user rewinds within the
+                same view/play session, once the "state" is reached it won't be marked/counted
+                again. For example, within the same video viewing session (i.e. a user didn't
+                refresh the page or reload the player), if a user rewinds and watches through the
+                75% quartile multiple times, Playthrough 75% will only count once<p class="p">Applies only to video-on-demand (VOD), not live streams.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__playthrough_100">playthrough_100</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Number of video plays for the selected assets that reached the state of 100%
+                completion of the video asset. No matter how many times the user rewinds within the
+                same view/play session, once the "state" is reached it won't be marked/counted
+                again. For example, within the same video viewing session (i.e. a user didn't
+                refresh the page or reload the player), if a user rewinds and watches through the
+                100% quartile multiple times, Playthrough 100% will only count once.<p class="p">Applies only to video-on-demand (VOD), not live streams.</p>
+</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__play_conversion">play_conversion_rate</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Ratio of plays requested events to displays events. <div class="note note"><span class="notetitle">Note:</span> We have improved our
+                  calculation of plays requested. You may see the play_conversion_rate metric from
+                  your HTML5 and SDK players increase after 11/11/2014 due to this
+                  implementation.</div>
+
+                
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__start_conversion">video_conversion_rate</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Ratio of video starts events to plays requested events. <div class="note note"><span class="notetitle">Note:</span> We have improved
+                  our calculation of video starts and plays requested. You may see the number of
+                  video starts from your HTML5 and SDK players change after 11/11/2014 due to this
+                  implementation.</div>
+
+                
+              </td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="37.5%" headers="d18313e380 "><samp class="ph codeph" id="analytics_v3_metrics__player_loads">player_loads</samp></td>
+
+              <td class="entry" valign="top" width="37.5%" headers="d18313e383 ">Triggered each time the player loads on the page. The <samp class="ph codeph">player_loads</samp> metric is associated with the <span class="ph">pcode</span> for the player.</td>
+
+              <td class="entry" valign="top" width="25%" headers="d18313e386 "> </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Discovery Insights Metrics</h2>
+      
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_metrics__analytics_v3_metrics_discovery" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.10526315789473%" id="d18313e612">Metric Name </th>
+
+              <th class="entry" valign="top" width="42.10526315789473%" id="d18313e615">Meaning </th>
+
+              <th class="entry" valign="top" width="15.789473684210526%" id="d18313e618">Used in Report Type</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">end_screen_ctr</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "> <span class="ph">The CTR of the <span class="ph">Discovery</span> end screen, including auto-plays.</span>
+                
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">end_screen_ctr_excluding_autoplays</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The CTR of the <span class="ph">Discovery</span> end screen, excluding auto-plays.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">end_screen_impressions</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The number of
+                        impressions of the <span class="ph">Discovery</span> end screen. </span>
+                
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">pause_screen_ctr</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The CTR of the <span class="ph">Discovery</span> pause screen. </span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">pause_screen_impressions</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The number of
+                        impressions of the <span class="ph">Discovery</span> pause screen. </span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">aggregate_ctr</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The CTR covering impressions and
+                        clicks of both the <span class="ph">Discovery</span> end screen and pause
+                        screen.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">lift_percent_end_screen</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The lift from
+                        the <span class="ph">Discovery</span> end screen alone, including
+                        auto-plays.</span>
+                  
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">lift_percent_end_screen_excluding_autoplays</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The lift from the <span class="ph">Discovery</span> end screen alone, excluding
+                        auto-plays.</span>
+                
+                 
+                
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">lift_percent_pause_screen</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The lift
+                        from the <span class="ph">Discovery</span> pause screen.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">aggregate_lift_percent</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">Total lift covering plays from
+                        the <span class="ph">Discovery</span> end screen and pause screen.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">added_view_time_hours</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The total added view time in hours attributed
+                    to <span class="ph">Discovery</span> plays.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">time_lift_percent_end_screen</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The time lift from the <span class="ph">Discovery</span> end screen
+                    alone, including auto-plays.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">time_lift_percent_end_screen_excluding_autoplays</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The time lift from the
+                    <span class="ph">Discovery</span> end screen alone, excluding auto-plays.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">time_lift_percent_pause_screen</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">The time lift from the <span class="ph">Discovery</span> pause
+                    screen.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">aggregate_time_lift_percent</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><span class="ph">Total time lift covering plays from the <span class="ph">Discovery</span>
+                    end screen and pause screen.</span>
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">discovery_plays</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><p class="p"><strong class="ph b"><span class="ph">Discovery</span> Plays</strong> measure how many times a video was played after a
+                recommendation by <span class="ph">Discovery</span>.</p>
+
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e612 "><samp class="ph codeph">discovery_leads</samp></td>
+
+              <td class="entry" valign="top" width="42.10526315789473%" headers="d18313e615 "><p class="p"><strong class="ph b"><span class="ph">Discovery</span> Leads</strong> measure the number of times different <span class="ph">Discovery</span>-recommended
+                videos got played as a result of watching the original video. For example, the video
+                asset "The Big Game" has a <span class="ph">Discovery</span> end screen at the end of the video. <span class="ph">Discovery</span>
+                Leads measures the number of times a video shown on the <span class="ph">Discovery</span> end screen for
+                "The Big Game" get played. For additional details on what value you can derive from
+                <span class="ph">Discovery</span> Plays and Leads data, see <a class="xref" href="../concepts/discovery_insight_report_value.html" title="The Discovery Insights information in Ooyala IQ can provide you with valuable information about your users and content. The content below describes how to derive value from the different Discovery metrics.">Deriving Value From Discovery Insights</a>.</p>
+
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="15.789473684210526%" headers="d18313e618 ">Performance</td>
+
+            </tr>
+
+            
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Other Metrics and Their Related Reports</h2>
+      
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_metrics__analytics_v3_metrics_unique" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="31.818181818181817%" id="d18313e1144">Metric Name </th>
+
+              <th class="entry" valign="top" width="50%" id="d18313e1147">Meaning </th>
+
+              <th class="entry" valign="top" width="18.181818181818183%" id="d18313e1150">Used in Report Type</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            
+            
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph" id="analytics_v3_metrics__unique_plays">uniq_plays_requested</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of unique users that trigger the "play" button (manually or
+                automatically) for any content (see <a class="xref" href="#analytics_v3_metrics__plays"><span class="ph uicontrol">plays_requested</span></a>).
+                <div class="p">
+                    <div class="note note"><span class="notetitle">Note:</span> We have improved our calculation of this metric. You may see the number of
+                      plays requested from your HTML5 and SDK players increase after 11/11/2014 due to
+                      this implementation.</div>
+
+                    <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+                  </div>
+</td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph" id="analytics_v3_metrics__unique_displays">uniq_displays</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of unique users that see the video loaded and displayed within the
+                player before it gets played (displays are related to each individual asset). Each
+                time an embed code is changed the display event gets triggered (see <a class="xref" href="#analytics_v3_metrics__displays"><span class="ph uicontrol">displays</span></a>).
+              <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph" id="analytics_v3_metrics__unique_video_starts">uniq_video_starts</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of unique users that see playback of actual non-ad video content (see
+                <a class="xref" href="#analytics_v3_metrics__video_starts"><span class="ph uicontrol">video_starts</span></a>). <div class="note note"><span class="notetitle">Note:</span> We
+                    have improved our calculation of this metric. You may see the number of video
+                    starts from your HTML5 and SDK players decrease after 11/11/2014 due to this
+                    implementation.</div>
+
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">embeds_copied</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of times the embed code has been copied.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">digg</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of times the <span class="ph">"Digg"</span> button has been pressed.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">emails_sent</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of times the <span class="ph">"share via email"</span> button is pressed.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">facebook</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of times the Facebook <span class="ph">"Like"</span> button has been pressed.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph" id="analytics_v3_metrics__twitter">twitter</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number times the Twitter <span class="ph">"tweet"</span> button is pressed.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">urls_copied</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Number of times the <span class="ph">"Copy URL"</span> button has been pressed.
+                 
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">segment_watched</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">The number of times each segment of a piece of video content is watched. 1
+                segment is defined as 2.5% of video length. Please note if a user rewinds and
+                watches the same segment N times, Segments Watched for that segment will count as N
+                times. 
+   
+                <p class="p">Applies only to video-on-demand (VOD), not live streams.</p>
+
+                
+                   
+                <div class="note note" id="analytics_v3_metrics__time_segment"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="31.818181818181817%" headers="d18313e1144 "><samp class="ph codeph">percentage_watched</samp>
+              </td>
+
+              <td class="entry" valign="top" width="50%" headers="d18313e1147 ">Measures the percentage of a video (in its entirety) that ever got watched in
+                increments of 2.5%. This metric will not increase if a user rewinds and re-watches a
+                segment in the same video session.
+                 
+                <div class="note note"><span class="notetitle">Note:</span> This metric is not returned if a query contains
+                    <samp class="ph codeph">time_segment=hour</samp> or
+                  <samp class="ph codeph">time_segment=15min</samp>.</div>
+
+              </td>
+
+              <td class="entry" valign="top" width="18.181818181818183%" headers="d18313e1150 ">Performance</td>
+
+            </tr>
+
+            
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+      
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_api_reference.html">Parameter Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

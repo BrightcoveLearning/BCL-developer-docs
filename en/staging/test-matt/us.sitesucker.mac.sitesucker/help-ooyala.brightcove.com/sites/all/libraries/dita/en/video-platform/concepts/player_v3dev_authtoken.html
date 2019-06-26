@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Controlling Playback with the Ooyala Player Token"/>
+<meta name="abstract" content="You can authorize playback using the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)"/>
+<meta name="description" content="You can authorize playback using the Ooyala Player Token. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/player_v3dev_authoverview.html"/>
+<meta name="DC.Relation" scheme="URI" content="chapter_rightslocker.html"/>
+<meta name="DC.Relation" scheme="URI" content="device_registration.html"/>
+<meta name="DC.Relation" scheme="URI" content="player_v3dev_tokenexpire.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/player_v3dev_settoken.html"/>
+<meta name="DC.Relation" scheme="URI" content="player_v3dev_tokensdks.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3dev_authtoken"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Controlling Playback with the Ooyala Player Token</title>
+</head>
+<body id="player_v3dev_authtoken">
+
+
+  <h1 class="title topictitle1">Controlling Playback with the Ooyala Player Token</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">You can authorize playback using the Ooyala Player Token.
+    (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)
+  </p>
+
+    <div class="section">Limiting playback exclusively to authorized users and exclusively on your page requires
+      the communication of the token request URL to the player, so that the player can utilize this
+      URL throughout authorization. This is accomplished with the following steps: <ul class="ul" id="player_v3dev_authtoken__internal-source-marker_0.9329864937735756">
+        <li class="li"><strong class="ph b">Generate a Token Request and Authorization URL</strong>. You generate the signed token
+          request URL on the server-side, specifying a short expiration time as one of the
+          query-string parameters. You must also include your provider code and a comma separated
+          list of embed codes. This URL is passed to our player via a JavaScript callback; its short
+          expiration time prevents it from being lifted from your page and used elsewhere. </li>
+
+        <li class="li">
+          <p class="p"><strong class="ph b">Set the Token Expiration Time</strong>. You need to set an expiration time for the
+            Playback Token in your Backlot Syndication tab. Note that this expiration time is
+            independent of the token request expiration time. Its function is to specify how long
+            the token (issued by Ooyala) will be valid, and it controls the
+            viewer’s access to authorized players for the specified interval. space.</p>
+
+        </li>
+
+        <li class="li">
+          <p class="p"><strong class="ph b">Embed the URL to Issue Authorization</strong>. When the crafted token request URL is
+            forwarded to the player, Ooyala’s authorization response will send an authorization/no-authorization decision.
+            Once the client receives an affirmative authorization response, video playback is enabled. </p>
+
+        </li>
+
+        <li class="li"><strong class="ph b">Playback Authorization.</strong> Before the video starts playing, the Ooyala player sends
+          the authentication request and receives the token. When the authorization server validates
+          the URL, it authorizes playing the content. The authorization is in effect until the
+          session expires. If the session expires, the viewer needs to refresh the browser. </li>
+
+      </ul>
+<div class="note note"><span class="notetitle">Note:</span> If the URL is not valid, it will display an error message. For more information
+        about the error, see the "Error Types" topic in this document.</div>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Two Types of Expiration Times</h2>
+      
+      <div class="p"> With this design, you should note the difference between the two expiration times. You
+        need to set: <ul class="ul" id="player_v3dev_authtoken__internal-source-marker_0.5012084729124661">
+          <li class="li">One expiration time on the token request (the URL that will be embedded on the
+            page—adjustable by the provider’s server-side implementation). Use a short expiration
+            time on the URL snippet so that the snippet cannot be replicated across other domains
+            (it can be embedded, but will become nonfunctional). </li>
+
+          <li class="li">The other expiration time on the token object itself (expiry
+            time adjustable through your Backlot account). A longer expiration time may be set (if
+            desirable) on the token object, since the <a class="xref" href="http://www.w3.org/Security/wiki/Same_Origin_Policy" target="_blank">Same Origin Policy</a> protects its distribution. </li>
+
+        </ul>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Combining the Ooyala Token with Other Content Authorization Types</h2>
+      
+      <div class="p">The Ooyala Player Token works either singly or in conjunction with other types Digital
+        Rights Management (DRM) solutions that Ooyala provides (or supports) to ensure that users
+        can have access to authorized content. You can also use the Ooyala Player Token in
+        conjunction with: <ul class="ul">
+          <li class="li">Ooyala's Rights Locker entitlement enforcement system</li>
+
+          <li class="li">Ooyala's device registration system</li>
+
+          <li class="li">A CDN token to prevent unauthorized sharing of a direct link to an Real Time Messaging
+            Protocol (RTMP) stream. </li>
+
+          <li class="li">Encrypted delivery (such as RTMPE or HLS AES Encryption) to prevent recording of a
+            stream. </li>
+
+          <li class="li">DRM Technologies (such as Flash Access) to enforce usage rights on content.</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="player_v3dev_authoverview.html">Ooyala Player Token for Player V3 (Deprecated)</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="chapter_rightslocker.html">Rights Locker</a></div>
+<div><a class="link" href="device_registration.html">Device Registration API</a></div>
+<div><a class="link" href="player_v3dev_tokenexpire.html">Ooyala Player Token Expiration</a></div>
+<div><a class="link" href="../tasks/player_v3dev_settoken.html" title="The Backlot UI provides you with an option to secure your content by setting a Syndication group flag adding your content assets to this syndication group. This will enable you to set up your web page to run your player(s), and send the authorization token. (Available only if your Ooyala account includes the Ooyala Player Token. To enable this functionality, contact your account manager.)">Setting the Ooyala Player Token</a></div>
+<div><a class="link" href="player_v3dev_tokensdks.html" title="You can use the Ooyala Player Token for user authorization with Ooyala iOS and Android SDKs. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Using Ooyala Player Token with Ooyala iOS and Android SDKs</a></div>
+</div>
+</div>
+
+</body>
+</html>

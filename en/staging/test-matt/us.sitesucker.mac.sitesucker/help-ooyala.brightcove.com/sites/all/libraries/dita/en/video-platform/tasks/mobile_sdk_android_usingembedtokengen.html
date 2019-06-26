@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Implementing EmbedTokenGenerator for Android"/>
+<meta name="abstract" content="To use the Ooyala Player Token for user authorization implement OOEmbedTokenGenerator in the Android app main activity."/>
+<meta name="description" content="To use the Ooyala Player Token for user authorization implement OOEmbedTokenGenerator in the Android app main activity."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_about.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/player_v3dev_tokensdks.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_usingembedtokengen"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Implementing EmbedTokenGenerator for Android</title>
+</head>
+<body id="mobile_sdk_android_usingembedtokengen">
+
+
+    <h1 class="title topictitle1"> Implementing EmbedTokenGenerator for Android </h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc"> To use the Ooyala Player Token for user authorization implement
+            <samp class="ph codeph">OOEmbedTokenGenerator</samp> in the Android app main activity. </p>
+
+        <div class="section context">
+            <p class="p"> Use the following steps to implement an <samp class="ph codeph">EmbedTokenGenerator</samp> in the
+                Android project main activity. </p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Open the Android app main activity and add the following import
+                    statements:</span>
+                 
+                    <pre class="pre codeblock">import com.ooyala.android.EmbedTokenGenerator;
+import com.ooyala.android.EmbedTokenGeneratorCallback;</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Extend the main activity class with the <samp class="ph codeph">EmbedTokenGenerator</samp>
+                    interface. The syntax is shown in the following example:</span>
+                 
+                    <pre class="pre codeblock">public class MainActivity extends Activity implements EmbedTokenGenerator, Observer{
+...</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Create an <samp class="ph codeph">OoyalaPlayerLayoutController</samp> instance with the
+                    constructor that takes an <samp class="ph codeph">embedTokenGenerator</samp> parameter. Use
+                    the <samp class="ph codeph">player.setEmbedCode</samp> and <samp class="ph codeph">player.play</samp>
+                    functions. This is shown in the following example:</span>
+                 
+                    <pre class="pre codeblock">...
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    OoyalaPlayerLayout playerLayout = (OoyalaPlayerLayout) findViewById(R.id.ooyalaPlayer);
+    <strong class="ph b">OoyalaPlayerLayoutController playerLayoutController = new OoyalaPlayerLayoutController(playerLayout, PCODE, new PlayerDomain(DOMAIN), this);</strong>
+    player = playerLayoutController.getPlayer();
+    player.addObserver(this);
+    <strong class="ph b">if (player.setEmbedCode(EMBED)) {
+      player.play()</strong>;
+    } else {
+      Log.d(this.getClass().getName(), "Something Went Wrong!");
+    }
+  }</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">A server-side generated token can only be created by the customer so content is
+                    authorized for playback on authorized sites. The client receives it and submits
+                    it to <samp class="ph codeph">EmbedTokenGeneratorCallback()</samp>. These tokens should not be
+                    created on the client. The API secret should only be on the server and should
+                    not be publicly visible. This example is only useful for debugging but should
+                    not be used in production. Implement the <samp class="ph codeph">getTokenForEmbedCodes</samp>
+                    method with an <samp class="ph codeph">EmbedTokenGeneratorCallback</samp> interface. Add the
+                        <samp class="ph codeph">.setEmbedToken</samp> callback, where token is a valid Ooyala
+                    player token for the list of embed codes. This is shown in the following
+                    example:</span>
+                 
+                    <pre class="pre codeblock">@Override
+  public void getTokenForEmbedCodes(List&lt;String&gt; embedCodes,
+      EmbedTokenGeneratorCallback callback) {
+    //add embed token/OPT in the setEmbedToken() example below
+    // HTTP_SAS + "/embed_token/pcode/embed_code?account_id=account&amp;api_key=apikey&amp;expires=expires&amp;signature=signature"
+    callback.setEmbedToken("fill me in");
+  }</pre>
+
+                
+            </li>
+</ol>
+
+        <div class="section postreq"><p class="p">The Android Mobile SDK Sample Apps folder includes a complete working sample app
+                with <samp class="ph codeph">EmbedTokenGenerator</samp> implemented. From the SDK archive,
+                navigate to:</p>
+
+            <span class="ph filepath">OoyalaSDK-Android/SampleApps/DeviceManagementSampleApp</span>
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/mobile_sdk_android_about.html">Working with the Android SDK</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/player_v3dev_tokensdks.html" title="You can use the Ooyala Player Token for user authorization with Ooyala iOS and Android SDKs. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Using Ooyala Player Token with Ooyala iOS and Android SDKs</a></div>
+</div>
+</div>
+
+</body>
+</html>

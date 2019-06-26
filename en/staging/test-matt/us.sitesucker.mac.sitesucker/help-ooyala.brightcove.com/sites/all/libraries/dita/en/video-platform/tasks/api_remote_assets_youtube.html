@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Making Remote Assets Available on YouTube"/>
+<meta name="abstract" content="To make a remote asset available on YouTube, you need to setup a YouTube syndication (only once), upload a video to YouTube, create a remote asset in Backlot, add the YouTube ID to the asset, and add a label to the asset that triggers the YouTube syndication."/>
+<meta name="description" content="To make a remote asset available on YouTube, you need to setup a YouTube syndication (only once), upload a video to YouTube, create a remote asset in Backlot, add the YouTube ID to the asset, and add a label to the asset that triggers the YouTube syndication."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_videosyoutube.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_publishing.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_remoteassets.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_videosyoutube.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_remote_assets_youtube"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Making Remote Assets Available on YouTube</title>
+</head>
+<body id="api_remote_assets_youtube">
+
+
+ <h1 class="title topictitle1">Making Remote Assets Available on YouTube</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">To make a remote asset available on YouTube, you need to setup a YouTube syndication
+  (only once), upload a video to YouTube, create a remote asset in <span class="ph">Backlot</span>, add the YouTube ID to the asset, and add a label to the asset
+  that triggers the YouTube syndication.</p>
+
+  <div class="section context">
+   <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+   <p class="p">To make a remote asset available on YouTube:</p>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd"> Setup a YouTube syndication (only once). </span>
+     The following example creates a YouTube syndication that uses the
+      <samp class="ph codeph">syndicate_to_youtube</samp> label (48951b2ed95a4e13b8a3b07d59ac6ec1).
+     <pre class="pre codeblock">[POST]/v2/syndications{  
+   "asset_types":[  
+      "remote_asset"
+   ],
+   "include_all_content":false,
+   "include_labels":[  
+      "48951b2ed95a4e13b8a3b07d59ac6ec1"
+   ],
+   "name":"YouTube",
+   "should_create_youtube_videos":true,
+   "should_delete_youtube_videos":true,
+   "type":"youtube",
+   "username":"my_username",
+   "password":"my_password"
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+      following.</p>
+
+     <pre class="pre codeblock">{  
+   "name":"YouTube",
+   "require_access_key":false,
+   "created_at":"2011-03-31T22:38:34+00:00",
+   "include_labels":[  
+      "48951b2ed95a4e13b8a3b07d59ac6ec1"
+   ],
+   "should_create_youtube_videos":true,
+   "asset_types":[  
+      "remote_asset"
+   ],
+   "username":"my_username",
+   "id":"716437dedfa443bbb69c7101cf3574c0",
+   "include_all_content":false,
+   "type":"youtube",
+   "should_delete_youtube_videos":true
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Upload the video to YouTube and get the YouTube ID. For more information on uploading
+     videos to YouTube, refer to the <a class="xref" href="http://www.youtube.com" target="_blank">YouTube Web Site</a>.</span>
+     In this example, the YouTube ID is <samp class="ph codeph">dQw4w9WgXcQ</samp> for the following URL: 
+     <pre class="pre codeblock">
+ http://www.youtube.com/watch?v=dQw4w9WgXcQ
+    </pre>
+
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> Create a remote asset in <span class="ph">Backlot</span>. </span>
+     The following example creates a remote asset that points to the original location of the
+     remote asset (not the YouTube link).
+     <pre class="pre codeblock">[POST]/v2/assets{  
+   "name":"A new remote asset",
+   "asset_type":"remote_asset",
+   "duration":120000,
+   "stream_urls":{  
+      "flash":"http://example.com/my_flash_file.flv",
+      "iphone":"http://example.com/iphone_compatible_file.mp4"
+   }
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+      following.</p>
+
+     <pre class="pre codeblock">{  
+   "asset_type":"remote_asset",
+   "duration":120000,
+   "name":"A new remote asset",
+   "preview_image_url":null,
+   "created_at":"2011-09-12T17:47:03+00:00",
+   "embed_code":"c1cWxzMjo6AKb_NhHAQiXx9mvAY4mG-D",
+   "stream_urls":{  
+      "ipad":null,
+      "source_file":null,
+      "iphone":"http://example.com/iphone_compatible_file.mp4",
+      "flash":"http://example.com/my_flash_file.flv",
+      "itunes":null
+   },
+   "time_restrictions":null,
+   "updated_at":"2011-09-12T17:47:04+00:00",
+   "external_id":null,
+   "hosted_at":null,
+   "original_file_name":null,
+   "description":null,
+   "status":"live"
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> Associate the YouTube ID with the asset. </span>
+     The following example associates the <samp class="ph codeph">dQw4w9WgXcQ</samp> YouTube ID with the
+      <samp class="ph codeph">c1cWxzMjo6AKb_NhHAQiXx9mvAY4mG-D</samp> asset.
+     <pre class="pre codeblock">[PATCH]/v2/assets/c1cWxzMjo6AKb_NhHAQiXx9mvAY4mG-D/youtube{  
+   “youtube_id”:“dQw4w9WgXcQ"
+}</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+      following.</p>
+
+     <pre class="pre codeblock">{  
+   "author":"RickAstleyVEVO",
+   "youtube_id":"dQw4w9WgXcQ",
+   "youtube_syndication_settings":{  
+      "private":null,
+      "mobile":null,
+      "embeddable":null,
+      "keywords":null
+   }
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd"> Associate the label with the asset. </span>
+     The following example associates the <samp class="ph codeph">syndicate_to_youtube</samp> label
+     (48951b2ed95a4e13b8a3b07d59ac6ec1) with the <samp class="ph codeph">c1cWxzMjo6AKb_NhHAQiXx9mvAY4mG-D</samp>
+     asset.
+     <pre class="pre codeblock">[PATCH]/v2/assets/c1cWxzMjo6AKb_NhHAQiXx9mvAY4mG-D/labels/48951b2ed95a4e13b8a3b07d59ac6ec1</pre>
+
+     <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+      following.</p>
+
+     <pre class="pre codeblock">{  
+   "items":[  
+      {  
+         "name":"syndicate_to_youtube",
+         "id":"48951b2ed95a4e13b8a3b07d59ac6ec1",
+         "full_name":"/syndicate_to_youtube",
+         "parent_id":null
+      }
+   ]
+}</pre>
+
+     <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    
+   </li>
+</ol>
+
+  <div class="section postreq">
+   <p class="p">The remote asset is available on YouTube. </p>
+
+  </div>
+
+ </div>
+
+ <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/content_videosyoutube.html" title="A YouTube video is a video hosted by YouTube and played through the Ooyala player.">YouTube Videos</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/chapter_publishing.html" title="Publishing lets you share videos and video metadata with multiple web properties and content networks.">Content Publishing</a></div>
+<div><a class="link" href="../concepts/content_remoteassets.html" title="A remote asset is a piece of content that is hosted outside of Backlot. Instead of uploading, transcoding, and storing the content in Backlot, you simply upload its URL and other descriptive information so that Backlot can find the content when needed.">Remote Assets</a></div>
+<div><a class="link" href="../concepts/content_videosyoutube.html" title="A YouTube video is a video hosted by YouTube and played through the Ooyala player.">YouTube Videos</a></div>
+</div>
+</div>
+
+</body>
+</html>

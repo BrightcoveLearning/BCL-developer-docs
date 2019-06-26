@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Nielsen Analytics Plugin"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_analytics_nielsen"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Nielsen Analytics Plugin</title>
+</head>
+<body id="pbv4_analytics_nielsen">
+
+
+    <h1 class="title topictitle1">Nielsen Analytics Plugin</h1>
+
+     <div class="body conbody">
+         <div class="section">Use the Player V4 Nielsen analytics plugin (<samp class="ph codeph">Nielsen.min.js</samp>) to
+            track <a class="xref" href="http://www.nielsen.com/eu/en/solutions/capabilities/media-analytics.html">Nielsen Analytics</a> for Ooyala Player V4. 
+         </div>
+
+         <div class="section"><h2 class="title sectiontitle">Run-time Flow During Playback</h2>During playback, a playback event
+            triggers notification about the event to Nielsen Analytics. <div class="fig fignone">
+                <img class="image" src="../image/pbv4_analytics_nielsen.png"/>
+            </div>
+
+        </div>
+ 
+        <div class="section"><h2 class="title sectiontitle">Supported Players</h2>The Nielsen Analytics plugin supports Nielsen
+            Analytics integration with the Ooyala HTML5 web player versions 4.8.5 and above.
+                <div class="note note"><span class="notetitle">Note:</span> The Ooyala mobile SDKs for iOS and Android already support Nielsen
+                integration. For details, see <a class="xref" href="nielsen_about.html" title="You can easily integrate with Nielsen analytics in your Ooyala mobile applications.">Integration with Nielsen Analytics</a>.</div>
+</div>
+
+         
+         <div class="section"><h2 class="title sectiontitle">Prerequisites</h2>Before using the Nielsen plugin for Player V4, contact
+            your Nielsen representative and ask for your <span class="keyword parmname">apid</span> (a unique ID
+            provided by Nielsen). You will need to specify this value when you embed Player V4 on a
+            web page.</div>
+
+         <div class="section"><h2 class="title sectiontitle">Step 1: Get the Latest Nielsen Plugin</h2>
+             <div class="note note"><span class="notetitle">Note:</span> This applies only if you are self-hosting player resources, as described in <a class="xref" href="pbv4_host.html">Hosting Player V4 Resources</a>.</div>
+
+            <ol class="ol">
+                <li class="li">Download the latest version of the <samp class="ph codeph">Nielsen.min.js</samp> plugin. For
+                    the download URL, see the <a class="xref" href="pbv4_release_notes.html">Ooyala Player V4 Release Notes</a>.</li>
+
+                <li class="li">Host this plugin like you host other Player V4 plugins.</li>
+
+            </ol>
+
+         </div>
+
+         <div class="section"><h2 class="title sectiontitle">Step 2: Add Nielsen Integration on the Web Page</h2>Add the following
+            script to the page on which you load the player. Be sure to load this plugin
+                <em class="ph i">after</em> you load core.min.js.
+            <pre class="pre codeblock">&lt;script src="url_where_hosted/Nielsen.min.js"&gt;&lt;/script&gt;</pre>
+</div>
+
+         <div class="section"><h2 class="title sectiontitle">Step 3 (Optional): Load the Nielsen SDK on the Web Page</h2>Load one of
+            the following versions of the Nielsen SDK on the page on which you are loading the
+            player. If you do not load one of these options, the Nielsen plugin will load the Global
+            version by default. 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="25%" id="d437308e108">Version</th>
+
+                            <th class="entry" valign="top" width="75%" id="d437308e111">Link</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e108 ">Global</td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e111 "><a class="xref" href="http://cdn-gl.imrworldwide.com/novms/js/2/ggcmb510.js">http://cdn-gl.imrworldwide.com/novms/js/2/ggcmb510.js</a></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e108 ">Certificate</td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e111 "><a class="xref" href="http://secure-dcr-cert.imrworldwide.com/novms/js/2/ggcmb510.js">http://secure-dcr-cert.imrworldwide.com/novms/js/2/ggcmb510.js</a></td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e108 ">Production</td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e111 "><a class="xref" href="http://secure-dcr.imrworldwide.com/novms/js/2/ggcmb510.js">http://secure-dcr.imrworldwide.com/novms/js/2/ggcmb510.js</a></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+</div>
+
+         <div class="section"><h2 class="title sectiontitle">Step 4: Specify Page-level Parameters for the Nielsen Plugin</h2>As with
+            other Player V4 plugins, on the page where you want to run the player, you can specify
+            the following page-level parameters within the <span class="keyword parmname">playerparams</span>
+            variable that is passed in during player creation (see <a class="xref" href="../api/pbv4_api_embedparams.html">Page-level Parameters for Player V4</a>). For details on these parameters, go to
+            the <a class="xref" href="https://engineeringforum.nielsen.com/sdk/developers/bsdk-product-dcr-metadata.php">Nielsen SDK Documentation</a>. <p class="p"><strong class="ph b">Required Parameters</strong></p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="25%" id="d437308e184">Parameter</th>
+
+                            <th class="entry" valign="top" width="75%" id="d437308e187">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">apid</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">A unique ID provided by Nielsen.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">sfcode</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Location of collections environment. <ul class="ul">
+                                    <li class="li">Use <span class="keyword parmname">"dcr-cert"</span> for testing. </li>
+
+                                    <li class="li">Use <span class="keyword parmname">"dcr"</span> for production.</li>
+
+                                </ul>
+</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">apn</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Unique string identifying your player/site.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">program</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Program name.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">isfullepisode</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Full episode flag (used to distinguish between short and long
+                                form content).</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">title</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Title for the video asset. </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">crossId1</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Standard episode ID (should be unique). </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e184 "><span class="keyword parmname">crossId2</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e187 ">Identifies the content originator. </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+<p class="p"><strong class="ph b">Optional Parameters</strong></p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="25%" id="d437308e307">Parameter</th>
+
+                            <th class="entry" valign="top" width="75%" id="d437308e310">Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e307 "><span class="keyword parmname">airdate</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e310 ">Original (local) air date and time.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e307 "><span class="keyword parmname">segB</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e310 ">Segment B (custom category breakout).</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d437308e307 "><span class="keyword parmname">segC</span></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d437308e310 ">Segment C (custom category breakout).</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+</div>
+
+         <div class="section"><h2 class="title sectiontitle">Step 5: Send a Test Page to Nielsen</h2>Send a test page to Nielsen so
+            that they can verify and certify the page. </div>
+
+     <div class="section"><h2 class="title sectiontitle">Example</h2>
+        <pre class="pre codeblock">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Nielsen Analytics Plugin Example&lt;/title&gt;
+    &lt;!-- V4 JS core is required. Plugins such as skin, discovery and Advertising need to be loaded separately --&gt;
+    &lt;script src="url_where_hosted/core.min.js"&gt;&lt;/script&gt;
+    &lt;script src="url_where_hosted/html5-skin.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="url_where_hosted/html5-skin.min.css" /&gt;
+    &lt;!-- A Video Plugin is required. This example shows the Main Video Plugin --&gt;
+    &lt;script src="url_where_hosted/main_html5.min.js"&gt;&lt;/script&gt;
+    &lt;!-- Analytics Plugins --&gt;
+    &lt;script src="url_where_hosted/Nielsen.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var playerParam = {
+            "pcode": "YOUR_PCODE",
+            "playerBrandingId": "YOUR_PLAYER_ID",
+            "skin": {
+                // Config contains the configuration setting for player skin. Change to your local config when necessary.
+                "config": "url_where_hosted/skin.json"
+            },
+            <strong class="ph b">"Nielsen": {
+                "apid": "YOUR_APID",
+                "sfcode": "dcr-cert",
+                "apn": "Ooyala V4",
+                "program": "myProgram",
+                "isfullepisode": "N",
+                "title": "My Title",
+                "crossId1": "EP01S9S290015",
+                "crossId2": "ABC",
+                "airdate": "20150420 21:00:00",
+                "segB": "Comedy",
+                "segC": "Drama"
+            }</strong>
+        };
+        OO.ready(function() {
+            window.pp = OO.Player.create("container", "YOUR_ASSET_ID", playerParam);
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt; </pre>
+
+     </div>
+
+     </div>
+
+    
+
+</body>
+</html>

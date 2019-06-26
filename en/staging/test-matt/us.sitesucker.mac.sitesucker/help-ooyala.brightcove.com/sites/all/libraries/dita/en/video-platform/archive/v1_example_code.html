@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Backlot API Example Code (Deprecated)"/>
+<meta name="abstract" content="We provide example code in PHP and Ruby."/>
+<meta name="description" content="We provide example code in PHP and Ruby."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_example_code"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Backlot API Example Code (Deprecated)</title>
+</head>
+<body id="v1_example_code">
+
+
+  <h1 class="title topictitle1">Backlot API Example Code (Deprecated)</h1>
+
+  
+  
+ <div class="body refbody"><p class="shortdesc">We provide example code in PHP and Ruby.  </p>
+
+   <div class="section">
+     <div class="note note"><span class="notetitle">Note:</span> This software is deprecated. Use the latest version.</div>
+
+     
+     
+     <p class="p">PHP</p>
+
+     
+     <pre class="pre codeblock">
+&lt;?php
+
+// You can find your Partner and Secret codes under the Developers
+// area of the Backlot Account tab
+
+define('OOYALA_PARTNER_CODE', '&lt;Your Partner Code&gt;');
+define('OOYALA_SECRET_CODE', '&lt;Your Secret Code&gt;');
+
+class OoyalaBacklotAPI
+{
+
+  static function query($params)
+  {
+    return OoyalaBacklotAPI::send_request('query', $params);
+  }
+
+  static function query_thumbnails($params)
+  {
+    return OoyalaBacklotAPI::send_request('thumbnails', $params);
+  }
+
+  static function update($params)
+  {
+    return OoyalaBacklotAPI::send_request('edit', $params);
+  }
+
+  static function labels($params)
+  {
+    return OoyalaBacklotAPI::send_request('labels', $params);
+  }
+
+  static function metadata($params)
+  {
+    return OoyalaBacklotAPI::send_request('metadata', $params);
+  }
+
+  private static function send_request($request_type, $params)
+  {
+    // Add an expire time of 15 minutes unless otherwise specified
+    if (!array_key_exists('expires', $params)) {
+      $params['expires'] = time() + 900;
+    }
+
+    $string_to_sign = OOYALA_SECRET_CODE;
+    $url = 'http://api.ooyala.com/partner/'.$request_type.'?pcode='.OOYALA_PARTNER_CODE;
+    $keys = array_keys($params);
+    sort($keys);
+
+    foreach ($keys as $key) {
+      $string_to_sign .= $key.'='.$params[$key];
+      $url .= '&amp;'.rawurlencode($key).'='.rawurlencode($params[$key]);
+    }
+
+    $digest = hash('sha256', $string_to_sign, true);
+    $signature = ereg_replace('=+$', '', trim(base64_encode($digest)));
+    $url .= '&amp;signature='.rawurlencode($signature);
+
+    print "$url\n";
+
+    return file_get_contents($url);
+  }
+}
+
+// A few examples
+$liveContent = OoyalaBacklotAPI::query(array('status' =&gt; 'live'));
+
+$lifetimeStats = OoyalaBacklotAPI::query(array('statistics' =&gt; '1d,2d,7d,28d,30d,31d,lifetime', 'status' =&gt; 'live'));
+
+$allTrailers = OoyalaBacklotAPI::query(array('label[0]' =&gt; 'trailers'));
+
+$specificVideo = OoyalaBacklotAPI::query(array('embedCode' =&gt; 'plajrfuW5PS5rgc-kuc9ZWtFtdnYpfiK'));
+
+
+$thumbnails = OoyalaBacklotAPI::query_thumbnails(array('embedCode' =&gt; 'plajrfuW5PS5rgc-kuc9ZWtFtdnYpfiK','range' =&gt;
+'0-99', 'resolution' =&gt; '320x240'));
+
+
+$titleAndPause = OoyalaBacklotAPI::update(array('title' =&gt; 'updated title', 'status' =&gt; 'paused', 'embedCode' =&gt;
+'dhbjM6U-1s7YkieEwJRepTrYiPed8dPe'));
+
+$hostedAt = OoyalaBacklotAPI::update(array('hostedAt' =&gt; 'http://www.ooyala.com/backlot', 'embedCode' =&gt;
+'dhbjM6U-1s7YkieEwJRepTrYiPed8dPe'));
+
+
+$metaAssign = OoyalaBacklotAPI::metadata(array('metaMode' =&gt; 'add', 'embedCode' =&gt; 'dhbjM6U-1s7YkieEwJRepTrYiPed8dPe',
+'type' =&gt; 'drama'));
+
+$metaSearch = OoyalaBacklotAPI::metadata(array('metaMode' =&gt; 'query', 'embedCode' =&gt;
+'dhbjM6U-1s7YkieEwJRepTrYiPed8dPe'));
+
+
+$labelClear = OoyalaBacklotAPI::labels(array('mode' =&gt; 'clearLabels', 'embedCodes' =&gt;
+'A5bjM6ugPkLWOxmmXxgk6fjJ22Kn60dw'));
+
+?&gt;
+</pre>
+
+     
+     <p class="p">Ruby</p>
+
+     <pre class="pre codeblock">
+require "rubygems"
+
+require "base64"
+require "cgi"
+require "digest/sha2"
+require "open-uri"
+
+
+module Ooyala
+  module Backlot
+    module API
+
+      # You can find your Partner and Secret codes under the Developers
+      # area of the Backlot Account tab
+      OOYALA_PARTNER_CODE = "&lt;Your Partner Code&gt;"
+      OOYALA_SECRET_CODE = "&lt;Your Secret Code&gt;"
+
+      def self.query(params)
+        return send_request("query", params)
+      end
+
+      def self.query_thumbnails(params)
+        return send_request("thumbnails", params)
+      end
+
+      def self.update(params)
+        return send_request("edit", params)
+      end
+
+      def self.labels(params)
+        return send_request("labels", params)
+      end
+
+      def self.metadata(params)
+        return send_request("metadata", params)
+      end
+
+      private
+
+      def self.send_request(request_type, params)
+
+        # Add an expire time of 15 minutes unless otherwise specified
+        params["expires"] ||= (Time.now.to_i + 10).to_s
+
+        string_to_sign = OOYALA_SECRET_CODE
+        url = "http://api.ooyala.com/partner/#{request_type}?pcode=#{OOYALA_PARTNER_CODE}"
+
+        params.keys.sort.each do |key|
+          string_to_sign += "#{key}=#{params[key]}"
+          url += "&amp;#{CGI.escape(key)}=#{CGI.escape(params[key])}"
+        end
+
+        digest = Digest::SHA256.digest(string_to_sign)
+        signature = Base64::encode64(digest).chomp.gsub(/=+$/, '')
+
+        url += "&amp;signature=#{CGI.escape(signature)}"
+        return open(url).readlines
+      end
+    end
+  end
+end
+
+
+# A few examples:
+
+liveContent = Ooyala::Backlot::API::query("status" =&gt; "live")
+
+lifetimeStats = Ooyala::Backlot::API::query(
+  "statistics" =&gt; "1d,2d,7d,28d,30d,31d,lifetime",
+  "status" =&gt; "live")
+
+allTrailers = Ooyala::Backlot::API::query("label[0]" =&gt; "trailers")
+
+specificVideo = Ooyala::Backlot::API::query("embedCode" =&gt; "plajrfuW5PS5rgc-kuc9ZWtFtdnYpfiK")
+
+thumbnails = Ooyala::Backlot::API::query_thumbnails(
+  "embedCode" =&gt; "plajrfuW5PS5rgc-kuc9ZWtFtdnYpfiK",
+  "range" =&gt; "0-99",
+  "resolution" =&gt; "320x240")
+
+titleAndPause = Ooyala::Backlot::API::update(
+  "title" =&gt; "updated title",
+  "status" =&gt; "paused",
+  "embedCode" =&gt; "dhbjM6U-1s7YkieEwJRepTrYiPed8dPe");
+
+hostedAt = Ooyala::Backlot::API::update(
+  "hostedAt" =&gt; "http://www.ooyala.com/backlot",
+  "embedCode" =&gt; "dhbjM6U-1s7YkieEwJRepTrYiPed8dPe");
+
+
+metaAssign = Ooyala::Backlot::API::metadata(
+  "metaMode" =&gt; "add",
+  "embedCode" =&gt; "dhbjM6U-1s7YkieEwJRepTrYiPed8dPe",
+  "type" =&gt; "drama");
+
+metaSearch = Ooyala::Backlot::API::metadata(
+  "metaMode" =&gt; "query",
+  "embedCode" =&gt; "dhbjM6U-1s7YkieEwJRepTrYiPed8dPe");
+
+
+labelClear = Ooyala::Backlot::API::labels(
+  "mode" =&gt; "clearLabels",
+  "embedCodes" =&gt; "A5bjM6ugPkLWOxmmXxgk6fjJ22Kn60dw");
+</pre>
+
+     
+     
+   
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1.html" title="This version of the Backlot API is deprecated. We strongly recommend that any new development work occurs on Version 2 of our APIs. For information about using our V2 APIs, go to the Developer Documentation section of the Ooyala Support Center.">Ooyala Backlot API Reference V1 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

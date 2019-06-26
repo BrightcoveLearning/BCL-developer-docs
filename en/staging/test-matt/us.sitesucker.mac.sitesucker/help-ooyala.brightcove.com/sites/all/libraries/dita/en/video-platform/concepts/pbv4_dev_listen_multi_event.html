@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Listening to Multiple Message Bus Events"/>
+<meta name="abstract" content="You can use the message bus to listen to multiple events."/>
+<meta name="description" content="You can use the message bus to listen to multiple events."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_dev_eventmodel.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/pbv4_dev_pubsub.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/pbv4_dev_mbapi.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/pbv4_dev_listenevent.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_dev_listen_multi_event"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Listening to Multiple Message Bus Events</title>
+</head>
+<body id="pbv4_dev_listen_multi_event">
+
+
+ <h1 class="title topictitle1"> Listening to Multiple Message Bus Events</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">You can use the message bus to listen to multiple events.</p>
+
+  <div class="section"> The following is a complete example that illustrates how to use the message bus to
+    listen for multiple events.<p class="p">To develop the <samp class="ph codeph">head</samp> element
+      and the logic for presenting and creating the Player, see <a class="xref" href="../reference/pbv4_web_tutorial.html#pbv4_web_tutorial">Basic Tutorial for Player V4</a>. </p>
+<p class="p">To learn
+        about event handling, see <a class="xref" href="pbv4_dev_eventmodel.html#pbv4_dev__eventmodel" title="Player V4 incorporates the use of a message bus to handle events.">Event Model for Player V4</a>. For a list of all events, see the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/player_v4_js/index.html" target="_blank">Player JavaScript API Reference</a>.</p>
+</div>
+
+   <div class="section"> In this example, you will learn how to use the
+     <samp class="ph codeph">onCreate()</samp> function to handle events related to the playing of a video. In
+     this advanced application, the user plays a video, and the event handlers determine when the
+     video has finished playing. At that point, the event handler destroys the player and displays
+     a message to the user. <div class="p">The purpose of this web page is to monitor and respond to
+       downloading, playhead time changes, and played events, so the design will include: <ul class="ul" id="pbv4_dev_listen_multi_event__ul_omg_t13_pr">
+         <li class="li">A <samp class="ph codeph">head</samp> element containing a <samp class="ph codeph">script</samp> tag specifying
+           the loading and initialization request.</li>
+
+         <li class="li">A <samp class="ph codeph">body</samp> element containing:<ul class="ul" id="pbv4_dev_listen_multi_event__ul_pjc_xgf_qr">
+           <li class="li">UI presentation and layout for the Player container.</li>
+
+           <li class="li">Event listeners that monitor and respond to downloading, playhead time changes,
+             and played events.</li>
+
+           <li class="li">A <samp class="ph codeph">script</samp> tag that creates the Player.</li>
+
+         </ul>
+</li>
+
+       </ul>
+</div>
+</div>
+<div class="section"><div class="p">Follow these steps to build your web page:<ul class="ul">
+         <li class="li"><a class="xref" href="#pbv4_dev_listen_multi_event__section_svc_n3s_fv">Step 1: Listening to Multiple Events</a></li>
+
+         <li class="li"><a class="xref" href="#pbv4_dev_listen_multi_event__section_egy_l3s_fv">Step 2: Destroying the Player</a></li>
+
+       </ul>
+</div>
+<p class="p">See <a class="xref" href="#pbv4_dev_listen_multi_event__section_o3x_k3s_fv">Complete Example</a> to view the code for the entire web page.</p>
+</div>
+
+   <div class="section" id="pbv4_dev_listen_multi_event__section_svc_n3s_fv"><h2 class="title sectiontitle">Step 1: Listening to Multiple Events</h2>
+      
+      <div class="p">Sometimes it is useful to listen and respond to multiple events at once. One way to do this
+        is to subscribe to all events. The <a class="xref" href="pbv4_dev_eventmodel.html#pbv4_dev__eventmodel" title="Player V4 incorporates the use of a message bus to handle events.">Event Model for Player V4</a> provides you
+        with a message bus, accessed via the created Player object's <span class="keyword apiname">mb</span> object.
+        In this case we will use the message bus <span class="keyword apiname">subscribe()</span> function specifying
+        a wildcard (<samp class="ph codeph">"*"</samp>) for the event
+        name:<pre class="pre codeblock">          function onCreate(player) {
+          
+            /* Subscribe to all events: 
+             * this allows you to create logic based on multiple events. */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+            });
+          }</pre>
+</div>
+
+      <div class="p">Now that we are listening for every possible event, we can include logic based on multiple
+        events within the callback function via its <span class="keyword parmname">eventName</span> parameter. In
+        this example we write all events, except for downloading and playhead time changed events
+          (<span class="keyword apiname">OO.EVENTS.DOWNLOADING</span> and
+          <span class="keyword apiname">OO.EVENTS.PLAYHEAD_TIME_CHANGED</span> ), to the JavaScript console
+        log:<pre class="pre codeblock">          function onCreate(player) {
+          
+           /*
+            * Subscribe to all events:
+            * this allows you to create logic 
+            * based on multiple events.
+            */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+              /* Write all events, except for downloading and playhead time changed events, 
+               * to the JavaScript console: */ 
+              if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                  eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                console.log(eventName);
+            });
+          }</pre>
+</div>
+
+    </div>
+
+   <div class="section" id="pbv4_dev_listen_multi_event__section_egy_l3s_fv"><h2 class="title sectiontitle">Step 2: Destroying the Player</h2>
+      
+      <div class="p">Once the video has finished playing, we would like to properly destroy the player and
+        dispose of its resources. To do this we listen for the <span class="keyword apiname">OO.EVENTS.PLAYED</span>
+        event:<pre class="pre codeblock">            /* Subscribe to the PLAYED event, 
+             * which only occurs when the video has finished playing: */
+            player.mb.subscribe(OO.EVENTS.PLAYED , 'example', function(eventName) { 
+
+            });</pre>
+</div>
+
+      <div class="p">To destroy the player and dispose of its associated resources, call the Ooyala V3 Player
+        object's <span class="keyword apiname">destroy()</span>
+        method:<pre class="pre codeblock">            /* Subscribe to the PLAYED event, 
+             * which only occurs when the video has finished playing: */
+            player.mb.subscribe(OO.EVENTS.PLAYED , 'example', function(eventName) { 
+
+              /* Destroy the player and properly dispose of its resources: */
+              player.destroy();
+              
+              /* Notify the user: */
+              alert('The player has been destroyed!');
+            });
+</pre>
+</div>
+
+      <div class="note note"><span class="notetitle">Note:</span> In iOS you can only have one HTML5 player running at a time on a web page. You can call
+        the Ooyala V3 Player object's <span class="keyword apiname">destroy()</span> method to ensure a player does
+        not prevent the playback of another video in a different player on the page.</div>
+
+      <div class="p">Here is the completed <samp class="ph codeph">onCreate()</samp>
+        function:<pre class="pre codeblock">          function onCreate(player) {
+          
+           /*
+            * Subscribe to all events:
+            * this allows you to create logic 
+            * based on multiple events.
+            */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+              /* Write all events, except for downloading and playhead time changed events, 
+               * to the JavaScript console: */ 
+              if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                  eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                console.log(eventName);
+            });
+
+            /* Subscribe to the PLAYED event, 
+             * which only occurs when the video has finished playing: */
+            player.mb.subscribe(OO.EVENTS.PLAYED , 'example', function(eventName) { 
+
+              /* Destroy the player and properly dispose of its resources: */
+              player.destroy();
+              
+              /* Notify the user: */
+              alert('The player has been destroyed!');
+            });
+          }
+</pre>
+</div>
+
+    </div>
+
+   <div class="section" id="pbv4_dev_listen_multi_event__section_o3x_k3s_fv"><h2 class="title sectiontitle">Complete Example</h2>
+      
+      <p class="p">You now have a complete working example of a web page that responds to multiple events when
+        the user plays a video. The event handlers determine when the video has finished playing, at
+        which point the player is destroyed and a confirmation message is displayed to the user:</p>
+
+      <pre class="pre codeblock">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel="stylesheet" href="url_where_hosted/skin-plugin/html5-skin.min.css"/&gt;
+        &lt;script language="javascript" src="url_where_hosted/core.min.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="url_where_hosted/video-plugin/main_html5.min.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="url_where_hosted/skin-plugin/html5-skin.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;b&gt;Destroy Player Example&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;
+        &lt;div id='container' style='width:640px;height:480px'&gt;&lt;/div&gt;
+
+        &lt;script&gt;
+          function onCreate(player) {
+          
+            /* Subscribe to all events: 
+             * this allows you to create logic based on multiple events. */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+              /* Write all events, except for downloading and playhead time changed events, 
+               * to the JavaScript console: */ 
+              if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                  eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                console.log(eventName);
+            });
+
+            /* Subscribe to the PLAYED event, 
+             * which only occurs when the video has finished playing: */
+            player.mb.subscribe(OO.EVENTS.PLAYED , 'example', function(eventName) { 
+
+              /* Destroy the player and properly dispose of its resources: */
+              player.destroy();
+              
+              /* Notify the user: */
+              alert('The player has been destroyed!');
+            });
+          }
+            
+            OO.ready(function() {
+                     window.pp = OO.Player.create('container', 'YOUR_ASSET_ID', {
+                                                    "playerBrandingId":"YOUR_PLAYER_ID",
+                                                    "pcode": "YOUR_PCODE",
+                                                    skin: {
+                                                      config: "url_where_hosted/skin-plugin/skin.json",
+                                                    },
+                                                    onCreate : window.onCreate
+                                                  });
+                     
+                     });
+        &lt;/script&gt;
+        
+    &lt;/body&gt;
+&lt;/html&gt;   
+   </pre>
+
+    </div>
+
+ </div>
+
+  <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_dev_eventmodel.html" title="Player V4 incorporates the use of a message bus to handle events.">Event Model for Player V4</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../reference/pbv4_dev_pubsub.html" title="You can publish and subscribe to messages for event handling.">Event Publish and Subscribe</a></div>
+<div><a class="link" href="../reference/pbv4_dev_mbapi.html" title="Communicate with the message bus using publish, subscribe, and other functions.">Message Bus API</a></div>
+<div><a class="link" href="../reference/pbv4_dev_listenevent.html" title="You can use the message bus to listen to a single event or multiple events.">Listening to a Message Bus Event</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -2813,6 +2813,101 @@
             <h1 class="title topictitle1">Mobile SDK for iOS Release Notes</h1>
 
             <div class="body conbody">
+                <div class="section" id="mobile_sdk_ios_release_notes__mobilesdk_ios_rnotes_4450"><h2 class="title sectiontitle">4.46.0 Released 2019-06-27</h2>
+
+                    <p class="p">This release introduces new features and fixes previous issues.</p>
+
+                    <p class="p"><strong class="ph b">Compatibilities with this Release</strong></p>
+
+                    <div class="p">This release was tested for compatibility with the following integrations:
+                        <ul class="ul">
+                            <li class="li">Google IMA 3.9.0</li>
+
+                            <li class="li"><a class="xref" href="https://github.com/ooyala/chromecast-sample-receiver/blob/4.32.8/receiver.html" target="_blank">Ooyala Chromecast Receiver 4.32.8</a> (<a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/concepts/pbv4_release_notes.html" target="_blank">production/latest</a>) and <a class="xref" href="https://github.com/ooyala/chromecast-sample-receiver/blob/4.31.17/receiver.html" target="_blank">Ooyala Chromecast Receiver 4.31.17</a> (<a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/concepts/pbv4_release_notes.html" target="_blank">production</a>).</li>
+
+                            <li class="li">Chromecast Sender version: <a class="xref" href="https://developers.google.com/cast/docs/reference/" target="_blank">Google Cast iOS SDK 4.3.5.13</a></li>
+
+                            <li class="li">React Native v0.59.4 (bundled in Ooyala Skin SDK) - see <a class="xref" href="https://facebook.github.io/react-native/versions" target="_blank">https://facebook.github.io/react-native/versions</a> for more information.</li>
+                            <li class="li">NielsenAppApi framework v6.2.0.0.</li>
+
+                        </ul>
+        </div>
+
+                    <p class="p"><strong class="ph b">New in this Release</strong></p>
+
+                    <ul class="ul">
+                        <li class="li"><p class="p"><strong class="ph b">Add new QoS and Ad Events for Android SDK</strong></p>
+
+                            <p class="p">New analytics events added (QoS and Ad Events) to IQ tracking</p>
+                        </li>
+                        <li class="li"><p class="p"><strong class="ph b">Add error logging to IQ dataset</strong></p>
+
+                          <p class="p">Play Failures are registered upon the player initialization, before being able to join the stream. All error types (API and Client) are posted into IQ as custom data.</p>
+                          <p class="p">Play failure:</p>
+                          <ul class="ul">
+                            <li class="li"><code>event = "apiError"</code> </li>
+                            <li class="li"><code>eventMetadata = {qosEventName, playerCoreVersion, errorCode, errorMessage, url}</code></li>
+                          </ul>
+                          </li>
+                          <li class="li"><p class="p"><strong class="ph b">Configuration option added to disable pause on app backgrounding</strong></p>
+
+                              <p class="p">A configuration option for the iOS SDK added to enable no pausing on backgrounding. This new configuration overrides the default behavior, which is the current pause on backgrounding behavior.</p>
+
+                              <p class="p">With this new configuration enabled, pressing the HOME button will not pause the video/audio stream, but rather continue playing the audio in the background. The lock screen controls can then be used to control playback, as well as returning to the application.</p>
+                              <p class="p">The background mode is enabled by using the following option in BasicSimplePlayerViewController (example can be found BasicPlaybackSampleApp) to send this value into iOS SDK</p>
+<pre class="line-numbers"><code class="language-objectivec">options.backgroundMode = OOBackgroundPlaybackModeAllowed;</code></pre>
+<p class="p">To disable the feature use the following line (it is a default value)</p>
+<pre class="line-numbers"><code class="language-objectivec">options.backgroundMode = OOBackgroundPlaybackModeDenied;</code></pre>
+                          </li>
+                          <li class="li"><p class="p"><strong class="ph b">Move from Mirroring to Casting</strong></p>
+                            <p class="p">Before these changes the Ooyala iOS SDK mirrored when connecting via AirPlay. That implementation was changed to stream only to the connected screen.</p>
+                          </li>
+                          <li class="li"><p class="p"><strong class="ph b">Enable stream start tracking with GDPR tracking level is 'Disabled' </strong></p>
+                            <p class="p">Before these changes, the GDPR <code>trackingLevel</code> set to 'disabled' value resulted in no data being sent to IQ. However, since IQ was needed for billing customers on a per-stream usage basis, this value allowed customers to be under-billed.</p>
+                            <p class="p">With these changes when the <code>trackingLevel</code> is set to 'disabled', IQ still receives and logs play request and play start events for the associated Asset ID. GDPR flag is now added to the IQ query AND on the Message Bus/Analytics Framework.</p>
+                          </li>
+                        </ul>
+                    <p class="p"><strong class="ph b">Fixed in this Release</strong></p>
+
+                    <ul class="ul">
+                        <li class="li">Fixed an issue when it was impossible to pause Ad in IMA.</li>
+
+                        <li class="li">Fixed an issue when <em>Play/Pause </em>button state was not shown .</li>
+
+                        <li class="li">Fixed an issue where, For IMA/Freewheel assets, the Ooyala Player displays an error message for a few seconds before loading the asset.</li>
+
+                    </ul>
+
+                    <p class="p"><strong class="ph b">Known Issues in this Release</strong></p>
+
+                    <ul class="ul">
+                        <li class="li">Unable to pause Ad in IMA in IMA sample app.</li>
+
+                        <li class="li">Chapter Marker is partly cut on selection when the marker position is close to the beginning/end of asset duration.</li>
+
+                        <li class="li">Cue points are displayed and Ads are played when the asset is replayed.</li>
+
+                        <li class="li">Postroll Ads freeze and then resume playback after the Ad’s original duration when the <samp class="ph codeph">PlaybackSpeed</samp> rate is set to <samp class="ph codeph">&gt; 1x</samp>.</li>
+
+                        <li class="li">Assets cannot be replayed during Airplay.</li>
+
+                        <li class="li">When using Chromecast, Play/Pause UI state may not synchronize button state properly in <samp class="ph codeph">PlayerView</samp> screen when tapped, after switching from <samp class="ph codeph">MediaListView</samp> to <samp class="ph codeph">PlayerView</samp> screen.</li>
+
+                        <li class="li">Replay icon is not available with VR 360 videos in landscape mode.</li>
+
+                        <li class="li">Users are unable to Pause/Play DASH DRM Live Channel using the Mini-Controller in the Cast menu pop-up.</li>
+
+                        <li class="li">Assets with Closed Captions with Fairplay DRM may have issues with seeking to the end of the video.</li>
+
+                        <li class="li">For IMA/Freewheel assets, the Ooyala Player displays an error message for a few seconds before loading the asset.</li>
+
+                        <li class="li">In this release, there is an intermittent issue with replaying assets when using Chromecast.</li>
+
+                        <li class="li">Syndication error (<samp class="ph codeph">unauthorized location error</samp>) messages are not correctly displayed.</li>
+
+                    </ul>
+
+                </div>
                 <div class="section" id="mobile_sdk_ios_release_notes__mobilesdk_ios_rnotes_4450"><h2 class="title sectiontitle">4.45.0 Released 2019-05-08</h2>
 
                     <p class="p">This release introduces new features and fixes previous issues.</p>

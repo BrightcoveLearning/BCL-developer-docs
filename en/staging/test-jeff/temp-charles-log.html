@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Begin Drupal Taxonomy Data -->
+    <meta name="products" content="Video Cloud, Brightcove Player">
+    <meta name="role" content="Device SDK Developer">
+    <meta name="task" content="Develop with the Native SDKs">
+    <meta name="topic" content="Troubleshooting/Error Handling">
+    <meta name="sdk" content="iOS,tvOS,Android">
+    <meta name="keywords" content="device,SDK,FAQ">
+    <!-- End Drupal Taxonomy Data -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Creating a Charles Log</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Creating a Charles Log</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to create and save a Charles log. This can be helpful when working with support, and they may ask you to send the log to them.</p>
+      <!-- <aside class="bcls-aside bcls-aside--warning">The React Player Loader is an open source tool and is NOT officially supported by Brightcove.</aside> -->
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section" id="top">
+<p>&nbsp;</p>
+
+<p>Charles is a web proxy that runs on your computer and allows you to record data that is sent and received between your web browser and the server. Using Charles makes it easy to diagnose and fix problems. For details, see the <a href="https://www.charlesproxy.com/">Charles web proxy</a> site.</p>
+
+<aside class="bcls-aside bcls-aside--information">When using Charles, close as many applications as possible and close all unnecessary browser windows to limit the amount of information that is captured by Charles.</aside>
+</section>
+<!-- <section id="Video_overview" class="bcls-section">
+        <h2>Video overview</h2>
+        <p>The following video shows the process of creating the network log. Following the video, the process is shown in a step-by-step format.</p>
+        <iframe src="//players.brightcove.net/20318290001/E16-WGGOe_default/index.html?videoId=5285320772001"
+          allowfullscreen
+          webkitallowfullscreen
+          mozallowfullscreen
+          width="640"
+          height="360"></iframe>
+      </section> -->
+
+<section class="bcls-section">
+<h2 id="Steps_to_create_a_Charles_log">Steps to create a Charles log</h2>
+
+<p>The following steps lead you through using the Charles web proxy to create a recorded log.</p>
+
+<ol class="bcls-tasklist">
+	<li>
+	<p><a href="//www.charlesproxy.com/download/">Download</a> and install Charles on your machine. Charles is compatible with Windows, Mac and Linux. For platform specific details about installing Charles, see the <a href="https://www.charlesproxy.com/documentation/installation/">Charles Installation</a> notes.</p>
+
+	<p>If you are using Firefox, you should be prompted to install the <a href="https://addons.mozilla.org/en-US/firefox/addon/charles-proxy/">Add-on for Firefox</a>.</p>
+	</li>
+	<li>On your computer, run <strong>Charles</strong>. From the menu, select <strong>Proxy &gt; Proxy Settings</strong>. Ensure a port has been assigned (e.g., 8888) and the <strong>Enable transparent HTTP proxying</strong> option is selected.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Proxy settings" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/proxy-settings.png" />
+	<figcaption class="bcls-caption--image">Proxy settings</figcaption>
+	</figure>
+	</li>
+	<li>Select <strong>OK</strong> to save changes and close the dialog.</li>
+	<li>Install the Charles SSL certificate. From the menu, select <strong>Help &gt; SSL Proxying &gt; Install Charles Root Certificate</strong>.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Install Charles SSL certificate" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/ssl-certificate.png" />
+	<figcaption class="bcls-caption--image">Install Charles SSL certificate</figcaption>
+	</figure>
+	</li>
+	<li>In the <strong>Add Certificate</strong> dialog, select <strong>Add</strong>.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Add Charles SSL certificate" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/ssl-certificate-add.png" />
+	<figcaption class="bcls-caption--image">Add Charles SSL certificate</figcaption>
+	</figure>
+  <li>
+    <p>
+      <strong>Keychain Access</strong> will open. From the certificate list, find the <strong>Charles Proxy...</strong> certificate. Double click on it to see detailed information.
+    </p>
+    <aside class="bcls-aside bcls-aside--tip">If you are not using macOS, see the <a href="https://www.charlesproxy.com/documentation/using-charles/ssl-certificates/">Charles documentation</a> for details about SSL certificates.</aside>
+    <figure class="bcls-figure"><img class="bcls-image" alt="Keychain Access" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/keychain-access.png" />
+  	<figcaption class="bcls-caption--image">Keychain Access</figcaption>
+  	</figure>
+  </li>
+  <li>
+    Expand the <strong>Trust</strong> section. For the <strong>When using this certificate</strong> option, select <strong>Always trust</strong>.
+    <figure class="bcls-figure"><img class="bcls-image" alt="Trust certificate" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/certificate-trust.png" />
+  	<figcaption class="bcls-caption--image">Trust certificate</figcaption>
+  	</figure>
+  </li>
+  <li>
+    Close the certificate window and enter your Admin password to update settings.
+  </li>
+	</li>
+	<li>Enable SSL proxying in Charles. From the menu, select <strong>Proxy &gt; SSL Proxy Settings</strong>. Ensure the <strong>Enable SSL Proxying</strong> option is selected. In the <strong>Location</strong> section, select the <strong>Add</strong> button.
+	<figure class="bcls-figure"><img class="bcls-image" alt="SSL Proxy settings" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/ssl-proxy-settings.png" />
+	<figcaption class="bcls-caption--image">SSL Proxy settings</figcaption>
+	</figure>
+	</li>
+	<li>In the <strong>Edit Location</strong> dialog, navigate to the <strong>Port</strong> field and enter <strong>443</strong>. Select <strong>OK</strong> to save this change.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Location port 443" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/port-443.png" />
+	<figcaption class="bcls-caption--image">Location port 443</figcaption>
+	</figure>
+	</li>
+	<li>Select <strong>OK</strong> to close the <strong>Edit Location</strong> dialog.
+	<figure class="bcls-figure"><img class="bcls-image" alt="SSL settings with location" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/ssl-settings-location.png" />
+	<figcaption class="bcls-caption--image">SSL settings with location</figcaption>
+	</figure>
+	</li>
+	<li>Select <strong>OK</strong> to exit the <strong>SSL Proxying Settings</strong> dialog.</li>
+	<li>It's recommended that you restart your computer at this point to make sure that Charles picks up the new certificate settings.</li>
+	<li>Keep Charles open while you do the next steps.</li>
+	<li>Paste the URL to the page that contains the Brightcove Player you are troubleshooting into the browser's address bar, and then press <strong>Enter</strong> to load the page.</li>
+	<li>Run through the steps you previously used to reproduce the error or issue. Charles will automatically record what is happening.</li>
+	<li>If network traffic is needed for when the player is playing a video, start the video.</li>
+  <li>
+    After reproducing the error, return to Charles. Select the <strong>Structure</strong> view and find the URL for your player.
+  </li>
+	<li> Select <strong>Stop Recording</strong>.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Charles stop recording" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/charles-stop-recording.png" />
+	<figcaption class="bcls-caption--image">Charles stop recording</figcaption>
+	</figure>
+	</li>
+	<li>Save the current session in a file.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Charles save session" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/charles-save-session.png" />
+	<figcaption class="bcls-caption--image">Charles save session</figcaption>
+	</figure>
+	</li>
+	<li>Email the Charles session file to the appropriate support personnel.</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Add_Akamai_headers">Add Akamai headers</h2>
+<p>
+  In this section, you will learn how to add Akamai headers to your requests.
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+
+  </li>
+</ol>
+
+</section>
+</article>
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

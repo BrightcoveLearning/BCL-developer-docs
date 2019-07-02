@@ -2,14 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Begin Drupal Taxonomy Data -->
-    <meta name="products" content="Video Cloud, Brightcove Player">
-    <meta name="role" content="Device SDK Developer">
-    <meta name="task" content="Develop with the Native SDKs">
-    <meta name="topic" content="Troubleshooting/Error Handling">
-    <meta name="sdk" content="iOS,tvOS,Android">
-    <meta name="keywords" content="device,SDK,FAQ">
-    <!-- End Drupal Taxonomy Data -->
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
@@ -113,7 +105,6 @@
   <li>
     Close the certificate window and enter your Admin password to update settings.
   </li>
-	</li>
 	<li>Enable SSL proxying in Charles. From the menu, select <strong>Proxy &gt; SSL Proxy Settings</strong>. Ensure the <strong>Enable SSL Proxying</strong> option is selected. In the <strong>Location</strong> section, select the <strong>Add</strong> button.
 	<figure class="bcls-figure"><img class="bcls-image" alt="SSL Proxy settings" src="//learning-services-media.brightcove.com/doc-assets/concepts/mobile-debugging/ssl-proxy-settings.png" />
 	<figcaption class="bcls-caption--image">SSL Proxy settings</figcaption>
@@ -159,7 +150,53 @@
 </p>
 <ol class="bcls-tasklist__restart">
   <li>
+    From the main Charles window, select <strong>Tools</strong> and then <strong>Rewrite</strong>.
+    <figure class="bcls-figure"><img class="bcls-image" alt="Tools Rewrite" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/tools-rewrite.png" />
+  	<figcaption class="bcls-caption--image">Tools Rewrite</figcaption>
+  	</figure>
+  </li>
+  <li>
+    In the <strong>Rewrite Settings</strong> dialog, select <strong>Enable Rewrite</strong>.
+  </li>
+  <li>
+    Add a new Set called <strong>Akamai Headers</strong>.
+    <figure class="bcls-figure"><img class="bcls-image" alt="Add header" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/add-header.png" />
+  	<figcaption class="bcls-caption--image">Add header</figcaption>
+  	</figure>
+  </li>
+  <li>
+    Add a new Rule.
+    <figure class="bcls-figure"><img class="bcls-image" alt="Add rule" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/add-rule.png" />
+  	<figcaption class="bcls-caption--image">Add rule</figcaption>
+  	</figure>
+  </li>
+  <li>
+    <p>
+      In the <strong>Rewrite Rule</strong> dialog, select a <strong>type</strong> of <strong>Add Header</strong>.
+    </p>
+  </li>
+  <li>
+    <p>
+      In the <strong>New</strong> section, add the following:
+    </p>
+    <p>
+      <strong>Name:</strong> <code>Pragma</code>
+    </p>
+    <p>
+      <strong>Value:</strong>
+      </p>
+      <pre>
+<code class="language-xml">akamai-x-get-request-id, akamai-x-cache-on, akamai-x-cache-remote-on,
+akamai-x-check-cacheable, akamai-x-get-cache-key, akamai-x-get-extracted-values,
+akamai-x-get-nonces, akamai-x-get-ssl-client-session-id, akamai-x-get-true-cache-key,
+akamai-x-serial-no</code></pre>
 
+    <figure class="bcls-figure"><img class="bcls-image" alt="Add rule details" src="//learning-services-media.brightcove.com/doc-assets/concepts/debugging/add-rule2.png" />
+  	<figcaption class="bcls-caption--image">Add rule details</figcaption>
+  	</figure>
+  </li>
+  <li>
+    Select <strong>OK</strong>, and then <strong>OK</strong>.
   </li>
 </ol>
 

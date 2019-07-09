@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2019"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2019"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Chapter Markers"/>
+<meta name="abstract" content="Chapter Markers provide markers on the player timeline to allow viewers to easily move to different sections of the video."/>
+<meta name="description" content="Chapter Markers provide markers on the player timeline to allow viewers to easily move to different sections of the video."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/book_social_media_integration.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/twitter_ssl.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/twitter_basics.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_tframe.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chapter_external_ids"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Chapter Markers</title>
+</head>
+<body id="chapter_external_ids">
+
+
+ <h1 class="title topictitle1">Chapter Markers</h1>
+
+ 
+ <div id="block-system-main" class="block block-system">
+
+
+  <div class="content">
+    <div class="dita-content">
+      <div class="body conbody">
+        <div class="section">
+          <span class="ph">Chapter Markers provide markers on the player timeline to allow viewers to easily move to different sections of the video.</span>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Overview of Document</h2>
+          <p class="p">This document covers:</p>
+          <ul class="ul">
+            <li class="li">What Chapter Markers (also known as Timeline markers) are used for.</li>
+            <li class="li">
+              <p class="p">How to use Chapter Markers with the Ooyala player, including:</p>
+              <ul class="ul">
+                <li class="li">The chapter marker file format (Ooyala-specific and custom)</li>
+                <li class="li">Setting up Chapter Markers:
+                  <ul class="ul">
+                    <li class="li">File Ingestion</li>
+                    <li class="li">Player Configuration</li>
+                    <li class="li">Player Options</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="li">Supported Environments for Chapter Markers</li>
+            <li class="li">Measuring impact of Chapter Markers on end-user behavior</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Overview of Feature</h2>
+          <p class="p">Chapter Markers are useful with long-form content (such as full game replays) where the user wants to skip quickly to the good parts. Chapter/Timeline markers allow the users to know when the good parts are in the video’s timeline, and allow a one-click navigation right to that particular event.</p>
+          <p class="p">Its name comes from another use-case, where educational content would be broken into sections, but stored as a single, long-form video. This then enables the end-user to jump to specific chapters in the timeline that cover their specific areas of interest.</p>
+          <figure style="text-align:center;">
+            <img src="https://docs.brightcove.com/apidocs-ooyala/img/chapter-markers.png" alt="Chapter Markers">
+            <legend>Chapter Markers</legend>
+          </figure>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Support Player Environments for Chapter Markers</h2>
+          <p class="p">In general, Chapter Markers is a feature that can only supported where the Ooyala Skin is used.</p>
+          <h3 class="h3">Web</h3>
+          <p class="p">Supported when using the Ooyala HTML5 Player Skin. This then includes all supported browser environments with the exception of iOS devices when in full-screen mode (where layering of the Ooyala Player skin is not allowed by the iOS browser environment).</p>
+          <h3 class="h3">App SDKs</h3>
+          <h4>Android</h4>
+          <p class="p">Ooyala Skin SDK Only (not supported for the native/default player skinning)</p>
+          <h4>iOS</h4>
+          <p class="p">Ooyala Skin SDK Only (not supported for the native/default player skinning)</p>
+          <h4>Chromecast</h4>
+          <p class="p">Unsupported in this release (may work, but has not been tested)</p>
+          <h4>Android Fire TV SDK</h4>
+          <p class="p">Unsupported in this release (may work, but has not been tested)</p>
+          <h4>ATVoS SDK</h4>
+          <p class="p">Unsupported in this release</p>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Supported Streaming Formats</h2>
+          <p class="p">Streaming formats (HLS, DASH, etc.) are expected to have no effect/impact on chapter markers, and is expected that all supported streaming formats will work with the Chapter Markers feature. </p>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Unsupported Features with Chapter Markers</h2>
+          <h3 class="h3">Ooyala SSAI</h3>
+          <p class="p">Ooyala SSAI cannot be used with Chapter Markers. This is because SSAI alters the video timeline, making them custom and varied, and cannot be matched with a static Chapter Marker file that defines points of interest in a timeline that is no longer consistent between users.</p>
+          <h3 class="h3">Live Assets</h3>
+          <p class="p">Ooyala Live will not be supported with Chapter Markers in the MVP release. Supporting Live content requires being able to dynamically update and read the changing chapter marker file, which will not be supported initially.</p>
+          <h3 class="h3">DTO (Offline Content)</h3>
+          <p class="p">For downloaded content, Chapter Markers are not supported in the initial release.</p>
+          <h3 class="h3">Audi-Only</h3>
+          <p class="p">Chapter markers will not be supported for audio-only streams.</p>
+          <h3 class="h3">VR</h3>
+          <p class="p">For monoscopic streams Chapter Markers are supported but for stereoscopic streams player will not support.</p>
+        </div>
+
+        <div class="section">
+          <h2 class="title sectiontitle">Management of Chapter Marker Files</h2>
+          <h3 class="h3">Generation of Chapter Marker JSON Files</h3>
+          <p class="p">Chapter Marker files are a custom format defined by Ooyala. Ooyala does not have a utility for generating chapter markers as part of the Ooyala OVP stack. Therefore, you will need to manually create the JSON file output needed for generating the chapter file.</p>
+          <h3 class="h3">JSON File Format</h3>
+          <p class="p">The commented code below provides a guide to creating the Chapter Markers JSON as a stand-along file or as part of skin.json:</p>
+<pre><code>/*
+The main object should contain the following properties at the root level:
+
+1. type (text | required)
+2. marker_list ( array | required)
+*/
+
+{
+"type" : "text | icon",
+"markerList" : [{}, {}]
+}
+
+/*
+The "marker_list" property it's an array of objects and each one could have the following properties:
+
+1. start (number | required)
+2. end (number | optional)
+3. marker_color (string | optional)
+4. background_color (string | optional)
+5. hover_color (string | optional)
+6. icon_url (string | required for type: icon)
+7. image_url (string | required for type: icon)
+8. text (string | required for type: text)
+*/
+
+{
+"start": 45,
+"end": 50,
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917",
+"iconUrl": "http://myimagebucket.com/path/to/my/icon.jpg",
+"imageUrl": "http://myimagebucket.com/path/to/my/image.jpg",
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+}
+
+/*
+Full example divided by type
+*/
+
+{
+"type": "text",
+"markerList": [
+{
+"start": 45,
+"end": 50,
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917",
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 60,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 70,
+"end": 75,
+"backgroundColor": "#9e09a0",
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+}
+]
+}
+
+{
+"type": "icon",
+"markerList": [
+{
+"start": 45,
+"end": 50,
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917",
+"iconUrl": "http://myimagebucket.com/path/to/my/icon.jpg",
+"imageUrl": "http://myimagebucket.com/path/to/my/image.jpg"
+},
+{
+"start": 70,
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917",
+"iconUrl": "http://myimagebucket.com/path/to/my/icon.jpg",
+"imageUrl": "http://myimagebucket.com/path/to/my/image.jpg"
+}
+]
+}
+
+
+/*
+Another way to declare and create the marker definitions it's through the skin.json file by following the next steps
+
+1. Add the "markers" entry at the first level with the following structure:
+
+Note: You can add both types, but you can add only one type.
+*/
+
+{
+"markers": {
+"types": {
+"text": {},
+"icon": {}
+}
+}
+}
+
+/*
+2. There are a list of properties or rules that can be used globally by type. Here's the list:
+
+a) text: marker_color, background_color, hover_color
+b) icon: marker_color, background_color, hover_color, icon_url
+*/
+
+{
+"markers": {
+"types": {
+"text": {
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917"
+},
+"icon": {
+"markerColor": "#f45642",
+"backgroundColor": "#9e09a0",
+"hoverColor": "#ead917",
+"iconUrl": "http://myimagebucket.com/path/to/my/icon.jpg"
+}
+}
+}
+}
+
+/*
+3. Once you finish your customization by type then you can create your list of markers file with just the minimal setup
+*/
+
+{
+"type": "text",
+"markerList": [
+{
+"start": 45,
+"end": 50,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 60,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 70,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+}
+]
+}
+
+/*
+4. You can override any of the default/global settings by just place the property name and the new value
+*/
+
+{
+"type": "text",
+"markerList": [
+{
+"start": 45,
+"end": 50,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 60,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas."
+},
+{
+"start": 70,
+"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas.",
+"backgroundColor": "#9e09a0"
+}
+]
+}</code></pre>
+          <h3 class="h3">Chapter Marker Anatomy</h3>
+          <p class="p">Ooyala recommends Chapter marker icons should be set at 28x28 pixels for ideal functionality and usability.</p>
+          <figure>
+            <img src="https://docs.brightcove.com/apidocs-ooyala/img/chapter-marker-anatomy.png" alt="Chapter Marker Anatomy">
+            <legend>Chapter Marker Anatomy</legend>
+          </figure>
+          <h3 class="h3">Chapter Marker Ingestion Options</h3>
+          <p class="p">Chapter Markers can be added in the same fashion as a closed caption file. In fact, the JSON file that defines the chapter markers will be handled using the same general ingestion and delivery process (via Player MetaData API) to the Ooyala Player.</p>
+          <h4 class="h4">Upload in Backlot</h4>
+          <p class="p">Chapter Marker JSON files are added in the same area of the Backlot UI as adding Closed Caption files (Manage Tab, Details bottom Tab).</p>
+          <p class="p">To upload a Chapter Marker file, go to the Manage tab in Backlot. After selecting an asset, select the Details tab at the bottom. This will then display a button on the far right with the title <strong>Chapter Markers</strong>:</p>
+          <figure>
+            <img src="https://docs.brightcove.com/apidocs-ooyala/img/backlot-ingest-markers.png" alt="Backlot Ingest">
+            <legend>Backlot Ingest</legend>
+          </figure>
+          <h3 class="h3">Add to Web Page</h3>
+          <p class="p">You can also add the JSON directly to the web page as part of the player options, and they will be read on initialization.</p>
+          <h3 class="h3">Chapter Marker Prioritization (Web)</h3>
+          <p class="p">Some Chapter Marker formatting definitions can be placed in both the skin.json and the chapter maker .json file. In order to reduce the amount of content needing defined in every chapter marker .json file, the .json file can provide commonly defined values, such as the chapter marker colors. If the desired value will be common for all chapter markers using that player (e.g. not varying by video asset), then it will be more efficient to define these values in the skin.json (either by appending the default skin.json (recommended), or altering and self-hosting the skin.json file).</p>
+          <p class="p">Thus, priority sequences as follows:</p>
+          <p class="p">Chapter Marker json &gt; skin.json chapter marker values &gt; other values for player in skin.json</p>
+        </div>
+        <div class="section">
+          <h2 class="title sectiontitle">Player and Supported Chapter Marker Options</h2>
+          <h3 class="h3">Playlists/Discovery</h3>
+          <p class="p">Since the Chapter Markers are tied to the asset ID, Playlists and Discovery should support Chapter Markers. However, they can only be supported when chapter markers are delivered via the Player Metadata API (rather than in-page).</p>
+        </div>
+        <div class="section">
+          <h2 class="title sectiontitle">Chapter Marker Analytics</h2>
+          <p class="p">IQ will include no additional IQ events in the standard roll-up. However, the standard IQ analytics will be impacted as follows:</p>
+          <ul class="ul">
+            <li class="li">Decreased time watched</li>
+          </ul>
+          <p class="p">Additionally, additional metadata will be stored for Chapter Marker events, and may be surfaced later by IQ. These include:</p>
+          <ul class="ul">
+            <li class="li">Chapter Marker Seek Event</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="related-links">
+    <div class="familylinks">
+      <div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_about.html">Player V4</a></div>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

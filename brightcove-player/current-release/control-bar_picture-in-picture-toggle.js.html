@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: control-bar/volume-control/volume-control.js | Brightcove Player API Documentation</title>
+    <title>Source: control-bar/picture-in-picture-toggle.js | Brightcove Player API Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -55,22 +55,18 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @file volume-control.js
+ * @file picture-in-picture-toggle.js
  */
-import Component from '../../component.js';
-import checkVolumeSupport from './check-volume-support';
-import {isPlain} from '../../utils/obj';
-import { throttle, bind } from '../../utils/fn.js';
-
-// Required children
-import './volume-bar.js';
+import Button from '../button.js';
+import Component from '../component.js';
+import document from 'global/document';
 
 /**
- * The component for controlling the volume level
+ * Toggle Picture-in-Picture mode
  *
- * @extends Component
+ * @extends Button
  */
-class VolumeControl extends Component {
+class PictureInPictureToggle extends Button {
 
   /**
    * Creates an instance of this class.
@@ -78,126 +74,83 @@ class VolumeControl extends Component {
    * @param {Player} player
    *        The `Player` that this class should be attached to.
    *
-   * @param {Object} [options={}]
+   * @param {Object} [options]
    *        The key/value store of player options.
+   *
+   * @listens Player#enterpictureinpicture
+   * @listens Player#leavepictureinpicture
    */
-  constructor(player, options = {}) {
-    options.vertical = options.vertical || false;
-
-    // Pass the vertical option down to the VolumeBar if
-    // the VolumeBar is turned on.
-    if (typeof options.volumeBar === 'undefined' || isPlain(options.volumeBar)) {
-      options.volumeBar = options.volumeBar || {};
-      options.volumeBar.vertical = options.vertical;
-    }
-
+  constructor(player, options) {
     super(player, options);
+    this.on(player, ['enterpictureinpicture', 'leavepictureinpicture'], this.handlePictureInPictureChange);
 
-    // hide this control if volume support is missing
-    checkVolumeSupport(this, player);
-
-    this.throttledHandleMouseMove = throttle(bind(this, this.handleMouseMove), 25);
-
-    this.on('mousedown', this.handleMouseDown);
-    this.on('touchstart', this.handleMouseDown);
-
-    // while the slider is active (the mouse has been pressed down and
-    // is dragging) or in focus we do not want to hide the VolumeBar
-    this.on(this.volumeBar, ['focus', 'slideractive'], () => {
-      this.volumeBar.addClass('vjs-slider-active');
-      this.addClass('vjs-slider-active');
-      this.trigger('slideractive');
-    });
-
-    this.on(this.volumeBar, ['blur', 'sliderinactive'], () => {
-      this.volumeBar.removeClass('vjs-slider-active');
-      this.removeClass('vjs-slider-active');
-      this.trigger('sliderinactive');
-    });
-  }
-
-  /**
-   * Create the `Component`'s DOM element
-   *
-   * @return {Element}
-   *         The element that was created.
-   */
-  createEl() {
-    let orientationClass = 'vjs-volume-horizontal';
-
-    if (this.options_.vertical) {
-      orientationClass = 'vjs-volume-vertical';
+    // TODO: Activate button on player loadedmetadata event.
+    // TODO: Deactivate button on player emptied event.
+    // TODO: Deactivate button if disablepictureinpicture attribute is present.
+    if (!document.pictureInPictureEnabled) {
+      this.disable();
     }
-
-    return super.createEl('div', {
-      className: `vjs-volume-control vjs-control ${orientationClass}`
-    });
   }
 
   /**
-   * Handle `mousedown` or `touchstart` events on the `VolumeControl`.
+   * Builds the default DOM `className`.
    *
-   * @param {EventTarget~Event} event
-   *        `mousedown` or `touchstart` event that triggered this function
-   *
-   * @listens mousedown
-   * @listens touchstart
+   * @return {string}
+   *         The DOM `className` for this object.
    */
-  handleMouseDown(event) {
-    const doc = this.el_.ownerDocument;
-
-    this.on(doc, 'mousemove', this.throttledHandleMouseMove);
-    this.on(doc, 'touchmove', this.throttledHandleMouseMove);
-    this.on(doc, 'mouseup', this.handleMouseUp);
-    this.on(doc, 'touchend', this.handleMouseUp);
+  buildCSSClass() {
+    return `vjs-picture-in-picture-control ${super.buildCSSClass()}`;
   }
 
   /**
-   * Handle `mouseup` or `touchend` events on the `VolumeControl`.
+   * Handles enterpictureinpicture and leavepictureinpicture on the player and change control text accordingly.
    *
-   * @param {EventTarget~Event} event
-   *        `mouseup` or `touchend` event that triggered this function.
+   * @param {EventTarget~Event} [event]
+   *        The {@link Player#enterpictureinpicture} or {@link Player#leavepictureinpicture} event that caused this function to be
+   *        called.
    *
-   * @listens touchend
-   * @listens mouseup
+   * @listens Player#enterpictureinpicture
+   * @listens Player#leavepictureinpicture
    */
-  handleMouseUp(event) {
-    const doc = this.el_.ownerDocument;
-
-    this.off(doc, 'mousemove', this.throttledHandleMouseMove);
-    this.off(doc, 'touchmove', this.throttledHandleMouseMove);
-    this.off(doc, 'mouseup', this.handleMouseUp);
-    this.off(doc, 'touchend', this.handleMouseUp);
+  handlePictureInPictureChange(event) {
+    if (this.player_.isInPictureInPicture()) {
+      this.controlText('Exit Picture-in-Picture');
+    } else {
+      this.controlText('Picture-in-Picture');
+    }
   }
 
   /**
-   * Handle `mousedown` or `touchstart` events on the `VolumeControl`.
+   * This gets called when an `PictureInPictureToggle` is "clicked". See
+   * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} event
-   *        `mousedown` or `touchstart` event that triggered this function
+   * @param {EventTarget~Event} [event]
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
    *
-   * @listens mousedown
-   * @listens touchstart
+   * @listens tap
+   * @listens click
    */
-  handleMouseMove(event) {
-    this.volumeBar.handleMouseMove(event);
+  handleClick(event) {
+    if (!this.player_.isInPictureInPicture()) {
+      this.player_.requestPictureInPicture();
+    } else {
+      this.player_.exitPictureInPicture();
+    }
   }
+
 }
 
 /**
- * Default options for the `VolumeControl`
+ * The text that should display over the `PictureInPictureToggle`s controls. Added for localization.
  *
- * @type {Object}
+ * @type {string}
  * @private
  */
-VolumeControl.prototype.options_ = {
-  children: [
-    'volumeBar'
-  ]
-};
+PictureInPictureToggle.prototype.controlText_ = 'Picture-in-Picture';
 
-Component.registerComponent('VolumeControl', VolumeControl);
-export default VolumeControl;
+Component.registerComponent('PictureInPictureToggle', PictureInPictureToggle);
+export default PictureInPictureToggle;
 </code></pre>
         </article>
     </section>

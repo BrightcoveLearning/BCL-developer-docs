@@ -174,103 +174,76 @@
 
 <h3>HTML inline styling</h3>
 
-<p>The <code>video</code> tag's <code>style</code> attribute sets the size of the player to the size of its parent <code>div</code> element.</p>
+<p>The <code>&lt;video&gt;</code> tag's <code>style</code> attribute sets the size of the player to fill its parent <code>&lt;div&gt;</code> element.</p>
 <p>
-  
+  The two <code>&lt;div&gt;</code> elements around the <code>&lt;video&gt;</code> tag are used to create a responsive player that has a maximum width of <code>286px</code>.
 </p>
 
-<pre>
-<code class="language-html">&lt;video-js <span class="bcls-highlight">id="myPlayerID"</span>
-...</code></pre>
 </section>
-<!-- UPDATE application flow -->
 
+<!-- UPDATE application flow -->
 <section class="bcls-section">
 <h2 id="Application_flow">Application flow</h2>
+<p>
+  If you are satisfied with the player sizing with the HTML styles, then you can implement your player without the following CSS and JavaScript code.
+</p>
 
-<p>The basic logic behind this application is:</p>
+<p><strong>Optional</strong>: Additional code is needed if you would like the player to expand to the full width of the device view when playback starts, and then return to the original <code>286px</code>  width when the video has ended. The basic logic is:</p>
 
 <ul>
-	<li>Get the player DOM element.</li>
-	<li>Get the thumbnail array.</li>
-	<li>Format the overlay content with the thumbnails for different sections within the video content.</li>
-	<li>Show the thumbnails on user hover.</li>
-	<li>Hide the thumbnails on user mouseout.</li>
-	<li>Play the video when the user clicks on the thumbnails ModalDialog.</li>
+	<li>Initialize variables and check for mobile device</li>
+	<li>Define a modal close button</li>
+	<li>When playback begins, enter full width mode</li>
+	<li>When playback ends, exit full width mode</li>
 </ul>
 <!-- UPDATE task 1 -->
 
-<h3>Get the player DOM element</h3>
+<h3>Initialize variables and check for mobile device</h3>
 
 <p>Find the code which is labeled:</p>
 
 <pre>
-<code class="language-javascript">// +++ Get the player DOM element +++</code></pre>
+<code class="language-javascript">// +++ Initialize variables and check for mobile device +++</code></pre>
 
-<p>Get a reference to the player's DOM element. We will use this to add the ModalDialog to the player.</p>
+<p>Check if playback is happening on a mobile device.</p>
+
 <!-- UPDATE task 2 -->
-
-<h3>Get the thumbnail array</h3>
+<h3>Define a modal close button</h3>
 
 <p>Find the code which is labeled:</p>
 
 <pre>
-<code class="language-javascript">// +++ Get the thumbnail array +++</code></pre>
+<code class="language-javascript">// +++ Define a modal close button +++</code></pre>
 
-<p>Get the thumbnail URL array from the video's Long Description property. For details about adding this metadata to your video, see the <a href="#Video_configuration">Video configuration</a> section.</p>
+<p>If the user is on a mobile device, then define a close button to exit from full width mode. The player will exit full width mode at the end of video playback, or when the user taps on the close modal button.</p>
+
 <!-- UPDATE task 3 -->
-
-<h3>Format the overlay content</h3>
+<h3>When playback begins, enter full width mode</h3>
 
 <p>Find the code which is labeled:</p>
 
 <pre>
-<code class="language-javascript">// +++ Format the overlay content +++</code></pre>
+<code class="language-javascript">// +++ When playback begins, enter full width mode +++</code></pre>
 
-<p>To format the overlay content, do the following:</p>
+<p>When video playback begins, set the player to the full width of the device view.</p>
 
-<ol class="bcls-tasklist">
-	<li>Get the thumbnail URLs from the video Long Description field and add to modal dialog content.</li>
-	<li>Configure and create the Modal Dialog.</li>
-	<li>Add the Modal Dialog to the player.</li>
-</ol>
 <!-- UPDATE task 4 -->
-
-<h3>Show the thumbnails</h3>
-
-<p>Find the code which is labeled:</p>
-
-<pre>
-<code class="language-javascript">// +++ Show the thumbnails +++</code></pre>
-
-<p>Listen for the <code>mouseover</code> event on the player. When triggered, display the Modal Dialog with the video section thumbnail images.</p>
-<!-- UPDATE task 5 -->
-
-<h3>Hide the thumbnails</h3>
+<h3>When playback ends, exit full width mode</h3>
 
 <p>Find the code which is labeled:</p>
 
 <pre>
-<code class="language-javascript">// +++ Hide the thumbnails +++</code></pre>
+<code class="language-javascript">// +++ When playback ends, exit full width mode +++</code></pre>
 
-<p>Listen for the <code>mouseout</code> event on the player. When triggered, hide the Modal Dialog with the video section thumbnail images.</p>
-<!-- UPDATE task 6 -->
+<p>When video playback ends, set the player to the original width.</p>
 
-<h3>Play the video</h3>
-
-<p>Find the code which is labeled:</p>
-
-<pre>
-<code class="language-javascript">// +++ Play the video +++</code></pre>
-
-<p>When the thumbnail ModalDialog is clicked, remove the event listeners, close and dispose of the ModalDialog and start video playback.</p>
 </section>
-<!-- UPDATE CSS description -->
 
+<!-- UPDATE CSS description -->
 <section class="bcls-section">
 <h2 id="Application_styling">Application styling</h2>
 
-<p>The CSS styles the videos thumbnail images in the ModalDialog.</p>
+<p>The CSS styles the close button and the big play button.</p>
 </section>
 
 <section class="bcls-section">

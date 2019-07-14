@@ -148,18 +148,6 @@
         <td>IMA3 Plugin</td>
         <td><a href="/node/18080">Advertising with the IMA3 Plugin</a></td>
       </tr>
-      <tr>
-        <td><strong></strong></td>
-        <td></td>
-        <td></td>
-        <td><a href="/node/"></a></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><a href="/node/"></a></td>
-      </tr>
     </tbody>
   </table>
 
@@ -174,6 +162,24 @@
 
 <section class="bcls-section">
   <h2 id="Page_level_parameters">Page level parameters</h2>
+  <p>The page level parameters are used to configure the Ooyala player. They are part of the embed code, assigned to a configuration object named <code>playeParam</code>, then that configuration object is passed to the <code>create()</code> method. An example is shown here:</p>
+  <pre class="line-numbers">
+<code class="language-html">&lt;div id=&quot;container&quot; style=&quot;width:640px; height:360px;&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    var <span class="bcls-highlight">playerParam</span> = {
+        <span class="bcls-highlight">&quot;pcode&quot;</span>: &quot;YOUR_PCODE&quot;,
+        <span class="bcls-highlight">&quot;playerBrandingId&quot;</span>: &quot;YOUR_PLAYER_ID&quot;,
+        <span class="bcls-highlight">&quot;adManagerLoadTimeout&quot;</span>: 5,
+        <span class="bcls-highlight">&quot;autoplay&quot;</span>: true,
+        <span class="bcls-highlight">&quot;initialPlaybackSpeed&quot;</span>: .5,
+        <span class="bcls-highlight">&quot;skin&quot;</span>: {
+            // Config contains the configuration setting for player skin. Change to your local config when necessary.
+        }
+    };
+    OO.ready(function() {
+        window.pp = OO.Player.create(&quot;container&quot;, &quot;YOUR_ASSET_ID&quot;, <span class="bcls-highlight">playerParam</span>);
+    });
+&lt;/script&gt;</code></pre>
   <table class="bcls-table">
     <thead class="bcls-table__head">
       <tr>
@@ -184,13 +190,13 @@
     </thead>
     <tbody class="bcls-table__body">
       <tr>
-        <td><strong>pcode</strong></td>
-        <td><strong></strong></td>
+        <td><strong>pcode</strong> - The pcode is the account identifier</td>
+        <td><strong>data-account</strong> Brightcove Player attribute</td>
         <td></td>
       </tr>
       <tr>
-        <td><strong>playerBrandingId</strong></td>
-        <td><strong></strong></td>
+        <td><strong>playerBrandingId</strong> - The player branding ID is a reference to the  player; if you do not include your player branding ID, the player will not load</td>
+        <td><strong>data-player</strong> Brightcove Player attribute</td>
         <td></td>
       </tr>
       <tr>
@@ -206,6 +212,11 @@
       <tr>
         <td><strong>autoPlayUpNextVideosOnly</strong> - Enables (default) or disables the automatic playing of Up Next or Discovery videos after the main video has played</td>
         <td>Although no direct equivalent, setting a playlist for continuous play is similar</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>dynamicFilters</strong> - filters are server-side rules that are most commonly used to specify a subset of audio and video renditions to provide the best viewing experience on a given device; you can set up a filter to request that when an asset is transcoded, only HD and SD renditions are created</td>
+        <td>Part of Video Cloud encoding</td>
         <td></td>
       </tr>
       <tr>
@@ -290,8 +301,8 @@
       </tr>
       <tr>
         <td><strong>skin.config</strong> - The skin parameter references the skin.json config file</td>
-        <td><strong></strong></td>
-        <td></td>
+        <td>N/A</td>
+        <td>Brightcove Player uses standard CSS for player customization</td>
       </tr>
       <tr>
         <td colspan="3">
@@ -319,8 +330,8 @@
       </tr>
       <tr>
         <td><strong>skin.inline</strong> - Use this parameter to specify inline skin modifications; skin.inline will overwrite any settings in the skin.json config file.</td>
-        <td><strong></strong></td>
-        <td></td>
+        <td>N/A</td>
+        <td>Brightcove Player uses standard CSS for player customization</td>
       </tr>
       <tr>
         <td colspan="3">
@@ -346,9 +357,9 @@
 &lt;/script&gt;</code></pre></td>
       </tr>
       <tr>
-        <td><strong>useFirstVideoFromPlaylist</strong></td>
-        <td><strong></strong></td>
-        <td></td>
+        <td><strong>useFirstVideoFromPlaylist</strong> - Use this parameter to specify whether the player uses the first video from the playlist playlist</td>
+        <td><strong>data-playlist-video-id</strong></td>
+        <td>Set as a <code>&lt;video-js ...&gt;</code> attribute or player configuration property</td>
       </tr>
     </tbody>
   </table>

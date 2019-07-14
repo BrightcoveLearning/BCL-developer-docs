@@ -275,28 +275,75 @@
       </tr>
       <tr>
         <td><strong>playlistsPlugin</strong> - Use this parameter to hide the Playlist plugin but still have it drive the autoplay a sequence of videos</td>
-        <td>This effect can be replicated by using a playlist player and selecting the <strong>Hidden</strong> playlist type in <strong>PLAYERS -> Styling -> Playlist Type</strong> </td>
+        <td>This behavior can be replicated by using a playlist player and selecting the <strong>Hidden</strong> playlist type in <strong>PLAYERS -> Styling -> Playlist Type</strong> </td>
         <td></td>
       </tr>
       <tr>
-        <td><strong>preload</strong></td>
-        <td><strong></strong></td>
+        <td><strong>preload</strong> - Use this parameter to specify whether to start loading the video after the player is loaded and before the user starts playback</td>
+        <td>This behavior can be replicated by selecting the desired option from <strong>PLAYERS -> Playback -> Preload Video Before Playback</strong></td>
         <td></td>
       </tr>
       <tr>
         <td><strong>preloadAds</strong></td>
+        <td><td>This behavior can be replicated by selecting the desired option from <strong>PLAYERS -> Advertising -> Request Ads</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>skin.config</strong> - The skin parameter references the skin.json config file</td>
         <td><strong></strong></td>
         <td></td>
       </tr>
       <tr>
-        <td><strong>skin.config</strong></td>
+        <td colspan="3">
+          <pre class="line-numbers">
+<code class="language-html">&lt;div id=&quot;container&quot; style=&quot;width:640px; height:360px;&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    var playerParam = {
+      &quot;pcode&quot;: &quot;YOUR_PCODE&quot;,
+      &quot;playerBrandingId&quot;: &quot;YOUR_PLAYER_ID&quot;,
+      <span class="bcls-highlight">&quot;skin&quot;</span>: {
+          <span class="bcls-highlight">&quot;config&quot;</span>;: &quot;url_where_hosted/skin.json&quot;,
+          &quot;inline&quot;: {
+              // Put your player customizations here
+              // to override settings in skin.json.
+              // The JSON object must match the structure of skin.json.
+              &quot;startScreen&quot;: {&quot;showDescription&quot;: false, &quot;playIconStyle&quot;: {&quot;color&quot;: &quot;blue&quot;}}
+          }
+      }
+    };
+    OO.ready(function() {
+      window.pp = OO.Player.create(&quot;container&quot;, &quot;YOUR_ASSET_ID&quot;, playerParam);
+    });
+&lt;/script&gt;</code></pre>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>skin.inline</strong> - Use this parameter to specify inline skin modifications; skin.inline will overwrite any settings in the skin.json config file.</td>
         <td><strong></strong></td>
         <td></td>
       </tr>
       <tr>
-        <td><strong>skin.inline</strong></td>
-        <td><strong></strong></td>
-        <td></td>
+        <td colspan="3">
+          <pre class="line-numbers">
+<code class="language-html">&lt;div id=&quot;container&quot; style=&quot;width:640px; height:360px;&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    var playerParam = {
+      &quot;pcode&quot;: &quot;YOUR_PCODE&quot;,
+      &quot;playerBrandingId&quot;: &quot;YOUR_PLAYER_ID&quot;,
+      <span class="bcls-highlight">&quot;skin&quot;</span>: {
+          &quot;config&quot;: &quot;url_where_hosted/skin.json&quot;,
+          <span class="bcls-highlight">&quot;inline&quot;: {
+              // Put your player customizations here
+              // to override settings in skin.json.
+              // The JSON object must match the structure of skin.json.
+              &quot;startScreen&quot;: {&quot;showDescription&quot;: false, &quot;playIconStyle&quot;: {&quot;color&quot;: &quot;blue&quot;}}</span>;
+          }
+      }
+    };
+    OO.ready(function() {
+      window.pp = OO.Player.create(&quot;container&quot;, &quot;YOUR_ASSET_ID&quot;, playerParam);
+    });
+&lt;/script&gt;</code></pre></td>
       </tr>
       <tr>
         <td><strong>useFirstVideoFromPlaylist</strong></td>

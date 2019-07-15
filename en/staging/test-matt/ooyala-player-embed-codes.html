@@ -49,15 +49,37 @@
 <section class="bcls-section">
   <h2 id="Embed_code_architecture">Embed code architectures</h2>
   <p>The Ooyala Player and Brightcove Player take different approaches in how the player embed code functions. The following highlight the approaches:</p>
+  <h3>Ooyala Player</h3>
     <ul>
-      <li><strong>Ooyala</strong>: The standard embed code
+      <li>The standard embed code
         <pre class="line-numbers">
-<code class="language-html"></code></pre>
+<code class="language-html">&lt;script src=&quot;//player.ooyala.com/core/player_branding_id&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var player;
+var playerParams = {};
+
+OO.ready(function() {
+  player = OO.Player.create('oo-container', 'embed_code', playerParams);
+});
+&lt;/script&gt;</code></pre>
       </li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>The player code pieces are gathered on page load (essentially at "runtime") and then the player is built.</li>
+      <li>A script is included that provides basic player functionality, and also provides a way to include plugins. Details are provided in the <a href="#Ooyala_player_plugins">Ooyala player plugins</a> section below.</li>
+      <li>The <code>playerParams</code> variable is created to hold page level parameters that provide player behavior customization. Details are provided in the <a href="#Page_level_parameters">Page level parameters</a> section below. </li>
+      <li>A JSON file provides the means for Ooyala Player visual customization. Details are provided in the <a href="#Player_customization">Player customization</a> section below.</li>
+      <li>You can also use an <code>iframe</code> implementation for the player, as shown here:
+        <pre class="line-numbers">
+<code class="language-html">&lt;iframe width=&quot;480&quot; height=&quot;320&quot; src=&quot;url_where_hosted/iframe.html?
+  ec=YOUR_ASSET_ID
+  &amp;pbid=YOUR_PLAYER_ID
+  &amp;pcode=YOUR_PCODE
+  &amp;optional_parameter_1=value
+  &amp;optional_parameter_2=value
+  &amp;optional_parameter_N=value&quot;
+  frameborder=&quot;0&quot; allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+        <p>The page level parameters can be used in the iframe implementation also. For details see the <a href="https://help-ooyala.brightcove.com/video-platform/reference/pbv4_embed_iframe.html">Embedding Player V4 in an HTML iframe</a> document.</p>
+      </li>
     </ul>
 
 </section>

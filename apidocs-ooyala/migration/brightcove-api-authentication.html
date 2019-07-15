@@ -1,0 +1,30 @@
+<article class="bcls-article">
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+    <p>Most of the Brightcove REST APIs use OAuth2 as the basis for authentication, and we'll look at the OAuth implementation in more detail in the sections that follow.</p>
+    <p>First, however, note that three APIs use different approaches to authentication:</p>
+    <section class="bcls-subsection">
+      <h3 id="policy_key">Policy key authentication</h3>
+      <p>The <a href="/node/18380">Playback API</a> used mainly to retrieve video and playlist data from players or web portals, uses a <code>policy_key</code>, for authentication, usually passed as an argument in an <code>Accept</code> header:</p>
+      <pre><code class="language-http">Accept: application/json;pk={policy_key}</code></pre>
+      <p>Policy keys are generated automatically for Brightcove players, and may be taken from a <a href="/node/18125#Getting_the_policy_key">player configuration</a>, or generated using the <a href="/node/18381">Policy API</a></p>
+    </section>
+    <section class="bcls-subsection">
+      <h3 id="authentication_api_key">API-key authentication: Live API</h3>
+      <p>The <a href="https://support.brightcove.com/live">Live API</a> uses an API key that is supplied when you account is set up to autheticate requests. The API key is passed in an <code>X-API-KEY</code> header:</p>
+      <pre><code class="language-http">X-API-KEY : {YOUR_APIKey}</code></pre>
+    </section>
+  </section>
+  <section class="bcls-section">
+    <h2 id="oauth2_authentication">OAuth2 authentication</h2>
+    <p>The other REST APIs for Video Cloud use OAuth2 for authentication, For those familiar with OAuth2, we use a client credential flow. There are two operations involved:</p>
+    <ol>
+      <li><strong>Get client credentials:</strong> this is a one-time operation that is most easily carried out using the <strong>API Authentication</strong> page of the Admin tools in Studio. See <a href="/node/14056">Managing API Authentication Credentials</a> for details and step-by-step instructions.</li>
+      <li><strong>Get an access token:</strong> each API request must contain an access token sent in an <code>Authorization</code> header:
+        <pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+        <p>Access tokens live for five minutes, so unless you running a process that will be generating repeated API requests, you will probably just want to get a new one for each request.</p>
+        <p>Access tokens are obtained by sending the client credentials in a request to Brightcove's OAuth API. See <a href="/node/17925">Getting Access Tokens</a> for full details. There is also a <a href="/node/18520">sample app</a> you can use to get a one-off token for testing API calls. There are also instructions for configuring the popular REST clients <a href="/node/17919">Postman</a> and <a href="/node/18462">Insomnia</a>.</p>
+      </li>
+    </ol>
+  </section>
+</article>

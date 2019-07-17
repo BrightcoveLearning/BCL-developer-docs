@@ -618,6 +618,7 @@ components:
             Array of watermark objects speficying one or more watermarks to be added to renditions
           items:
             $ref: >-
+              #/components/schemas/IngestProfile.dynamicOrigin.dynamicProfileOptions.watermarks
     IngestProfile.dynamicOrigin.dynamicProfileOptions.video_configuration:
       title: IngestProfile.dynamicOrigin.dynamicProfileOptions.video_configuration
       description: |-
@@ -693,7 +694,6 @@ components:
         - video_codec
         - height
         - width
-        - watermarks
       type: object
       properties:
         audio_bitrate:
@@ -1001,6 +1001,37 @@ components:
           type: string
           description: >-
             distance from top edge to center if image as pixels or percent of frame height; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the bottom edge) - decimal values like 10.5% are not permitted **Legacy Ingest only**
+    IngestProfile.dynamicOrigin.dynamicProfileOptions.watermarks:
+      title: IngestProfile.renditions.watermarks
+      description: >-
+        One or more watermark images for Context Aware Encoding profiles
+      required:
+        - url
+        - width
+        - height
+        - x
+        - 'y'
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the watermark image
+        width:
+          type: string
+          description: >-
+            width in pixels or percent of frame width; e.g. 20 or 10%
+        height:
+          type: string
+          description: >-
+            height in pixels or percent of frame width; e.g. 20 or 10%
+        x:
+          type: string
+          description: >-
+            distance from left edge to center of image as pixels or precent of frame width; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the right edge)
+        'y':
+          type: string
+          description: >-
+            distance from top edge to center if image as pixels or percent of frame height; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the bottom edge)
     IngestProfile.packages:
       title: IngestProfile.packages
       required:

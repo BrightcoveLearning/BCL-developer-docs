@@ -269,124 +269,30 @@
                   </section>
                   <section class="bcls-section">
                     <h2 id="Authentication">Authentication</h2>
-                    <p>Authentication of Brightcove API requests is handled slightly differently than that for the
-                      Ooyala REST APIs. See <a href="./brightcove-api-authentication.html">Authentication for Brightcove
-                        API Requests</a> for details.</p>
+                    <p>Authentication of Brightcove API requests is handled slightly differently than that for the Ooyala REST APIs. See <a href="./brightcove-api-authentication.html">Authentication for Brightcove API Requests</a> for details.</p>
                   </section>
 
                   <section class="bcls-section">
-                    <h2 id="Ad_sets_endpoints">Ad Sets</h2>
-                    <p>There are no real equivalents for the Ad Sets endpoints for client-side ad requests, because most
-                      of that ad setup for Video Cloud is done on players, through plugins, rather than attached to
-                      individual videos. The best general place to start for understanding how advertising is
-                      implemented for Video Cloud videos see the <a
-                        href="https://support.brightcove.com/learning-guide-video-advertising">Learning Guide: Video
-                        Advertising</a>.</p>
-                    <p>For those using server-side advertising, the <a
-                        href="https://docs.brightcove.com/ssai-api/v1/doc/index.html">SSAI API</a> does provide similar
-                      functionality for setting up ad configurations.</p>
-                    <table class="bcls-table">
-                      <caption class="bcls-caption--table">Ad Sets</caption>
-                      <thead class="bcls-table__head">
-                        <tr>
-                          <th>Backlot API Endpoint</th>
-                          <th>Operation</th>
-                          <th>Brightcove Equivalent</th>
-                          <th>Docs</th>
-                        </tr>
-                      </thead>
-                      <tbody class="bcls-table__body">
-                        <tr>
-                          <td><code>/v2/ad_sets</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets</code></td>
-                          <td><code>POST</code></td>
-                          <td>Closest equivalent is <a
-                              href="https://support.brightcove.com/player-management-api">Player Management API</a>
-                            (create player or update player configuration) by including an ad plugin with appropriate
-                            options</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://support.brightcove.com/step-step-implementing-advertising">Step-by-Step:
-                                  Implementing Advertising</a></li>
-                              <li><a
-                                  href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation/CreatePlayer">Create
-                                  a player</a></li>
-                              <li><a
-                                  href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation//UpdatePlayerConfiguration">Update
-                                  player configuration</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets/{set_id}</code></td>
-                          <td><code>GET</code></td>
-                          <td>Closest equivalest would be to get a player configuration and look at the options for the
-                            ad plugin</td>
-                          <td><a
-                              href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation/GetPlayerConfiguration">Get
-                              player configuration</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets/{set_id}</code></td>
-                          <td><code>PATCH</code></td>
-                          <td>Closest equivalent would be to change the ad plugin options via update player
-                            configuration</td>
-                          <td><a
-                              href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation//UpdatePlayerConfiguration">Update
-                              player configuration</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets/{set_id}</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>Closest equivalent would be removing the ad plugin from a player via player update</td>
-                          <td><a
-                              href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation//UpdatePlayerConfiguration">Update
-                              player configuration</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets/{set_id}/ads</code></td>
-                          <td><code>POST</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/ad_sets/{set_id}/ads/{ad_id}</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <h2 id="Reports">Reports</h2>
+                    <p>The single <code>/reports</code> endpoint for Ooyala Analytics REST API corresponds very closely to the Brightcove Analytics API <code>/data</code> endpoint. The main difference is that the Ooyala API allows both <code>GET</code> and <code>POST</code>, the latter used to pass some data in the request body rather than URL params, allowing for some longer data strings.</p>
                   </section>
 
 
                   <section class="bcls-section">
-                    <h2 id="Assets">Assets</h2>
-                    <p>The Backlot API Assets endpoints correspond generally to the <a
-                        href="https://support.brightcove.com/cms-api">CMS API</a> for management of videos and assets,
-                      and to the <a href="https://support.brightcove.com/dynamic-ingest-api">Dynamic Ingest API</a> for
-                      ingestion of videos and assets. The closet equivalent requests are detailed in the table below.
-                    </p>
+                    <h2 id="Parameters">Parameters</h2>
+                    <p>The parameters for requests are similar for the two APIs. They are detailed in the table below to show you where the differences lie.</p>
                     <table class="bcls-table">
                       <caption class="bcls-caption--table">Assets</caption>
                       <thead class="bcls-table__head">
                         <tr>
-                          <th>Backlot API Endpoint</th>
-                          <th>Method</th>
-                          <th>Brightcove Equivalent</th>
+                          <th>Ooyala Parameter</th>
+                          <th>Brightcove Parameter</th>
                           <th>Docs</th>
                         </tr>
                       </thead>
                       <tbody class="bcls-table__body">
                         <tr>
                           <td><code>/v2/assets</code></td>
-                          <td><code>GET</code></td>
                           <td>CMS API get videos - note that there are many other CMS API endpoints for retrieving
                             specific assets like images, sources, renditions, manifests, etc.</td>
                           <td>

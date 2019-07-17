@@ -208,7 +208,7 @@ paths:
                 $ref: '#/components/schemas/IngestProfile'
         '400':
           description: >-
-            BAD_REQUEST: Invalid JSON &mdash; message varies according to the
+            BAD_REQUEST: Invalid JSON - message varies according to the
             problem
         '401':
           description: 'NOT_AUTHORIZED: Credentials are required to access this resource. '
@@ -220,7 +220,7 @@ paths:
             name or id already exists)
         '422':
           description: >-
-            UNPROCESSABLE_ENTITY: required field missing &mdash; message varies
+            UNPROCESSABLE_ENTITY: required field missing - message varies
             according to the issue
       deprecated: false
       x-operation-settings:
@@ -298,7 +298,7 @@ paths:
                 $ref: '#/components/schemas/IngestProfile'
         '400':
           description: >-
-            BAD_REQUEST: Invalid JSON &mdash; message varies according to the
+            BAD_REQUEST: Invalid JSON - message varies according to the
             problem
         '401':
           description: 'NOT_AUTHORIZED: Credentials are required to access this resource. '
@@ -310,7 +310,7 @@ paths:
             name or id already exists)
         '422':
           description: >-
-            UNPROCESSABLE_ENTITY: required field missing &mdash; message varies
+            UNPROCESSABLE_ENTITY: required field missing - message varies
             according to the issue
       deprecated: false
       x-operation-settings:
@@ -339,7 +339,7 @@ paths:
           description: NO CONTENT (success)
         '400':
           description: >-
-            BAD_REQUEST: Invalid JSON &mdash; message varies according to the
+            BAD_REQUEST: Invalid JSON - message varies according to the
             problem
         '401':
           description: 'NOT_AUTHORIZED: Credentials are required to access this resource. '
@@ -351,7 +351,7 @@ paths:
             name or id already exists)
         '422':
           description: >-
-            UNPROCESSABLE_ENTITY: required field missing &mdash; message varies
+            UNPROCESSABLE_ENTITY: required field missing - message varies
             according to the issue
       deprecated: false
       x-operation-settings:
@@ -427,13 +427,13 @@ components:
           type: number
           description: system-managed version number
       example: {
-        	"version": 1526447969284,
-        	"account_id": 57838016001,
-        	"default_profile_id": "videocloud-default-v1",
-        	"default_live_profile_id": "Live - Standard",
-        	"date_created": 1526447969283,
-        	"date_last_modified": 1526447969283,
-        	"id": "55525f84e4b08e946aa03281"
+          "version": 1526447969284,
+          "account_id": 57838016001,
+          "default_profile_id": "videocloud-default-v1",
+          "default_live_profile_id": "Live - Standard",
+          "date_created": 1526447969283,
+          "date_last_modified": 1526447969283,
+          "id": "55525f84e4b08e946aa03281"
         }
     SetDefaultProfilebody:
       title: Set_Default_ProfileBody
@@ -615,7 +615,7 @@ components:
         watermarks:
           type: array
           description: >-
-            Array of watermark objects speficying one or more watermarks to be added to renditions
+            Array of watermark objects specifying one or more watermarks to be added to renditions
           items:
             $ref: >-
               #/components/schemas/IngestProfile.dynamicOrigin.dynamicProfileOptions.watermarks
@@ -626,14 +626,15 @@ components:
 
         **Note: use of required video configurations is *not* recommended unless you must have renditions that must have specific resolutions. Use of video configurations decreases the efficiency of Context Aware Encoding**
       type: object
+      required:
+        - width
+        - height
       properties:
         width:
           type: integer
-          required: true
           description: Video frame width [pixels]
         height:
           type: integer
-          required: true
           description: Video frame height [pixels]
         required:
           type: boolean
@@ -781,7 +782,7 @@ components:
           type: integer
           description: >-
             Forces a keyframe every X frames, but still allows additional
-            keyframes &mdash; NOTE overrides `keyframe_interval` **Legacy Ingest
+            keyframes - NOTE overrides `keyframe_interval` **Legacy Ingest
             only**
           format: int32
         forced_keyframe_rate:
@@ -924,7 +925,7 @@ components:
     IngestProfile.renditions.skip:
       title: IngestProfiles.renditions.skip
       description: >-
-        A set of conditions for skippiung creation of this rendition see
+        A set of conditions for skipping creation of this rendition see
         Conditional Output **Legacy Ingest only**
       type: object
       properties:
@@ -996,7 +997,7 @@ components:
         x:
           type: string
           description: >-
-            distance from left edge to center of image as pixels or precent of frame width; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the right edge) - decimal values like 10.5% are not permitted **Legacy Ingest only**
+            distance from left edge to center of image as pixels or percent of frame width; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the right edge) - decimal values like 10.5% are not permitted **Legacy Ingest only**
         'y':
           type: string
           description: >-
@@ -1027,7 +1028,7 @@ components:
         x:
           type: string
           description: >-
-            distance from left edge to center of image as pixels or precent of frame width; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the right edge)
+            distance from left edge to center of image as pixels or percent of frame width; e.g. 20 or 10% (use negative values like -10 to position the watermark relative to the right edge)
         'y':
           type: string
           description: >-
@@ -1103,48 +1104,48 @@ components:
         digital_master:
           $ref: '#/components/schemas/IngestProfile.digitalMaster'
       example: {
-        	"version": 2,
-        	"name": "multi-platform-standard-static",
-        	"display_name": "Multiplatform Standard",
-        	"description": "Deliver a wide range of content types across a variety of platforms on mobile and desktop.",
-        	"account_id": -1,
-        	"brightcove_standard": true,
-        	"date_created": 1495114240899,
-        	"date_last_modified": 1503002227773,
-        	"digital_master": {
-        		"rendition": "passthrough",
-        		"distribute": false
+          "version": 2,
+          "name": "multi-platform-standard-static",
+          "display_name": "Multiplatform Standard",
+          "description": "Deliver a wide range of content types across a variety of platforms on mobile and desktop.",
+          "account_id": -1,
+          "brightcove_standard": true,
+          "date_created": 1495114240899,
+          "date_last_modified": 1503002227773,
+          "digital_master": {
+            "rendition": "passthrough",
+            "distribute": false
           },
           "renditions": [
           ],
           "packages": [
           ],
-        	"dynamic_origin": {
-        		"renditions": [
-        			"default/audio64",
-        			"default/audio128",
-        			"default/video700",
-        			"default/video2000",
-        			"default/video1700",
-        			"default/video1200",
-        			"default/audio96",
-        			"default/video450",
-        			"default/video900"
+          "dynamic_origin": {
+            "renditions": [
+              "default/audio64",
+              "default/audio128",
+              "default/video700",
+              "default/video2000",
+              "default/video1700",
+              "default/video1200",
+              "default/audio96",
+              "default/video450",
+              "default/video900"
             ],
-        		"images": [
-        			{
-        				"label": "poster",
-        				"height": 720,
-        				"width": 1280
+            "images": [
+              {
+                "label": "poster",
+                "height": 720,
+                "width": 1280
               },
               {
-        				"label": "thumbnail",
-        				"height": 90,
-        				"width": 160
+                "label": "thumbnail",
+                "height": 90,
+                "width": 160
               }
             ]
           },
-        	"id": "6198c17bbbdc42a4bb60a41f"
+          "id": "6198c17bbbdc42a4bb60a41f"
         }
   securitySchemes:
     BC_OAuth2:

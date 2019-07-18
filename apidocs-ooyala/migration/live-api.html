@@ -275,232 +275,65 @@
 
                   <section class="bcls-section">
                     <h2 id="Jobs">Live Jobs</h2>
-                    <p>Setting up live stream broadcasting via the Brightcove Live API first requires creating a job.</p>
-                  </section>
-
-
-                  <section class="bcls-section">
-                    <h2 id="Parameters">Parameters</h2>
-                    <p>The parameters for requests are similar for the two APIs. They are detailed in the table below to show you where the differences lie.</p>
-                    <table class="bcls-table">
-                      <caption class="bcls-caption--table">Parameters</caption>
-                      <thead class="bcls-table__head">
-                        <tr>
-                          <th>Ooyala Parameter</th>
-                          <th>Brightcove Parameter</th>
-                          <th>Docs</th>
-                        </tr>
-                      </thead>
-                      <tbody class="bcls-table__body">
-                        <tr>
-                          <td>none</td>
-                          <td><code>accounts</code> - included as a parameter to all reports on multiple accounts</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>report_type</code></td>
-                          <td>None, but the Brightcove API offers some additional endpoints for engagement and live analytics reports</td>
-                          <td><a href="https://support.brightcove.com/overview-analytics-api-v1">Overview: Live API</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>start_date</code></td>
-                          <td><code>from</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>end_date</code></td>
-                          <td><code>to</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>metrics</code></td>
-                          <td><code>fields</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Metrics">Metrics</a> for information on what metrics are available</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>dimensions</code></td>
-                          <td><code>dimensions</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Dimensions">Dimensions</a> for information on what dimensions are available</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>filters</code></td>
-                          <td><code>where</code> - apart from the name, the two params are essentially identical; see <a href="#Filters">Filters</a> below for more information</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>time_segment</code></td>
-                          <td>none - the Brightcove API does have <code>date</code> and <code>date_hour</code> dimensions that provide some similar time-segmenting, and also engagement endpoints for periods within the previous 32 days, which provide views over each 100th part of the video</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>sort</code></td>
-                          <td><code>sort</code> the params are identical except that the Ooyala API allows sorting on multiple metrics</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>limit</code></td>
-                          <td><code>limit</code> - the params are identical except for the 1000 limit on the Ooyala API param</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>page</code></td>
-                          <td><code>offset</code> - the params take different values but work similarly for paging of datasets</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>reconciled</code> - because analytics data comes from different sources on different schedules, the Brightcove API puts recent analytics data into an "unreconciled" bucket while it is still being updated, and transfers it to a "historical" bucket; the param allows you to choose between these buckets</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>bucket_limit</code> - applies only to Live Analytics requests; together with <code>bucket_duration</code>, these function in a way somewhat similar to the Ooyala API <code>time_segment</code> param</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>bucket_duration</code></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Dimensions">Dimensions</h2>
-                    <p>The Ooyala and Brightcove Live APIs both group data into buckets called "dimensions". They are used in similar ways, but the APIs have somewhat different rules as to how multiple dimensions can be combined, and Brightcove has a broader set of dimensions. See <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#supported_dimension_combinations">Supported dimension combinations</a> for details on the Brightcove API. The table below provides a detailed comparison.</p>
-                    <table class="bcls-table">
-                        <caption class="bcls-caption--table">Dimensions</caption>
-                        <thead class="bcls-table__head">
-                          <tr>
-                              <th>Ooyala Dimension</th>
-                              <th>Brightcove Dimension</th>
-                              <th>Docs</th>
-                          </tr>
-                        </thead>
-                        <tbody class="bcls-table__body">
-                            <tr>
-                                <td><code>asset</code></td>
-                                <td><code>video</code> - the Brightcove <code>video</code> dimension covers only VOD assets; there is also a <code>live_stream</code> dimension</td>
-                                <td><a href="https://support.brightcove.com/dimension-video">Video Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>country</code></td>
-                                <td><code>country</code> - dimensions are essentially identical</td>
-                                <td><a href="https://support.brightcove.com/dimension-country">Country Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>region</code></td>
-                                <td><code>region</code> - dimensions are essentially identical, except that the Brightcove dimension includes US states</td>
-                                <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>dma</code></td>
-                                <td>none</td>
-                                <td>n/a</td>
-                            </tr>
-                            <tr>
-                                <td><code>state</code></td>
-                                <td><code>region</code> - the Brightcove API includes US states in the <code>region</code> dimension</td>
-                                <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>device_type</code></td>
-                                <td><code>device_type</code> - dimensions are essentially identical</td>
-                                <td><a href="https://support.brightcove.com/dimension-account">Device Type Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>domain</code></td>
-                                <td><code>destination_domain</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>url</code></td>
-                                <td><code>device_os</code> - essentially the same</td>
-                                <td><a href="https://support.brightcove.com/dimension-deviceos">Device OS Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>os</code></td>
-                                <td><code>destination_domain</code> - not exactly the same, but the closest equivalent</td>
-                                <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>pcode</code></td>
-                                <td><code>account</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-account">Account Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>player_id</code></td>
-                                <td><code>player</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-player"></a>Player Dimension</td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>browser_type</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-browsertype">Browser Type Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>date</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-date">Date Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>date_hour</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-datehour">Date-Hour Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>device_manufacturer</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-devicemanufacturer">Device Manufacturer Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>referrer_domain</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-referrerdomain">Referrer Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>search_terms</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-searchterms">Search Terms Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>social_platform</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-socialplatform">Social Platform Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>source_type</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-sourcetype">Source Type Dimension</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Filters">Filters</h2>
-                    <p>Filters works pretty much identically in the two APIs, specified in terms of:</p>
-<pre><code class="language-http">
-  // Ooyala
-  filter={dimension1}=={value1};{dimension2}=={value2}
-
-  // Brightcove
-  where={dimension1}=={value1};{dimension2}=={value2}
-</code></pre>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Metrics">Metrics</h2>
-                    <p>The <code>metrics</code> (for the Brightcove API: <code>fields</code>) returned in reports varies according to the dimension(s) requested for Brightcove Live API. you can use the tool embedded in <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#metrics">Dimensions and Fields</a> to see which fields can be returned for a particular dimension or combination of dimensions.</p>
-                    <p>Note that while the Ooyala API returns all metrics if none are specified, but the Brightcove API returns only a small set of default metrics which vary by the dimension (combination) unless you include the <code>fields</code> in the request.</p>
-                    <p>Brightcove fields contain equivalents for all the Ooyala metrics except for:</p>
+                    <p>Setting up live stream broadcasting via the Brightcove Live API first requires creating a job. Jobs can be of types <code>event</code> or <code>24x7</code> (they are billed differently and your account must be enabled for the type you specify). They can also be basic single start/stop events or "static entry point" (SEP) jobs that can be activated and deactivated as many times as you need to (SEP is recommended for 24x7 jobs).</p>
+                    <p>For live streaming, you can use either RTMP or MPEG2-TS inputs.</p>
+                    <h3>Related docs</h3>
                     <ul>
-                      <li><code>uniq_plays_requested</code></li>
-                      <li><code>uniq_displays</code></li>
-                      <li><code>uniq_video_starts</code></li>
+                      <li><a href="https://docs.brightcove.com/live-api/v1/doc/index.html">Live Job endpoints</a></li>
+                      <li><a href="https://support.brightcove.com/overview-brightcove-live-api">Overview: Live API</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-static-entry-points">Static Entry Points</a></li>
+                      <li><a href="https://support.brightcove.com/quick-start-create-live-job-mpeg2-ts-input">Quick Start: Create a Live Job for MPEG2-TS Input</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-static-entry-points">Static Entry Points</a></li>
                     </ul>
-                    <p>The Brightcove Live API can also return number of other metrics not available in Ooyala analytics.</p>
+                  </section>
+
+
+                  <section class="bcls-section">
+                    <h2 id="RMTP">RMTP Outputs</h2>
+                    <p>The Brightcove Live system can create different kinds of outputs, including RTMP and RTMPS. The latter are primarily used for running live events on social media, while segmented HLS renditions are mainly used for web playback in Brightcove Players.</p>
+                    <h3>Related docs</h3>
+                    <ul>
+                      <li><a href="https://support.brightcove.com/quick-start-using-rtmp-outputs-live-events">Quick Start: Using RTMP Outputs for Live Events</a></li>
+                    </ul>
+                  </section>
+
+                  <section class="bcls-section">
+                    <h2 id="Clips">Clips from live streams</h2>
+                    <p>Brightcove can create clips from live events, and full VOD assets for up to the last 24 hours of an event. The clips can be put in a Video Cloud account, where they can be posted to social media accounts as well. They can also be sent to an S3 bucket or an FTP server.</p>
+                    <h3>Related docs</h3>
+                    <ul>
+                      <li><a href="https://support.brightcove.com/live-api-creating-vod-clips">Live API: Creating VOD Clips</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-creating-frame-accurate-clip">Live API: Creating a Frame-Accurate Clip</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-vod-live-event">Live API: VOD from Live Event</a></li>
+                    </ul>
+                  </section>
+
+                  <section class="bcls-section">
+                    <h2 id="SSAI">SSAI</h2>
+                    <p>Server Side Ad Integration allows you to set up ad configurations to deliver ads during live events at points you define.</p>
+                    <p>You can also use the Live API to define beacon sets and slates of content to fill unused ad time.</p>
+                    <h3>Related docs</h3>
+                    <ul>
+                      <li><a href="https://support.brightcove.com/live-api-cue-points-and-ad-beacons-ssai">Live API: Server-Side Ad Insertion (SSAI)</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-creating-frame-accurate-clip">Live API: Cue Points and Ad Beacons with SSAI</a></li>
+                    </ul>
+                  </section>
+
+                  <section class="bcls-section">
+                    <h2 id="Credentials">Credentials</h2>
+                    <p>The Live API includes credentials endpoints to allow you to set up credentials for several purposes</p>
+                    <ul>
+                      <li>Provide authentication for S3 buckets or FTP servers to post clips</li>
+                      <li>Set up Video Cloud client credentials for delivering clips to your video library</li>
+                      <li>Set up RTMP credentials to prevent pirating of your live streams</li>
+                      <li>Set up basic or OAuth credentials for sending live notifications to a secure location</li>
+                    </ul>
+                    <h3>Related docs</h3>
+                    <ul>
+                      <li><a href="https://support.brightcove.com/managing-credentials-live-api">Managing Credentials for the Live API</a></li>
+                      <li><a href="https://support.brightcove.com/live-api-notifications">Live API: Notifications</a></li>
+                      <li><a href="https://support.brightcove.com/signed-urls-and-token-auth-live-stream">Signed URLs and Token Auth with a Live Stream</a></li>
+                    </ul>
                   </section>
 
                 </article>

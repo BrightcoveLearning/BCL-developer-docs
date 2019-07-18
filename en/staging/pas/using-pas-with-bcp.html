@@ -142,9 +142,20 @@
 
   <section class="bcls-section">
     <h2 id="Using_a_custom_implementation">Using a custom implementation</h2>
-    <p>You may be using a custom implementation where you don't have the <code>bcovAuthToken</code> to set the value with the the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method request. In this case, you can insert the <code>emeHeader</code> on each source AFTER the catalog request.</p>
+    <p>You may be using a custom implementation where you don't have the <code>bcovAuthToken</code> to set the value with the the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method request. If you are using your own or a third-party player, you can use one of the following approaches to pass your token into the license request:</p>
+    <ul>
+      <li>
+        HTTP header: <code>BCOV-Auth</code> (Not supported for HLSe)
+      </li>
+      <li>
+        Cookie: <code>bcov-auth</code> (Not supported for HLSe)
+      </li>
+      <li>
+        Query parameter: <code>bcov-auth</code> (Only supported for HLSe) Must be appended to the master manifest url, instead of the license url.
+      </li>
+    </ul>
     <p>
-      Here is an example showing how to set the <code>source.emeHeaders['BCOV-Auth']</code> attribute on the video object to the token:
+      Here is an example showing how to set the <code>source.emeHeaders['BCOV-Auth']</code> attribute on the video object to the token. This inserts the <code>emeHeader</code> on each source AFTER the catalog request. 
     </p>
     <pre class="line-numbers">
 <code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;

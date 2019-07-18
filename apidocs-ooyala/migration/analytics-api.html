@@ -282,7 +282,7 @@
                     <h2 id="Parameters">Parameters</h2>
                     <p>The parameters for requests are similar for the two APIs. They are detailed in the table below to show you where the differences lie.</p>
                     <table class="bcls-table">
-                      <caption class="bcls-caption--table">Assets</caption>
+                      <caption class="bcls-caption--table">Parameters</caption>
                       <thead class="bcls-table__head">
                         <tr>
                           <th>Ooyala Parameter</th>
@@ -292,7 +292,7 @@
                       </thead>
                       <tbody class="bcls-table__body">
                         <tr>
-                          <td>n/a</td>
+                          <td>none</td>
                           <td><code>accounts</code> - included as a parameter to all reports on multiple accounts</td>
                           <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
@@ -337,373 +337,114 @@
                           <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
                         <tr>
-                          <td><code>/v2/assets/{asset_id}/closed_captions</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>CMS API: update video - text tracks are removed via an update video request</td>
-                          <td><a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update Video</a></td>
+                          <td><code>limit</code></td>
+                          <td><code>limit</code> - the params are identical except for the 1000 limit on the Ooyala API param</td>
+                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
                         <tr>
-                          <td><code>/v2/assets/{asset_id}/drm_attributes/{drm_type}</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
+                          <td><code>page</code></td>
+                          <td><code>offset</code> - the params take different values but work similarly for paging of datasets</td>
+                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
                         <tr>
-                          <td><code>/v2/assets/{asset_id}/drm_attributes/{drm_type}</code></td>
-                          <td><code>PATCH</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
+                          <td>none</td>
+                          <td><code>reconciled</code> - because analytics data comes from different sources on different schedules, the Brightcove API puts recent analytics data into an "unreconciled" bucket while it is still being updated, and transfers it to a "historical" bucket; the param allows you to choose between these buckets</td>
+                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
                         <tr>
-                          <td><code>/v2/assets/{asset_id}/generated_preview_images</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
+                          <td>none</td>
+                          <td><code>bucket_limit</code> - applies only to Live Analytics requests; together with <code>bucket_duration</code>, these function in a way somewhat similar to the Ooyala API <code>time_segment</code> param</td>
+                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
                         <tr>
-                          <td><code>/v2/assets/{asset_id}/labels</code></td>
-                          <td><code>GET</code></td>
-                          <td>Video Cloud does not have an exact equivalent to <code>labels</code>; tags and custom
-                            fields are similar, and are returned on CMS API get video requests</td>
-                          <td><a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoByIdOrReferenceId">Get
-                              Videos by ID/Reference ID</a></td>
+                          <td>none</td>
+                          <td><code>bucket_duration</code></td>
+                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
                         </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/labels</code></td>
-                          <td><code>POST</code></td>
-                          <td>Video Cloud does not have an exact equivalent to <code>labels</code>; tags and custom
-                            fields are similar, and can be added, updated, or removed using a CMS API updates video
-                            requests</td>
-                          <td><ahref="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/labels/{label_id}</code></td>
-                          <td><code>PUT</code></td>
-                          <td>Video Cloud does not have an exact equivalent to <code>labels</code>; tags and custom
-                            fields are similar, and can be added, updated, or removed using a CMS API updates video
-                            requests</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/labels/{label_id}</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>Video Cloud does not have an exact equivalent to <code>labels</code>; tags and custom
-                            fields are similar, and can be added, updated, or removed using a CMS API updates video
-                            requests</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/metadata</code></td>
-                          <td><code>GET</code></td>
-                          <td>The Video Cloud equivalent of <code>metadata</code> is custom fields; they can be gotten
-                            using the CMS API get video request</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoByIdOrReferenceId">Get
-                              Videos by ID/Reference ID/a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/metadata</code></td>
-                          <td><code>PUT</code></td>
-                          <td>The Video Cloud equivalent of <code>metadata</code> is custom fields; they can be gotten,
-                            updated, or removed from a video using the CMS API update video request</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/metadata</code></td>
-                          <td><code>PATCH</code></td>
-                          <td>The Video Cloud equivalent of <code>metadata</code> is custom fields; they can be gotten,
-                            updated, or removed from a video using the CMS API update video request</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/metadata</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>The Video Cloud equivalent of <code>metadata</code> is custom fields; they can be gotten,
-                            updated, or removed from a video using the CMS API update video request</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                              Video</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/movie_urls</code></td>
-                          <td><code>GET</code></td>
-                          <td>CMS API: get video sources</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoSources">Get
-                              Video Sources</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/movie_urls</code></td>
-                          <td><code>POST</code></td>
-                          <td>CMS API: add rendition</td>
-                          <td><a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/AddRendition">Add
-                              Rendition</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/movie_urls/{type}</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>CMS API: delete rendition</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/DeleteRendition">Delete
-                              Rendition</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/player</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent; Video Cloud videos are not typically assigned a unique player, because
-                            players are easily reused, and a video can be assigned to multiple players to appear in
-                            different contexts</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/player/{player_id}</code></td>
-                          <td><code>PUT</code></td>
-                          <td>See the previous entry; this is not typically done, but you can specify a particular video
-                            to be loaded in a player using the Player Management API update player configuration request
-                          </td>
-                          <td><a
-                              href="https://docs.brightcove.com/player-management-api/v2/doc/index.html#operation/UpdatePlayerConfiguration">Update
-                              player configuration</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_files</code></td>
-                          <td><code>GET</code></td>
-                          <td>CMS API: get video images</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoImages">Get
-                              Video Images</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_files</code></td>
-                          <td><code>POST</code></td>
-                          <td>The Dynamic Ingest API can be used to add or replace images</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost">Ingest
-                                  Videos and Assets</a></li>
-                              <li><a href="https://support.brightcove.com/images-and-dynamic-ingest-api">Images and the
-                                  Dynamic Ingest API</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_files</code></td>
-                          <td><code>PUT</code></td>
-                          <td>The Dynamic Ingest API can be used to add or replace images</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost">Ingest
-                                  Videos and Assets</a></li>
-                              <li><a href="https://support.brightcove.com/images-and-dynamic-ingest-api">Images and the
-                                  Dynamic Ingest API</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_files/{image_id}</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_files</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_urls</code></td>
-                          <td><code>GET</code></td>
-                          <td>Image URLs are included in the response to the CMS API get video images request, but it's
-                            not really the use case that this Backlot API endpoint is designed for</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoImages">Get
-                              Video Images</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_urls</code></td>
-                          <td><code>POST</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_urls</code></td>
-                          <td><code>PUT</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/preview_image_urls</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/primary_preview_image</code></td>
-                          <td><code>GET</code></td>
-                          <td>CMS API: get video images; since Video Cloud doe not have the concept of a primary image,
-                            this is no different from simply getting, adding, or replacing the poster; there is also no
-                            metadata field to indicate if the image is remoted, uploaded, or generated</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoImages">Get
-                              Video Images</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/primary_preview_image</code></td>
-                          <td><code>PUT</code></td>
-                          <td>The Dynamic Ingest API can be used to add or replace images</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost">Ingest
-                                  Videos and Assets</a></li>
-                              <li><a href="https://support.brightcove.com/images-and-dynamic-ingest-api">Images and the
-                                  Dynamic Ingest API</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/publishing_rule</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent; geo-filtering properties set on the video are returned in the CMS API get
-                            video(s) response.</td>
-                          <td><a href=""></a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/publishing_rule/{rule_id}</code></td>
-                          <td><code>PUT</code></td>
-                          <td>Geo-filtering properties can be set on a video using CMS API update video request;Geo
-                            and/or domain restrictions can be set on a player via the Policy API.</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">Update
-                                  Video</a></li>
-                              <li><a
-                                  href="https://docs.brightcove.com/policy-api/v1/doc/index.html#operation/CreateAPolicyKey">Create
-                                  a Policy Key</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/source_file_info</code></td>
-                          <td><code>GET</code></td>
-                          <td>The closest equivalent is the CMS API get digital master information request, but note
-                            that the digital master is not exactly the original source video</td>
-                          <td><a
-                              href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetDigitalMasterInfo">Get
-                              Digital Master Info</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/streams</code></td>
-                          <td><code>GET</code></td>
-                          <td>CMS API get video sources, or Playback API get videos requests will return these</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/GetVideoSources">CMS
-                                  API: Get Video Sources</a></li>
-                              <li><a
-                                  href="https://docs.brightcove.com/playback-api/v1/doc/index.html#operation/Get_Video_by_ID_or_Reference_ID">Playback
-                                  API: Get Video</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/uploading_urls</code></td>
-                          <td><code>GET</code></td>
-                          <td>This is equivalent to the Dynamic Ingest API Get Temporary S3 URLs to Upload Videos
-                            request, but note that the preferred ingest method is an ingest request that includes a URI
-                            that Brightcove can access</td>
-                          <td><a
-                              href="https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosUploadUrlsSourceNameByAccountIdAndVideoIdGet">Get
-                              Temporary S3 URLs to Upload Videos</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/upload_status</code></td>
-                          <td><code>PUT</code></td>
-                          <td>Not needed in Video Cloud, but note that there is a CMS API endpoint to get the processing
-                            status of an ingested video,as well as notifications for the Dynamic Ingest API</td>
-                          <td>
-                            <ul>
-                              <li><a
-                                  href="https://support.brightcove.com/get-status-dynamic-ingest-requests-dynamic-delivery">Get
-                                  Status of Dynamic Ingest Requests</a></li>
-                              <li><a
-                                  href="https://support.brightcove.com/notifications-dynamic-delivery-video-cloud">Notifications
-                                  for Dynamic Delivery in Video Cloud</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/youtube</code></td>
-                          <td><code>GET</code></td>
-                          <td>Closest equivalents are the get status and get history requests for the Social API</td>
-                          <td>
-                            <ul>
-                              <li><a href="https://docs.brightcove.com/social-api/v1/doc/index.html#tag/Status">Social
-                                  Sharing Status Requests</a></li>
-                              <li><a href="https://docs.brightcove.com/social-api/v1/doc/index.html#tag/History">Social
-                                  Sharing Histor Requests</a></li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/youtube</code></td>
-                          <td><code>PUT</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{asset_id}/youtube</code></td>
-                          <td><code>PATCH</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{channel_id}/lineup (deprecated)</code></td>
-                          <td><code>GET</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{channel_id}/lineup (deprecated)</code></td>
-                          <td><code>PUT</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{channel_id}/lineup/{asset_id} (deprecated)</code></td>
-                          <td><code>PUT</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-                        <tr>
-                          <td><code>/v2/assets/{channel_id}/lineup/{asset_id} (deprecated)</code></td>
-                          <td><code>DELETE</code></td>
-                          <td>No equivalent</td>
-                          <td>n/a</td>
-                        </tr>
-
                       </tbody>
                     </table>
                   </section>
 
                   <section class="bcls-section">
-                    <h2 id="DRM_Policies">DRM Policies</h2>
-                    <p>There are no Video Cloud equivalents for the DRM Policy endpoints in the Backlot API. DRM is managed at the account level in Video Cloud by Support. The only relevant CMS API request is Update Video, which allows to set the <code>drm_enabled</code> flag to <code>false</code>, which removes DRM packaging from the specified video.</p>
-                    <p>See the <a href="https://support.brightcove.com/overview-digital-rights-management-drm-video-cloud">Overview: Digital Rights Management (DRM) in Video Cloud</a> for more details on how DRM works.</p>
+                    <h2 id="Dimensions">Dimensions</h2>
+                    <p>The Ooyala and Brightcove Analytics APIs both group data into buckets called "dimensions". They are used in similar ways, but the APIs have somewhat different rules as to how multiple dimensions can be combined, and Brightcove has a broader set of dimensions. The table below provides a detailed comparison.</p>
+                    <table class="bcls-table">
+                        <caption class="bcls-caption--table">Dimensions</caption>
+                        <thead class="bcls-table__head">
+                          <tr>
+                              <th>Ooyala Parameter</th>
+                              <th>Brightcove Parameter</th>
+                              <th>Docs</th>
+                          </tr>
+                        </thead>
+                        <tbody class="bcls-table__body">
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                            <tr>
+                                <td><code></code></td>
+                                <td><code></code></td>
+                                <td><a href=""></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                   </section>
 
                   <section class="bcls-section">

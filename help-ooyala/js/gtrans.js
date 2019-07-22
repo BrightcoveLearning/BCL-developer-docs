@@ -1,0 +1,1 @@
+function doGTranslate(lang_pair) {console.log('lang_pair', lang_pair);if(lang_pair.value)lang_pair=lang_pair.value;var domain = location.hostname;var lang=lang_pair.split('|')[1];var plang=domain.split('.')[0];if(plang.length !=2 && plang != 'zh-CN' && plang != 'zh-TW')plang='en';if(lang !== 'en')location.hostname=lang + '.' +domain;}

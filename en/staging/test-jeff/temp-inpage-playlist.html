@@ -442,25 +442,79 @@
   </li>
   <li>
     <p>
-      To the advanced embed code, do the following:
+      In the <code>video-js</code> element, remove the <code>vjs-fluid</code> class and replace it with <code>vjs-fill</code>.
+    </p>
+    <pre><code class="language-html">class=&quot;vjs-fill&quot;</code></pre>
+  </li>
+  <li>
+    <p>
+      Wrap the <code>video-js</code> element with a <code>div</code> element as follows:
+    </p>
+    <pre><code class="language-html">&lt;div class=&quot;vjs-playlist-player-container&quot; style=&quot;position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;&quot;&gt;</code></pre>
+  </li>
+  <li>
+    <p>
+      Wrap the previous container in a <code>div</code> element with CSS <code>padding-top</code> equal to: <code>aspectRatioHeight / aspectRatioWidth / 0.8 * 100</code>.
+    </p>
+    <pre><code class="language-html">&lt;div style=&quot;padding-top: 70.3125%;&quot;&gt;</code></pre>
+    <br />
+    <p>
+      Because the horizontal playlist occupies 20% of the available space, we need the height of the player to occupy 80% of the available space. This is how we figured the math:
     </p>
     <ul>
       <li>
-        
+        <code>aspectRatioHeight / aspectRatioWidth</code> gives you the aspect ratio as a percentage (e.g. 9 / 16 = 0.5625)
+      </li>
+      <li>
+        This percentage divided by 0.8 gives us an adjusted percentage.
+      </li>
+      <li>
+        <p>
+          Multiplying by 100 gives us a number from 0 to 100 that will work as a <code>padding-top</code> value.
+        </p>
       </li>
     </ul>
-    <pre class="line-numbers"><code class="language-html"><span class="bcls-highlight">&lt;div class=&quot;vjs-playlist-player-container&quot; style=&quot;max-width: 960px;&quot;&gt;</span>
-	&lt;video-js
-		data-account=&quot;1752604059001&quot;
-		data-player=&quot;5dBwlwbNk&quot;
-		data-embed=&quot;default&quot;
-		controls=&quot;&quot;
-		data-video-id=&quot;&quot;
-		data-playlist-id=&quot;5686354139001&quot;
-		data-application-id=&quot;&quot;
-		class=&quot;vjs-fluid&quot;&gt;
-	&lt;/video-js&gt;
-&lt;/div&gt;
+    <p>
+      Here are common aspect ratios and their pre-calculated percentages:
+    </p>
+    <ul>
+      <li>
+        <code>16:9</code> yields <code>70.3125%</code>
+      </li>
+      <li>
+        <code>16:10</code> yields <code>78.125%</code>
+      </li>
+      <li>
+        <code>4:3</code> yields <code>93.75%</code>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>
+      Wrap the previous container with a <code>div</code> element as follows:
+    </p>
+    <pre><code class="language-html">&lt;div style=&quot;position: relative; display: block; max-width: 960px;&quot;&gt;</code></pre>
+  </li>
+  <li>
+    <p>
+      The complete code should look similar to this:
+    </p>
+    <pre class="line-numbers"><code class="language-html"><span class="bcls-highlight">&lt;div style=&quot;position: relative; display: block; max-width: 960px;&quot;&gt;
+	&lt;div style=&quot;padding-top: 70.3125%;&quot;&gt;
+		&lt;div class=&quot;vjs-playlist-player-container&quot; style=&quot;position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;&quot;&gt;</span>
+			&lt;video-js
+			  data-account=&quot;1752604059001&quot;
+			  data-player=&quot;5dBwlwbNk&quot;
+			  data-embed=&quot;default&quot;
+			  controls=&quot;&quot;
+			  data-video-id=&quot;&quot;
+			  data-playlist-id=&quot;5686354139001&quot;
+			  data-application-id=&quot;&quot;
+			  <span class="bcls-highlight">class=&quot;vjs-fill&quot;&gt;</span>
+			&lt;/video-js&gt;
+		<span class="bcls-highlight">&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</span>
 &lt;script src=&quot;https://players.brightcove.net/1752604059001/5dBwlwbNk_default/index.min.js&quot;&gt;&lt;/script&gt;</code></pre>
   </li>
 </ol>
@@ -791,7 +845,7 @@
 </article>
 
 <!-- END DRUPAL CONTENT -->
-</div>
+</>
 </div>
 <!-- bcl scripts -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Picture-in-Picture with the Native SDKs</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Picture-in-Picture with the Native SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to implement Picture-in-Picture mode in your apps using the Brightcove Native Player SDKs.</p>
+      <!-- <aside class="bcls-aside bcls-aside--information">The content in this document applies to Video Cloud only.</aside> -->
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Picture-in-picture (PIP) mode allows users to multitask on their devices. With this feature, you can create apps where a small video playback window is pinned to a corner of the screen while the user performs other tasks.</p>
+
+<figure class="bcls-figure"><img class="bcls-image--no-border" width="600" alt="Picture-in-picture mode" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/guides/pip/android-steps.png" />
+<figcaption class="bcls-caption--image">Picture-in-picture mode</figcaption>
+</figure>
+</section>
+
+<section class="bcls-section">
+<h2 id="Features">Features</h2>
+
+<p>The picture-in-picture functionality provided by the Brightcove Native SDKs, supports the following features:</p>
+
+<ul>
+	<li>Where a user enters picture-in-picture mode by clicking on the PIP icon in the control bar, a developer can enter PIP mode programmatically.</li>
+	<li>The user can drag the PIP window around the corners of the screen to place it in the most convenient location.</li>
+	<li>The user can pause and play the video in the PIP window, or remove it completely. The user can also maximize the video back to the in-app experience.</li>
+	<li>PIP mode works on top of the app, the device background and other applications.</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Supported_versions">Supported versions</h2>
+
+<p>Picture-in-picture mode is supported with the following versions:</p>
+
+<aside class="bcls-aside bcls-aside--information">Currently, the picture-in-picture feature is only available with the Brightcove Native SDK for Android.</aside>
+
+<h3>Device OS version</h3>
+
+<p><strong>Android:</strong> Android OS Oreo 8.0+ (API level 26+)</p>
+
+<h3>Native SDK version</h3>
+
+<p><strong>Android:</strong> Brightcove Native SDK for Android version 6.1.0+</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Android_implementation">Android implementation</h2>
+
+<p>The following topics will help you get started with the picture-in-picture feature:</p>
+
+<ul>
+	<li><a href="#Using_BrightcovePlayer">Using BrightcovePlayer</a></li>
+	<li><a href="#Using_a_regular_Activity">Using a regular Activity</a></li>
+	<li><a href="#Customizing_Picture-in-Picture">Customizing picture-in-picture</a></li>
+	<li><a href="#Limitations">Limitations</a></li>
+	<li><a href="#Known_issues">Known issues</a></li>
+</ul>
+
+<p>For more details, see Android's <a href="https://developer.android.com/guide/topics/ui/picture-in-picture.html">Picture-in-picture support guide</a>.</p>
+
+<h3 id="Using_BrightcovePlayer">Using BrightcovePlayer</h3>
+
+<p>The easiest way to start using picture-in-picture is to have your activity extend the <code>BrightcovePlayer</code>. To do this, follow these steps:</p>
+
+<ol class="bcls-tasklist">
+	<li>In your <strong>styles.xml</strong> file, enable the picture-in-picture button by adding the following code:
+
+	<pre class="line-numbers">
+<code class="language-xml">&lt;style name="BrightcoveControlBar" parent="BrightcoveControlBarDefault"&gt;
+       &lt;item name="brightcove_picture_in_picture"&gt;true&lt;/item&gt;
+    &lt;/style&gt;</code></pre>
+	</li>
+	<li>In your <strong>AndroidManifest.xml</strong> file, <a href="https://developer.android.com/guide/topics/ui/picture-in-picture.html#declaring">declare picture-in-picture support</a> for the activity by adding the following:
+	<pre class="line-numbers">
+<code class="language-xml">&lt;activity android:name="VideoActivity"
+      android:resizeableActivity="true"
+    <span class="bcls-highlight">  android:supportsPictureInPicture="true"
+      android:configChanges=
+          "screenSize|smallestScreenSize|screenLayout|orientation"</span>
+      ...
+    </code></pre>
+
+	<p>This is an important step. If you do not declare it, when a user presses the picture-in-picture button in the Brightcove Media Controller, an <code>IllegalStateException</code> will be thrown:</p>
+
+	<pre>
+<code class="language-java">java.lang.IllegalStateException: enterPictureInPictureMode: Current activity does not support picture-in-picture</code></pre>
+	</li>
+</ol>
+
+<p>When going into picture-in-picture mode, the activity itself is resized, retaining all of the activity components in the picture-In-picture window. To avoid this and to provide an easier implementation, the Brightcove video view will go into Full Screen automatically to match the parent layout width and height showing only the video in the picture-in-picture window. Once you leave this mode, Brightcove video view will return to its original state.</p>
+
+<p>If you do not want picture-in-picture in your app, you can disable the picture-in-picture button by adding the following code in your <strong>styles.xml</strong> file:</p>
+
+<pre class="line-numbers">
+<code class="language-xml">&lt;style name="BrightcoveControlBar" parent="BrightcoveControlBarDefault"&gt;
+   &lt;item name="brightcove_picture_in_picture"&gt;false&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+
+<h3 id="Using_a_regular_Activity">Using a regular Activity</h3>
+
+<p>If you are using an activity which does not extend <code>BrightcovePlayer</code>, in addition to declaring support for picture-in-picture as mentioned in the previous section, you need to follow a few extra steps:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>Open the <strong>MainActivity.java</strong> file.</li>
+	<li>In the <code>onCreate</code> method of the activity, register the Activity with the Brightcove <code>PictureInPictureManager</code>:
+	<pre>
+<code class="language-java">PictureInPictureManager.getInstance().registerActivity(Activity, BrightcoveVideoView)</code></pre>
+	</li>
+	<li>In the <code>onDestroy</code> method, unregister the Activity:
+	<pre>
+<code class="language-java">PictureInPictureManager.getInstance().unregisterActivity(Activity)</code></pre>
+	</li>
+	<li>Override the <code>onPictureInPictureModeChanged</code> Activity method, and call <code>onPictureInPictureModeChanged()</code> method as shown below:
+	<pre class="line-numbers">
+<code class="language-java">@Override
+public void onPictureInPictureModeChanged (boolean isInPictureInPictureMode, Configuration newConfig) {
+   super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
+   PictureInPictureManager.getInstance().onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
+}</code></pre>
+	</li>
+	<li>Finally, override the <code>onUserLeaveHint()</code> Activity method, and call <code>onUserLeaveHint()</code> as shown below:
+	<pre class="line-numbers">
+<code class="language-java">@Override
+public void onUserLeaveHint () {
+   super.onUserLeaveHint();
+   PictureInPictureManager.getInstance().onUserLeaveHint();
+}</code></pre>
+	</li>
+</ol>
+
+<p>After following these steps, the picture-in-picture button will appear in the Brightcove Media Controller automatically. You can also trigger picture-in-picture programmatically as follows:</p>
+
+<pre>
+<code class="language-java">PictureInPictureManager.getInstance().enterPictureInPictureMode()</code></pre>
+
+<aside class="bcls-aside bcls-aside--information">Note that calling this method will throw a <code>PictureInPictureManagerException</code> if an Activity has not been registered.</aside>
+
+<h3 id="Customizing_picture-in-picture">Customizing picture-in-picture</h3>
+
+<p>You can customize the behavior and appearance of the picture-in-picture window through the <code>PictureInPictureManager</code>. For example, you can change the aspect ratio of the window or enable/disable captions for your videos.</p>
+
+<p>Android Oreo natively provides three parameters that can be customized:</p>
+
+<ul>
+	<li><a href="https://developer.android.com/reference/android/app/PictureInPictureParams.Builder.html#setAspectRatio(android.util.Rational)">aspect ratio</a>
+
+	<pre>
+<code class="language-java">setAspectRatio(Rational)</code></pre>
+	</li>
+	<li><a href="https://developer.android.com/reference/android/app/PictureInPictureParams.Builder.html#setSourceRectHint(android.graphics.Rect)">source bounds hint</a>
+	<pre>
+<code class="language-java">setSourceRectHint(Rect)</code></pre>
+	</li>
+	<li><a href="https://developer.android.com/reference/android/app/PictureInPictureParams.Builder.html#setActions(java.util.List%3Candroid.app.RemoteAction%3E)">list of remote actions</a>
+	<pre>
+<code class="language-java">setUserActions(List&lt;RemoteAction&gt;)</code></pre>
+	</li>
+</ul>
+
+<h4>User actions</h4>
+
+<p>Brightcove adds a <code>RemoteAction</code> by default, which handles the <code>Play/Pause</code> video events and sets their respective icons. This means that the default <code>RemoteAction</code> will be added to the list of remote actions you set with the following:</p>
+
+<pre>
+<code class="language-java">setUserActions</code></pre>
+
+<p>Keep in mind that you can only set a limited number of actions. To get the <a href="https://developer.android.com/reference/android/app/Activity.html#getMaxNumPictureInPictureActions()">maximum number of actions</a>, call the following:</p>
+
+<pre>
+<code class="language-java">Activity.getMaxNumPictureInPictureActions()</code></pre>
+
+<h4>Closed captions</h4>
+
+<p>You can enable/disable Closed Captions when playing a video in Picture-in-Picture mode by calling the following in the <code>inPictureInPictureManager</code>.</p>
+
+<pre>
+<code class="language-java">setClosedCaptionsEnabled(boolean)</code></pre>
+
+<p>Closed Captions are disabled by default in phones but enabled in tablets. To reduce the size of the Closed Captions while playing in Picture-in-Picture mode, call the following to set a value between <code>0</code> and <code>1.0f</code>.</p>
+
+<pre>
+<code class="language-java">setClosedCaptionsReductionScaleFactor(float)</code></pre>
+
+<p>By default, the Closed Captions size in picture-in-picture mode is <code>0.5f</code> or 50% the original size. Lastly, to enter picture-in-picture mode when the Activity <code>onUserLeaveHint()</code> is called, set the following to <code>true</code>:</p>
+
+<pre>
+<code class="language-java">setOnUserLeaveEnable(boolean)</code></pre>
+
+<h4>Parameters</h4>
+
+<p>In order to retrieve the current picture-in-picture parameters, you can call the following:</p>
+
+<pre>
+<code class="language-java">PictureInPicture.getBrightcovePictureInPictureParams()</code></pre>
+
+<p>This call returns the <code>BrightcovePictureInPictureParams</code> object, which has the getters for all the parameters previously discussed.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Limitations">Limitations</h2>
+
+<h3>Android</h3>
+
+<ul>
+	<li>Picture-in-picture will only work on devices with Android Oreo or higher.</li>
+	<li>It is currently not supported for Android TV.</li>
+	<li>Videos with ads are not supported.</li>
+	<li>360 videos are not supported.</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Known_issues">Known issues</h2>
+
+<h3>Android</h3>
+
+<ul>
+	<li>We found that Widevine-protected videos playing in picture-in-picture mode will turn transparent or black in the Pixel C with Android 8.0. The issue is not reproducible in the same device with Android 8.1.</li>
+</ul>
+</section>
+</article>
+
+<!-- END DRUPAL CONTENT -->
+  </div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

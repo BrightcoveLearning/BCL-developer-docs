@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Advertising with the SDKs</title>
+  	<title>Implementing Client-Side Ads with the Native SDKs</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,9 +33,9 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Advertising with the SDKs</h1>
+			<h1>Implementing Client-Side Ads with the Native SDKs</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <p>In this topic, you will learn about the advertising solutions that are supported with the Brightcove Native Player SDKs.</p>
+      <p>In this topic, you will learn how to play client-side ads with the Brightcove Native SDKs.</p>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -44,28 +44,61 @@
 <section class="bcls-section">
 <h2 id="Overview">Overview</h2>
 
-<p>The Brightcove Native SDKs offer a suite of options to help you monetize your content. The Native SDKs and their integrations enable publishers to decide how to best optimize the advertising in their player with features such as pre-, mid- and post-roll advertisements, as well as companion ads.</p>
+<p>Client-side ads involve making a request to the ad server from the client device. This may cause some buffering time while the ad video is retrieved. For a more tv-like experience, you can use <a href="https://support.brightcove.com/implementing-server-side-ads-native-player-sdks">server-side ad insertion</a>.</p>
 
-<aside class="bcls-aside bcls-aside--information">
-<p>Notes:</p>
-
+<p>
+  With client-side ads, the content video plays until either an ad cue point is detected, or an ad timing from the VMAP response is reached. A request is made to the configured ad server, which responds with ad details. The player then starts playback of the requested ad.
+</p>
+<p>
+  The Brightcove Native SDKs provide plugins for the following technologies:
+</p>
 <ul>
-	<li class="language-editable">The Brightcove Native SDKs do NOT support VPAID ads.</li>
-	<li class="language-editable">For the Android <code class="notranslate">MediaPlayer</code>, there are known limitations with the use of mid-roll ads while playing HLS videos. Using Brightcove's Native Player SDK solves many of these issues. Learn more about <a href="/node/18212">HLS Playback with the Native SDK for Android</a>.</li>
+  <li>
+    <a href="https://developers.google.com/interactive-media-ads/">Google's Interactive Media Ads (IMA)</a>
+  </li>
+  <li>
+    <a href="https://www.freewheel.com/">Freewheel</a>
+  </li>
 </ul>
-</aside>
+<p>
+  The Native SDKs support the VMAP generated when using Google's Ad Manager and DoubleClick for Publishers (DFP), the Google AdSense network.
+</p>
 
-<h3>Cue points</h3>
+</section>
 
-<p>Advertising URLs can be defined with ad cue points or within a VMAP ad tag URL:</p>
+<section class="bcls-section">
+<h2 id="Types_of_ads">Types of ads</h2>
 
-<ul>
-	<li class="language-editable">With ad cue points, each should be configured with a VAST ad tag URL.</li>
-	<li class="language-editable">Without ad cue points, you can use a VMAP ad tag URL to define when ads will be played.</li>
-</ul>
+<p>There are three main types of ads you can use with videos:</p>
+<p>
+  <strong>Linear ads</strong> - Ads that pause the main content video and are displayed in the full frame of the player
+</p>
+<p>
+  <strong>Non-linear ads</strong> - Overlay ads displayed over the main content video. These can be text, graphical images or even video overlays.
+</p>
+<p>
+  <strong>Companion ads</strong> - Ads displayed outside of the video player
+</p>
 
-<aside class="bcls-aside bcls-aside--tip">The VMAP URL is a playlist of ads, where a VAST URL defines an individual ad. For general information, see the <a href="/node/18143">Learning Guide: Video Advertising</a> document.</aside>
+</section>
 
+<section class="bcls-section">
+<h2 id="Ad_standards">Ad standards</h2>
+
+<p>Standard XML files can be used to tell the player when to play your ads and which ads to play. The <a href="https://www.iab.com/">Interactive Advertising Bureau (IAB)</a> has come up with the following common interfaces between video players and ad units:</p>
+<p>
+  <strong>Video Ad Serving Template (VAST)</strong> - A universal XML schema for serving ads to digital video players. This file specifies what ads to display.
+</p>
+<p>
+  <strong>Video Multiple Ad Playlist (VMAP)</strong> - This file describes a playlist of VAST ads, including pre-roll, mid-roll, post-roll and non-linear ads. Here, you can specify when ad breaks occur, and what ads that will play during each break.
+</p>
+<p>
+  <strong>Video Player Ad-Serving Interface Definition (VPAID)</strong> - Establishes a common interface for providing interactive ad experiences.
+</p>
+<aside class="bcls-aside bcls-aside--information">The Brightcove Native SDKs do NOT support VPAID ads</aside>
+<p>
+  If you are new to advertising terms, start by reviewing the <a href="https://support.brightcove.com/learning-guide-video-advertising">Learning Guide for Video Advertising</a>.
+</p>
 </section>
 
 <section class="bcls-section">

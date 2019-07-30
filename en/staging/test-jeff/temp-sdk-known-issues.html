@@ -45,9 +45,31 @@
 <section class="bcls-section">
 <h2 id="General">General</h2>
 
-<h3>Using emulators</h3>
+<h3>Large caption files</h3>
 
-<p>Whether you are using the Android Studio emulator or the Xcode simulator to test video playback, be aware that emulators do not accurately represent how an actual device will perform. While you can use emulators for initial testing during development, it is best practice to use real devices for accurate results.</p>
+<p>Captions recorded as part of a live event will sometimes produce a captions file with cues that look like this:</p>
+<pre class="line-numbers"><code class="language-text">00:00:03.760 --&gt; 00:00:03.960
+This
+
+00:00:03.960 --&gt; 00:00:04.160
+This program
+
+00:00:04.160 --&gt; 00:00:04.400
+This program will
+
+00:00:04.400 --&gt; 00:00:04.600
+This program will be
+
+00:00:04.600 --&gt; 00:00:04.840
+This program will be captioned</code></pre>
+<p>
+  This style of captioning produces a marquee effect, but may have the unintended side effect of producing a caption file up to several megabytes in size. When these captions are selected in the player, the player attempts to download the entire file for parsing and display (VTT captions can not be streamed). This may lead to performance problems in the player, including <code>OutOfMemory</code> errors.
+</p>
+<p>
+  Brightcove recommends that you reformat these captions into fewer lines:
+</p>
+<pre class="line-numbers"><code class="language-text">00:00:03.760 --&gt; 00:00:04.840
+This program will be captioned</code></pre>
 
 <h3>Third-party frameworks</h3>
 
@@ -57,12 +79,22 @@
 	<li>When using the Brightcove Native SDK for Android with the Titanium framework, you may experience playback errors with DRM content. This is because the Titanium framework overrides the default <code class="”notranslate”">Java.net.ResponseCache </code> with its own <code class="”notranslate”">TiResponseCache </code>.</li>
 </ul>
 
-<h2 id="Native_SDK_for_Android">Native SDK for Android</h2>
+<h3>Using emulators</h3>
 
-<h3>Source selection</h3>
+<p>Whether you are using the Android Studio emulator or the Xcode simulator to test video playback, be aware that emulators do not accurately represent how an actual device will perform. While you can use emulators for initial testing during development, it is best practice to use real devices for accurate results.</p>
+
+<h2 id="Native_SDK_for_Android">Native SDK for Android</h2>
+<h3>360° videos</h3>
 
 <ul>
-	<li>If your video has both HTTP and HTTPS sources for WebVTT captions/subtitles, then the Native SDK for Android may not return the HTTPS version. Brightcove is aware of this situation and will have a fix in a future release.</li>
+	<li>If you do not use the <a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcovePlayer.html">BrightcovePlayer</a> class, your 360° video will play, but the app may crash when pausing and resuming it. To learn more about using this class, see the <a href="/node/18252">Understanding the BrightcovePlayer class</a> document.</li>
+	<li>You may experience some video drift after rotating the device. The problem is related to how the device gyroscope is calibrated, and this can affect performance. It is not associated with specific device makes and models, but instead on the motion sensor hardware installed on the device. The newer Android OS's have more sophisticated filter algorithms to correct the problem. A simple fix is to turn off the device and turn it on while it is lying on a flat, stable surface.</li>
+</ul>
+
+<h3>Live streams</h3>
+
+<ul>
+	<li>The Native Player SDK does not support DASH Live streams, nor does it support ads with HLS Live streams.</li>
 </ul>
 
 <h3>Offline playback</h3>
@@ -86,11 +118,16 @@
 	</li>
 </ul>
 
-<h3>360° videos</h3>
+<h3>Playing local videos</h3>
 
 <ul>
-	<li>If you do not use the <a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcovePlayer.html">BrightcovePlayer</a> class, your 360° video will play, but the app may crash when pausing and resuming it. To learn more about using this class, see the <a href="/node/18252">Understanding the BrightcovePlayer class</a> document.</li>
-	<li>You may experience some video drift after rotating the device. The problem is related to how the device gyroscope is calibrated, and this can affect performance. It is not associated with specific device makes and models, but instead on the motion sensor hardware installed on the device. The newer Android OS's have more sophisticated filter algorithms to correct the problem. A simple fix is to turn off the device and turn it on while it is lying on a flat, stable surface.</li>
+	<li>You will receive an exception error if you try to play MP4 videos stored in the application resource folder (/res/raw). The work-around is to move your MP4 videos to the application asset folder if you want to play local videos.</li>
+</ul>
+
+<h3>Source selection</h3>
+
+<ul>
+	<li>If your video has both HTTP and HTTPS sources for WebVTT captions/subtitles, then the Native SDK for Android may not return the HTTPS version. Brightcove is aware of this situation and will have a fix in a future release.</li>
 </ul>
 
 <h3>Subtitles</h3>
@@ -99,22 +136,10 @@
 	<li>The CC button will not appear in the control bar and the player will not load text tracks if you assign text tracks to a video in Video Cloud Studio and set the <strong>KIND</strong> field value to <strong>Subtitles</strong>. The work-around is to set the <strong>KIND</strong> field value to <strong>Close Captions</strong> when you assign text tracks in Studio.</li>
 </ul>
 
-<h3>Playing local videos</h3>
-
-<ul>
-	<li>You will receive an exception error if you try to play MP4 videos stored in the application resource folder (/res/raw). The work-around is to move your MP4 videos to the application asset folder if you want to play local videos.</li>
-</ul>
-
 <h3>Version 4.11.0: Known Issues</h3>
 
 <ul>
 	<li>When playing IMA ads on a Fire TV, you may experience a 5 to 10 second delay between the end of one ad playback and the beginning of the next ad. This is especially noticeable when playing multiple ads in an Ad Break. This may be an issue with the Fire TV, since this does not happen on the Nexus player.</li>
-</ul>
-
-<h3>Live streams</h3>
-
-<ul>
-	<li>The Native Player SDK does not support DASH Live streams, nor does it support ads with HLS Live streams.</li>
 </ul>
 
 <h3>Version 4.10.0: Known Issues</h3>
@@ -129,6 +154,11 @@
 
 <h2 id="Native_SDK_for_iOS">Native SDK for iOS</h2>
 <!-- <p>No issues currently reported.</p> -->
+<h3>Live streams</h3>
+
+<ul>
+	<li>The Native Player SDK does not support ads with HLS Live streams.</li>
+</ul>
 
 <h3>Offline playback</h3>
 
@@ -137,12 +167,6 @@
 	<li>With iOS 12, the <code>didProgress</code> event may stop firing when your app is resumed from background to foreground while downloading. You will notice that the downloading status is no longer updated. This problem has been reported to Apple.</li>
 	<li>When playback is attempted for the same offline video two times in a row, the user may experience unexpected network activity. The <code class="notranslate">AVPlayer</code> may switch to playing the online version of the video. A bug report has been submitted to Apple. For work-around steps, see the <a href="https://github.com/brightcove/brightcove-player-sdk-ios/blob/master/OfflinePlayback.md#playing-the-same-offline-video-twice">Playing the Same Offline Video Twice</a> section of the reference document.</li>
 	<li>If your app is targeting iOS 11.0 - 11.2, we don't recommend concurrent downloads because pause and resume behavior is unreliable with multiple simultaneous downloads. The problem has been fixed with iOS 11.3.</li>
-</ul>
-
-<h3>Live streams</h3>
-
-<ul>
-	<li>The Native Player SDK does not support ads with HLS Live streams.</li>
 </ul>
 </section>
 </article>

@@ -153,6 +153,131 @@
 
 </section>
 
+<section class="bcls-section">
+<h2 id="Create_cue_points">Create cue points</h2>
+
+<p>If you are using a VMAP ad tag, you can skip this step. The VMAP defines a playlist for your ads and specifies when they will play. Note that <a href="https://developers.google.com/interactive-media-ads/docs/sdks/html5/ad-rules">Google's IMA Ad Rules</a> uses VMAP.</p>
+<p>
+  If you are using VAST ad tags, then you need to create cue points to tell the player when to insert ads.
+</p>
+<p>
+  You can use Brightcove's Media module to create cue points. To do this, see the <a href="https://support.brightcove.com/working-cue-points-media-module">Working with Cue Points in the Media Module</a> document.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Android_Implementation">Android Implementation</h2>
+<p>The Native SDK for Android supports VMAP, VAST, server-side ad rules and companion ads with the following technologies:</p>
+
+<h3>Google IMA</h3>
+<p>
+  Follow these steps to use Google IMA Ad Rules:
+</p>
+<ol class="bcls-tasklist__restart">
+    <li>Locate and review the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/AdRulesIMASampleApp">Ad Rules IMA</a> sample app.</li>
+    <li>
+      Open the <strong>MainActivity.java</strong> file.
+    </li>
+    <li>
+      <p>
+        Customize the project with your values. The following values are needed to retrieve content from your Video Cloud library:
+      </p>
+      <ul>
+        <li>
+          Playback API Policy Key
+        </li>
+        <li>
+          Account ID
+        </li>
+        <li>
+          Video ID
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        Include values to access your IMA ads:
+      </p>
+      <ul>
+        <li>
+          Ad Rules URL
+        </li>
+      </ul>
+    </li>
+    <li>
+      The <code>setupGoogleIMA()</code> method establishes a connection with the Brightcove IMA plugin.
+    </li>
+    <li>
+      Listen for the <code>GoogleIMAEventType.ADS_REQUEST_FOR_VIDEO</code> event. Here, you will build an ads request object and point to your Ad Tag URL. In this case, it is an Ad Rules VMAP file.
+    </li>
+    <li>
+      The <code>setupAdMarkers()</code> method is optional. This method calls the IMA AdManager and creates ad markers on the seek bar, so that users can visually see when ads will play.
+    </li>
+</ol>
+<p>
+  To use VAST tags, your app should create a set of cue points from the Video object metadata returned from the Playback API call. The metadata will include the ad cue points that you created in Video Cloud Studio.
+</p>
+<p>
+  Alternatively, your app can create a set of cue point objects in the player Activity class.
+</p>
+<p>
+  If you want to combine client-side ads with content protection, see the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/AdRulesIMAWidevineModularSampleApp">Ad Rules IMA Widevine Modular</a> sample app.
+</p>
+
+<h3>FreeWheel</h3>
+<p>
+  These ads require that you purchase the FreeWheel AdManager library.
+</p>
+<p>
+  Follow these steps to use FreeWheel ads:
+</p>
+<ol class="bcls-tasklist__restart">
+    <li>Contact <a href="https://www.freewheel.com/">FreeWheel</a> to purchase their AdManager.aar library archive and install it into your libs/ directory, which is typically located at the root of your /home/ directory. The Native SDK for Android and the FreeWheel sample apps require the FreeWheel AdManager library version 6.28.0.</li>
+    <li>
+      Locate and review the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/FreeWheelSampleApp">FreeWheel</a> sample app.
+    </li>
+    <li>
+      Open the <strong>MainActivity.java</strong> file.
+    </li>
+    <li>
+      Customize the project with your values. This sample uses a remote video asset.
+    </li>
+    <li>
+      <p>
+        Include values to access your FreeWheel ads:
+      </p>
+      <ul>
+        <li>
+          Ad URL
+        </li>
+        <li>
+          Ad Network ID
+        </li>
+        <li>
+          Ad Profile
+        </li>
+      </ul>
+    </li>
+    <li>
+      The <code>setupFreeWheel()</code> method establishes a connection with the Brightcove FreeWheel plugin.
+    </li>
+    <li>
+      Configure the FreeWheel controller to point to your Ad URL. <code>freeWheelController.setAdURL("http://demo.v.fwmrm.net/");</code>
+    </li>
+    <li>
+      This will be used later to instantiate the FreeWheel <code>AdRequestConfiguration</code> class.
+    </li>
+    <li>
+      Listen for the <code>FreeWheelEventType.WILL_SUBMIT_AD_REQUEST</code> event. Here, you will get the FreeWheel controller and setup the pre-roll, mid-roll, post-roll and overlay ad slots.
+    </li>
+</ol>
+<p>
+  If you want to combine client-side ads with content protection, see the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/FreeWheelWidevineModularSampleApp/src/main">FreeWheel Widevine Modular</a> sample app.
+</p>
+
+</section>
+
 
 
 

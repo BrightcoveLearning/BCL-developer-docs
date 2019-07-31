@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Android: Working with Media Content</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Android: Working with Media Content</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to retrieve and play your videos using the Native SDK for Android.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Video Cloud customers have access to their media data and metadata from Video Cloud Studio. Brightcove Player customers will supply the URL for their media content.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Video_Cloud_customers">Video Cloud customers</h2>
+
+<p>As a Video Cloud customer, you can access your media data stored in Video Cloud Studio. For more information, see the <a href="https://github.com/BrightcoveOS/android-player-samples">Player SDK for Android code samples</a>.</p>
+
+<h3>Retrieving media data</h3>
+
+<p>You can retrieve your video and playlist data from your Video Cloud library by using the Playback API. For details about the API, see the <a href="/node/17906">Playback API Overview</a> document.</p>
+
+<ol class="bcls-tasklist">
+	<li>
+    <p>
+      Use the <a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/edge/Catalog.html">com.brightcove.player.edge.Catalog</a> class methods to retrieve your videos and playlists from Brightcove's Playback API. Your requests can supply the video/playlist <code class="notranslate">ID</code> or <code class="notranslate">ReferenceID</code>. This service will make the URL requests and parse the returned data.
+    </p>
+  <aside class="bcls-aside bcls-aside--information">If you include special characters with a <code>ReferenceID</code>, you must URI encode it before making a catalog request.</aside>
+  </li>
+	<li>
+	<p>For this request, you will need a Policy Key. If you are not familiar with Policy Keys, see the <a href="/node/18003">Policy API Overview</a> document.</p>
+
+	<aside class="bcls-aside bcls-aside--information">Because the Native SDKs do not send an origin header, you cannot use a domain-restricted Policy Key. If you try this, you will get a <code class="notranslate">403 Forbidden</code> response when you attempt to fetch content from your Video Cloud library.</aside>
+
+	<p>Here is an example of how to retrieve a video using the <code class="notranslate">com.brightcove.player.edge.Catalog </code> class:</p>
+
+	<pre class="line-numbers">
+<code class="language-java notranslate">package com.brightcove.player.samples.exoplayer.basic;
+import android.os.Bundle;
+import android.util.Log;
+import com.brightcove.player.edge.Catalog;
+import com.brightcove.player.edge.VideoListener;
+import com.brightcove.player.event.EventEmitter;
+import com.brightcove.player.model.Video;
+import com.brightcove.player.view.BrightcoveExoPlayerVideoView;
+import com.brightcove.player.view.BrightcovePlayer;
+/**
+* This app illustrates how to use the ExoPlayer with the Brightcove
+* Native Player SDK for Android.
+*/
+public class MainActivity extends BrightcovePlayer {
+	private final String TAG = this.getClass().getSimpleName();
+	@Override
+
+	protected void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.activity_main);
+		brightcoveVideoView = (BrightcoveExoPlayerVideoView) findViewById(R.id.brightcove_video_view);
+		super.onCreate(savedInstanceState);
+
+		// Get the event emitter from the SDK and create a catalog request to fetch a video from the
+		// Brightcove Edge service, given a video id, an account id and a policy key.
+		EventEmitter eventEmitter = brightcoveVideoView.getEventEmitter();
+		Catalog catalog = new Catalog(eventEmitter, getString(R.string.account), getString(R.string.policy));
+
+		catalog.findVideoByID(getString(R.string.videoId), new VideoListener() {
+		  // Add the video found to the queue with add().
+		  // Start playback of the video with start().
+		  @Override
+		  public void onVideo(Video video) {
+		    Log.v(TAG, "onVideo: video = " + video);
+		    brightcoveVideoView.add(video);
+		    brightcoveVideoView.start();
+		  }
+		});
+	}
+}</code></pre>
+	</li>
+</ol>
+
+<ol class="bcls-tasklist">
+	<li>The <a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/model/Video.html">Video object</a> provides methods to retrieve media information as shown below:
+
+	<pre class="line-numbers">
+<code class="language-java notranslate">catalog.findVideoByID(getString(R.string.videoId), new VideoListener() {
+  // Add the video found to the queue with add().
+  // Start playback of the video with start().
+  @
+  Override
+  public void onVideo(Video video) {
+<span class="bcls-highlight">    Log.v(TAG, "onVideo: video = " + video);
+    Log.v(TAG, "onVideo: videoID = " + video.getId());
+    Log.v(TAG, "onVideo: videoName = " + video.getName());
+    Log.v(TAG, "onVideo: videoDescription = " + video.getDescription());
+    Log.v(TAG, "onVideo: videoImage = " + video.getStillImageUri());
+    Log.v(TAG, "onVideo: sourceCollections = " + video.getSourceCollections());
+    SourceCollection dashCollection = video.getSourceCollections().get(DeliveryType.DASH);
+    if (dashCollection != null) {
+      Set &lt; Source &gt; sources = dashCollection.getSources();
+      for (Source source: sources) {
+        if (!TextUtils.isEmpty(source.getUrl())) {
+          Log.v(TAG, "onVideo: DASH source = " + source.getUrl());
+        }
+      }
+    }</span>
+
+    brightcoveVideoView.add(video);
+    brightcoveVideoView.start();
+  }
+});</code></pre>
+
+	<p>The above <code class="notranslate">Log()</code> methods return the following media information:</p>
+
+	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Video object" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/getting-started/media-content/video-object.png" />
+	<figcaption class="bcls-caption--image">Video object</figcaption>
+	</figure>
+	</li>
+</ol>
+
+<h3>Geo-filtered videos</h3>
+
+<p>The Brightcove Player SDK for Android supports geo-filtered videos.</p>
+
+<aside class="bcls-aside bcls-aside--warning">Notes:
+<ul>
+	<li>You need to use the Playback API when working with geo-filtered videos.</li>
+	<li>The playback service will only return an error if your video is geo-filtered in Video Cloud. The error will be null if your video is geo-filtered at the CDN level.</li>
+</ul>
+</aside>
+
+<p>There are two ways you can add geo-filtering to your videos to control which countries they can (or cannot) be viewed in:</p>
+
+<ul>
+	<li><a href="/node/18034">Brightcove's CMS API</a></li>
+	<li><a href="/node/15476#geofilter">Video Cloud Studio's Media Module</a></li>
+</ul>
+
+<p>In your Android app, when you retrieve a video using Brightcove's edge <a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/edge/Catalog.html">Catalog</a> object (Playback API) in a country which is geo-filtered for that video, you should see this message:</p>
+
+<pre class="line-numbers">
+<code class="language-java notranslate">error { message: Access to this resource is forbidden by access policy.
+client_geo: us
+error_subcode: CLIENT_GEO
+error_code: ACCESS_DENIED }</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="Brightcove_Player_customers">Brightcove Player customers</h2>
+
+<p>As a Brightcove Player customer, you will supply the URL for your video assets.</p>
+
+<aside class="bcls-aside bcls-aside--information">For Android SDK Nougat (7.x), the Server Name Indication (SNI) extension in Android uses the <code class="notranslate">toASCII()</code> method to enforce restrictions on characters in hostnames for TLS connections. If you try to load a source with a US_ASCII-non-compliant hostname (e.g. the hostname contains underscores in the subdomain: test_example.example.com), you will get an exception when trying to fetch the stream.<br />
+<br />
+So, when loading your source file over HTTPS, the hostname of the stream must be US_ASCII compliant.</aside>
+
+<p>Here is an example of adding a video to your video view and starting playback:</p>
+
+<pre class="line-numbers">
+<code class="language-java notranslate">import com.brightcove.player.model.DeliveryType;
+import com.brightcove.player.model.Video;
+import com.brightcove.player.view.BrightcoveExoPlayerVideoView;
+import com.brightcove.player.view.BrightcovePlayer;
+import com.brightcove.player.analytics.Analytics;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	BrightcoveVideoView brightcoveVideoView = (BrightcoveVideoView) findViewById(R.id.brightcove_video_view);
+
+	Analytics analytics = brightcoveVideoView.getAnalytics();
+	analytics.setAccount("123456789");
+
+	MediaController controller = new MediaController(this);
+	brightcoveVideoView.setMediaController(controller);
+	brightcoveVideoView.add(Video.createVideo("http://solutions.brightcove.com/bcls/assets/videos/Bird_Titmouse.mp4", DeliveryType.MP4));
+	brightcoveVideoView.start();
+}</code></pre>
+</section>
+&nbsp;
+
+<p>Next, let's take a look at how events work within the SDK architecture.</p>
+
+<div style="text-align:center"><button class="bcls-button" type="button" title="Previous button" onclick="location.href='/node/18247';">&lt; Prev</button><button class="bcls-button" type="button" title="Next button" onclick="location.href='/node/18249';">Next &gt;</button></div>
+</article>
+<!-- Learning path right navigation -->
+<link rel="stylesheet" href="https://learning-services-media.brightcove.com/doc-assets/css/learning-paths/learning-paths.css" /><script>
+    var learning_path = [
+      {
+        node: '18250',
+        title: 'Native SDK Architecture'
+      },
+      {
+        node: '18252',
+        title: 'Understand the Activity Class'
+      },
+      {
+        node: '18248',
+        title: 'Choose a Video View'
+      }
+      ,
+      {
+        node: '18247',
+        title: 'Register Your App'
+      },
+      {
+        node: '18251',
+        title: 'Use Media Content'
+      },
+      {
+        node: '18249',
+        title: 'Understand Events'
+      },
+      {
+        node: '18238',
+        title: 'Step-by-Step: Simple Video App'
+      }
+    ]
+  </script><script src="https://learning-services-media.brightcove.com/doc-assets/js/learning-paths/learning-paths.js"></script>
+
+  <!-- END DRUPAL CONTENT -->
+  </div>
+  </div>
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+  $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+  </body>
+
+  </html>

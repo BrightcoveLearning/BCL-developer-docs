@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Using Dynamic Ingest with S3</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Using Dynamic Ingest with S3</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn how to ingest videos from your Amazon S3 account using the Dynamic Ingest API.</p>
+      <!-- <aside class="bcls-aside bcls-aside--information">The content in this document applies to Video Cloud only.</aside> -->
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Dynamic Ingest can download videos from your Amazon S3 bucket. If your S3 content is accessible to <strong>Everyone</strong>, there is nothing you need to do. If your content is protected, however, you will need to add a bucket policy allowing Dynamic Ingest to access your videos. This document explains how to do that.</p>
+
+<aside class="bcls-aside bcls-aside--information">Dynamic Ingest now supports V4 AWS Regions for image and VTT files when using V4 Signatures. <strong>If the AWS region only accepts V4 signatures, then you must use a V4 signature.</strong></aside>
+</section>
+
+<section class="bcls-section">
+<h2 id="setPolicy">Setting the S3 Policy</h2>
+
+<p>To set up your policy to allow Dynamic Ingest to access your videos, go to the <a href="http://aws.amazon.com/console/">AWS Console</a>. Select your bucket, then select the "Permissions" tab, then click the "Bucket Policy" button. On the last row click <strong>Add bucket policy</strong>. Below is our recommended policy:</p>
+
+<pre class="line-numbers">
+  <code class="language-json">{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AddPerm",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::395540211253:root"
+        },
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::BUCKETNAME/*"
+        ]
+      },
+      {
+        "Sid": "Stmt1295042087538",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::749779118921:user/videocloud-ingestion"
+        },
+        "Action": [
+          "s3:GetObjectAcl",
+          "s3:GetObject"
+        ],
+        "Resource": "arn:aws:s3:::BUCKETNAME/*"
+      }
+    ]
+  }</code></pre>
+
+<aside class="bcls-aside bcls-aside--information">The first entry in the <code>Statement</code> array is for the ingestion of videos, while the second is for ingestion of <a href="/node/17940">images</a> and <a href="/node/17938">WebVTT</a> files.</aside>
+
+<p>There is only <strong>one change you must make</strong> to this bucket policy before it's ready to go:</p>
+
+<ol class="bcls-tasklist">
+	<li>Replace <strong><em>{BUCKETNAME}</em></strong> with the name of your bucket. Leave the <code>/*</code> at the end of the <code>Resource</code> line, as that will apply the policy to every file within the bucket.</li>
+	<li>Optionally, replace the Action array with the actions you want to allow. Valid actions that Video Cloud may need are:
+	<h4>Object Permissions - first action array in the example above</h4>
+
+	<h4>Bucket Permissions - second action array in the example above</h4>
+
+	<ul>
+		<li>s3:GetBucketLocation - allow Video Cloud to get the location of the bucket (US, EU, Asia, etc.)</li>
+		<li>s3:ListBucketMultipartUploads - allow Video Cloud to view any multipart uploads currently happening on the bucket</li>
+	</ul>
+
+	<p>Video Cloud does not need any write permissions.</p>
+	</li>
+</ol>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+  </div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+</html>

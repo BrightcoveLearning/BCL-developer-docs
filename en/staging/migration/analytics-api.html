@@ -1,551 +1,330 @@
 <!DOCTYPE html>
-<!-- saved from url=(0026)https://docs.brightcove.com/apidocs-ooyala/ -->
-<html
-  class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
-  lang="en" dir="ltr" xmlns:content="https://purl.org/rss/1.0/modules/content/" xmlns:dc="https://purl.org/dc/terms/"
-  xmlns:foaf="https://xmlns.com/foaf/0.1/" xmlns:og="https://ogp.me/ns#"
-  xmlns:rdfs="https://www.w3.org/2000/01/rdf-schema#" xmlns:sioc="https://rdfs.org/sioc/ns#"
-  xmlns:sioct="https://rdfs.org/sioc/types#" xmlns:skos="https://www.w3.org/2004/02/skos/core#"
-  xmlns:xsd="https://www.w3.org/2001/XMLSchema#" xmlns:schema="https://schema.org/">
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="robots" content="noindex" />
-  <meta property="og:postal-code" content="02210">
-  <meta property="og:region" content="MA">
-  <meta property="og:country-name" content="United States">
-  <meta property="og:email" content="docs@brightcove.com">
-  <link rel="shortcut icon" href="https://docs.brightcove.com/favicon.ico" type="image/vnd.microsoft.icon">
-  <meta property="og:site_name" content="Migration Guides | Brightcove-Ooyala Help">
-  <meta property="og:locality" content="Boston">
-  <meta property="og:url" content="https://docs.brightcove.com/apidocs-ooyala">
-  <link rel="canonical" href="https://docs.brightcove.com/">
-  <link rel="shortlink" href="https://docs.brightcove.com/apidocs-ooyala">
-  <meta property="og:title" content="OoyalaBrightcoveMigrationGuides">
-  <meta property="og:type" content="article">
-  <meta property="og:description" content="Brightcove-Ooyala Migration Guides">
-  <meta property="og:street-address" content="290 Congress Street 4th Floor">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="360">
-  <meta http-equiv="cleartype" content="on">
-  <title>Analytics REST API to Brightcove Analytics API Migration | Brightcove-Ooyala Help</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Ooyala to Video Cloud Migration: Native SDK for iOS</title>
 
-  <link type="text/css" rel="stylesheet" href="https://docs.brightcove.com/apidocs-ooyala/ooyala.styles.css"
-    media="all" />
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
 
-  <link type="text/css" rel="stylesheet" href="https://docs.brightcove.com/apidocs-ooyala/selectize.css" media="all" />
-  <link type="text/css" rel="stylesheet" href="css/migration.css" media="all" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
 
-  <script type="text/javascript" src="apidocs_js/jquery.min.js"></script>
-  <script type="text/javascript" src="apidocs_js/jquery.once.js"></script>
-
-  <script type="text/javascript" src="apidocs_js/modernizr.min.js"></script>
-  <script type="text/javascript" src="apidocs_js/ooyala-help.min.js"></script>
-
-  <script async="" src="apidocs_js/analytics.js"></script>
-
-  <script>var tvt = tvt || {};
-    tvt.captureVariables = function (a) {
-      for (var b = new Date, c = {}, d = Object.keys(a || {}), e = 0, f; f = d[e]; e++)if (a.hasOwnProperty(f) &&
-        "undefined" != typeof a[f]) try {
-          var g = [];
-          c[f] = JSON.stringify(a[f], function (a, b) {
-            try {
-              if ("function" !== typeof b) {
-                if ("object" === typeof b && null !== b) {
-                  if (b instanceof HTMLElement || b instanceof Node || -1 != g.indexOf(b)) return;
-                  g.push(b)
-                }
-                return b
-              }
-            } catch (c) {
-            }
-          })
-        } catch (l) {
-        }
-      a = document.createEvent("CustomEvent");
-      a.initCustomEvent("TvtRetrievedVariablesEvent", !0, !0, { variables: c, date: b });
-      window.dispatchEvent(a)
-    };
-    window.setTimeout(function () {
-      tvt.captureVariables({ 'dataLayer': window['dataLayer'] })
-    }, 2000);</script>
 </head>
 
-<body class="html front not-logged-in no-sidebars page-node page-node- i18n-en">
-  <div id="main-video"></div>
-  <div class="l-page">
-    <header class="l-header" role="banner">
-      <div>
-        <div id="block-block-41" class="block block-block top-search">
-
-
-          <div class="content">
-          </div>
-        </div>
-      </div>
-      <div class="l-header-inner-container container flex-container">
-        <div class="l-header-left flex-container align-left">
-          <div class="l-main-logo">
-            <a href="https://brightcove.com">
-              <svg xmlns:dc="https://purl.org/dc/elements/1.1/" xmlns:cc="https://creativecommons.org/ns#"
-                xmlns:rdf="https://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="https://www.w3.org/2000/svg"
-                xmlns="https://www.w3.org/2000/svg" viewBox="0 0 361.71249 58.162498" height="26" width="162"
-                xml:space="preserve" version="1.1" id="svg2">
-                <metadata id="metadata8">
-                  <rdf:rdf>
-                    <cc:work rdf:about="">
-                      <dc:format>image/svg+xml</dc:format>
-                      <dc:type rdf:resource="https://purl.org/dc/dcmitype/StillImage"></dc:type>
-                    </cc:work>
-                  </rdf:rdf>
-                </metadata>
-                <defs id="defs6">
-                  <clipPath id="clipPath18" clipPathUnits="userSpaceOnUse">
-                    <path id="path20" d="m 0,0 2893.69,0 0,465 L 0,465 0,0 Z"></path>
-                  </clipPath>
-                </defs>
-                <g transform="matrix(1.25,0,0,-1.25,0,58.1625)" id="g10">
-                  <g transform="scale(0.1,0.1)" id="g12">
-                    <g id="g14">
-                      <g clip-path="url(#clipPath18)" id="g16">
-                        <path id="path22" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 946.328,229.609 c 0,94.727 -65.133,165.782 -157.894,165.782 -92.77,0 -157.903,-71.055 -157.903,-165.782 0,-94.746 65.133,-165.7809 157.903,-165.7809 92.761,0 157.894,71.0349 157.894,165.7809 z m -388.824,0 c 0,132.227 102.633,229.61 230.93,229.61 128.281,0 230.926,-97.383 230.926,-229.61 C 1019.36,97.3633 916.715,0 788.434,0 660.137,0 557.504,97.3633 557.504,229.609">
-                        </path>
-                        <path id="path24" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 1448.96,229.609 c 0,94.727 -65.13,165.782 -157.9,165.782 -92.75,0 -157.9,-71.055 -157.9,-165.782 0,-94.746 65.15,-165.7809 157.9,-165.7809 92.77,0 157.9,71.0349 157.9,165.7809 z m -388.82,0 c 0,132.227 102.63,229.61 230.92,229.61 128.29,0 230.92,-97.383 230.92,-229.61 C 1521.98,97.3633 1419.35,0 1291.06,0 1162.77,0 1060.14,97.3633 1060.14,229.609">
-                        </path>
-                        <path id="path26" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 1483.83,453.301 77.63,0 126.97,-233.555 125.01,233.555 73.67,0 -164.47,-304.629 0,-142.75403 -70.39,0 0,142.10903 -168.42,305.274">
-                        </path>
-                        <path id="path28" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 1966.72,307.891 -74.35,-176.973 147.38,0 -73.03,176.973 z M 1840.41,5.91797 l -71.05,0 196.05,456.58203 3.95,0 196.7,-456.58203 -74.34,0 -25.65,62.51953 -200.02,0 -25.64,-62.51953">
-                        </path>
-                        <path id="path30" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="M 2694.36,307.891 2620,130.918 l 147.38,0 -73.02,176.973 z M 2568.04,5.91797 l -71.05,0 196.06,456.58203 3.93,0 196.71,-456.58203 -74.33,0 -25.67,62.51953 -200,0 -25.65,-62.51953 z m -365.79,447.38303 70.39,0 0,-384.8635 200,0 -26.98,-62.51953 -243.41,0 0,447.38303">
-                        </path>
-                        <path id="path32" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 2849.04,438.945 c -2.07,1.172 -5.4,1.739 -9.97,1.739 l -7.03,0 0,-16.934 7.44,0 c 3.49,0 6.1,0.352 7.85,1.055 3.21,1.269 4.82,3.711 4.82,7.304 0,3.399 -1.04,5.664 -3.11,6.836 z m -8.88,7.364 c 5.79,0 10.05,-0.567 12.75,-1.68 4.83,-2.031 7.24,-5.977 7.24,-11.836 0,-4.18 -1.53,-7.246 -4.55,-9.238 -1.64,-1.035 -3.87,-1.797 -6.76,-2.246 3.64,-0.586 6.34,-2.11 8.02,-4.59 1.68,-2.461 2.52,-4.883 2.52,-7.227 l 0,-3.418 c 0,-1.074 0.05,-2.246 0.12,-3.476 0.07,-1.231 0.22,-2.032 0.41,-2.422 l 0.3,-0.586 -7.71,0 c -0.04,0.156 -0.09,0.312 -0.12,0.469 -0.05,0.156 -0.08,0.332 -0.11,0.507 l -0.18,1.504 0,3.711 c 0,5.391 -1.46,8.946 -4.41,10.684 -1.73,0.996 -4.79,1.484 -9.15,1.484 l -6.49,0 0,-18.359 -8.23,0 0,46.719 16.35,0 z m -25.04,2.363 c -7.11,-7.149 -10.67,-15.781 -10.67,-25.899 0,-10.195 3.53,-18.906 10.61,-26.074 7.11,-7.187 15.74,-10.781 25.91,-10.781 10.15,0 18.79,3.594 25.9,10.781 7.11,7.168 10.66,15.879 10.66,26.074 0,10.118 -3.55,18.75 -10.66,25.899 -7.15,7.187 -15.78,10.781 -25.9,10.781 -10.1,0 -18.7,-3.594 -25.85,-10.781 z m 55.98,-56.035 c -8.31,-8.34 -18.35,-12.5 -30.13,-12.5 -11.8,0 -21.81,4.16 -30.09,12.5 -8.21,8.32 -12.34,18.379 -12.34,30.195 0,11.699 4.16,21.719 12.47,30.02 8.26,8.261 18.25,12.402 29.96,12.402 11.78,0 21.82,-4.141 30.13,-12.402 8.3,-8.282 12.45,-18.282 12.45,-30.02 0,-11.777 -4.15,-21.855 -12.45,-30.195">
-                        </path>
-                        <path id="path34" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 306.594,384.59 c 0,-40.586 -32.903,-73.496 -73.496,-73.496 -40.586,0 -73.489,32.91 -73.489,73.496 0,40.586 32.903,73.476 73.489,73.476 40.593,0 73.496,-32.89 73.496,-73.476">
-                        </path>
-                        <path id="path36" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 146.988,269.551 c 0,-40.586 -32.902,-73.496 -73.4958,-73.496 C 32.9062,196.055 0,228.965 0,269.551 c 0,40.586 32.9062,73.496 73.4922,73.496 40.5938,0 73.4958,-32.91 73.4958,-73.496">
-                        </path>
-                        <path id="path38" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 207.266,80.6641 c 0,-40.586 -32.903,-73.49613 -73.489,-73.49613 -40.5934,0 -73.484,32.91013 -73.484,73.49613 0,40.5859 32.8906,73.4959 73.484,73.4959 40.586,0 73.489,-32.91 73.489,-73.4959">
-                        </path>
-                        <path id="path40" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 405.918,80.6641 c 0,-40.586 -32.898,-73.49613 -73.484,-73.49613 -40.594,0 -73.504,32.91013 -73.504,73.49613 0,40.5859 32.91,73.4959 73.504,73.4959 40.586,0 73.484,-32.91 73.484,-73.4959">
-                        </path>
-                        <path id="path42" style="fill:#FFFFFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                          d="m 466.207,269.551 c 0,-40.586 -32.91,-73.496 -73.488,-73.496 -40.594,0 -73.504,32.91 -73.504,73.496 0,40.586 32.91,73.515 73.504,73.515 40.578,0 73.488,-32.929 73.488,-73.515">
-                        </path>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </a>
-            <div>
-              <div id="block-block-31" class="block block-block help-title">
-                <div class="content">
-                  <a href="https://help-ooyala.brightcove.com">Help</a> 
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="l-nav">
-            <div>
-              <div id="block-menu-block-3" class="block block-menu-block">
-
-                <div class="content">
-                  <div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-1">
-                    <ul class="menu">
-                      <li class="first leaf active menu-mlid-1501614"><a href="https://help-ooyala.brightcove.com">Guides</a></li>
-                      <li class="leaf menu-mlid-1501615 active-trail active"><a href="https://docs.brightcove.com/apidocs-ooyala" class="active">API Docs</a></li>
-                      <li class="leaf menu-mlid-1501616"><a href="https://help-ooyala.brightcove.com/downloads">Downloads</a></li>
-                      <li class="leaf menu-mlid-1501617"><a href="https://help-ooyala.brightcove.com/video-tutorials">Video Tutorials</a></li>
-                      <li class="last leaf menu-mlid-1501618"><a href="https://docs.brightcove.com/apidocs-ooyala/community/tools/bd-p/tst.html">Tools</a></li>
-                    </ul>
-                  </div>
-                </div>
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>
+        <!-- title -->
+      </h1>
+      <p>
+        <!-- summary -->
+      </p>
+      <article about="/downloads" typeof="foaf:Document">
+        <div>
+          <div class="field field-name-body field-type-text-with-summary field-label-hidden">
+            <div class="field-items">
+              <div class="field-item even" property="content:encoded">
+                <h1 class="content-title">Migrating from the Analytics REST API to Brightcove Analytics API</h1>
+                <p class="p">This topic provides guidance on moving from the Ooyala Analytics REST API to the Video Cloud Analytics API.</p>
+                <p class="p"><a href="./index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
+                <br>
               </div>
             </div>
           </div>
         </div>
-        <div class="l-right-nav">
-          <div>
-            <div id="block-block-17" class="block block-block">
+      </article>
+    </div>
+  </div>
+  <div>
+    <div id="block-menu-menu-resources-menu" class="block block-menu">
+      <div class="content">
+        <article class="bcls-article">
+          <section class="bcls-section">
+            <h2 id="Introduction">Introduction</h2>
+            <p>The Video Cloud Analytics API is quite similar to to the Ooyala Analytics REST API.</p>
+            <p>Note also that the Analytics Module in Video Cloud Studio includes a robust <a href="https://support.brightcove.com/creating-custom-analytics-reports">Custom Report Builder</a> that in many cases may make it unnecessary to use the API at all.</p>
+            <p>The sections below correspond to the different aspects of the two APIs:</p>
+            <ul>
+              <li><a href="#Authentication">Authentication</a></li>
+              <li><a href="#Reports">Reports</a></li>
+              <li><a href="#Parameters">Parameters</a></li>
+              <li><a href="#Dimensions">Dimensions</a></li>
+              <li><a href="#Filters">Filters</a></li>
+              <li><a href="#Metrics">Metrics</a></li>
+            </ul>
+          </section>
+          <section class="bcls-section">
+            <h2 id="Authentication">Authentication</h2>
+            <p>Authentication of Brightcove API requests is handled slightly differently than that for the Ooyala REST APIs. See <a href="./brightcove-api-authentication.html">Authentication for Brightcove API Requests</a> for details.</p>
+          </section>
 
-              <div class="content">
+          <section class="bcls-section">
+            <h2 id="Reports">Reports</h2>
+            <p>The single <code>/reports</code> endpoint for Ooyala Analytics REST API corresponds very closely to the Brightcove Analytics API <code>/data</code> endpoint. The main difference is that the Ooyala API allows both <code>GET</code> and <code>POST</code>, the latter used to pass some data in the request body rather than URL params, allowing for some longer data strings.</p>
+          </section>
 
-                <a class="cta-outline-white tech-button" href="https://support.brightcove.com/contact-support">Tech
-                  Support</a>
-                <a class="cta-outline-white help-button" href="https://help-ooyala.brightcove.com">Help</a> </div>
-            </div>
-            <div id="block-block-23" class="block block-block">
+          <section class="bcls-section">
+            <h2 id="Parameters">Parameters</h2>
+            <p>The parameters for requests are similar for the two APIs. They are detailed in the table below to show you where the differences lie.</p>
+            <table class="bcls-table">
+              <caption class="bcls-caption--table">Parameters</caption>
+              <thead class="bcls-table__head">
+                <tr>
+                  <th>Ooyala Parameter</th>
+                  <th>Brightcove Parameter</th>
+                  <th>Docs</th>
+                </tr>
+              </thead>
+              <tbody class="bcls-table__body">
+                <tr>
+                  <td>none</td>
+                  <td><code>accounts</code> - included as a parameter to all reports on multiple accounts</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>report_type</code></td>
+                  <td>None, but the Brightcove API offers some additional endpoints for engagement and live analytics reports</td>
+                  <td><a href="https://support.brightcove.com/overview-analytics-api-v1">Overview: Analytics API</a></td>
+                </tr>
+                <tr>
+                  <td><code>start_date</code></td>
+                  <td><code>from</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>end_date</code></td>
+                  <td><code>to</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>metrics</code></td>
+                  <td><code>fields</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Metrics">Metrics</a> for information on what metrics are available</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>dimensions</code></td>
+                  <td><code>dimensions</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Dimensions">Dimensions</a> for information on what dimensions are available</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>filters</code></td>
+                  <td><code>where</code> - apart from the name, the two params are essentially identical; see <a href="#Filters">Filters</a> below for more information</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>time_segment</code></td>
+                  <td>none - the Brightcove API does have <code>date</code> and <code>date_hour</code> dimensions that provide some similar time-segmenting, and also engagement endpoints for periods within the previous 32 days, which provide views over each 100th part of the video</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>sort</code></td>
+                  <td><code>sort</code> the params are identical except that the Ooyala API allows sorting on multiple metrics</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>limit</code></td>
+                  <td><code>limit</code> - the params are identical except for the 1000 limit on the Ooyala API param</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td><code>offset</code> - the params take different values but work similarly for paging of datasets</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>reconciled</code> - because analytics data comes from different sources on different schedules, the Brightcove API puts recent analytics data into an "unreconciled" bucket while it is still being updated, and transfers it to a "historical" bucket; the param allows you to choose between these buckets</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>bucket_limit</code> - applies only to Live Analytics requests; together with <code>bucket_duration</code>, these function in a way somewhat similar to the Ooyala API <code>time_segment</code> param</td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>bucket_duration</code></td>
+                  <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
 
-              <div class="content">
-                <button class="hamburger hamburger--squeeze" type="button">
-                  <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                  </span>
-                </button> </div>
-            </div>
-            <div id="block-block-46" class="block block-block">
+          <section class="bcls-section">
+            <h2 id="Dimensions">Dimensions</h2>
+            <p>The Ooyala and Brightcove Analytics APIs both group data into buckets called "dimensions". They are used in similar ways, but the APIs have somewhat different rules as to how multiple dimensions can be combined, and Brightcove has a broader set of dimensions. See <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#supported_dimension_combinations">Supported dimension combinations</a> for details on the Brightcove API. The table below provides a detailed comparison.</p>
+            <table class="bcls-table">
+              <caption class="bcls-caption--table">Dimensions</caption>
+              <thead class="bcls-table__head">
+                <tr>
+                  <th>Ooyala Dimension</th>
+                  <th>Brightcove Dimension</th>
+                  <th>Docs</th>
+                </tr>
+              </thead>
+              <tbody class="bcls-table__body">
+                <tr>
+                  <td><code>asset</code></td>
+                  <td><code>video</code> - the Brightcove <code>video</code> dimension covers only VOD assets; there is also a <code>live_stream</code> dimension</td>
+                  <td><a href="https://support.brightcove.com/dimension-video">Video Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>country</code></td>
+                  <td><code>country</code> - dimensions are essentially identical</td>
+                  <td><a href="https://support.brightcove.com/dimension-country">Country Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>region</code></td>
+                  <td><code>region</code> - dimensions are essentially identical, except that the Brightcove dimension includes US states</td>
+                  <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>dma</code></td>
+                  <td>none</td>
+                  <td>n/a</td>
+                </tr>
+                <tr>
+                  <td><code>state</code></td>
+                  <td><code>region</code> - the Brightcove API includes US states in the <code>region</code> dimension</td>
+                  <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>device_type</code></td>
+                  <td><code>device_type</code> - dimensions are essentially identical</td>
+                  <td><a href="https://support.brightcove.com/dimension-account">Device Type Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>domain</code></td>
+                  <td><code>destination_domain</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>url</code></td>
+                  <td><code>device_os</code> - essentially the same</td>
+                  <td><a href="https://support.brightcove.com/dimension-deviceos">Device OS Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>os</code></td>
+                  <td><code>destination_domain</code> - not exactly the same, but the closest equivalent</td>
+                  <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>pcode</code></td>
+                  <td><code>account</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-account">Account Dimension</a></td>
+                </tr>
+                <tr>
+                  <td><code>player_id</code></td>
+                  <td><code>player</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-player"></a>Player Dimension</td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>browser_type</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-browsertype">Browser Type Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>date</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-date">Date Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>date_hour</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-datehour">Date-Hour Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>device_manufacturer</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-devicemanufacturer">Device Manufacturer Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>referrer_domain</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-referrerdomain">Referrer Domain Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>search_terms</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-searchterms">Search Terms Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>social_platform</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-socialplatform">Social Platform Dimension</a></td>
+                </tr>
+                <tr>
+                  <td>none</td>
+                  <td><code>source_type</code></td>
+                  <td><a href="https://support.brightcove.com/dimension-sourcetype">Source Type Dimension</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
 
-              <div class="content">
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <section class="l-section-breadcrum">
-        <div class="container" role="breadcrumb">
-          <div>
-            <div id="block-easy-breadcrumb-easy-breadcrumb" class="block block-easy-breadcrumb">
-              <div class="content">
-                <div class="easy-breadcrumb"><a href="https://help-ooyala.brightcove.com/"
-                    class="easy-breadcrumb_segment easy-breadcrumb_segment-front">Help Center</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </header>
-    <br style="clear: both">
-    <section style="margin-top: 4em;margin-left: 25%;width: 50%">
-        <div class="gcse-search">
-          <script async src="https://cse.google.com/cse.js?cx=017969773216783359937:fa8pjspjd3y"></script>
-        </div>
-    </section>
-
-    <div class="l-main">
-      <div class="l-content container" role="main">
-        <div class="l-main-content">
-          <div>
-            <div id="block-system-main" class="block block-system">
-              <div class="content">
-                <article about="/downloads" typeof="foaf:Document">
-                  <div>
-                    <div class="field field-name-body field-type-text-with-summary field-label-hidden">
-                      <div class="field-items">
-                        <div class="field-item even" property="content:encoded">
-                          <h1 class="content-title">Migrating from the Analytics REST API to Brightcove Analytics API</h1>
-                          <p class="p">This topic provides guidance on moving from the Ooyala Analytics REST API to the Video Cloud Analytics API.</p>
-                          <p class="p"><a href="./index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
-                          <br>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div id="block-menu-menu-resources-menu" class="block block-menu">
-              <div class="content">
-                <article class="bcls-article">
-                  <section class="bcls-section">
-                    <h2 id="Introduction">Introduction</h2>
-                    <p>The Video Cloud Analytics API is quite similar to to the Ooyala Analytics REST API.</p>
-                    <p>Note also that the Analytics Module in Video Cloud Studio includes a robust <a href="https://support.brightcove.com/creating-custom-analytics-reports">Custom Report Builder</a> that in many cases may make it unnecessary to use the API at all.</p>
-                    <p>The sections below correspond to the different aspects of the two APIs:</p>
-                    <ul>
-                      <li><a href="#Authentication">Authentication</a></li>
-                      <li><a href="#Reports">Reports</a></li>
-                      <li><a href="#Parameters">Parameters</a></li>
-                      <li><a href="#Dimensions">Dimensions</a></li>
-                      <li><a href="#Filters">Filters</a></li>
-                      <li><a href="#Metrics">Metrics</a></li>
-                    </ul>
-                  </section>
-                  <section class="bcls-section">
-                    <h2 id="Authentication">Authentication</h2>
-                    <p>Authentication of Brightcove API requests is handled slightly differently than that for the Ooyala REST APIs. See <a href="./brightcove-api-authentication.html">Authentication for Brightcove API Requests</a> for details.</p>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Reports">Reports</h2>
-                    <p>The single <code>/reports</code> endpoint for Ooyala Analytics REST API corresponds very closely to the Brightcove Analytics API <code>/data</code> endpoint. The main difference is that the Ooyala API allows both <code>GET</code> and <code>POST</code>, the latter used to pass some data in the request body rather than URL params, allowing for some longer data strings.</p>
-                  </section>
-
-
-                  <section class="bcls-section">
-                    <h2 id="Parameters">Parameters</h2>
-                    <p>The parameters for requests are similar for the two APIs. They are detailed in the table below to show you where the differences lie.</p>
-                    <table class="bcls-table">
-                      <caption class="bcls-caption--table">Parameters</caption>
-                      <thead class="bcls-table__head">
-                        <tr>
-                          <th>Ooyala Parameter</th>
-                          <th>Brightcove Parameter</th>
-                          <th>Docs</th>
-                        </tr>
-                      </thead>
-                      <tbody class="bcls-table__body">
-                        <tr>
-                          <td>none</td>
-                          <td><code>accounts</code> - included as a parameter to all reports on multiple accounts</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>report_type</code></td>
-                          <td>None, but the Brightcove API offers some additional endpoints for engagement and live analytics reports</td>
-                          <td><a href="https://support.brightcove.com/overview-analytics-api-v1">Overview: Analytics API</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>start_date</code></td>
-                          <td><code>from</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>end_date</code></td>
-                          <td><code>to</code> the two params are similar and both accept values in the form <samp>YYYY-MM-DD</samp>; the Brightcove param also accepts epoch dates in milliseconds and relative dates such as <samp>-3d</samp></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>metrics</code></td>
-                          <td><code>fields</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Metrics">Metrics</a> for information on what metrics are available</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>dimensions</code></td>
-                          <td><code>dimensions</code> - the two params are essentially identical; the Brighcove API also uses <code>metrics</code> for Live Analytics requests; see <a href="#Dimensions">Dimensions</a> for information on what dimensions are available</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>filters</code></td>
-                          <td><code>where</code> - apart from the name, the two params are essentially identical; see <a href="#Filters">Filters</a> below for more information</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>time_segment</code></td>
-                          <td>none - the Brightcove API does have <code>date</code> and <code>date_hour</code> dimensions that provide some similar time-segmenting, and also engagement endpoints for periods within the previous 32 days, which provide views over each 100th part of the video</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>sort</code></td>
-                          <td><code>sort</code> the params are identical except that the Ooyala API allows sorting on multiple metrics</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>limit</code></td>
-                          <td><code>limit</code> - the params are identical except for the 1000 limit on the Ooyala API param</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td><code>page</code></td>
-                          <td><code>offset</code> - the params take different values but work similarly for paging of datasets</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>reconciled</code> - because analytics data comes from different sources on different schedules, the Brightcove API puts recent analytics data into an "unreconciled" bucket while it is still being updated, and transfers it to a "historical" bucket; the param allows you to choose between these buckets</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>bucket_limit</code> - applies only to Live Analytics requests; together with <code>bucket_duration</code>, these function in a way somewhat similar to the Ooyala API <code>time_segment</code> param</td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                        <tr>
-                          <td>none</td>
-                          <td><code>bucket_duration</code></td>
-                          <td><a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#params">Overview of Dimensions, Fields, and Parameters</a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Dimensions">Dimensions</h2>
-                    <p>The Ooyala and Brightcove Analytics APIs both group data into buckets called "dimensions". They are used in similar ways, but the APIs have somewhat different rules as to how multiple dimensions can be combined, and Brightcove has a broader set of dimensions. See <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#supported_dimension_combinations">Supported dimension combinations</a> for details on the Brightcove API. The table below provides a detailed comparison.</p>
-                    <table class="bcls-table">
-                        <caption class="bcls-caption--table">Dimensions</caption>
-                        <thead class="bcls-table__head">
-                          <tr>
-                              <th>Ooyala Dimension</th>
-                              <th>Brightcove Dimension</th>
-                              <th>Docs</th>
-                          </tr>
-                        </thead>
-                        <tbody class="bcls-table__body">
-                            <tr>
-                                <td><code>asset</code></td>
-                                <td><code>video</code> - the Brightcove <code>video</code> dimension covers only VOD assets; there is also a <code>live_stream</code> dimension</td>
-                                <td><a href="https://support.brightcove.com/dimension-video">Video Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>country</code></td>
-                                <td><code>country</code> - dimensions are essentially identical</td>
-                                <td><a href="https://support.brightcove.com/dimension-country">Country Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>region</code></td>
-                                <td><code>region</code> - dimensions are essentially identical, except that the Brightcove dimension includes US states</td>
-                                <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>dma</code></td>
-                                <td>none</td>
-                                <td>n/a</td>
-                            </tr>
-                            <tr>
-                                <td><code>state</code></td>
-                                <td><code>region</code> - the Brightcove API includes US states in the <code>region</code> dimension</td>
-                                <td><a href="https://support.brightcove.com/dimension-region">Region Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>device_type</code></td>
-                                <td><code>device_type</code> - dimensions are essentially identical</td>
-                                <td><a href="https://support.brightcove.com/dimension-account">Device Type Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>domain</code></td>
-                                <td><code>destination_domain</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>url</code></td>
-                                <td><code>device_os</code> - essentially the same</td>
-                                <td><a href="https://support.brightcove.com/dimension-deviceos">Device OS Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>os</code></td>
-                                <td><code>destination_domain</code> - not exactly the same, but the closest equivalent</td>
-                                <td><a href="https://support.brightcove.com/dimension-destinationdomain">Destination Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>pcode</code></td>
-                                <td><code>account</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-account">Account Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td><code>player_id</code></td>
-                                <td><code>player</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-player"></a>Player Dimension</td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>browser_type</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-browsertype">Browser Type Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>date</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-date">Date Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>date_hour</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-datehour">Date-Hour Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>device_manufacturer</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-devicemanufacturer">Device Manufacturer Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>referrer_domain</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-referrerdomain">Referrer Domain Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>search_terms</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-searchterms">Search Terms Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>social_platform</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-socialplatform">Social Platform Dimension</a></td>
-                            </tr>
-                            <tr>
-                                <td>none</td>
-                                <td><code>source_type</code></td>
-                                <td><a href="https://support.brightcove.com/dimension-sourcetype">Source Type Dimension</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                  </section>
-
-                  <section class="bcls-section">
-                    <h2 id="Filters">Filters</h2>
-                    <p>Filters works pretty much identically in the two APIs, specified in terms of:</p>
-<pre><code class="language-http">
+          <section class="bcls-section">
+            <h2 id="Filters">Filters</h2>
+            <p>Filters works pretty much identically in the two APIs, specified in terms of:</p>
+            <pre><code class="language-http">
   // Ooyala
   filter={dimension1}=={value1};{dimension2}=={value2}
 
   // Brightcove
   where={dimension1}=={value1};{dimension2}=={value2}
 </code></pre>
-                  </section>
+          </section>
 
-                  <section class="bcls-section">
-                    <h2 id="Metrics">Metrics</h2>
-                    <p>The <code>metrics</code> (for the Brightcove API: <code>fields</code>) returned in reports varies according to the dimension(s) requested for Brightcove Analytics API. you can use the tool embedded in <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#metrics">Dimensions and Fields</a> to see which fields can be returned for a particular dimension or combination of dimensions.</p>
-                    <p>Note that while the Ooyala API returns all metrics if none are specified, but the Brightcove API returns only a small set of default metrics which vary by the dimension (combination) unless you include the <code>fields</code> in the request.</p>
-                    <p>Brightcove fields contain equivalents for all the Ooyala metrics except for:</p>
-                    <ul>
-                      <li><code>uniq_plays_requested</code></li>
-                      <li><code>uniq_displays</code></li>
-                      <li><code>uniq_video_starts</code></li>
-                    </ul>
-                    <p>The Brightcove Analytics API can also return number of other metrics not available in Ooyala analytics.</p>
-                  </section>
+          <section class="bcls-section">
+            <h2 id="Metrics">Metrics</h2>
+            <p>The <code>metrics</code> (for the Brightcove API: <code>fields</code>) returned in reports varies according to the dimension(s) requested for Brightcove Analytics API. you can use the tool embedded in <a href="https://support.brightcove.com/analytics-api-overview-dimensions-fields-and-parameters#metrics">Dimensions and Fields</a> to see which fields can be returned for a particular dimension or combination of dimensions.</p>
+            <p>Note that while the Ooyala API returns all metrics if none are specified, but the Brightcove API returns only a small set of default metrics which vary by the dimension (combination) unless you include the <code>fields</code> in the request.</p>
+            <p>Brightcove fields contain equivalents for all the Ooyala metrics except for:</p>
+            <ul>
+              <li><code>uniq_plays_requested</code></li>
+              <li><code>uniq_displays</code></li>
+              <li><code>uniq_video_starts</code></li>
+            </ul>
+            <p>The Brightcove Analytics API can also return number of other metrics not available in Ooyala analytics.</p>
+          </section>
 
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
       </div>
     </div>
-    <footer class="l-footer" role="content-info">
-      <div class="l-footer-container">
-        <div class="l-footer-column-container container flex-container">
-          <div class="l-footer-column l-footer-column-1">
-            <div>
-              <div id="block-menu-menu-language-selector" class="block block-menu">
-                <div class="content">
-                  <ul class="menu">
-                    <li class="first last expanded"><a href="https://help-ooyala.brightcove.com/">English</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="l-footer-copyright">
-            <div>
-              <div id="block-block-18" class="block block-block">
-
-                <div class="content">
-                  <a href="https://help-ooyala.brightcove.com/lookup/lookup.html" class="copylink">Lookup:
-                    Brightcove-Brightcove-Brightcove-Brightcove-Ooyala Help Index</a>
-                  <p class="questions_link">Documentation questions or comments? .<br />For all other inquiries, go to
-                    to <a href="https://support.brightcove.com/contact-support">Customer Portal</a> to login and file a
-                    ticket.
-                  </p>
-                  <p>© 2019 Brightcove, Inc. • <a href="https://www.brightcove.com/en/legal/privacy">Website Privacy
-                      Policy</a> • <a href="https://www.brightcove.com/en/terms-and-conditions">Terms of Service</a> •
-                    All Rights Reserved</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
   </div>
-
-
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
 </body>
 
 </html>

@@ -141,6 +141,11 @@
                 <td>The original <code>created_at</code> date-time will be stored in the Video Cloud <code>created_at</code> field for the video to preserve the original date added</td>
               </tr>
               <tr>
+                <td><code>metadata</code></td>
+                <td><code>tags["meta:;:{key}:;:{value}"]</code></td>
+                <td>Ooyala video <code>metadata</code> key/value pairs will be stored in special <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code>; the delimiter <code>:;:</code> is used to make it easy to split the string into an array</td>
+              </tr>
+              <tr>
                 <td><code>asset_type="ad"</code></td>
                 <td><code>tags["ooyala_my_ads"]</code></td>
                 <td>Video Cloud does not have the concept of an ad-type video, so those designated as ads in Backlot will have the tag <code>ooyala_my_ads</code></td>
@@ -153,24 +158,40 @@
         <h2 id="playlist_data"></h2>
         <p></p>
         <table class="bcls-table">
-          <caption class="bcls-caption--table">Playlist Data</caption>
+          <caption class="bcls-caption--table">Playlist Fields</caption>
           <thead class="bcls-table__head">
             <tr>
-              <th>Table Header</th>
-              <th>Table Header</th>
+              <th>Backlot‌ ‌field‌ ‌name‌</th>
+              <th>Video‌ ‌Cloud‌ ‌field‌ name‌ (code name in CMS API)</th>
+              <th>Notes‌</th>
             </tr>
           </thead>
           <tbody class="bcls-table__body">
             <tr>
-              <td>Table cell</td>
-              <td>Table cell</td>
+              <td><code>name</code></td>
+              <td><code>name</code></td>
+              <td></td>
             </tr>
             <tr>
-              <td>Table cell</td>
-              <td>Table cell</td>
+              <td><code>public_id</code></td>
+              <td><code>reference_id</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><code>type</code>, <code>sort_by</code>, <code>movies_playlists.movie_id</code>, <code>movies_playlists.playlist_id</code></td>
+              <td><code>type</code>, <code>search</code>, <code>video_ids</code></td>
+              <td>There is no 1:1 matching of fields here, because Ooyala and Video Cloud playlists are defined differently to produce the same result - see the explanation following this table.</td>
             </tr>
           </tbody>
         </table>
+        <h3>How playlists are defined in Video Cloud</h3>
+        <p>Broadly, there are two kinds of playlists in Video Cloud:</p>
+        <ul>
+          <li><code>explicit</code> (or manual) are simply collections of videos you select and arrange in the order you want them to play</li>
+          <li>
+            "smart" playlists are constructed at the time they are requested (by a player or other API request) using a <a href="">search string</a>
+          </li>
+        </ul>
       </section>
       <!-- END MAIN CONTENT -->
     </div>

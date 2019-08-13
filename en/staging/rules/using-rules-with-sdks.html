@@ -48,35 +48,56 @@
 
   <section class="bcls-section">
     <h2 id="Android_implementation">Android implementation</h2>
-    <p>Delivery Rules can be configured in the Brightcove Player in the following ways:</p>
+    <p>To use Delivery Rules with the Native SDK for iOS, follow these steps:</p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        Define the parameter for your Delivery Rules ID.
+      </li>
+      <li>
+        <p>
+          Pass the Delivery Rules ID as a parameter with the catalog call to the Playback API. You can use either the <code>findVideoWithVideoID</code> or <code>findPlaylistWithPlaylistID</code> methods. Here is the code:
+        </p>
+        <pre>
+<code class="language-objectivec"></code></pre>
+      </li>
+    </ol>
 
   </section>
 
   <section class="bcls-section">
     <h2 id="iOS_implementation">iOS implementation</h2>
-    <p>Delivery Rules can be configured in the Brightcove Player in the following ways:</p>
+    <p>To use Delivery Rules with the Native SDK for iOS, follow these steps:</p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        Define the parameter for your Delivery Rules ID.
+      </li>
+      <li>
+        <p>
+          Pass the Delivery Rules ID as a parameter with the catalog call to the Playback API. You can use either the <code>findVideoWithVideoID</code> or <code>findPlaylistWithPlaylistID</code> methods. Here is the code:
+        </p>
+        <pre>
+<code class="language-objectivec">- (void)requestContentFromPlaybackService
+{
+    <span class="bcls-highlight">NSDictionary *playbackAPIParameters = @{@&quot;config_id&quot;:@&quot;<span class="bcls-input">your rules id</span>&quot;};</span>
+    [self.playbackService findVideoWithVideoID:kViewControllerVideoID
+        <span class="bcls-highlight">parameters:playbackAPIParameters</span>
+        completion:^(BCOVVideo *video, NSDictionary *jsonResponse, NSError *error) {
 
-    <h3>Player management API</h3>
-    <p>When configuring players with the Player Management API, you can set the <code>delivery_config_id</code> configuration property as follows:</p>
-    <pre class="line-numbers">
-<code class="language-json">{
-  &ldquo;delivery_config_id&rdquo;: &ldquo;abcdef&rdquo;,
-  ...
+        if (video)
+        {
+            [self.playbackController setVideos:@[ video ]];
+        }
+        else
+        {
+            NSLog(@&quot;ViewController Debug - Error retrieving video playlist: `%@`&quot;, error);
+        }
+    }];
 }</code></pre>
+      </li>
+    </ol>
 
-    <h3>Standard embed code</h3>
-    <p>With the standard embed code (iframe), use the <code>deliveryConfigId</code> query parameter:</p>
-    <pre>
-<code class="language-html">&lt;iframe src=&rdquo;https://players.brightcove.net/.../index.html?deliveryConfigId=abcdef&rdquo;&gt;</code></pre>
 <br>
-    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
-
-    <h3>Advanced embed code</h3>
-    <p>With the advanced embed code (in-page embed), use the <code>data-delivery-config-id</code> attribute:</p>
-    <pre>
-<code class="language-html">&lt;video-js data-delivery-config-id=&rdquo;abcdef&rdquo;&gt;</code></pre>
-<br>
-    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
+    <!-- <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside> -->
   </section>
 
 

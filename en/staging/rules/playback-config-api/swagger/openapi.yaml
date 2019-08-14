@@ -17,14 +17,14 @@ tags:
   - name: Playback Config
     description: Operations for getting, adding, updating and deleting behaviors for Delivery Rules.
 paths:
-  '/accounts/{accountID}/behaviors/aa':
+  '/accounts/{accountID}/behaviors':
     post:
       tags:
-        - Audit
-      summary: Request a daily usage report
+        - Playback Config
+      summary: Add behaviors to an account
       description: |-
-        Request a daily usage report for Brightcove's Playback Authorization Service
-      operationId: RequestReport
+        Add behaviors to an account to support Brightcove's Delivery Rules
+      operationId: AddBehavior
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -37,21 +37,6 @@ paths:
           explode: false
           schema:
             type: string
-        - name: date
-          in: path
-          description: |-
-            Date for requested usage report
-            Validations:
-              - Format YYYY-MM-DD
-              - Date cannot be today (UTC time)
-              - Date cannot be < 30 days in the past
-              - Brightcove does not hold on to the authorization service usage reports after 30 days to follow GDPR compliance
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-            format: date
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -95,7 +80,6 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/behaviors':
     get:
       tags:
         - Playback Config
@@ -162,13 +146,13 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/execution/{executionID}/report':
+  '/accounts/{accountID}/behavior/{id}/versions':
     get:
       tags:
-        - Audit
-      summary: Fetch usage report
-      description: 'Fetch your daily usage report'
-      operationId: FetchReport
+        - Playback Config
+      summary: Get all versions of a behavior for an account
+      description: 'Get all versions of a behavior defined for an account.'
+      operationId: GetAllBehaviorVersions
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -181,9 +165,9 @@ paths:
           explode: false
           schema:
             type: string
-        - name: executionID
+        - name: id
           in: path
-          description: A unique ID associated with a usage report for a specified account ID and date
+          description: A unique ID associated with a behavior defined for an account
           required: true
           style: simple
           explode: false

@@ -17,14 +17,14 @@ tags:
   - name: Playback Config
     description: Operations for getting, adding, updating and deleting behaviors for Delivery Rules.
 paths:
-  '/accounts/{accountID}/behaviors/aa':
+  '/accounts/{accountID}/behaviors':
     post:
       tags:
-        - Audit
-      summary: Request a daily usage report
+        - Playback Config
+      summary: Add behaviors to an account
       description: |-
-        Request a daily usage report for Brightcove's Playback Authorization Service
-      operationId: RequestReport
+        Add behaviors to an account to support Brightcove's Delivery Rules
+      operationId: AddBehavior
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -37,21 +37,6 @@ paths:
           explode: false
           schema:
             type: string
-        - name: date
-          in: path
-          description: |-
-            Date for requested usage report
-            Validations:
-              - Format YYYY-MM-DD
-              - Date cannot be today (UTC time)
-              - Date cannot be < 30 days in the past
-              - Brightcove does not hold on to the authorization service usage reports after 30 days to follow GDPR compliance
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-            format: date
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -74,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequestResponse'
+                $ref: '#/components/schemas/AddBehaviorResponse'
         '400':
           description: >-
             NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
@@ -95,12 +80,11 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/behaviors':
     get:
       tags:
         - Playback Config
-      summary: Get the latest version of behaviors for an account
-      description: 'Get behaviors defined for an account. Latest version only.'
+      summary: Get latest version of behaviors for an account
+      description: 'Get only the latest version of the behaviors defined for an account.'
       operationId: GetLatestBehaviors
       security:
         - BC_OAuth2:
@@ -162,13 +146,13 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/execution/{executionID}/report':
+  '/accounts/{accountID}/behavior/{id}/versions':
     get:
       tags:
-        - Audit
-      summary: Fetch usage report
-      description: 'Fetch your daily usage report'
-      operationId: FetchReport
+        - Playback Config
+      summary: Get all versions of a behavior for an account
+      description: 'Get all versions of a behavior defined for an account.'
+      operationId: GetAllBehaviorVersions
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -181,9 +165,148 @@ paths:
           explode: false
           schema:
             type: string
-        - name: executionID
+        - name: id
           in: path
-          description: A unique ID associated with a usage report for a specified account ID and date
+          description: A unique ID associated with a behavior defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchResponse'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/behavior/{id}':
+    put:
+      tags:
+        - Playback Config
+      summary: Update a behavior for an account
+      description: 'Update a behavior for an account. Note: Only the properties in the request will be updated. Other properties in the behavior will not be modified.'
+      operationId: UpdateBehavior
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: A unique ID associated with a behavior defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchResponse'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Playback Config
+      summary: Delete a behavior for an account
+      description: 'Delete a behavior for an account.'
+      operationId: DeleteBehavior
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: A unique ID associated with a behavior defined for an account
           required: true
           style: simple
           explode: false
@@ -234,6 +357,106 @@ paths:
         IsMultiContentStreaming: false
 components:
   schemas:
+    AddBehaviorResponse:
+      title:  Add Behavior Response
+      type: object
+      properties:
+        account_id:
+          type: string
+          description: Unique identifier for your account
+          readOnly: true
+        id:
+          type: string
+          description: Unique identifier for a behavior
+          readOnly: true
+        version:
+          type: integer
+          description: Version for the behavior
+          readOnly: true
+        created_at:
+          type: string
+          description: Date timestamp for when the behavior was added
+          readOnly: true
+        updated_at:
+          type: string
+          description: Date timestamp for when the behavior was last updated
+          readOnly: true
+        behaviors:
+          type: array
+          description: Array of behavior mappings
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/behavior'
+            readOnly: true
+      example: {
+          "account_id": "account1",
+          "id" : "5068abcde-f710-4e36-be95-1234567890",
+          "version": 0,
+          "created_at": "2018-08-07T20:49:39.12750454Z",
+          "updated_at": "2018-08-07T20:49:39.12750454Z",
+          "behaviors":  [
+            {
+              "name" : "MaxBitrate5000foriPhone",
+              "conditions": {
+     	          "device_group": ["iphone"]
+              },
+              "delivery_rule": ["max-bitrate-5000"]
+            },
+            {
+              "name": "iphone8X-codecs",
+              "conditions": {
+                "device_group": ["iphone8","iphoneX"]
+              },
+              "delivery_rule": ["hevc-avc"]
+            }]
+          }
+    behavior:
+      properties:
+        name:
+          type: string
+          description: 'Behavior name'
+          readOnly: true
+        conditions:
+          type: object
+          description: 'Behavior conditions'
+          readOnly: true
+          properties:
+            device_group:
+              type: array
+              readOnly: true
+              items:
+                enum:
+                  - android
+                  - appletv
+                  - ipad
+                  - iphone
+                  - desktop-chrome
+                  - desktop-firfox
+                  - desktop-safari
+                  - fetchtv
+                  - ios-other
+                  - roku-7/8
+                  - smartphone-generic
+                  - tablet-android
+                  - tablet-kindle
+                  - unknown
+                example: iphone
+        delivery_rule:
+          type: array
+          description: Delivery rule
+          readOnly: true
+          items:
+            enum:
+              - max-bitrate-5000
+              - hevc-avc
+              - minimum video bitrate
+              - maximum video bitrate
+              - minimum video resolution
+              - maximum video resolution
+              - maximum number of audio renditions
+              - maximum number of video renditions
+              - first video bitrate
+              - discontinuities
     RequestResponse:
       title:  Request Response
       type: object

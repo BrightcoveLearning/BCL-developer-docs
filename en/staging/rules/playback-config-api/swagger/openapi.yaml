@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequestResponse'
+                $ref: '#/components/schemas/AddBehaviorResponse'
         '400':
           description: >-
             NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
@@ -357,6 +357,106 @@ paths:
         IsMultiContentStreaming: false
 components:
   schemas:
+    AddBehaviorResponse:
+      title:  Add Behavior Response
+      type: object
+      properties:
+        account_id:
+          type: string
+          description: Unique identifier for your account
+          readOnly: true
+        id:
+          type: string
+          description: Unique identifier for a behavior
+          readOnly: true
+        version:
+          type: integer
+          description: Version for the behavior
+          readOnly: true
+        created_at:
+          type: string
+          description: Date timestamp for when the behavior was added
+          readOnly: true
+        updated_at:
+          type: string
+          description: Date timestamp for when the behavior was last updated
+          readOnly: true
+        behaviors:
+          type: array
+          description: Array of behavior mappings
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/behavior'
+            readOnly: true
+      example: {
+          "account_id": "account1",
+          "id" : "5068abcde-f710-4e36-be95-1234567890",
+          "version": 0,
+          "created_at": "2018-08-07T20:49:39.12750454Z",
+          "updated_at": "2018-08-07T20:49:39.12750454Z",
+          "behaviors":  [
+            {
+              "name" : "MaxBitrate5000foriPhone",
+              "conditions": {
+     	          "device_group": ["iphone"]
+              },
+              "delivery_rule": ["max-bitrate-5000"]
+            },
+            {
+              "name": "iphone8X-codecs",
+              "conditions": {
+                "device_group": ["iphone8","iphoneX"]
+              },
+              "delivery_rule": ["hevc-avc"]
+            }]
+          }
+    behavior:
+      properties:
+        name:
+          type: string
+          description: 'Behavior name'
+          readOnly: true
+        conditions:
+          type: object
+          description: 'Behavior conditions'
+          readOnly: true
+          properties:
+            device_group:
+              type: array
+              readOnly: true
+              items:
+                enum:
+                  - android
+                  - appletv
+                  - ipad
+                  - iphone
+                  - desktop-chrome
+                  - desktop-firfox
+                  - desktop-safari
+                  - fetchtv
+                  - ios-other
+                  - roku-7/8
+                  - smartphone-generic
+                  - tablet-android
+                  - tablet-kindle
+                  - unknown
+                example: iphone
+        delivery_rule:
+          type: array
+          description: Delivery rule
+          readOnly: true
+          items:
+            enum:
+              - max-bitrate-5000
+              - hevc-avc
+              - minimum video bitrate
+              - maximum video bitrate
+              - minimum video resolution
+              - maximum video resolution
+              - maximum number of audio renditions
+              - maximum number of video renditions
+              - first video bitrate
+              - discontinuities
     RequestResponse:
       title:  Request Response
       type: object

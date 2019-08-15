@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Dimensions"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="analytics_v3_dimensions"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Dimensions</title>
+</head>
+<body id="analytics_v3_dimensions">
+
+
+  <h1 class="title topictitle1">Dimensions</h1>
+
+  
+  <div class="body refbody"><p class="shortdesc"/>
+
+    <div class="section">
+      <p class="p">Here are the reference details for all predefined dimensions for the <span class="ph">v3
+          Analytics</span>
+        <a class="xref" href="analytics_v3_api_reporting_overview.html#analytics_reporting">Reporting
+          API</a>.</p>
+<div class="p">Dimensions are specified with the <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions"><samp class="ph codeph">dimensions=</samp></a> query string parameter. Some considerations: <ul class="ul" id="analytics_v3_dimensions__dimension_limit">
+          <li class="li">For time ranges up to 1 month you can query by up to 3 dimensions at a time with
+            unlimited rows of data.</li>
+
+          <li class="li">For time ranges greater than one month you can query by up to 2 dimensions at a time
+            with up to 10,000 rows of data. <div class="note note"><span class="notetitle">Note:</span> You can only use 1 dimension for
+                <samp class="ph codeph">url</samp> queries.</div>
+
+          </li>
+
+          <li class="li">Multiple values must be comma-separated with no spaces.</li>
+
+          <li class="li">The order of multiple is not important:<ul class="ul" id="analytics_v3_dimensions__ul_qqr_bt2_fm">
+              <li class="li"><samp class="ph codeph">dimensions=device_type,dma</samp> is the same as
+                  <samp class="ph codeph">dimensions=dma,device_type</samp></li>
+
+            </ul>
+</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting GET</h2>
+            
+            <p class="p">The base syntax of the route and query string is as follows. For ease of reading, the
+               single-line request has been split across several lines. </p>
+
+            <pre class="pre codeblock" id="analytics_v3_dimensions__d1553e40">
+<strong class="ph b">[GET] /v3/analytics/reports/?</strong>
+            <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>=<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>=<a class="xref" href="#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>=<a class="xref" href="analytics_v3_api_reporting_metrics.html#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>=<a class="xref" href="analytics_v3_api_reporting_filters.html#analytics_v3_filters"><var class="keyword varname">filter_type=='filter_value'</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>=<var class="keyword varname">date</var>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>=date
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>
+            <strong class="ph b">&amp;api_key=your_api_key</strong>
+         </pre>
+
+            <ul class="ul">
+               <li class="li">The <strong class="ph b">required</strong> query string parameters (shown in bold) are <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><samp class="ph codeph">report_type</samp></a>, <samp class="ph codeph">start_date</samp>, and api_key. </li>
+
+               <li class="li">If no dimensions are specified, total values across all dimension are returned. </li>
+
+               <li class="li">For time ranges up to 1 month you can query by up to 3 dimensions at a time with
+                  unlimited rows of data. For time ranges greater than one month you can query by up
+                  to 2 dimensions at a time with up to 10,000 rows of data. </li>
+
+               <li class="li">If no metrics are specified, all metrics are returned. </li>
+
+            </ul>
+
+            <div class="note note"><span class="notetitle">Note:</span> You may pass the API key either as a query parameter or via the header X-API-KEY.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> At this time, the only valid value for <var class="keyword varname">report_type</var> is
+                  <samp class="ph codeph">performance</samp>.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> You can only use 1 dimension (<samp class="ph codeph">url</samp>) for <samp class="ph codeph">url</samp>
+               queries.</div>
+
+         </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting Long Queries POST</h2>
+            
+            <p class="p">For queries with query parameters that would exceed the HTTP GET specification limit
+               of 230 characters , please use a POST request. Some browsers and http clients may
+               support more than 230 characters, but we will not provide official support for
+               queries that violate the HTTP GET specification. For POST requests, pass a JSON
+               object in the request body instead of the query string parameters. </p>
+
+            <pre class="pre codeblock">
+<strong class="ph b">[POST] /v3/analytics/reports
+
+{</strong>
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>":"<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>":"<a class="xref" href="#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>":"<a class="xref" href="analytics_v3_api_reporting_metrics.html#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>":"(<a class="xref" href="analytics_v3_api_reporting_filters.html#analytics_v3_filters"><var class="keyword varname">filter_type==\"filter_value\")</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>":"<var class="keyword varname">date</var>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>":"date",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>":"other_param_value",
+   <strong class="ph b"> "api_key":"your_api_key"
+}</strong>
+         </pre>
+
+         </div>
+
+    
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_dimensions__predefined_dimensions" class="table" frame="border" border="1" rules="all">
+        
+        
+        
+        <thead class="thead" align="left">
+          <tr class="row">
+            <th class="entry" valign="top" width="21.73913043478261%" id="d12209e285">Name</th>
+
+            <th class="entry" valign="top" width="43.47826086956522%" id="d12209e288">Meaning</th>
+
+            <th class="entry" valign="top" width="34.78260869565217%" id="d12209e291">Additional Info</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody class="tbody">
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__asset">asset</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Video or other assets, including both <span class="ph">Ooyala</span> asset IDs (embed codes or content IDs)
+                and external identifiers.</p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <div class="p">To query unlimited asset data with the API, in your query you must: 
+                <ol class="ol">
+                                <li class="li">Set a date range of less than or equal to 1 month (&lt;32
+                                    days).</li>
+
+                                <li class="li">Use <samp class="ph codeph"><a class="xref" href="analytics_v3_api_reporting_dimensions.html">dimensions=asset</a></samp> (with no
+                                    additional dimensions).</li>
+
+                                <li class="li">Set the <samp class="ph codeph"><a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__page">page</a></samp> parameter (where
+                                            <samp class="ph codeph"><a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__page">page</a></samp>=X and X&lt;= the last
+                                    page). </li>
+
+                                <li class="li">Set the <samp class="ph codeph"><a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__limit">limit</a></samp> parameter (where
+                                            <samp class="ph codeph"><a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__limit">limit</a></samp>&lt;=1000).</li>
+
+                            </ol>
+</div>
+
+                <p class="p">To filter the asset dimension by label, include the filter:
+                  <samp class="ph codeph">filters=label=='yourLabelId'</samp></p>
+
+              <div class="p">Response also includes:
+                <pre class="pre codeblock">{ 
+   <em class="ph i">embed_code</em>,<em class="ph i">name</em>,<em class="ph i">status</em>,<em class="ph i">is_live_stream</em>,<em class="ph i">type</em>
+}</pre>
+</div>
+
+             <ul class="ul">
+               <li class="li"><samp class="ph codeph"><em class="ph i">name</em></samp> is the title of the video.</li>
+
+                
+               <li class="li"><samp class="ph codeph"><em class="ph i">embed_code</em></samp> is the video identifier (content ID or asset
+                  ID).</li>
+
+               <li class="li"><samp class="ph codeph"><em class="ph i">status</em></samp> is the video's status in <span class="ph">Ooyala Backlot</span>: <span class="ph">live
+                or paused</span>.</li>
+
+               <li class="li"><samp class="ph codeph"><em class="ph i">is_live_stream</em></samp> indicates whether the stream is <strong class="ph b">live</strong> or video-on-demand (<strong class="ph b">vod</strong>).</li>
+
+                </ul>
+
+            </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__country">country</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Country code. See <a class="xref" href="../reference/location_codes.html#reference" title="These country codes are used in a variety of Ooyala features.">Country and Location Codes</a>.</p>
+
+              
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p">Response includes full country name.</p>
+
+              <p class="p">In the Analytics UI, part of Geography.</p>
+
+            </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__region">region</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Geographic region. Our geographic reporting uses the definition of region provided
+                by <span class="ph"><a class="xref" href="https://ipintelligence.neustar.biz/portal/#documentation" target="_blank">Quova</a></span>.</p>
+
+              <p class="p">You cannot specify <samp class="ph codeph">region</samp> alone; you must also specify its
+                <samp class="ph codeph">country</samp>.</p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p">In the Analytics UI, part of Geography.</p>
+
+            </td>
+
+          </tr>
+
+        
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__dma">dma</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Defined marketing area (a US-centric concept not prominent in other parts of the
+                world), specified by <a class="xref" href="../reference/dma_codes.html" title="These Nielsen Designated Market Area (DMA) codes are used in a variety of Ooyala features.">DMA ID</a>. </p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 "> Response includes DMA ID and a descriptive name. In the Analytics UI, part of
+              Geography. </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 "><samp class="ph codeph" id="analytics_v3_dimensions__state">state</samp></td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">State name. For example, if you drill down by Geo on the United States, you will
+              see California, Arizona, etc. Our geographic reporting uses the definition of state
+              provided by <span class="ph"><a class="xref" href="https://ipintelligence.neustar.biz/portal/#documentation" target="_blank">Quova</a></span> (state is "the first-level
+              administrative division" of a country).<p class="p">You cannot specify <samp class="ph codeph">state</samp> alone; you must also specify its <samp class="ph codeph">country</samp>.</p>
+</td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 "><p class="p">In the Analytics UI, part of Geography.</p>
+</td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__device_type">device_type</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Device type.</p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+            </td>
+
+          </tr>
+
+        
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__domain">domain</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Internet domain (fully qualified domain name).</p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 "> In the Analytics UI, part of Traffic Source. </td>
+
+          </tr>
+
+          
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__url">url</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Uniform resource locator (URL).</p>
+
+              <div class="p">
+                <div class="note note"><span class="notetitle">Note:</span> You can only use 1 dimension (<samp class="ph codeph">url</samp>) for <samp class="ph codeph">url</samp>
+                  queries. You can only  apply <samp class="ph codeph">url</samp> or <samp class="ph codeph">domain</samp>
+                  filters for <samp class="ph codeph">url</samp> queries. </div>
+
+              </div>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">In the Analytics UI, part of Traffic Source. </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__os">os</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">Operating system of the user's device. Must be exact string; partial matches not
+                supported.</p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+            </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__browser">browser</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">User's web browser.<p class="p"><strong class="ph b">Note: </strong>The <samp class="ph codeph">browser</samp>
+                dimension applies only when <samp class="ph codeph">device_type</samp> is <samp class="ph codeph">desktop</samp>. </p>
+</td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+            </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__pcode">pcode</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p"><span class="ph">Ooyala</span>-supplied provider ID. </p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 ">
+              <p class="p"/>
+
+            </td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="21.73913043478261%" headers="d12209e285 ">
+              <p class="p"><samp class="ph codeph" id="analytics_v3_dimensions__player_id">player_id</samp></p>
+
+            </td>
+
+            <td class="entry" valign="top" width="43.47826086956522%" headers="d12209e288 ">
+              <p class="p">The identifiers of <span class="ph">Ooyala</span> or other named video players used during playback. </p>
+
+            </td>
+
+            <td class="entry" valign="top" width="34.78260869565217%" headers="d12209e291 "><div class="note note"><span class="notetitle">Note:</span> The <span class="ph">Ooyala mobile SDKs</span> (Android and iOS) currently do not send a <span class="ph">player_id</span>, so the <span class="ph">player_id</span> for the mobile SDKs is attributed
+                as "unknown". </div>
+</td>
+
+          </tr>
+
+          
+        </tbody>
+
+      </table>
+</div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_api_reference.html">Parameter Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

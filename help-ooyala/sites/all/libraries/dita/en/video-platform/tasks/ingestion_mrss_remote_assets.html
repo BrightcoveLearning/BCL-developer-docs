@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Ingesting Remote Assets via MRSS"/>
+<meta name="abstract" content="You can add or update remote assets using Media RSS (MRSS)."/>
+<meta name="description" content="You can add or update remote assets using Media RSS (MRSS)."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/remote_assets_ingest.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/remote_assets_ingest.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_remote_assets.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ingestion_mrss_remote_assets"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ingesting Remote Assets via MRSS</title>
+</head>
+<body id="ingestion_mrss_remote_assets">
+
+
+<h1 class="title topictitle1">Ingesting Remote Assets via MRSS</h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">You can add or update remote assets using Media RSS (MRSS).</p>
+
+  <div class="section context"><p class="p">For more information, see <a class="xref" href="../concepts/chapter_remote_assets.html" title="A remote asset is a piece of content that is hosted outside of Backlot. Instead of uploading, transcoding, and storing the content in Backlot, you simply upload its URL and other descriptive information so that Backlot can find the content when needed.">Remote Assets</a>.</p>
+<p class="p">When using MRSS to add or update a remote asset, you
+    identify the asset as remote by specifying the <span class="keyword parmname">&lt;ooyala:remoteasset&gt;</span>
+    tag (instead of <span class="keyword parmname">&lt;media:content&gt;</span>) in the MRSS feed item.</p>
+<div class="note note"><span class="notetitle">Note:</span> To
+    decide whether to add or update a remote asset, Ooyala uses the specified
+     <span class="keyword parmname">&lt;guid&gt;</span> (or, if no <span class="keyword parmname">&lt;guid&gt;</span> is specified,
+    the specified <span class="keyword parmname">&lt;url&gt;</span>) to determine whether the remote asset currently
+    exists (update) or not (add).</div>
+<p class="p"><strong class="ph b">Adding a Remote Asset</strong></p>
+<p class="p">The following example
+    code creates a remote asset (the specified &lt;guid&gt; does not exist).</p>
+<pre class="pre codeblock">&lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fh="http://purl.org/syndication/history/1.0" xmlns:ooyala="http://www.ooyala.com/mrss/" version="2.0"&gt;
+  &lt;channel&gt;
+    &lt;item&gt; 
+  	&lt;ooyala:remoteasset durationInMs='1000' url="http://mysite.com/RCTTestAssets/mrss/assets/Test.mp4"/&gt; 
+  	&lt;media:thumbnail url="http://mysite.com/test.jpg"/&gt; 
+  	&lt;media:subTitle href="http://mysite.com/test.dfxp"/&gt; 
+  	&lt;media:title&gt;Test&lt;/media:title&gt; 
+  	&lt;media:description&gt;Test&lt;/media:description&gt; 
+  	&lt;ooyala:labels&gt;/Test&lt;/ooyala:labels&gt; 
+  	&lt;link&gt;http://mysite.com/videos/sports/test_0010.html&lt;/link&gt; 
+  	&lt;!-- set flight times --&gt; 
+  	&lt;dcterms:valid&gt; 
+  		start=2011-06-28T15:15:00-07:00; end=2022-12-01T16:00:00-07:00;scheme=W3C-DTF 
+  	&lt;/dcterms:valid&gt; 
+  	&lt;guid&gt;Test001&lt;/guid&gt; 
+    &lt;/item&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;</pre>
+<p class="p"><strong class="ph b">Updating a Remote Asset</strong></p>
+<p class="p">For an existing remote asset, you can
+    update the following fields via MRSS:</p>
+<ul class="ul">
+      <li class="li"><samp class="ph codeph">media:title</samp></li>
+
+      <li class="li"><samp class="ph codeph">media:description</samp></li>
+
+      <li class="li"><samp class="ph codeph">ooyala:subTitle</samp></li>
+
+        <li class="li"><samp class="ph codeph">ooyala:metadata</samp></li>
+
+        <li class="li"><samp class="ph codeph">dcterms:valid</samp></li>
+
+        <li class="li"><samp class="ph codeph">media:thumbnail</samp></li>
+
+        <li class="li"><samp class="ph codeph">ooyala:labels</samp></li>
+
+   </ul>
+ When you submit the MRSS feed item, if it contains updates to any of these fields in the
+    <samp class="ph codeph">&lt;item&gt;</samp> tag, the system updates the remote asset with the applicable
+   changes. </div>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/remote_assets_ingest.html">Ingesting Remote Assets</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_remote_assets.html" title="A remote asset is a piece of content that is hosted outside of Backlot. Instead of uploading, transcoding, and storing the content in Backlot, you simply upload its URL and other descriptive information so that Backlot can find the content when needed.">Remote Assets</a></div>
+</div>
+</div>
+
+</body>
+</html>

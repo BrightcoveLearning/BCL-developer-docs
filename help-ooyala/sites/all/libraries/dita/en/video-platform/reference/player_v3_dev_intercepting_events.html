@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Advanced: Intercepting Events in Player V3 (Deprecated)"/>
+<meta name="abstract" content="Learn to set up dependencies between events."/>
+<meta name="description" content="Learn to set up dependencies between events."/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_tutorial.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_dev_intercepting_events"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Advanced: Intercepting Events in Player V3 (Deprecated)</title>
+</head>
+<body id="player_v3_dev_intercepting_events">
+
+
+    <h1 class="title topictitle1"> Advanced: Intercepting Events in Player V3 (Deprecated)</h1>
+
+    
+    <div class="body refbody" id="refbody_g1j_wd4_rr"><p class="shortdesc"> Learn to set up dependencies between events.</p>
+
+        <div class="section" id="player_v3_dev_intercepting_events__section_bqj_rvp_rr">
+            <div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+
+            Suppose you would like to customize how your web page
+            responds to user interaction with the video player. In this example we intercept the
+            pause and play events. When the user clicks the pause control, a confirmation dialog
+            appears before the video is paused. When the user clicks the play or pause control, a
+            textbox displays the new state of the player.<div class="p">The purpose of this web page is to
+                provide the user with an option to switch to fullscreen mode, so the design will
+                include: <ul class="ul" id="player_v3_dev_intercepting_events__ul_rlp_lvp_rr">
+                    <li class="li">A <samp class="ph codeph">head</samp> element containing a <samp class="ph codeph">script</samp> tag
+                        specifying the loading and initialization request.</li>
+
+                    <li class="li">A <samp class="ph codeph">body</samp> element containing:<ul class="ul" id="player_v3_dev_intercepting_events__ul_a4p_lvp_rr">
+                            <li class="li">UI presentation and layout for the Player container.</li>
+
+                            <li class="li">Event listeners that monitor and respond to player events.</li>
+
+                            <li class="li">Functions that intercept play and pause events and fire dependent
+                                events.</li>
+
+                            <li class="li">A <samp class="ph codeph">script</samp> tag that creates the Player.</li>
+
+                            <li class="li">An HTML <samp class="ph codeph">input</samp> element that displays text indicating
+                                whether the video is playing or paused.</li>
+
+                        </ul>
+</li>
+
+                </ul>
+</div>
+</div>
+<div class="section"><div class="p">Follow these steps to build your web page:<ul class="ul" id="player_v3_dev_intercepting_events__ul_cpp_lvp_rr">
+                    <li class="li"><a class="xref" href="#player_v3_dev_intercepting_events__section_qcz_gzw_rr">Step 1: Listening to Multiple Events</a></li>
+
+                    <li class="li"><a class="xref" href="#player_v3_dev_intercepting_events__section_okc_hdp_rr">Step 2: Intercepting Events</a></li>
+
+                    <li class="li"><a class="xref" href="#player_v3_dev_intercepting_events__section_qw2_3dp_rr">Step 3: Setting up Event Dependencies</a></li>
+
+                </ul>
+</div>
+<p class="p">See <a class="xref" href="#player_v3_dev_intercepting_events__section_gxh_jdp_rr">Complete Example</a> to view the code for the entire web page.</p>
+<p class="p">To develop the
+                    <samp class="ph codeph">head</samp> element and the logic for presenting and creating the
+                Player, see <a class="xref" href="player_v3_dev_tutorial.html#player_v3_dev_tutorial" title="Use this tutorial to get started using the HTML5 Player V3.">Basic Tutorial for the HTML5 Player V3 (Deprecated)</a>.
+                </p>
+<p class="p">To learn about event handling, see <a class="xref" href="../concepts/player_v3_dev_eventmodel.html#player_v3_dev__eventmodel" title="The HTML5 Player V3 incorporates the use of a message bus to handle events.">Event Model for HTML5 Player V3 (Deprecated)</a>. For a list of all events, see the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/player_js/index.html" target="_blank">Player JavaScript API Reference</a>.</p>
+</div>
+
+        <div class="section" id="player_v3_dev_intercepting_events__section_qcz_gzw_rr"/>
+<div class="section"><h2 class="title sectiontitle">Step 1: Listening to Multiple Events</h2>
+      
+      <div class="p">Sometimes it is useful to listen and respond to multiple events at once. One way to do this
+        is to subscribe to all events. The <a class="xref" href="../concepts/player_v3_dev_eventmodel.html#player_v3_dev__eventmodel" title="The HTML5 Player V3 incorporates the use of a message bus to handle events.">Event Model for HTML5 Player V3 (Deprecated)</a> provides you
+        with a message bus, accessed via the created Player object's <span class="keyword apiname">mb</span> object.
+        In this case we will use the message bus <span class="keyword apiname">subscribe()</span> function specifying
+        a wildcard (<samp class="ph codeph">"*"</samp>) for the event
+        name:<pre class="pre codeblock">          function onCreate(player) {
+          
+            /* Subscribe to all events: 
+             * this allows you to create logic based on multiple events. */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+            });
+          }</pre>
+</div>
+
+      <div class="p">Now that we are listening for every possible event, we can include logic based on multiple
+        events within the callback function via its <span class="keyword parmname">eventName</span> parameter. In
+        this example we write all events, except for downloading and playhead time changed events
+          (<span class="keyword apiname">OO.EVENTS.DOWNLOADING</span> and
+          <span class="keyword apiname">OO.EVENTS.PLAYHEAD_TIME_CHANGED</span> ), to the JavaScript console
+        log:<pre class="pre codeblock">          function onCreate(player) {
+          
+           /*
+            * Subscribe to all events:
+            * this allows you to create logic 
+            * based on multiple events.
+            */
+            player.mb.subscribe("*" , 'example', function(eventName) { 
+            
+              /* Write all events, except for downloading and playhead time changed events, 
+               * to the JavaScript console: */ 
+              if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                  eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                console.log(eventName);
+            });
+          }</pre>
+</div>
+
+    </div>
+
+        <div class="section" id="player_v3_dev_intercepting_events__section_okc_hdp_rr"><h2 class="title sectiontitle">Step 2: Intercepting Events</h2>
+            To intercept a video playing event
+                (<span class="keyword apiname">OO.EVENTS.PLAYING</span>), call the message bus
+                <span class="keyword apiname">intercept()</span> function. In this example we include a callback that
+            displays a message in the textbox. If the textbox was previously empty, the message
+            indicates that the video has begun playing whether the video has begun playing or
+            playback has continued. We add a variable called <samp class="ph codeph">justStartedPlaying</samp> to
+            keep track of the player state.<div class="p">
+                <pre class="pre codeblock">
+        &lt;script&gt;
+            /*
+             * Use this to control playing state messages.
+             */
+            justStartedPlaying = true;
+            
+            function onCreate(player) {
+            
+                 player.mb.subscribe("*" , 'example', function(eventName) { 
+                     if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                         eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                          console.log(eventName);
+                });
+        
+                /*
+                 * Intercept the video playing event
+                 * and display the status in the text box.
+                 */
+                player.mb.intercept(
+                  OO.EVENTS.PLAYING, 
+                  'example', 
+                  function(eventName) {
+                    var message = OO.$("#messagesTxt").val();
+                    if (message == "" || justStartedPlaying == true) {
+                        OO.$("#messagesTxt").val("Just started playing the video now!!!");
+                    } else {
+                        OO.$("#messagesTxt").val("Playback continues...");
+                    }
+                    
+                  }
+                );
+            }
+        &lt;/script&gt;
+                </pre>
+
+            </div>
+<div class="p">Similarly, to intercept a video pause event
+                (<span class="keyword apiname">OO.EVENTS.PAUSED</span>), we again call the message bus
+                    <span class="keyword apiname">intercept()</span> function. If the user confirms that the video is
+                to be paused, the callback fires a dependent event called
+                    <samp class="ph codeph">user_allowed_pause</samp>, used later in the
+                    <span class="keyword apiname">addDependent()</span> method that blocks the
+                    <span class="keyword apiname">OO.EVENTS.PAUSED</span> event until this dependent event is fired.
+                In this case the callback function displays a confirmation dialog, updates the
+                player state, and updates the message displayed to the user:<pre class="pre codeblock">                /*
+                 * Intercept the video pause event. 
+                 * Publish the dependent event required before
+                 * actually pausing the video.
+                 * 
+                 * The addDependent() function monitors 
+                 * this event ('user_allowed_pause')
+                 * and fires the PAUSED event only after this event fires.  
+                 */
+                player.mb.intercept(
+                  OO.EVENTS.PAUSED, 
+                  'example', 
+                  function(eventName) {
+                    if (confirm("Pause Video?") == true) {
+
+                        /*
+                         * Once the video has paused we will next be able
+                         * to change the playing status from just starting
+                         * to continuing.
+                         */
+                        justStartedPlaying = false;
+                    
+                        OO.$("#messagesTxt").val("You paused the video!");
+                        
+                        /*
+                         * Fire the dependent event required before
+                         * firing the PAUSED event.
+                         */
+                        player.mb.publish('user_allowed_pause');
+                        
+                    }else{
+                        player.play();
+                        OO.$("#messagesTxt").val("Playback continues...");
+                    }
+                  }
+                );
+                </pre>
+</div>
+</div>
+<div class="section" id="player_v3_dev_intercepting_events__section_qw2_3dp_rr"><h2 class="title sectiontitle">Step 3: Setting up Event Dependencies</h2>
+            In order to block the video pause
+            event until the dependent event fires, we call the message bus
+                <span class="keyword apiname">addDependent()</span> function. In this example we require that the
+                <samp class="ph codeph">user_allowed_pause</samp> event fire before the
+                <span class="keyword apiname">OO.EVENTS.PAUSED</span> event is permitted to fire:<pre class="pre codeblock">                /*
+                 * This blocks the PAUSED event from firing until
+                 * the 'user_allowed_pause' event has fired 
+                 * (see the intercept() function above).
+                 */
+                player.mb.addDependent(
+                  OO.EVENTS.PAUSED, 
+                  'user_allowed_pause', 
+                  'example', 
+                  function(){}
+                );
+            </pre>
+</div>
+
+        <div class="section" id="player_v3_dev_intercepting_events__section_gxh_jdp_rr"><h2 class="title sectiontitle">Complete Example</h2>You now have a complete
+            working example of a web page that loads multiple Ooyala V3 Players, responds to user
+            interaction with the video player by intercepting pause and play events with a
+            confirmation dialog and textbox that displays messages, and creates the player: 
+            <pre class="pre codeblock"> 
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Test Player V3 Web Page&lt;/title&gt;
+        &lt;!-- Load Ooyala Player --&gt;
+        &lt;script src="http://player.ooyala.com/v3/f6d2bba353f74b3db7683cf6b0a91f29?platform=html5-priority"&gt;&lt;/script&gt;
+        &lt;!-- Load additional custom modules --&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="ooyalaplayer" style="width:640px;height:360px"&gt;&lt;/div&gt;
+        &lt;script&gt;
+            /*
+             * Use this to control playing state messages.
+             */
+            justStartedPlaying = true;
+            
+            /*
+             * Always add event listeners and error handling 
+             * within the onCreate() function.
+             * Include this function in the embedded parameters 
+             * in the Player.create() call.
+             */
+            function onCreate(player) {
+            
+                /*
+                 * Subscribe to all events:
+                 * this allows you to create logic 
+                 * based on multiple events.
+                 */
+                 player.mb.subscribe("*" , 'example', function(eventName) { 
+                     if (eventName != OO.EVENTS.DOWNLOADING &amp;&amp; 
+                         eventName != OO.EVENTS.PLAYHEAD_TIME_CHANGED)
+                          console.log(eventName);
+                });
+        
+                /*
+                 * Intercept the video playing event
+                 * and display the status in the text box.
+                 */
+                player.mb.intercept(
+                  OO.EVENTS.PLAYING, 
+                  'example', 
+                  function(eventName) {
+                    var message = OO.$("#messagesTxt").val();
+                    if (message == "" || justStartedPlaying == true) {
+                        OO.$("#messagesTxt").val("Just started playing the video now!!!");
+                    } else {
+                        OO.$("#messagesTxt").val("Playback continues...");
+                    }
+                    
+                  }
+                );
+        
+                /*
+                 * Intercept the video pause event. 
+                 * Publish the dependent event required before
+                 * actually pausing the video.
+                 * 
+                 * The addDependent() function monitors 
+                 * this event ('user_allowed_pause')
+                 * and fires the PAUSED event only after this event fires.  
+                 */
+                player.mb.intercept(
+                  OO.EVENTS.PAUSED, 
+                  'example', 
+                  function(eventName) {
+                    if (confirm("Pause Video?") == true) {
+
+                        /*
+                         * Once the video has paused we will next be able
+                         * to change the playing status from just starting
+                         * to continuing.
+                         */
+                        justStartedPlaying = false;
+                    
+                        OO.$("#messagesTxt").val("You paused the video!");
+                        
+                        /*
+                         * Fire the dependent event required before
+                         * firing the PAUSED event.
+                         */
+                        player.mb.publish('user_allowed_pause');
+                        
+                    }else{
+                        player.play();
+                        OO.$("#messagesTxt").val("Playback continues...");
+                    }
+                  }
+                );
+                
+                /*
+                 * This blocks the PAUSED event from firing until
+                 * the 'user_allowed_pause' event has fired 
+                 * (see the intercept() function above).
+                 */
+                player.mb.addDependent(
+                  OO.EVENTS.PAUSED, 
+                  'user_allowed_pause', 
+                  'example', 
+                  function(){}
+                );
+            }
+            
+
+            OO.ready(function() { 
+                var videoPlayer = OO.Player.create(
+                'ooyalaplayer', 
+                'VwZjJ2czoYkk20dfBsb9VuAI1TIbQrg-', {
+                    onCreate: window.onCreate
+                });
+            
+            });
+        &lt;/script&gt;
+        
+        Messages: &lt;input type="text" id="messagesTxt" size="108" value=" "&gt;
+            
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        </div>
+
+    </div>
+
+    <div class="related-links"><div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="player_v3_dev_tutorial.html" title="Use this tutorial to get started using the HTML5 Player V3.">Basic Tutorial for the HTML5 Player V3 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

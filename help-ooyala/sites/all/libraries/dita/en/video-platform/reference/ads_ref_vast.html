@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="VAST Ads Embedded Parameters in Player V3 (Deprecated)"/>
+<meta name="abstract" content="Pass VAST ad server or network tags to the Ooyala player."/>
+<meta name="description" content="Pass VAST ad server or network tags to the Ooyala player."/>
+<meta name="DC.Relation" scheme="URI" content="../reference/player_v3_dev_adsparams.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ads_ref_vast"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>VAST Ads Embedded Parameters in Player V3 (Deprecated)</title>
+</head>
+<body id="ads_ref_vast">
+
+
+ <h1 class="title topictitle1">VAST Ads Embedded Parameters in Player V3 (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">Pass VAST ad server or network tags to the Ooyala player.</p>
+
+   <div class="section"><div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+ VAST is an ad format which uses xml to describe Linear ads (video ads), non-linear ads
+      (overlay ads) and companion ads. You can pass VAST ad-service-related tags to the Player with
+      the embedded parameters. <div class="p"><strong class="ph b">Prerequisites</strong>
+        <ul class="ul">
+          <li class="li">To use Ooyala’s VAST ad set, log into the Support Center and submit a ticket
+            requesting that this ad source be added to your account. Once it’s enabled, you’ll be
+            able create ad sets for your player.</li>
+
+          <li class="li">In order to use the VAST ad tag embedded parameter, an ad set must also be applied in
+            Backlot and the ad set must contain a valid VAST ad tag.</li>
+
+        </ul>
+</div>
+At this time support for pre-, mid-, and post-roll ads varies by platform. To see
+      what ad position are supported for each platform, see <a class="xref" href="../concepts/ads_integration_overview.html">Client Side Ad Integration</a>.</div>
+<div class="section"><h2 class="title sectiontitle">VAST Parameter</h2>
+      Use the <span class="keyword parmname">vast</span> parameter to pass VAST ad
+      server or network tags to the Ooyala player. The parameter takes a key value pair representing
+      the ad server or network URL. You can also use <span class="keyword parmname">vast</span> to change the ad URL.
+      If the ad URL is updated with the <span class="keyword parmname">vast</span> parameter, the ad will play when
+      it was set up to play in Backlot (pre-roll, mid-roll, or post-roll), but the ad content played
+      will be overridden with the new ad URL. This parameter is for Flash and HTML5. The following
+      example illustrates the use of the <samp class="ph codeph">vast</samp> parameter.
+      <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper', 'embed_code', {
+  height: '100%',
+  width: '100%',
+  'vast': {
+    tagUrl: 'some url',
+    ...
+  }
+});</pre>
+
+    </div>
+
+   <div class="section"><h2 class="title sectiontitle">vastAds Parameter</h2>
+     
+     <p class="p"><strong class="ph b">Note: </strong>This parameter is for HTML5 only.</p>
+
+     <p class="p">Use the <span class="keyword parmname">vastAds</span> parameter to programmatically override any VAST ads or
+        ad sets applied in Backlot. This feature allows you to add VAST ads to an asset or update
+        the VAST ad content and position (pre-roll, post-roll, and mid-roll) from the player
+        embedded parameters. If ads are set with <span class="keyword parmname">vastAds</span>, ads and ad sets
+        associated with the player in Backlot will be completely ignored. </p>
+  
+     <div class="p"><span class="keyword parmname">vastAds</span> is a container, where you need to specify all the parameters
+        that an ad uses:<ul class="ul">
+          <li class="li"><strong class="ph b">type</strong>: The ad type. Set to "vast".</li>
+
+          <li class="li"><strong class="ph b">url</strong>: The link to the VAST ad content.</li>
+
+          <li class="li"><strong class="ph b">frequency</strong>: How often to call the VAST ad. Set to any positive integer.</li>
+
+          <li class="li"><strong class="ph b">first_shown</strong>: How many videos need to play before the VAST ad is shown. Set to
+            any positive integer.</li>
+
+          <li class="li"><strong class="ph b">time</strong>: The time (in milliseconds) into the video when the VAST ad will play. Set
+            to any positive integer.<ul class="ul">
+              <li class="li">To create a pre-roll ad, set time to 0.</li>
+
+              <li class="li">To create a mid-roll ad, set time to any other number within the time of the
+                asset. </li>
+
+              <li class="li">To create a post-roll ad, set time to exactly 1000000000.</li>
+
+            </ul>
+
+          </li>
+
+        </ul>
+</div>
+
+     <div class="p">The following example demonstrates setting up a pre-roll ad and a mid-roll ad using
+          <span class="keyword parmname">vastAds</span>. <pre class="pre codeblock">var player = OO.Player.create('playerwrapper', embedCode, {
+  'vastAds': [{
+    type: "vast",
+    url: "http://pubads.g.doubleclick.net/gampad/ads?sz=640x360&amp;iu=/6062/iab_vast_samples/skippable&amp;ciu_szs=300x250,728x90&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;output=xml_vast2&amp;unviewed_position_start=1&amp;url=[referrer_url]&amp;correlator=[timestamp]",
+    frequency: 1,
+    first_shown: 0,
+    time: 0
+  },
+  {
+    type: "vast",
+    url: "http://pubads.g.doubleclick.net/gampad/ads?sz=640x360&amp;iu=/6062/iab_vast_samples/skippable&amp;ciu_szs=300x250,728x90&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;output=xml_vast2&amp;unviewed_position_start=1&amp;url=[referrer_url]&amp;correlator=[timestamp]",
+    frequency: 1,
+    first_shown: 0,
+    time: 10000
+  }]
+});</pre>
+</div>
+
+   </div>
+
+ </div>
+
+ <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="player_v3_dev_adsparams.html" title="Customize ads using embedded parameters.">Player V3 Embedded Parameters for Ads (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

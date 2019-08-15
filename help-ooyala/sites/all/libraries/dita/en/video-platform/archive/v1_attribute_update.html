@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Attribute Update API (Deprecated)"/>
+<meta name="abstract" content="The Attribute API includes the ability to update attributes of assets and channels."/>
+<meta name="description" content="The Attribute API includes the ability to update attributes of assets and channels."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_attribute_update"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Attribute Update API (Deprecated)</title>
+</head>
+<body id="v1_attribute_update">
+
+
+ <h1 class="title topictitle1">Attribute Update API (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The Attribute API includes the ability to update attributes of assets and channels. </p>
+
+  <div class="section">
+   <div class="note note"><span class="notetitle">Note:</span> This software is deprecated. Use the latest version.</div>
+
+   <p class="p">The Attribute API includes the ability to update attributes of assets and channels. This allows for programmatic control over certain aspects including Title, Description, Status, Hosted At URL, etc. An update request returns a plain text document containing “OK” on success or error text if an issue is encountered. As in the Query API example, interaction with the Attribute API is through signed REST-style GET requests to <samp class="ph codeph">http://api.ooyala.com/partner/edit</samp>.</p>
+
+   
+   <p class="p">Required Parameters:</p>
+
+   
+   <ul class="ul">
+    <li class="li">pcode – Account Identifier</li>
+
+    <li class="li">expires – Query expiration date in seconds since epoch (00:00:00 1/1/1970 GMT)</li>
+
+    <li class="li">embedCode – Content Identifier</li>
+
+    <li class="li">signature – The digital signature of the request. The signature should be calculated using SHA-256 with the signature generation rules.
+    </li>
+
+   </ul>
+
+   
+   <p class="p">Optional Parameters:</p>
+
+   
+   <ul class="ul">
+    <li class="li">title – The title of the video or channel.</li>
+
+    <li class="li">description – The description of the video or channel.</li>
+
+    <li class="li">flightEnd – Video or Channel will not be available after this time. Time is specified in ISO_8601 format. [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS]Z</li>
+
+    <li class="li">flightStart – Video or Channel will be available after this time. Time is specified in ISO_8601 format. [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS]Z</li>
+
+    <li class="li">status – Status of the video or channel. Options are <samp class="ph codeph">live, paused,</samp> or <samp class="ph codeph">deleted</samp>. Paused leaves the video in your Backlot account, but makes it inaccessible to viewers. Deleted removes the video from your Backlot account and makes it inaccessible to viewers.</li>
+
+    <li class="li">hostedAt – The URL for the main page the video or channel is embedded which is used in the Info panel of the player and in the RSS feed.</li>
+
+    <li class="li">remoteAssetURL – The URL of a remote asset. Note: the Engagement report (Analytics) may be incorrect if the length of the new asset is different.</li>
+
+    <li class="li">remoteAssetDuration – The duration of a remote asset. Note: the Engagement report (Analytics) may be incorrect if the length of the new asset is different.</li>
+
+    
+   </ul>
+
+   
+   <p class="p">Update Examples</p>
+
+   
+   Update Title and Pause
+   
+   <pre class="pre codeblock">http://api.ooyala.com/partner/edit?pcode=&lt;pcode&gt;&amp;embedCode=&lt;embedCode&gt;&amp;expires=&lt;expiration&gt;
+&amp;status=paused&amp;title=updated%20title&amp;signature=&lt;signature&gt;</pre>
+
+   
+   Update Hosted At
+   
+   <pre class="pre codeblock">http://api.ooyala.com/partner/edit?pcode=&lt;pcode&gt;&amp;embedCode=&lt;embedCode&gt;&amp;expires=&lt;expiration&gt;
+&amp;hostedAt=http%3A%2F%2Fwww.ooyala.com%2Fbacklot&amp;signature=&lt;signature&gt;</pre>
+
+   
+   
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1.html" title="This version of the Backlot API is deprecated. We strongly recommend that any new development work occurs on Version 2 of our APIs. For information about using our V2 APIs, go to the Developer Documentation section of the Ooyala Support Center.">Ooyala Backlot API Reference V1 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

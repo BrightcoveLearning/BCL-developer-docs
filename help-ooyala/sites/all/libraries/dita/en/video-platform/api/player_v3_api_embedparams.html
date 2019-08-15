@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Player V3 Embedded Parameters (Deprecated)"/>
+<meta name="DC.Relation" scheme="URI" content="../api/player_v3_api_params.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_api_embedparams.xml"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Player V3 Embedded Parameters (Deprecated)</title>
+</head>
+<body id="player_v3_api_embedparams.xml">
+
+
+  <h1 class="title topictitle1">Player V3 Embedded Parameters (Deprecated)</h1>
+
+ 
+  <div class="body refbody">
+    <div class="section"><div class="note important"><span class="importanttitle">Important:</span> Ooyala Player V3 is deprecated and is scheduled
+    to be <em class="ph i">disabled</em> on 2018-01-31. After that date, Player V3 will no longer play your video
+    or audio content. Customers still using Player V3 need to migrate to Player V4 (see <a class="xref" href="../concepts/pbv4_migration_v3.html">Migrating from Player V3</a> and <a class="xref" href="../concepts/pbv4_migration_faq.html">Player Migration FAQ</a>).</div>
+      
+      <div class="p">You can pass embedded parameters to the <span class="keyword apiname">OO.Player.create()</span> method. These
+        parameters include: <ul class="ul">
+          <li class="li">CSS style settings (such as <span class="keyword parmname">width</span> and
+            <span class="keyword parmname">height</span>)</li>
+
+          <li class="li">supported Flash attributes (such as <span class="keyword parmname">wmode</span>)</li>
+
+          <li class="li">other parameters (such as tags from your ad server or ad network account used for
+            advanced ad tracking and targeting)</li>
+
+        </ul>
+The following table describes some of these embedded parameters, which are represented
+        as key value pairs, that you may use with the <span class="keyword apiname">OO.Player.create()</span> method.
+        Unless otherwise indicated, the parameters in the table may be used for both HTML5 and Flash
+        players.</div>
+
+      <div class="note note"><span class="notetitle">Note:</span> To specify embedded parameters for Google IMA, VAST, VPAID, FreeWheel, and Liverail, see
+        <a class="xref" href="../reference/player_v3_dev_adsparams.html" title="Customize ads using embedded parameters.">Player V3 Embedded Parameters for Ads (Deprecated)</a> and follow the links
+        for the desired ad manager or module.</div>
+
+      
+      <div class="p">
+        
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="player_v3_api_embedparams.xml__table_ixk_p4j_xh" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Embedded Parameters</span></caption>
+            
+            
+            <thead class="thead" align="left">
+              <tr class="row">
+                <th class="entry" valign="top" width="20.40816326530612%" id="d85850e83">Parameter Key</th>
+
+                <th class="entry" valign="top" width="79.59183673469387%" id="d85850e86">Description</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody class="tbody">
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">adSetCode</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p">Each ad set has a unique Ad Set Code identifier. Use the
+                      <samp class="ph codeph">adSetCode</samp> key value pair to associate an ad set with a
+                    particular player and player asset (video). </p>
+
+                  <div class="p">
+                    <div class="note note"><span class="notetitle">Note:</span> You must first setup the Ad Set Code in <span class="ph">Backlot</span>. For additional information about setting up an ad set code in Backlot and
+                      using <samp class="ph codeph">adSetCode</samp>, see <a class="xref" href="../tasks/player_v3_dev_adsetoocreate.html" title="Player V3 enables you to assign ad sets dynamically with OO.Player.create and the adSetCode parameter.">Assigning an Ad Set with OO.Player.create in Player V3 (Deprecated)</a>.</div>
+
+                  </div>
+
+                  <p class="p"><strong class="ph b">Example</strong>:</p>
+
+                  <pre class="pre codeblock">&lt;script&gt;
+    var videoPlayer = OO.Player.create('playerwrapper','embed_code',{
+      height:'100%',
+      width:'100%',
+      adSetCode:'yourAdSetCode'
+    });
+&lt;script&gt;</pre>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">analytics</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p">Enables the use of custom analytics tags in Player V3. </p>
+
+                  <p class="p"><strong class="ph b">Example</strong>:</p>
+
+                  <pre class="pre codeblock">...
+var ca_tags = [];
+ca_tags[0] = "toolbar";
+OO.ready(
+    function () {
+        OO.Player.create('ooyalaplayer',
+            'w3ZHc0Njr33Tdp-RRcwfZMjaOrmzOP82', {
+                analytics: {
+                    "tags": ca_tags
+                }
+            });
+    });
+...</pre>
+
+                  <div class="note note"><span class="notetitle">Note:</span> For additional information about custom analytic tags and using these tags
+                    with the Backlot REST API, see <a class="xref" href="analytics_custom_tags.html#analytics_tags" title="Tags enable you to inject custom information into Ooyala analytics that you can use to create custom reports.">Custom Analytics: Tags</a> and
+                    <a class="xref" href="tags.html#api_tags" title="Tags enable you to inject custom information into Ooyala analytics that you can use to create custom reports.">Custom Analytics: Tags</a>.</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">autoplay</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p">Enables the automatic playing of an asset (video or audio) upon loading. This
+                    is useful for UIs that do not have play/pause controls or conditions where you
+                    want the content to play immediately.</p>
+
+                  <p class="p"><strong class="ph b">Example</strong>:</p>
+
+                  <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+         'embed_code', {
+         height:100%,
+         width:100%,
+         autoplay:true,
+         .... 
+  });</pre>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">enableChannels</span>
+                </td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Enables loading Flash videos in Channels mode. This parameter provides
+                  backwards compatibility for channels. By default the flag is set to a value of
+                  false. The embedChannels parameter handles HTML5 compatibility and ensures Flash
+                  channel usability. <p class="p">
+                    <strong class="ph b">For HTML</strong>: </p>
+<ul class="ul" id="player_v3_api_embedparams.xml__ul_vm3_ryk_4h">
+                    <li class="li">Set <samp class="ph codeph">enableChannels : true</samp> to play the first video of the
+                      channel or the first video of the first channel of the channel set</li>
+
+                    <li class="li">Set <samp class="ph codeph">enableChannels : false</samp> to display an error screen.</li>
+
+                  </ul>
+<p class="p">
+                    <strong class="ph b">For Flash:</strong>
+                  </p>
+<ul class="ul" id="player_v3_api_embedparams.xml__ul_vm3_ryk_5h">
+                    <li class="li">Set <samp class="ph codeph">enableChannels : true</samp> to pass the channel embed to the
+                      player to run normally (this may impact performance).</li>
+
+                    <li class="li">Set <samp class="ph codeph">enableChannels : false</samp> to display an error screen.</li>
+
+                  </ul>
+
+                  <strong class="ph b">Example</strong>:
+                  <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    enableChannels: true,
+    ....
+});</pre>
+</td>
+
+              </tr>
+
+              
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">initialTime</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to set an initial time in seconds to start playing content
+                  at a specific point. This parameter can be used to enable seeking for iOS-based
+                  devices. You can also use this parameter with Cross-Device Resume to seek to a
+                  specific user's position. <p class="p"><strong class="ph b">Type</strong>: integer </p>
+<p class="p"><strong class="ph b">Valid Values</strong>: time
+                    in seconds</p>
+<p class="p"><strong class="ph b">Example</strong>: initialTime: 10</p>
+<div class="p">
+                    <pre class="pre codeblock">OO.ready(function () {
+    window.pp = OO.Player.create('playerV3Container',
+        'embed_code', {
+        width: 480,
+        height: 360,
+        initialTime: 10
+    }); </pre>
+
+                  </div>
+</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">in-stream</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to pass In-Stream ad server or network tags to the Ooyala
+                  player. The parameter takes a key value pair representing an In-Stream URL.
+                      <p class="p"><strong class="ph b">Example</strong>:</p>
+<pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    'in-stream': {
+        tagUrl: 'some url',
+        ....
+    },
+});</pre>
+</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">locale</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p">Use this parameter to set or override the language and closed caption options.
+                    In the following example, the locale parameter is used to create a Hebrew
+                    localized player. Note that because of the way that closed captions are
+                    supported in iOS, we are not able to add closed caption data for IOS web for
+                    remote assets.</p>
+
+                  <div class="p"><strong class="ph b">Example</strong>:
+                    <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    locale: 'he_IL',
+    ....
+});</pre>
+</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">loop</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to enable continuous play. With loop set to true, once the
+                  playback has started it continues until the user stops playback or closes the
+                  browser. Also the behavior is the same when embed code is set using setEmbedCode.
+                  As soon as the embed code is set, if autoplay is true, the playback starts
+                  immediately regardless of the previous state of the player (video
+                  playing/paused/stopped). If autoplay and loop parameters are not passed in through
+                  setEmbedCode, the existing values are used (which may have been set via a previous
+                  call to
+                  setEmbedCode).<p class="p"><strong class="ph b">Example</strong>:</p>
+<pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    loop: true,
+    ....
+});</pre>
+</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">onCreate</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to listen to an event message and perform an action. This
+                  parameter enables you to subscribe to event messages from the message bus before
+                  the player is fully created. It allows you to modify the player prior to its
+                  complete creation. <p class="p">When called, <span class="keyword parmname">onCreate:
+                      function(player):</span>
+                  </p>
+<ul class="ul" id="player_v3_api_embedparams.xml__ul_c1p_gyw_wk">
+                    <li class="li">
+                      <p class="p">Checks for any additional modules (custom, 3rd party or other type).</p>
+
+                    </li>
+
+                    <li class="li">
+                      <p class="p">Enables these additional modules to connect to the message bus.</p>
+
+                    </li>
+
+                    <li class="li">
+                      <p class="p">Sends a message to the message bus signaling each module to start up.</p>
+
+                    </li>
+
+                  </ul>
+<p class="p">You must call <samp class="ph codeph">onCreate</samp> before anything can happen;
+                    otherwise, the existing and additional or third-party modules are not connected
+                    to the message bus and are not initialized. </p>
+<p class="p"><strong class="ph b">Example</strong></p>
+<div class="p">
+                    <pre class="pre codeblock">    OO.Player.create('playerwrapper',embedCode, {
+      onCreate: function(player) {
+        player.subscribe('*','myPage', function(eventName) {});
+      }
+    });</pre>
+
+                  </div>
+<p class="p"><strong class="ph b">onCreate and the Player V2 Callback</strong>
+                  </p>
+<p class="p">To handle events in Player V2, you can define a callback function, and then
+                    pass its name to the embed tag using a callback parameter. However, to handle
+                    events in Player V3, you provide an <span class="keyword parmname">onCreate </span> function to
+                    the <span class="keyword apiname">OO.Player.create()</span> call, and then register for all the
+                    messages. For more information about Player V3 events, see <a class="xref" href="../concepts/player_v3_dev_eventmodel.html#player_v3_dev__eventmodel" title="The HTML5 Player V3 incorporates the use of a message bus to handle events.">Event Model for HTML5 Player V3 (Deprecated)</a>. For information about Player V2 callbacks and parameters, see
+                    the <a class="xref" href="../archive/cat_qstr_player.html#api_qpass" title="Lists and describes all Player Query String Parameters">Player Query String Parameters (Player V2 Deprecated)</a> topic.
+                    Keep in mind that Player V2 is deprecated. </p>
+
+                  </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">preload</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to disable preloading of videos, which happens by default.
+                  You might want to disable loading for different reasons: <ul class="ul">
+                    <li class="li">To decrease load time when loading multiple videos on the same page</li>
+
+                    <li class="li">To avoid the cost of loading when you expect a video to be played
+                      infrequently</li>
+
+                  </ul>
+<p class="p"><strong class="ph b">Example</strong>:</p>
+<pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    preload: false,
+    ....
+});</pre>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">showAdMarquee</span>
+                </td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <div class="note note"><span class="notetitle">Note:</span> This parameter is for Flash only.</div>
+
+                  <p class="p">Specifies whether to show or hide the ad marquee during ad playback. If
+                    showAdMarquee is missing or set to true, the ad marquee will appear while an ad
+                    is playing on your player. This global parameter works for all ad types
+                    supported by Ooyala.</p>
+
+                  <div class="p"><strong class="ph b">Valid Values: </strong>true | false <ul class="ul">
+                      <li class="li">True: adMarquee will appear during ad playback.</li>
+
+                      <li class="li">False: adMarquee will be hidden during ad playback.</li>
+
+                    </ul>
+</div>
+
+                  <p class="p"><strong class="ph b">Default</strong>: True</p>
+
+                  <div class="p"><strong class="ph b">Example:</strong>
+                    <pre class="pre codeblock">var player = OO.Player.create('playerwrapper', embedCode, {
+    showAdMarquee: true
+});</pre>
+</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">showInAdControlBar</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p">Specifies whether to show or hide the control bar during ad playback. If
+                    showInAdControlBar is missing or set to true, the control bar will appear while
+                    an ad is playing on your player. This global parameter works for all ad types
+                    supported by Ooyala.</p>
+
+                  <p class="p"><strong class="ph b">Note: </strong>This parameter is available for Flash and HTML5 desktop.</p>
+
+                  <div class="p"><strong class="ph b">Valid Values: </strong>true | false <ul class="ul">
+                      <li class="li">True: controlBar will appear during ad playback.</li>
+
+                      <li class="li">False: controlBar will be hidden during ad playback.</li>
+
+                    </ul>
+</div>
+
+                  <p class="p"><strong class="ph b">Default</strong>: True</p>
+
+                  <div class="p"><strong class="ph b">Example:</strong>
+                    <pre class="pre codeblock">var player = OO.Player.create('playerwrapper', embedCode, {
+    showInAdControlBar: false
+});</pre>
+</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">tvRatingsPosition</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p"><strong class="ph b">Note: </strong>This parameter is for Flash desktop only.</p>
+
+                  <p class="p">This optional parameter specifies the position on the player where the TV
+                    rating watermark will appear.</p>
+
+                  <p class="p"><strong class="ph b">Valid Values</strong>: top-left | top-right | bottom-left | bottom-right</p>
+
+                  <p class="p"><strong class="ph b">Default: </strong>top-left</p>
+
+                  <p class="p"><strong class="ph b">Note: </strong>To apply a TV Rating watermark to an asset, you need to include
+                    custom metadata in Backlot per asset you want given the TV Rating watermark. See
+                      <a class="xref" href="../reference/player_v3_fcc_tv_rating.html" title="Add a TV rating watermark to assets using player parameters and custom metadata in Backlot.">Adding a
+                      TV Rating Watermark to a Flash Player</a> for detailed information on
+                    applying a TV Rating watermark to an asset.</p>
+
+                  <div class="p"><strong class="ph b">Example: </strong>
+                    <pre class="pre codeblock">
+var player = OO.Player.create('playerwrapper', embedCode, {
+    tvRatingsPosition: "top-left"
+});</pre>
+</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">tvRatingsTimer</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">
+                  <p class="p"><strong class="ph b">Note: </strong>This parameter is for Flash desktop only.</p>
+
+                  <p class="p">Specifies the duration of the TV Rating watermark on the player (in seconds) on
+                    initial play and every time the video resumes from Ad breaks. This parameter is
+                    required if you want to apply a TV Rating watermark to an asset.</p>
+
+                  <div class="p"><strong class="ph b">Valid Values</strong>: always | never | some_number <ul class="ul">
+                      <li class="li">always: The watermark appears for the duration of the video (but will not
+                        appear during ad playback).</li>
+
+                      <li class="li">never: The watermark never appears.</li>
+
+                      <li class="li">some_number: You will replace some_number with the number of seconds you
+                        want the TV rating to remain on the player.</li>
+
+                    </ul>
+</div>
+
+                  <p class="p"><strong class="ph b">Default: </strong>never</p>
+
+                  <p class="p"><strong class="ph b">Note: </strong>To apply a TV Rating watermark to an asset, you need to include
+                    custom metadata in Backlot per asset you want given the TV Rating watermark. See
+                      <a class="xref" href="../reference/player_v3_fcc_tv_rating.html" title="Add a TV rating watermark to assets using player parameters and custom metadata in Backlot.">Adding a
+                      TV Rating Watermark to a Flash Player</a> for detailed information on
+                    applying a TV Rating watermark to an asset.</p>
+
+                  <div class="p"><strong class="ph b">Example:</strong>
+                    <pre class="pre codeblock">var player = OO.Player.create('playerwrapper', embedCode, {
+    tvRatingsTimer: "15"
+});</pre>
+</div>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.40816326530612%" headers="d85850e83 "><span class="keyword parmname">useFirstVideoFromPlaylist</span></td>
+
+                <td class="entry" valign="top" width="79.59183673469387%" headers="d85850e86 ">Use this parameter to set the video in the player to the first video from the
+                  first playlist. <p class="p"><strong class="ph b">Type</strong>: Boolean</p>
+<div class="p"><strong class="ph b">Example</strong>:
+                    <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    useFirstVideoFromPlaylist: true,
+    ....
+   };
+
+    ooyalaPlayer = OO.Player.create('playerContainer', '', playerConfiguration);
+}); </pre>
+</div>
+<p class="p"><strong class="ph b">Note</strong>:When
+                    a playlist is updated, after the caches expire, the first video in the first
+                    playlist that <samp class="ph codeph">useFirstVideoFromPlaylist</samp> uses is updated.
+                    </p>
+<div class="p">If you don't want the video in the player to be the first video from the
+                    first playlist you can use another video by setting this parameter to "false"
+                    and specifying the desired video's embed_code in the
+                      <samp class="ph codeph">OO.Player.create</samp> function like so:
+                    <pre class="pre codeblock">var videoPlayer = OO.Player.create('playerwrapper',
+    'embed_code', {
+    height: 100%,
+    width: 100%,
+    useFirstVideoFromPlaylist: false,
+    ....
+   };
+
+    ooyalaPlayer = OO.Player.create('playerContainer', <strong class="ph b">'embed_code'</strong>, playerConfiguration);
+});</pre>
+</div>
+</td>
+
+              </tr>
+
+              
+            </tbody>
+
+          </table>
+</div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="player_v3_api_params.html" title="Player V3 parameters can be used to customize the player ads, behavior and to change player styles.">Player V3 JavaScript API Parameters (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

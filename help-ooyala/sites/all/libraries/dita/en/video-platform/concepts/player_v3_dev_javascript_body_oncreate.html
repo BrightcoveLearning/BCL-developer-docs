@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Handling Player State with onCreate"/>
+<meta name="abstract" content="You can manage all actions and customization related to the Player object within the onCreate function."/>
+<meta name="description" content="You can manage all actions and customization related to the Player object within the onCreate function."/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_javascript_complete"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Handling Player State with onCreate</title>
+</head>
+<body id="player_v3_javascript_complete">
+
+
+ <h1 class="title topictitle1">Handling Player State with onCreate</h1>
+
+  
+ <div class="body conbody"><p class="shortdesc"> You can manage all actions and customization related to the Player object within the
+    onCreate function.</p>
+
+  <p class="p">As shown in the example below, you can use the Player V3 API to add event listeners and error
+      handling within the <samp class="ph codeph">onCreate()</samp> function. This example contains an event
+      listener for handling errors that relies on the Player V3 message bus. For more information,
+      see <a class="xref" href="../reference/player_v3_dev_errors.html#player_v3_dev_errors" title="Error Handling functions and events enable you to get information about Player V3">Handling Errors for an HTML5 Player V3 Using JavaScript (Deprecated)</a>.</p>
+
+  <pre class="pre codeblock">
+ 
+.
+.
+.
+function onCreate(player) {
+  // Everything you do with the player should be done either in onCreate
+  // or as listeners on the message bus
+  // to ensure that the player is ready to play videos and assets.
+  console.log("-- onCreate");
+  player.subscribe('*','myPage', function(eventName) {
+    console.log("RECEIVED EVENT: "+eventName);
+  });
+
+  // Error handling listener
+  // Subscribe to the error event
+  player.subscribe("error", "test-plugin", function(eventName, payload) {
+    console.log(eventName+": "+payload);
+  });
+.
+.
+.
+
+  </pre>
+
+ </div>
+
+ 
+
+</body>
+</html>

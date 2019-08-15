@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Sample Signature Code (Python)"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_signing_requests_appendix.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="signature_php"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Sample Signature Code (Python)</title>
+</head>
+<body id="signature_php">
+
+
+ <h1 class="title topictitle1">Sample Signature Code (Python)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc"/>
+
+  <div class="section">
+   <p class="p">This following is Python sample code for generating signatures:</p>
+
+   <pre class="pre codeblock">
+import hashlib
+import base64
+import urllib
+
+class ooyala_api(object):
+
+    def generate_signature(self, secret_key, http_method, request_path, query_params, request_body=''):
+        signature = secret_key + http_method.upper() + request_path
+        for key, value in query_params.iteritems():
+            signature += key + '=' + value
+        signature = base64.b64encode(hashlib.sha256(signature).digest())[0:43]
+        signature = urllib.quote_plus(signature)
+        return signature
+
+# Example usage of the generate_signature function: 
+# Example URL : http://api.ooyala.com/docs/v2/
+#new_ooyala_api = ooyala_api()
+#query_params = {'api_key': '7ab06', 'expires': '1299991855'}
+#print new_ooyala_api.generate_signature('329b5b204d0f11e0a2d060334bfffe90ab18xqh5', 'get', '/v2/players/HbxJKM', query_params)
+   </pre>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../tasks/api_signing_requests_appendix.html" title="Here is a collection of sample code in various programming languages for signing your requests.">Sample Code for Signing Requests</a></div>
+</div>
+</div>
+
+</body>
+</html>

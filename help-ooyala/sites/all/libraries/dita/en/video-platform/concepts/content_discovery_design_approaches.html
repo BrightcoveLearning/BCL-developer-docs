@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Discovery Design Considerations"/>
+<meta name="abstract" content="Consider these design issues when implementing discovery for your player."/>
+<meta name="description" content="Consider these design issues when implementing discovery for your player."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/book_discovery_dg.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="content_discovery_design_approaches"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Discovery Design Considerations</title>
+</head>
+<body id="content_discovery_design_approaches">
+
+
+ <h1 class="title topictitle1">Discovery Design Considerations</h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc">Consider these design issues when implementing discovery for your player.</p>
+
+  <div class="section"><h2 class="title sectiontitle">Use discovery profiles instead of editorial query string parameters.</h2>
+   <p class="p">As stated in <a class="xref" href="content_discovery_summary_of_routes.html" title="Use the Discovery REST API to configure various aspects of the service, obtain recommendations, and obtain other user-related data.">Summary of Ooyala Discovery REST API Requests</a>, Ooyala Discovery API requests that read return a base set of recommendations from the
+    machine-learning algorithm. This base set can be modified either by discovery profiles (see
+     <a class="xref" href="content_discovery_profile.html#players_discovery_profile" title="You can create reusable discovery profiles that configure Ooyala Discovery settings for content recommendations that appear in a player.">Discovery Profiles</a>) or by the
+    editorial query string parameters (see <a class="xref" href="cd_api_editorial.html" title="To enable you to adjust the results of the Ooyala Discovery recommendations, Ooyala provides query string parameters on the baseline APIs.">Discovery Editorial Query String Parameters</a>). Both mechanisms accomplish the same goal: tailoring the base set of
+    recommendations.</p>
+
+   <p class="p"><em class="ph i">Ooyala recommends using discovery profiles rather than editorial query string
+     parameters.</em></p>
+
+   <p class="p">With discovery profiles, you can abstract how Discovery works for your viewers and centralize
+    some of the onscreen behavior of Discovery recommendations. You can then reuse these profiles on
+    any of your Discovery API requests.</p>
+
+   
+   <p class="p">One advantage of discovery profiles is that, after you create them, their data is periodically
+    precomputed. By contrast, the editorial query string parameters are settings on each individual
+    ad hoc request, applied after the base set has been created. The editorial query string
+    parameters are applied at the time of the request, without pre-computation.</p>
+
+   <p class="p">Discovery profiles also avoid some common problems, as described in other sections.</p>
+
+  </div>
+
+  <div class="section" id="content_discovery_design_approaches__discovery_design_profile"><h2 class="title sectiontitle">Do not mix filtering with discovery profiles. Filtering always takes precedence.</h2>
+   <p class="p"><a class="xref" href="content_discovery_summary_of_routes.html" title="Use the Discovery REST API to configure various aspects of the service, obtain recommendations, and obtain other user-related data."> The base set
+    of returned results</a> can be modified either by <a class="xref" href="content_discovery_profile.html#players_discovery_profile" title="You can create reusable discovery profiles that configure Ooyala Discovery settings for content recommendations that appear in a player.">discovery
+     profiles</a> or by the <a class="xref" href="../api/content_discovery_common_queryparms.html#content_discovery_common_queryparms__filter_by"><samp class="ph codeph">filter_by</samp></a> query string parameter (among others).</p>
+
+   <div class="p">However, the <samp class="ph codeph">filter_by</samp> parameter always take precedence over <a class="xref" href="../api/players_discovery_profile.html#players_discovery_profile"><samp class="ph codeph">discovery_profile_id</samp></a>, effectively nullifying the profile.
+    <div class="note note"><span class="notetitle">Note:</span> Only <samp class="ph codeph">filter_by</samp> takes precedence in this way. Other editorial query
+     string parameters detailed in <a class="xref" href="cd_api_editorial.html" title="To enable you to adjust the results of the Ooyala Discovery recommendations, Ooyala provides query string parameters on the baseline APIs.">Discovery Editorial Query String Parameters</a>
+     can be used in conjunction with profiles. </div>
+</div>
+
+   <p class="p">Thus, early on in your design, you should decide to use either profiles or
+    <samp class="ph codeph">filter_by</samp>, but not both.</p>
+
+   <p class="p">We recommend that you use profiles.</p>
+
+  </div>
+  
+  <div class="section" id="content_discovery_design_approaches__discovery_design_limit"><h2 class="title sectiontitle">Avoid the query string/huge limit trap.</h2>
+   <p class="p">Discovery editorial query string parameters (see <a class="xref" href="cd_api_editorial.html" title="To enable you to adjust the results of the Ooyala Discovery recommendations, Ooyala provides query string parameters on the baseline APIs.">Discovery Editorial Query String Parameters</a>) are applied to a base set of
+    recommendations returned by the system.</p>
+
+   <p class="p">A common trap developers fall into is to use the filtering query string parameters to such an
+    extent that it appears that much of the base set of recommendations is excluded, sort of
+    "whittled away", resulting in few or no recommendations to display.</p>
+
+   <p class="p">In consequence, some developers increase the value of the <a class="xref" href="../api/content_discovery_common_queryparms.html#content_discovery_common_queryparms__limit"><samp class="ph codeph">limit</samp></a> query string parameter in an attempt to increase the number
+    of base set recommendations and then apply the query string filtering. This does not work,
+    however, for two reasons. First, it still does not guarantee that Discovery will return the
+    number of results desired, for the reasons described above. Second, it introduces a
+    significant amount of latency in the API request (given the large number of request results
+    that need to be fetched and returned), which can cause can timeout. </p>
+
+   <p class="p">The solution to this problem is to use discovery profiles and avoid the filtering query string parameters altogether.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Use labels, not asset metadata.</h2>
+   <p class="p">Ooyala recommends using labels for filtering in discovery profiles. Backlot uses custom
+    metadata to allow customers to store the proprietary data associated with an asset.</p>
+
+   <p class="p">Labels provide scalable support for indexing, caching, and querying when used via the APIs. The
+    Discovery APIs are designed to be called by a consumer-facing website. The Backlot APIs do not
+    provided this feature.</p>
+
+   <p class="p"> For information about creating labels, see <a class="xref" href="../api/labels.html" title="When added to external publishing targets, labels specify which videos, channels, and channel sets to publish externally. Additionally, labels are also useful for organizing your video library, searching for videos, and retrieving targeted analytics.">Labels</a>. For information about using labels in discovery profiles, see <a class="xref" href="../api/players_discovery_profile.html">Discovery Profiles</a>.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Disable the Pause screen for mid-roll ads.</h2>
+   
+   <p class="p">The Pause screen displays information you choose whenever the user pauses the video. If you
+    are serving mid-roll ads, Ooyala recommends that you avoid displaying Discovery recommendations
+    on the pause screen because your video analytics metrics might become unclear. For example, is a
+    pause event due to the pause screen or a mid-roll ad?</p>
+
+   <p class="p"> To disable the Pause Screen, log on to the Backlot user interface and select:
+     <span class="ph uicontrol">Publish</span> &gt; <span class="ph uicontrol">Discovery</span>.</p>
+
+   <p class="p">Click the checkbox to disable the <span class="ph uicontrol">Display Discover Tray in Pause Screen</span>
+    option.</p>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="book_discovery_dg.html" title="Use Ooyala's content discovery capabilities to increase customer engagement by providing content recommendations, detailed programming guides, and personalized content queues.">Content Discovery and Recommendations</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Similar Assets Recommendations"/>
+<meta name="abstract" content="Learn about using the Discovery APIs to provide recommendations for similar videos."/>
+<meta name="description" content="Learn about using the Discovery APIs to provide recommendations for similar videos."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/cd_api_overview.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/labels.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/asset_metadata.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="cd_usesimilarassets"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Similar Assets Recommendations</title>
+</head>
+<body id="cd_usesimilarassets">
+
+
+    <h1 class="title topictitle1">Similar Assets Recommendations</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc">Learn about using the Discovery APIs to provide recommendations for similar videos.</p>
+
+        <div class="section context">
+            <p class="p"><strong class="ph b">About Similar Assets</strong></p>
+
+            <p class="p">To provide Discovery recommendations for similar videos, use the
+                    <samp class="ph codeph">similar/assets</samp> route. Use this API to return discovery
+                recommendations based on the relationship to the active video. Relationships are
+                determined based on labels and asset metadata. For example, if a viewer is watching
+                skydiving videos, the Ooyala Discovery algorithms might return other skydiving or
+                extreme sports videos. </p>
+
+            <p class="p">To improve the accuracy of recommendations based on similar videos, make sure Backlot
+                assets are well defined with labels and/or metadata, and use the <samp class="ph codeph">score_type</samp>
+                attribute to manage returned results.</p>
+
+            <p class="p"><strong class="ph b">Steps</strong></p>
+
+            <p class="p">Use the following steps to test Discovery recommendations based on similar assets using <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">The Scratchpad</a>.</p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd"> Choose an source asset for the similar recommendations and find the <samp class="ph codeph">asset_id</samp>. This is the Content ID shown for the asset in Backlot. For more information refer to <a class="xref" href="../api/asset_common_routes.html" title="The basic routes common to all assets have the same syntax, regardless of their type, in the Backlot REST API.">Routes and Attributes Common to All Asset Types</a><a class="xref" href="../api/asset_common_routes.html" title="The basic routes common to all assets have the same syntax, regardless of their type, in the Backlot REST API.">Routes and Attributes Common to All Asset Types</a>.</span>
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd"> Open a browser and navigate to <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">The Scratchpad</a>. </span>
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Configure the <span class="ph uicontrol">Credentials</span> to work with your Backlot account:</span>
+                <ol type="a" class="ol substeps">
+                    <li class="li substep">
+                        <span class="ph cmd">Select the <span class="ph uicontrol">Your Account</span> radio button.</span>
+                    </li>
+
+                    <li class="li substep">
+                        <span class="ph cmd">Enter your Backlot <span class="ph uicontrol">API Key</span>.</span>
+                    </li>
+
+                    <li class="li substep">
+                        <span class="ph cmd">Enter your Backlot <span class="ph uicontrol">Secret Key</span></span>
+                    </li>
+
+                </ol>
+
+                 
+                    <img class="image" src="../image/scratchpadcredentials.png" height="104" width="315" alt="Enter your Backlot credentials"/>
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Enter the following route in the left hand text box replacing <kbd class="ph userinput">asset_id</kbd> with the <samp class="ph codeph">content_id</samp> of a video from your Backlot account: </span>
+                 
+                    <pre class="pre codeblock">/v2/discover/similar/assets/<kbd class="ph userinput">asset_id</kbd>?score_type=default?limit=2</pre>
+
+                    <div class="p">This route is comprised of the following parameters:
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="cd_usesimilarassets__table_osc_bwc_5r" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Similar Assets With Score Type Details</span></caption>
+                                
+                                
+                                <thead class="thead" align="left">
+                                    <tr class="row">
+                                        <th class="entry" valign="top" width="23.980815347721823%" id="d1026697e161">Parameter</th>
+
+                                        <th class="entry" valign="top" width="76.01918465227818%" id="d1026697e164">Description</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody class="tbody">
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">v2</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">The version of the API to use for this request.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">discover</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">The API to use for this request.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">similar</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">Use the similar route for this request.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">assets</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">Return similar assets.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">asset_id</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">The content ID for the asset from which to base the results.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">score_type</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">The algorithm to use for the query.</td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="23.980815347721823%" headers="d1026697e161 "><samp class="ph codeph">limit_2</samp></td>
+
+                                        <td class="entry" valign="top" width="76.01918465227818%" headers="d1026697e164 ">Return no more than two results.</td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+</div>
+</div>
+
+                    
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Select <span class="ph uicontrol">Get</span> from the dropdown menu. </span>
+                 
+                    <img class="image" src="../image/dc_similarroutesexample.png" height="24" width="366" alt="Enter Route"/>
+                
+                 <div class="p"><span class="ph">Backlot</span> returns results with the following parameters:
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 2. Similar Assets With Score Type </span></caption>
+                                
+                                
+                                <thead class="thead" align="left">
+                                    <tr class="row">
+                                        <th class="entry" valign="top" width="1.5" id="d1026697e284">Parameter</th>
+
+                                        <th class="entry" valign="top" width="NaN%" id="d1026697e287">Example</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody class="tbody">
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">duration</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"duration": "37033"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">name</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">name": "arthurbday.mp4"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">created_at</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"2014-09-11 21:15:16 +0000"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">preview_images</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"preview_images":
+                                                "&lt;previewImage&gt;\n&lt;url&gt;https://ec.c.ooyala.com/12345678abcdefg&lt;/url&gt;\n&lt;width&gt;400&lt;/width&gt;\n&lt;height&gt;250&lt;/height&gt;\n&lt;/previewImage&gt;",
+                                            </samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">bucket_info</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph"> "bucket_info":
+                                                "1{\"encoded\":\"12345678abcdefg\",\"position\":0}",
+                                                "embed_code": "12345678abcdefg"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">hostedAtURL</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">https://ec.c.ooyala.com"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">content_type</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"content_type": "Video"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">external_id</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"preview_image_url":
+                                                "https://ec.c.ooyala.com/12345678abcdefg/12345678abcdefg",</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">preview_image_url</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph"> "preview_image_url":
+                                                "https://ec.c.ooyala.com/12345678abcdefg"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">publishing_rule_id</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">publishing_rule_id":
+                                                "12345678abcdefg"</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">description</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">"description": "Video compilation of pictures
+                                                from Arthur's second birthday."</samp></td>
+
+                                    </tr>
+
+                                    <tr class="row">
+                                        <td class="entry" valign="top" width="1.5" headers="d1026697e284 "><samp class="ph codeph">reason</samp></td>
+
+                                        <td class="entry" valign="top" width="NaN%" headers="d1026697e287 "><samp class="ph codeph">reason": "label:12345678"</samp></td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+</div>
+</div>
+
+                
+            </li>
+</ol>
+
+        <div class="section postreq">
+            <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        </div>
+
+        
+    </div>
+
+    <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/cd_api_overview.html" title="To use these Discovery APIs, you make Discovery requests and return user action information to train the algorithms.">Discovery REST APIs</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../api/labels.html" title="When added to external publishing targets, labels specify which videos, channels, and channel sets to publish externally. Additionally, labels are also useful for organizing your video library, searching for videos, and retrieving targeted analytics.">Labels</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br/>
+<div><a class="link" href="../api/asset_metadata.xml">Custom Metadata</a></div>
+</div>
+</div>
+
+</body>
+</html>

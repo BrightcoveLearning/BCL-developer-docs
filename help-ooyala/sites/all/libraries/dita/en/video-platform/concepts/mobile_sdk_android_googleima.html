@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integration with Google IMA on Android"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_android_integrations.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_googleima_tutorial.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_googleima_sampleapp_decomposed.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_googleima_adtagurloverride.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_android_googleima"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integration with Google IMA on Android</title>
+</head>
+<body id="mobile_sdk_android_googleima">
+
+
+
+   <h1 class="title topictitle1">Integration with Google IMA on Android</h1>
+
+   <div class="body conbody">
+      <p class="p">With the Ooyala SDK for integrating Google IMA (Interactive Media
+        Ads), the same advertising experience you have created on the desktop can be created on
+        mobile devices. </p>
+
+      <p class="p" id="mobile_sdk_android_googleima__notdesktop"><strong class="ph b">Note: </strong>This software and documentation is for Google IMA with
+         Ooyala's Mobile SDK for use on mobile devices. <span class="ph">For Google IMA for the desktop player,
+            see <a class="xref" href="pbv4_ads_dev_chapter_googleima.html">Google IMA Ad Plugin</a>. </span>
+      </p>
+
+      <div class="p">Some key design principles behind Ooyala's SDK for Google IMA
+        include: <ul class="ul">
+          <li class="li">Ooyala's IMA Manager object, incorporates all of the necessary functions of the Google
+            IMA SDK, so that you do not need to be concerned with working directly with Google's
+            calls. </li>
+
+          <li class="li">We built the Ooyala SDK for Google IMA on top of our mobile SDKs, so you can continue
+            to use their basic functions.</li>
+
+        </ul>
+</div>
+
+      <div class="section" xml:lang="en-us" lang="en-us" id="mobile_sdk_android_googleima__whatYouNeed.d0e14"><h2 class="title sectiontitle">What You Need</h2>
+         
+         <p class="p">To get started with Ooyala’s Android SDK for Google IMA, download the following:</p>
+
+         <ol class="ol">
+            <li class="li">Ooyala Mobile SDK for Android (available from <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>)</li>
+
+            <li class="li">Ooyala Google IMA SDK for Android (Ooyala Google IMA Android) (available from <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>)</li>
+
+            <li class="li">Google IMA Libraries (from the <a class="xref" href="https://developers.google.com/interactive-media-ads/docs/sdks/android/download" target="_blank">Google Developer website</a>)<div class="note note"><span class="notetitle">Note:</span> While using
+                  the latest version of the Google IMA libraries please make sure the version you
+                  are using is compatible with the latest Ooyala integrations.</div>
+</li>
+
+            <li class="li"><a class="xref" href="http://developer.android.com/sdk/index.html" target="_blank">Google Android SDK</a></li>
+
+
+            <li class="li"><a class="xref" href="http://developer.android.com/sdk/index.html/" target="_blank">Android Studio
+                  IDE</a></li>
+
+            <li class="li">The <a class="xref" href="http://developer.android.com/google/play-services/setup.html#Setup" target="_blank">Google Play Services Project</a> imported into
+               Android Studio.</li>
+
+         </ol>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Prerequisite: Working Google IMA Setup, with Associated Video Assets</h2>
+      
+      <p class="p">Before you start working with the Ooyala Google IMA SDK, make sure you have a working
+        Google IMA setup, as described at <a class="xref" href="https://developers.google.com/interactive-media-ads/" target="_blank">https://developers.google.com/interactive-media-ads/</a>. </p>
+
+      <p class="p" id="mobile_sdk_android_googleima__d17722e174"><strong class="ph b">Note: </strong>You must have static ad tags associated with
+        your video assets in Ooyala Backlot, on which the Mobile SDK relies. If these are not
+        present in your production Backlot account, you must load them in your app.</p>
+
+      <p class="p">If Google IMA is already working correctly on your desktop, you should have no difficulty
+        getting it to work on mobile devices.</p>
+
+    </div>
+
+      <div class="section" xml:lang="en-us" lang="en-us" id="mobile_sdk_android_googleima__openTheAndroidSampleApp"><h2 class="title sectiontitle">Structure of the Ooyala Google IMA SDK</h2>
+         
+         <p class="p">The SDK has the following directories and files.</p>
+
+         
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+               
+               
+               <thead class="thead" align="left">
+                  <tr class="row">
+                     <th class="entry" valign="top" width="50%" id="d339717e136">Directory/File</th>
+
+                     <th class="entry" valign="top" width="50%" id="d339717e139">Description</th>
+
+                  </tr>
+
+               </thead>
+
+               <tbody class="tbody">
+                  <tr class="row">
+                     <td class="entry" valign="top" width="50%" headers="d339717e136 "><samp class="ph codeph">Documentation</samp></td>
+
+                     <td class="entry" valign="top" width="50%" headers="d339717e139 ">Reference java docs for the <samp class="ph codeph">OoyalaIMAManager</samp>
+                        class.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                     <td class="entry" valign="top" width="50%" headers="d339717e136 "><samp class="ph codeph">IMASampleApp</samp></td>
+
+                     <td class="entry" valign="top" width="50%" headers="d339717e139 ">A sample application implementing the Ooyala SDK.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                     <td class="entry" valign="top" width="50%" headers="d339717e136 "><samp class="ph codeph">OoyalaIMASDK.jar</samp></td>
+
+                     <td class="entry" valign="top" width="50%" headers="d339717e139 ">The Ooyala SDK jar file you need to add to any new Android project
+                        .</td>
+
+                  </tr>
+
+                  <tr class="row">
+                     <td class="entry" valign="top" width="50%" headers="d339717e136 "><samp class="ph codeph">VERSION</samp></td>
+
+                     <td class="entry" valign="top" width="50%" headers="d339717e139 ">Version number of the Ooyala SDK for Google IMA.</td>
+
+                  </tr>
+
+               </tbody>
+
+            </table>
+</div>
+<div class="note note"><span class="notetitle">Note:</span> The Google IMA sample app is available for download at the <a class="xref" href="https://github.com/ooyala/android-sample-apps" target="_blank">Ooyala Sample app Git Hub</a>.</div>
+</div>
+
+
+   </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="mobile_sdk_android_googleima_tutorial.html">See the IMA Sample App in Action on Android</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="mobile_sdk_android_googleima_sampleapp_decomposed.html">A Closer Look at the Android Sample App</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="mobile_sdk_android_googleima_adtagurloverride.html">Overriding the Ad Tag URL on Android</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_android_integrations.html">Android Third Party Integrations</a></div>
+</div>
+</div>
+
+</body>
+</html>

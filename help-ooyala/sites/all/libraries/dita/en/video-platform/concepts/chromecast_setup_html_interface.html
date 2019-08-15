@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Customizing the Chromecast Receiver User Interface"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chromecast_customize_receiver_app.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chromecast_sample_integration"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Customizing the Chromecast Receiver User Interface</title>
+</head>
+<body id="chromecast_sample_integration">
+
+
+  <h1 class="title topictitle1">Customizing the Chromecast Receiver User Interface</h1>
+
+  <div class="body conbody">
+    <div class="note important"><span class="importanttitle">Important:</span> This topic contains older information and has been deprecated. For the
+        latest information about Ooyala integration with Chromecast, see <a class="xref" href="chromecast/index.html">Chromecast Integration</a>.</div>
+
+    <div class="section"><h2 class="title sectiontitle">Branding</h2>
+      
+      <p class="p">You can customize the branding of the Chromecast receiver by modifying the HTML and/or
+        JavaScript of the <a class="xref" href="http://player.ooyala.com/static/chromecast/latest/receiver_custom.html">custom receiver application</a>. Within the body of the HTML page you can modify
+        various divs to make changes to the receiver UI. Please view the custom receiver code to see
+        additional commented code explaining some of the different elements you can customize.</p>
+
+      <p class="p"><strong class="ph b">Splash Screen</strong></p>
+
+      <pre class="pre codeblock"> &lt;div id="splash_screen"&gt;
+    &lt;img id="splash_image" class="absolute_center" src= "./images/ooyala-logo.png"/&gt;
+  &lt;/div&gt; </pre>
+
+      <p class="p"><strong class="ph b">Loading Screen</strong></p>
+
+      <pre class="pre codeblock"> &lt;div id="loading_screen"&gt;
+    &lt;div id="loading_container"&gt;
+      &lt;div id ="logo_wrap"&gt;
+        &lt;img id = "logo" src= "./images/ooyala-logo.png"&gt;&lt;/img&gt;
+      &lt;/div&gt;
+      &lt;div id ="information_container"&gt;
+        &lt;div id ="promo_wrapper"&gt;
+          &lt;img id = "promo_image"&gt;&lt;/img&gt;
+        &lt;/div&gt;
+        &lt;div class="divider"&gt; &lt;/div&gt;
+        &lt;div id = "information"&gt;
+          &lt;div style = "padding: 0px"&gt;
+            &lt;h1 id = "loading_title" class ="cast_text"&gt;&lt;/h1&gt;
+            &lt;h3 id = "loading_description" class ="cast_text"&gt;&lt;/h3&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;    </pre>
+
+      <p class="p"><strong class="ph b">Control Bar</strong></p>
+
+      <pre class="pre codeblock">  /*
+    _Controls specifies how control Bar is going to appear on Receiver.
+    You are welcome to modify, add and remove:
+      - Logo: watermark image and TV rating
+      - Video Metadata: promo image, Title
+      - Play / Pause button
+      - Scrubber bar
+      - Time and Duration
+      - Spinner icon
+    */
+     _Controls.prototype.init = function() {
+      this.controls_wrap = document.createElement('div');
+      this.controls_wrap.className = "oo_controls";
+      this.rootElement.appendChild(this.controls_wrap);
+      // Append the initial html to the control wrapper
+      document.querySelector(".oo_controls").innerHTML +=
+                               '&lt;div id="pause_wrapper"  &gt;\
+                                  &lt;img id="pause_icon" class="absolute_center" /&gt;\
+                                  &lt;div id="spinner_icon" class="absolute_center spinner"&gt;&lt;/div&gt;\
+                                &lt;/div&gt;\
+                                &lt;div id="promo_title_container"&gt;\
+                                  &lt;img id ="promo_icon" /&gt;\
+                                  &lt;div id="title_wrapper"&gt;\
+                                    &lt;h1 id="title_header" class="cast_text"&gt;&lt;/h1&gt;\
+                                  &lt;/div&gt;\
+                                &lt;/div&gt;\
+                                &lt;div id="watermark_wrapper"&gt;\
+                                  &lt;img id ="watermark_icon" /&gt;\
+                                &lt;/div&gt;\
+                                &lt;div id= "scrubber_wrapper"&gt;\
+                                  &lt;div id ="playhead_container"&gt;\
+                                    &lt;h5 id="playhead"&gt;00:00&lt;/h5&gt;\
+                                  &lt;/div&gt;\
+                                  &lt;div id ="seek_bar"&gt;\
+                                    &lt;div id="progress"&gt;&lt;/div&gt;\
+                                    &lt;div id="buffered_progress"&gt;&lt;/div&gt;\
+                                  &lt;/div&gt;\
+                                  &lt;div id = "duration_wrapper"&gt;\
+                                    &lt;h5 id = "duration"&gt;00:00&lt;/h5&gt;\
+                                  &lt;/div&gt;\
+                                &lt;/div&gt;';
+    
+      </pre>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Event Listening</h2>
+      
+  
+    <p class="p">You can customize the custom receiver UI to react to player events by <a class="xref" href="../reference/player_v3_dev_listenevent.html" title="You can use the message bus to listen to a single event or multiple events.">listening</a> to the
+        <a class="xref" href="../api/player_v3_api_events.html" title="Use message bus events to subscribe to or publish player events from video to ad playback.">events published by the V3 HTML5
+        Player</a> or by modifying the CSS. This customization can occur in the onCreate function
+      as a player parameter or after the V3 script has been loaded.</p>
+
+    <p class="p">For example, you can display a splash screen when the content finishes. The User Interface
+      that you customize in your customized receiver should abide by the <a class="xref" href="https://developers.google.com/cast/docs/design_checklist">design
+        checklist</a> that Google has in place. The following code is a code snippet of what’s in
+      the actual code of the custom receiver.</p>
+
+    <pre class="pre codeblock">
+        player.mb.subscribe("*", "chromecast", function(evt){
+                    switch (evt) {
+                      case OO.EVENTS.PLAYHEAD_TIME_CHANGED:
+                        // Adjust playhead
+                      case OO.EVENTS.PLAYED:
+                        // Show the splash screen
+                      case OO.EVENTS.SET_EMBED_CODE:
+                        // Show the loading screen
+                      case OO.EVENTS.STREAM_PLAYING:
+                        // Show the playing screen
+                      case OO.EVENTS.PAUSED:
+                        // Show the paused controls
+                      case OO.EVENTS.PLAYER_CREATED:
+                        // Initialize everything
+                      case OO.EVENTS.SEEKED:
+                        // Show that the video has seeked
+                      case OO.EVENTS.BUFFERING:
+                        // Show that the video is buffering
+                      case OO.EVENTS.BUFFERED:
+                        // Show that the video has finished buffering
+                      case OO.EVENTS.ERROR:
+                        // Display the error screen with the proper errors
+                    }
+                });</pre>
+  </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="chromecast_customize_receiver_app.html">Customizing the Receiver Application for the Ooyala Chromecast Integration</a></div>
+</div>
+</div>
+
+</body>
+</html>

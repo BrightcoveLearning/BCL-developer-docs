@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Working with Custom Analytics (Deprecated)"/>
+<meta name="abstract" content="There are many types of user information that you might want to record, which are not available to Ooyala. This section provides an example of how to configure Backlot to record the gender of each viewer."/>
+<meta name="description" content="There are many types of user information that you might want to record, which are not available to Ooyala. This section provides an example of how to configure Backlot to record the gender of each viewer."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chapter_custom_analytics.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_custom_analytics"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Working with Custom Analytics (Deprecated)</title>
+</head>
+<body id="api_custom_analytics">
+
+
+ <h1 class="title topictitle1">Working with Custom Analytics (Deprecated) </h1>
+
+ 
+ <div class="body taskbody"><p class="shortdesc">There are many types of user information that you might want to record, which are not available to <span class="ph">Ooyala</span>. This section provides an example of how to configure <span class="ph">Backlot</span> to record the gender of each viewer. </p>
+
+  <div class="section context">
+   <div class="p">
+    <div class="note warning"><span class="warningtitle">Warning:</span> The v2 Analytics API has been deprecated. See <a class="xref" href="../concepts/ooyala_iq_developer_guide.html">Ooyala IQ Analytics</a> for more details on the new v3 Analytics
+     API.</div>
+
+   </div>
+
+   <div class="p">To configure custom analytics, there essentially two steps:<ol class="ol" id="api_custom_analytics__ol_mfd_2zx_xk">
+    <li class="li">Creating the custom tags with the Analytics REST API </li>
+
+    <li class="li">Modifying your player creation code to send the custom tags when a player is created</li>
+
+   </ol>
+</div>
+
+   <p class="p">This example deals with three custom tags. Every tag has an optional display name and can be managed via the APIs.  When viewing the custom analytics in the Backlot the following format is presented:
+    [display name] (Tag ID: [tag])
+   </p>
+
+    <div class="p">For example:
+    <ul class="ul">
+     <li class="li">standard (Tag ID: standard)</li>
+
+     <li class="li">custom widget (Tag ID: custom )</li>
+
+     <li class="li">toolbar (Tag ID: toolbar)</li>
+
+    </ul>
+
+    </div>
+
+  </div>
+
+  <ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd">The following example creates a “standard”, “custom” and “toolbar” tags using Ooyala REST API.</span>
+     <pre class="pre codeblock">[PUT]/v2/analytics/tags/standard{  
+   “display_name”:“Standard”
+}
+[PUT]/v2/analytics/tags/custom{  
+   “display_name”:“Custom”
+}
+[PUT]/v2/analytics/tags/toolbar{  
+   “display_name”:“Toolbar”
+}</pre>
+
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">In your JavaScript, assign tag identifiers: </span>
+     
+     <pre class="pre codeblock">
+var tags = new Array();
+
+/* Assign the correct value depending on the widget type*/
+
+if (widgetType == “standard”) tags[0] = “standard”;
+if (widgetType == “custom”) tags[0] = “custom”;
+if (widgetType == “toolbar”) tags[0] = “toolbar”;   
+     </pre>
+
+    
+   </li>
+<li class="li step stepexpand">
+    <span class="ph cmd">Modify your play embeds to send the <samp class="ph codeph">tags</samp> array when a player is created.  The following is a basic example of a player V3 creation.</span>
+     
+     <pre class="pre codeblock">
+ window.player = OO.Player.create(playerID, embedCode, {
+ "analytics":{
+                        "tags": tags
+                }
+  });
+</pre>
+
+    
+   </li>
+</ol>
+
+  <div class="section postreq">
+   <p class="p">Custom analytics are configured. You can begin viewing the results through the <span class="ph">Backlot UI</span> or <span class="ph">Backlot API</span>.</p>
+
+  </div>
+
+ </div>
+
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chapter_custom_analytics.html" title="As users consume your content, Ooyala collects detailed information such as how long they watched, the amount of data delivered, conversion rates, source domains, sharing, and so on. Although this is a substantial amount of analytics, you might have information that is unavailable to Ooyala.">Custom Analytics (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

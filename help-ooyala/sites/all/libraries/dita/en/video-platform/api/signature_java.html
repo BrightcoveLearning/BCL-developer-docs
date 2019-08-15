@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Sample Signature Code (Java)"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/api_signing_requests_appendix.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="signature_java"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Sample Signature Code (Java)</title>
+</head>
+<body id="signature_java">
+
+
+ <h1 class="title topictitle1">Sample Signature Code (Java)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc"/>
+
+  <div class="section">
+   <p class="p">This following is Java sample code for generating signatures:</p>
+
+   <pre class="pre codeblock">
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Vector;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.net.URLEncoder;
+import java.io.IOException;
+
+import sun.misc.BASE64Encoder;
+
+public class Signature {
+    
+    private String concatenateParams(HashMap&lt;String, String&gt; parameters, String separator) {
+        Vector&lt;String&gt; keys = new Vector&lt;String&gt;(parameters.keySet());
+        Collections.sort(keys);
+        
+        String string = ""; 
+        for (Enumeration&lt;String&gt; e = keys.elements(); e.hasMoreElements();) {
+            String key    = (String)e.nextElement();
+            String value  = (String)parameters.get(key);
+            if (!string.isEmpty())
+                string += separator;
+            string += key + "=" + value;
+        }
+        return string;
+    }
+
+    public String generateSignature(String secretKey, String HTTPMethod, String requestPath, HashMap&lt;String, String&gt; parameters, String   requestBody) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String stringToSign = secretKey + HTTPMethod + requestPath;
+        stringToSign += concatenateParams(parameters, "");
+        stringToSign += requestBody;
+        MessageDigest digestProvider = MessageDigest.getInstance("SHA-256");
+        digestProvider.reset();
+        
+        byte[] digest = digestProvider.digest(stringToSign.getBytes());
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String signedInput = base64Encoder.encode(digest);
+        return URLEncoder.encode(signedInput.substring(0, 43), "US-ASCII");
+    }
+
+}
+   </pre>
+
+  </div>
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../tasks/api_signing_requests_appendix.html" title="Here is a collection of sample code in various programming languages for signing your requests.">Sample Code for Signing Requests</a></div>
+</div>
+</div>
+
+</body>
+</html>

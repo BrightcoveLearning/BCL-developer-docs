@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Configuring the Ooyala Player Options"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_about.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_cc.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_fccratings.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="iosplayerconfigureoptions"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Configuring the Ooyala Player Options</title>
+</head>
+<body id="iosplayerconfigureoptions">
+
+
+ <h1 class="title topictitle1">Configuring the Ooyala Player Options</h1>
+
+ <div class="body conbody">
+  <p class="p">The iOS Mobile SDK allows you to programmatically configure Ooyala Player options,
+   including TV Ratings, VisualOn, cue points, and other options. To get started, view the
+   documentation for the <samp class="ph codeph">OOOptions</samp> class available
+    in the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/ios_mobilesdk/index.html" target="_blank">Mobile SDK for iOS</a>.</p>
+
+  <div class="p">Once you create an instance of the <samp class="ph codeph">OOOptions</samp> class, you can set any of the available options. The following example, which configures the promo image, preload content, and connection timeout, illustrates
+   how to create the object and configure the desired options:<pre class="pre codeblock">  OOOptions *options = [OOOptions new];
+
+  if (_switch1 != nil) {
+    options.showPromoImage = _switch1.on;
+  }
+
+  if (_switch2 != nil) {
+    options.preloadContent = _switch2.on;
+  }
+
+  if (_text1 != nil) {
+    NSTimeInterval timeout = [_text1.text floatValue];
+    options.connectionTimeout = timeout;
+  }
+
+  // Create Ooyala ViewController
+  OOOoyalaPlayer *player = [[OOOoyalaPlayer alloc] initWithPcode:self.pcode domain:[[OOPlayerDomain alloc] initWithString:self.playerDomain] options:options];
+</pre>
+</div>
+
+  
+  <p class="p">See <a class="xref" href="https://github.com/ooyala/ios-sample-apps/blob/stable/OptionsSampleApp/OptionsSampleApp/Players/OptionsViewController.m" target="_blank">OptionsViewController</a> for a complete code
+   example.</p>
+
+ </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="mobile_sdk_ios_cc.html">Working with Closed Captions for iOS</a></strong><br/>
+With the Mobile SDK, there are many ways you can work with closed captions, from the     most basic features that need no programming to more advanced programming features.</li>
+<li class="link ulchildlink"><strong><a href="mobile_sdk_ios_fccratings.html">Working with FCC Ratings for iOS</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_ios_about.html">Working with the Ooyala Mobile SDK for iOS</a></div>
+</div>
+</div>
+
+</body>
+</html>

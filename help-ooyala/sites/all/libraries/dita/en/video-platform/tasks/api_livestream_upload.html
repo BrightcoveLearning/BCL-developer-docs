@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Adding a Live Stream"/>
+<meta name="abstract" content="When you add a live stream, you receive URLs from Ooyala that you configure in your encoder."/>
+<meta name="description" content="When you add a live stream, you receive URLs from Ooyala that you configure in your encoder."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/content_livestreams.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_livestream_upload"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Adding a Live Stream</title>
+</head>
+<body id="api_livestream_upload">
+
+
+  <h1 class="title topictitle1">Adding a Live Stream</h1>
+
+  
+  <div class="body taskbody"><p class="shortdesc">When you add a live stream, you receive URLs from <span class="ph">Ooyala</span>
+    that you configure in your encoder.</p>
+
+    <div class="section context">
+      <div class="note note"><span class="notetitle">Note:</span> Backlot Live streaming has been deprecated and is scheduled to
+    be disabled. For details and alternatives, see the <a class="xref" href="../relnotes/2017-06-04.html">OVP
+     Release Notes</a>. </div>
+
+      <p class="p">For the highest quality streaming, specify the encoder IP at the location from which you
+        are broadcasting and make sure that you have enough dedicated bandwidth to encode and serve
+        all of your live streams. </p>
+
+      <div class="note note"><span class="notetitle">Note:</span> It can take up to 30 minutes for a newly provisioned live stream to be usable. </div>
+
+      <p class="p">To add a live stream:</p>
+
+    </div>
+
+    <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd"> Use the <samp class="ph codeph">/v2/assets</samp> route. In the POST body, set asset_type to
+          live_stream, is_flash to true, and specify the encodings. </span>
+         <div class="note note"><span class="notetitle">Note:</span> For live streaming to iPhone and iPad (iOS devices), also set is_ios to
+            true.</div>
+ The following example creates a live stream with three Flash encodings and
+          iOS live support:
+         <pre class="pre codeblock">[POST]/v2/assets{  
+   "name":"Flash and iOS Live Stream",
+   "asset_type":"live_stream",
+   "primary_encoder_ip":"8.8.8.8",
+   "password":"encoder_password",
+   "is_flash":true,
+   "is_ios":true,
+   "encodings":[  
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":600
+      },
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":300
+      },
+      {  
+         "width":400,
+         "height":300,
+         "bitrate":200
+      }
+   ]
+}</pre>
+
+         <p class="p"><span class="ph">Backlot</span> returns a response similar to the
+            following.</p>
+
+          <pre class="pre codeblock">{
+   "name":"Flash and iOS Live Stream",
+   "preview_image_url":null,
+   "asset_type":"live_stream",
+   "duration":0,
+   "embed_code":"FlczhuMzocRFR3YwMD0bxxo7wOtQY8-w",
+   "created_at":"2012-03-02T00:42:13+00:00",
+   "encodings":[  
+      {  
+         "bitrate":200,
+         "height":300,
+         "width":400
+      },
+      {  
+         "bitrate":300,
+         "height":600,
+         "width":800
+      },
+      {  
+         "bitrate":600,
+         "height":600,
+         "width":800
+      }
+   ],
+   "is_ios":true,
+   "time_restrictions":null,
+   "updated_at":"2012-03-02T00:42:15+00:00",
+   "hosted_at":null,
+   "external_id":null,
+   "original_file_name":null,
+   "is_flash":true,
+   "ios_live_upload_url":"http://post.ooyala-i.akamaihd.net/201184/1dayarchive/ VpNDqXTEbTE_5UgsKdpQcDjcJATg/FlczhuMzocRFR3YwMD0bxxo7wOtQY8-w/master.m3u8",
+   "ios_live_delivery_url":"http://ooyala-i.akamaihd.net/hls/live/201184/1dayarchive/ VpNDqXTEbTE_5UgsKdpQcDjcJATg/FlczhuMzocRFR3YwMD0bxxo7wOtQY8-w/master.m3u8",
+   "backup_entry_point":"rtmp://b.ep54802.i.akamaientrypoint.net/EntryPoint",
+   "primary_entry_point":"rtmp://p.ep54802.i.akamaientrypoint.net/EntryPoint",
+   "description":null,
+   "status":"live"
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">For setup in your encoder, for Flash, note the <span class="keyword parmname">primary_entry_point</span>
+          and <span class="keyword parmname">backup_entry_point</span>. </span>
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">For setup in your encoder, for iOS, note the <span class="keyword parmname">ios_live_upload_url</span>
+          and <span class="keyword parmname">ios_live_delivery_url</span>. </span>
+         
+          <div class="p">The values of these properties have the following formats. The
+              <span class="keyword parmname">pcode</span> is your provider code or account identifier (for details,
+            see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>). The
+              <span class="keyword parmname">embedCode</span> is the embed code or content ID for the live stream.
+            Also shown are the corresponding field names on the Spinnaker.
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="api_livestream_upload__table_kw3_lvf_p3" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. </span></caption>
+                
+                
+                
+                
+                <thead class="thead" align="left">
+                  <tr class="row">
+                    <th class="entry" valign="top" width="NaN%" id="d1012695e140">Property</th>
+
+                    <th class="entry" valign="top" width="1.5" id="d1012695e143">AKA</th>
+
+                    <th class="entry" valign="top" width="NaN%" id="d1012695e146">On Spinnaker</th>
+
+                    <th class="entry" valign="top" width="NaN%" id="d1012695e149">Example or Format</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                  <tr class="row">
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e140 "><span class="keyword parmname">primary_entry_point</span></td>
+
+                    <td class="entry" valign="top" width="1.5" headers="d1012695e143 "> </td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e146 ">Server Location URL</td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e149 "><samp class="ph codeph">rtmp://p.ep54802.i.akamaientrypoint.net/EntryPoint</samp></td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e140 "><span class="keyword parmname">backup_entry_point</span></td>
+
+                    <td class="entry" valign="top" width="1.5" headers="d1012695e143 "> </td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e146 "> </td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e149 "><samp class="ph codeph">rtmp://b.ep54802.i.akamaientrypoint.net/EntryPoint</samp></td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e140 "><span class="keyword parmname">ios_live_upload_url</span></td>
+
+                    <td class="entry" valign="top" width="1.5" headers="d1012695e143 ">Publish URL</td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e146 ">Storage URL</td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e149 "><samp class="ph codeph">http://post.ooyala-i.akamaihd.net/201184/1dayarchive/<span class="keyword parmname">pcode</span>/<span class="keyword parmname">embedCode</span>/master.m3u8
+                      </samp></td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e140 "><span class="keyword parmname">ios_live_delivery_url</span></td>
+
+                    <td class="entry" valign="top" width="1.5" headers="d1012695e143 ">Delivery URL</td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e146 ">Publishing URL</td>
+
+                    <td class="entry" valign="top" width="NaN%" headers="d1012695e149 "><samp class="ph codeph">http://ooyala-i.akamaihd.net/hls/live/201184/1dayarchive/<span class="keyword parmname">pcode</span>/<span class="keyword parmname">embedCode</span>/master.m3u8
+                      </samp></td>
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+</div>
+</div>
+
+        
+      </li>
+</ol>
+
+    <div class="section postreq">
+      <p class="p">The live stream is successfully added. </p>
+
+    </div>
+
+  </div>
+
+  
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/content_livestreams.html" title="Live streaming is the delivery of video content in real time.">Live Streams (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

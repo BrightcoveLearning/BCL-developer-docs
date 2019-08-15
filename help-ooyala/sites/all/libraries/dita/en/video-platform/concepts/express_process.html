@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Express Processing Assets"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/transcode.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/transcode.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_components"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Express Processing Assets</title>
+</head>
+<body id="pbv4_components">
+
+
+  <h1 class="title topictitle1">Express Processing Assets</h1>
+
+  <div class="body conbody">
+    <div class="section"><h2 class="title sectiontitle">Standard processing queue</h2>The standard processing queue for VOD content
+      follows FIFO (first in first out) logic. Every customer can process 10 jobs in parallel
+      (unless their contract indicates higher, as there is additional cost). So if more than 10
+      assets are ingested at the same time, the rest of the assets remain in the queue and are
+      processed based on FIFO. Often, one of the assets uploaded later might need to be processed
+      first due to time sensitive nature of the content. To support this use case, OoyalaADAPT has
+      an “Express processing queue”.</div>
+
+    <div class="section"><h2 class="title sectiontitle">Express processing queue</h2>
+      
+      <p class="p">For every customer, in addition to the standard processing queue, an express processing queue is available. The express processing queue can process five jobs in parallel (unless their contract indicates higher, as there is additional cost). Consider the express processing queue as a carpool or high volume lane in a highway. Once a job is submitted to the express processing queue, it gets higher priority than jobs in standard processing, and is picked ahead of jobs in the standard processing queue. However, the express processing queue also uses the FIFO logic and any more than five assets submitted to this queue remain queued until an open slot is available.
+      </p>
+<div class="note note"><span class="notetitle">Note:</span> If you submit all jobs to the express processing queue, then there is no difference between the standard and express queues.</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">How to use the Express Processing Queue</h2>
+      
+      <div class="note note"><span class="notetitle">Note:</span> You cannot edit or delete express transcoding that is set already. If you need this to be 
+        removed for any reason, please contact Ooyala Support.
+      </div>
+
+      <div class="p">There are currently three ways to submit jobs to a job to the express processing queue:<ul class="ul">
+        <li class="li">During <a class="xref" href="../../../../../../../video-platform/tasks/ingestion_ftp_xml.html" target="_blank">manifest-based content ingestion</a>, add the
+            following new metadata tag to indicate express processing:
+            <pre class="pre codeblock">&lt;ooyala:metadata name="express_asset"&gt;true&lt;/ooyala:metadata&gt;</pre>
+</li>
+
+        <li class="li">If an asset has already been ingested to the standard processing queue, you can use the API to move it to the express processing queue.
+        <ul class="ul">
+          <li class="li"><strong class="ph b">Set priority for already created assets</strong>
+                <p class="p">Set express transcoding after an embed is created or for content
+                  replacements.</p>
+<pre class="pre codeblock">PATCH /v2/assets/:embed  
+              {
+              "transcoding_priority" : "express"
+              }</pre>
+</li>
+
+        </ul>
+</li>
+
+        <li class="li">When you upload content via the backlot API, you can also indicate express processing.
+        <ul class="ul">
+          <li class="li"><strong class="ph b">Create a new asset</strong>
+            <p class="p">Add an attribute named <samp class="ph codeph">"transcoding_priority" : "express"</samp> while creating a new asset.</p>
+
+            <pre class="pre codeblock">POST /v2/assets/
+              {
+              "name": "My two-minute long video",
+              "file_name": "my_source_file.avi",
+              "asset_type": "video",
+              "file_size": 412895,
+              "chunk_size": 100000,
+              "transcoding_priority" : "express"
+              }</pre>
+</li>
+
+          <li class="li"><strong class="ph b">Include a new attribute</strong>
+            <p class="p">The <samp class="ph codeph">GET /v2/assets/:id</samp> API includes a new attribute if express transcoding is selected.</p>
+
+            <pre class="pre codeblock">GET /assets/:id
+              {
+              "transcoding_priority" : "express"
+              }
+            </pre>
+</li>
+
+          <li class="li"><strong class="ph b">Validations</strong>
+          <ul class="ul">
+            <li class="li">New attributes are allowed for asset types "video", "audio", and "ad". For any other asset types, the API responds with the HTTP 400 message:
+              <pre class="pre codeblock">Attribute transcoding_priority is allowed for asset types video, audio, ad</pre>
+</li>
+
+            <li class="li">The value should be "express" for new attributes. For any other value, the API
+                    responds with the HTTP 400 message:
+                    <pre class="pre codeblock">transcoding_priority should be 'express'</pre>
+</li>
+
+          </ul>
+</li>
+
+        </ul>
+</li>
+
+      </ul>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Frequently Asked Questions</h2>
+      
+      <p class="p">Q: What is the default concurrency limit of the standard processing queue?</p>
+
+      <p class="p">A: The default concurrency limit of the standard processing queue is 10 jobs. A job includes all outputs (HLS,DASH, MP4 etc.) associated with the processing profile. </p>
+
+    <p class="p"/>
+
+      <p class="p">Q: What is the default concurrency limit of the express processing queue?</p>
+
+      <p class="p">A: The default concurrency limit of the express processing queue is five jobs. A job
+        includes all outputs (HLS,DASH, MP4 etc) associated with the processing profile.</p>
+
+    <p class="p"/>
+
+      <p class="p">Q: Can I have a higher concurrency limit for my standard/express processing queue?</p>
+
+      <p class="p">A: There is an additional cost for a higher concurrency limit, unless stated in your contract. Please contact your account manager for further details.</p>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="transcode.html">Ooyala Transcoding Service (OTS)</a></div>
+</div>
+</div>
+
+</body>
+</html>

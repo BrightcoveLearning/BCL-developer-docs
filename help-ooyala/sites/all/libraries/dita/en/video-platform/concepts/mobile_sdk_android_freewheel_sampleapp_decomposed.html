@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="A Closer Look at the Android Integration Sample App"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_android_freewheel.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobilesdk_ios_googleima_sampleapp_decomposed"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>A Closer Look at the Android Integration Sample App</title>
+</head>
+<body id="mobilesdk_ios_googleima_sampleapp_decomposed">
+
+
+   <h1 class="title topictitle1">A Closer Look at the Android Integration Sample App </h1>
+
+   <div class="body conbody">
+      <p class="p">To build your own app using the sample, consider the following sample app configuration
+         points:</p>
+
+      <div class="section"><h2 class="title sectiontitle">Setup the Library for Your Project</h2>
+         
+         <div class="p">For a new project, be sure to put the following jar files in the lib or libs
+               directory:<ul class="ul" id="mobilesdk_ios_googleima_sampleapp_decomposed__ul_hyd_1dp_gl">
+               <li class="li"><samp class="ph codeph">OoyalaSDK.jar</samp>: the jar file from the baseline Ooyala Mobile SDK
+                  for Android</li>
+
+               <li class="li"><samp class="ph codeph">OoyalaFreeWheelSDK.jar</samp>: The jar file from the Ooyala SDK for
+                  Google IMA on Android</li>
+
+               <li class="li"><samp class="ph codeph">ima-android-sdk-*.jar</samp>. Google IMA Libraries from the <a class="xref" href="https://developers.google.com/interactive-media-ads/docs/sdks/android/download" target="_blank">Google Developer website</a>. The star (*)
+                  represents the file version </li>
+
+               <li class="li"><samp class="ph codeph">FWAdManager.jar</samp>: the jar file downloaded from the FreeWheel
+                  website</li>
+
+            </ul>
+</div>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Edit the <samp class="ph codeph">AndroidManifest.xml</samp> File</h2>In the
+            <samp class="ph codeph">AndroidManifest.xml</samp> file, add the
+            <samp class="ph codeph">android:configChanges</samp> attribute (see highlighted line below) on the
+         applications' <samp class="ph codeph">&lt;activity&gt;</samp> declaration. <p class="p"><strong class="ph b">Note: </strong>This is only
+            required if you use the <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp>, which is
+            recommended. This is discussed further
+         below.</p>
+<pre class="pre codeblock">&lt;application&gt;
+  &lt;activity
+    android:name="com.ooyala.android.imasampleapp.IMASampleAppActivity"
+    android:label="@string/app_name"
+    <strong class="ph b">android:configChanges="orientation|keyboardHidden"</strong> &gt;
+...
+  &lt;/activity&gt;   
+&lt;/application&gt;</pre>
+</div>
+
+      <div class="section"><h2 class="title sectiontitle">The Source for the Sample App</h2>
+         
+         <p class="p">Open the
+               <samp class="ph codeph">FreeWheelSampleApp/src/ooyala/com/android/freewheelsampleapp/FreeWheelSampleAppActivity.java</samp>
+            file.</p>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">The Imports</h2>
+         
+         <p class="p">Examine the <samp class="ph codeph">import</samp> statements at the top of the file:</p>
+
+         <ul class="ul">
+            <li class="li">The first two import statements pull in standard Java definitions for Map and
+               HashMap.</li>
+
+            <li class="li">The next two pull in definitions for the OoyalaFreeWheelManager and the sample
+               application.</li>
+
+            <li class="li">The next three are standard Android imports.</li>
+
+            <li class="li">The final three pull definitions for player layouts and optimized layout controllers
+               from the baseline Ooyala Mobile SDK for Android.</li>
+
+         </ul>
+
+         <pre class="pre codeblock">import java.util.HashMap;
+import java.util.Map;
+
+import com.ooyala.android.freewheelsdk.OoyalaFreeWheelManager;
+import com.ooyala.android.freewheelsampleapp.R;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.OptimizedOoyalaPlayerLayoutController;        </pre>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">The Constants</h2>
+         
+         <div class="p">The topic <a class="xref" href="../tasks/mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">Creating a Basic Android App</a>
+            introduces the constants <samp class="ph codeph">PCODE</samp>, <samp class="ph codeph">EMBED</samp>, and <samp class="ph codeph">new
+               PlayerDomain(DOMAIN)</samp>, which are further discussed in <a class="xref" href="mobile_sdk_android_freewheel_tutorial.html">See the FreeWheel Sample App in Action on Android</a>.<pre class="pre codeblock">  final String EMBED  = "RlODZyZDr93PAbk-a9fY7Phq93pA-Uwt";
+  final String PCODE  = "5idHc6Pt1kJ18w4u9Q5jEwAQDYCH";
+  final String new PlayerDomain(DOMAIN) = "http://www.ooyala.com";</pre>
+
+            Whereas the sample app defines these as constants, you probably want to define
+            variables, especially for the <samp class="ph codeph">EMBED</samp> constant (asset ID or content
+            ID).</div>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">Set Up the Controller, Initialize the
+               <samp class="ph codeph">OoyalaFreeWheelManager</samp> and Classes</h2>Various layout controllers
+         combined with the <samp class="ph codeph">OoyalaFreeWheelManager</samp> are included with the SDK. <a class="xref" href="mobile_sdk_android_controls.html">The basic views you can choose from are included
+            in the baseline Mobile SDK for Android.</a><p class="p"><strong class="ph b">Note: </strong>For working with
+            FreeWheel, it is highly recommended that you use the
+               <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp> layout controller. </p>
+<p class="p">In
+            the sample app, a layout controller is declared of type
+               <samp class="ph codeph">OptimizedOoyalaPlayerLayoutController</samp>. </p>
+<p class="p">Finally, the
+               <samp class="ph codeph">freewheelManager</samp> object is initialized as type
+               <samp class="ph codeph">OoyalaFreeWheelManager</samp> with <samp class="ph codeph">this</samp> activity and the
+            layout
+         controller:</p>
+<pre class="pre codeblock">  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    OoyalaPlayerLayout playerLayout = (OoyalaPlayerLayout) findViewById(R.id.ooyalaPlayer);
+    playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout, PCODE, new PlayerDomain(DOMAIN));
+    OoyalaPlayer player = playerLayoutController.getPlayer();
+
+    //Initialize FreeWheel Ad Manager
+    freewheelManager = new OoyalaFreeWheelManager(this, playerLayoutController); </pre>
+For
+         reference documentation about the OoyalaFreeWheelManager, see the
+            <samp class="ph codeph">OoyalaFreeWheelSDK-Android/Documentation</samp> subdirectory.</div>
+
+      <div class="section"><h2 class="title sectiontitle">FreeWheel Parameters</h2>
+         
+         <p class="p">For background, see the discussion in <a class="xref" href="mobile_sdk_android_freewheel.html#mobile_sdk_android_freewheel__freewheel_essential_parms">Essential Parameters and FreeWheel OPF Module Ad Set</a>. The two parameters highlighted below must be set in your app
+            itself.</p>
+
+         <pre class="pre codeblock">//Set FreeWheel parameters.  Note that these are optional, and override configurations set in Backlot or Ooyala internals
+Map&lt;String, String&gt; freewheelParameters = new HashMap&lt;String, String&gt;();
+//freewheelParameters.put("fw_android_mrm_network_id", "90750");
+<strong class="ph b">freewheelParameters.put("fw_android_ad_server", "http://demo.v.fwmrm.net/");
+freewheelParameters.put("fw_android_player_profile", "90750:ooyala_android");</strong>
+//freewheelParameters.put("fw_android_site_section_id", "ooyala_test_site_section");
+//freewheelParameters.put("fw_android_video_asset_id", "ooyala_test_video_with_bvi_cuepoints");
+//freewheelParameters.put("FRMSegment", "channel=TEST;subchannel=TEST;section=TEST;mode=online;player=ooyala;beta=n");
+
+freewheelManager.overrideFreeWheelParameters(freewheelParameters);</pre>
+
+      </div>
+
+      <div class="section" id="mobilesdk_ios_googleima_sampleapp_decomposed__play"><h2 class="title sectiontitle">Play the Video</h2>
+         
+         <p class="p">Finally, the video is played with the <samp class="ph codeph">setEmbedCode()</samp> method, which
+            comes with <a class="xref" href="../tasks/mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">the
+               baseline Mobile SDK</a>:</p>
+
+         <pre class="pre codeblock">    if (player.<strong class="ph b">setEmbedCode</strong>(EMBED)) {
+      player.play();
+    } else {
+      Log.d(this.getClass().getName(), "Something Went Wrong!");</pre>
+
+      </div>
+
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="mobile_sdk_android_freewheel.html">Integration with FreeWheel on Android</a></div>
+</div>
+</div>
+
+</body>
+</html>

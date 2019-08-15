@@ -23,6 +23,8 @@ tags:
       Full analytics reports with many options for filtering, date ranges, formats, and more.
   - name: Video Data
     description: Low latency endpoints for quickly retrieving a single piece of data.
+  - name: Live Analytics
+    description: Analytics for Live streams
 paths:
   '/engagement/accounts/{account_id}':
     get:
@@ -53,7 +55,7 @@ paths:
 
             UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the
             response contains information about what invalid fields were
-            specifed
+            specified
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
@@ -107,7 +109,7 @@ paths:
 
             UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the
             response contains information about what invalid fields were
-            specifed
+            specified
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
@@ -156,7 +158,7 @@ paths:
           description: >-
             BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
 
-            UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the response contains information about what invalid fields were specifed
+            UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the response contains information about what invalid fields were specified
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
@@ -214,7 +216,7 @@ paths:
           description: >-
             BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
 
-            UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the response contains information about what invalid fields were specifed
+            UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the response contains information about what invalid fields were specified
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
@@ -241,8 +243,8 @@ paths:
         - Analytics Report
       summary: Get Available Date Range
       description: >-
-        Get the date range for which reconciled data is available for any Analytics API report. All parameters are allowed, but only account, dimensions, and where affect the result &mdash; all others are ignored.
-        Note that date range for this request must fall within the available date range for the dimensions requested &mdash; the simplest thing to do is to use from=alltime
+        Get the date range for which reconciled data is available for any Analytics API report. All parameters are allowed, but only account, dimensions, and where affect the result - all others are ignored.
+        Note that date range for this request must fall within the available date range for the dimensions requested - the simplest thing to do is to use from=alltime
       operationId: GetAvailableDateRange
       security:
         - BC_OAuth2:
@@ -277,7 +279,7 @@ paths:
 
             UNSUPPORTED_FIELD_COMBINATION_ERROR: The message fields of the
             response contains information about what invalid fields were
-            specifed
+            specified
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
@@ -302,7 +304,113 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/alltime/accounts/{account_id}/videos/{video_id}':
+  /timeseries/accounts/{account_id}:
+    get:
+      tags:
+        - Live Analytics
+      summary: Get Live Analytics time-series
+      description: >-
+        A time-series is defined as a an list of timestamp-value pairs representing samples of a variable (metric). The time-series API intends to allow the user to return a time-series for the set of metrics requested in the query.
+      operationId: GetLiveTimeSeries
+      security:
+        - BC_OAuth2:
+          - video-cloud/analytics/read
+      parameters:
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Accept-Encoding'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/live_dimensions'
+        - $ref: '#/components/parameters/bucket_limit'
+        - $ref: '#/components/parameters/bucket_duration'
+        - $ref: '#/components/parameters/metrics'
+        - $ref: '#/components/parameters/where'
+        - $ref: '#/components/parameters/from'
+        - $ref: '#/components/parameters/to'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Time_Series_Response'
+        '400':
+          description: >-
+            BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
+
+            INVALID_PARAM: The message fields of the response contains information about what invalid params were specified or required params were missing
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: This error occurs when the api request is made with an HTTP method other than GET
+        '500':
+          description: >-
+            SERVER_ERROR: Issue in Brightcove system; try again later
+
+            PROCESSING: The analytics API may send back this message if it encounters a long running query. Once the query has finished it will be stored in the server’s cache for up to 5 minutes. Therefore we suggest querying the API 4 minutes after receiving this error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /events/accounts/{account-id}:
+    get:
+      tags:
+        - Live Analytics
+      summary: Get Live Analytics event
+      description: >-
+        Provides a summary of analytics data collected for a live stream.
+      operationId: GetLiveEvents
+      security:
+        - BC_OAuth2:
+          - video-cloud/analytics/read
+      parameters:
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Accept-Encoding'
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/live_dimensions'
+        - $ref: '#/components/parameters/metrics'
+        - $ref: '#/components/parameters/where'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Events_Response'
+        '400':
+          description: >-
+            BAD_REQUEST: The message fields of the response contains information about what caused the error such as invalid value for sort parameter
+
+            INVALID_PARAM: The message fields of the response contains information about what invalid params were specified or required params were missing
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials are correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: This error occurs when the api request is made with an HTTP method other than GET
+        '500':
+          description: >-
+            SERVER_ERROR: Issue in Brightcove system; try again later
+
+            PROCESSING: The analytics API may send back this message if it encounters a long running query. Once the query has finished it will be stored in the server’s cache for up to 5 minutes. Therefore we suggest querying the API 4 minutes after receiving this error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /alltime/accounts/{account_id}/videos/{video_id}:
     get:
       tags:
         - Video Data
@@ -411,6 +519,28 @@ components:
       explode: true
       schema:
         type: string
+    bucket_limit:
+      name: bucket_limit
+      in: query
+      description: >-
+        'Max number of points to be returned for a time-series'
+      required: false
+      example: 10
+      style: form
+      explode: true
+      schema:
+        type: integer
+    bucket_duration:
+      name: bucket_duration
+      in: query
+      description: >-
+        'Intervals duration in the form of an integer plus `m` (minutes), `h` (hours), or `d` (days)'
+      example: 5m
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
     dimensions:
       name: dimensions
       in: query
@@ -418,7 +548,6 @@ components:
         One or more dimensions to report on; see [Multiple Dimensions](https://support.brightcove.com/overview-analytics-api-v1#metrics) or which combined dimensions are supported
 
         Dimensions:
-          - account
           - account
           - browser_type
           - city
@@ -443,6 +572,21 @@ components:
       explode: true
       schema:
         $ref: '#/components/schemas/Dimensions'
+    live_dimensions:
+      name: dimensions for live analytics
+      in: query
+      description: |-
+        One or more dimensions to report on for Live Analytics requests
+        Dimensions:
+          - account
+          - country
+          - device_type
+          - video
+      required: true
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Dimensions'
     limit:
       name: limit
       in: query
@@ -454,6 +598,31 @@ components:
         format: int32
         default: 10
         example: 10
+    metrics:
+      name: metrics
+      in: query
+      description: |-
+        Data metrics to return for live analytics requests:
+
+          - `video_impression` - the number of video impressions
+          - `video_view` - the number of video views
+          - `video_seconds_viewed` - seconds of video viewed
+          - `alive_ss_ad_start` - SSAI ad starts
+          - `fingerprint_count` - "fingerprint" (user) count
+          - `ccu` - concurrent viewers
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+        enum:
+          - video_impression
+          - video_view
+          - video_seconds_viewed
+          - alive_ss_ad_start
+          - fingerprint_count
+          - ccu
+        example: video_view,alive_ss_ad_start,ccu
     offset:
       name: offset
       in: query
@@ -646,13 +815,191 @@ components:
             type: number
           description: Array of views in each 100th part of video duration
       example:  {
-        	"timeline": {
-        		"type": "percentile",
-        		"values": [
-        			17507.16, 17446.47, 17381.53, 18864.7, 20034.09, 19964.33, 19869.78, 19667.05, 19566.13, 19475.24, 72462.89, 72388.19, 72380.55, 72340.39, 72230.89, 72181.51, 72118.65, 72009.98, 71959.46, 71928.65, 72301.65, 72248.72, 72214.78, 72172.31, 72075.03, 71953.25, 71933.07, 71890.68, 71828.13, 71769.25, 71713.09, 71599.56, 71581.92, 71542.35, 71416.43, 71305.33, 71274.92, 71248.6, 71321.91, 71290.81, 71214.11, 71191.02, 71167.63, 71141.25, 71125.24, 71087.18, 71065.24, 71038.08, 71012.63, 71004.61, 74524.95, 74517.69, 74489.42, 74384.57, 74359.08, 74336.24, 74311.31, 74291.99, 74266.64, 74243.25, 74201.68, 74179.67, 74076.49, 74055.94, 74045.4, 73999.57, 73946.48, 73933.69, 73924.56, 73588.54, 73537.41, 73524.52, 71981.69, 70901.7, 70903.16, 70853.67, 70816.72, 70737.02, 70723.89, 70723.22, 70736.19, 70721.05, 70668.38, 70610.77, 70589, 70587.97, 70580.99, 70581.93, 70574.65, 70558.48, 21197.2, 21192.85, 21202.43, 21205.57, 21200.8, 21200.34, 21199.76, 21201.2, 21202.08, 21203
-        		]
-        	}
+          "timeline": {
+            "type": "percentile",
+            "values": [
+              17507.16, 17446.47, 17381.53, 18864.7, 20034.09, 19964.33, 19869.78, 19667.05, 19566.13, 19475.24, 72462.89, 72388.19, 72380.55, 72340.39, 72230.89, 72181.51, 72118.65, 72009.98, 71959.46, 71928.65, 72301.65, 72248.72, 72214.78, 72172.31, 72075.03, 71953.25, 71933.07, 71890.68, 71828.13, 71769.25, 71713.09, 71599.56, 71581.92, 71542.35, 71416.43, 71305.33, 71274.92, 71248.6, 71321.91, 71290.81, 71214.11, 71191.02, 71167.63, 71141.25, 71125.24, 71087.18, 71065.24, 71038.08, 71012.63, 71004.61, 74524.95, 74517.69, 74489.42, 74384.57, 74359.08, 74336.24, 74311.31, 74291.99, 74266.64, 74243.25, 74201.68, 74179.67, 74076.49, 74055.94, 74045.4, 73999.57, 73946.48, 73933.69, 73924.56, 73588.54, 73537.41, 73524.52, 71981.69, 70901.7, 70903.16, 70853.67, 70816.72, 70737.02, 70723.89, 70723.22, 70736.19, 70721.05, 70668.38, 70610.77, 70589, 70587.97, 70580.99, 70581.93, 70574.65, 70558.48, 21197.2, 21192.85, 21202.43, 21205.57, 21200.8, 21200.34, 21199.76, 21201.2, 21202.08, 21203
+            ]
+          }
         }
+    Get_Time_Series_Response:
+      title: Get Time-Series Response
+      type: object
+      description: >-
+        Get Live time-series success response
+      example: {
+        "video_impression": {
+          "data": [
+            {
+              "dimensions": {
+                "video": "6063969160001",
+                "account": "57838016001"
+              },
+              "points": [
+                {
+                  "timestamp": 1564075800000,
+                  "value": 11.0
+                },
+                {
+                  "timestamp": 1564077600000,
+                  "value": 3.0
+                }
+              ]
+            }
+          ]
+        },
+        "video_view": {
+          "data": [
+            {
+              "dimensions": {
+                "video": "6063969160001",
+                "account": "57838016001"
+              },
+              "points": [
+                {
+                  "timestamp": 1564075800000,
+                  "value": 11.0
+                },
+                {
+                  "timestamp": 1564077600000,
+                  "value": 1.0
+                }
+              ]
+            }
+          ]
+        },
+        "video_seconds_viewed": {
+          "data": [
+            {
+              "dimensions": {
+                "video": "6063969160001",
+                "account": "57838016001"
+              },
+              "points": [
+                {
+                  "timestamp": 1564075800000,
+                  "value": 3185.0
+                },
+                {
+                  "timestamp": 1564077600000,
+                  "value": 514.0
+                }
+              ]
+            }
+          ]
+        },
+        "alive_ss_ad_start": {},
+        "fingerprint_count": {
+          "data": [
+            {
+              "dimensions": {
+                "video": "6063969160001",
+                "account": "57838016001"
+              },
+              "points": [
+                {
+                  "timestamp": 1564075800000,
+                  "value": 9.0
+                },
+                {
+                  "timestamp": 1564077600000,
+                  "value": 6.0
+                },
+                {
+                  "timestamp": 1564079400000,
+                  "value": 1.0
+                }
+              ]
+            }
+          ]
+        },
+        "ccu": {
+          "data": [
+            {
+              "dimensions": {
+                "video": "6063969160001",
+                "account": "57838016001"
+              },
+              "points": [
+                {
+                  "timestamp": 1564075800000,
+                  "value": 9.0
+                },
+                {
+                  "timestamp": 1564077600000,
+                  "value": 6.0
+                },
+                {
+                  "timestamp": 1564079400000,
+                  "value": 1.0
+                }
+              ]
+            }
+          ]
+        }
+      }
+      properties:
+        interval:
+          type: array
+          description: >-
+            array containing the start and end points for the interval in the units specified by the `bucket_duration` parameter
+          items:
+            type: integer
+        dimensions:
+          type: object
+          description: >-
+            A set of dimension/value pairs corresponding to the dimensions specified in the `dimensions` parameter
+        points:
+          type: array
+          description: >-
+            An array of objects containing metrics for the points in the time-series
+          items: 
+            type: object
+            description: >-
+              An object containing the `timestamp` value (in the units specified in the `bucket_duration` parameter) and values of the metrics (specified in the `metrics` parameter) at the timestamp
+    Get_Events_Response:
+      title: Get Events Response
+      type: object
+      description: >-
+        Get live events success response
+      example: {
+        "data": [
+                  {
+                    "dimensions": { "country": "US" },
+                    "totals": {
+                      "live_unique_viewers": 1267,
+                      "video_seconds_viewed": 126755,
+                      "alive_ss_ad_start": 1274
+                    }
+                  },
+                  {
+                    "dimensions": { "country": "GB" },
+                    "totals": {
+                      "live_unique_viewers": 2267,
+                      "video_seconds_viewed": 136005,
+                      "alive_ss_ad_start": 1024
+                    }
+                  }      
+                ]
+      }
+      properties:
+        data:
+          type: array
+          description: >-
+            array containing metrics per dimension(s)
+          items:
+            type: object
+            description: >-
+              object containing `dimensions` and `totals` objects
+            properties:
+              dimensions:
+                type: object
+                description: >-
+                  Object containing dimension/value that the associated metrics are for
+              totals:
+                type: object
+                description: >-
+                  Object containing metric/value pairs for the associated dimensions
     Get_Video_Engagement_Response:
       title:  Get Video Engagement Response
       required:
@@ -663,13 +1010,13 @@ components:
           type: string
           description: the video duration in seconds
       example: {
-        	"timeline": {
-        		"type": "percentile",
-        		"values": [
-        			1063, 1063, 1063, 1063, 1063, 1063, 1063, 1063, 1034.94, 1021, 1021, 1021, 1021, 1021, 1021, 1021, 1010.08, 988, 988, 988, 988, 988, 988, 988, 988, 962, 962, 962, 962, 962, 962, 962, 962, 953.97, 950, 950, 950, 950, 950, 950, 950, 944.38, 933, 933, 933, 933, 933, 933, 933, 933, 922, 922, 922, 922, 922, 922, 922, 922, 913.3, 909, 909, 909, 909, 909, 909, 909, 906.03, 900, 900, 900, 900, 900, 900, 900, 900, 875, 875, 875, 875, 875, 875, 875, 875, 837.6, 819, 819, 819, 819, 819, 819, 819, 818.67, 818, 818.67, 819, 819, 819, 819, 819, 819
-        		]
-        	},
-        	"video_duration": "12"
+          "timeline": {
+            "type": "percentile",
+            "values": [
+              1063, 1063, 1063, 1063, 1063, 1063, 1063, 1063, 1034.94, 1021, 1021, 1021, 1021, 1021, 1021, 1021, 1010.08, 988, 988, 988, 988, 988, 988, 988, 988, 962, 962, 962, 962, 962, 962, 962, 962, 953.97, 950, 950, 950, 950, 950, 950, 950, 944.38, 933, 933, 933, 933, 933, 933, 933, 933, 922, 922, 922, 922, 922, 922, 922, 922, 913.3, 909, 909, 909, 909, 909, 909, 909, 906.03, 900, 900, 900, 900, 900, 900, 900, 900, 875, 875, 875, 875, 875, 875, 875, 875, 837.6, 819, 819, 819, 819, 819, 819, 819, 818.67, 818, 818.67, 819, 819, 819, 819, 819, 819
+            ]
+          },
+          "video_duration": "12"
         }
     Get_Analytics_Report_Response:
       title: Get Analytics Report Response
@@ -787,7 +1134,7 @@ components:
         bytes_delivered:
           type: number
           description: >-
-            the total bytes of data delivered, including the videos, other assets such as images and captions, and (for player reports) the player code &mdash; some of the date is obtained from CDNs and may not be available for up to 3 days
+            the total bytes of data delivered, including the videos, other assets such as images and captions, and (for player reports) the player code - some of the date is obtained from CDNs and may not be available for up to 3 days
         engagement_score:
           type: number
           description: the calculated engagement score for the video
@@ -861,8 +1208,8 @@ components:
           description: >-
             'the latest date that you can use for to and get reconciled data (realtime data may be available for later dates)'
       example: {
-        	"reconciled_from": "2011-01-01",
-        	"reconciled_to": "2018-08-31"
+          "reconciled_from": "2011-01-01",
+          "reconciled_to": "2018-08-31"
         }
     Get_Alltime_Video_Views_Response:
       title: Get Alltime_ ideo Views Response
@@ -875,7 +1222,7 @@ components:
           description: all-time video views
           format: int32
       example: {
-        	"alltime_video_views": 42271
+          "alltime_video_views": 42271
         }
     Dimensions:
       title: dimensions
@@ -1004,3 +1351,4 @@ components:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
             video-cloud/analytics/read: Read analytics data
+            video-cloud/video/read: Read video data

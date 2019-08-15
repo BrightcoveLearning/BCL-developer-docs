@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Build a Sender Application for Android"/>
+<meta name="DC.Relation" scheme="URI" content="../../concepts/chromecast/integrate.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chromecast_sender_android"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/ooyala.css"/>
+<title>Build a Sender Application for Android</title>
+</head>
+<body id="chromecast_sender_android">
+
+
+  <h1 class="title topictitle1">Build a Sender Application for Android</h1>
+
+  <div class="body conbody">
+  <div class="section">Review the following content for information about creating an integrated sender
+      application using the Ooyala Mobile SDK for Android.</div>
+
+    <div class="section"><h2 class="title sectiontitle">Step 1: Set Up Your Environment</h2>
+          <ol class="ol">
+            <li class="li">Download the Ooyala SDK for Android from the <a class="xref" href="../../../../../../../../downloads.html" target="_blank">Ooyala Mobile and Client SDKs
+              Download Page</a>.</li>
+
+            <li class="li">Download the Cast SDK for Android.</li>
+
+            <li class="li">Download the <a class="xref" href="https://github.com/googlecast/CastCompanionLibrary-android" target="_blank">Cast Companion Library</a>.</li>
+
+            <li class="li">Download the <a class="xref" href="https://github.com/ooyala/android-sample-apps/tree/stable/ChromecastSampleApp" target="_blank">ChromecastSampleApp</a> from
+              the Ooyala SDK for Android Sample Apps repository.</li>
+
+            <li class="li">Review the Android sender application development details on the Google
+              Developers portal <a class="xref" href="https://developers.google.com/cast/docs/android_sender" target="_blank">Android App Development</a>.</li>
+
+          </ol>
+
+        </div>
+
+    <div class="section"><h2 class="title sectiontitle">Step 2: Integrate with the Sender Application</h2>Use the following steps to
+      integrate with the sender application without the OoyalaPlayer object (where the sender
+      application does not contain a player, for example, when you open the app it only contains a
+      list of videos you can play with no player embed). The list activity and Chromecast player
+      activities show videos available for casting when the app is running. The player activity
+      contains the Ooyala player that renders the videos. <p class="p">These steps are written to extend the
+        basic Ooyala Sample App.</p>
+<div class="note note"><span class="notetitle">Note:</span> The following steps assume that you have knowledge of
+        basic integration steps for the Ooyala Core SDK and an existing OoyalaPlayer setup. For
+        details about creating the player, see the Ooyala Support site topic <a class="xref" href="../../tasks/mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">Creating a Basic Android App</a>.</div>
+
+      <ol class="ol">
+        <li class="li"><strong class="ph b">Initial configuration</strong>. Open the <a class="xref" href="https://github.com/ooyala/android-sample-apps/tree/stable/ChromecastSampleApp" target="_blank">ChromecastSampleApp</a> in Android
+          Studio.</li>
+
+        <li class="li"><strong class="ph b">Configure the namespace and app ID</strong>. Open SampleApplication.java and change the
+          value of NAMESPACE and APP_ID. This is shown in the following code sample:
+            <pre class="pre codeblock">public class SampleApplication extends Application {
+...
+private final String NAMESPACE = "urn:x-cast:ooyala";
+private final String APP_ID = "4172C76F";
+...</pre>
+<div class="note note"><span class="notetitle">Note:</span> The
+            APP_ID and NAMESPACE support the default receiver. For custom receivers, adjust the code
+            accordingly.</div>
+</li>
+
+        <li class="li">Initialize CastManager with the following credentials: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+              <tbody class="tbody">
+                <tr class="row">
+                  <td class="entry" valign="top">APP_ID</td>
+
+                  <td class="entry" valign="top">The ID provided when the app is registered with the receiver app.</td>
+
+                </tr>
+
+                <tr class="row">
+                  <td class="entry" valign="top">NAMESPACE</td>
+
+                  <td class="entry" valign="top">The namespace to identify the protocol of the message being sent for the
+                    related receiver app. namespaces is array of namespace. In most cases only one
+                    namespace is required. Based on current version of SDK, only the first namespace
+                    in the array is taken. <div class="note note"><span class="notetitle">Note:</span> The namespace should not be changed unless you
+                      modify the receiver app source code.</div>
+</td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+</div>
+ This step is shown in the following code sample: <pre class="pre codeblock">@Override
+public void onCreate(Bundle savedInstanceState) 
+{
+  ...
+   castManager = CastManager.initialize(getApplicationContext(), APP_ID, NAMESPACE);
+   castManager.setStopOnDisconnect(true);
+  ...
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span> CastManager is a static variable. Keep this object throughout the app life
+            cycle.</div>
+</li>
+
+      </ol>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Step 3: Configure the Chromecast Mini Controller for Android</h2>Configure
+      the mini controller using the Ooyala mobile SDK for Android. The mini controller controls
+      appear when the user navigates away from the main player controls. These controls provide
+      instant access to, and a visible reminder for, the currently casting video. The Android SDK
+      mini controller implementation includes the following controllers: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d264216e139">Controller</th>
+
+              <th class="entry" valign="top" id="d264216e142">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">Activity mini controller (Required by Google)</td>
+
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">When the user navigates out of the main player activity (the activity contains
+                OoyalaPlayer), the current activity should have a mini controller embed somewhere so
+                that the user can still have the control of casting video.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">Notification mini controller (Required by Google)</td>
+
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">When, and only when, the app is running in background, a mini controller
+                notification bar is displayed.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">Lock screen mini controller (Required for KitKat only)</td>
+
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">When the device is in lock screen, a mini controller could be available for
+                user to control the current casting video without unlocking the screen.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">Cast Menu mini controller (Required by Google)</td>
+
+              <td class="entry" valign="top" headers="d264216e139 d264216e142 ">During casting, there should be a mini controller inside the Cast menu.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+The Android mini controller is provided by the CastCompanionLibrary. To customize the
+      mini controller, modify <samp class="ph codeph">mini_controller.xml</samp>. <div class="note note"><span class="notetitle">Note:</span> To use OoyalaCastSDK to
+        manage the mini controller navigation, include the singleTop launchMode for all activities
+        and set parentActivityName all activities in the Manifest. Refer to the ChromecastSampleApp
+        Manifest for more details.</div>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Step 4: Customize the Android Sender Application</h2></div>
+
+    <div class="section" id="chromecast_sender_android__custom_intro">The customized sender is custom code that interacts with the Google
+      Sender Cast SDK, Ooyala Mobile SDK and application UX/UI. You can customize the UI/UX of the
+      sender application. The customized sender application loads on the primary device application
+      running on desktop (Chrome) or mobile (iOS/Android) platforms. <ul class="ul">
+        <li class="li">(Recommended) Uses Google Cast Custom Channel namespace to pass messages.</li>
+
+        <li class="li">Uses the Cast Message Bus via Custom Channel to facilitate the following: <ul class="ul">
+            <li class="li">Transmits the embed_code and player_branding_id to the receiver application for
+              launch of the Ooyala Player V4.</li>
+
+            <li class="li">Transmits basic player functions (stop, play, pause etc.) to the receiver
+              application to control the Ooyala Player V4.</li>
+
+            <li class="li">Via Custom Channel Listener, receives Ooyala related player errors based on player
+              message bus events and translates them to application-friendly user messages. An
+              example use case is if the Ooyala Device Management feature is used. The /last_Result
+              messages are published in the player message bus and passed back to the sender; based
+              on these results, the appropriate message is passed back to the application.</li>
+
+          </ul>
+</li>
+
+      </ul>
+</div>
+
+    <div class="section">
+      The CastCompanionLibrary contains all the assets. You can customize these assets for your application. For details see
+        <a class="xref" href="https://github.com/googlecast/CastCompanionLibrary-android/blob/master/CastCompanionLibrary.pdf" target="_blank">https://github.com/googlecast/CastCompanionLibrary-android/blob/master/CastCompanionLibrary.pdf</a>. </div>
+
+    <div class="section" id="chromecast_sender_android__debug"><h2 class="title sectiontitle">Debugging a Sender Application</h2>
+      <p class="p"> Use the function <samp class="ph codeph">printDebugMessage</samp> to dynamically debug the <a class="xref" href="https://developer.chrome.com/devtools" target="_blank">Chrome
+        developer tools</a> console output about sender commands and Ooyala Player
+        events. Media status objects can be monitored on the receiver debug console with the
+        <samp class="ph codeph">MediaManager.customizedStatusCallback</samp> function. You can customize which events are
+        reported to the logs and select to see errors from the Chromecast and/or Ooyala
+        namespace.</p>
+
+      <p class="p">Open a browser window and point it to the IP address of the Chromecast unit (port 9222).
+        For more information on how to debug from this point, go to Google’s Chromecast
+        Developer Guide topic on <a class="xref" href="https://developers.google.com/cast/docs/debugging" target="_blank">debugging</a> and Google's topic on <a class="xref" href="https://developers.google.com/cast/docs/reference/messages#MediaMess" target="_blank">handling Cast Media error messages</a>. </p>
+
+    </div>
+
+    <div class="section" id="chromecast_sender_android__notification"><h2 class="title sectiontitle">OOCastManager Notifications</h2>
+            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                <thead class="thead" align="left">
+                  <tr class="row">
+                    <th class="entry" valign="top" id="d264216e269">Notification</th>
+
+                    <th class="entry" valign="top" id="d264216e272">Description</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastManagerFailToConnectNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when a OOCastManager fails to connect to a
+                      chromecast device.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastDeviceLostNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when a chromecast device lost. It does not
+                      mean the connection to the device was lost.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastManagerDidDisconnectNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when a castManager disconnects from
+                      chromecast device.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastEnterCastModeNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when the app enters cast mode.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastExitCastModeNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when the app exits cast mode.</td>
+
+                  </tr>
+
+                  <tr class="row">
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 "><samp class="ph codeph">OOCastMiniControllerClickedNotification</samp></td>
+
+                    <td class="entry" valign="top" headers="d264216e269 d264216e272 ">This notification is sent when a mini controller event is
+                      activated.</td>
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+</div>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="integrate.html">Integrating with Chromecast</a></div>
+</div>
+</div>
+
+</body>
+</html>

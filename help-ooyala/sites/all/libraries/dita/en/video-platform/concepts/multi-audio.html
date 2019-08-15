@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Introduction to Enabling Videos with Multiple Audio Streams"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_about.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_source.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi-upload.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi-profile.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi-recommend.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_configure.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_set.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_change.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_display.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/multi_analytics.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="multi-audio"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Introduction to Enabling Videos with Multiple Audio Streams</title>
+</head>
+<body id="multi-audio">
+
+
+    <h1 class="title topictitle1"><strong class="ph b" id="docs-internal-guid-a59b3690-9618-44d6-56c2-a663338d519c">Introduction to Enabling
+            Videos with Multiple Audio Streams </strong></h1>
+
+    <div class="body conbody">
+        <div class="section">
+            <p class="p">This topic provides the basic instructions to enable assets to have multiple audio
+                tracks (multi-audio). Typically, this is used for videos with audio tracks in
+                different languages and/or audio tracks with additional information such as audio
+                descriptions (for viewers with visual impairments), and audio commentary, such as
+                from the director. The multiple audio tracks include the available codecs, channels
+                and bitrates. The combination of these parameters define the unique audio track in
+                the media files. </p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Major differences to consider with Multi-Audio</h2>The following areas
+            are unique to videos with multiple audio tracks:<ul class="ul" id="multi-audio__ul_lfz_qdj_kdb">
+                <li class="li"><strong class="ph b">Source Files:</strong> The source content must contain all the audio files to be
+                    used with the streaming. Ooyala does not currently support late binding of
+                    additional audio tracks. Therefore, if a customer has three languages in a
+                    stream and later wants to add a fourth, the asset must be reprocessed for a
+                    given stream packaging type.</li>
+
+                <li class="li"><strong class="ph b">Ingestion</strong>
+                    <p class="p">During ingestion via <samp class="ph codeph">XML</samp> or <samp class="ph codeph">CSV</samp>, the
+                        default language is inspected and movie attribute provisioned for the SAS to
+                        consume and supply to player to select the default language. If the language
+                        code is invalid , the movie attribute is not provisioned.</p>
+<p class="p">The
+                            <samp class="ph codeph">default_language</samp> parameter must take the value of a
+                        single 3-letter language code (e.g. <samp class="ph codeph">eng</samp>,
+                            <samp class="ph codeph">deu</samp>).</p>
+<p class="p">An example of the <samp class="ph codeph">XML</samp>
+                        extension for the default language is as follows:</p>
+<pre class="pre codeblock">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" 
+xmlns:fh="http://purl.org/syndication/history/1.0" xmlns:ooyala="http://www.ooyala.com/mrss/"&gt;     
+     
+     &lt;channel&gt;
+           &lt;item&gt;
+            &lt;media:content url="http://mysite.com/upload/lacrosse_70.mov" /&gt;
+            &lt;media:thumbnail url="http://mysite.com/upload/lacrosse_70_previewimage.jpg" /&gt;
+            &lt;media:title&gt;Sports that Really Exist: Lacrosse&lt;/media:title&gt;
+            &lt;media:description&gt;My emotional and touching description of my video&lt;/media:description&gt;
+            &lt;ooyala:labels&gt;/sports/lacrosse,/hobbies/lacrosse&lt;/ooyala:labels&gt;
+            &lt;link&gt;http://mysite.com/videos/sports/real_sports.html&lt;/link&gt;
+            &lt;ooyala:metadata name="video_ID"&gt;70&lt;/ooyala:metadata&gt;
+            &lt;ooyala:metadata name="season_number"&gt;1&lt;/ooyala:metadata&gt;
+			&lt;ooyala:metadata name="default_language"&gt;eng&lt;/ooyala:metadata&gt;
+           &lt;/item&gt;
+     &lt;/channel&gt;
+&lt;/rss&gt;    </pre>
+
+                    <p class="p">An example of the <samp class="ph codeph">CSV</samp> extension:</p>
+
+                    <pre class="pre codeblock">video,title,description,labels,hosted_at,id,thumbnail,subTitle,flight_start_time,flight_end_time,profileguid,vr360type,default_language
+  test.mp4,Test CSV,This is an example,"test,example,csv",http://www.ooyala.com,my_test_guid_csv,
+my_thumbnail.jpg,my_caption.dfxp,2016-01-01T15:15:00-07:00,
+2022-01-01T16:00:00-07:00,57d5a5a10f654fe79ef954dc8d29a108,monoscopic,eng</pre>
+</li>
+
+                <li class="li"><strong class="ph b">Processing Profile (and/or Access): </strong><ul class="ul" id="multi-audio__ul_ngd_ydj_kdb">
+                        <li class="li">For HLS, the assets must use an HLS protocol version 4 manifest. Not all
+                            devices support HLS V4 manifests.</li>
+
+                        <li class="li">For MPEG-DASH</li>
+
+                    </ul>
+</li>
+
+                <li class="li"><strong class="ph b">Player:</strong> The Ooyala Player will automatically recognize that the stream
+                    has multiple audio tracks, and include the ability to switch between the
+                    different audio tracks in a new menu. The player must consider all available
+                    factors (channels, language, bitrates, CODECs, etc when switching tracks. </li>
+
+                <li class="li"><strong class="ph b">Analytics:</strong> IQ does not currently record which audio track is selected, so
+                    reporting on what languages are selected requires custom reporting. </li>
+
+            </ul>
+</div>
+<div class="section"><h2 class="title sectiontitle">Support Environments for Multi-Audio</h2>
+                
+                <p class="p"><strong class="ph b">Web Browsers</strong></p>
+
+            <div class="p">All browsers support multi-audio, with the following exception:<ul class="ul" id="multi-audio__ul_dxn_t2y_d2b">
+                    <li class="li">HLS when using only the main_html5.js plugin on Android Chrome devices
+                        (Bitmovin plugin must be used).</li>
+
+                </ul>
+</div>
+
+                <p class="p"><strong class="ph b">Supported App Environments
+                    Supporting Multi-Audio</strong></p>
+<ul class="ul">
+                <li class="li"><strong class="ph b">Android:</strong> Requires ExoPlayer 2.51+</li>
+
+                <li class="li"><strong class="ph b">iOS:</strong> Requires devices supporting HLS V4</li>
+
+                <li class="li"><strong class="ph b">TVoS:</strong> Requires devices supporting HLS V4</li>
+
+                <li class="li"><strong class="ph b">Amazon Fire TV:</strong> Requires ExoPlayer 2.x </li>
+
+            </ul>
+</div>
+<div class="section"><h2 class="title sectiontitle">Supported Features/Combinations for Multi-Audio</h2>
+                
+                <div class="p"> We currently support the
+                following with Multi-Audio:<ul class="ul" id="multi-audio__ul_j13_tfj_kdb">
+                    <li class="li">Multiple AAC audio streams in HLS and DASH stream packaging, Stereo Only </li>
+
+                    <li class="li">Multiple audio streams in the following packaging types:<ul class="ul" id="multi-audio__ul_hxn_vfj_kdb">
+                            <li class="li">HLS, eHLS</li>
+
+                            <li class="li">HLS + FairPlay DRM (h264 codec) - supported for Azure, not
+                                Elemental</li>
+
+                            <li class="li">MPEG-DASH, MPEG-DASH + Widevine/PR</li>
+
+                            <li class="li">Up to six audio tracks</li>
+
+                        </ul>
+</li>
+
+                </ul>
+</div>
+</div>
+<div class="section"><h2 class="title sectiontitle">Unsupported Features/Formats with Multi-Audio</h2>
+                    
+                    <p class="p">We currently
+                do not support the following with Multi-Audio</p>
+<div class="p">
+                <ul class="ul" id="multi-audio__ul_ubc_zyc_kdb">
+                    <li class="li">Multi-Audio Streams with HEVC Codec</li>
+
+                    <li class="li">Multiple bitrate renditions for the same audio track (i.e. with the same
+                        language track) </li>
+
+                    <li class="li">Multi-Audio with SSAI</li>
+
+                    <li class="li">Late Audio Binding (adding an audio track after a stream has been fully
+                        processed)</li>
+
+                    <li class="li">AC3 or e-AC3 (Dolby) Audio tracks</li>
+
+                </ul>
+
+            </div>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Also in this section:</h2>
+            
+        </div>
+
+    </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="multi_source.html">Source File Formats Supported for Multi-Audio Encoding</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi-upload.html">Uploading Content For Multi-Audio Streams</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi-profile.html">Setting up the Processing Profile for Multi-Audio</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi-recommend.html">Recommended Encoding Profile for Multi-Audio Streams</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi_configure.html">Configuring the Ooyala Player for Multi-Audio Playback</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi_set.html">Setting the Default Audio Track</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi_change.html">Changing the Audio Track (User Controls)</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi_display.html">How Audio Track Labels are Displayed in Player</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="multi_analytics.html">Multi-Audio and IQ Analytics</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_about.html">Player V4</a></div>
+</div>
+</div>
+
+</body>
+</html>

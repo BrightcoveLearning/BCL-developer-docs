@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Adobe Pass Integration Reference"/>
+<meta name="abstract" content="Please note that Adobe Pass is not currently integrated with the Ooyala Player V4. Player parameters, the APIs, and events associated with Adobe Pass integration."/>
+<meta name="description" content="Please note that Adobe Pass is not currently integrated with the Ooyala Player V4. Player parameters, the APIs, and events associated with Adobe Pass integration."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/authentication_overview.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/adobepass_integration.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="player_v3_dev_refdiv"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Adobe Pass Integration Reference</title>
+</head>
+<body id="player_v3_dev_refdiv">
+
+
+ <h1 class="title topictitle1">Adobe Pass Integration Reference </h1>
+
+  
+ <div class="body refbody"><p class="shortdesc">Please note that Adobe Pass is not currently integrated with the Ooyala Player V4. Player parameters, the APIs, and events associated with Adobe Pass integration.</p>
+
+  <div class="section"><h2 class="title sectiontitle">Player Parameters</h2>
+  </div>
+
+  
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+    <thead class="thead" align="left">
+     <tr class="row">
+      <th class="entry" valign="top" id="d822192e27"><strong class="ph b">Parameter</strong></th>
+
+      <th class="entry" valign="top" id="d822192e31"><strong class="ph b">Description</strong></th>
+
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e27 d822192e31 ">staticResourceId</td>
+
+      <td class="entry" valign="top" headers="d822192e27 d822192e31 ">Player parameter that is passed to Adobe Pass Server. Match with the resourceId on the Backlot label.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e27 d822192e31 ">showLoginAtStart</td>
+
+      <td class="entry" valign="top" headers="d822192e27 d822192e31 ">Whether to show the login at startup.
+       <p class="p">TRUE - If the end user is not yet authenticated, automatically show MVPD to login.</p>
+
+       <p class="p">FALSE (default) - Do not show MPVD to login.</p>
+</td>
+
+     </tr>
+
+    </tbody>
+
+   </table>
+</div>
+
+    
+  <div class="section"><h2 class="title sectiontitle">API Reference</h2>
+
+   <strong class="ph b">OO.Pass API</strong>
+
+   
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" id="d822192e80"><strong class="ph b">API Call</strong></th>
+
+       <th class="entry" valign="top" id="d822192e84"><strong class="ph b">Description</strong></th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.login()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Check authentication and login. You can listen to OO.EVENTS.ADOBE_PASS_AUTH_STATUS if you're already logged in.  Otherwise it will show login dialog.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.logout()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Attempt to logout the current user.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.checkAuthentication()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Will do a full check if authenticated. You can listen to OO.EVENTS.ADOBE_PASS_AUTH_STATUS with the current auth status.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.isAuthenticated()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Returns true if authenticated.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.selectProvider(event)</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">See useProviderDialog(). You can use this function to parse out the provider and to tell Adobe Pass your MVPD choice.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.getSelectedProvider()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Returns the provider that you are currently logged into.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.useProviderDialog(dialog)</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Use custom MVPD dialog callback function. See the Sample Web Page.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.checkAuthorization(resourceId)</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">If the end user is authenticated, check whether they have authorization with the given resourceId.
+        <p class="p">Success: Publishes OO.EVENTS.ADOBE_PASS_TOKEN_FETCHED and setToken (specific within Adobe Pass).</p>
+
+        <p class="p">Failure : Publishes OO.ERROR.ADOBE_PASS_TOKEN and tokenRequestFailed (specific within Adobe Pass).</p>
+</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.getAuthorization(resourceId)</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Attempt to get authorization for the provided resourceId. If the end user is not authenticated, it will attempt to login first.
+        <p class="p">Success: Publishes OO.EVENTS.ADOBE_PASS_TOKEN_FETCHED and setToken (specific within Adobe Pass).</p>
+
+        <p class="p">Failure: Publishes OO.ERROR.ADOBE_PASS_TOKEN and tokenRequestFailed (specific within Adobe Pass).</p>
+</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">OO.Pass.isEntitlementLoaded()</td>
+
+       <td class="entry" valign="top" headers="d822192e80 d822192e84 ">Returns true if the Access Enabler is loaded and initialized.</td>
+
+      </tr>
+
+     </tbody>
+
+    </table>
+</div>
+
+
+  <p class="p"><strong class="ph b">OO.PASS CALLBACK API</strong></p>
+
+  
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+    <thead class="thead" align="left">
+     <tr class="row">
+      <th class="entry" valign="top" id="d822192e208"><strong class="ph b">API Call</strong></th>
+
+      <th class="entry" valign="top" id="d822192e212"><strong class="ph b">Description</strong></th>
+
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">OO.Pass.onSetToken(func)</td>
+
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">Takes a function in the form of function func(event, resId, token) to callback when Adobe Pass dispatches a setToken event.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">OO.Pass.onTokenRequestFailed(func)</td>
+
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">Takes a function in the form of function func(event, stat, errorCode) to callback when Adobe Pass dispatches a tokenRequestFailed event.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">OO.Pass.onSetAuthenticationStatus(func)
+      </td>
+
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">Takes a function in the form of function func (event, stat, errorCode) to callback when Adobe Pass dispatches the setAuthenticationStatus event.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">OO.Pass.onEntitlementLoaded(func)</td>
+
+      <td class="entry" valign="top" headers="d822192e208 d822192e212 ">Takes a function in the form of function func(event, stat, errorCode) to callback when Adobe Pass dispatches the entitlementLoaded event.</td>
+
+     </tr>
+
+    </tbody>
+
+   </table>
+</div>
+
+  </div>
+  
+  
+  <div class="section"><h2 class="title sectiontitle">Event Reference</h2>
+   
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+     <thead class="thead" align="left">
+      <tr class="row">
+       <th class="entry" valign="top" id="d822192e272"><strong class="ph b">Event</strong></th>
+
+       <th class="entry" valign="top" id="d822192e276"><strong class="ph b">Description</strong></th>
+
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">OO.EVENTS.ADOBE_PASS_AUTH_STATUS</td>
+
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">When someone checks for authentication.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">OO.EVENTS.ADOBE_PASS_TOKEN_FETCHED</td>
+
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">When a successful token is fetched for authorization.</td>
+
+      </tr>
+
+      <tr class="row">
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">OO.EVENTS.ERROR</td>
+
+       <td class="entry" valign="top" headers="d822192e272 d822192e276 ">When an error is produced. Adobe Pass has additional parameters passed to listeners for some Adobe Pass errors.
+        <p class="p"><strong class="ph b">Note:</strong> More detailed errors from MVPD will be in params.passDetails.</p>
+</td>
+
+      </tr>
+
+     </tbody>
+
+    </table>
+</div>
+
+   <p class="p">Most Common Adobe Pass Events</p>
+
+   <p class="p">The following list includes the most common Adobe Pass events.</p>
+
+   <ul class="ul">
+    <li class="li">setToken</li>
+
+    <li class="li">tokenRequestFailed</li>
+
+    <li class="li">setAuthenticationStatus</li>
+
+    <li class="li">entitlementLoaded</li>
+
+   </ul>
+
+   <p class="p">Consult your Adobe Pass documentation for more information about these events.</p>
+
+  </div>
+
+  <div class="section"><h2 class="title sectiontitle">Example Implementations</h2>
+  <strong class="ph b">Sample Web Page Integration</strong>
+  <pre class="pre codeblock">&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="http://player.ooyala.com/v3/[your_player_branding_id]"&gt; &lt;/script&gt;
+    &lt;script&gt;
+      OO.ready(function() {
+        window.pp =
+          OO.Player.create("video-container", "[your_embed_code]", {
+            width: '400px',
+            height: '300px',
+            staticResourceId: '[your_resource_id]',
+          });
+      });
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="video-container" id="video-container"&gt;&lt;/div&gt;
+
+    &lt;a href="#" onclick="javascript:OO.Pass.login();return false;"&gt;Log In&lt;/a&gt;
+
+    &lt;a href="#" onclick="javascript:OO.Pass.logout();return false;"&gt;Log Out&lt;/a&gt;&lt;br /&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+  &lt;/codeblock&gt;
+  &lt;b&gt;Sample Web Page Integration&lt;/b&gt;
+  &lt;p&gt;In the following example:&lt;/p&gt;
+  &lt;ul&gt;
+   &lt;li&gt;In order to authenticate, the code must contain mvpd_id.&lt;/li&gt;
+   &lt;li&gt;The name ooyalaMvpdPickerContainer is fixed and cannot be changed.&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;codeblock &gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src='http://code.jquery.com/jquery-1.8.2.min.js'&gt;&lt;/script&gt;
+    &lt;script src="http://player.ooyala.com/v3/[your_player_branding_id]"&gt; &lt;/script&gt;
+    &lt;script&gt;
+        // Custom Display Provider Dialog
+        function customDisplayProviderDialog(event, providers) {
+          var selectTitle = "This is my custom display for providers";
+          $('#ooyalaMvpdPickerContainer').remove();
+
+          //  build provider list.
+          var loginContainerDiv = $('&lt;div id="ooyalaMvpdPickerContainer"/&gt;');
+          $('body').append(loginContainerDiv);
+          var cancelButton = $("&lt;div class='cancelDiv'/&gt;");
+          cancelButton.html('&amp;nbsp;');
+          var titleBar = $("&lt;div class='titleBar'/&gt;");
+          titleBar.html(selectTitle);
+          var providerList = $("&lt;div class='providerList'/&gt;");
+          var bottomList = $("&lt;div class='bottomList'/&gt;");
+          var innerDiv = $("&lt;div class='innerDiv'/&gt;");
+          loginContainerDiv.append(innerDiv);
+          innerDiv.append(cancelButton);
+          innerDiv.append(titleBar);
+          innerDiv.append(providerList);
+          innerDiv.append(bottomList);
+          var list = $("&lt;ul&gt;");
+
+          providerList.append(list);
+          //Note the use of list elements and their attribute of mvpd_id.
+          $.each(providers, function(index, item){
+            var li = $("&lt;li&gt;");
+            li.attr("mvpd_id", item.ID);
+            li.append("&lt;img src='" + item.logoURL + "' onclick='function(){return false;}'&gt; " + item.displayName);
+            list.append(li);
+          });
+
+          $("#ooyalaMvpdPickerContainer li").click(OO.Pass.selectProvider);
+          cancelButton.click(function() {
+            $('#ooyalaMvpdPickerContainer').remove();
+          });
+        }// end custom Display Provider Dialog
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="video-container" id="video-container"&gt;&lt;/div&gt;
+
+    &lt;a href="#" onclick="javascript:OO.Pass.login();return false;"&gt;Log In&lt;/a&gt;
+
+    &lt;a href="#" onclick="javascript:OO.Pass.logout();return false;"&gt;Log Out&lt;/a&gt;&lt;br /&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+
+  </div>
+
+ </div>
+
+ <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/authentication_overview.html">Authentication</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/adobepass_integration.html">
+     Integrating Adobe Pass with Ooyala Player</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Signature Generation (Deprecated)"/>
+<meta name="abstract" content="To securely organize your user-uploaded videos, you can declare a static label and or a regular expression dynamic parameter."/>
+<meta name="description" content="To securely organize your user-uploaded videos, you can declare a static label and or a regular expression dynamic parameter."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_upload_widget.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="widget_signature_generation"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Signature Generation (Deprecated)</title>
+</head>
+<body id="widget_signature_generation">
+
+
+  <h1 class="title topictitle1">Signature Generation (Deprecated)</h1>
+
+  
+  
+ <div class="body refbody"><p class="shortdesc">To securely organize your user-uploaded videos, you can declare a static <samp class="ph codeph">label</samp> and or a regular expression <samp class="ph codeph">dynamic</samp> parameter. </p>
+
+  <div class="section">
+    
+    <p class="p">API queries are required to be signed in order to ensure account 
+      security. We present these steps as an example of generating a signed 
+      API request. The query produced in this example is valid and illustrates
+      how to compose and sign a qualified request. A detailed signing example
+      is available.</p>
+
+    
+    <p class="p">Account-specific codes for Provider ID (<samp class="ph codeph">pcode</samp>) and Secret
+          (<samp class="ph codeph">secret</samp>) can be found in Backlot ACCOUNT tab under Developers (see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>). The
+          <samp class="ph codeph">pcode</samp> is the 28-character alphanumeric string that precedes the period in
+        the API Key. The Secret Code is 40 characters long. Both are case sensitive and include
+        alphanumeric characters, dashes (-), and underscores (_). These codes are required to
+        generate a signature for each request to and from the Ooyala servers.</p>
+
+    
+    <p class="p">Example:</p>
+
+    <pre class="pre codeblock">
+Partner Code: lsNTrbQBqCQbH-VA6ALCshAHLWrV
+Secret Code: hn-Rw2ZH-YwllUYkklL5Zo_7lWJVkrbShZPb5CD1
+
+      </pre>
+
+    
+    <div class="note note"><span class="notetitle">Note:</span> These parameters point to a shared account 
+    accessible via API to any Backlot partner for preliminary testing. 
+    Content and metadata uploaded to this account is visible to all users.</div>
+
+    
+    <p class="p">The pcode, secret code, all required parameters, and all included 
+      optional parameters are used to generate a SHA-256 signature for the 
+      call. We present this example on how to generate a signature and 
+      URI-encode the parameters for the call.</p>
+
+    
+    <ol class="ol">
+      <li class="li">Begin with the 40 character Secret Code (see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>).
+            <samp class="ph codeph">hn-Rw2ZH-YwllUYkklL5Zo_7lWJVkrbShZPb5CD1</samp></li>
+
+      
+      <li class="li">Sort the parameter names alphabetically and append <samp class="ph codeph">&lt;name&gt;=&lt;value&gt;</samp> pairs to the string. The SHA-256 signature is generated with the result, which does not include the <samp class="ph codeph">pcode</samp>.This example uses <samp class="ph codeph">expires=1893013926, dynamic[any]=^/any/ano, dynamic[some]=^/any/some$, label[0]=/bysmthng/qqq, label[a]=/byuser/u1,</samp> and <samp class="ph codeph">status=pending</samp>.
+        
+        <samp class="ph codeph">hn-Rw2ZH-YwllUYkklL5Zo_7lWJVkrbShZPb5CD1dynamic[any]=^/any/anodynamic[some]=^/any/some$expires=1893013926label[0]=/bysmthng/qqqlabel[a]=/byuser/u1status=pending</samp></li>
+
+      
+      <li class="li">Generate an SHA-256 digest in base 64 format on this string, 
+        truncate the string to 43 characters and drop any trailing '=' signs. 
+        URI encode the signature specifically '+','=', and '/'. This example 
+        produces a signature of
+        
+        <samp class="ph codeph">mNkdZprvtjKtve5EGLop3ZFszwrquOyBcxQrR+x38u8</samp></li>
+
+      
+      
+      
+      
+      <li class="li"><p class="p">Include the above generated signature into the string you pass to 
+        setParameters() in a URI-encoded manner.  In our example, this yields 
+        the following:</p>
+
+        <pre class="pre codeblock">var paramStr = 'pcode=lsNTrbQBqCQbH-VA6ALCshAHLWrV&amp;status=pending&amp;expires=1893013926&amp;label[a]=/byuser/u1&amp;
+label[0]=/bysmthng/qqq&amp;dynamic[some]=^/any/some$&amp;dynamic[any]=^/any/ano&amp;
+signature=mNkdZprvtjKtve5EGLop3ZFszwrquOyBcxQrR+x38u8';
+</pre>
+
+        
+        <p class="p">Special characters, such as ‘<samp class="ph codeph">+</samp>’ and ‘<samp class="ph codeph">/</samp>’ are URI-escaped in this string. We offer two ways in which to easily accomplish URI-escaping of the parameter string:</p>
+
+        
+        <pre class="pre codeblock">// First, using JavaScript Object properties:
+var paramStr =
+  {
+    'pcode':'lsNTrbQBqCQbH-VA6ALCshAHLWrV',
+    'status':'pending',
+    'expires':'1893013926',
+    'label[a]':'/byuser/u1',
+    'label[0]':'/bysmthng/qqq',
+    'dynamic[some]':'^/any/some$',
+    'dynamic[any]':'^/any/ano',
+    'signature':'mNkdZprvtjKtve5EGLop3ZFszwrquOyBcxQrR+x38u8'
+  };
+</pre>
+
+        
+        <p class="p">OR</p>
+
+        
+       <pre class="pre codeblock">// Second, using array of objects with 'name' and 'value'
+// properties:
+var paramStr =
+[
+  { name:'pcode', value:'lsNTrbQBqCQbH-VA6ALCshAHLWrV'},
+  { name:'status' , value:'pending'},
+  { name:'expires', value:'1893013926'},
+  { name:'label[a]', value:'/byuser/u1'},
+  { name:'label[0]', value:'/bysmthng/qqq'},
+  { name:'dynamic[some]', value:'^/any/some$'},
+  { name:'dynamic[any]', value:'^/any/ano'},
+  { name:'signature', value:'mNkdZprvtjKtve5EGLop3ZFszwrquOyBcxQrR+x38u8'}
+];
+</pre>
+
+      </li>
+
+      
+      <li class="li">To begin an upload, call <samp class="ph codeph">ooyalaUploader.setParameters(String)</samp>, with the string comprised of  &amp;-separated pairs of <samp class="ph codeph">&lt;URI-encoded-name&gt;=&lt;URI-encoded-value&gt;</samp>.
+        <samp class="ph codeph">setParameters(paramStr)
+</samp>
+      </li>
+
+    </ol>
+
+    
+    <p class="p">The string from our example that would be passed to <samp class="ph codeph">setParameters()</samp> is:</p>
+
+    
+   <pre class="pre codeblock">pcode=lsNTrbQBqCQbH-VA6ALCshAHLWrV&amp;status=pending&amp;expires=1893013926&amp;label[a]=/byuser/u1&amp;label[0]=/bysmthng/qqq&amp;
+dynamic[some]=^/any/some$&amp;dynamic[any]=^/any/ano&amp;signature=mNkdZprvtjKtve5EGLop3ZFszwrquOyBcxQrR+x38u8');
+</pre>
+
+    
+    <p class="p">The partner may prefer to generate this signed string on the server, 
+      embedding the string on an HTML page while generating it.  In this case,
+      use an expiration equal to the user session expiration time or, if you 
+      do not maintain user sessions, equal to a limited number of minutes.  
+      However, the partner may also prefer to use some advanced techniques, 
+      such as using AJAX, JSON, etc. to initiate a request to the server 
+      generating the signed string, immediately before invoking <samp class="ph codeph">ooyalaUploader.upload()</samp> and <samp class="ph codeph">setParameters()</samp>
+      with the results of the AJAX/JSON invocation. This advanced technique 
+      allows the use of an expiration interval within a few seconds and 
+      validates upload parameters before initiating upload request.</p>
+
+    
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_upload_widget.html" title="The v1 upload widget is based on the v1 API and is therefor deprecated. Instead, use the Uploader JavaScript Libarary.">Deprecated: Upload Widget API v1 Reference (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="copyright" content="(C) Copyright 2005" />
+  <meta name="DC.rights.owner" content="(C) Copyright 2005" />
+  <meta name="DC.Type" content="concept" />
+  <meta name="DC.Title" content="Integrating FreeWheel Ads with Player V3" />
+  <meta name="DC.Relation" scheme="URI" content="../reference/ads_ref_freewheel.html" />
+  <meta name="DC.Relation" scheme="URI" content="ads_integration_overview.html" />
+  <meta name="DC.Relation" scheme="URI" content="../concepts/book_ads_integration.html" />
+  <meta name="DC.Format" content="XHTML" />
+  <meta name="DC.Identifier" content="ads_dev_freewheel" />
+  <meta name="DC.Language" content="en-us" />
+  <link rel="stylesheet" type="text/css" href="../css/commonltr.css" />
+  <link rel="stylesheet" type="text/css" href="../css/ooyala.css" />
+  <title>Integrating FreeWheel Ads with Player V3</title>
+</head>
+
+<body id="ads_dev_freewheel">
+
+
+  <h1 class="title topictitle1">Integrating FreeWheel Ads with Player V3</h1>
+
+
+  <div class="body conbody">
+    <div class="section">
+      <h2 class="title sectiontitle">Overview</h2>
+      <p class="p">The following documentation describes the FreeWheel integration with Player V3. For documentation on the FreeWheel integration with Player V4, see <a class="xref" href="pbv4_ads_dev_chapter_freewheel.html">FreeWheel Ad Plugin</a>.</p>
+
+      <p class="p">You can associate FreeWheel ads with your videos for V3 Flash and V3 HTML5 players. You have two options for making this association:</p>
+      <ol class="ol" id="ads_dev_freewheel__ol_tvr_t5b_dm">
+        <li class="li"> <strong class="ph b">Via player embedded parameters</strong>. Specify embedded parameters at the page level of
+          your Flash or HTML5 player.</li>
+
+        <li class="li"> <strong class="ph b">Via ad sets</strong>. Create an ad set with one FreeWheel ad setting in Backlot which
+          contains some movie details but does not contain the position at which an ad will play.
+          This sets up data that then tells FreeWheel to decide which ads to play.</li>
+
+      </ol>
+      <p class="p">Each of these options is described below.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="title sectiontitle">Prerequisites</h2>
+
+      <p class="p">Before you can use Ooyala's FreeWheel ad integration, you need to log into the <a class="xref" href="../../../../../../../contact.html" target="_blank">Customer Portal</a> and submit a ticket requesting to add the
+        FreeWheel ad source to your account. Once the ad source is enabled you'll be able to create an ad set for integrating with FreeWheel.</p>
+
+    </div>
+
+
+    <div class="section">
+      <h2 class="title sectiontitle">Option 1: Integrate the FreeWheel Ad Manager with the Ooyala Player via Player Embedded Parameters</h2>
+      Follow the steps below to integrate FreeWheel ads with a player via player embedded parameters.
+      <ol class="ol">
+        <li class="li">Log into your Backlot account.</li>
+
+        <li class="li">Go to the PUBLISH page.</li>
+
+        <li class="li">Find the player branding name for the HTML5 or Flash player. This is the value you will include on your web page.</li>
+
+        <li class="li">Use the Player V3 <var class="keyword varname">OO.Player.create</var> function to create the player. See <a class="xref" href="../tasks/player_v3_dev_adsetoocreate.html" title="Player V3 enables you to assign ad sets dynamically with OO.Player.create and the adSetCode parameter.">Assigning
+            an Ad Set with OO.Player.create</a> for instructions on how to use <var class="keyword varname">OO.Player.create</var>.</li>
+
+        <li class="li">Pass FreeWheel ad tags to the Ooyala player using the <var class="keyword varname">freewheel-ads-manager</var> parameter, as shown in the example below.</li>
+
+        <li class="li">If you are creating an HTML5 player, provide an AdServer URL. You can use either: <ol class="ol" type="a" id="ads_dev_freewheel__ol_qmp_bl1_dn">
+            <li class="li">a page-level override "html5_ad_server". </li>
+
+            <li class="li">a third_party_module_parameters with a name "html5_ad_server". In the following example, we use "html5_ad_server."</li>
+
+          </ol>
+        </li>
+
+        <li class="li">Set the fw_mrm_network_id on either the player third party module parameter level or at the page level.</li>
+
+        <li class="li">(Optional) Specify additional embedded parameters. See <a class="xref" href="#ads_dev_freewheel__freewheel_ad_set_fields">FreeWheel Ad Set Fields</a> for the list of fields you can use with FreeWheel.</li>
+
+      </ol>
+      <div class="p">
+        <div class="note note"><span class="notetitle">Note:</span> When you work with FreeWheel ad manager, you <strong class="ph b">must</strong> provide an AdServer URL for HTML5 either via a page-level override <samp class="ph codeph">"html5_ad_server"</samp>
+          or via third_party_module_parameters with a name <samp class="ph codeph">"html5_ad_server".</samp></div>
+
+      </div>
+      <div class="note note"><span class="notetitle">Note:</span> The values in the following example are only used to illustrate how to use the <samp class="ph codeph">freewheel-ads-manager</samp>. You need to replace them with your own profiles,
+        ids, and URLS. </div>
+<pre class="pre codeblock">&lt;head&gt;
+&lt;script src='http://player.ooyala.com/v3/1234fake2b914bc58e425795abf3cd6c?version=1234fake09bb8939e930f888b2b9e23627b20ea6&amp;'&gt;&lt;/script&gt;
+&lt;script&gt;
+    OO.ready(function() {
+      var videoPlayer = OO.Player.create('container','1234Fakeoi5Xv3Dav6uuEIeVJto9Ju7R', {
+        "freewheel-ads-manager": {
+          // Flash-specific
+        adServer : 'http://1b656.v.fwmrm.net',
+          adManager : 'http://adm.fwmrm.net/p/example/AdManager.swf',
+          flash_ssl_ad_server : 'https://1b656.v.fwmrm.net',
+          flash_ssl_ad_manager : 'https://m.v.fwmrm.net/p/example/AdManager.swf',
+
+   // HTML5-specific
+          fw_ad_module_js: “http://adm.fwmrm.net/p/exampleprovider_live/AdManager.js",
+          html5_ad_server: "http://1b656.v.fwmrm.net/ad/g/1",
+   html5_ssl_ad_server: "https://1b656.v.fwmrm.net/ad/g/1",
+          html5_player_profile: "123400:exampleprovider_live_html5",
+
+   // Parameters that should be set on each page on the actual site
+          fw_site_section_id: "EXAMPLEVIDEO_EXAMPLEVIDEO_SHOWS",
+          fw_video_asset_id: 1234567,
+   fw_player_profile: "123400:exampleprovider_live",
+          fw_mrm_network_id: 123400
+        }
+      });
+    });
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="container" style="width:480px;height:360px;"&gt;&lt;/div&gt;
+&lt;/body&gt;
+</pre>
+    </div>
+
+
+    <div class="section">
+      <h2 class="title sectiontitle">Option 2: Integrate with FreeWheel via Ad Sets</h2>
+
+      <p class="p">Follow the steps below to integrate FreeWheel ads via ad sets. </p>
+
+      <ol class="ol">
+        <li class="li">Create a FreeWheel ad set. <p class="p"><strong class="ph b">Backlot UI</strong>: For instructions on how to create an ad set using the
+            Backlot UI, see <a class="xref" href="../tasks/monetization_ads_adsets_integratingadnetworks.html" title="Instead of using your own assets, you can work with other ad sources.">Creating Ad Sets for Integrating with Ad Sources</a>.</p>
+          <p class="p"><strong class="ph b">Backlot API</strong>: For
+            instructions on how to create an ad set programmatically, see <a class="xref" href="../api/ad_sets.html" title="Ad sets are ad configurations that control the ad experience of an asset during playback.">Ad Sets</a>. For the Ad Source,
+            select the
+            FreeWheel OPF Module.</p>
+
+          <div class="p">The <strong class="ph b">required ad set fields</strong> for creating a FreeWheel ad set are: <ul class="ul">
+              <li class="li"><em class="ph i">Ad Set name</em>: A name for the ad set. </li>
+
+              <li class="li"><em class="ph i">MRM network ID</em>: Provided by your FreeWheel account.</li>
+
+              <li class="li"><em class="ph i">Player Profile</em>: Provided by your FreeWheel account.</li>
+
+              <li class="li"><em class="ph i">Video Asset network ID</em>: Provided by your FreeWheel account.</li>
+
+              <li class="li"><em class="ph i">Site Section ID</em>: Provided by your FreeWheel account.</li>
+
+            </ul>
+            <div class="note note"><span class="notetitle">Note:</span> The Tracking Pixel URL field is not relevant to the FreeWheel ad manager and
+              should be left blank.</div>
+          </div>
+        </li>
+
+        <li class="li">Assign an ad set to an asset or multiple assets using the Backlot UI, Player API, or
+          Backlot API. <p class="p"><strong class="ph b">Backlot UI</strong>: For instructions on how to assign your FreeWheel ad set
+            to a single asset, see <a class="xref" href="../tasks/asset_manage_monetization.html" title="You can monetize your content using advertisements or create a pay-per-view experience using paywalls.">Managing Monetization</a>. For
+            instructions on how to assign your FreeWheel ad set
+            to multiple assets, see <a class="xref" href="../tasks/asset_bulk.html" title="You can use the Backlot UI to apply settings to more than one asset at a time.">Bulk Applying
+              Settings</a>. </p>
+          <div class="note note"><span class="notetitle">Note:</span> If the ad manager is defined using Backlot it will only
+            apply to your Flash Players.</div>
+
+          <p class="p"><strong class="ph b">Player API</strong>: With the Player API you can only associate an ad set with an asset on your web page. To associate an ad set with an asset on multiple players you must replicate the code for each player. To associate an ad set with an asset using the Player API, see <a class="xref" href="player_v3_dev_assignadset.html" title="The player enables you to assign ad sets dynamically.">Assigning Ad Sets Dynamically</a>. </p>
+          <p class="p"><strong class="ph b">Backlot API</strong>: With the Backlot API you can associate an ad set with an asset more concretely. That is, when you associate an asset with an ad set using the Backlot API the asset and the ad set will be paired together on any player and page you play the asset on. To associate an asset with an ad set using the Backlot API, see <a class="xref" href="../api/asset_ad_set.html" title="You can associate ad sets with videos, live streams, and remote assets. For information about creating ad sets, refer to the Backlot User Guide.">Associate Ad Set with Asset</a>.</p>
+        </li>
+
+      </ol>
+
+
+
+
+
+    </div>
+
+    <div class="section" id="ads_dev_freewheel__freewheel_ad_set_fields"> <h2 class="title sectiontitle">FreeWheel Ad Set Fields</h2>The fields described here pertain to Ooyala's FreeWheel ad manager integration. The last two columns of the table note if the field is supported for Flash and/or HTML5 <div class="note note"><span class="notetitle">Note:</span> Always check your ad source's documentation for exact meaning of a field.</div>
+      <table cellpadding="4" cellspacing="0" summary="" id="ads_dev_freewheel__simpletable_ong_3z1_dn" border="1" class="simpletable">
+        <tr class="sthead">
+          <th valign="bottom" align="left" id="d186739e274" class="stentry">Field Name</th>
+
+          <th valign="bottom" align="left" id="d186739e277" class="stentry">Description</th>
+
+          <th valign="bottom" align="left" id="d186739e280" class="stentry">Flash</th>
+
+          <th valign="bottom" align="left" id="d186739e283" class="stentry">HTML5</th>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph"> adManager</samp>
+          </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad manager is the location from which the player will load the FreeWheel AdManager.swf from. The value assigned to this key must be HTTP. This is a Flash-specific override, used when the site is loaded over HTTP. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry"> </td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"> <samp class="ph codeph">adServer</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad server is the location from which the player will request ads from. The value assigned to this key must be HTTP. This is a Flash-specific override, used when the site is loaded over HTTP. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry"> </td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">html5_ad_server</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad server is the location from which the player will request ads from. The value assigned to this key must be HTTP. This is a HTML5 player-specific override, used when the site is loaded over HTTP. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry"> </td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">html5_ssl_ad_server</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad server is the location from which the player will request ads from. The value assigned to this key must be HTTPS. This is a HTML5 player-specific override, used when the site is loaded over HTTPS. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry"> </td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">flash_ssl_ad_manager</samp>
+          </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad manager is the location from which the player will load the FreeWheel <span class="ph filepath">AdManager.swf</span> asset. The value assigned to this key must be HTTPS. This is a Flash-specific override, used when the site is loaded over HTTPS. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry"> </td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">flash_ssl_ad_server</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad server is the location from which the player will request ads from. The value assigned to this key must be HTTPS. This is a Flash-specific override, used when the site is loaded over HTTPS. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry"> </td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_ad_module_js </samp></td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The ad module is the location from which the player will load the FreeWheel AdManager.js from. The value assigned to this key must be HTTP. This is a HTML5 player-specific override, used when the site is loaded over HTTP. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry"> </td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_mrm_network_id </samp></td>
+
+          <td valign="top" headers="d186739e277" class="stentry">A unique identifier assigned by FreeWheel that identifies a company. Clients are assigned their own Network ID during integration, and the player passes this value to the AdManager before making an ad request. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_player_profile</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">A set of configurations that define what ads will be playable given the player environment and framework. For example, profiles ensure that the Ad Server does not try to return Silverlight ads for a Flash player. This is set up in the back end during integration, and the correct profile for the player to set will be provided by FreeWheel. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_site_section_id</samp> </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">
+            <p class="p" id="ads_dev_freewheel__docs-internal-guid--46f042c-2835-b225-a838-79a552202c84">The site section tag is a string that identifies the site section, similar to the custom video ID for a video asset. This is the site section tag as specified by you in the Network Module.</p>
+
+            <p class="p">While the player does not directly interact with BVI, this is the system by which the Custom Asset ID that it will supply is entered into the FreeWheel system. Consequently, the player will need access to at least some of the same CMS information so it can provide this identifier.</p>
+
+          </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_site_section_id_type </samp></td>
+
+          <td valign="top" headers="d186739e277" class="stentry">Type of Site Section ID. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_site_section_network_id</samp>
+          </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">Unique identifier of site section network to segment ad retrieval. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry"><samp class="ph codeph">fw_tracking_pixel_url</samp>
+          </td>
+
+          <td valign="top" headers="d186739e277" class="stentry">URL for tracking pixels to monitor the delivery of your ad assets. </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+        <tr class="strow">
+          <td valign="top" headers="d186739e274" class="stentry">
+            <samp class="ph codeph">fw_video_asset_id </samp></td>
+
+          <td valign="top" headers="d186739e277" class="stentry">The piece of content a user is viewing. The player will need to identify the asset to the AdManager for targeting purposes, using the custom asset ID provided via FreeWheel’s Bulk Video Ingestion (BVI).
+            <p class="p">This field can be set on the page-level or by movie metadata (configured via Backlot UI or Backlot APIs). If neither are set, the value for this field will fall back to an <samp class="ph codeph">externalID</samp> or an <samp class="ph codeph">embed_code</samp> (whichever is used to embed our player).</p>
+          </td>
+
+          <td valign="top" headers="d186739e280" class="stentry">X</td>
+
+          <td valign="top" headers="d186739e283" class="stentry">X</td>
+
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="section">
+      <h2 class="title sectiontitle">FreeWheel Example</h2>
+      <p class="p">The following example illustrates the use of the FreeWheel ad manager for video assets that are played back in a Flash player. </p>
+      <pre class="pre codeblock">&lt;head&gt;
+&lt;script src='http://player.ooyala.com/v3/1234fake2b914bc58e425795abf3cd6c?version=1234fake09bb8939e930f888b2b9e23627b20ea6'&gt;&lt;/script&gt;
+&lt;script&gt;
+    OO.ready(function() {
+      var videoPlayer = OO.Player.create('container','1234Fakeoi5Xv3Dav6uuEIeVJto9Ju7R', {
+        "freewheel-ads-manager": {
+          fw_ad_module_js: "http://adm.fwmrm.net/p/exampleprovider_live/AdManager.js",
+          flash_ad_server: "https://1b656.v.fwmrm.net/ad/g/1",
+          flash_player_profile: "112214:exampleprovider_live_html5",
+          fw_player_profile: "112214:exampleprovider_live",
+          fw_mrm_network_id: 123400,
+          // Parameters that should be set on each page on the actual site
+          fw_site_section_id: "EXAMPLEVIDEO_EXAMPLEVIDEO_SHOWS",
+          fw_video_asset_id: 123FAKE
+        }
+      });
+    });
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="container" style="width:480px;height:360px;"&gt;&lt;/div&gt;
+&lt;/body&gt;</pre>
+
+    </div>
+
+    <div class="section">
+      <h2 class="title sectiontitle">FreeWheel Companion Ads</h2>
+      <p class="p">FreeWheel companion ads don’t use Ooyala’s standard Player V3 WILL_SHOW_COMPANION_ADS event.
+        This is because FreeWheel itself is responsible for parsing and generating the companion ad. </p>
+
+      <div class="note note"><span class="notetitle">Note:</span> You can only use companion ads with JavaScript ad tags, as iFrames do not render in order on
+        a page while JavaScript does render in order.</div>
+
+      <div class="p"> You can use the following values to display FreeWheel ads, including companion ads:
+        <pre class="pre codeblock">  fw_video_asset_id: 'ooyala_test_video_with_bvi_cuepoints',
+  fw_site_section_id: 'ooyala_test_site_section',
+  fw_mrm_network_id: 90750,
+  fw_player_profile:'90750:ooyala_html5',
+  adServer: 'http://demo.v.fwmrm.net'
+  adManager: 'http://adm.fwmrm.net/p/vitest-as3/AdManager.swf',  // HTML5 specific:
+  fw_ad_module_js: "http://adm.fwmrm.net/p/vitest-js/AdManager.js",
+  html5_ad_server: "http://demo.v.fwmrm.net",
+  html5_player_profile: "90750:ooyala_html5",      </pre>
+        With
+        these values, you will also see pre-roll, mid-roll, post-roll, and overlay ads on the ad response. For a
+        description of each field see "FreeWheel Ad Set Fields" later in this topic. In order to
+        display companion ads, you would need to include the following HTML content on your demo:
+        <pre class="pre codeblock">
+&lt;span id="300x250" class="_fwph" &gt;
+&lt;form id="_fw_form_300x250" style="display:none"&gt;
+&lt;input type="hidden" name="_fw_input_300x250" id="_fw_input_300x250" value="w=300&amp;h=250&amp;slau=300x250&amp;ptgt=p&amp;flag=+cmpn"/&gt;
+&lt;/form&gt;
+&lt;span id="_fw_container_300x250"&gt;Advertisement&lt;/span&gt;
+&lt;/span&gt;</pre>
+      </div>
+
+      <p class="p">The following example shows the web page or client view for a FreeWheel ad.  In this
+        example we use the FreeWheel Ad Set Field values to display FreeWheel ads, including
+        companion ads.</p>
+
+
+      <pre class="pre codeblock">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"&gt;
+
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;FreeWheel Ad Demo&lt;/title&gt;
+    &lt;script src='http://player.ooyala.com/v3/5223f32c73414af78e8dc59988fcee6f?'&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;div id='player_container' style='width:640px;height:480px'&gt;
+    &lt;/div&gt;
+
+    &lt;span id="300x250" class="_fwph" &gt;
+&lt;form id="_fw_form_300x250" style="display:none"&gt;
+&lt;input type="hidden" name="_fw_input_300x250" id="_fw_input_300x250" value="w=300&amp;h=250&amp;slau=300x250&amp;ptgt=p&amp;flag=+cmpn"/&gt;
+&lt;/form&gt;
+&lt;span id="_fw_container_300x250"&gt;Advertisement&lt;/span&gt;
+&lt;/span&gt;
+
+    &lt;/br&gt;
+
+    &lt;script&gt;
+
+    freewheelSettings = {
+        fw_video_asset_id: 'ooyala_test_video_with_bvi_cuepoints',
+        fw_site_section_id: 'ooyala_test_site_section',
+        fw_mrm_network_id: 90750,
+        fw_player_profile: '90750:ooyala_html5',
+        adServer: 'http://demo.v.fwmrm.net',
+        adManager: 'http://adm.fwmrm.net/p/vitest-as3/AdManager.swf',
+                // HTML5 specific:
+        fw_ad_module_js: "http://adm.fwmrm.net/p/vitest-js/AdManager.js",
+        html5_ad_server: "http://demo.v.fwmrm.net",
+        html5_player_profile: "90750:ooyala_html5",
+    };
+
+    var flash_player = OO.Player.create('player_container', 'RlODZyZDr93PAbk-a9fY7Phq93pA-Uwt',{
+        "freewheel-ads-manager": freewheelSettings
+    });
+    &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    </div>
+
+  </div>
+
+  <div class="related-links">
+    <div class="relinfo relconcepts"><strong>Related concepts</strong><br />
+      <div><a class="link" href="ads_integration_overview.html">Client Side Ad Integration</a></div>
+      <div><a class="link" href="book_ads_integration.html" title="This documentation describes how to set up integrations for ad servers, ad networks, and ad management platforms for Player V3.">Player V3 Ad Integration</a></div>
+    </div>
+    <div class="relinfo relref"><strong>Related reference</strong><br />
+      <div><a class="link" href="../reference/ads_ref_freewheel.html">FreeWheel Ads Embedded Parameter in Player V3 (Deprecated)</a></div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

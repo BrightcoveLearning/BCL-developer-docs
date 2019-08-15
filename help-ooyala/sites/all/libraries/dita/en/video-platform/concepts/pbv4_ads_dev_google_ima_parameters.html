@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Google IMA Ad Parameters"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_ads_dev_google_ima_parameters"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Google IMA Ad Parameters</title>
+</head>
+<body id="pbv4_ads_dev_google_ima_parameters">
+
+
+  <h1 class="title topictitle1">Google IMA Ad Parameters</h1>
+
+  <div class="body conbody">
+    <div class="section">Use the following parameters to configure Google IMA ads in Player V4 using the <a class="xref" href="pbv4_ads_dev_chapter_googleima.html">Google IMA Ad Plugin</a>. See <a class="xref" href="pbv4_ads_dev_google_ima.html">Integrating Google IMA Ads</a> for details. <div class="note note"><span class="notetitle">Note:</span> These
+        parameters are specific to Google IMA ads. You can also set global parameters for Google IMA
+        ads. See <a class="xref" href="pbv4_configure_ads_embedded_params.html">Configuring Ad Parameters</a> for
+        details.</div>
+
+    </div>
+
+    <div class="section">
+      Scroll to the right to see whether a parameter is required or optional.      
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="pbv4_ads_dev_google_ima_parameters__google_ima_parameters" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="1" id="d419395e47"><strong class="ph b">Name</strong></th>
+
+              <th class="entry" valign="top" width="NaN%" id="d419395e51"><strong class="ph b">Description</strong></th>
+
+              <th class="entry" valign="top" width="1" id="d419395e55"><strong class="ph b">Type</strong></th>
+
+              <th class="entry" valign="top" width="1" id="d419395e59"><strong class="ph b">Required?</strong></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="pbv4_ads_dev_google_ima_parameters__google-ima-ads-manager" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Master object key used to pass Google IMA ad server tags or network tags to the
+                Ooyala player. This key has effect only with the values described below.</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 "> </td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">Yes</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__additionalAdTagParameters" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.additionalAdTagParameters</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 "><samp class="ph codeph">additionalAdTagParameters</samp> get added to the ad tag URL and are
+                automatically populated (if they are macros) before making the ad request. The
+                additional ad tag url parameters need to be in the form of key-value pairs. When you
+                use these parameters, we append them to the end of the ad tag. <strong class="ph b">Appended
+                  parameters</strong> do not override anything in the URL from Backlot. <p class="p"><strong class="ph b">Valid
+                    Values</strong>: </p>
+<div class="p">If you want the Ooyala code to fill in the ad tag url data
+                      using a macro, the following macros are supported: <ul class="ul">
+                        <li class="li"><samp class="ph codeph">[random]</samp> or <samp class="ph codeph">[cache_buster]</samp>: These insert a
+                          random number</li>
+
+                        <li class="li"><samp class="ph codeph">[timestamp]</samp>: This inserts the time at which the request is
+                          run</li>
+
+                        <li class="li"><samp class="ph codeph">[referrer_url]</samp>: This inserts the URL of the page</li>
+
+                        <li class="li"><samp class="ph codeph">[oo_embedcode]</samp>: This inserts the Ooyala embed code for the
+                          current video</li>
+
+                      </ul>
+If you do not use <samp class="ph codeph">additionalAdTagParameters</samp>, you can
+                      manually add macros to your ad tag. This circumvents Ooyala's code and is
+                      processed directly by the Google iMA SDK. According to Google, the following
+                      macros are supported (as of 02/04/2016): <ul class="ul">
+                        <li class="li"><samp class="ph codeph">url=[referrer_url]</samp></li>
+
+                        <li class="li"><samp class="ph codeph">correlator=[timestamp]</samp></li>
+
+                      </ul>
+</div>
+<p class="p">Google IMA documentation lists macros at : <a class="xref" href="https://goo.gl/lk7xlQ" target="_blank">https://support.google.com/dfp_premium/answer/1181016?hl=en&amp;ref_topic=2480647</a>.
+                        You can read Google IMA's documentation on how to add custom parameters to ad tags
+                        at <a class="xref" href="https://goo.gl/3HDCyc" target="_blank">https://support.google.com/dfp_premium/answer/1080597?hl=en&amp;ref_topic=2480647</a></p>
+<p class="p"><strong class="ph b">Example:</strong></p>
+<div class="p">Here
+                            is an example of using Google IMA's
+                            macros:<pre class="pre codeblock">http://myAdTagUrl.com?url=[referrer_url]&amp;correlator=[timestamp]</pre>
+</div>
+<p class="p">Here
+                              is an example of how to add parameters through the Ooyala Google IMA plugin:
+                            </p>
+<pre class="pre codeblock">"google-ima-ads-manager": {
+  "additionalAdTagParameters": {
+    "timestamp":"[timestamp]",
+    "video":"[oo_embedcode]",
+    "myVar":"value"
+  }
+}</pre>
+<div class="p">This
+  would make your ad tag change from <pre class="pre codeblock">http://myadtagurl.com</pre>
+to
+  <pre class="pre codeblock">http://myadtagurl.com?timestamp=[timestamp]&amp;video=[oo_embedcode]&amp;myVar=value</pre>
+Note
+  that <samp class="ph codeph">[timestamp]</samp> and <samp class="ph codeph">[oo_embedcode]</samp> would be
+  filled in with the values specified above.</div>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 "> </td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__all_ads" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.all_ads</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Array of all the ads to be played during the video. Example:
+                <pre class="pre codeblock">"google-ima-ads-manager": {
+  "all_ads":[ 
+  { 
+  "position":"10000",
+  "position_type":"t", 
+  "tag_url":"http://myadtagurl"
+  },
+  { 
+  "position":"5000",
+  "position_type":"t",
+  "tag_url":"http://myadtagurl"
+  }
+  ]
+}</pre>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">object</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">Yes if you do not specify this setting in Backlot; must be specified in either
+                page-level parameters or Backlot.</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__tag_url" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.all_ads.tag_url</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Your Google IMA ad tag. If you want to override the tag attached to the video
+                through Backlot, supply any string value here.</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">string</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">Yes if you are specifying the parameter <samp class="ph codeph">all_ads</samp></td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__position" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.all_ads.position</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Meaning depends on the value of <samp class="ph codeph">all_ads.position_type</samp>: <ul class="ul">
+                  <li class="li">If <samp class="ph codeph">position_type</samp> is set to <samp class="ph codeph">"t"</samp>, then
+                      <samp class="ph codeph">position</samp> specifies the time at which the ad should play, in milliseconds:<ul class="ul">
+                      <li class="li"><strong class="ph b">pre-roll ad</strong>: a value of <samp class="ph codeph">0</samp>.</li>
+
+                      <li class="li"><strong class="ph b">mid-roll ad</strong>: any value greater than <samp class="ph codeph">0</samp> and less
+                        than the total time of the video. </li>
+
+                      <li class="li"><strong class="ph b">post-roll ad</strong>: any value greater than the total time of the video.
+                      </li>
+
+                    </ul>
+</li>
+
+                  <li class="li">If <samp class="ph codeph">position_type</samp> is set to <samp class="ph codeph">"p"</samp>, then
+                      <samp class="ph codeph">position</samp> specifies the percentage of the total time of the
+                    video: <ul class="ul">
+                      <li class="li"><strong class="ph b">pre-roll ad</strong>: a value of <samp class="ph codeph">0</samp>.</li>
+
+                      <li class="li"><strong class="ph b">mid-roll ad</strong>: any value greater than <samp class="ph codeph">0</samp> and less
+                        than <samp class="ph codeph">100</samp>. </li>
+
+                      <li class="li"><strong class="ph b">post-roll ad</strong>: a value of <samp class="ph codeph">100</samp> or more. </li>
+
+                    </ul>
+</li>
+
+                  <li class="li">If <samp class="ph codeph">position_type</samp> is set to <samp class="ph codeph">"r"</samp> (Ad Rules),
+                    then <samp class="ph codeph">position</samp> is ignored.</li>
+
+                </ul>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">integer</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">Yes for ad overrides without ad rules</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__position_type" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.all_ads.position_type</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Specifies how to interpret the <samp class="ph codeph">position</samp> value. Valid salues: <ul class="ul">
+                  <li class="li"><span class="keyword parmname">"t"</span> - indicates that <samp class="ph codeph">position</samp> is the time
+                    at which the ad should play, in milliseconds.</li>
+
+                  <li class="li"><span class="keyword parmname">"p"</span> - indicates that <samp class="ph codeph">position</samp> is the
+                    percentage of the total time of the video.</li>
+
+                  <li class="li"><span class="keyword parmname">"r"</span> - indicates that Ad Rules determine the position. The
+                      <samp class="ph codeph">all_ads.position</samp> setting is ignored.</li>
+
+                </ul>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">string</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">Yes</td>
+
+            </tr>
+
+            
+            <tr id="pbv4_ads_dev_google_ima_parameters__enableIosSkippableAds" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.enableIosSkippableAds</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">If set to <samp class="ph codeph">true</samp>, skippable ads can be served to Safari Mobile
+                on iOS 10 (or later) devices if the player is playing inline (not full screen) on
+                the page. This parameter requires that the <samp class="ph codeph">"iosPlayMode":"inline"</samp>
+                page-level parameter is specified on the web page. Default is
+                <samp class="ph codeph">false</samp>.
+                  Example:<pre class="pre codeblock">"google-ima-ads-manager":
+   { "enableIosSkippableAds":true }</pre>
+<div class="note note"><span class="notetitle">Note:</span> If
+                  playback is in full screen mode when a skippable ad starts playing, the browser
+                  window will change to inline playback mode. The user will need to manually return
+                  to full screen mode after the ad finishes playing.</div>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">Boolean</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            
+            
+            
+            <tr id="pbv4_ads_dev_google_ima_parameters__iframeZIndex" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.iframeZIndex</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">Overrides the zindex of the Google IMA iframe. Set this parameter to <samp class="ph codeph">0</samp> if you
+                are using clickable VPAID ads with VPAID INSECURE mode on desktop devices to avoid
+                covering up the ad. You can specify an integer greater than or equal to <samp class="ph codeph">0</samp>. Default
+                is <samp class="ph codeph">10004</samp>.<div class="note warning"><span class="warningtitle">Warning:</span> Using this parameter may cause
+                  undesirable interactions with the player skin and the video. VPAID INSECURE mode
+                  allows UI elements to be placed outside of the iframe. Due to this behavior, the
+                  UI elements may not interact well with the Ooyala video player. The Player has
+                  zindices in the 1000s range. Elements that are below the player cannot be
+                  interacted with through the player. One example is that UI elements that control
+                  play, pause, and clickthrough of the ad could be placed outside the iframe with a
+                  zindex of <samp class="ph codeph">10</samp> (which would place the elements below the player). We recommend that
+                  you work with your ad creators or ad providers to encourage use of VPAID secure
+                  mode for ads played in the Ooyala player to avoid these side effects.</div>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">integer </td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__showAdControls" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.showAdControls</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">If set to <samp class="ph codeph">true</samp>, displays Ooyala's ad control bar while an IMA
+                ad is playing. The IMA ad is displayed above our ad control bar. This feature is
+                disabled by default. <div class="note note"><span class="notetitle">Note:</span> In order for this setting to work, the
+                    <samp class="ph codeph">showControlBar</samp> setting (under <samp class="ph codeph">adScreen</samp> in
+                  skin.json) must also be set to true. For example (in skin.json):
+                  <pre class="pre codeblock">"adScreen": {
+   "showAdMarquee": true,
+   "showAdCountDown": true,
+   "showControlBar": true
+   ...</pre>
+</div>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">Boolean</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__useGoogleAdUI" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.useGoogleAdUI</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">If set to <samp class="ph codeph">true</samp>, ads will be displayed with the Google Ad UI,
+                including the ad countdown, learn more button, and more. Default is
+                  <samp class="ph codeph">false</samp>. <div class="note note"><span class="notetitle">Note:</span> This parameter can be used only for desktop web.
+                  This parameter will not work for mobile web.</div>
+
+                <div class="note note"><span class="notetitle">Note:</span> Do not enable both <samp class="ph codeph">useGoogleAdUI</samp> and
+                    <samp class="ph codeph">useGoogleCountdown</samp> at the same time.  Doing so might result in
+                  unexpected behavior.</div>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">Boolean</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__useGoogleCountdown" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.useGoogleCountdown</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">If set to <samp class="ph codeph">true</samp>, the Google IMA countdown timer will be
+                displayed (while still enabling clickthroughs to be triggered by clicks on the
+                video). Default is <samp class="ph codeph">false</samp>. <div class="note note"><span class="notetitle">Note:</span> This parameter can be used only for
+                  desktop web. This parameter will not work for mobile web.</div>
+
+                <div class="note note"><span class="notetitle">Note:</span> Do not enable both <samp class="ph codeph">useGoogleAdUI</samp> and
+                    <samp class="ph codeph">useGoogleCountdown</samp> at the same time. Doing so might result in
+                  unexpected behavior.</div>
+
+                <div class="note note"><span class="notetitle">Note:</span> The Google IMA documentation states that: "These settings may be ignored for
+                  AdSense and ADX
+                ads."</div>
+<p class="p"><strong class="ph b">Example:</strong></p>
+<pre class="pre codeblock">"google-ima-ads-manager":
+   { "useGoogleCountdown":true }</pre>
+</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">Boolean</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+            <tr id="pbv4_ads_dev_google_ima_parameters__vpaidMode" class="row">
+              <td class="entry" valign="top" width="1" headers="d419395e47 "><span class="keyword parmname">google-ima-ads-manager.vpaidMode</span></td>
+
+              <td class="entry" valign="top" width="NaN%" headers="d419395e51 ">If set to <samp class="ph codeph">"insecure"</samp>, the Google IMA SDK will be notified to use the
+                INSECURE VPAID mode. The INSECURE VPAID mode allows you to use "insecure" VPAID creatives.</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e55 ">string</td>
+
+              <td class="entry" valign="top" width="1" headers="d419395e59 ">No</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+  </div>
+
+
+</body>
+</html>

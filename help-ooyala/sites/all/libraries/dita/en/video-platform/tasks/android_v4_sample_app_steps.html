@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Updating an Existing Application with the Android Skin"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/android_v4_gettingthesdk.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="android_v4_sample_app_steps"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Updating an Existing Application with the Android Skin</title>
+</head>
+<body id="android_v4_sample_app_steps">
+
+
+    <h1 class="title topictitle1">Updating an Existing Application with the Android Skin</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc"> </p>
+
+        <div class="section context">
+            <p class="p">You can use the new Android skin to update an existing application. Below is a
+                walkthrough that illustrates how to integrate the Android skin into the
+                    <strong class="ph b">BasicPlaybackSampleApp</strong>.</p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand"><span class="ph cmd">If you have not already done so, download the latest version of the Ooyala Mobile SDK for
+                    Android (available at <span class="ph">Ooyala <a class="xref" href="../../../../../../../downloads.html" target="_blank">Downloads</a></span>), and unzip <span class="ph filepath">OoyalaSkinSDK.zip</span>. Clone the
+                        <strong class="ph b">android-sample-apps</strong> repository by entering the following
+                    command:</span>
+                 
+                    <pre class="pre codeblock">git clone https://github.com/ooyala/android-sample-apps.git</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Copy <span class="ph filepath">OoyalaSkinSDK.jar</span> into the
+                        <span class="ph uicontrol">libs/</span> directory of your app.</span>
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Modify your <span class="ph uicontrol">app</span> gradle build file configuration to
+                    include <span class="ph uicontrol">OoyalaSDK</span>, <span class="ph uicontrol">OoyalaSkinSDK</span>,
+                    and <span class="ph uicontrol">React</span> support, as shown in the following Gradle build
+                    file snippet:</span>
+                 
+                    <pre class="pre codeblock">dependencies {
+    ...
+    compile files('libs/OoyalaSDK.jar')
+    compile files('libs/OoyalaSkinSDK.jar')
+    compile(name:'react-native', version:'0.33.0', ext:'aar')
+    ...
+}                        
+                    </pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">You must specify either an <samp class="ph codeph">AppCompat</samp> theme or an extension of
+                    one. In <span class="ph uicontrol">AndroidManifest.xml</span>, specified the following
+                        <samp class="ph codeph">android:theme</samp>:</span>
+                 
+                    <pre class="pre codeblock">
+     &lt;application
+         android:allowBackup="true"
+         android:icon="@drawable/ic_launcher"
+         android:label="@string/app_name"
+         android:theme="@style/Theme.AppCompat"&gt;
+                    </pre>
+
+                    <div class="note note"><span class="notetitle">Note:</span> You can use any theme that extends <samp class="ph codeph">Theme.AppCompat</samp>, such as <samp class="ph codeph">Theme.AppCompat.Light</samp>.</div>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">To allow Android to use 32-bit libraries on 64-bit devices, add the following
+                    property into <span class="ph uicontrol">gradle.properties</span>:</span>
+                 
+                    <pre class="pre codeblock">android.useDeprecatedNdk=true</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Put <span class="ph uicontrol">fonts</span>,
+                    <span class="ph uicontrol">index.android.jsbundle</span>, <strong class="ph b">Localization Files</strong>
+                    (en.json, zh.json, etc.), and <span class="ph uicontrol">skin.json </span>into
+                        <span class="ph uicontrol">src/main/assets</span>.</span>
+            </li>
+<li class="li step stepexpand"><span class="ph cmd">Include <span class="ph uicontrol">OoyalaSkinLayout</span> to <span class="ph uicontrol">layout.xml</span> of the
+                    activity that displays a player:</span>
+                 
+                    <pre class="pre codeblock">
+&lt;com.ooyala.android.skin.OoyalaSkinLayout
+    android:id="@+id/ooyalaSkin"
+    ...
+/&gt;                        
+                    </pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Modify your activity to use the new
+                    <span class="ph uicontrol">OoyalaSkinLayout</span>:</span>
+                 
+                    <pre class="pre codeblock">
+public void onCreate(Bundle savedInstanceState) {
+    ...
+
+    setContentView(R.layout.layout.xml);
+
+    EMBED = getIntent().getExtras().getString("embed_code");
+
+    //Initialize the player
+    OoyalaSkinLayout skinLayout = (OoyalaSkinLayout)findViewById(R.id.ooyalaPlayer);
+    PlayerDomain domain = new PlayerDomain(DOMAIN);
+    Options options = new Options.Builder()
+              .setShowPromoImage(false)
+              .build();
+    player = new OoyalaPlayer(PCODE, domain, options);
+    
+    //Create the SkinOptions, and setup the Skin
+    SkinOptions skinOptions =  new SkinOptions.Builder().build();
+    playerLayoutController =  new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);
+    ...
+
+}                    </pre>
+
+                
+            </li>
+</ol>
+
+        <div class="example"><p class="p">To summarize, the following is the list of requirements for Ooyala Skin SDK to work in your
+                application:</p>
+
+            <ul class="ul">
+                <li class="li"><span class="ph uicontrol">OoyalaSDK.jar </span>and
+                        <span class="ph uicontrol">OoyalaSkinSDK.jar</span> must be imported to your
+                    application.</li>
+
+                <li class="li"><strong class="ph b">Ooyala Skin SDK</strong>
+                    <ul class="ul">
+                        <li class="li">SDK version in the skin package's <strong class="ph b">VERSION</strong> file should match the <strong class="ph b">VERSION</strong>
+                            file in the Ooyala SDK.</li>
+</ul>
+
+                </li>
+
+                <li class="li"><strong class="ph b">Fonts</strong>
+                    <ul class="ul">
+                        <li class="li">Should be added to the <span class="ph uicontrol">assets</span> folder.</li>
+
+                    </ul>
+</li>
+
+                <li class="li"><strong class="ph b">Localization Files</strong> (en.json, zh.json, etc.), <strong class="ph b">skin-config.json</strong>, and
+                        <strong class="ph b">index.android.jsbundle</strong> should be added to the
+                        <span class="ph uicontrol">assets</span> folder.</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/android_v4_gettingthesdk.html">Player Skin for Android</a></div>
+</div>
+</div>
+
+</body>
+</html>

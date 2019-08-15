@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating an Ad Set"/>
+<meta name="abstract" content="You can create as many ad sets as you like, but you can only assign one ad set to a video."/>
+<meta name="description" content="You can create as many ad sets as you like, but you can only assign one ad set to a video."/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/monetization_ads_adsets_adnetworks_wrapper.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="api_monetization_ads_adsets_create"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating an Ad Set</title>
+</head>
+<body id="api_monetization_ads_adsets_create">
+
+
+  <h1 class="title topictitle1">Creating an Ad Set</h1>
+
+  
+  <div class="body taskbody"><p class="shortdesc">You can create as many ad sets as you like, but you can only assign one ad set to a
+    video.</p>
+
+    <div class="section context">
+      <div class="note note"><span class="notetitle">Note:</span> For Ooyala-hosted ads (ad source set to "My Ads"), in-stream and mid-roll ads are not
+        currently supported. Do not select "In-Stream" or "mid-roll" as an ad position for ad sets
+        with Ad Source set to "My Ads."</div>
+
+      <p class="p">To create an ad set:</p>
+
+    </div>
+
+    <ol class="ol steps"><li class="li step stepexpand">
+        <span class="ph cmd">Use the <samp class="ph codeph">/v2/ad_sets</samp> route with the details of an ad to include in the
+          POST body.</span>
+         The following example creates an ad set and associates the
+          01M2F0MTr3SWBB9dfAPT5xEsg8Gpy asset from the user's own assets with it.
+         <pre class="pre codeblock">[POST]/v2/ad_sets{  
+   "name":"My new Ad Set",
+   "default":true,
+   "ads":[  
+      {  
+         "ad_source":"assets",
+         "ad_type":"preroll",
+         "embed_code":"01M2F0MTr3SWBB9dfAPT5xEsg8Gpy",
+         "plays_before":0,
+         "plays_between":1,
+         "click_url":"http://www.myclickurl.com",
+         "tracking_pixel_urls":[  
+            "http://www.mytrackingpixel.com"
+         ]
+      }
+   ]
+}</pre>
+
+         The <span class="ph">Backlot UI</span> responds similarly to the following. <pre class="pre codeblock">{  
+   "name":"My new Ad Set",
+   "id":"77506f70fc1e4b08805687980cc4a24d",
+   "ads":[  
+
+   ]
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        
+      </li>
+<li class="li step stepexpand">
+        <span class="ph cmd">Change the name of the ad set, using a PATCH with the <samp class="ph codeph">/v2/ad_sets</samp>
+          route and the identifier of the desired ad set.</span>
+         <pre class="pre codeblock">[PATCH]/v2/ad_sets/77506f70fc1e4b08805687980cc4a24d{  
+   "name":"Ad Set #9",
+
+}</pre>
+
+         The <span class="ph">Backlot UI</span> responds similarly to the following. <pre class="pre codeblock">{  
+   "name":"Ad Set #9",
+   "id":"77506f70fc1e4b08805687980cc4a24d",
+}</pre>
+
+          <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+        
+      </li>
+</ol>
+
+  </div>
+
+  
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="monetization_ads_adsets_adnetworks_wrapper.html" title="This material includes how to create ad sets in Backlot and how to integrate with ad sources.">Working with Your Own Ad Assets, Ad Sets, and Ad Sources</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Implementing an iOS OOEmbedTokenGenerator"/>
+<meta name="abstract" content="To use the Ooyala Player Token for user authorization your iOS app must implement OOEmbedTokenGenerator."/>
+<meta name="description" content="To use the Ooyala Player Token for user authorization your iOS app must implement OOEmbedTokenGenerator."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/mobile_sdk_ios_cc.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/player_v3dev_tokensdks.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="mobile_sdk_ios_usingembedtokengen"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Implementing an iOS OOEmbedTokenGenerator</title>
+</head>
+<body id="mobile_sdk_ios_usingembedtokengen">
+
+
+    <h1 class="title topictitle1">Implementing an iOS OOEmbedTokenGenerator </h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc"> To use the Ooyala Player Token for user authorization your iOS app must implement
+            <samp class="ph codeph">OOEmbedTokenGenerator</samp>. </p>
+
+        <div class="section context">
+            <p class="p">Click <a class="xref" href="https://github.com/ooyala/ios-sample-apps/blob/stable/ContentProtectionSampleApp/ContentProtectionSampleApp/Players/OoyalaPlayerTokenPlayerViewController.m" target="_blank">here</a> to view the example used in this
+                tutorial, and use the following steps to implement the
+                    <samp class="ph codeph">OOEmbedTokenGenerator</samp> in your project.</p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Open the project <samp class="ph codeph">ViewController.h</samp> file and add the following
+                    import statement:</span>
+                 
+                    <pre class="pre codeblock">#import "OOEmbedTokenGenerator.h" </pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Implement <samp class="ph codeph">OOEmbedTokenGenerator</samp> in the
+                        <samp class="ph codeph">UIViewController</samp>. The syntax is shown in the following
+                    example:</span>
+                 
+                    <pre class="pre codeblock">@interface ViewController : UIViewController &lt;OOEmbedTokenGenerator&gt;  </pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Open the project <samp class="ph codeph">ViewController.m</samp> file and create or edit the
+                        <samp class="ph codeph">ooyalaPlayerViewController</samp> to call the method overload that
+                    takes <samp class="ph codeph">embedTokenGenerator</samp>. The syntax is shown in the following
+                    example:</span>
+                 <pre class="pre codeblock">/ Create the Ooyala ViewController, with self as the embed token generator
+OOOoyalaPlayer *player = [
+   [OOOoyalaPlayer alloc] initWithPcode:self.pcode
+   domain:[[OOPlayerDomain alloc]initWithString:self.playerDomain]
+   embedTokenGenerator:self
+];
+
+self.ooyalaPlayerViewController = [[OOOoyalaPlayerViewController alloc] initWithPlayer:player];</pre>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">A server-side generated token can only be created by the customer so content is
+                    authorized for playback on authorized sites. The client receives it and submits
+                    it to <samp class="ph codeph">embedTokenGenerator()</samp>. These tokens should not be created
+                    on the client. The API secret should only be on the server and should not be
+                    publicly visible. This example is only useful for debugging but should not be
+                    used in production. Implement <samp class="ph codeph">tokenForEmbedCodes</samp> in the
+                        <samp class="ph codeph">ViewController.m</samp> file. The syntax is shown in the following
+                    example:</span>
+                 <pre class="pre codeblock">
+ /*
+  * Get the Ooyala Player Token to play the embed code.
+  * This should contact your servers to generate the OPT server-side.
+  * For debugging, you can use Ooyala's EmbeddedSecureURLGenerator to create local embed tokens
+  */
+- (void)tokenForEmbedCodes:(NSArray *)embedCodes callback:(OOEmbedTokenCallback)callback {
+   NSMutableDictionary* params = [NSMutableDictionary dictionary];
+
+   params[@"account_id"] = self.accountId;
+   NSString* uri = [NSString stringWithFormat:@"/sas/embed_token/%@/%@", self.pcode, [embedCodes componentsJoinedByString:@","]];
+
+   OOEmbeddedSecureURLGenerator* urlGen = [[OOEmbeddedSecureURLGenerator alloc] initWithAPIKey:self.apiKey secret:self.secret];
+   NSURL* embedTokenUrl = [urlGen secureURL:self.authorizeHost uri:uri params:params];
+  callback([embedTokenUrl absoluteString]);
+ }
+} </pre>
+
+            </li>
+</ol>
+
+        <div class="section postreq"><p class="p">The iOS Mobile SDK Sample Apps folder includes a complete working sample app
+                with <samp class="ph codeph">OOEmbedTokenGenerator</samp> implemented. From the SDK archive,
+                navigate to:</p>
+
+            <span class="ph filepath">OoyalaSDK-iOS/SampleApps/DeviceManagementSampleApp</span>
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/mobile_sdk_ios_cc.html" title="With the Mobile SDK, there are many ways you can work with closed captions, from the most basic features that need no programming to more advanced programming features.">Working with Closed Captions for iOS</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/player_v3dev_tokensdks.html" title="You can use the Ooyala Player Token for user authorization with Ooyala iOS and Android SDKs. (Available only if your Ooyala account includes this functionality. To enable Ooyala Player Token, contact your account manager.)">Using Ooyala Player Token with Ooyala iOS and Android SDKs</a></div>
+</div>
+</div>
+
+</body>
+</html>

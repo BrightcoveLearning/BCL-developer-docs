@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Live Streams (Deprecated)"/>
+<meta name="abstract" content="Live streaming is the delivery of video content in real time."/>
+<meta name="description" content="Live streaming is the delivery of video content in real time."/>
+<meta name="DC.Relation" scheme="URI" content="../api/assets.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/assets.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="asset_livestream"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Live Streams (Deprecated)</title>
+</head>
+<body id="asset_livestream">
+
+
+  <h1 class="title topictitle1">Live Streams (Deprecated)</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">Live streaming is the delivery of video content in real time. </p>
+
+    <div class="note note"><span class="notetitle">Note:</span> For more information about Backlot REST API commands, see the
+     <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html" target="_blank">Backlot API Reference</a>.</div>
+
+    <p class="p"> Live streams consist of content creation and encoding, content delivery through a CDN, and
+      content consumption through Internet-connected devices. <span class="ph">Backlot</span>
+      manages the set up, publishing rules, and monetization of your live streams. </p>
+
+    <p class="p"> To set up a live stream with <span class="ph">Ooyala</span>, you only need a video
+      camera, an Internet connection, and an encoder. Popular encoders include hardware encoders
+      such as Inlet Spinnaker HD and software encoders such as Flash Media Live (free). </p>
+
+    <p class="p">If live streaming is not enabled on your account, contact Sales, your Customer Success
+      Manager, or Technical Support. </p>
+
+    <div class="section"><p class="p"> This example creates a live stream with three encodings.</p>
+
+      <div class="note note"><span class="notetitle">Note:</span> This example uses the property <span class="keyword parmname">primary_encoder_ip</span>, which is for
+        non-RTMP streams. For RTMP streams, the properties are
+          <span class="keyword parmname">primary_entry_point</span> and
+        <span class="keyword parmname">backup_entry_point</span>.</div>
+
+      <pre class="pre codeblock">[POST]/v2/assets{  
+   "name":"Extreme Working at My Desk",
+   "asset_type":"live_stream",
+   "primary_encoder_ip":"8.8.8.8",
+   "password":"encoder_password",
+   "is_flash":true,
+   "is_ios":false,
+   "encodings":[  
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":600
+      },
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":300
+      },
+      {  
+         "width":400,
+         "height":300,
+         "bitrate":200
+      }
+   ]
+}</pre>
+
+      <p class="p"><span class="ph">Backlot</span> returns a response similar to the following:</p>
+
+      <pre class="pre codeblock">{  
+   "asset_type":"live_stream",
+   "duration":0,
+   "name":"Extreme Working at My Desk",
+   "preview_image_url":null,
+   "created_at":"2011-06-06T18:15:00+00:00",
+   "embed_code":"ZnbWVpMjqToT1W_zYtCep5Ew0bEGmRgx",
+   "time_restrictions":null,
+   "updated_at":"2011-08-10T00:47:46+00:00",
+   "external_id":null,
+   "hosted_at":null,
+   "original_file_name":null,
+   "description":null,
+   "is_flash":true,
+   "is_ios":false,
+   "status":"live",
+   "encodings":[  
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":300
+      },
+      {  
+         "width":800,
+         "height":600,
+         "bitrate":600
+      }
+   ]
+}</pre>
+
+      <div class="note note"><span class="notetitle">Note:</span>  Try out the code samples using your account credentials in the
+            Ooyala Scratchpad. To launch the Scratchpad, go
+            to <span class="ph">Ooyala <a class="xref" href="https://api.ooyala.com/docs/api_scratchpad" target="_blank">API Scratchpad</a></span>. For information about using the Scratchpad, see <a class="xref" href="../concepts/api_scratchpad.html" title="You can make practice requests on the scratchpad.">Practice Making Requests with the Scratchpad</a>. </div>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="assets.html" title="The /v2/assets route deals with all types of assets.">Assets</a></div>
+</div>
+</div>
+
+</body>
+</html>

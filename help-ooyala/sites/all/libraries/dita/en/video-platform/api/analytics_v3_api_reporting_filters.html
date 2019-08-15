@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Filters"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reference.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="analytics_v3_filters"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Filters</title>
+</head>
+<body id="analytics_v3_filters">
+
+
+  <h1 class="title topictitle1">Filters</h1>
+
+  
+  <div class="body refbody"><p class="shortdesc"/>
+
+    <div class="section">
+      <p class="p">Here are the complete reference details for filters for the <span class="ph">v3
+          Analytics</span>
+        <a class="xref" href="analytics_v3_api_reporting_overview.html#analytics_reporting">Reporting
+          API</a>.</p>
+<p class="p">The filter names are essentially the same as dimension names. Filters
+        are specified with the <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters"><samp class="ph codeph">filters=</samp></a> query string parameter. You can further
+        refine the results with boolean operators. Surround filter values with single quotations
+        (e.g. filters=asset=='asset_id'). Filter values are case-sensitive.</p>
+<p class="p"/>
+<p class="p">For examples
+        of how to use filters, see <a class="xref" href="analytics_v3_api_reporting_examples99_filters_with_labels.html">What Filters Can I Use?</a>.</p>
+
+      <div class="sectiondiv">
+        <p class="p"><strong class="ph b">Date Range Limitation</strong></p>
+
+        <div class="note note"><span class="notetitle">Note:</span> For up to 2 filters you can set a date range of up to 1 year (366 days). For 3 filters
+          you can set a date range of up to 1 month (31 days).</div>
+
+      </div>
+      <p class="p">For queries with query parameters that would exceed the HTTP GET
+        specification limit of 230 characters , please use a <a class="xref" href="analytics_v3_api_reporting_syntax.html">POST request</a>.</p>
+
+    </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting GET</h2>
+            
+            <p class="p">The base syntax of the route and query string is as follows. For ease of reading, the
+               single-line request has been split across several lines. </p>
+
+            <pre class="pre codeblock" id="analytics_v3_filters__d1794e40">
+<strong class="ph b">[GET] /v3/analytics/reports/?</strong>
+            <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>=<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>=<a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>=<a class="xref" href="analytics_v3_api_reporting_metrics.html#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>=<a class="xref" href="#analytics_v3_filters"><var class="keyword varname">filter_type=='filter_value'</var></a>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>=<var class="keyword varname">date</var>
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>=date
+            &amp;<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>
+            <strong class="ph b">&amp;api_key=your_api_key</strong>
+         </pre>
+
+            <ul class="ul">
+               <li class="li">The <strong class="ph b">required</strong> query string parameters (shown in bold) are <a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><samp class="ph codeph">report_type</samp></a>, <samp class="ph codeph">start_date</samp>, and api_key. </li>
+
+               <li class="li">If no dimensions are specified, total values across all dimension are returned. </li>
+
+               <li class="li">For time ranges up to 1 month you can query by up to 3 dimensions at a time with
+                  unlimited rows of data. For time ranges greater than one month you can query by up
+                  to 2 dimensions at a time with up to 10,000 rows of data. </li>
+
+               <li class="li">If no metrics are specified, all metrics are returned. </li>
+
+            </ul>
+
+            <div class="note note"><span class="notetitle">Note:</span> You may pass the API key either as a query parameter or via the header X-API-KEY.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> At this time, the only valid value for <var class="keyword varname">report_type</var> is
+                  <samp class="ph codeph">performance</samp>.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> You can only use 1 dimension (<samp class="ph codeph">url</samp>) for <samp class="ph codeph">url</samp>
+               queries.</div>
+
+         </div>
+
+      <div class="section"><h2 class="title sectiontitle">General Syntax of Reporting Long Queries POST</h2>
+            
+            <p class="p">For queries with query parameters that would exceed the HTTP GET specification limit
+               of 230 characters , please use a POST request. Some browsers and http clients may
+               support more than 230 characters, but we will not provide official support for
+               queries that violate the HTTP GET specification. For POST requests, pass a JSON
+               object in the request body instead of the query string parameters. </p>
+
+            <pre class="pre codeblock">
+<strong class="ph b">[POST] /v3/analytics/reports
+
+{</strong>
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__report_type"><strong class="ph b">report_type</strong></a>":"<a class="xref" href="analytics_v3_api_reporting_reports.html#analytics_reporting_preprogrammed_reports"><var class="keyword varname">type</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__dimensions">dimensions</a>":"<a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions"><var class="keyword varname">dimensions</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__metrics">metrics</a>":"<a class="xref" href="analytics_v3_api_reporting_metrics.html#analytics_v3_metrics"><var class="keyword varname">metrics</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__filters">filters</a>":"(<a class="xref" href="#analytics_v3_filters"><var class="keyword varname">filter_type==\"filter_value\")</var></a>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__start_date"><strong class="ph b">start_date</strong></a>":"<var class="keyword varname">date</var>",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms__end_date">end_date</a>":"date",
+    "<a class="xref" href="analytics_v3_api_reporting_querystringparameters.html#analytics_v3_querystringparms"><var class="keyword varname">other_parms</var></a>":"other_param_value",
+   <strong class="ph b"> "api_key":"your_api_key"
+}</strong>
+         </pre>
+
+         </div>
+
+    <div class="section">
+        
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_filters__predefined_dimensions" class="table" frame="border" border="1" rules="all">
+            
+            
+            
+            <thead class="thead" align="left">
+              <tr class="row">
+                <th class="entry" valign="top" width="21.88183807439825%" id="d15189e281">Filter Type</th>
+
+                <th class="entry" valign="top" width="43.326039387308526%" id="d15189e284">Meaning</th>
+
+                <th class="entry" valign="top" width="34.79212253829322%" id="d15189e287">Valid Values</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody class="tbody">
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__asset">asset</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">Filter data by asset.
+                <div class="note note" id="analytics_v3_filters__url_filter"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">Any asset id associated with the provider or subproviders. The asset id can be
+                      <samp class="ph codeph">embed_code</samp> or <samp class="ph codeph">external_ids</samp> that you have entered in <span class="ph">Backlot</span>.</p>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__country">country</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by country.</p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">Country code. See <a class="xref" href="../reference/location_codes.html#reference" title="These country codes are used in a variety of Ooyala features.">Country and Location Codes</a>.</p>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__region">region</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">Filter data by geographic region. Our geographic reporting uses the
+                  definition of region provided by <span class="ph"><a class="xref" href="https://ipintelligence.neustar.biz/portal/#documentation" target="_blank">Quova</a></span>.
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">Any region string. You cannot specify <samp class="ph codeph">region</samp>
+                  alone; you must also specify its <samp class="ph codeph">country</samp>.</td>
+
+              </tr>
+
+              
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__dma">dma</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter by DMA (defined marketing area, a US-centric concept not prominent in
+                    other parts of the world). </p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 "> Any provider-defined DMA. </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 "><samp class="ph codeph" id="analytics_v3_filters__state">state</samp></td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">Filter data by state (i.e. the states within a country). In our geographic
+                  reporting, state is "the first-level administrative division" of a country, as
+                  defined by <span class="ph"><a class="xref" href="https://ipintelligence.neustar.biz/portal/#documentation" target="_blank">Quova</a></span>. For example, you can filter so
+                  you only see data for plays in California. 
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">Any state string. You cannot specify <samp class="ph codeph">state</samp>
+                    alone; you must also specify its <samp class="ph codeph">country</samp>.</p>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__device_type">device_type</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter by device type.</p>
+<div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+                </td>
+
+              </tr>
+
+              
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__domain">domain</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter by internet domain.</p>
+
+                  
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 "> Any domain string.</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__url">url</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by a specific URL.</p>
+
+                  <div class="p">
+                    <div class="note note"><span class="notetitle">Note:</span> You can only use the <samp class="ph codeph">url</samp>filter with the
+                        <samp class="ph codeph">url</samp> dimension. You cannot use this filter
+                      with any other dimensions.</div>
+
+                  </div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">Any URL string. If you use a URL that is not tracked by Ooyala analytics, the
+                  API will return 0 data results.</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__os">os</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by operating system. </p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__browser">browser</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by browser. <strong class="ph b">Note: </strong>The <samp class="ph codeph">browser</samp> dimension applies only when <samp class="ph codeph">device_type</samp> is <samp class="ph codeph">desktop</samp>. </p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">See possible values in <a class="xref" href="analytics_v3_api_codes_platforms_os_browser.html#reference_vhh_nbj_zl">Codes for Platforms, Devices, and Operating Systems</a>.</p>
+
+                </td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__pcode">pcode</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by the provider's pcode (<span class="ph">Ooyala</span>-supplied
+                    provider ID). For details, see <a class="xref" href="../concepts/api_keys.html" title="Your Ooyala API credentials include your API key and secret, which you provide to sign HTTP requests and when using the scratchpad.">Your API Credentials</a>.</p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">Any pcode that is the current account (the provider executing the API call) or
+                    one of its sub-accounts.</p>
+
+                </td>
+
+              </tr>
+
+              
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__player_id">player_id</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by player id (of an <span class="ph">Ooyala</span> player). </p>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 "> </td>
+
+              </tr>
+
+              
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__label">label</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">
+                  <p class="p">Filter data by label using the label id.</p>
+
+                  <div class="p"> Keep in mind the following points about working with labels in
+   Ooyala IQ: <ul class="ul">
+    <li class="li">Correlations among labels and associated videos are not pre-aggregated or pre-summarized
+     (rolled up) but are resolved at the time of an API request.</li>
+
+    <li class="li">The Ooyala system aggregates based on a label's parent hierarchy. For example, imagine two
+     labels, the parent "Cycle World" and its child label "Sport Bikes". A video labeled with the
+     child "Sport Bikes" is rolled up into the parent label "Cycle World". If you request data for a
+     label, the metrics returned are for that label and its child labels. </li>
+
+   </ul>
+
+  </div>
+
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension. You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">You can use any defined label in Backlot. You can filter by multiple labels at a time.
+                However, you can not mix the label filter with the <strong class="ph b">asset type</strong> filter.</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="21.88183807439825%" headers="d15189e281 ">
+                  <p class="p"><samp class="ph codeph" id="analytics_v3_filters__asset_type">asset_type</samp></p>
+
+                </td>
+
+                <td class="entry" valign="top" width="43.326039387308526%" headers="d15189e284 ">Filter data by asset type. The asset type indicates whether the asset is a live channel ("live") or video-on-demand ("vod").
+                  An asset will be considered of type <strong class="ph b">live</strong> only if it was created using Ooyala's live platform.
+                  Live assets that got converted to video-on-demand before the end date of your reporting period will be counted as <strong class="ph b">vod</strong> only,
+                  otherwise they will be counted as live.
+                  <div class="note note"><span class="notetitle">Note:</span> This filter is not valid with the <samp class="ph codeph">url</samp> dimension.
+                    You can only use <samp class="ph codeph">domain</samp> and <samp class="ph codeph">url</samp> filters with the <samp class="ph codeph">url</samp> dimension.
+                    Also, this filter cannot be combined with the label filter.</div>
+
+                </td>
+
+                <td class="entry" valign="top" width="34.79212253829322%" headers="d15189e287 ">
+                  <p class="p">The asset type can be "live" or "vod".
+                    Note that the asset type is case-sensitive and should be entered in all lowercase letters.</p>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+</div>
+
+      
+    </div>
+
+      <div class="section refsyn" id="analytics_v3_filters__filter_syntax"><h2 class="title sectiontitle">Boolean Operators; (AND) and | (OR)</h2>
+       The formal syntax of a filter is shown
+      below. <pre class="pre codeblock">
+filters= <em class="ph i">filter</em> [<em class="ph i">boolOp</em> <em class="ph i">filter</em>]* 
+        </pre>
+<div class="p">
+        
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="analytics_v3_filters__table_pm3_ph4_dm" class="table" frame="border" border="1" rules="all">
+            
+            
+            <thead class="thead" align="left">
+              <tr class="row">
+                <th class="entry" valign="top" width="20.449897750511244%" id="d15189e894">Symbol</th>
+
+                <th class="entry" valign="top" width="79.55010224948875%" id="d15189e897">Expansion</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody class="tbody">
+              <tr class="row">
+                <td class="entry" valign="top" width="20.449897750511244%" headers="d15189e894 "><samp class="ph codeph"><em class="ph i">filter</em></samp></td>
+
+                <td class="entry" valign="top" width="79.55010224948875%" headers="d15189e897 "><samp class="ph codeph"><em class="ph i">dimension-filter</em></samp> or
+                  <samp class="ph codeph"><em class="ph i">composite-filter</em></samp></td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.449897750511244%" headers="d15189e894 "><samp class="ph codeph"><em class="ph i">dimension-filter</em></samp></td>
+
+                <td class="entry" valign="top" width="79.55010224948875%" headers="d15189e897 "><samp class="ph codeph"><em class="ph i">dimension</em></samp>
+                  <samp class="ph codeph"><em class="ph i">op</em></samp>
+                  <samp class="ph codeph"><em class="ph i">value</em></samp><p class="p">Where:</p>
+<ul class="ul">
+                    <li class="li"><samp class="ph codeph"><em class="ph i">dimension</em></samp> is a dimension name listed in <a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions">Dimensions</a>
+                      or a custom dimension name.</li>
+
+                    <li class="li"><samp class="ph codeph"><em class="ph i">op</em></samp> is <samp class="ph codeph">==</samp> (equal to) or
+                      <samp class="ph codeph">!=</samp> (not equal to).</li>
+
+                    <li class="li"><samp class="ph codeph"><em class="ph i">value</em></samp> is a single-quoted dimension value, like
+                      <samp class="ph codeph">os!='android'</samp> (data with operating system Android).</li>
+
+                  </ul>
+</td>
+
+              </tr>
+
+              <tr class="row">
+                <td class="entry" valign="top" width="20.449897750511244%" headers="d15189e894 "><samp class="ph codeph"><em class="ph i">composite-filter</em></samp></td>
+
+                <td class="entry" valign="top" width="79.55010224948875%" headers="d15189e897 "><samp class="ph codeph">( <em class="ph i">filter</em> [<em class="ph i">boolOp</em>
+                    <em class="ph i">filter</em> ]*)</samp><p class="p">Where:</p>
+<ul class="ul">
+                      <li class="li"><samp class="ph codeph"><em class="ph i">filter</em></samp> is defined above.</li>
+
+                      <li class="li"><samp class="ph codeph"><em class="ph i">boolOp</em></samp> is <samp class="ph codeph">;</samp> (AND) or
+                        <samp class="ph codeph">|</samp> (OR). The boolean operator and second filter are optional
+                      and can be repeated without limit.</li>
+
+                  </ul>
+</td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+</div>
+
+      </div>
+
+      <strong class="ph b">Grouping with Parentheses</strong>
+      <p class="p">Use parentheses to logically group components of the filter value. For an example, see
+          <a class="xref" href="analytics_v3_api_reporting_examples99_filters_with_labels.html">What Filters Can I Use?</a>.</p>
+
+      </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_api_reference.html">Parameter Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integrating with Nielsen on iOS"/>
+<meta name="abstract" content="Integrate Nielsen functionality into your Ooyala iOS applications."/>
+<meta name="description" content="Integrate Nielsen functionality into your Ooyala iOS applications."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/nielsen_about.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="nielsen_android.xml"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrating with Nielsen on iOS</title>
+</head>
+<body id="nielsen_android.xml">
+
+
+  <h1 class="title topictitle1">Integrating with Nielsen on iOS</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">Integrate Nielsen functionality into your Ooyala iOS applications.</p>
+
+    <div class="section">  
+      <p class="p">With the Ooyala Nielsen Plugin for iOS, you can add Nielsen functionality to your Ooyala
+        iOS applications. Ooyala provides:</p>
+
+      <ul class="ul">
+        <li class="li">the Ooyala iOS Nielsen Software Development Kit, which includes the JAR file and the API
+          reference documentation</li>
+
+        <li class="li">a sample application (AnalyticsPluginSampleApp), which shows how to initialize a
+          Nielsen-enabled player and allow the user to opt out of Nielsen tracking </li>
+
+      </ul>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Prerequisites</h2>
+      
+      <ul class="ul">
+        <li class="li">You must have a registered account with Nielsen.</li>
+
+        <li class="li">You will need your account ID.</li>
+
+        <li class="li">You must obtain the Nielsen libraries from Nielsen, add them to your development
+          environment, and link to them according to Nielsen's instructions.</li>
+
+      </ul>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Downloads</h2>
+      <ul class="ul">
+        <li class="li"><a class="xref" href="http://static.ooyala.com.s3.amazonaws.com/sdk/ios/release/OoyalaNielsenSDK-iOS.zip" target="_blank">Ooyala iOS Nielsen SDK</a></li>
+
+        <li class="li">Ooyala Nielsen integration sample app (AnalyticsPluginSampleApp) from <a class="xref" href="https://github.com/ooyala/ios-sample-apps" target="_blank">Ooyala's iOS Sample App Github Repository</a></li>
+
+      </ul>
+
+    </div>
+
+    
+    <div class="section"><h2 class="title sectiontitle">Add Nielsen Integration to Your iOS Application</h2>The Ooyala Nielsen
+      integration sample app (AnalyticsPluginSampleApp) shows the basics for providing Nielsen
+      integration in your iOS app. This section focuses on significant code snippets in the sample
+      app that apply to Nielsen integration.</div>
+
+    <div class="section">In addition to the standard imports, the sample begins by linking the binary with the
+      libraries, importing the following frameworks:
+      <pre class="pre codeblock">#import &lt;OoyalaNielsenSDK/OONielsenPlugin.h&gt;
+#import &lt;NielsenAppApi/NielsenAppApi.h&gt;</pre>
+The
+      sample app next provides a place where you can specify the AppID and sfCode.
+      <pre class="pre codeblock">NSString * const APPID = @"PUT YOUR APPID HERE, APPID IS GRANTED BY NIELSEN";
+NSString * const SFCODE = @"PUT YOUR SFCODE HERE";    </pre>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="nielsen_android.xml__table_nielsen_ios" class="table" frame="border" border="1" rules="all">
+    
+    
+    <thead class="thead" align="left">
+      <tr class="row">
+        <th class="entry" valign="top" width="20%" id="d406617e90">Argument</th>
+
+        <th class="entry" valign="top" width="80%" id="d406617e93">Description</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+      <tr class="row">
+        <td class="entry" valign="top" width="20%" headers="d406617e90 "><samp class="ph codeph">appID</samp></td>
+
+        <td class="entry" valign="top" width="80%" headers="d406617e93 ">Nielsen-assigned unique id for your application. </td>
+
+      </tr>
+
+      <tr class="row">
+        <td class="entry" valign="top" width="20%" headers="d406617e90 "><samp class="ph codeph">sfCode</samp></td>
+
+        <td class="entry" valign="top" width="80%" headers="d406617e93 ">Nielsen collection facility to which the SDK should connect. Nielsen typically
+          assigns different codes for test and production.</td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+</div>
+Next, the sample app creates a standard OOOoyalaPlayer, and then creates an
+      OONielsenPlugin using that OOOoyalaPlayer.
+      <pre class="pre codeblock">// Create Ooyala ViewController
+OOOoyalaPlayer *player = [[OOOoyalaPlayer alloc] initWithPcode:_pcode domain:[[OOPlayerDomain alloc] initWithString:_playerDomain]];
+_ooyalaPlayerViewController = [[OOOoyalaPlayerViewController alloc] initWithPlayer:player];
+
+NSDictionary *parameters = @{@"longitude":@"37.783", @"latitude":@"122.417"};
+_nielsenPlugin = [[OONielsenPlugin alloc] initWithPlayer:_ooyalaPlayerViewController.player appId:APPID appVersion:@"0.1" appName:@"OoyalaNielsenSampleApp" sfcode:SFCODE parameters:parameters];      </pre>
+Note
+      that the <samp class="ph codeph">initWithPlayer</samp> call passes the <samp class="ph codeph">appID</samp> and
+      <samp class="ph codeph">sfCode</samp> arguments, along with other standard Nielsen arguments
+      (<samp class="ph codeph">appVersion</samp> and <samp class="ph codeph">appName</samp>). For more information about these
+      arguments, refer to the API reference documentation included in the Ooyala iOS Nielsen SDK
+      distribution that you downloaded. You can pass optional custom JSON data in the
+      <samp class="ph codeph">parameters</samp> argument to Nielsen's App SDK, such as <samp class="ph codeph">dma</samp>,
+      <samp class="ph codeph">cccode</samp>, or (in the sample app), geocoding information
+      (<samp class="ph codeph">longitude</samp> and <samp class="ph codeph">latitude</samp>). <div class="p">
+        <div class="note note"><span class="notetitle">Note:</span> Nielsen requires data to meet certain restrictions for valid strings. Refer to the
+          <a class="xref" href="http://engineeringforum.nielsen.com/sdk/developers/" target="_blank">Nielsen App API Developer Guide</a> for details.</div>
+
+      </div>
+</div>
+
+    <div class="section">
+      <p class="p">Finally, the sample app attaches the Nielsen-enabled player to the current view.</p>
+
+      <p class="p">The sample app also implements the Nielsen opt-out requirement. </p>
+
+      
+      <pre class="pre codeblock">- (IBAction)onOptButton:(id)sender {
+  UIViewController *webController = [UIViewController new];
+  UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+  webView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+  webView.scalesPageToFit = YES;
+  NielsenAppApi *api = [_nielsenPlugin getNielsenAppApi];
+  NSString *optOutUrl = [api optOutURLString];
+  [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:optOutUrl]]];
+  [webView setDelegate:self];
+  [webController.view addSubview:webView];
+  [self.navigationController pushViewController:webController animated:YES];
+}</pre>
+
+      <p class="p">Note that the code retrieves the Nielsen opt-out URL by calling Ooyala's <samp class="ph codeph">getNielsenAppApi</samp>
+        method, and then calling <samp class="ph codeph">optOutURLString</samp> on the <samp class="ph codeph">NielsenAppApi</samp> object.</p>
+
+      <p class="p">Review the AnalyticsPluginSampleApp for additional details on Nielsen integration in Ooyala
+        iOS apps. </p>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="nielsen_about.html" title="You can easily integrate with Nielsen analytics in your Ooyala mobile applications.">Integration with Nielsen Analytics</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Integrating Ooyala Pulse Ads"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ads_dev_pulse"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrating Ooyala Pulse Ads</title>
+</head>
+<body id="ads_dev_pulse">
+
+
+  <h1 class="title topictitle1">Integrating Ooyala Pulse Ads</h1>
+
+
+  <div class="body conbody">
+    <div class="section">You can integrate Ooyala Pulse ads with Player V4 using the <a class="xref" href="pbv4_ads_dev_chapter_pulse.html">Ooyala Pulse Ad Plugin</a> 
+      (<samp class="ph codeph">pulse.min.js</samp>).<div class="note note"><span class="notetitle">Note:</span> <span class="ph">Wherever you see <samp class="ph codeph"><span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span></samp> in sample code, replace
+    this (in your code) with the URL that points to where the resource is hosted. For a list of
+    Ooyala-hosted paths, see <a class="xref" href="pbv4_resources.html">Ooyala-hosted Player V4 Resources</a>. The URL can point to a location on the same host (internal link) or on
+    a separate host (prefixed with <samp class="ph codeph">http://</samp> or <samp class="ph codeph">https://</samp>). If you
+    host resources yourself (see <a class="xref" href="pbv4_host.html">Hosting Player V4 Resources</a>), be sure to
+    check for any path dependencies within the files.</span>
+      </div>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Usage Considerations</h2>
+           <ul class="ul">
+             <li class="li">Muted autoplay is not supported currently with the Pulse plugin. Autoplay should not be used in combination with ads served using the Pulse plugin.</li>
+
+           </ul>
+
+         </div>
+
+    <div class="section"><h2 class="title sectiontitle">Enabling the Ooyala Pulse Ad Source for Your Account</h2> Before you can use
+      Ooyala's Pulse ad integration: <ol class="ol">
+        <li class="li">Log into the <span class="ph">Ooyala <a class="xref" href="../../../../../../../contact.html" target="_blank">Customer Portal</a></span>.</li>
+
+        <li class="li">Submit a ticket requesting that the Ooyala Pulse ad source be added to your Ooyala
+          account.</li>
+
+      </ol>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Options for Associating Ad Tags with Your Video Assets</h2>
+      <p class="p">Once the Ooyala Pulse ad source is enabled for your account, you can associate Ooyala Pulse
+        ads with your videos using:</p>
+
+      <ul class="ul">
+        <li class="li"><a class="xref" href="#ads_dev_pulse__embeddedParams">Player Embedded
+            Parameters</a>. Specify embedded parameters at the page level of the player.</li>
+
+        <li class="li"><a class="xref" href="#ads_dev_pulse__backlotCustom">Custom Metadata in
+            Backlot</a>. Specify custom metadata on individual videos with the Backlot UI or
+          API.</li>
+
+        <li class="li"><a class="xref" href="#ads_dev_pulse__backlotAdSet">Backlot Ad Sets</a>. Create ad
+          sets with the Backlot UI or API.</li>
+
+      </ul>
+
+      <p class="p">These ways of setting parameters complement each other, which means that it is possible to
+        set the same parameter in different locations. Values for parameters are read from their
+        base location first, if present, and then read from any subsequent location where they can
+        be set. In general, parameters set in the player override those set as custom metadata,
+        which in turn override those set in the ad set. For a list of where each parameter can be
+        set and where the base values are located, see <a class="xref" href="pbv4_ads_dev_pulse_parameters.html">Ooyala Pulse Ad Parameters</a>.</p>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Loading the Ooyala Pulse Plugin on the Page</h2>
+      
+      <div class="note note"><span class="notetitle">Note:</span> 
+        <ul class="ul">
+          <li class="li">If you use Backlot to generate your HTML embed code, and you choose
+            the <strong class="ph b">V4 HTML5 Standard Player Embed Code (recommended)</strong> option, the Ooyala Pulse plugin
+            is automatically included and should not be explicitly added to the web page where you
+            launch the player. For details, see <a class="xref" href="../tasks/publishing_manual_embed.html">Configuring Player Embed Settings in Backlot</a>.</li>
+ 
+          <li class="li">If you choose the <strong class="ph b">V4 HTML5 Player Embed Code (Advanced)</strong> option in Backlot, or if you manually create the HTML embed code yourself, you need to add the Ooyala Pulse plugin  to your web page so that the Ooyala Pulse plugin loads
+            before the player is created. </li>
+
+        </ul>
+</div>
+
+      
+      For every page on which you
+      want to use the Ooyala Pulse plugin with a player (regardless of how you associated Ooyala
+      Pulse ads with your videos): <ol class="ol">
+        <li class="li">Add the <samp class="ph codeph">pulse.min.js</samp> script to the page where you are loading the
+          player. You must load this plugin <em class="ph i">after</em> you load core.min.js.
+          <pre class="pre codeblock">&lt;script language=“javascript" src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/pulse.min.js"&gt;&lt;/script&gt;</pre>
+</li>
+
+        <li class="li">Associate the player with the Ooyala Pulse ad plugin by passing in
+            <samp class="ph codeph">videoplaza-ads-manager</samp> as one of the player parameters during the
+          player creation (<var class="keyword varname">OO.Player.create</var>). </li>
+
+        <li class="li">Pass any global parameters. See <a class="xref" href="pbv4_configure_ads_embedded_params.html">Configuring Ad Parameters</a>.</li>
+
+      </ol>
+</div>
+
+    <div class="section" id="ads_dev_pulse__embeddedParams"><h2 class="title sectiontitle">Option: Integrate with Ooyala Pulse Using Player Embedded
+        Parameters</h2>Pass Ooyala Pulse ad tags to the Ooyala player using the
+        <samp class="ph codeph">videoplaza-ads-manager</samp> parameter and its child parameters, as described in
+        <a class="xref" href="pbv4_ads_dev_pulse_parameters.html">Ooyala Pulse Ad Parameters</a>. <p class="p">The following
+        example shows how to use Ooyala Pulse page-level parameters with Player V4.</p>
+<div class="note note"><span class="notetitle">Note:</span> The
+        values in the following example are used only to illustrate how to use the
+          <samp class="ph codeph">videoplaza-ads-manager</samp> parameter. You need to replace them with your own
+        profiles, IDs, URLs, and other values.
+      </div>
+<pre class="pre codeblock" id="ads_dev_pulse__pulseAdManagerExample">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Ooyala Pulse Example&lt;/title&gt;
+    &lt;!-- V4 JS core is required. Plugins such as skin, discovery and Advertising need to be loaded separately --&gt;
+    &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/core.min.js"&gt;&lt;/script&gt;
+    &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/other-plugin/discovery_api.min.js"&gt;&lt;/script&gt;
+    &lt;!-- Change these html5-skin.min.css and html5-skin.js to your local build if necessary --&gt;
+    &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/html5-skin/build/html5-skin.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/html5-skin.min.css"/&gt;
+    &lt;!-- A Video Plugin is required. This example shows the Main Video Plugin --&gt;
+    &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/video-plugin/main_html5.min.js"&gt;&lt;/script&gt;
+    &lt;!-- Ad module --&gt;
+    &lt;script src="<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/pulse.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+    &lt;script&gt;
+      var playerParam = {
+        "pcode": "YOUR_PCODE",
+        "playerBrandingId": "YOUR_PLAYER_ID",
+        "skin": {
+          // Config contains the configuration setting for player skin. Change to your local config when necessary.
+          "config": "<span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/skin.json"
+        },
+        "videoplaza-ads-manager":{
+          // Pulse settings
+          "pulse_host": "//pulse-host.videoplaza.tv",
+          "pulse_device_container": "deviceContainer",
+          "pulse_persistend_id": "persistendId",
+
+          // Values mapped to the request settings
+          "pulse_height": 640,
+          "pulse_width": 360,
+          "pulse_max_bitrate": 400,
+          "pulse_linear_cuepoints": "5,23,34",
+          "pulse_non_linear_cuepoints": "12,14,50",
+          "pulse_insertion_point_filter": "onBeforeContent,playbackPosition",
+          "pulse_referrer_url": "//www.ooyala.com",
+          "pulse_linear_slot_size": 3,
+          "pulse_max_linear_break_duration": 20,
+
+          // Values mapped to the content metadata
+          "pulse_category": "myCategory",
+          "pulse_content_form": "longForm", //Can be 'longForm' or 'shortForm'
+          "pulse_content_id": "myCustomId",
+          "pulse_content_partner": "myContentPartner",
+          "pulse_duration": 52,
+          // The flags will be merged with the ones coming from the Backlot Ad Set, if any. 
+          // If you want to override them completely, set pulse_override_metadata to true.
+          "pulse_flags": "flag1,flag2",
+          // The tags will be merged with the ones coming from the Backlot Ad Set, if any.
+          // If you want to override them completely, set pulse_override_metadata to true.
+          "pulse_tags": "tag1,tag2",
+          "pulse_custom_parameters": {
+            "key1": value1,
+            "key2": value2
+          },
+
+          // Integration settings
+          "pulse_override_metadata": true, // If set, all the Backlot metadata (ad set or custom) will be ignored.
+          "pulse_show_ad_title": false
+        }
+      };
+      OO.ready(function() {
+        window.pp = OO.Player.create("container", "YOUR_ASSET_ID", playerParam);
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Option: Integrate with Ooyala Pulse through Backlot Custom
+        Metadata</h2>
+      
+      <div class="p">Add Ooyala Pulse parameters as custom metadata to individual video assets using the Backlot
+        UI or Backlot API:<ul class="ul">
+          <li class="li"><strong class="ph b">Backlot UI</strong>: For instructions on how to set custom metadata on an asset using
+            the Backlot UI, see <a class="xref" href="../tasks/metadata_create.html" title="You can add up to 100 name-value pairs to an asset.">Adding Custom Metadata</a>.</li>
+
+          <li class="li"><strong class="ph b">Backlot API</strong>: For instructions on how to set custome metadata on an asset using
+            the Backlot API, see <a class="xref" href="../api/asset_metadata.html" title="You can add up to 100 name-value pairs to any type of asset.">Custom Metadata</a>.</li>
+
+        </ul>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Option: Integrate with Ooyala Pulse through Backlot Ad Sets</h2>
+      
+      <ol class="ol">
+        <li class="li">Create an Ooyala Pulse ad set using: <ul class="ul">
+            <li class="li"><strong class="ph b">Backlot UI</strong>: To create an ad set using the Backlot UI, see <a class="xref" href="../tasks/monetization_ads_adsets_integratingadnetworks.html" title="Instead of using your own assets, you can work with other ad sources.">Creating Ad Sets for Integrating with Ad Sources</a>.</li>
+
+            <li class="li"><strong class="ph b">Backlot API</strong>: To create an ad set programmatically, see <a class="xref" href="../api/ad_sets.html" title="Ad sets are ad configurations that control the ad experience of an asset during playback.">Ad Sets</a>. For the Ad Source, select
+              the <strong class="ph b">Videoplaza Module</strong>.</li>
+
+          </ul>
+<p class="p">The <strong class="ph b">required ad set field</strong> for creating an Ooyala Pulse ad set is:
+              </p>
+<p class="p"><em class="ph i">vpDomain</em>: The host for your Ooyala Pulse account, which is derived from
+            the "sub-domain" found in the Pulse UI. Here is how it is
+          formulated:</p>
+<pre class="pre codeblock">//[sub-domain].videoplaza.tv</pre>
+</li>
+
+        <li class="li">Assign an ad set to an asset or multiple assets using: <ul class="ul">
+            <li class="li"><strong class="ph b">Backlot UI</strong>: For instructions on how to assign your Ooyala Pulse ad set to <ul class="ul">
+                <li class="li">a single asset, see <a class="xref" href="../tasks/asset_manage_monetization.html" title="You can monetize your content using advertisements or create a pay-per-view experience using paywalls.">Managing Monetization</a></li>
+
+                <li class="li">multiple assets, see <a class="xref" href="../tasks/asset_bulk.html" title="You can use the Backlot UI to apply settings to more than one asset at a time.">Bulk Applying Settings</a></li>
+
+              </ul>
+</li>
+
+            <li class="li"><strong class="ph b">Player API</strong>: With the Player API, you can only associate an ad set with an
+              asset on your web page. To associate an ad set with an asset on multiple players you
+              must replicate the code for each player. To associate an ad set with an asset using
+              the Player API, see <a class="xref" href="player_v3_dev_assignadset.html" title="The player enables you to assign ad sets dynamically.">Assigning
+                Ad Sets Dynamically</a>. </li>
+
+            <li class="li"><strong class="ph b">Backlot API</strong>: With the Backlot API, you can associate an ad set with an asset
+              more concretely. When you associate an asset with an ad set using the Backlot API, the
+              asset and the ad set will be paired together on any player and page on which you play
+              the asset. For details, see <a class="xref" href="../api/asset_ad_set.html" title="You can associate ad sets with videos, live streams, and remote assets. For information about creating ad sets, refer to the Backlot User Guide.">Associate Ad Set with Asset</a>.</li>
+
+          </ul>
+
+        </li>
+
+      </ol>
+
+    </div>
+
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Player Management API (Deprecated)"/>
+<meta name="abstract" content="The Player Management API allows for the listing of available players and the assignment of a player to particular embed code(s)."/>
+<meta name="description" content="The Player Management API allows for the listing of available players and the assignment of a player to particular embed code(s)."/>
+<meta name="DC.Relation" scheme="URI" content="../archive/api_v1.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="v1_player_management"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Player Management API (Deprecated)</title>
+</head>
+<body id="v1_player_management">
+
+
+ <h1 class="title topictitle1">Player Management API (Deprecated)</h1>
+
+ 
+ <div class="body refbody"><p class="shortdesc">The Player Management API allows for the listing of available players and the assignment of a player to particular embed code(s). </p>
+
+  <div class="section">
+    <div class="note note"><span class="notetitle">Note:</span> This software is deprecated. Use the latest version.</div>
+
+   <p class="p">There are two modes, 'list' and 'assign'. As in the Query API, interaction with the Player Management API is through signed REST-style requests to  <samp class="ph codeph">http://api.ooyala.com/partner/players</samp>.</p>
+
+   
+   <p class="p">Required Parameters</p>
+
+   
+   <ul class="ul">
+    <li class="li">pcode – Provider Code</li>
+
+    <li class="li">expires – Query expiration time in seconds since epoch (00:00:00 1/1/1970 GMT)</li>
+
+    <li class="li">mode – One of <samp class="ph codeph">list</samp> or <samp class="ph codeph">assign</samp></li>
+
+    <li class="li">signature – The digital signature of the request. The signature should be calculated using SHA-256 with the signature generation rules.
+    </li>
+
+   </ul>
+
+   
+   <p class="p">List Mode</p>
+
+   
+   <p class="p">List all avilable players. No additional parameters required.</p>
+
+   
+   <p class="p">Example:</p>
+
+   
+   <pre class="pre codeblock">http://www.ooyala.com/partner/players?pcode=&lt;pcode&gt;&amp;expires=&lt;expiration&gt;&amp;mode=list&amp;signature=&lt;signature&gt;</pre>
+
+   
+   <p class="p">Result:</p>
+
+   
+   <pre class="pre codeblock">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;players size=1&gt;
+  &lt;player&gt;
+    &lt;pid&gt;e870d9c7-cd69-4b56-b8fd-3cf10a83cf12&lt;/pid&gt;
+    &lt;name&gt;Default Player&lt;/name&gt;
+  &lt;/player&gt;
+&lt;/players&gt;
+</pre>
+
+   
+   <p class="p">Assign Mode</p>
+
+   <p class="p">Additional required parameters: embedCodes, pid</p>
+
+   
+   <p class="p">Assigns a comma-separated list of video embed codes (or a single embed code) to a particular player. An existing player will be overwritten when using this mode. Returns a text file with 'OK' on success or an error message on failure.</p>
+
+   
+   <p class="p">Example:</p>
+
+   
+   <pre class="pre codeblock">
+
+http://ooyala.com/partner/players?mode=assign&amp;pcode=&lt;pcode&gt;&amp;expires=&lt;expiration&gt;&amp;embedCodes=9kaTUyOk20sGc8NM9ITgxkRWYlty68d4&amp;pid=e870d9c7-cd69-4b56-b8fd-3cf10a83cf12&amp;signature=&lt;signature&gt;</pre>
+
+   
+  </div>
+
+  
+  
+
+ </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="api_v1.html" title="This version of the Backlot API is deprecated. We strongly recommend that any new development work occurs on Version 2 of our APIs. For information about using our V2 APIs, go to the Developer Documentation section of the Ooyala Support Center.">Ooyala Backlot API Reference V1 (Deprecated)</a></div>
+</div>
+</div>
+
+</body>
+</html>

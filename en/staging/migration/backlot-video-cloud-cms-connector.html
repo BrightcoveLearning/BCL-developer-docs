@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Ooyala to Video Cloud Migration: Native SDK for iOS</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>
+        Backlot / Video Cloud CMS Connector
+      </h1>
+      <p>
+        The Backlot CMS API Adapter provides support for a select set of the Backlot API operations in order to help you keep integrations and apps working while you transition to the Video Cloud APIs. To learn more about the Video Cloud platform APIs, see <a href="https://support.brightcove.com/getting-started-brightcove-apis-0">Getting Started with the Brightcove APIs</a>.
+      </p>
+      <p><a href="./index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
+      <!-- BEGIN MAIN CONTENT -->
+      <article class="bcls-article">
+        <section class="bcls-section">
+          <h2 id="asset_apis">Asset Endpoints</h2>
+          <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
+          <p>The table below shows what Backlot API <code>asset</code> operations are supported.</p>
+          <table class="bcls-table">
+            <caption class="bcls-caption--table">Asset Endpoints</caption>
+            <thead class="bcls-table__head">
+                <tr>
+                    <th>Backlot API Endpoint</th>
+                    <th>Method</th>
+                    <th>Supported?</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody class="bcls-table__body">
+                <tr>
+                    <td rowspan="2"><code>/v2/assets</code></td>
+                    <td><code>GET</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                    <td>
+                      <ul>
+                        <li><code>ad</code> type videos will be regular videos in Video Cloud with the tag <code>ooyala_my_ads</code></li>
+                        <li><code>youtube</code> type videos will not be migrated to Video Cloud</li>
+                        <li><code>external_id</code> is not being migrated to Video Cloud</li>
+                        <li>Recurring time restrictions not being migrated to Video Cloud</li>
+                      </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>POST</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                    <td>
+                      <ul>
+                        <li>Since <code>ad</code> and <code>youtube</code> type videos are not supported in Video Cloud, attempting to create videos of these types will return an error</li>
+                        <li><code>youtube</code> type videos will not be migrated to Video Cloud</li>
+                      </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><code>/v2/assets/{asset_id}</code></td>
+                    <td><code>GET</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                    <td>
+                      <ul>
+                        <li><code>ad</code> type videos will be regular videos in Video Cloud with the tag <code>ooyala_my_ads</code></li>
+                        <li><code>youtube</code> type videos will not be migrated to Video Cloud</li>
+                      </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>POST</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                    <td>
+                      <ul>
+                        <li>Only updating properties via <code>PATCH</code></li>
+                      </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>PATCH</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                    <td>
+                      <ul>
+                        <li>Only properties that are migrated to Video Cloud can be updated see <a href="./video-playlist-fields.html">Backlot and Video Cloud: Video and Playlist Fields</a></li>
+                      </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>DELETE</code></td>
+                    <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/ad_set</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Ad sets will be migrated to Video Cloud as <a href="https://support.brightcove.com/cms-api-video-fields-reference#cuepoint">cuepoints</a></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="3"><code>/v2/assets/{asset_id}/closed_captions</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>This request will return the default WebVTT content</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Replace the existing WebVTT text tracks; note that you can upload WebVTT or DFXP captions - DFXP will be converted to WebVTT</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><code>/v2/assets/{asset_id}/drm_attributes/{drm_type}</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>DRM in Video Cloud is applied to all videos in a DRM-enabled account unless they are flagged not to be packaged with a <code>drm_disabled</code> field</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PATCH</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>DRM in Video Cloud is applied to all videos in a DRM-enabled account unless they are flagged not to be packaged with a <code>drm_disabled</code> field</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/generated_preview_images</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><code>/v2/assets/{asset_id}/labels</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>All <code>labels</code> will be migrated to <code>tags</code>, so this request will return the video tags</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>POST</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>All <code>labels</code> will be migrated to <code>tags</code>, so this request will add a video tag</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><code>/v2/assets/{asset_id}/labels/{label_id}</code></td>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not have the concept of a label id</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not have the concept of a label id</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="4"><code>/v2/assets/{asset_id}/metadata</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li><code>metadata</code> items will be migrated to <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li><code>metadata</code> items will be migrated to <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code> - this request will add or replace tags in that format</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PATCH</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li><code>metadata</code> items will be migrated to <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code> - this request will modify tags in that format</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li><code>metadata</code> items will be migrated to <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code> - this request will delete all tags in that format</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><code>/v2/assets/{asset_id}/movie_urls</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li><code>movie_urls</code> are <code>sources</code> in Video Cloud</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>POST</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Works the same way in Video Cloud - this request will add a remote <code>rendition</code> (and therefore <code>source</code>) to the video</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/movie_urls/{type}</code></td>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>This request delete <strong>only remote</strong> renditions of the specified type</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/player</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>This request will return the default Ooyala player construct, because Video Cloud does not associate players with videos; instead, any video can be associated with any player instance by its video <code>id</code>. You can get Video Cloud players via the <a href="https://support.brightcove.com/player-management-api">Player Management API</a></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/player/{player_id}</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not associate players with videos; instead, any video can be associated with any player instance by its video <code>id</code>. You can get Video Cloud players via the <a href="https://support.brightcove.com/player-management-api">Player Management API</a></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="4"><code>/v2/assets/{asset_id}/preview_image_urls</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will return the <code>poster</code> image</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>POST</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will set the <code>poster</code> image using the first image in the list</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will set the <code>poster</code> image using the first image in the list</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud stores only a single poster image, and you can replace, but not delete it</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/preview_image_files/{image_id}</code></td>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud stores only a single poster image, and you can replace, but not delete it</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="4"><code>/v2/assets/{asset_id}/preview_image_files</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will return the <code>poster</code> image URL</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>POST</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will set the <code>poster</code> image using the first image URL in the list as a remote asset</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not store multiple thumbnail images, so this request will set the <code>poster</code> image using the first image in the list URL in the list as a remote asset</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud stores only a single poster image, and you can replace, but not delete it</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/primary_preview_image</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud stores only a single poster image, so this request will return that</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/publishing_rule</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes">/td>
+                  <td>
+                    <ul>
+                      <li>Only geo-restrictions and scheduling will be returned, because Video Cloud sets other playback restrictions on players rather than videos</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/publishing_rule/{rule_id}</code></td>
+                  <td><code>PUT</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Video Cloud does not have the concept of a publishing rule. Only geo-restrictions and scheduling properties for the video can be updated</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/source_file_info</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/x16.png" alt="No"></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/streams</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Will return Video Cloud <code>sources</code></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>/v2/assets/{asset_id}/uploading_urls</code></td>
+                  <td><code>GET</code></td>
+                  <td style="text-align:center;"><img src="//learning-services-media.brightcove.com/doc-assets/general/images/check16.png" alt="Yes"></td>
+                  <td>
+                    <ul>
+                      <li>Will be supported through the <a href="./ingestion.html">Ingestion Adapter</a></li>
+                    </ul>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+        </section>
+      </article>
+
+      <!-- END MAIN CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

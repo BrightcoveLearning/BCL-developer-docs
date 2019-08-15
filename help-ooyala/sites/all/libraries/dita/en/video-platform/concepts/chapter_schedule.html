@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Ooyala Schedule"/>
+<meta name="abstract" content="With Ooyala Schedule, you combine tracks of virtual assets to play on top of live streams."/>
+<meta name="description" content="With Ooyala Schedule, you combine tracks of virtual assets to play on top of live streams."/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chapter_schedule"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Ooyala Schedule</title>
+</head>
+<body id="chapter_schedule">
+
+
+ <h1 class="title topictitle1">Ooyala Schedule</h1>
+
+ 
+ <div class="body conbody"><p class="shortdesc"> With Ooyala Schedule, you combine tracks of virtual assets to play on top of live
+  streams.</p>
+
+  <p class="p">Part of Ooyala Guide, with Ooyala Schedule, assets can be programmed linearly over time via one
+   or more tracks. The concept is analogous to live television, with multiple channels (or tracks),
+   each programmed with a set of linear programming.   </p>
+
+  <p class="p">Ooyala Professional Services group has mechanisms to automate the creation and maintenance of
+   schedules. Contact your Customer Success Manager if you are interested in more information.</p>
+
+  <p class="p"> The following concepts are essential to understanding Ooyala Schedule.</p>
+
+  <div class="fig fignone">
+   <img class="image" src="../image/schedule_constructs.png" height="110" width="370" alt="Schedule Constructs"/>
+  </div>
+
+  
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+    
+    
+    <thead class="thead" align="left">
+     <tr class="row">
+      <th class="entry" valign="top" width="10%" id="d253474e44"> Term</th>
+
+      <th class="entry" valign="top" width="90%" id="d253474e47"> Definition</th>
+
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr class="row">
+      <td class="entry" valign="top" width="10%" headers="d253474e44 ">Schedule</td>
+
+      <td class="entry" valign="top" width="90%" headers="d253474e47 ">A schedule is composed of one or more tracks, that define a set of linear programming
+       experiences. For example, a sports broadcaster may use different regional tracks as well as a
+       national track to air their broadcasts. All of these tracks collectively are the schedule.
+       There is no explicit schedule object.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" width="10%" headers="d253474e44 ">Track</td>
+
+      <td class="entry" valign="top" width="90%" headers="d253474e47 ">A track is composed of one or more linearly scheduled track segments. Track segments in
+       a track must not overlap in time; track segments in different tracks can. <div class="p">A track can be
+        associated with assets in three general ways:<ul class="ul">
+         <li class="li">With a live stream defined in <span class="ph">Backlot</span>, using a previously
+          created live stream's asset ID</li>
+
+         <li class="li">With a set of VOD assets defined in <span class="ph">Backlot</span>, using asset
+          IDs associated with a track's track segments</li>
+
+         <li class="li">A hybrid of the above, where individual track segment's assets can override the default
+          asset associated with the track</li>
+
+        </ul>
+</div>
+Each track may be optionally bound to a live stream asset ID, providing the default
+       24x7 live stream where the track segments will play. It is up to the schedule definition or
+       import process to ensure that the track segments defined in an track correspond to what is
+       actually being broadcast on the bound live stream embed code. Alternatively, a track may be
+       editorially or algorithmically curated from a set of VOD assets. In this scenario, there
+       wouldn’t be a default live steam asset ID bound to the track. Rather, each track segment will
+       need to include its own embed code, allowing the Player to switch between different VOD
+       assets described in the track. A hybrid scenario is also possible, whereby a track is bound
+       to a default live stream asset ID, but one or more track segments provide their own override
+       asset IDs. In this scenario, the Player prioritizes the asset ID in the track segment, if
+       provided; otherwise the track live stream asset ID is used.</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" width="10%" headers="d253474e44 ">Track segment</td>
+
+      <td class="entry" valign="top" width="90%" headers="d253474e47 ">A track segment is defined as an instance of a virtual assets at a scheduled start/end
+       time in a track. Each track segment is assigned a unique identifier across all track segments
+       in the schedule (and not just in a track). In addition to a unique ID and start/end times, a
+       track segment also links to its underlying virtual assets containing all of the metadata.
+       Lastly, a track segment may also include an override asset ID, that when present will have
+       priority by the Player, over the default live stream asset ID from the track. <p class="p">A virtual
+        asset can have multiple instances of a track segment, in a track or across all tracks in a
+        schedule. For example, if the virtual asset was a Football game, this may be aired multiple
+        times within a week in the schedule. In this case, all the metadata structure describing the
+        Football game is defined once in the virtual asset. Each time this game is aired in the
+        schedule, a different track segment instance is created associated with each airing
+        time.</p>
+</td>
+
+     </tr>
+
+     <tr class="row">
+      <td class="entry" valign="top" width="10%" headers="d253474e44 ">Virtual asset</td>
+
+      <td class="entry" valign="top" width="90%" headers="d253474e47 ">A virtual asset is an abstract metadata definition of an individual program or event.
+       Unlike video assets defined in <span class="ph">Backlot</span>, a virtual asset is
+       decoupled from the underlying asset ID required for video playback. This decoupling allows a
+       single program or event to be defined in <span class="ph">Backlot</span> yet included
+       multiple times in a schedule or track. For example, a virtual asset defined for the May 31,
+       2012, LSU vs California Softball game might first be live-streamed in a track, then
+       rebroadcast as VOD later in the day in the same track. The underlying virtual asset is the
+       same, but it is aired twice in a track.<p class="p">Like normal assets, a virtual asset can have up to
+        100 name/value pairs of custom metadata.</p>
+</td>
+
+     </tr>
+
+    </tbody>
+
+   </table>
+</div>
+
+ </div>
+
+
+</body>
+</html>

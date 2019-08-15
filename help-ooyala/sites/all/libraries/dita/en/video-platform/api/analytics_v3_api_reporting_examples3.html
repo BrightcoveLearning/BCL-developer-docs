@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="What Geographies Are Driving My Content Traffic?"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reporting_examples.html"/>
+<meta name="DC.Relation" scheme="URI" content="../api/analytics_v3_api_reporting_examples.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="example_performance"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>What Geographies Are Driving My Content Traffic?</title>
+</head>
+<body id="example_performance">
+
+
+   <h1 class="title topictitle1">What Geographies Are Driving My Content Traffic?</h1>
+
+
+   <div class="body refbody">
+      <div class="section">
+         <p class="p"><strong class="ph b">Context:</strong> Your content reaches viewers in multiple countries. You want
+    to see what portion of your traffic is driven by each geography your content reaches. </p>
+
+      </div>
+
+      <div class="section"><h2 class="title sectiontitle">How to Determine This with v3 Analytics</h2>
+         Query against the <a class="xref" href="analytics_v3_api_reporting_dimensions.html#analytics_v3_dimensions__country"><samp class="ph codeph">country</samp></a> dimension, filter by <samp class="ph codeph">domain</samp>
+            (<samp class="ph codeph">domain='exampledomain.com'</samp>) and <samp class="ph codeph">device
+            _type</samp> (<samp class="ph codeph">device_type='tablet'</samp>), and sort by the
+            <a class="xref" href="analytics_v3_api_reporting_metrics.html#analytics_v3_metrics__plays"><samp class="ph codeph">plays_requested</samp></a> metric. <pre class="pre codeblock">
+[GET] /v3/analytics/reports/?
+report_type=performance
+&amp;dimensions=country
+&amp;filters=((device_type=='tablet')) AND ((domain=='exampledomain.com'))
+&amp;metrics=plays_requested
+&amp;start_date=2014-10-10
+&amp;end_date=2014-10-20
+&amp;sort=plays_requested
+&amp;api_key=yourApiKey                
+</pre>
+
+         <samp class="ph codeph">https://api.ooyala.com/v3/analytics/reports/?report_type=performance&amp;dimensions=country&amp;amp;filters=%28%28device_type%3D%3D%27tablet%27%29%29+AND+%28%28domain%3D%3D%27exampledomain.com%27%29%29
+&amp;metrics=plays_requested&amp;start_date=2014-10-10&amp;end_date=2014-10-20
+&amp;sort=plays_requested&amp;api_key=yourApiKey&amp;
+expires=yourExpiration&amp;signature=yourSignature</samp>
+         <p class="p"><strong class="ph b">Response:</strong></p>
+
+         <pre class="pre codeblock">                     
+{  
+   "status":"OK",
+   "results":[  
+      {  
+         "data":[  
+            {  
+               "metrics":{  
+                  "plays_requested":11000
+               },
+               "group":{  
+                  "country":"us",
+                  "countryName":"United States"
+               } 
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":5100
+               },
+               "group":{  
+                  "country":"fr",
+                  "countryName":"France"
+               } 
+            },
+            { 
+               "metrics":{  
+                  "plays_requested":2000
+               },
+               "group":{  
+                  "country":"gb",
+                  "countryName":"United Kingdom"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":2000
+               },
+               "group":{  
+                  "country":"be",
+                  "countryName":"Belgium"
+               }
+            },
+            { 
+               "metrics":{  
+                  "plays_requested":1600
+               }, 
+               "group":{  
+                  "country":"ca",
+                  "countryName":"Canada"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1400
+               },
+               "group":{  
+                  "country":"de",
+                  "countryName":"Germany"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1100
+               },
+               "group":{  
+                  "country":"ua",
+                  "countryName":"Ukraine"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":1000
+               },
+               "group":{  
+                  "country":"se",
+                  "countryName":"Sweden"
+               }
+            },
+            {  
+               "metrics":{  
+                  "plays_requested":800
+               },
+               "group":{  
+                  "country":"nl",
+                  "countryName":"Netherlands"
+               }
+            },
+            {  
+
+               "metrics":{  
+                  "plays_requested":600
+               },
+               "group":{  
+                  "country":"it",
+                  "countryName":"Italy"
+               } 
+            }
+         ],
+         "start_date":"2014-10-10T00:00Z",
+         "end_date":"2014-10-20T00:00Z"
+      }
+   ],
+   
+   "status_code":"200",
+   "total_count":100,
+   "result_count":10
+}
+</pre>
+
+      </div>
+
+   </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="analytics_v3_api_reporting_examples.html">v3 Analytics Reporting API Request Examples</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Integrating Third-Party Players with IQ Using the JSON API"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_ug_third_party_players.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_third_party_players.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_roku_sdk.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ooyala_iq_user_guide.html"/>
+<meta name="DC.Relation" scheme="URI" content="analytics_v3_ug_ingest_third_party_player.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/analytics_v3_ug_account.html"/>
+<meta name="DC.Relation" scheme="URI" content="../reference/faq_analytics.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="analytics_v3_json_api"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Integrating Third-Party Players with IQ Using the JSON API</title>
+</head>
+<body id="analytics_v3_json_api">
+
+
+    <h1 class="title topictitle1">Integrating Third-Party Players with <span class="ph">IQ</span> Using the JSON API</h1>
+
+    
+    <div class="body taskbody">
+        <div class="section context">
+            <p class="p" id="analytics_v3_json_api__overview">Use the new <span class="ph">Ooyala IQ</span> JSON API to communicate
+                your third-party player's events to Ooyala IQ. You can use this endpoint to send
+                JSON data to Ooyala IQ or you can use one of the out-of-the-box SDKs. For this
+                release, we are offering an out-of-the-box SDK for Roku. </p>
+
+            <p class="p" id="analytics_v3_json_api__roku_overview">The Ooyala IQ SDK for Roku sends JSON data to the Ooyala JSON API
+                endpoint and automatically follows the best practices for what events should be sent
+                when, and makes sure that all required fields are present. We recommend using the
+                Ooyala IQ SDK for Roku with your Roku integrations, as it makes the Ooyala IQ
+                implementation easier. For more details on the Ooyala IQ SDK for Roku, see <a class="xref" href="../concepts/analytics_v3_roku_sdk.html">Ooyala IQ SDK for Roku Integration</a>.</p>
+
+            <div class="fig fignone">
+                <img class="image" src="../image/analytics_v3_standalone_options.jpeg" height="499" width="665"/>
+            </div>
+
+            <p class="p"><strong class="ph b">Events</strong></p>
+
+            <p class="p"><span class="ph">Ooyala IQ</span> needs to receive information about player events to
+                properly display analytics data. The figure below shows the flow of when each player
+                event should be recorded.</p>
+
+            <div class="p">
+                <div class="fig fignone">
+                    <img class="image" src="../image/iq_json_api_event_flow.png"/>
+                </div>
+
+                <ul class="ul">
+                    <li class="li"><strong class="ph b">playerLoad</strong>: Called when the player has first
+                        loaded.</li>
+
+                    <li class="li"><strong class="ph b">display</strong>: Called when the media is ready (title,
+                        description, other metadata). This may or may not include the video itself.
+                        This is equivalent to the display metric in <span class="ph">Ooyala
+                            IQ</span>.</li>
+
+                    <li class="li"><strong class="ph b">playRequested</strong>: Called when the user clicks the play
+                        button or autoplay occurs.</li>
+
+                    <li class="li"><strong class="ph b">videoStarted</strong>: Called when the actual non-ad video
+                        content starts playing.</li>
+
+                    <li class="li"><strong class="ph b">bucketWatched</strong>: Called to capture which part of the
+                        video the viewer has watched (position dependent). The video is divided into
+                        40 buckets. If the viewer watches the first bucket of the video (0-2.5%) and
+                        then skips to the last bucket (97.5-100%) and watches it, you should send
+                        two bucket watched events [0-2.5%] and [97.5%-100%]. <p class="p">There are 40
+                            buckets, where each bucket is of size 25 denoting 2.5%. If the viewer
+                            watches the same part (bucket) of the video again and again, that
+                            viewing event should be sent each time it is watched (the player should
+                            not de-duplicate views of the same part of the video). For example, if a
+                            viewer watches the 2.5% - 5% bucket over and over again for 5 times, you
+                            should send the event 5 times.</p>
+<p class="p">This metric is per-mille, with the
+                            payload being from and to of the bucket. There are 40 buckets total for
+                            a video, where each bucket is of size 25 denoting 2.5%. If you see from:
+                            1 and to: 25, that means the viewer has watched bucket number
+                        1.</p>
+</li>
+
+                    <li class="li"><strong class="ph b">playthroughPercent</strong>: Called to mark the completion of a
+                        quartile (25%, 50%, 75% and 100%) of the media. This indicates that the user
+                        has reached the % completion via seeking to the quartile or watching the
+                        video. Once a playthrough event has been generated, rewinding the video
+                        should not resend the playthrough event for that quartile.</li>
+
+                    <li class="li"><strong class="ph b">timePlayed</strong>: Called to capture the amount of time the
+                        media has played since the last timePlayed event.</li>
+
+                    <li class="li"><strong class="ph b">percentageWatched</strong>: Called to capture the percentage of
+                        the video that the viewer has watched (position independent). The video is
+                        divided into 40 buckets. If the viewer watches the first bucket of the video
+                        (0-2.5%) and then skips to the last bucket (97.5-100%) and watches it, you
+                        should send two percentage watched events [0-2.5%] and [2.5%-5%]. <p class="p">If the
+                            viewer watches the same part (bucket) of the video again and again, that
+                            viewing event should only be sent once (it’s the player’s responsibility
+                            to de-duplicate views of the same part of the video). If you add all the
+                            percentage watched for a viewer while they were watching a video, it
+                            should always be  &lt;= 100%. </p>
+<p class="p">This metric is per-mille,
+                            with the payload being from and to of the bucket. There are 40 buckets
+                            total for a video, where each bucket is of size 25 denoting 2.5%. If you
+                            see from: 1 and to: 25, that means the viewer has watched bucket number
+                            1.</p>
+
+                    </li>
+
+                    <li class="li"><strong class="ph b">playheadUpdate</strong>: Called when the video playhead moves.
+                        This should be called often (every 2-3 seconds).</li>
+
+                    <li class="li"><strong class="ph b">seek</strong>: Called when the video has been seeked.</li>
+
+                    <li class="li"><strong class="ph b">pause</strong>: Called when the video is paused.</li>
+
+                    <li class="li"><strong class="ph b">resume</strong>: Called when the play button is clicked while
+                        the video is in the pause state.</li>
+
+                    <li class="li"><strong class="ph b">replay</strong>: Called when the video has been requested to be
+                        replayed.</li>
+
+                    <li class="li"><strong class="ph b">Custom Event</strong>: Called to coordinate with an event that you
+                            define.<div class="note note"><span class="notetitle">Note:</span> At this time custom events can be ingested, but we can only
+                            store the information. Ooyala IQ is not able to process custom events,
+                            and you will not be able to access this information from the Ooyala IQ
+                            backend. However, you may wish to start sending Ooyala IQ your custom
+                            events now so that you have the data there for when custom events are
+                            supported by Ooyala IQ.</div>
+</li>
+
+                </ul>
+
+            </div>
+
+            <p class="p"><strong class="ph b">Additional Data</strong></p>
+
+            <div class="p"><span class="ph">Ooyala IQ</span> can also collect details about the following from
+                the player and your JSON input for analytics purposes: <ul class="ul">
+                    <li class="li">User details.</li>
+
+                    <li class="li">Device details. </li>
+
+                    <li class="li">Asset details.</li>
+
+                    <li class="li">Geographic location details. <div class="note note"><span class="notetitle">Note:</span> Ooyala IQ expects latitude and longitude
+                            values to be integers.</div>
+
+                    </li>
+
+                    <li class="li">Player details.</li>
+
+                    <li class="li">Custom dimensions. <div class="note note"><span class="notetitle">Note:</span> At this time custom dimensions can be ingested, but
+                            we can only store the information. Ooyala IQ is not able to process
+                            custom dimensions, and you will not be able to access this information
+                            from the Ooyala IQ backend. However, you may wish to start sending
+                            Ooyala IQ your custom dimension now so that you have the data there for
+                            when custom dimensions are supported by Ooyala IQ.</div>
+
+                    </li>
+
+                </ul>
+</div>
+
+            <p class="p"><strong class="ph b">Best Practices</strong></p>
+
+            <ul class="ul">
+                <li class="li">Only send data to Ooyala in the intervals specified in the <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/iq_json_api/analytics-json-entry.html" target="_blank">API documentation</a>. Each
+                    event is marked with a priority that indicates how often it should be sent (high
+                    indicates to send the data every second, mid indicates to send the data every 5
+                    seconds, and low indicates to send the data every 10 seconds).</li>
+
+                <li class="li">Make sure to always send the device ID.</li>
+
+            </ul>
+
+            <p class="p"><strong class="ph b">JSON API Integration</strong></p>
+
+            <p class="p">The JSON API endpoint is <a class="xref" href="https://www.google.com/url?q=https://l.ooyala.com/v3/analytics/events&amp;sa=D&amp;ust=1456276736150000&amp;usg=AFQjCNFc6hCNggU75mnS-GU_3UcRgGkCig" target="_blank">https://l.ooyala.com/v3/analytics/events</a>.
+                You can view API documentation for the JSON API at <a class="xref" href="https://docs.brightcove.com/apidocs-ooyala/iq_json_api/analytics-json-entry.html" target="_blank">docs.brightcove.com/apidocs-ooyala//iq_json_api/analytics-json-entry.html</a>. </p>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">To integrate your Smart TVs and other devices with Ooyala IQ, you need to send
+                    specific metadata and your player's event data to the Ooyala IQ JSON API
+                    endpoint. For this release, we support an out-of-the-box SDK for Roku. For more
+                    details on the Ooyala IQ SDK for Roku, see <a class="xref" href="../concepts/analytics_v3_roku_sdk.html">Ooyala IQ SDK for Roku Integration</a>.</span>
+                 <p class="p" id="analytics_v3_json_api__support">Other platforms can be supported as well through an Ooyala Professional Services
+                        engagement, at a cost. Alternatively, you can create your own SDK to hit the
+                        JSON API endpoint directly. If you create an SDK, you will need to host
+                        it.</p>
+
+                    <p class="p">If you create an SDK, the SDK must report certain events and information in a
+                        specific order to the Ooyala IQ JSON API. The general idea is that whenever
+                        the player changes state, event data should be sent to Ooyala IQ. See the
+                        figure in the Events section above for the order in which events must be
+                        captured.</p>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">After you have created your adapter, hit the JSON API endpoint via HTTP or
+                    HTTPS request to send the properly formatted JSON to Ooyala IQ. </span>
+            </li>
+</ol>
+
+        
+    </div>
+
+    <div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="../concepts/analytics_v3_roku_sdk.html">Ooyala IQ SDK for Roku Integration</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/analytics_v3_ug_third_party_players.html">Using Ooyala IQ with Third-Party Players</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/analytics_v3_third_party_players.html">Using Ooyala IQ with Third-Party Players</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="../concepts/ooyala_iq_user_guide.html">Ooyala IQ User Guide</a></div>
+<div><a class="link" href="../concepts/analytics_v3_ug_account.html">Ooyala IQ Account Management</a></div>
+</div>
+<div class="relinfo reltasks"><strong>Related tasks</strong><br/>
+<div><a class="link" href="analytics_v3_ug_ingest_third_party_player.html">Syncing Third-Party Metadata with Ooyala IQ</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../reference/faq_analytics.html" title="Frequently asked questions about Ooyala IQ analytics.">Analytics FAQ</a></div>
+</div>
+</div>
+
+</body>
+</html>

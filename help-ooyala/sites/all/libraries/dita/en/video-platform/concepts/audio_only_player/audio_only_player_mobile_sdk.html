@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Configuring Audio-Only Streaming on Mobile SDK for iOS and Android"/>
+<meta name="DC.Relation" scheme="URI" content="../../concepts/audio_only_player/audio_only_player.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="audio-only-player-mobile-sdk"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/ooyala.css"/>
+<title>Configuring Audio-Only Streaming on Mobile SDK for iOS and Android</title>
+</head>
+<body id="audio-only-player-mobile-sdk">
+
+
+    <h1 class="title topictitle1"><strong class="ph b">Configuring Audio-Only Streaming on Mobile SDK for iOS and Android</strong></h1>
+
+    <div class="body conbody">
+        <div class="note note"><span class="notetitle">Note:</span> Audio-Only stream auto-detection is not yet supported - you must specify in
+            advance what type of Player you would use to play a stream with (Audio-Only type or
+            Video type).</div>
+
+        <div class="section">
+            <p class="p"><strong class="ph b">Configuring Audio-Only streaming on Mobile SDK for Android</strong></p>
+
+            <p class="p">To set up an Ooyala Player for Audio-Only streaming, ensure that the Player is configured to only use audio-only content - no video (including slates) should be present in streams for audio-only use.</p>
+
+            <p class="p">For a demonstration of this feature, please see our sample application on the following link, and refer to the configuration notes below:</p>
+
+            <p class="p"><a class="xref" href="https://github.com/ooyala/android-sample-apps/pull/383" target="_blank">https://github.com/ooyala/android-sample-apps/pull/383</a></p>
+
+            <p class="p">In this Ooyala Android sample application bundle, <strong class="ph b">you must also add the new
+                        <samp class="ph codeph">setAudioOnly(true)</samp> option</strong> to the
+                    <samp class="ph codeph">createPlayerOptions()</samp> method in the
+                    <span class="ph filepath">AudioOnlyPlayerActivity.java</span> file (located under
+                    <span class="ph filepath">/OoyalaSkinSampleApp/app/src/main/java/com/ooyala/sample/players/</span>),
+                as shown in the example below:</p>
+
+            <pre class="pre codeblock">private Options createPlayerOptions() {
+  return new Options.Builder()
+    .setShowNativeLearnMoreButton(false)
+    .setShowPromoImage(false)
+    .setUseExoPlayer(true)
+    <strong class="ph b">.setAudioOnly(true)</strong> // This is crucial
+    .build();
+}</pre>
+
+        </div>
+
+        <div class="section">
+            <p class="p"><strong class="ph b">Configuring Audio-Only streaming on Mobile SDK for iOS</strong></p>
+
+            <p class="p">To set up an Ooyala Player for Audio-Only streaming, ensure that the Player is configured to only use audio-only content - no video (including slates) should be present in streams for audio-only use.</p>
+
+            <p class="p">For a demonstration of this feature, please see our sample applications on the following links, and refer to the configuration notes below:</p>
+
+            <ul class="ul">
+                <li class="li">
+                    <p class="p"><strong class="ph b">BasicPlaybackSampleApp</strong> - available here: <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/BasicPlaybackSampleApp" target="_blank">BasicPlaybackSampleApp</a>.</p>
+
+                    <div class="note note"><span class="notetitle">Note:</span> Developers must either reuse the existing class <samp class="ph codeph">OODefaultAudioOnlyPlayerInfo</samp> or implement a custom class conforming to the <samp class="ph codeph">PlayerInfo</samp> protocol.</div>
+
+                </li>
+
+                <li class="li">
+                    <p class="p"><strong class="ph b">OoyalaSkinSampleApp</strong> - available here: <a class="xref" href="https://github.com/ooyala/ios-sample-apps/tree/stable/OoyalaSkinSampleApp" target="_blank">OoyalaSkinSampleApp</a>.</p>
+
+                    <div class="note note"><span class="notetitle">Note:</span> In this sample app, a separate controller is used - <samp class="ph codeph">AudioOnlySkinPlayerViewController</samp>. However, the implementation logic is the same as for the basic sample app above.</div>
+
+                </li>
+
+            </ul>
+
+            <p class="p">For both sample apps, <samp class="ph codeph">setDefaultPlayerInfo</samp> must be configured before the embed code is assigned - for example:</p>
+
+            <pre class="pre codeblock">[OOStreamPlayer setDefaultPlayerInfo:[OODefaultAudioOnlyPlayerInfo new]];</pre>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="audio_only_player.html">Introduction to Audio-Only Player</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Google Analytics Plugin"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_analytics_google"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Google Analytics Plugin</title>
+</head>
+<body id="pbv4_analytics_google">
+
+
+    <h1 class="title topictitle1">Google Analytics Plugin</h1>
+
+     <div class="body conbody">
+        <div class="section">Use the Player V4 Google Analytics plugin to track statistics for your Ooyala
+            Player V4 in your Google account Analytics. For general information about Google
+            Analytics, see the <a class="xref" href="https://analytics.google.com">Google Analytics</a> site.
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Run-time Flow During Playback</h2>During playback, a playback event
+            triggers notification about the event to Google Analytics. <div class="fig fignone">
+                <img class="image" src="../image/pbv4_analytics_google.png"/>
+            </div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Supported Players</h2>
+            The Player V4 Google Analytics plugin supports
+            integrating Google Analytics with the Ooyala HTML5 web player versions 4.7.9 and
+            above.</div>
+
+         
+        <div class="section"><h2 class="title sectiontitle">Prerequisites</h2>Prior to using the Player V4 Google Analytics plugin,
+            you must have a Google Analytics account. To that account, you must have added at least
+            one property for which you want to collect data, and know your Tracking ID associated
+            with each property. For more information, see the Google documentation: <a class="xref" href="https://support.google.com/analytics/answer/1008015?hl=en">Get Started with Analytics.</a>
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Step 1: Get the Latest Google Analytics Plugin</h2>
+            <div class="note note"><span class="notetitle">Note:</span> This applies only if you are self-hosting player resources, as described in <a class="xref" href="pbv4_host.html">Hosting Player V4 Resources</a>.</div>
+
+            <ol class="ol">
+                <li class="li">Download the latest version of the <samp class="ph codeph">googleAnalytics.min.js</samp> plugin. For the download URLs, see the <a class="xref" href="pbv4_release_notes.html">Ooyala Player V4 Release Notes</a>.</li>
+ 
+                <li class="li">Host this plugin like you host other Player V4 plugins.</li>
+
+            </ol>
+
+        </div>
+
+        <div class="section" id="pbv4_analytics_google__load_url"><h2 class="title sectiontitle">Step 2: Load Google Analytics on Your Web Page</h2>Begin by
+            loading Google Analytics on the web page from which you run Player V4. You have three
+            options. <div class="note note"><span class="notetitle">Note:</span> For <samp class="ph codeph">UA-XXXXX-Y</samp>, you must specify the proper tracking ID
+                associated with the property for which you want to collect data.</div>
+
+            <p class="p"><strong class="ph b">Option A: Load Google Analytics (analytics.js)</strong></p>
+With this option, you obtain
+            a snippet from the Analytics interface (refer to the Tracking Code page under the Admin
+            tab), and then insert this code into the page - ideally within the
+                <samp class="ph codeph">&lt;head&gt;</samp> tag. This snippet contains your unique "Tracking ID".
+            Here is an example code snippet: <pre class="pre codeblock">&lt;!-- Google Analytics --&gt;
+&lt;script&gt;
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                    
+  ga('create', 'UA-XXXXX-Y', 'auto');
+  ga('send', 'pageview');
+&lt;/script&gt;
+&lt;!-- End Google Analytics --&gt;</pre>
+
+            <div class="note note"><span class="notetitle">Note:</span> If you copied the snippet from your account Admin page, the value of
+                    <samp class="ph codeph">UA-XXXXX-Y</samp> should already be set to the proper tracking
+                ID.</div>
+ For additional information about analytics.js, see the <a class="xref" href="https://developers.google.com/analytics/devguides/collection/analyticsjs/">Google Analytics documentation</a>. <p class="p"><strong class="ph b">Option B: Load Google Analytics
+                    (Legacy) (ga.js)</strong></p>
+With this option, you obtain the Legacy Google Analytics
+            (ga.js) code snippet (at
+            https://developers.google.com/analytics/devguides/collection/analyticsjs/), and then
+            insert this code into the page - ideally within the <samp class="ph codeph">&lt;head&gt;</samp> tag. Here
+            is an example code snippet:
+            <pre class="pre codeblock">&lt;script type="text/javascript"&gt;
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXX-X']);
+_gaq.push(['_trackPageview']);
+                        
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();&lt;/script&gt;</pre>
+
+            For additional information about ga.js, see the <a class="xref" href="https://developers.google.com/analytics/devguides/collection/gajs/">Legacy
+                Google Analytics documentation</a>. <p class="p"><strong class="ph b">Option C: Use the Google Tag
+                    Manager</strong></p>
+ With this option, you obtain the code snippet for the Google Tag
+            Manager from the "Install GTM" link under the "Admin" Tab. Here is an example code
+            snippet:
+            <pre class="pre codeblock">&lt;!-- Google Tag Manager --&gt;
+  &lt;noscript&gt;&lt;iframe src="//www.googletagmanager.com/ns.html?id=GTM-M8ML7S"
+  height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;
+  &lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-M8ML7S');&lt;/script&gt;
+&lt;!-- End Google Tag Manager --&gt;</pre>
+Insert
+            this code immediately after the opening <samp class="ph codeph">&lt;body&gt;</samp> tag on your page.
+                <div class="note note"><span class="notetitle">Note:</span>  You need to add the following custom variables to the Tag Configuration: <ul class="ul">
+                    <li class="li">OOLabel (Variable Type: <strong class="ph b">Data Layer Variable</strong>, Data Layer Variable
+                        Name: <strong class="ph b">label</strong>)</li>
+
+                    <li class="li">OOAction (Variable Type: <strong class="ph b">Data Layer Variable</strong>, Data Layer Variable
+                        Name: <strong class="ph b">action</strong>)</li>
+
+                    <li class="li">OOCategory (Variable Type: <strong class="ph b">Data Layer Variable</strong>, Data Layer Variable
+                        Name: <strong class="ph b">category</strong>)</li>
+
+                </ul>
+ You need to implement an additional tag in case you want to see audience stats
+                (such as page visits or current users) in addition to events. </div>
+ For additional
+            information, see the <a class="xref" href="https://chrome.google.com/webstore/detail/tag-assistant-by-google/kejbdjndbnbjgmefkgdddjlbokphdefk?hl=en">Google Tag Assistant</a>. </div>
+
+    
+      <div class="section"><h2 class="title sectiontitle">Step 3: Load the Ooyala Google Analytics Plugin on Your Web Page</h2>Load
+            the <samp class="ph codeph"><span class="ph"><strong class="ph b"><em class="ph i">url_where_hosted</em></strong></span>/googleAnalytics.min.js</samp> script on the page where you want to launch the
+            player. Note that this plugin requires Google Analytics to be set up already on the page
+            (using one of the three methods described above). </div>
+
+         
+         <div class="section"><h2 class="title sectiontitle">Step 4: Specify a Tracker (Optional)</h2>As with other Player V4
+            plugins, on the page where you want to run the player, you can specify a page-level
+            parameter within the <span class="keyword parmname">playerparams</span> variable that is passed in during
+            player creation (see <a class="xref" href="../api/pbv4_api_embedparams.html">Page-level Parameters for Player V4</a>). The tracker will
+            target events sent by the plugin to the provided tracker name
+                (<samp class="ph codeph">trackerName</samp>). This tracker name must be equal to the tracker name
+            defined in the <samp class="ph codeph">ga('create')</samp> function call used to set up the tracker.
+            If you want a tracker name for the Ooyala Debug Page, this page-level parameter must be
+            set and be equal to the tracker name provided in the url parameter
+                <samp class="ph codeph">"ga_tracker_name"</samp>. <p class="p">Example page level
+            parameter:</p>
+<pre class="pre codeblock">"googleAnalytics":{
+   "trackerName":"myTrackerName"
+}</pre>
+
+            For more information, see the following Google topics: <ul class="ul">
+                <li class="li"><a class="xref" href="https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers" target="_blank">Creating Trackers</a></li>
+
+                <li class="li"><a class="xref" href="https://support.google.com/analytics/answer/1032400" target="_blank">Multiple tracking codes on web
+                    pages</a></li>
+
+            </ul>
+</div>
+
+         <div class="section"><h2 class="title sectiontitle">Player V4 Events for the Google Analytics Plugin</h2> The Player V4
+            Google Analytics plugin reports run-time playback events. <p class="p"><strong class="ph b">Event
+            Category</strong></p>
+Events sent by the plugin have the event category "Ooyala". <p class="p"><strong class="ph b">Event
+                    Actions</strong></p>
+ Events sent by the plugin have the following event actions: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="25%" id="d435862e240">Event</th>
+
+                            <th class="entry" valign="top" width="75%" id="d435862e243">Sent When</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playbackStarted</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">
+                                <ul class="ul">
+                                    <li class="li">Playback has started.</li>
+
+                                    <li class="li">Playback has resumed. This is fired when returning from pauses and buffers.</li>
+
+                                </ul>
+
+                             </td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playProgressStarted</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback has reached 0% of the total duration. This event maps to the Video Starts metric in Ooyala IQ (see <a class="xref" href="analytics_v3_common_metrics.html">Common Metric Definitions and Examples</a>).</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playProgressQuarter</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback has reached 25% of the total duration.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playProgressHalf</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback has reached 50% of the total duration.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playProgressThreeQuarters</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback has reached 75% of the total duration.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playProgressEnd</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback has reached 100% of the total duration.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">contentReady</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">The content is ready to be played.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">adPlaybackStarted</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">An ad playback starts.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">adPlaybackFinished</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">An ad playback finishes.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="25%" headers="d435862e240 "><samp class="ph codeph">playbackPaused</samp></td>
+
+                            <td class="entry" valign="top" width="75%" headers="d435862e243 ">Playback is paused.</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+<p class="p"><strong class="ph b">Event Labels</strong></p>
+ For events sent by the Google Analytics plugin, the
+            event label is the title of the content being played. </div>
+
+         <div class="section"><h2 class="title sectiontitle">Viewing Analytics</h2>In the Google Analytics GUI, go to the Reporting
+            tab to view your analytics. Useful metrics include: 
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr class="row">
+                            <th class="entry" valign="top" width="12.5%" id="d435862e389">To View Go To Notes</th>
+
+                            <th class="entry" valign="top" width="25%" id="d435862e392">Go To</th>
+
+                            <th class="entry" valign="top" width="62.5%" id="d435862e395">Notes</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr class="row">
+                            <td class="entry" valign="top" width="12.5%" headers="d435862e389 ">Live Events</td>
+
+                            <td class="entry" valign="top" width="25%" headers="d435862e392 ">Reporting -&gt; Real Time -&gt; Events</td>
+
+                            <td class="entry" valign="top" width="62.5%" headers="d435862e395 ">Real time event notifications from active users. You can view
+                                these events as part of a live-updating graph to the right or as a
+                                list underneath the graph.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="12.5%" headers="d435862e389 ">Audience Overview</td>
+
+                            <td class="entry" valign="top" width="25%" headers="d435862e392 ">Reporting -&gt; Audience -&gt; Overview</td>
+
+                            <td class="entry" valign="top" width="62.5%" headers="d435862e395 ">General overview of session related analytics over time periods
+                                of your choosing.</td>
+
+                        </tr>
+
+                        <tr class="row">
+                            <td class="entry" valign="top" width="12.5%" headers="d435862e389 ">Events</td>
+
+                            <td class="entry" valign="top" width="25%" headers="d435862e392 ">Reporting -&gt; Behavior -&gt; Events</td>
+
+                            <td class="entry" valign="top" width="62.5%" headers="d435862e395 ">Various ways to view the event distribution sent from your
+                                users.</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+</div>
+
+         <div class="section"><h2 class="title sectiontitle">Example</h2>
+             <pre class="pre codeblock">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Google Analytics Plugin Example&lt;/title&gt;
+<strong class="ph b">    &lt;!-- Google Analytics --&gt;
+    &lt;script&gt;
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXX-Y', 'auto');
+      ga('send', 'pageview');
+    &lt;/script&gt;
+    &lt;!-- End Google Analytics --&gt;</strong>
+ 
+    &lt;!-- V4 JS core is required. Plugins such as skin, discovery and Advertising need to be loaded separately --&gt;
+    &lt;script src="url_where_hosted/core.min.js"&gt;&lt;/script&gt;
+    &lt;script src="url_where_hosted/html5-skin.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="url_where_hosted/html5-skin.min.css" /&gt;
+    &lt;!-- A Video Plugin is required. This example shows the Main Video Plugin --&gt;
+    &lt;script src="url_where_hosted/main_html5.min.js"&gt;&lt;/script&gt;
+    <strong class="ph b">&lt;!-- Google Analytics plugin --&gt;
+    &lt;script src="//player.ooyala.com/static/v4/production/analytics-plugin/googleAnalytics.min.js"&gt;&lt;/script</strong>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="container" style="width:640px; height:360px;"&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var playerParam = {
+            "pcode": "YOUR_PCODE",
+            "playerBrandingId": "YOUR_PLAYER_ID",
+            "skin": {
+                // Config contains the configuration setting for player skin. Change to your local config when necessary.
+                "config": "url_where_hosted/skin.json"
+            },
+<strong class="ph b">            // trackerName is optional
+            "googleAnalytics":{
+                "trackerName":"myTrackerName"
+            }</strong>
+        };
+        OO.ready(function() {
+            window.pp = OO.Player.create("container", "YOUR_ASSET_ID", playerParam);
+        });
+    &lt;/script&gt;
+    &lt;body&gt;
+&lt;/html&gt;
+             </pre>
+
+         </div>
+
+     
+     
+     
+     </div>
+
+    
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Setting the Language for the Ooyala Player"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_customize.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_customize.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_customize.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="android_ios_web_v4_localization"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Setting the Language for the Ooyala Player</title>
+</head>
+<body id="android_ios_web_v4_localization">
+
+
+    <h1 class="title topictitle1">Setting the Language for the Ooyala Player</h1>
+
+  <div class="body conbody"><div class="note note"><span class="notetitle">Note:</span> This sets the language for the Ooyala Web Player skin only. There are also player settings for
+      the default language track (for video assets with <a class="xref" href="../../../../../../../video-platform/concepts/multi-audio.html" target="_blank">multiple audio</a> language tracks) as well as the default <a class="xref" href="../../../../../../../video-platform/concepts/pbv4_closed_caption_settings.html" target="_blank">Closed Caption</a> language. </div>
+
+        <p class="p">You can localize the Player V4 (HTML5) and Android and iOS player skins. The default
+        <a class="xref" href="https://github.com/ooyala/skin-config/blob/master/skin.json" target="_blank">skin.json</a> file included in the example on Github references default
+      localization files for the player.</p>
+
+        <pre class="pre codeblock">"localization": {
+    "defaultLanguage": "en",
+    "availableLanguageFile": [
+      {
+        "language": "en",
+        "languageFile": "",
+        "androidResource": "skin-config/languageFiles/en.json",
+        "iosResource": "en"
+      },
+      {
+        "language": "es",
+        "languageFile": "",
+        "androidResource": "skin-config/languageFiles/es.json",
+        "iosResource": "es"
+      },
+      {
+        "language": "zh",
+        "languageFile": "",
+        "androidResource": "skin-config/languageFiles/zh.json",
+        "iosResource": "zh"
+      }
+            {
+        "language": "ja",
+        "languageFile": "",
+        "androidResource": "skin-config/languageFiles/ja.json",
+        "iosResource": "ja"
+      }
+    ]</pre>
+<div class="section"><h2 class="title sectiontitle">Changing the Default Language</h2>
+  
+  <p class="p">To change the language setting, overwrite the language value in the skin.json file to the value
+        you want. You must then host the localized file you have created. </p>
+
+      <p class="p">If the desired language file is self-hosted, reference the path location in the
+        override.</p>
+
+  <p class="p"><strong class="ph b">Example (web only):</strong></p>
+<pre class="pre codeblock">{
+    "skin": {
+    "inline": {
+    "localization": {
+    "defaultLanguage": "de",
+    "availableLanguageFile": [
+    {
+    "language": "de",
+    "languageFile": "https://example.com/de.json", // The url where the custom language file is hosted
+    }
+    ]
+   }
+  }
+ }
+}  </pre>
+
+</div>
+<div class="section"><h2 class="title sectiontitle">Creating a new Player language file</h2>
+  
+  <p class="p">To create your own language file, you can utilize an existing string file to create the
+        localizations in. For example, <a class="xref" href="https://player.ooyala.com/static/v4/production/latest/skin-plugin/languageFiles/es.json" target="_blank">this file</a> provides the base strings (in English) and
+        the localized strings in Spanish.</p>
+
+      <p class="p">Once you have your new language file, host that file and reference it as the default
+        language as described above.</p>
+
+</div>
+
+    <div class="section"><h2 class="title sectiontitle">Setting the Player language dynamically based on the browser language setting</h2>
+      
+      <p class="p">You can achieve this by using the new Boolean <samp class="ph codeph">useBrowserLanguage</samp>
+        page-level parameter - when you add <samp class="ph codeph">useBrowserLanguage:true</samp> to the
+          <span class="ph filepath">skin.json</span> configuration, this will override the default setting and
+        will set the Player language based on the current browser language setting.</p>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_customize.html">Customizing the Player V4 Appearance</a></div>
+</div>
+</div>
+
+</body>
+</html>

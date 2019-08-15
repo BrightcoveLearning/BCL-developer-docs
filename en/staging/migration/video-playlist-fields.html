@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Ooyala to Video Cloud Migration: Native SDK for iOS</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>
+        Backlot and Video Cloud: Video and Playlist Fields
+      </h1>
+      <p>
+        This topic shows how Ooyala video and playlist data is mapped to the Video Cloud fields when they are imported.
+      </p>
+      <p><a href="./index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
+      <!-- BEGIN MAIN CONTENT -->
+      <article class="bcls-article">
+        <section class="bcls-section">
+          <h2 id="video_fields">Video fields</h2>
+          <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
+          <p>The table below shows how Ooyala video data is mapped to Video Cloud videos. A number of other video fields such as <code>duration</code> are automatically populated during ingesting and transcoding. For a complete list of Video Cloud video data fields for the CMS API, see <a href="https://support.brightcove.com/cms-api-video-fields-reference">this reference</a>, and for the Playback API, see <a href="https://support.brightcove.com/playback-api-video-fields-reference">this reference</a>.</p>
+          <p>Note that the names here are for the actual data names as they are returned by the Backlot API or the Video Cloud CMS API. The names appear somewhat differently in the respective UIs.</p>
+          <table class="bcls-table">
+            <caption class="bcls-caption--table">Video Fields</caption>
+            <thead class="bcls-table__head">
+              <tr>
+                <th>Backlot‌ ‌field‌ ‌name‌</th>
+                <th>Video‌ ‌Cloud‌ ‌field‌ name‌ (code name in CMS API)</th>
+                <th>Notes‌</th>
+              </tr>
+            </thead>
+            <tbody class="bcls-table__body">
+              <tr>
+                <td><code>name</code></td>
+                <td><code>name</code></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><code>description</code></td>
+                <td><code>description</code></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><code>description‌</code></td>
+                <td><code>long‌_‌description‌</code></td>
+                <td>Backlot doesn't have a long_description field</td>
+              </tr>
+              <tr>
+                <td><code>streams[n].url</code> / <code>steams[n].url_ssl</code></td>
+                <td><code>sources[n].src</code></td>
+                <td>SSl and non-SSL are returned as separate sources</td>
+              </tr>
+              <tr>
+                <td><code>preview‌_‌url</code></td>
+                <td><code>poster‌</code> (Playback API) / <code>poster.src </code>(CMS API)</td>
+                <td>If the Ooyala video has no value for <code>preview_url</code>, a poster image is created from the midpoint of the video</td>
+              </tr>
+              <tr>
+                <td><code>preview‌_‌url</code></td>
+                <td><code>thumbnail‌</code></td>
+                <td>If the Ooyala video has no value for <code>preview_url</code>, a thumbnail‌ image is created from the midpoint of the video</td>
+              </tr>
+              <tr>
+                <td><code>embed‌_code‌</code></td>
+                <td><code>reference‌_id</code></td>
+                <td>Both the Video Cloud CMS and Playback APIs can retrieve a video by its <code>id</code> (/videos/{video_id}) or <code>reference_id</code> /videos/ref:{reference_id}</td>
+              </tr>
+              <tr>
+                <td><code>labels‌</code></td>
+                <td><code>tags‌</code></td>
+                <td>Labels‌ ‌will‌ ‌be‌ ‌stored‌ ‌as‌ ‌Tags‌ ‌in‌ Video‌ ‌Cloud; note that tags are stored as a simple array of strings, returned with video object when retrieved by either the CMS or Playback API</td>
+              </tr>
+              <tr>
+                <td><code>publishing_rule.time_restrictions.start_date</code></td>
+                <td><code>schedule.starts_at</code></td>
+                <td>Time restrictions for Ooyala videos translated into <code>schedule</code> for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>publishing_rule.time_restrictions.end_date</code></td>
+                <td><code>schedule.ends_at</code></td>
+                <td>Time restrictions for Ooyala videos translated into <code>schedule</code> for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>publishing_rule.geographic_restrictions.type</code> [="blacklist"|"whitelist"]</td>
+                <td><code>geo.exclude_countries</code> [=true|false]</td>
+                <td><code>publishing_rule.geographic_restrictions</code> for Ooyala videos translated into <code>geo</code> objects for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>publishing_rule.geographic_restrictions.locations</code></td>
+                <td><code>geo.countries</code></td>
+                <td><code>publishing_rule.geographic_restrictions</code> for Ooyala videos translated into <code>geo</code> objects for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>ad_set.ad_position</code></td>
+                <td><code>cue_points[n].time</code></td>
+                <td><code>ad_set</code> for Ooyala videos translated into <code>cue_point</code> objects for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>ad_set.as_tag</code></td>
+                <td><code>cue_points[n].metadata</code></td>
+                <td><code>ad_set</code> for Ooyala videos translated into <code>cue_point</code> objects for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>publishing_rule.id</code></td>
+                <td><code>custom_fields.publishing_rule_id</code></td>
+                <td><code>publish_rule.id</code> will be stored in a <code>custom_fields</code> field called <code>publishing_rule_id</code> for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>ad_set.id</code></td>
+                <td><code>custom_fields.ad_set_id</code></td>
+                <td><code>ad_set.id</code> will be stored in a <code>custom_fields</code> field called <code>ad_set_id</code> for Video Cloud videos</td>
+              </tr>
+              <tr>
+                <td><code>created_at</code></td>
+                <td><code>created_at</code></td>
+                <td>The original <code>created_at</code> date-time will be stored in the Video Cloud <code>created_at</code> field for the video to preserve the original date added</td>
+              </tr>
+              <tr>
+                <td><code>metadata</code></td>
+                <td><code>tags["meta:;:{key}:;:{value}"]</code></td>
+                <td>Ooyala video <code>metadata</code> key/value pairs will be stored in special <code>tags</code> in the form <code>meta:;:{key}:;:{value}</code>; the delimiter <code>:;:</code> is used to make it easy to split the string into an array</td>
+              </tr>
+              <tr>
+                <td><code>asset_type="ad"</code></td>
+                <td><code>tags["ooyala_my_ads"]</code></td>
+                <td>Video Cloud does not have the concept of an ad-type video, so those designated as ads in Backlot will have the tag <code>ooyala_my_ads</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </article>
+      <section class="bcls-section">
+        <h2 id="playlist_fields">Playlist fields</h2>
+        <p>The following table indicates the mapping of Backlot to Video Cloud playlist fields, followed by an explanation of why the field mapping here is somewhat complex, though your Video Cloud playlists should function the same as the ones in Backlot did.</p>
+        <table class="bcls-table">
+          <caption class="bcls-caption--table">Playlist Fields</caption>
+          <thead class="bcls-table__head">
+            <tr>
+              <th>Backlot‌ ‌field‌ ‌name‌</th>
+              <th>Video‌ ‌Cloud‌ ‌field‌ name‌ (code name in CMS API)</th>
+              <th>Notes‌</th>
+            </tr>
+          </thead>
+          <tbody class="bcls-table__body">
+            <tr>
+              <td><code>name</code></td>
+              <td><code>name</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><code>public_id</code></td>
+              <td><code>reference_id</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><code>type</code>, <code>sort_by</code>, <code>movies_playlists.movie_id</code>, <code>movies_playlists.playlist_id</code></td>
+              <td><code>type</code>, <code>search</code>, <code>video_ids</code></td>
+              <td>There is no 1:1 matching of fields here, because Ooyala and Video Cloud playlists are defined differently to produce the same result - see the explanation following this table.</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>How playlists are defined in Video Cloud</h3>
+        <p>Broadly, there are two kinds of playlists in Video Cloud:</p>
+        <ul>
+          <li><code>explicit</code> (or manual) are simply collections of videos you select and arrange in the order you want them to play</li>
+          <li>
+            <p>
+              "smart" playlists are constructed at the time they are requested (by a player or other API request) using a <a href="https://support.brightcove.com/cmsplayback-api-videos-search">search string</a> (allowing the equivalent of <code>label_and</code> and <code>label_or</code> playlists, among many other possibilities) and the <code>type</code>, which for smart playlists is a rule for how to sort the search results.
+            </p>
+             <p>
+               See the <a href="https://support.brightcove.com/introduction-playlists">Introduction to Playlists</a> for more information.
+             </p>
+          </li>
+        </ul>
+      </section>
+      <!-- END MAIN CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

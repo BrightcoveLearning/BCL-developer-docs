@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating Ad Sets for Integrating with Ad Sources"/>
+<meta name="abstract" content="Instead of using your own assets, you can work with ad networks."/>
+<meta name="description" content="Instead of using your own assets, you can work with ad networks."/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/monetization_ads_adsets_adnetworks_wrapper.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ads_dev_integrate_backlot_api.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="task_wcr_ll2_yh"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating Ad Sets for Integrating with Ad Sources</title>
+</head>
+<body id="task_wcr_ll2_yh">
+
+
+    <h1 class="title topictitle1">Creating Ad Sets for Integrating with Ad Sources</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc">Instead of using your own assets, you can work with ad networks.</p>
+
+        <div class="section context">
+            <div class="p">This section describes a general process for setting up ad sets specific to ad
+                sources, including the following: <ol class="ol" id="task_wcr_ll2_yh__ol_idj_ml2_yh">
+                    <li class="li"><a class="xref" href="../reference/adset_fields_google.html" title="The fields described here are for Backlot ad sets with ad source set to Google IMA V3.">Google IMA V3</a></li>
+
+                    <li class="li"><a class="xref" href="../reference/adset_fields_freewheel.html" title="The fields described here are for Backlot ad sets with ad source set to FreeWheel ad manager in the Backlot UI.">FreeWheel</a></li>
+
+                    <li class="li"><a class="xref" href="../reference/adset_fields_liverail.html" title="The fields described here are for Backlot ad sets with ad source set to LiveRail in the Backlot UI.">LiveRail</a></li>
+
+                    <li class="li"><a class="xref" href="../reference/adset_fields_adaptv.html" title="The fields described here are for ad sets with ad source set to Adap.tv.">Adap.TV</a></li>
+
+                    <li class="li"><a class="xref" href="../reference/adset_fields_tremor.html" title="The fields described here are for ad sets with ad source set to Tremor Media.">Tremor Media</a></li>
+
+                </ol>
+</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> Although you can use the /v2/ad_sets route to create ad sets, including specifying
+                the ad source name, you must use the <span class="ph">Backlot UI</span> to edit
+                the configuration settings for the ad source.</div>
+
+            <div class="note note"><span class="notetitle">Note:</span> The information required differs from ad source to ad source. Always check your ad
+                source's documentation for exact meaning of a field.</div>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Make a <samp class="ph codeph">POST</samp> request to <samp class="ph codeph">/v2/ad_sets</samp>, as shown
+                    below. </span>
+                 
+                    <pre class="pre codeblock">[POST]/v2/ad_sets{  
+   "name":"My new Ad Set",
+   "default":true
+}</pre>
+
+                
+                  The <span class="ph">Backlot API</span> responds with a response
+                    similar to the following.
+                    <pre class="pre codeblock">{  
+    "default":"true",
+    "id":"ed4a4c6abdfc4ab8aa3e7b8a05f31ec6",
+    "ads":[  
+       
+   ],
+    "name":"My new Ad Set"
+}</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Associate an ad from your own assets or from any number of ad sources to an ad
+                    set.</span>
+                 
+                    <pre class="pre codeblock">[POST]/v2/ad_sets/ed4a4c6abdfc4ab8aa3e7b8a05f31ec6/ads{  
+   "ad_source":"assets",
+   "ad_type":"preroll",
+   "embed_code":"01M2F0MTr3SWBB9dfAPT5xEsg8Gpy-jP",
+   "plays_before":0,
+   "plays_between":1,
+   "click_url":"http://www.myclickurl.com",
+   "tracking_pixel_urls":[  
+      "http://www.mytrackingpixel.com"
+   ]
+}</pre>
+
+                
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">With the <span class="ph">Backlot UI</span> complete the necessary fields
+                    for the specific ad source, as detailed in the Backlot User Guide.</span>
+            </li>
+</ol>
+
+    </div>
+
+    
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="monetization_ads_adsets_adnetworks_wrapper.html" title="This material includes how to create ad sets in Backlot and how to integrate with ad sources.">Working with Your Own Ad Assets, Ad Sets, and Ad Sources</a></div>
+</div>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/ads_dev_integrate_backlot_api.html">Backlot REST API</a></div>
+</div>
+</div>
+
+</body>
+</html>

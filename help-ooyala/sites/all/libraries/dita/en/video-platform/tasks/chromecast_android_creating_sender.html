@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="Creating an Integrated Android Sender Application"/>
+<meta name="abstract" content="Review the following content for information about creating an integrated sender application using the Ooyala mobile SDK for Android."/>
+<meta name="description" content="Review the following content for information about creating an integrated sender application using the Ooyala mobile SDK for Android."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/chromecast_gsg.html"/>
+<meta name="DC.Relation" scheme="URI" content="../tasks/chromecast_android_mini_controller.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="chromecast_android_sender_app"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Creating an Integrated Android Sender Application</title>
+</head>
+<body id="chromecast_android_sender_app">
+
+
+    <h1 class="title topictitle1">Creating an Integrated Android Sender Application</h1>
+
+    
+    <div class="body taskbody"><p class="shortdesc">Review the following content for information about creating an integrated sender
+        application using the Ooyala mobile SDK for Android. </p>
+
+        <div class="section prereq p">
+            <div class="note important"><span class="importanttitle">Important:</span> This topic contains older information and has been deprecated. For the
+        latest information about Ooyala integration with Chromecast, see <a class="xref" href="../concepts/chromecast/index.html">Chromecast Integration</a>.</div>
+
+            <ul class="ul">
+                <li class="li">Download the Ooyala SDK for Android from the <a class="xref" href="../../../../../../../downloads.html" target="_blank">Ooyala Mobile and Client SDKs
+                        Download Page</a>.</li>
+
+                <li class="li">Download the Cast SDK for Android.</li>
+
+                <li class="li">Download the <a class="xref" href="https://github.com/googlecast/CastCompanionLibrary-android" target="_blank">Cast Companion Library</a>.</li>
+
+                <li class="li">Download the <a class="xref" href="https://github.com/ooyala/android-sample-apps/tree/stable/ChromecastSampleApp" target="_blank">ChromecastSampleApp</a> from
+                    the Ooyala SDK for Android Sample Apps repository.</li>
+
+                <li class="li">Review the Android sender application development details on the Google
+                    Developers portal <a class="xref" href="https://developers.google.com/cast/docs/android_sender" target="_blank">Android App Development</a>.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section context">Use the following steps to integrate with the sender application without the
+            OoyalaPlayer object (where the sender application does not contain a player, for
+            example, when you open the app it only contains a list of videos you can play with no
+            player embed). The list activity and Chromecast player activities show videos available
+            for casting when the app is running. The player activity contains the Ooyala player that
+            renders the videos. <p class="p">These steps are written to extend the basic Ooyala Sample
+                App.</p>
+
+            <div class="note note"><span class="notetitle">Note:</span> The following steps assume that you have knowledge of basic integration steps for
+                the Ooyala Core SDK and an existing OoyalaPlayer setup. For details about creating
+                the player, see the Ooyala Support site topic <a class="xref" href="mobile_sdk_android_tutorial.html" title="Learn how to quickly create a basic player app.">Creating a Basic Android App</a>.</div>
+
+        </div>
+
+        <ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Initial Configuration</span>
+                <ol type="a" class="ol substeps">
+                    <li class="li substep">
+                        <span class="ph cmd">Open the <a class="xref" href="https://github.com/ooyala/android-sample-apps/tree/stable/ChromecastSampleApp" target="_blank">ChromecastSampleApp</a> in Android Studio.</span>
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand">
+                <span class="ph cmd">Configure the namespace and app ID</span>
+                 To begin modifying the app, initialize the CastManager.
+                <ol type="a" class="ol substeps">
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Open SampleApplication.java and change the value of NAMESPACE and APP_ID.</span>
+                          This is shown in the following code sample: <pre class="pre codeblock">public class SampleApplication extends Application {
+...
+private final String NAMESPACE = "urn:x-cast:ooyala";
+private final String APP_ID = "4172C76F";
+...</pre>
+
+                            <div class="note note"><span class="notetitle">Note:</span> The APP_ID and NAMESPACE support the default receiver. For custom
+                                receivers adjust the code accordingly.</div>
+
+                        
+                    </li>
+
+                    <li class="li substep substepexpand">
+                        <span class="ph cmd">Initialize CastManager with the following credentials:</span>
+                         
+                            
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+                                    <tbody class="tbody">
+                                        <tr class="row">
+                                            <td class="entry" valign="top">APP_ID</td>
+
+                                            <td class="entry" valign="top">The ID provided when the app is registered with
+                                                the receiver app.</td>
+
+                                        </tr>
+
+                                        <tr class="row">
+                                            <td class="entry" valign="top">NAMESPACE</td>
+
+                                            <td class="entry" valign="top">The namespace to identify the protocol of the
+                                                message being sent for the related receiver app.
+                                                namespaces is array of namespace. In most cases only
+                                                one namespace is required. Based on current version
+                                                of SDK, only the first namespace in the array is
+                                                taken. <div class="note note"><span class="notetitle">Note:</span> The namespace should not be changed
+                                                  unless you modify the receiver app source
+                                                  code.</div>
+</td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+</div>
+
+                        
+                          This step is shown in the following code sample: <pre class="pre codeblock">@Override
+public void onCreate(Bundle savedInstanceState) 
+{
+  ...
+   castManager = CastManager.initialize(getApplicationContext(), APP_ID, NAMESPACE);
+   castManager.setStopOnDisconnect(true);
+  ...
+}</pre>
+
+                            <div class="note note"><span class="notetitle">Note:</span> CastManager is a static variable. Keep this object throughout the
+                                app life cycle.</div>
+
+                        
+                    </li>
+
+                </ol>
+
+            </li>
+</ol>
+
+        <div class="section postreq"><a class="xref" href="chromecast_android_mini_controller.html" title="Review the following content for information about configuring the mini controller using the Ooyala mobile SDK for Android.">Configuring the Chromecast Mini Controller for Android</a></div>
+
+    </div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="chromecast_android_mini_controller.html">Configuring the Chromecast Mini Controller for Android</a></strong><br/>
+Review the following content for information about configuring the mini controller         using the Ooyala mobile SDK for Android. </li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/chromecast_gsg.html">Getting Started with Chromecast</a></div>
+</div>
+</div>
+
+</body>
+</html>

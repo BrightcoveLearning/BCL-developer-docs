@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Using Ooyala Player V4 with Accelerated Mobile Pages (AMP)"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/pbv4_about.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="pbv4_google_amp"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>Using Ooyala Player V4 with Accelerated Mobile Pages (AMP)</title>
+</head>
+<body id="pbv4_google_amp">
+
+
+    <h1 class="title topictitle1">Using Ooyala Player V4 with Accelerated Mobile Pages (AMP)</h1>
+
+    <div class="body conbody">
+        <div class="section">
+            <p class="p">You can optimize playback performance on mobile devices by embedding Ooyala Player V4
+                on a web page using <a class="xref" href="https://www.ampproject.org/" target="_blank">Accelerated Mobile Pages (AMP)</a>, an open-source
+                JavaScript framework for mobile web browsers. AMP renders web pages faster by
+                managing how resources are loaded and providing other performance-enhancing
+                features, such as:</p>
+
+            <ul class="ul">
+                <li class="li">Download most important resources first, and fetch lazy-loaded resources ahead
+                    of time</li>
+
+                <li class="li">Optimize font downloads and use of styles</li>
+
+                <li class="li">Pre-calculate layout of all page elements before loading external resources,
+                    avoiding time-consuming page layout calculations at load time</li>
+
+                <li class="li">Pause media when it is not in focus</li>
+
+                <li class="li">Keep external libraries to a minimum</li>
+
+            </ul>
+
+            <p class="p">For more information, see <a class="xref" href="https://www.ampproject.org/learn/about-how/" target="_blank">How AMP Works</a> and <a class="xref" href="https://www.ampproject.org/docs/getting_started/create/basic_markup" target="_blank">Create your AMP HTML page</a> in the <a class="xref" href="https://www.ampproject.org/docs/getting_started/quickstart" target="_blank">AMP documentation</a>.</p>
+</div>
+
+        <div class="section"><h2 class="title sectiontitle">Options for using the Ooyala Web Player with AMP websites</h2>
+            
+            
+        <div class="p">With the Ooyala Player V4, we currently have two options to make the the Ooyala video
+                player AMP-compliant:<ul class="ul" id="pbv4_google_amp__ul_kj4_h5j_f2b">
+                    <li class="li">Embed the Ooyala Player in an AMP iFrame (generally recommended)</li>
+
+                    <li class="li">Embed the AMP-Ooyala Player</li>
+
+                </ul>
+</div>
+
+            <p class="p">Use the AMP iFrame approach to allow full capabilities of the Ooyala player. It does
+                have some inherent limitations that are common to using an iFrame (passing variables
+                between the page to the player within the iFrame, for example). Alternatively, the
+                Ooyala-AMP player only supports a subset of the overall Ooyala V4 player’s
+                capabilities. For that reason, the AMP iFrame is the better approach for most
+                situations. </p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Getting Started with the AMP IFrame</h2>
+            
+            <p class="p">First, the the AMP iframe must be hosted within an AMP-compliant page overall. See
+                    <a class="xref" href="https://www.ampproject.org/docs/getting_started/create/basic_markup" target="_blank">here</a> for how to create a basic AMP
+                boilerplate that meets the minimum requirements of an AMP website.</p>
+
+            <p class="p"> In addition to the basic AMP setup, you must add the following script to the
+                    <samp class="ph codeph">head</samp> tag of the page in order to add support for the amp-iframe
+                itself: </p>
+
+            <pre class="pre codeblock">&lt;script async custom-element="amp-iframe" 
+src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"&gt;&lt;/script&gt;</pre>
+
+            <p class="p">The full details on how to set up an amp-iframe can be found in the following
+                links:</p>
+
+            <p dir="ltr" class="p"><a class="xref" href="https://www.ampproject.org/docs/reference/components/amp-iframe" target="_blank">https://www.ampproject.org/docs/reference/components/amp-iframe</a></p>
+
+            <p dir="ltr" class="p"><a class="xref" href="https://ampbyexample.com/components/amp-iframe/#introduction" target="_blank">https://ampbyexample.com/components/amp-iframe/#introduction</a></p>
+
+            <p class="p">Below, we’ll discuss which setup options need to be considered when embedding the
+                Ooyala player inside an amp-iframe. The following sample page shows how a typical
+                AMP Iframe setup with the Ooyala Web Player looks:</p>
+
+            <pre class="pre codeblock">&lt;!doctype html&gt;
+&lt;html amp lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;script async src="https://cdn.ampproject.org/v0.js"&gt;&lt;/script&gt;
+    &lt;script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"&gt;&lt;/script&gt;
+    &lt;title&gt;Ooyala AMP Iframe Sample&lt;/title&gt;
+    &lt;link rel="canonical" href="http://example.ampproject.org/article-metadata.html"&gt;
+    &lt;meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"&gt;
+    &lt;script type="application/ld+json"&gt;
+      {
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "headline": "Open-source framework for publishing content",
+        "datePublished": "2015-10-07T12:02:41Z",
+        "image": [
+          "logo.jpg"
+        ]
+      }
+    &lt;/script&gt;
+    &lt;style amp-boilerplate&gt;body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}&lt;/style&gt;&lt;noscript&gt;&lt;style amp-boilerplate&gt;body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}&lt;/style&gt;&lt;/noscript&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div style="margin: 10vh auto; width: 360px"&gt;
+      &lt;amp-iframe
+        title="Ooyala Video Player"
+        width="360"
+        height="203"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        layout="responsive"
+        frameborder="0"
+        allowfullscreen
+        allow="encrypted-media"
+        src="https://player.ooyala.com/static/v4/production/latest/skin-plugin/iframe.html?ec=I3dXhnazoidu1V58G8iOorCCdDZwqlaZ&amp;pbid=dcb79e2098c94889a1b9f2af6280b45d&amp;pcode=Z5Mm06XeZlcDlfU_1R9v_L2KwYG6"&gt;
+        &lt;!-- Optional placeholder that removes constraint that Iframes must be either 600px
+        away from the top or not within the first 75% of the viewport when scrolled to the top  --&gt;
+        &lt;amp-img
+          layout="fill"
+          src="https://secure-cf-c.ooyala.com/I3dXhnazoidu1V58G8iOorCCdDZwqlaZ/PE3O6Z9ojHeNSk7H4yMDoxOjBzMTtyGk"
+          placeholder&gt;
+        &lt;/amp-img&gt;
+      &lt;/amp-iframe&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Setting up the amp-iframe element</h2>
+            
+            <div class="p">To set up the player, first you must add an amp-iframe tag and configure its
+                attributes. The table below shows the purpose of all of the attributes shown in the
+                sample page:<table cellpadding="4" cellspacing="0" summary="" id="pbv4_google_amp__simpletable_v3x_4wk_f2b" border="1" class="simpletable"><tr class="sthead">
+                        <th valign="bottom" align="left" id="d432933e126" class="stentry" width="14.492753623188404%">Attribute</th>
+
+                        <th valign="bottom" align="left" id="d432933e129" class="stentry" width="85.5072463768116%">Description</th>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">src</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">The URL of an HTML page that contains the Ooyala player embed. This
+                            can be either the Ooyala-hosted template, or a custom, self-hosted page.
+                            The url must use <samp class="ph codeph">https</samp> and a different origin than the
+                            one where the AMP page is being hosted.</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">title</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Name or title of the content to be displayed</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">width</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Initial width of the iframe, in pixels</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">height</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Initial height of the iframe, in pixels</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">sandbox</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">AMP iframes are “maximum sandboxed” by default, which means that
+                            the parent page must explicitly grant them certain permissions in order
+                            to enable features like running JavaScript, etc. The Ooyala player
+                            requires the following values in order to function properly:
+                            <pre class="pre codeblock">allow-scripts allow-same-origin allow-popups</pre>
+Please
+                            see <a class="xref" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" target="_blank">here</a> for details.</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">layout</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Type of layout to use for the iframe container. For details and
+                            possible values, please see <a class="xref" href="https://www.ampproject.org/docs/design/responsive/control_layout" target="_blank">here</a>.</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">frameborder</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">(Optional) Set this to <samp class="ph codeph">0</samp> to remove the border
+                            around the iframe container</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">allowfullscreen</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Required in order to allow videos to enter fullscreen
+                            mode</td>
+
+                    </tr>
+<tr class="strow">
+                        <td valign="top" headers="d432933e126" class="stentry">allow</td>
+
+                        <td valign="top" headers="d432933e129" class="stentry">Set to <samp class="ph codeph">encrypted-media</samp> in order to allow DRM
+                            content on Chrome, otherwise can be omitted</td>
+
+                    </tr>
+</table>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Restrictions</h2>
+            
+            <div class="p">The AMP Project <a class="xref" href="https://www.ampproject.org/docs/reference/components/amp-iframe" target="_blank">reference</a> lists the following restrictions
+                that apply to amp-iframe components: <ul class="ul">
+                    <li class="li">An amp-iframe may not appear close to the top of the document (except for
+                        iframes that use a placeholder, as described below). The iframe must be
+                        either 600 px away from the top or not within the first 75% of the viewport
+                        when scrolled to the top, whichever is smaller.</li>
+
+                    <li class="li">By default, an amp-iframe is sandboxed (see details of
+                            <samp class="ph codeph">sandbox</samp> attribute above).</li>
+
+                    <li class="li">An amp-iframe must only request resources via <samp class="ph codeph">HTTPS</samp>, from a
+                        data-URI, or via the <samp class="ph codeph">srcdoc</samp> attribute.</li>
+
+                    <li class="li">An amp-iframe must not be in the same origin as the container unless they do
+                        not allow <samp class="ph codeph">allow-same-origin</samp> in the sandbox attribute.</li>
+
+                </ul>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">iFrame Placement Workaround (optional)</h2>
+            
+            <p class="p">The restriction that an amp-iframe may not appear close to the top of the document
+                can be bypassed by setting a placeholder image for the component. A placeholder can
+                be set by including an <samp class="ph codeph">amp-img</samp> tag inside the
+                    <samp class="ph codeph">amp-iframe</samp> element and setting an image URL, such as:</p>
+
+            <pre class="pre codeblock">&lt;amp-iframe title="AMP with Placeholder"&gt;
+  &lt;amp-img
+    layout="fill"
+    src="https://secure-cf-c.ooyala.com/I3dXhnazoidu1V58G8iOorCCdDZwqlaZ/PE3O6Z9ojHeNSk7H4yMDoxOjBzMTtyGk"
+    placeholder&gt;
+  &lt;/amp-img&gt;
+&lt;/amp-iframe&gt;</pre>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">DRM</h2>
+            
+            <p class="p">Although the Ooyala AMP player doesn’t currently support DRM playback on mobile
+                devices, an AMP page loaded on a desktop browser might run into issues if attempting
+                to play DRM content on Chrome. This is because Encrypted Media Extension permissions
+                have been deprecated in Cross-origin iframes when using Chrome.</p>
+
+            <p class="p">This restriction can be bypassed by setting the <samp class="ph codeph">allow</samp> attribute on
+                the amp-iframe to a value of <samp class="ph codeph">encrypted-media</samp>. Please see <a class="xref" href="https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-permissions-in-cross-origin-iframes" target="_blank">here</a> for details.</p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Responsiveness</h2>
+            
+            <p class="p">AMP iframes support automatic resizing, however, this feature requires that a certain
+                code be added to the iframe template. Our current Ooyala iframe template doesn’t
+                currently have this code, and also has some issues with responsiveness in general.
+                Although playlists should work properly inside AMP iframes, the current CSS in our
+                player causes the thumbnails to be rendered outside of view when inside an
+                iframe.</p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Known Issues and Limitations of the AMP iFrame Approach</h2>
+            
+            <p class="p">Any limitations that apply to regular iframes will also be present when using
+                amp-iframes. In addition to the limitations described <a class="xref" href="https://docs.google.com/document/d/1OeG8CQbbFshYMjpvxV3v7dMGSEOWBuZoUBMRuVbY4Yo" target="_blank">here</a>, it’s worth mentioning that
+                Flash-related features such as the Bitmovin Flash fallback for Windows 7, OSMF Flash
+                plugin, etc., will not be available when using AMP iframes.</p>
+
+        </div>
+
+        <div class="section"><h2 class="title sectiontitle">Getting Started with the AMP-Ooyala Player</h2>
+            
+            <p class="p">The following is necessary to display an Ooyala video:</p>
+
+            <p class="p"><strong class="ph b">Required Script</strong></p>
+
+            <pre class="pre codeblock">&lt;script async custom-element="amp-ooyala-player" 
+src="https://cdn.ampproject.org/v0/amp-ooyala-player-0.1.js"&gt;&lt;/script&gt;</pre>
+
+            <p class="p"><strong class="ph b">Example:</strong></p>
+
+            <pre class="pre codeblock">&lt;amp-ooyala-player
+    data-embedcode="Vxc2k0MDE6Y_C7J5podo3UDxlFxGaZrQ"
+    data-pcode="5zb2wxOlZcNCe_HVT3a6cawW298X"
+    data-playerid="6440813504804d76ba35c8c787a4b33c"
+    width="640" height="360"&gt;&lt;/amp-ooyala-player&gt;</pre>
+
+        </div>
+
+        
+        <div class="section">
+            <table cellpadding="4" cellspacing="0" summary="" id="pbv4_google_amp__simpletable_k2h_1zk_f2b" border="1" class="simpletable"><tr class="sthead">
+                    <th valign="bottom" align="left" id="d432933e369" class="stentry" width="33.333333333333336%">Attributes</th>
+
+                    <th valign="bottom" align="left" id="d432933e372" class="stentry" width="33.333333333333336%">Description</th>
+
+                    <th valign="bottom" align="left" id="d432933e375" class="stentry" width="33.333333333333336%">Required?</th>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">data-embedcode</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">The video embed code from <a class="xref" href="https://backlot.ooyala.com/" target="_blank">Backlot</a></p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry">Yes</td>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">data-playerid</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">The ID of the player to load from <a class="xref" href="https://backlot.ooyala.com/" target="_blank">Backlot</a></p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry">Yes</td>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">data-pcode</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">The provider code for the account owning the embed code and player</p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry">Yes</td>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">data-playerversion</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">Which version of the Ooyala player to use, V3 or V4. Defaults to V3.</p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry">No</td>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">data-config</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">Specifies a <samp class="ph codeph">skin.json</samp> config file URL for player V4.</p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry">No</td>
+
+                </tr>
+<tr class="strow">
+                    <td valign="top" headers="d432933e369" class="stentry"><samp class="ph codeph">common attributes</samp></td>
+
+                    <td valign="top" headers="d432933e372" class="stentry">
+                        <p class="p">This element includes <a class="xref" href="https://www.ampproject.org/docs/reference/common_attributes" target="_blank">common attributes</a> extended to
+                            AMP components.</p>
+
+                    </td>
+
+                    <td valign="top" headers="d432933e375" class="stentry"> </td>
+
+                </tr>
+</table>
+
+            <p class="p"><strong class="ph b">Validation</strong></p>
+
+            <p class="p">See <a class="xref" href="https://github.com/ampproject/amphtml/blob/master/extensions/amp-ooyala-player/validator-amp-ooyala-player.protoascii" target="_blank">amp-ooyala-player rules</a> in the AMP
+                validator specification.</p>
+
+        </div>
+
+    </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="pbv4_about.html">Player V4</a></div>
+</div>
+</div>
+
+</body>
+</html>

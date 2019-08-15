@@ -4,7 +4,7 @@ info:
   description: |-
     Reference for the Brightcove Live API, used to create and manage live streaming events.
 
-    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/live-api)**.
+    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/live)**.
 
     **Base URL**: https://api.bcovlive.io/v1
   version: 1.0.0
@@ -171,7 +171,7 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
       requestBody:
-        description: Create a live stream
+        description: Create a Playback Token
         content:
           application/json:
             schema:
@@ -1974,7 +1974,7 @@ components:
         live_dvr_ads_window_duration:
           default: 100
           description: >-
-            Indicates the window in seconds, for which ads will be served on DVR playback, beyond which `slate` will be served on DVR playback.
+            Indicates the window from the live edge on DVR session start, in seconds, for which ad breaks will have ads inserted, before which slate will be inserted. All ad breaks inserted after session start will have ads inserted.
           maximum: 600
           minimum: 0
           type: integer
@@ -2334,7 +2334,7 @@ components:
         segment_seconds:
           description: Sets the maximum duration of each segment in a segmented output.
           maximum: 20
-          minimum: 2
+          minimum: 4
           type: number
         skip_audio:
           description: Specifying skip_audio removes the audio track.
@@ -2429,7 +2429,7 @@ components:
           type: array
         custom_fields:
           description: >-
-            An object whose properties are `fieldname`:`value` pairs - be sure to the *internal* name of the field
+            An object whose properties are `field_name`:`value` pairs - be sure to the *internal* name of the field
           type: object
         description:
           description: Video short description
@@ -2542,7 +2542,8 @@ components:
       description: map of scheduling properties
     CreatePlaybackTokenRequestBody:
       title: Create Playback Token Request Body
-      description: Create Playback Token Request Body
+      description: >-
+        Create Playback Token Request Body
       type: object
       properties:
         dvr:
@@ -2813,7 +2814,7 @@ components:
           type: array
         custom_fields:
           description: >-
-            An object whose properties are `fieldname`:`value` pairs - be sure to the *internal* name of the field
+            An object whose properties are `field_name`:`value` pairs - be sure to the *internal* name of the field
           type: object
         description:
           description: Video short description

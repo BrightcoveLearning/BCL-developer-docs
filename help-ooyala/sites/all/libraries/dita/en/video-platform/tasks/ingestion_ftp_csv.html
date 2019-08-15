@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="task"/>
+<meta name="DC.Title" content="CSV Manifest File"/>
+<meta name="abstract" content="When ingesting videos, you can use CSV manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use CSV manifest files when you ingest content with FTP or Aspera."/>
+<meta name="description" content="When ingesting videos, you can use CSV manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use CSV manifest files when you ingest content with FTP or Aspera."/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ingestion_fileformats.html"/>
+<meta name="DC.Relation" scheme="URI" content="../concepts/ingestion_fileformats.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="ingestion_ftp_csv"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ooyala.css"/>
+<title>CSV Manifest File</title>
+</head>
+<body id="ingestion_ftp_csv">
+
+
+<h1 class="title topictitle1">CSV Manifest File</h1>
+
+ 
+<div class="body taskbody"><p class="shortdesc">When ingesting videos, you can use CSV manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use CSV manifest files when you ingest content with FTP or Aspera.
+ </p>
+
+ <div class="section context">
+      <div class="note note"><span class="notetitle">Note:</span> This topic applies to both OIS v2.5 and OIS v1. Certain sections, where
+    indicated, apply to just one version. OIS v1 has been
+    disabled. Customers using OIS v1 should switch to OIS v2.5.</div>
+ The CSV
+      format of the metadata file supports fewer features than does the XML format. The CSV format
+      allows you to specify thumbnails (preview images) and custom metadata to associate with a
+      video. The XML format supports these features as well as the association of the names of
+      existing defined of ad sets. <p class="p"><strong class="ph b">CSV Manifest Column Headings</strong></p>
+ The following fields
+      are the first line (column headings) of your CSV file, with actual data fields following on
+      subsequent rows (one row per video). <div class="note note"><span class="notetitle">Note:</span> You can specify these columns in any order, and you
+        can omit columns that you do not need, as long as the data in the data rows match the
+        headings exactly.</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="ingestion_ftp_csv__table_izg_l4p_lj" class="table" frame="border" border="1" rules="all">
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="14.285714285714285%" id="d1039925e39">Column Heading </th>
+
+              <th class="entry" valign="top" width="71.42857142857143%" id="d1039925e42">Description</th>
+
+              <th class="entry" valign="top" width="14.285714285714285%" id="d1039925e45">Required/Optional</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">video</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Filename of the video or the URL where the video is located. The URL can
+                include <samp class="ph codeph">http://</samp> or <samp class="ph codeph">https://</samp>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">required</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">title</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Name or title of the video.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">thumbnail</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Filename of the thumbnail or the URL where the thumbnail is located.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">content_type</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">(OS v2.5 only) Content type (video or remote asset). If the filename specified
+                in the video column is a URL where the video is located, and if you want to define a
+                remote asset, change the value of the content_type column (from
+                  <samp class="ph codeph">video</samp>, the default) to <samp class="ph codeph">content_type=remoteasset</samp>.
+                See <a class="xref" href="../concepts/remote_assets_ingest.html">Ingesting Remote Assets</a>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">required (remote assets only)</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">description</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Description of the video.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">hosted_at</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Permanent URL where you embed the video. Maps to the value of the
+                  <samp class="ph codeph">hosted_at</samp> property for a remote asset. <div class="note note"><span class="notetitle">Note:</span> After a remote asset has been created, its
+        propagation to the various CDNs might be delayed 60 seconds or more. If you request a remote
+        asset too soon after its creation, the results will be cached by the CDNs, which might take
+        several minutes to clear. Best practice: after creation, wait 30 or 60 seconds, query with
+        the <span class="ph">Backlot API</span>
+        <samp class="ph codeph">[GET] /v2/assets/<var class="keyword varname">asset_id</var></samp> route, and after retrieving
+        the remote asset's embed code (content ID or asset ID), then proceed to embed the asset. </div>
+</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">flight_start_time</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">The start time when the asset can be played, in UTC. Example:
+                  <samp class="ph codeph">2011-06-01T00:00:00Z</samp></td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">required (only if <samp class="ph codeph">flight_end_time</samp>is specified)</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">flight_end_time</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">The end time when the asset can be played, in UTC. Example:
+                  <samp class="ph codeph">2011-07-01T00:00:00Z</samp></td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">durationInMs</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">(OS v2.5 only) The duration representing the length of the video (in
+                milliseconds). Required when <samp class="ph codeph">content_type=remoteasset</samp>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">required (for remote assets only)</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">labels</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">One or more labels, separated by commas. For example:
+                  <samp class="ph codeph">/sports,/sports/jogging</samp>. For background, see <a class="xref" href="../concepts/chapter_labels.html" title="When added to external publishing targets, labels specify which videos, channels, and channel sets to publish externally.">Labels</a>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">metadata</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Custom metadata for the video. You can have a column for each type of metadata
+                (for example, <samp class="ph codeph">metadata:<em class="ph i">type_1</em> metadata:<em class="ph i">type_2</em></samp> and so
+                on). When using this element with VR 360 video, set the column name to
+                  <samp class="ph codeph">vr360type</samp> and the metadata value to 
+                <samp class="ph codeph">stereoscopic(side-by-side)</samp> or <samp class="ph codeph">monoscopic</samp>. <p class="p">See
+                    <a class="xref" href="../api/asset_metadata.html" title="You can add up to 100 name-value pairs to any type of asset.">Custom Metadata</a> for
+                  format requirements.</p>
+</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">embed_code</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">(Reserved). Content ID in Backlot of the video asset.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">reserved</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">id</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Maps to the created asset's external ID property: a custom identifier you
+                define that you can use instead of the content ID. See <a class="xref" href="../concepts/ingestion_fileformats_guid_and_id_fields.html" title="Use the  id column (in CSV manifest files) or the guid  element (in XML manifest files) to specify your own identifiers for your ingested content. You can later use those identifiers to update the asset, including its metadata.">Updating Asset Metadata Using CSV or XML Manifest Files</a>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">subTitle</samp></td>
+
+              <td class="entry" id="ingestion_ftp_csv__subtitle" valign="top" width="71.42857142857143%" headers="d1039925e42 ">Specifies a closed caption file (supported for DFXP files only).
+                One of the following: <ul class="ul">
+                  <li class="li">Filename of the closed caption file you uploaded. Example:
+                      <samp class="ph codeph">&lt;media:subTitle href="caption-1.dfxp"/&gt;</samp>
+                  </li>
+
+                  <li class="li">URL where the closed caption file is located. The URL can include
+                      <samp class="ph codeph">http://</samp> or <samp class="ph codeph">https://</samp>. Example:
+                      <samp class="ph codeph">&lt;media:subTitle
+                      href="http://ooyala.com/captions/caption-1.dfxp"/&gt;</samp></li>
+
+                </ul>
+ See <a class="xref" href="../concepts/closed_captions_ingest.html" title="You can ingest closed caption files via Backlot or the Ooyala Ingestion Service (OIS).">Ingesting Closed Caption Files</a>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">subTitle:lang</samp></td>
+
+              <td class="entry" id="ingestion_ftp_csv__lang" valign="top" width="71.42857142857143%" headers="d1039925e42 ">(optional) - Language of the closed caption file. Two-letter language
+                code. For valid values, see <a class="xref" href="../reference/closed_caption_language.html" title="Before uploading closed caption files to Backlot, verify that you are using a supported language and file format.">Supported Closed Captions</a>.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">subTitle:frameRate</samp></td>
+
+              <td class="entry" id="ingestion_ftp_csv__framerate" valign="top" width="71.42857142857143%" headers="d1039925e42 ">(optional) - Frame rate of the closed caption file. Units are in
+                Frames Per Second (FPS). Default is 30. Older closed caption files might be
+                24.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e39 "><samp class="ph codeph">profileguid</samp></td>
+
+              <td class="entry" valign="top" width="71.42857142857143%" headers="d1039925e42 ">ID of the processing profile, which is a group of encodes that define the
+                formats a master video must be converted into during transcoding. Contact your
+                Ooyala support representative for details.</td>
+
+              <td class="entry" valign="top" width="14.285714285714285%" headers="d1039925e45 ">optional</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+<p class="p"><strong class="ph b">Example CSV Manifest File (OIS
+          v2.5)</strong></p>
+
+   <p class="p">This example is for a VR 360 video file.</p>
+
+   <pre class="pre codeblock">video,title,description,labels,hosted_at,id,thumbnail,subTitle,flight_start_time,flight_end_time,profileguid,metadata:vr360type
+  test.mp4,Test CSV,This is an example,"test,example,csv",http://www.ooyala.com,my_test_guid_csv,my_thumbnail.jpg,my_caption.dfxp,2016-01-01T15:15:00-07:00,2022-01-01T16:00:00-07:00,57d5a5a10f654fe79ef954dc8d29a108,stereoscopic(side-by-side)</pre>
+<p class="p"><strong class="ph b">Example
+          CSV Manifest Data in Excel (OIS v1) (Deprecated)</strong></p>
+
+      <div class="note note"><span class="notetitle">Note:</span> OIS v1 has been disabled. Any customers using OIS v1 must switch to
+    OIS v2.5.</div>
+
+      <div class="fig fignone">
+        <img class="image" id="ingestion_ftp_csv__ingest_ftpvideo_csv" src="../image/ingest_ftp_video_csv.png" height="91" width="1135"/>
+      </div>
+<p class="p"><strong class="ph b">Creating a CSV Manifest File</strong></p>
+<p class="p">Keep the following in mind when generating
+        a CSV metadata file:</p>
+<ul class="ul">
+        <li class="li">If a text value in a data field has a comma (,), you must enclose the field in double
+          quotes (").</li>
+
+        <li class="li">If a text value in a data field has a double quote (") in it, you must enclose the field
+          in double quotes and escape the double quote character in the text field with a second
+          quote (e.g., "She said, ""Have a nice day.""" )</li>
+
+      </ul>
+<p class="p">If you are creating your CSV metadata file from Excel, it automatically handles
+        escaping. </p>
+<p class="p">To create a CSV metadata file:</p>
+</div>
+
+ <ol class="ol steps"><li class="li step">
+   <span class="ph cmd">Upload one or more videos.</span>
+  </li>
+<li class="li step">
+   <span class="ph cmd">Open a spreadsheet program, such as Microsoft Excel.</span>
+  </li>
+<li class="li step">
+   <span class="ph cmd">Add the column headings to the first row.</span>
+  </li>
+<li class="li step">
+   <span class="ph cmd">Add a row for each video.</span>
+  </li>
+<li class="li step">
+   <span class="ph cmd">Save the file as a CSV. For example, you might select <span class="ph uicontrol">Save as</span> from the <span class="ph uicontrol">File</span> menu. When prompted, select the comma-separated value file type.</span>
+  </li>
+<li class="li step">
+   <span class="ph cmd">With your upload method of choice, upload the CSV file as you uploaded the video(s). See
+    either <a class="xref" href="../concepts/ingestion_ftp.html" title="You can use FTPS (recommended) or FTP (deprecated) to upload videos, thumbnails, closed captions, and manifest files to Backlot.">FTP</a> or
+    <a class="xref" href="../concepts/ingestion_aspera.html" title="You can use Aspera file transfer software to upload videos, thumbnails, closed captions and manifest files to Backlot.">Aspera</a>.</span>
+  </li>
+</ol>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/ingestion_fileformats.html">Manifest File Formats</a></div>
+</div>
+</div>
+
+</body>
+</html>

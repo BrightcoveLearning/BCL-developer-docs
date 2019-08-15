@@ -132,41 +132,41 @@
 </section>
 
 <section id="inpageembed" class="bcls-section">
-<h2>In-page embed</h2>
+<h2>Advanced code implementation</h2>
 
-<p>When working with selectors and styles above, the results were used with the in-page embed implementation of the player, as shown here:</p>
+<p>When working with selectors and styles above, the results were used with the Advanced code implementation of the player, as shown here:</p>
 
 <pre class="line-numbers">
 <code class="language-html notranslate">&lt;!doctype html&gt;
 &lt;html&gt;
 
 &lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;Embed in page tester&lt;/title&gt;
-   &lt;style&gt;
-    .video-js {
-      height: 344px;
-      width: 610px;
-    }
-    <span class="bcls-highlight">.video-js.vjs-mouse .vjs-big-play-button {
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Untitled Document&lt;/title&gt;
+  &lt;style&gt;
+    .video-js .vjs-big-play-button {
       background-color: red;
       opacity: .3;
-    }</span>
-   &lt;/style&gt;
+    }
+  &lt;/style&gt;
 &lt;/head&gt;
+
 &lt;body&gt;
 
-  &lt;video-js
-    data-video-id="4443311217001"
-    data-account="1507807800001"
-    data-player="30a9c9e0-295b-4102-a7af-a3f86bba91ab"
-    data-embed="default"
-    class="video-js" controls&gt;&lt;/video-js&gt;
-  &lt;script src="https://players.brightcove.net/1507807800001/30a9c9e0-295b-4102-a7af-a3f86bba91ab_default/index.min.js"&gt;&lt;/script&gt;
+  &lt;video-js data-account=&quot;1507807800001&quot;
+    data-player=&quot;default&quot;
+    data-embed=&quot;default&quot;
+    controls=&quot;&quot;
+    data-video-id=&quot;6065136830001&quot;
+    data-playlist-id=&quot;&quot;
+    data-application-id=&quot;&quot;
+    width=&quot;640&quot; height=&quot;360&quot;&gt;
 
+  &lt;/video-js&gt;&lt;script src=&quot;https://players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
 
 &lt;/body&gt;
-&lt;/html&gt; </code></pre>
+
+&lt;/html&gt;</code></pre>
 
 <p>This is a very common way to use CSS with an HTML page. You see the <code class="notranslate">&lt;style&gt;</code> block is on the page with the <code class="notranslate">&lt;video-js&gt;</code> tag.</p>
 
@@ -174,9 +174,9 @@
 </section>
 
 <section id="iframe" class="bcls-section">
-<h2>iframe</h2>
+<h2>Standard code implementation</h2>
 
-<p>The iframe implementation, not surprisingly, places the Brightcove Player in an iframe that you then place in an HTML page. You can style the actual iframe itself, change its size for instance, using styles on the page that contains the iframe, but styles on page of the iframe DO NOT cascade into the iframe itself. The iframe literally pulls in a separate HTML page, so desired styles for the contents of the iframe must be associated with the HTML page in the iframe.</p>
+<p>The Standard, or iframe, code implementation, not surprisingly, places the Brightcove Player in an iframe that you then place in an HTML page. You can style the actual iframe itself, change its size for instance, using styles on the page that contains the iframe, but styles on page of the iframe DO NOT cascade into the iframe itself. The iframe literally pulls in a separate HTML page, so desired styles for the contents of the iframe must be associated with the HTML page in the iframe.</p>
 
 <p>When using the iframe implementation of the Brightcove Player, the steps to apply CSS are:</p>
 
@@ -190,44 +190,38 @@
 <ol class="bcls-tasklist">
 	<li>In Studio, publish a video and copy the code for an iframe implementation of the player.</li>
 	<li>In your HTML page, replace the in-page embed code with the iframe code.</li>
-	<li>Change the <code class="notranslate">.video-js</code> class selector to an element selector using <code class="notranslate">iframe</code> as the element. Leave <code class="notranslate">width</code> and <code class="notranslate">height</code> the same, as shown here:
-	<pre class="line-numbers">
-<code class="language-css notranslate">iframe {
-  height: 344px;
-  width: 610px;
-}</code></pre>
-	</li>
 	<li>Check to be sure your HTML page looks similar to the following:
 	<pre class="line-numbers">
 <code class="language-html notranslate">&lt;!doctype html&gt;
 &lt;html&gt;
-&lt;head&gt;
-  &lt;meta charset="utf-8"&gt;
-  &lt;title&gt;iframe tester&lt;/title&gt;
 
-   &lt;style&gt;
-    iframe {
-      height: 344px;
-      width: 610px;
-    }
-    .video-js.vjs-mouse .vjs-big-play-button {
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Untitled Document&lt;/title&gt;
+  &lt;style&gt;
+    .video-js .vjs-big-play-button {
       background-color: red;
       opacity: .3;
     }
-   &lt;/style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+
 &lt;body&gt;
 
-  &lt;iframe src='https://players.brightcove.net/1507807800001/30a9c9e0-295b-4102-a7af-a3f86bba91ab_default/index.html?videoId=4443311217001'
-    allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;
+&lt;iframe src=&quot;https://players.brightcove.net/1507807800001/default_default/index.html?videoId=6065136830001&quot;
+  allowfullscreen=&quot;&quot;
+  allow=&quot;encrypted-media&quot;
+  width=&quot;640&quot; height=&quot;360&quot;&gt;&lt;/iframe&gt;
 
 &lt;/body&gt;
+
 &lt;/html&gt;</code></pre>
 	</li>
-	<li>Browse the page and you will see the iframe player is sized correctly. As mentioned earlier, the styles for the button will NOT be functioning.</li>
+	<li>Browse the page and you will see the styles for the button are NOT being used.</li>
 	<li>Create a file named <strong>customize-qs.css</strong> and save it in an Internet accessible location.</li>
 	<li>Cut the styles for the button and paste them into the file and save it. Cut only the styles for the button, you cannot include the <code class="notranslate">&lt;style&gt;</code> tags. The file should contain only this content:
 	<pre class="line-numbers">
-<code class="language-css notranslate">.video-js.vjs-mouse .vjs-big-play-button {
+<code class="language-css notranslate">.video-js .vjs-big-play-button {
   background-color: red;
   opacity: .3;
 }</code></pre>
@@ -236,27 +230,26 @@
 	<pre class="line-numbers">
 <code class="language-html notranslate">&lt;!doctype html&gt;
 &lt;html&gt;
-&lt;head&gt;
-  &lt;meta charset="utf-8"&gt;
-  &lt;title&gt;iframe tester&lt;/title&gt;
 
-  &lt;style&gt;
-    iframe {
-      height: 344px;
-      width: 610px;
-    }
-  &lt;/style&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;/head&gt;
+
 &lt;body&gt;
 
-  &lt;iframe src='https://players.brightcove.net/1507807800001/30a9c9e0-295b-4102-a7af-a3f86bba91ab_default/index.html?videoId=4443311217001'
-    allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;
+&lt;iframe src=&quot;https://players.brightcove.net/1507807800001/default_default/index.html?videoId=6065136830001&quot;
+  allowfullscreen=&quot;&quot;
+  allow=&quot;encrypted-media&quot;
+  width=&quot;640&quot; height=&quot;360&quot;&gt;&lt;/iframe&gt;
 
 &lt;/body&gt;
+
 &lt;/html&gt;</code></pre>
 	</li>
 	<li>In Studio, go into the <strong>Players</strong> module and edit the player you are using for this quick start.</li>
 	<li>Click <strong>Plugins</strong> in the left navigation menu.</li>
-	<li>Click <strong>Add a File</strong>, then the <strong>CSS</strong> radio button, and enter your path:
+	<li>Click <strong>Stylesheets</strong>, then the <strong>Add a Stylesheet</strong> button, and enter your path:
 	<figure class="bcls-figure"><img class="bcls-image" alt="studio enter css" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/studio-enter-css.png" /></figure>
 	</li>
 	<li>Click <strong>Save</strong> to save your changes.

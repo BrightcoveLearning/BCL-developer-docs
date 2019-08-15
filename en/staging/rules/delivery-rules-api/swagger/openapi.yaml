@@ -83,7 +83,7 @@ paths:
     get:
       tags:
         - Delivery Rules
-      summary: Get latest version of behaviors for an account
+      summary: Get latest version of Delivery Rules for an account
       description: 'Get only the latest version of the Delivery Rules defined for an account.'
       operationId: GetLatestRules
       security:
@@ -216,13 +216,13 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/behavior/{id}':
+  '/accounts/{accountID}/deliveryrule/{id}':
     put:
       tags:
-        - Playback Config
-      summary: Update a behavior for an account
-      description: 'Update a behavior for an account. Note: Only the properties in the request will be updated. Other properties in the behavior will not be modified.'
-      operationId: UpdateBehavior
+        - Delivery Rules
+      summary: Update a Delivery Rule for an account
+      description: 'Update a Delivery Rule for an account. Note: Only the properties in the request will be updated. Other properties in the behavior will not be modified.'
+      operationId: UpdateRule
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -237,7 +237,7 @@ paths:
             type: string
         - name: id
           in: path
-          description: A unique ID associated with a behavior defined for an account
+          description: A unique ID associated with a Delivery Rule defined for an account
           required: true
           style: simple
           explode: false
@@ -260,7 +260,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Update behavior metadata
+        description: Update Delivery Rule metadata
         content:
             application/json:
               schema:
@@ -271,7 +271,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateBehaviorResponse'
+                $ref: '#/components/schemas/UpdateRuleResponse'
         '400':
           description: >-
             NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
@@ -294,10 +294,10 @@ paths:
         IsMultiContentStreaming: false
     delete:
       tags:
-        - Playback Config
-      summary: Delete a behavior for an account
-      description: 'Delete a behavior for an account.'
-      operationId: DeleteBehavior
+        - Delivery Rules
+      summary: Delete a Delivery Rule for an account
+      description: 'Delete a Delivery Rule for an account.'
+      operationId: DeleteRule
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -312,7 +312,7 @@ paths:
             type: string
         - name: id
           in: path
-          description: A unique ID associated with a behavior defined for an account
+          description: A unique ID associated with a Delivery Rule defined for an account
           required: true
           style: simple
           explode: false
@@ -336,7 +336,7 @@ paths:
             type: string
       responses:
         '200':
-          description: 'SUCCESS: The specified behavior has been deleted'
+          description: 'SUCCESS: The specified Delivery Rule has been deleted'
         '400':
           description: >-
             NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
@@ -369,19 +369,19 @@ components:
           readOnly: true
         id:
           type: string
-          description: Unique identifier for a behavior
+          description: Unique identifier for a Delivery Rule
           readOnly: true
         version:
           type: integer
-          description: Version for the behavior
+          description: Version for the Delivery Rule
           readOnly: true
         created_at:
           type: string
-          description: Date timestamp for when the behavior was added
+          description: Date timestamp for when the Delivery Rule was added
           readOnly: true
         updated_at:
           type: string
-          description: Date timestamp for when the behavior was last updated
+          description: Date timestamp for when the Delivery Rule was last updated
           readOnly: true
         name:
           type: string
@@ -435,19 +435,19 @@ components:
           readOnly: true
         id:
           type: string
-          description: Unique identifier for a behavior
+          description: Unique identifier for a Delivery Rule
           readOnly: true
         version:
           type: integer
-          description: Version for the behavior
+          description: Version for the Delivery Rule
           readOnly: true
         created_at:
           type: string
-          description: Date timestamp for when the behavior was added
+          description: Date timestamp for when the Delivery Rule was added
           readOnly: true
         updated_at:
           type: string
-          description: Date timestamp for when the behavior was last updated
+          description: Date timestamp for when the Delivery Rule was last updated
           readOnly: true
         name:
           type: string
@@ -494,19 +494,19 @@ components:
           readOnly: true
         id:
           type: string
-          description: Unique identifier for a behavior
+          description: Unique identifier for a Delivery Rule
           readOnly: true
         version:
           type: integer
-          description: Version for the behavior
+          description: Version for the Delivery Rule
           readOnly: true
         created_at:
           type: string
-          description: Date timestamp for when the behavior was added
+          description: Date timestamp for when the Delivery Rule was added
           readOnly: true
         updated_at:
           type: string
-          description: Date timestamp for when the behavior was last updated
+          description: Date timestamp for when the Delivery Rule was last updated
           readOnly: true
         behaviors:
           type: array
@@ -537,8 +537,8 @@ components:
             "video_codecs": ["hvc1", "avc1"]
           }]
         }]
-    UpdateBehaviorResponse:
-      title:  Update a behavior Response
+    UpdateRuleResponse:
+      title:  Update a Delivery Rule Response
       type: object
       properties:
         account_id:
@@ -547,73 +547,40 @@ components:
           readOnly: true
         id:
           type: string
-          description: Unique identifier for a behavior
+          description: Unique identifier for a Delivery Rule
           readOnly: true
         version:
           type: integer
-          description: Version for the behavior
+          description: Version for the Delivery Rule
           readOnly: true
         created_at:
           type: string
-          description: Date timestamp for when the behavior was added
+          description: Date timestamp for when the Delivery Rule was added
           readOnly: true
         updated_at:
           type: string
-          description: Date timestamp for when the behavior was last updated
+          description: Date timestamp for when the Delivery Rule was last updated
           readOnly: true
-        behaviors:
+        name:
+          type: string
+          description: Name for the Delivery Rule
+          readOnly: true
+        rule_tuples:
           type: array
-          description: Array of behavior mappings
+          description: Array of Delivery Rules
           readOnly: true
           items:
             $ref: '#/components/schemas/rule'
       example: {
           "account_id": "account1",
           "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 2,
+          "version": 1,
           "created_at": "2019-08-07T20:49:39.12750454Z",
           "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "behaviors":  [
-            {
-              "name" : "MaxBitrate5000foriPhone",
-              "conditions": {
-     	          "device_group": ["iphone"]
-              },
-              "delivery_rule": ["max-bitrate-5000"]
-            },
-            {
-              "name": "iphone8X-codecs",
-              "conditions": {
-                "device_group": ["iphone8","iphoneX"]
-              },
-              "delivery_rule": ["hevc-avc"]
-            }]
-          }
-    RequestResponse:
-      title:  Request Response
-      type: object
-      properties:
-        execution_id:
-          type: string
-          description: >-
-            A unique ID associated with a usage report for a specified accountID and date
-      example: {
-          "execution_id": "b123456e-1234-4e91-b123-123456d1234"
-          }
-    FetchResponse:
-      title:  Fetch Response
-      type: object
-      description: The results are returned as an S3 URL that you can download
-      properties:
-        report_url:
-          type: string
-          description: The results are returned as an S3 URL that you can download
-        expiration_time:
-          type: integer
-          description: Epoch Timestamp. Signed S3 URLs are valid for 15 minutes
-      example: {
-          "report_url": "https://site.com/audit-reports-storage/b123456.csv?X-Algorithm=1234567890",
-          "expiration_time": 1557324256
+          "name" : "hevc-avc",
+          "rule_tuples": [{
+            "video_codecs": [“hvc1”, “avc1”]
+          }]
           }
     Status200:
       title:  Status Response 200

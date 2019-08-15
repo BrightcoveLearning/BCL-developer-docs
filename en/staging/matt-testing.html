@@ -65,32 +65,21 @@
 <ol class="bcls-tasklist">
 	<li>In Video Cloud Studio, open the Media module and select a video to publish.</li>
 	<li>Choose the player with which you wish to play the video.</li>
-  <li>Set the <strong>Sizing</strong>, <strong>Aspect Ration</strong> and player size.</li>
+  <li>Set the <strong>Sizing</strong>, <strong>Aspect Ratio</strong> and player size.</li>
 	<li>Copy the <strong>Advanced</strong> publishing code.</li>
 	<li>Using your HTML editor, create a new HTML page.</li>
 	<li>Paste the publishing code into the body of your HTML page.</li>
 	<li>Browse the newly created page.</li>
-	<li>Open your browser's development tools and drill down into the HTML to find the <code>&lt;div&gt;</code> tag that surrounds the player. You will see the <code class="notranslate">&lt;div&gt;</code> tag has a class of <code class="notranslate">video-js</code>. The <code class="notranslate">&lt;div&gt;</code> that contains the player will always have a class of <code class="notranslate">video-js</code>. <code class="notranslate">video-js</code> is the class name we will need when styling the player.</li>
-	<li>Check the screenshot below to see the class highlighted in red. Highlighted in green is the video tag, which is Brightcove Player.
+	<li>Open your browser's development tools and drill down into the HTML to find the <code>&lt;video-js&gt;</code> tag. You will see the <code class="notranslate">&lt;video-js&gt;</code> tag has a class also named <code class="notranslate">video-js</code>. The <code class="notranslate">&lt;video-js&gt;</code> tag will always have a class of <code class="notranslate">video-js</code>. You will utilize the <code class="notranslate">video-js</code> class frequently when styling the player.</li>
+	<li>Check the screenshot below to see the class highlighted in red. Highlighted in green is the <code>&lt;video-js&gt;</code> tag, which is, of course, Brightcove Player.
 	<figure class="bcls-figure"><img class="bcls-image" alt="player selectors" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/player-div-with-video.png" /></figure>
 
-	<aside class="bcls-aside bcls-aside--information">
+	<!-- <aside class="bcls-aside bcls-aside--information">
 	<p>Note: Depending on the operating system and browser being used, the Flash fallback version of the player may be displayed. If your player is using the Flash fallback version of the player, you will not see a <code class="notranslate">&lt;video-js&gt;</code> tag. Instead you will see the <code class="notranslate">&lt;div&gt;</code> surrounding an <code class="notranslate">&lt;object&gt;</code> tag, as highlighted below.</p>
 	</aside>
 
-	<figure class="bcls-figure"><img class="bcls-image" alt="player div with object" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/player-div-with-object.png" /></figure>
+	<figure class="bcls-figure"><img class="bcls-image" alt="player div with object" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/player-div-with-object.png" /></figure> -->
 	</li>
-	<li>Now that you know the correct class to use for a CSS selector, we can use that class selector to change the size of the player. The <code class="notranslate">&lt;style&gt;</code> block below should be placed just above the end of the <code class="notranslate">head</code> section of your HTML page. In CSS terminology, this is an example of using a <strong>class selector</strong>.
-	<pre class="line-numbers">
-<code class="language-css notranslate">  &lt;style&gt;
-    .video-js {
-      height: 344px;
-      width: 610px;
-    }
-  &lt;/style&gt;
-&lt;/head&gt;</code></pre>
-	</li>
-	<li>Save and browse your HTML page and you will see the player has a new size.</li>
 </ol>
 </section>
 
@@ -106,12 +95,8 @@
 	<figure class="bcls-figure"><img class="bcls-image" alt="big play button div" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/big-play-button-div.png" /></figure>
 	</li>
 	<li>Alter your styles to include CSS that changes the color and opacity of the play button.
-	<pre class="line-numbers">
+<pre class="line-numbers">
 <code class="language-css notranslate">&lt;style&gt;
-  .video-js {
-    height: 344px;
-    width: 610px;
-  }
   .vjs-big-play-button {
     background-color: red;
     opacity: .3;
@@ -128,17 +113,10 @@
 
 	<p>What has happened is that numerous changes are made to the background color. The style you set has been overridden in the "cascading" part of CSS. You can change this by utilizing functionality of CSS called <strong>specificity</strong>. Specificity determines which CSS rule is applied by browsers and is a type of weighting that has a bearing on how your cascading style sheet (CSS) rules are displayed. Using specificity, you can make your style more important than others, forcing it to be used. There is a brief introduction to CSS specificity in the <a href="/node/18066#specificity">Customize Player Appearance</a> doc, and numerous references in any search.</p>
 	</li>
-	<li>Note that the <code class="notranslate">&lt;div&gt;</code> tag surrounds the player has numerous classes associated with it.
-	<figure class="bcls-figure"><img class="bcls-image" alt="multiple classes" src="//learning-services-media.brightcove.com/doc-assets/player-development/player-customization/5x-player-styling/quick-start-player-styling/multiple-classes.png" /></figure>
-	</li>
-	<li>In this case, using the combination of <code class="notranslate">video-js</code> and <code class="notranslate">vjs-mouse</code> will "boost" your styles to take precedence. Alter your styles to use the new combination selector. Note that there is no space between the first two classes, but there is one before the last class (details of why can be found in rules for specificity).
+	<li>In this case, using the <code class="notranslate">video-js</code> class will "boost" your styles to take precedence. Alter your styles to use the new combination selector. Note there is one space before the last class (details of why can be found in rules for specificity).
 	<pre class="line-numbers">
 <code class="language-css notranslate">&lt;style&gt;
-  .video-js {
-    height: 344px;
-    width: 610px;
-  }
-  .video-js.vjs-mouse .vjs-big-play-button {
+  .video-js .vjs-big-play-button {
     background-color: #ff0000;
     opacity: .3;
   }

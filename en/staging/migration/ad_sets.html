@@ -46,10 +46,54 @@
         <section class="bcls-section">
           <h2 id="new_video_cloud_options">New Video Cloud options</h2>
           <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
-          <p>Video Cloud does not have the concept of an ad set. Client-side ads are set up generally through video cuepoints and an advertising plugin for the player. See <a
-              href="https://support.brightcove.com/step-step-implementing-advertising">Step-by-Step: Implementing Advertising</a> for more details.</p>
+          <p>Video Cloud does not have the concept of an ad set. Client-side ads are set up generally through video cuepoints and an advertising plugin for the player. See <a href="https://support.brightcove.com/step-step-implementing-advertising">Step-by-Step: Implementing Advertising</a> for more details.</p>
+          <p>In migrating videos to Video Cloud that are associated with an as set, we are doing two things:</p>
+          <ul>
+            <li>Migrating some ad set data to cuepoints (what is migrated varies by the <code>ad_source</code>, and is detailed in sections below)</li>
+            <li>Storing the ad set id in a custom field called <code>ad_set_id</code>, so that the video can be updated later for changes to the ad set</li>
+          </ul>
+          <p>If the video is played in an existing <a href="./using-ooyala-players.html">Ooyala player</a> the ads should continue to play as before. For Brightcove players, you will need to add and configure the appropriate ad plugin to the player - see <a href="https://support.brightcove.com/configuring-player-advertising-using-players-module">Configuring Player Advertising using the Players Module</a> and the other Advertising documentation for the <a href="https://support.brightcove.com/brightcove-player-developer">Brightcove Player</a> for more details.</p>
         </section>
-
+        <section class="bcls-section">
+            <h2 id="supported_ad_sources">Supported Ad Sources</h2>
+            <p>Only the following <code>ad_source</code> types are supported for migrating ad set data to Video Cloud:</p>
+            <ul>
+              <li>Videoplaza</li>
+              <li>Google IMA v3</li>
+              <li>Freewheel</li>
+              <li>My Ads</li>
+              <li>VAST</li>
+              <li>VPAID</li>
+            </ul>
+            <p>The following fields will be dropped for all sources in the above list that support it:</p>
+            <ul>
+              <li><code>tracking_pixel_url</code></li>
+              <li><code>ad_frequency</code></li>
+            </ul>
+            <p>Additional fields for these ad_sources will be stored as <code>cue_points[i].metadata</code> of type "CODE" as stringified JSON. See the sections below for exact mappings.</p>
+          </section>
+          <section class="bcls-section">
+              <h2 id="Videoplaza">Videoplaza</h2>
+              <table class="bcls-table">
+                  <caption class="bcls-caption--table">Videoplaza Data Mappings</caption>
+                  <thead class="bcls-table__head">
+                      <tr>
+                        <th>Ooyala ad set data</th>
+                        <th>Video Cloud video data</th>
+                      </tr>
+                  </thead>
+                  <tbody class="bcls-table__body">
+                      <tr>
+                          <td><code>ad_source [=videoplaze]</code></td>
+                          <td><code>cue_points[i].name</code></td>
+                      </tr>
+                      <tr>
+                          <td><code>ad_position</code></td>
+                          <td><code>cue_points[i].time</code></td>
+                      </tr>
+                  </tbody>
+              </table>
+            </section>
       </article>
 
       <!-- END MAIN CONTENT -->

@@ -1,54 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Ooyala to Video Cloud Migration: XML Manifest File for Ingestion</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div>
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <section id="main" class="large-10 small-12 columns">
+
 <h1 class="content-title">Ingesting with FTP / FTPS</h1>
-<div>
-  <div id="block-block-22" class="block block-block">
+<summary>You can continue to use FTP with an XML manifest to ingest your videos to Video Cloud. This topic provides an overview of the process.</summary>
 
-
-
-  </div>
-  <div id="block-system-main" class="block block-system">
-
-
-    <div class="content">
-      <div class="dita-content">
-        <div class="body conbody">
+<section>
+  <article class="bcls-article">
+    <p><a href="../index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
+    <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
+    <section class="bcls-section">
+      <h2 id="introduction">Introduction</h2>
           <p class="shortdesc">You can use FTPS (recommended) or FTP (deprecated) to upload videos, thumbnails, closed
             captions, and manifest files to Backlot.</p>
 
-          <div class="section">
-            <div class="note note"><span class="notetitle">Note:</span> This topic applies to both OIS v2.5 and OIS v1. Certain sections, where
-              indicated, apply to just one version. OIS v1 has been
-              disabled. Customers using OIS v1 should switch to OIS v2.5.</div>
+            <div class="note note"><span class="notetitle">Note:</span> This topic applies to OIS v2.5.</div>
 
-          </div>
+          </section>
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">Overview of FTP Ingest</h2>
             <div class="fig fignone">
               <img class="image" src="../../sites/all/libraries/dita/en/video-platform/image/ingest_ftp.png" height="181" width="622" />
             </div>
 
-          </div>
+          </section>
 
-          <div class="section">
-            <h2 class="title sectiontitle">About FTP / FTPS</h2>FTP is a standard network protocol for transferring files
-            from one computer to another. For OIS v2.5, FTPS (FTP over SSL) is required. FTP is used for
-            OIS v1, which is deprecated.
-          </div>
+          <section class="bcls-section">
+            <h2 id="about_ftp">About FTP / FTPS</h2>
+            FTP is a standard network protocol for transferring files from one computer to another. For OIS v2.5, FTPS (FTP over SSL) is required.. Most operating systems support FTP natively, and you can choose from many FTP client applications. You can automate FTP uploads by writing scripts, have users bulk upload videos through a Windows, Mac, or Linux application, or have users bulk upload videos through a browser (e.g., FireFTP). 
+          <div class="note note"><span class="notetitle">Note:</span> You can use any FTP client to upload videos.</div>
+            </section>
 
-          <div class="section">Most operating systems support FTP natively, and you can choose from many FTP client
-            applications. You can automate FTP uploads by writing scripts, have users bulk upload videos
-            through a Windows, Mac, or Linux application, or have users bulk upload videos through a
-            browser (e.g., FireFTP). <div class="note note"><span class="notetitle">Note:</span> You can use any FTP client to upload videos to
-              Backlot.</div>
-          </div>
-
-          <div class="section">
-            <h2 class="title sectiontitle">Account Policy</h2>Your account is limited to a maximum of 100GB on the
+          <section class="bcls-section">
+            <h2 id="Account_Policy">Account Policy</h2>
+            Your account is limited to a maximum of 100GB on the
             ingestion server at any time. If you expect to upload more content, you can request a
             temporary increase from your Customer Success Manager or Technical Support.
-          </div>
+          </section>
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">Getting Ingest Credentials</h2>You need to obtain ingest credentials in order
             to upload files to Ooyala via FTP. <p class="p"><strong class="ph b">Setting Up an Upload-only User in Backlot (OIS
                 v2.5)</strong></p>
@@ -68,10 +91,10 @@
             </ol>
             <div class="note note"><span class="notetitle">Note:</span> If you want to use manifest-based ingest, contact Ooyala to enable this
               functionality for your account.</div>
-          </div>
+            </section>
 
-          <div class="section" id="ingestion_ftp__vr360_metadata">
-            <h2 class="title sectiontitle">Setting VR 360 File Metadata</h2>
+          <section class="bcls-section">
+            <h2 id="ingestion_ftp__vr360_metadata">Setting VR 360 File Metadata</h2>
             <p class="p">If you are uploading a VR 360 video file, first label the file as VR 360 and tell which
               type of VR 360 it is, monoscopic or stereoscopic. Use file metadata to transmit this
               information.</p>
@@ -100,9 +123,9 @@
             <p class="p">For more information about VR 360, see
               <a class="xref" href="vr360.html">VR 360 Videos</a>.</p>
 
-          </div>
+          </section>
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">Ingesting with an FTP / FTPS Client</h2>
             <p>You can upload a video via FTP / FTPS either with or without a manifest. </p>
             <div class="note note"><span class="notetitle">Note:</span> All upload files must comply with the ingest requirements described in <a class="xref" href="input_formats.html" title="Before uploading content to Backlot, make sure you are using a supported file format and following the best practices for source files.">Supported Ingest Formats</a></div>
@@ -137,3 +160,20 @@
 </article>
 </div>
 </div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+  $(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

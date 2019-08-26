@@ -28,11 +28,11 @@
   <!-- search -->
   <div id="searchModal" class="reveal-modal" data-reveal></div>
   <!-- content -->
-  <se class="row">
+  <div class="row">
     <div class="sidebar large-2 columns show-for-large-up">
       <div id="sidenav" class="side-nav"></div>
     </div>
-    <se id="main" class="large-10 small-12 columns">
+    <div id="main" class="large-10 small-12 columns">
 
       <h1 class="content-title">Ingesting from a Remotely Hosted MRSS Feed</h1>
       <summary>You can continue to ingest videos and assets to Video Cloud using MRSS feeds via the <a href="ingestion.html">Ingestion Adaptor</a>.</summary>
@@ -41,14 +41,15 @@
       <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
       <article class="bcls-article">
         <section class="bcls-section">
-          <p class="shortdesc"> You can use Media RSS (MRSS) to have Ooyala pull your content from your own system from an MRSS feed that you publish. Video Cloud pulls the metadata from the MRSS feed and either creates a remote asset or downloads (from where they are hosted) and processes the videos and any associated files (thumbnails, closed caption files, etc.).</p>
+          <h2 id="introduction">Introduction</h2>
+          <p> You can use Media RSS (MRSS) to have Ooyala pull your content from your own system from an MRSS feed that you publish. Video Cloud pulls the metadata from the MRSS feed and either creates a remote asset or downloads (from where they are hosted) and processes the videos and any associated files (thumbnails, closed caption files, etc.).</p>
 
           <div class="note note"><span class="notetitle">Note:</span> This topic applies to OIS v2.5.</div>
 
         </section>
 
         <section class="bcls-section">
-          <h2 class="title sectiontitle">Overview of MRSS Ingest</h2>
+          <h2 id="Overview_of_MRSS_Ingest">Overview of MRSS Ingest</h2>
           <div class="fig fignone">
             <img class="image" src="../../sites/all/libraries/dita/en/video-platform/image/ingest_mrss.png" height="197" width="474" />
           </div>
@@ -56,61 +57,61 @@
         </section>
 
         <section class="bcls-section" id="ingestion_mrss__mrss_about">
-          <h2 class="title sectiontitle">About MRSS</h2>Media RSS (MRSS) is an extension of RSS that allows you to syndicate multimedia files in RSS feeds. For technical details, see the <a class="xref" href="http://www.rssboard.org/media-rss" target="_blank">Media RSS Specification</a>.
+          <h2 id="About_MRSS">About MRSS</h2>
+          <p>
+            Media RSS (MRSS) is an extension of RSS that allows you to syndicate multimedia files in RSS feeds. For technical details, see the <a href="http://www.rssboard.org/media-rss" target="_blank">Media RSS Specification</a>.
+          </p>
         </section>
 
         <section class="bcls-section" id="ingestion_mrss__mrss_setup">
-          <h2 class="title sectiontitle">Setting Up MRSS</h2>
-          Contact your Ooyala representative and indicate that you want to use MRSS. For each video you want to ingest, you must provide Ooyala with valid content URLs. URLs can include <samp class="ph codeph">http://</samp> or <samp class="ph codeph">https://</samp>.
-        </section>
-
-        <section class="bcls-section">
-          <h2 class="title sectiontitle">Using MRSS</h2> To use MRSS, you host metadata and/or videos and other files (thumbnails, closed captions) on a web server, and create an XML manifest file that references that content. <p class="p"><strong class="ph b">Using MRSS to Pull Metadata Only</strong></p>
-          <ol class="ol">
-            <li class="li">Create an XML manifest file as described in <a class="xref" href="../tasks/ingestion_ftp_xml.html" title="When ingesting videos, you can use XML manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use XML manifest files when you ingest content with FTP, Aspera, or MRSS.">XML
-                Manifest File</a>. You must use the <samp class="ph codeph">ooyala:remoteasset</samp> tag for metadata-only ingestion. </li>
-
-            <li class="li">Host the XML manifest file on one of the MRSS locations you provided. Make sure that the filename and path matches exactly one of the paths you provided to Ooyala.</li>
-
-          </ol>
-          <p class="p"><strong class="ph b">Using MRSS to Pull Videos, Thumbnails, and Closed Caption Files</strong></p>
-          <ol class="ol">
-            <li class="li">Host one or more files (videos, thumbnails, and closed caption files) on a web server.</li>
-
-            <li class="li">Create an XML manifest file (see <a class="xref" href="../tasks/ingestion_ftp_xml.html" title="When ingesting videos, you can use XML manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use XML manifest files when you ingest content with FTP, Aspera, or MRSS.">XML
-                Manifest File</a>). Make sure that the entries in the file reference the
-              files on your server. In particular, the value of the
-              <samp class="ph codeph">&lt;media:content&gt;</samp> element's <samp class="ph codeph">href</samp>
-              attribute <em class="ph i">must</em> be an HTTP URL to the file on your server, as in the following
-              example:
-              <pre class="pre">&lt;media:content url="http://mysite.com/upload/lacrosse_70.mov" /&gt;</pre>
-            </li>
-
-            <li class="li">Host the XML manifest file on one of the MRSS locations you provided. Make sure that
-              the filename and path exactly matches one of the paths you provided to Ooyala. <div class="note note"><span class="notetitle">Note:</span>
-                Unfortunately, the concept of "client logging" does not apply to MRSS feed-based
-                processing. The best way to verify that your feed is processing successfully is to
-                check for the appearance of your assets, either with the Video Cloud Studio UI or the Backlot
-                API <samp class="ph codeph">/v2/assets</samp> request. </div>
-            </li>
-
-          </ol>
-          After the videos and any other associated files are processed, to pull more files, you simply host another MRSS file in the agreed-upon location.
-        </section>
-
-        <section class="bcls-section">
-          <h2 class="title sectiontitle">Validating MRSS Feeds</h2>
+          <h2 id="Setting_Up_MRSS">Setting Up MRSS</h2>
           <p>
-            You can use the following feed validator to validate the MRSS feeds you create: <span class="ph">Ooyala <a class="xref" href="../../feed_validator.html" target="_blank">MRSS Feed Validator</a></span>.
+            Contact your Ooyala representative and indicate that you want to use MRSS. For each video you want to ingest, you must provide Ooyala with valid content URLs. URLs can include <samp>http://</samp> or <samp>https://</samp>.
           </p>
         </section>
 
         <section class="bcls-section">
-          <h2 class="title sectiontitle">Validating Closed Captions</h2>
-          Use the <span class="ph">Ooyala <a class="xref" href="../../ttml_validator.html" target="_blank">Closed Captions Validator</a></span> to check your DFXP/TTML documents for your convenience.
+          <h2 id="Using_MRSS">Using MRSS</h2> 
+          To use MRSS, you host metadata and/or videos and other files (thumbnails, closed captions) on a web server, and create an XML manifest file that references that content. 
+          <h3>Using MRSS to Pull Metadata Only</h3>
+          <ol class="bcls-tasklist">
+            <li>Create an XML manifest file as described in <a href="ingestion_ftp_xml.html" title="When ingesting videos, you can use XML manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use XML manifest files when you ingest content with FTP, Aspera, or MRSS.">XML Manifest File</a>. You must use the <samp>ooyala:remoteasset</samp> tag for metadata-only ingestion. </li>
+
+            <li>Host the XML manifest file on one of the MRSS locations you provided. Make sure that the filename and path matches exactly one of the paths you provided to Ooyala.</li>
+
+          </ol>
+          <p><strong>Using MRSS to Pull Videos, Thumbnails, and Closed Caption Files</strong></p>
+          <ol class="bcls-tasklist">
+            <li>Host one or more files (videos, thumbnails, and closed caption files) on a web server.</li>
+
+            <li>Create an XML manifest file (see <a href="ingestion_ftp_xml.html" title="When ingesting videos, you can use XML manifest files to specify extra metadata (including the video title, description, flight times, labels, and custom metadata), as well as thumbnail and closed caption files. You can use XML manifest files when you ingest content with FTP, Aspera, or MRSS.">XML Manifest File</a>). Make sure that the entries in the file reference the files on your server. In particular, the value of the <samp>&lt;media:content&gt;</samp> element's <samp>href</samp> attribute <em class="ph i">must</em> be an HTTP URL to the file on your server, as in the following example:
+              <pre class="pre">&lt;media:content url="http://mysite.com/upload/lacrosse_70.mov" /&gt;</pre>
+            </li>
+
+            <li>Host the XML manifest file on one of the MRSS locations you provided. Make sure that the filename and path exactly matches one of the paths you provided to Ooyala. 
+              <p class="note note"><span class="notetitle">Note:</span>
+                Unfortunately, the concept of "client logging" does not apply to MRSS feed-based processing. The best way to verify that your feed is processing successfully is to check for the appearance of your assets, either with the Video Cloud Studio UI or the Backlot API <samp>/v2/assets</samp> request. </p>
+            </li>
+
+          </ol>
+          <p>
+            After the videos and any other associated files are processed, to pull more files, you simply host another MRSS file in the agreed-upon location.
+          </p>
+        </section>
+
+        <!-- <section class="bcls-section">
+          <h2 id="title sectiontitle">Validating MRSS Feeds</h2>
+          <p>
+            You can use the following feed validator to validate the MRSS feeds you create: <span class="ph">Ooyala <a href="../../feed_validator.html" target="_blank">MRSS Feed Validator</a></span>.
+          </p>
+        </section> -->
+
+        <!-- <section class="bcls-section">
+          <h2 id="title sectiontitle">Validating Closed Captions</h2>
+          Use the <span class="ph">Ooyala <a href="../../ttml_validator.html" target="_blank">Closed Captions Validator</a></span> to check your DFXP/TTML documents for your convenience.
           <div class="note note"><span class="notetitle">Note:</span> We provide Ooyala-specific DFXP support. Even if you follow the w3c document definition for DFXP/TTML, it may not be supported. If you run into any issues with your DFXP/TTML files, contact your Ooyala support representative.</div>
 
-        </section>
+        </section> -->
       </article>
       </div>
       </div>

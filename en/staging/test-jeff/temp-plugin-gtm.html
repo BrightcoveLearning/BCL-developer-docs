@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Google Tag Manager Plugin for Brightcove Player</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Google Tag Manager Plugin for Brightcove Player</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <p>In this topic, you will learn the how to use the Google Tag Manager plugin for Brightcove Player.</p>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Google Chromecast is a device that you plug into your TV's HDMI port. Using your smartphone or computer as a remote control, you can use Chromecast to access video content. Chromecast Plugin for Brightcove Player enables Brightcove Player to cast video from your desktop or Android Chrome browser to the Chromecast device. The plugin supports all Video Cloud videos or external streams using HLS or DASH, including DRM-encrypted streams using Widevine. Advertising is supported through Video Cloud server-side ad insertion (SSAI). Client-side ads and playlists are not supported.</p>
+
+<p>To actually use the plugin follow these steps:</p>
+
+<ol>
+	<li>Load the Chromecast Plugin for Brightcove Player (detailed below).</li>
+	<li>Be sure the Chromecast device is on the same network as your device that will play the video.</li>
+	<li>Start playing the video.</li>
+	<li>Click the cast button and select your Chromecast device.</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Chromecast_app_components">Chromecast app components</h2>
+
+<p>The software behind Chromecast is comprised of the following components:</p>
+
+<ul>
+	<li>
+	<p><strong>Sender application</strong>: As the name implies, this is the component that sends data to the Chromecast device. The sender application can be thought of as the "client side" portion of the Chromecast ecosystem.</p>
+
+	<p>The Chromecast Plugin for Brightcove Player enables the sender app in Brightcove Player. You will learn about it in this topic.</p>
+	</li>
+	<li>
+	<p><strong>Receiver application</strong>: This component handles communication between the sender app and the receiver device and runs on the Chromecast device. It can be thought of as a single page HTML app with CSS and JavaScript assets.</p>
+
+	<p>As a Brightcove Player customer, you do not need to work with the code and configuration of the receiver application. By default, this plugin uses the Brightcove receiver app.</p>
+
+	<aside class="bcls-aside bcls-aside--information">For Chromecast to work with domain restricted players, you should whitelist the Chromecast receiver's domain, which is <code class="notranslate">players.brightcove.net</code>.</aside>
+	</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Using_the_plugin">Using the plugin</h2>
+
+<p>The Chromecast Plugin for Brightcove Player is used like all other Brightcove Player plugins, that is you must load the plugin into the player.</p>
+
+<h3>Using Studio</h3>
+
+<p>The following steps detail using Studio to load the plugin.</p>
+
+<ol class="bcls-tasklist">
+	<li>Open the <strong>PLAYERS</strong> module and either create a new player or locate the player to which you wish to add the plugin.</li>
+	<li>Select the link for the player to open the player's properties.</li>
+	<li>Select <strong>Plugins</strong> in the left navigation menu.</li>
+	<li>
+	<p>Next, select the <strong>Add a Plugin</strong> button, and then select <strong>Brightcove Plugin</strong>.</p>
+
+	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Add a Plugin button" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/add-a-plugin.png" />
+	<figcaption class="bcls-caption--image">Add a Plugin button</figcaption>
+	</figure>
+	</li>
+	<li>
+	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>chromecast-receiver</strong>.</p>
+
+	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="chromcast-receiver" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-receiver.png" />
+	<figcaption class="bcls-caption--image">chromecast-receiver</figcaption>
+	</figure>
+	</li>
+	<li>
+	<p><strong>Optional</strong>: Enter the configuration options in the <strong>Options(JSON)</strong> text box. An example for the default player in the <strong>1752604059001</strong> account is shown. You, of course, need to enter information for your player.</p>
+	<!-- <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin options" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/options.png" />
+	<figcaption class="bcls-caption--image">Plugin options</figcaption>
+	</figure> -->
+
+	<pre class="line-numbers">
+<code class="language-json">{
+"playerUrl" : "https://players.brightcove.net/1507807800001/default_default/index.min.js"
+}</code></pre>
+
+	<p>See below for details on the options.</p>
+	</li>
+	<li>
+	<p>Select the <strong>Save</strong> button. You will now see the <strong>chromecast-receiver</strong> plugin added to the list of plugins for your player.</p>
+
+	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin added" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/plugin-added.png" />
+	<figcaption class="bcls-caption--image">Plugin added</figcaption>
+	</figure>
+	</li>
+	<li>To publish the player, select <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
+	<li>To close the open dialog, select <strong>Close</strong>.</li>
+	<li>
+	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Chromecast.</p>
+
+	<p>Once the plugin is loaded, the video has started playing, and an available Chromecast device is in range, the cast button will appear in the player as shown here in this screenshot of a player:</p>
+
+	<figure class="bcls-figure"><img class="bcls-image" alt="Cast button" width="800" height="402" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-button.png" /></figure>
+
+	<aside class="bcls-aside bcls-aside--information">
+	<p>The Chromecast plugin's cast button will appear in the player's controlbar when an available Chromecast device is in range.</p>
+	</aside>
+	</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Configuration_options">Configuration options</h2>
+
+<p>No matter which method you choose to setup the Chromecast Plugin for Brightcove Player, you can pass options to modify plugin behavior.&nbsp;While setting these options is not necessary, additional customization is possible for advanced users. The available options are:</p>
+
+<ul>
+	<li><code class="notranslate">playerUrl </code><br />
+	<strong>Default</strong>: <code class="notranslate">URL of current player</code>
+
+	<p>When unspecified, this will point to the player that is casting your videos. Supplying this option will force the receiver to load a specific player rather than the player that is currently casting the video. This is useful when you want specific player code to only run on the Chromecast.</p>
+	</li>
+	<li><code class="notranslate">js </code><br />
+	<strong>Default</strong>: <code class="notranslate">[] </code>
+	<p>An array of custom JavaScript to load after the player JavaScript has loaded on the Chromecast receiver.</p>
+	</li>
+	<li><code class="notranslate">css </code><br />
+	<strong>Default</strong>: <code class="notranslate">[] </code>
+	<p>An array of custom CSS to load after the player CSS is loaded on the Chromecast receiver.</p>
+	</li>
+</ul>
+
+<p>To pass options in code, you would use something similar to the following:</p>
+
+<pre class="line-numbers">
+<code class="notranslate language-javascript">videojs.getPlayer('myPlayerID').ready(function() {
+  var myPlayer = this;
+  options = {};
+  options.playerUrl = '//players.brightcove.net/1752604059001/default_default/index.min.js';
+  myPlayer.chromecastReceiver(options);
+});</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="Known_issues">Known issues</h2>
+
+<ul>
+	<li>The Chromecast Plugin is supported with the Brightcove Player version 6+.</li>
+	<li>Google has stopped supporting non-secure origins (HTTP) with Chromecast, hence the plugin will not work in non-secure contexts. In these cases, the player's Chromecast button will not appear.</li>
+	<li>Since the Chromecast Plugin relies on the browser's support for casting, it is only supported in the following OS/browser combinations:
+	<ul>
+		<li>Desktop/Chrome</li>
+		<li>Android/Chrome</li>
+	</ul>
+	</li>
+	<li>Google does not support multiple instances of the Chromecast sender button on a single page. Possible workarounds would be to embed the Brightcove Player using the Standard (iframe) player implementation, or to dynamically instantiate and destroy players as needed. See the document <a href="/node/18169">Brightcove Player Sample: Loading the Player Dynamically</a> for information on the latter possibility.</li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Changelog">Changelog</h2>
+
+<p>See the <a href="/node/18791">changelog here</a>.</p>
+</section>
+</article>
+
+<!-- END DRUPAL CONTENT -->
+</>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

@@ -41,7 +41,7 @@
     <p><a href="../index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
     <aside class="bcls-aside bcls-aside--information language-editable">Note: this topic applies <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">Ingest Formats</h2>
             <p class="p">The following table lists supported ingest formats.</p>
 
@@ -67,13 +67,7 @@
                       <ul class="ul">
                         <li class="li"><strong class="ph b">Recommended</strong>: H.264</li>
 
-                        <li class="li"><strong class="ph b">Other supported formats</strong>: MPEG-4, MPEG-1, MPEG-2, H.263,
-                          H.265 HEVC codec,
-                          Motion-JPEG, VP-6, Windows Media Video 7 (WMV-7), Windows Media Video 8 (WMV-8), Windows
-                          Media Video 9 (WMV-9), Windows Media Video 9 Advanced Profile (WVC1, VC-1), Microsoft
-                          Mpeg4, DV Video, Apple ProRes 422, XDCAM SD, XDCAM HD, XDCAM EX, XDCAM HD422, Raw Video
-                          (uncompressed YCbCr), Microsoft Screen Scraper 2, CinePak, Motion JPEG, Quicktime Run
-                          Length Encoding.</li>
+                        <li class="li"><strong class="ph b">Other supported formats</strong>: see <a href="https://support.brightcove.com/supported-video-and-audio-formats-codecs-and-containers">Supported Video and Audio Formats, Codecs, and Containers</a></li>
 
                       </ul>
 
@@ -81,7 +75,7 @@
 
                   </tr>
 
-                  <tr id="input_formats__vr360_codecs" class="row">
+                  <!-- <tr id="input_formats__vr360_codecs" class="row">
                     <td class="entry" valign="top" headers="d869839e29 d869839e32 ">VR 360 Video Codecs</td>
 
                     <td class="entry" id="input_formats__vr360_codecs_list" valign="top" headers="d869839e29 d869839e32 ">
@@ -97,7 +91,7 @@
 
                     </td>
 
-                  </tr>
+                  </tr> -->
 
                   <tr id="input_formats__audio_codecs" class="row">
 
@@ -107,8 +101,7 @@
                       <ul class="ul">
                         <li class="li"><strong class="ph b">Recommended</strong>: AAC</li>
 
-                        <li class="li"><strong class="ph b">Other supported formats</strong>: AC-3, MPEG-2 Audio, MP3, PCM, Windows Media Audio (WMAV1
-                          and WMAV2), WMA Pro, WMA Lossless, WMA Voice, Vorbis, AD-PCM, AMR.</li>
+                        <li class="li"><strong class="ph b">Other supported formats</strong>: see <a href="https://support.brightcove.com/supported-video-and-audio-formats-codecs-and-containers">Supported Video and Audio Formats, Codecs, and Containers</a></li>
 
                       </ul>
 
@@ -116,7 +109,7 @@
 
                   </tr>
 
-                  <tr id="input_formats__containers" class="row">
+                  <!-- <tr id="input_formats__containers" class="row">
                     <td class="entry" valign="top" headers="d869839e29 d869839e32 ">Muxed/Container Formats</td>
 
 
@@ -125,7 +118,7 @@
                         extension .ts is not supported.</div>
                     </td>
 
-                  </tr>
+                  </tr> -->
 
                 </tbody>
 
@@ -135,21 +128,19 @@
           </div>
 
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">File Names</h2>
-            <ul class="ul">
-              <li class="li">File names should not begin with a white space. </li>
+            <p>During the ingestion process, the source file name will need to be passed as part of an API request URL. For that reason, the name must be URI compatible. Avoid the following in source file names for all videos and assets:</p>
 
-              <li class="li">When ingesting with FTP or Aspera, file names should not contain the special character
-                "&amp;".</li>
-
+            <ul>
+            	<li><strong>Spaces</strong>: instead of <code>my video.mov</code>, use <code>my-video.mov</code> or <code>my_video.mov</code></li>
+            	<li><strong>Special characters</strong>: do <strong>not</strong> use the following characters in source file names: <code>"!", "@", "#", "$", "%", "^", "&amp;", "*", "(", ")", "?", "/", "\", "{", "}", "[", "]"</code></li>
             </ul>
-
           </div>
 
 
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">File Extensions</h2>
             <p class="p">The following table lists supported file extensions.</p>
 
@@ -181,7 +172,7 @@
 
                   </tr>
 
-                  <tr id="input_formats__vr360_file_types" class="row">
+                  <!-- <tr id="input_formats__vr360_file_types" class="row">
                     <td class="entry" valign="top" headers="d869839e153 d869839e156 ">VR 360 Video Files</td>
 
                     <td class="entry" valign="top" headers="d869839e153 d869839e156 ">
@@ -194,7 +185,7 @@
 
                     </td>
 
-                  </tr>
+                  </tr> -->
 
                   <tr class="row">
                     <td class="entry" valign="top" headers="d869839e153 d869839e156 ">Audio Files</td>
@@ -207,7 +198,7 @@
                     <td class="entry" valign="top" headers="d869839e153 d869839e156 ">Closed Caption Files</td>
 
                     <td class="entry" valign="top" headers="d869839e153 d869839e156 "><a class="xref" href="../concepts/closed_captions_ingest.html"
-                        title="You can ingest closed caption files via Backlot or the Ooyala Ingestion Service (OIS).">Ingesting Closed Caption Files</a></td>
+                        title="You can ingest closed caption files via Backlot or the Ooyala Ingestion Service (OIS).">Ingesting Closed Caption Files</a>. Note that HTML5 web players like the Brightcove and Ooyala players require WebVTT captions. If you <strong>ingest</strong> DFXP or SRT captions, they will automatically be converted to WebVTT. For remote asset captions, you <strong>must</strong> use the WebVTT format.</td>
 
                   </tr>
 
@@ -228,118 +219,23 @@
 
           </div>
 
-          <div class="section">
+          <section class="bcls-section">
             <h2 class="title sectiontitle">Best Practices for Ingestion Source Files</h2>
             The following recommendations will help
             ensure that your source files are ready to provide the best possible results.<p class="p"><strong class="ph b">Progressive
                 scan, de-interlaced</strong></p>
-            <p class="p">Source video should be progressive scan (progressive,
-              non-interlaced, de-interlaced) before upload to Backlot. Although Ooyala can de-interlace the
-              content when processing the source video, we recommend that, if you have the resources, you do
-              this before ingesting. This allows you to confirm the quality of your video source assets at the
-              quality control stage of your editorial workflow.</p>
-            <p class="p">The majority of consumer-level digital
-              displays (such as LED TVs) natively support progressive video. Interlaced content, if improperly
-              de-interlaced, can result in poor quality of display.</p>
-            <p class="p">If you have interlaced video and you
-              would like help to de-interlace it at the time of ingestion, or if you need help identifying the
-              quality of your video assets, please ask your Ooyala representative during your account trial
-              period or setup.</p>
+            <p class="p">Source video should be progressive scan (progressive, non-interlaced, de-interlaced) before upload to Backlot. Although Ooyala can de-interlace the content when processing the source video, we recommend that, if you have the resources, you do this before ingesting. This allows you to confirm the quality of your video source assets at the quality control stage of your editorial workflow.</p>
+            <p class="p">The majority of consumer-level digital displays (such as LED TVs) natively support progressive video. Interlaced content, if improperly de-interlaced, can result in poor quality of display.</p>
+            <p class="p">If you have interlaced video and you would like help to de-interlace it at the time of ingestion, or if you need help identifying the quality of your video assets, please ask your Ooyala representative during your account trial period or setup.</p>
 
             <p class="p"><strong class="ph b">Square pixel aspect ratio</strong></p>
-            <p class="p">Source video should have a square pixel aspect ratio.
-              The pixel should not have a non-square aspect ratio, such as anamorphic.</p>
-            <p class="p">The source
-              video's metadata should not contain a display aspect ratio or rotational metadata. The pixels
-              should be considered square throughout, and there should be no conflicting metadata about the
-              transformation of the video. Conflicting metadata can decrease the quality of video output,
-              because it is not always possible to automatically detect the issue. Typically only a human
-              viewer would notice the type of visual distortion that can result from improper aspect ratio or
-              rotational metadata.</p>
-            <p class="p">The majority of consumer-level digital displays natively support
-              square pixel aspect ratio content. The use of non-square, or anamorphic, pixels was invented to
-              support technologies like Cinemascope film projection, in which the physical width of the
-              storage medium (film) necessitated compacting the image horizontally to fit. This restriction
-              does not apply in modern digital video, but the use of anamorphic pixels is still present in
-              some video assets created for early television broadcast.</p>
-            <p class="p">It is possible for the Ooyala
-              ingestion service to force aspect ratio conversion, converting a video with non-square pixels to
-              square pixel output streams. Ooyala support can manually enable this for you in our ingestion
-              processes. If you need to request conversion of anamorphic to square pixels, please speak to
-              your Ooyala representative during your account trial period or setup.</p>
+            <p class="p">Source video should have a square pixel aspect ratio. The pixel should not have a non-square aspect ratio, such as anamorphic.</p>
+            <p class="p">The source video's metadata should not contain a display aspect ratio or rotational metadata. The pixels should be considered square throughout, and there should be no conflicting metadata about the transformation of the video. Conflicting metadata can decrease the quality of video output, because it is not always possible to automatically detect the issue. Typically only a human viewer would notice the type of visual distortion that can result from improper aspect ratio or rotational metadata.</p>
+            <p class="p">The majority of consumer-level digital displays natively support square pixel aspect ratio content. The use of non-square, or anamorphic, pixels was invented to support technologies like Cinemascope film projection, in which the physical width of the storage medium (film) necessitated compacting the image horizontally to fit. This restriction does not apply in modern digital video, but the use of anamorphic pixels is still present in some video assets created for early television broadcast.</p>
+            <p class="p">It is possible for the Ooyala ingestion service to force aspect ratio conversion, converting a video with non-square pixels to square pixel output streams. Ooyala support can manually enable this for you in our ingestion processes. If you need to request conversion of anamorphic to square pixels, please speak to your Ooyala representative during your account trial period or setup.</p>
 
-          </div>
+          </section>
 
-        </div>
-        <div class="related-links">
-          <div class="familylinks">
-            <div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../concepts/book_standards.html"
-                title="Welcome to Supported Standards Guide. These topics describe the requirements and standards that Ooyala supports.">Supported Standards</a></div>
-          </div>
-        </div>
-      </div><a href="../../sites/all/libraries/dita/en/video-platform/reference/input_formats.html" target="_blank"
-        style="color: #FFF !important">https://help-ooyala.brightcove.com/sites/all/libraries/dita/en/video-platform/reference/input_formats.html</a>
-    </div>
-  </div>
-</div>
 </article>
 </div>
 </div>
-
-
-<footer class="l-footer" role="content-info">
-  <div class="l-footer-container">
-    <div class="l-footer-column-container container flex-container">
-      <div class="l-footer-column l-footer-column-1">
-        <div>
-          <div id="block-gtranslate-gtranslate" class="block block-gtranslate">
-
-
-            <div class="content">
-              <script src="/js/gtrans.js"></script>
-              <style type="text/css">
-                <!--
-                a.gtflag {
-                  background-image: url('../../sites/all/modules/gtranslate/gtranslate-files/16a.png');
-                }
-
-                a.gtflag:hover {
-                  background-image: url('../../sites/all/modules/gtranslate/gtranslate-files/16.png');
-                }
-                -->
-              </style><select onchange="doGTranslate(this);">
-                <option value="">Select Language</option>
-                <option value="en|en" style="font-weight:bold;background:url('../../sites/all/modules/gtranslate/gtranslate-files/16l.png') no-repeat scroll 0 -0px;padding-left:18px;">English</option>
-                <option value="en|ja" style="background:url('../../sites/all/modules/gtranslate/gtranslate-files/16l.png') no-repeat scroll 0 -240px;padding-left:18px;">Japanese</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="l-footer-copyright">
-        <div>
-          <div id="block-block-18" class="block block-block">
-
-
-            <div class="content">
-              <a href="../../lookup/lookup.html" class="copylink">Lookup: Brightcove-Ooyala Help Index ›</a>
-              <p class="questions_link">Documentation questions or comments? <a href="mailto:docs@brightcove.com">Leave feedback</a> for the Learning Services team.<br />For all other inquiries, go to to <a href="../../tech-support.html">Customer
-                  Portal</a> to login and file a ticket..
-              </p>
-              <p>© 2019 Brightcove, Inc. • <a href="https://www.brightcove.com/en/legal/privacy">Website Privacy Policy</a> • <a href="https://www.brightcove.com/en/terms-and-conditions">Terms of Service</a> • All Rights Reserved</p>
-              <script src="https://learning-services-media.brightcove.com/doc-assets/js/ooyala-site-fixes.js"></script>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-</div>
-
-
-
-
-</body>
-
-</html>

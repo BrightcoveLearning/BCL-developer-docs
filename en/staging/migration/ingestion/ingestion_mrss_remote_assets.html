@@ -6,7 +6,7 @@
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
   <meta name="robots" content="noindex">
   <!-- change title to match the h1 heading -->
-  <title>Ooyala-Video Cloud Ingestion Connector: Native SDK for iOS</title>
+  <title>Ooyala-Video Cloud Ingestion Connector: Ingesting Remote Assets via MRSS</title>
 
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -34,23 +34,28 @@
     </div>
     <div id="main" class="large-10 small-12 columns">
 
-<h1 class="content-title">Ingesting Remote Assets via MRSS</h1>
-<summary>You can continue using MRSS to create and update remote assets in Video Cloud.</summary>
+      <h1 class="content-title">Ooyala-Video Cloud Ingestion Connector: Ingesting Remote Assets via MRSS</h1>
+      <summary>You can continue using MRSS to create and update remote assets in Video Cloud.</summary>
 
-<p class="shortdesc">You can add or update remote assets using Media RSS (MRSS).</p>
+      <!-- BEGIN MAIN CONTENT -->
+      <article class="bcls-article">
+        <p><a href="./index.html">See other Ooyala to Brightcove Migration Guides</a>.</p>
+        <aside class="bcls-aside bcls-aside--information language-editable">Note: these topics apply <strong>only</strong> to Ooyala customers migrated to Video Cloud.</aside>
 
-  <div class="section context"><p class="p">For more information, see <a class="xref" href="../concepts/chapter_remote_assets.html" title="A remote asset is a piece of content that is hosted outside of Backlot. Instead of uploading, transcoding, and storing the content in Backlot, you simply upload its URL and other descriptive information so that Backlot can find the content when needed.">Remote Assets</a>.</p>
-<p class="p">When using MRSS to add or update a remote asset, you
-    identify the asset as remote by specifying the <span class="keyword parmname">&lt;ooyala:remoteasset&gt;</span>
-    tag (instead of <span class="keyword parmname">&lt;media:content&gt;</span>) in the MRSS feed item.</p>
-<div class="note note"><span class="notetitle">Note:</span> To
-    decide whether to add or update a remote asset, Ooyala uses the specified
-     <span class="keyword parmname">&lt;guid&gt;</span> (or, if no <span class="keyword parmname">&lt;guid&gt;</span> is specified,
-    the specified <span class="keyword parmname">&lt;url&gt;</span>) to determine whether the remote asset currently
-    exists (update) or not (add).</div>
-<p class="p"><strong class="ph b">Adding a Remote Asset</strong></p>
-<p class="p">The following example
-    code creates a remote asset (the specified &lt;guid&gt; does not exist).</p>
+        <section class="bcls-section">
+          <h2 id="introduction">Introduction</h2>
+          <p class="shortdesc">You can add or update remote assets using Media RSS (MRSS).</p>
+
+          <p>When using MRSS to add or update a remote asset, you identify the asset as remote by specifying the <span class="keyword parmname">&lt;ooyala:remoteasset&gt;</span> tag (instead of <span class="keyword parmname">&lt;media:content&gt;</span>) in the MRSS feed item.</p>
+          <div class="note note"><span class="notetitle">Note:</span> To
+            decide whether to add or update a remote asset, Ooyala uses the specified
+            <span class="keyword parmname">&lt;guid&gt;</span> (or, if no <span class="keyword parmname">&lt;guid&gt;</span> is specified,
+            the specified <span class="keyword parmname">&lt;url&gt;</span>) to determine whether the remote asset currently
+            exists (update) or not (add).</div>
+            </section>
+            <section class="bcls-section">
+              <h2 id="Adding_a_Remote_Asset">Adding a Remote Asset</h2>
+              <p>The following example code creates a remote asset (the specified &lt;guid&gt; does not exist).</p>
 <pre class="pre codeblock">&lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fh="http://purl.org/syndication/history/1.0" xmlns:ooyala="http://www.ooyala.com/mrss/" version="2.0"&gt;
   &lt;channel&gt;
     &lt;item&gt; 
@@ -69,30 +74,32 @@
     &lt;/item&gt;
   &lt;/channel&gt;
 &lt;/rss&gt;</pre>
-<p class="p"><strong class="ph b">Updating a Remote Asset</strong></p>
-<p class="p">For an existing remote asset, you can
-    update the following fields via MRSS:</p>
-<ul class="ul">
-      <li class="li"><samp class="ph codeph">media:title</samp></li>
+          </section>
 
-      <li class="li"><samp class="ph codeph">media:description</samp></li>
+          <h2 id="Updating_a_Remote_Asset">Updating a Remote Asset</h2>
+          <p>For an existing remote asset, you can
+            update the following fields via MRSS:</p>
+          <ul>
+            <li class="language-editable"><samp>media:title</samp></li>
 
-      <li class="li"><samp class="ph codeph">ooyala:subTitle</samp></li>
+            <li class="language-editable"><samp>media:description</samp></li>
 
-        <li class="li"><samp class="ph codeph">ooyala:metadata</samp></li>
+            <li class="language-editable"><samp>ooyala:subTitle</samp></li>
 
-        <li class="li"><samp class="ph codeph">dcterms:valid</samp></li>
+            <li class="language-editable"><samp>ooyala:metadata</samp></li>
 
-        <li class="li"><samp class="ph codeph">media:thumbnail</samp></li>
+            <li class="language-editable"><samp>dcterms:valid</samp></li>
 
-        <li class="li"><samp class="ph codeph">ooyala:labels</samp></li>
+            <li class="language-editable"><samp>media:thumbnail</samp></li>
 
-   </ul>
- When you submit the MRSS feed item, if it contains updates to any of these fields in the
-    <samp class="ph codeph">&lt;item&gt;</samp> tag, the system updates the remote asset with the applicable
-   changes. </div>
+            <li class="language-editable"><samp>ooyala:labels</samp></li>
 
-      </article>
-          </div>
+          </ul>
+          <p>
+            When you submit the MRSS feed item, if it contains updates to any of these fields in the <samp>&lt;item&gt;</samp> tag, the system updates the remote asset with the applicable changes.
+          </p>
+    </div>
+
+    </article>
   </div>
-
+  </div>

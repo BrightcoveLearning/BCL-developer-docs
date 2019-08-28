@@ -43,120 +43,48 @@
 
 <article class="bcls-article">
 <section class="bcls-section">
-<h2 id="Use_credentials">Use credentials</h2>
+<h2 id="Use_credentials">Overview</h2>
 
-<p>You can save <a href="/node/17852#credentials">credentials</a> to your account, which will allow us to use your account to upload files instead of ours. This means your account is the owner of the file, with full rights and privileges over it. You can set credentials to be the default for all uploads and downloads or reference them with each request, but keep in mind that if you set them as the default for S3, they will be used for ALL S3 uploads and downloads. Generally this isn't a problem, but if later you'd like to upload to a third party's bucket, this can cause issues.</p>
+<p>You can save <a href="/node/17852#credentials">credentials</a> to your account, w.</p>
 </section>
 
 <section class="bcls-section">
-<h2 id="Use_a_bucket_policy">Use a bucket policy</h2>
+<h2 id="Ad_Error_Beacons">Ad Error Beacons</h2>
 
-<p>Another option is to use a bucket policy, which lets you set permissions on all of the files in your bucket. To get started, visit <a href="http://aws.amazon.com/console/">AWS Console</a>. Select your bucket on the left side of the screen, then click "properties". On the last row click "Add bucket policy". We'll put a Bucket Policy together below, which you'll copy in to the Bucket Policy text box.</p>
+<p>In the following table, you will find ad error events beaconed through SSAI, as defined in VAST 3 specifications.</p>
 
-<p>Our recommended bucket policy:</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Error code</th>
+      <th>Type</th>
+			<th>Description</th>
+		</tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td>
+        <code>100</code>
+      </td>
+      <td>
+        <code>ErrorCodeXMLParse</code>
+      </td>
+			<td>XML parsing error
+        <ul>
+          <li>
+            Error on XSLT transform
+          </li>
+          <li>
+            Response was empty
+          </li>
+        </ul>
+		  </td>
+		</tr>
+  </tbody>
+</table>
 
-<pre class="line-numbers">
- <code class="language-json notranslate">{
-"Version": "2012-10-17",
-"Id": "ZencoderBucketPolicy",
-"Statement": [
-  {
-      "Sid": "Stmt1295042087538",
-      "Effect": "Allow",
-      "Principal": {
-          "AWS": "arn:aws:iam::395540211253:root"
-      },
-      "Action": [
-      "s3:GetObjectAcl",
-      "s3:GetObject",
-      "s3:PutObjectAcl",
-      "s3:PutObject",
-      "s3:ListMultipartUploadParts"
-      ],
-      "Resource": "arn:aws:s3:::MY-BUCKET/*"
-  },
-  {
-      "Sid": "Stmt1295042087538",
-      "Effect": "Allow",
-      "Principal": {
-          "AWS": "arn:aws:iam::395540211253:root"
-      },
-      "Action": [
-      "s3:ListBucketMultipartUploads",
-      "s3:GetBucketLocation"
-      ],
-      "Resource": "arn:aws:s3:::MY-BUCKET"
-  }
-]
-}</code></pre>
-
-<aside class="bcls-aside bcls-aside--warning language-editable">Note that even when you use this policy, uploads will fail if the bucket is set to block public ACLs:
-<figure class="bcls-figure"><img class="bcls-image" alt="S3 ACL Permissions" src="https://learning-services-media.brightcove.com/doc-assets/node/17890-using-zencoder-s3/acl-policy.png" />
-<figcaption class="bcls-caption--image">S3 ACL Permissions</figcaption>
-</figure>
-</aside>
-
-<p>There is only <strong>one change you will have to make</strong> to this bucket policy before it's ready to go.</p>
-
-<ol>
-	<li>Replace MY-BUCKET with the name of your bucket. Leave the /* at the end of the line, as that will apply the policy to every file within the bucket.</li>
-	<li>Optionally, replace the Action array with the actions you want to allow. Valid actions that Zencoder may need are:
-	<h4>Object Permissions - first action array in the example above</h4>
-
-	<ul>
-		<li><code class="notranslate">s3:PutObject</code> - allow Zencoder to upload files to the bucket</li>
-		<li><code class="notranslate">s3:GetObject</code> - allow Zencoder to download files from the bucket</li>
-		<li><code class="notranslate">s3:GetObjectAcl</code> - allow Zencoder to get ACL permissions for files</li>
-		<li><code class="notranslate">s3:PutObjectAcl</code> - allow Zencoder to set ACL permissions for other users on files</li>
-		<li><code class="notranslate">s3:ListMultipartUploadParts</code> - allow Zencoder to list which parts of a multipart file have been uploaded to the bucket</li>
-	</ul>
-
-	<h4>Bucket Permissions - second action array in the example above</h4>
-
-	<ul>
-		<li><code class="notranslate">s3:GetBucketLocation</code> - allow Zencoder to get the location of the bucket (US, EU, Asia, etc.)</li>
-		<li><code class="notranslate">s3:ListBucketMultipartUploads</code> - allow Zencoder to view any multipart uploads currently happening on the bucket
-		<p><code class="notranslate">ex:</code> If you want Zencoder to be able to download and upload files, replace the first Action array with:</p>
-
-		<pre class="line-numbers">
-<code class="language-json notranslate">["s3:PutObject", "s3:GetObject"]</code></pre>
-		</li>
-	</ul>
-	</li>
-</ol>
-
-<p>Note that there are two statements in the policy. The first statement affects keys within the bucket, while the second part affects the bucket itself.</p>
-
-<p>The rest of the policy can be left alone and it will work fine. Amazon's documentation contains more information about the <a href="http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?UsingBucketPolicies.html">elements of a Bucket Policy.</a></p>
-
-<p>Zencoder can also set ACL permissions on the videos and thumbnails that we create for you. This is documented in our <a href="/node/17861">S3 API docs</a>.</p>
-
-<p><strong>Note:</strong> When using a bucket policy you should always use URLs in the s3://BUCKET/KEY format so that Zencoder is sure to identify them as S3 URLs and sign the request appropriately.</p>
-
-<p>If you'd like to build your own Bucket Policy, you can use <a href="http://awspolicygen.s3.amazonaws.com/policygen.html">Amazon's Policy Generator</a>. Use <em>arn:aws:iam::395540211253:root</em> as the AWS Principal to allow Zencoder access.</p>
 </section>
 
-<section class="bcls-section">
-<h2 id="Specific_files">Specific files</h2>
-
-<h3>Can I Just Grant Permission To Specific Files?</h3>
-
-<p>You definitely can. While the Bucket Policy approach is generally easier and faster, it doesn't work well for everyone. If that's you, you can grant permissions to our Amazon AWS account, <code class="notranslate">aws@zencoder.com</code>.</p>
-
-<p>If you need to use our canonical ID instead, you can use <code class="notranslate">6c8583d84664a381db0c6af0e79b285ede571885fbe768e7ea50e5d3760597dd</code>.</p>
-</section>
-
-<section class="bcls-section">
-<h2>Troubleshooting</h2>
-
-<h3 id="Troubleshooting">I'm getting permission denied still!</h3>
-
-<p>S3 responds with "Access Denied" if access is denied or if the file isn't found. If you believe you've set up your S3 credentials or bucket policy correctly but are still getting "Access Denied" errors, double check the URL you're submitting. If the input looks like <code class="notranslate">"s3://my-bucket/this+file+is+great.mp4"</code>, there's a good chance what you actually want is <code class="notranslate">"s3://my-bucket/this file is great.mp4"</code></p>
-
-<h3>I get an error when using the EU Frankfurt region!</h3>
-
-<p>In order to use the EU Frankfurt region with Zencoder, you must generate S3 URLs that contain the region name. To do this, simply create URLs like this <code class="notranslate">"s3+eu-central-1://my-bucket/file.mp4"</code>.</p>
-</section>
 </article>
 
 <!-- END DRUPAL CONTENT -->

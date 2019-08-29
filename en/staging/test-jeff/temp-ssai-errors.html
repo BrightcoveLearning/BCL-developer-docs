@@ -35,7 +35,7 @@
 		<div id="main" class="large-10 small-12 columns">
 			<h1>SSAI Error Beacons</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <p>In this topic, you will learn about the VAST ad error events that are beaconed when using Server-Side Ad Insertion (SSAI).</p>
+      <summary>In this topic, you will learn about the VAST ad error events that are beaconed when using Server-Side Ad Insertion (SSAI).</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -69,13 +69,123 @@
       <td>
         <code>ErrorCodeXMLParse</code>
       </td>
-			<td>XML parsing error
+			<td>
+        <p>
+        XML parsing error
+        </p>
         <ul>
           <li>
             Error on XSLT transform
           </li>
           <li>
             Response was empty
+          </li>
+        </ul>
+		  </td>
+		</tr>
+    <tr>
+      <td>
+        <code>200</code>
+      </td>
+      <td>
+        <code>ErrorCodeTrafficking</code>
+      </td>
+			<td>
+        <p>
+          Trafficking error. Video player received an ad type that it was not expecting and/or cannot display.
+        </p>
+        <ul>
+          <li>
+            Valid Ad response returned, but no linear ads were found
+          </li>
+          <li>
+            A non-progressive ad format was returned
+            <ul>
+              <li>
+                VPAID swf (when not expected as a pass-through)
+              </li>
+              <li>
+                Invalid video Mime Type
+              </li>
+            </ul>
+          </li>
+        </ul>
+		  </td>
+		</tr>
+    <tr>
+      <td>
+        <code>301</code>
+      </td>
+      <td>
+        <code>ErrorCodeWrapperRequest</code>
+      </td>
+			<td>
+        <p>
+        Timeout of VAST URI provided in Wrapper element, or of VAST URI provided in a subsequent Wrapper element. Includes request errors such as invalid URI, unreachable or request timeout for URI, and security or other exceptions related to requesting a VAST URI.
+        </p>
+        <ul>
+          <li>
+            Wrapper URI unavailable - 4xx, 5xx
+          </li>
+          <li>
+            Wrapper did not respond within the set timeout threshold
+          </li>
+        </ul>
+		  </td>
+		</tr>
+    <tr>
+      <td>
+        <code>302</code>
+      </td>
+      <td>
+        <code>ErrorCodeWrapperLimit</code>
+      </td>
+			<td>
+        <p>
+        Wrapper limit reached, as defined by the video player. Too many Wrapper responses have been received with no InLine response.
+        </p>
+        <ul>
+          <li>
+            Exceeded the wrapper follow-through limit
+          </li>
+        </ul>
+		  </td>
+		</tr>
+    <tr>
+      <td>
+        <code>303</code>
+      </td>
+      <td>
+        <code>ErrorCodeWrapperNoAds</code>
+      </td>
+			<td>
+        <p>
+        No ads VAST response after one or more Wrappers. Also includes number of empty VAST responses from fallback.
+        </p>
+        <ul>
+          <li>
+            No linear (progressive) ad response received through wrapper requests
+          </li>
+          <li>
+            Wrapper response was empty
+          </li>
+        </ul>
+		  </td>
+		</tr>
+    <tr>
+      <td>
+        <code>406</code>
+      </td>
+      <td>
+        <code>ErrorCodeMissingMezz</code>
+      </td>
+			<td>
+        <p>
+        Wrapper limit reached, as defined by the video player. Too many Wrapper responses have been received with no InLine response.
+        </p>
+        <ul>
+          <li>
+            Exceeded the wrapper follow-through limit
           </li>
         </ul>
 		  </td>

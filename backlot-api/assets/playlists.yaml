@@ -1,0 +1,194 @@
+paths:
+  /v2/playlists:
+    get:
+      tags:
+        - Playlists
+      description: View all playlists
+      summary: View all playlists
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Playlists
+      description: Create a playlist
+      summary: Create a playlist.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Playlists_Body'
+                - required:
+                  - type
+            example:
+              type: movie
+              name: Test Movie Playlist
+
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/playlists/{playlist_id}:
+    get:
+      tags:
+        - Playlists
+      description: View a given playlist specified by its ID. You may obtain the ID by using GET commands to view existing playlists
+      summary: View a given playlist specified by its ID
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Playlists_Id'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Playlists
+      description: Replace the playlist specified by a given ID.
+      summary: Replace the playlist specified by a given ID.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Playlists_Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Playlists_Body'
+                - required:
+                    - type
+            example:
+              type: movie
+              name: Test Movie Playlist
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Playlists
+      description: Modify the playlist specified by a given ID.
+      summary: Modify the playlist specified by a given ID.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Playlists_Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Playlists_Body'
+            example:
+              name: New Playlist Name
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Playlists
+      description: Delete the playlist specified by a given ID.
+      summary: Delete the playlist specified by a given ID.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Playlists_Id'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    Playlists_Body:
+      type: object
+      properties:
+        type:
+          description: Your playlist type. This can be movie, label_and, or label_or.
+          type: string
+          enum:
+            - movie
+            - label_and
+            - label_or
+        name:
+          description: Your playlist's name.
+          type: string
+        sort_by:
+          description: A criterion to sort by. This can be null, random, date, custom, date_desc, name, or name_desc.
+          nullable: true
+          type: string
+          enum:
+# Null parameter doesn't work either with nullable:true or by providing it in the enum
+#            - null
+            - random
+            - date
+            - custom
+            - date_desc
+            - name
+            - name_desc
+        limit:
+          description: This is the maximum number of items to show when viewing the playlist.
+          type: integer
+        items:
+          description: An optional array parameter. If the type is movie, the items array is a list of embed codes in the playlist. Otherwise, if the type is label_or or label_and, then items is an array of label IDs in the playlist.
+          type: array
+          items:
+            type: string
+
+  parameters:
+    Playlists_Id:
+      name: playlist_id
+      in: path
+      schema:
+        type: string
+      required: true

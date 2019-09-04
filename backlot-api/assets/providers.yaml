@@ -1,0 +1,445 @@
+paths:
+  /v2/providers:
+    get:
+      tags:
+        - Providers
+      description: Get a paginated list of a reseller's providers, ordered from newest to oldest.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Where'
+        - $ref: '#/components/parameters/Users'
+        - $ref: '#/components/parameters/User'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Providers
+      description: Create a provider.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProvider_Body'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}:
+    get:
+      tags:
+        - Providers
+      description: View a provider with specified passcode.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Providers
+      description: Modify a provider specified by a passcode.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModifyProvider_Body'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Providers
+      description: Delete a specified provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/assets:
+    get:
+      tags:
+        - Providers
+      description: Get a list of assets for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/players:
+    get:
+      tags:
+        - Providers
+      description: Get a list of players for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/paywalls:
+    get:
+      tags:
+        - Providers
+      description: Get a list of paywalls for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/ad_sets:
+    get:
+      tags:
+        - Providers
+      description: Get a list of ad sets for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/synd_groups:
+    get:
+      tags:
+        - Providers
+      description: Get a list of syndication groups for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/sub_accounts:
+    get:
+      tags:
+        - Providers
+      description: View all sub-accounts for a given provider.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/changes:
+    get:
+      tags:
+        - Providers
+      description: Get the list of changes to a provider's account. (Whenever a provider's status or package is changed, we record the date of the change as well as the old and new status and the old and new package.)
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/processing_profile:
+    get:
+      tags:
+        - Providers
+      description: View a given provider's processing profile.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{pcode}/package:
+    get:
+      tags:
+        - Providers
+      description: View a given provider's package.
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/providers/{master_pcode}/sub_accounts/{sub_account_pcode}:
+    put:
+      tags:
+        - Providers
+      description: Assign a provider as a sub-account of another provider.
+      parameters:
+        - $ref: '#/components/parameters/MasterPCode'
+        - $ref: '#/components/parameters/SubAccountPCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Providers
+      description: Unassign a sub-account from its master account.
+      parameters:
+        - $ref: '#/components/parameters/MasterPCode'
+        - $ref: '#/components/parameters/SubAccountPCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    Where:
+      name: where
+      in: query
+      schema:
+        type: string
+
+    Users:
+      name: users
+      in: query
+      schema:
+        type: string
+
+    User:
+      name: user
+      in: query
+      schema:
+        type: string
+
+    MasterPCode:
+      name: master_pcode
+      in: path
+      schema:
+        type: string
+      required: true
+
+    SubAccountPCode:
+      name: sub_account_pcode
+      in: path
+      schema:
+        type: string
+      required: true
+
+  schemas:
+    CreateProvider_Body:
+      type: "object"
+      required:
+        - name
+        - email
+        - password
+      properties:
+        email:
+          type: "string"
+          description: The provider's email.
+        password:
+          type: "string"
+          description: The provider password.
+        name:
+          type: "string"
+          description: The name of the provider.
+    ModifyProvider_Body:
+      type: "object"

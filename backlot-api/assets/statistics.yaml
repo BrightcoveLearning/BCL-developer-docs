@@ -1,0 +1,92 @@
+paths:
+  /v2/statistics/accounts:
+    get:
+      tags:
+        - Statistics
+      description: Get the number of accounts in each package, grouped by status.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/statistics/providers:
+    get:
+      tags:
+        - Statistics
+      description: Get the sum of the statistics for all the providers under a reseller for a given date.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Date'
+        - $ref: '#/components/parameters/Include'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/statistics/providers/{pcode}:
+    get:
+      tags:
+        - Statistics
+      description: Get the statistics for a given provider under a reseller for a given date.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/Date'
+        - $ref: '#/components/parameters/Include'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    Date:
+      name: date
+      in: query
+      schema:
+        type: string
+      description: May be specified as a single day, for example date=2016-12-25, or a single month, for example date=2016-12.
+      required: true
+
+    Include:
+      name: include
+      in: query
+      description: A comma-separated list of desired statistics to be queried. These can be any of the following.
+      schema:
+        type: string
+        enum: [gb_processed , hours_ingested , ingestion_hours , hours_processed, outbound_transcoded_hours, transcoded_minutes, processed_content, delivered_hours ]

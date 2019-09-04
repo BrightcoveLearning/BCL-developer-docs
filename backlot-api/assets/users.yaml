@@ -1,0 +1,49 @@
+paths:
+  /v2/users:
+    get:
+      tags:
+        - Users
+      description: Get users
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/users/{user_api_key}:
+    get:
+      tags:
+        - Users
+      description: Get user_api_key info for a user
+      parameters:
+        - $ref: '#/components/parameters/UserApiKey'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    UserApiKey:
+      name: user_api_key
+      in: path
+      schema:
+        type: string
+      description: The user api key to retrieve.
+      required: true

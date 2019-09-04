@@ -1,0 +1,250 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.6
+  title: Ooyala Mapping Service API
+  description: API to specify Special Mapping values for transition from Ooyala to Brightcove OVP
+
+servers:
+  - url: https://api.adapter.ooyala.com
+    description: Force testing endpoint
+  - url: https://cms-adapters.ooyala-adapters.us-east-1.qa.deploys.brightcove.com
+    description: Direct endpoint (account mapping service determines path)
+  - url: https://api.ooyala.com
+    description: Final production endpoint
+
+paths:
+  /v2/pcodes/{pcode}:
+    get:
+      tags:
+        - Mapping Operation Endpoints
+      description: Get Video Cloud Account Info from PCode
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/pcodes/{pcode}/assets/{asset_id}:
+    get:
+      tags:
+        - Mapping Operation Endpoints
+      description: Get Video Cloud Video Id from Ooyala Asset Id
+      parameters:
+        - $ref: '#/components/parameters/PCode'
+        - $ref: '#/components/parameters/AssetID'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    AccountInfo:
+      type: "object"
+      required:
+        - account_id
+        - pcode
+        - migrated
+        - vc_policy_key
+        - vc_api_credentials
+        - ooyala_api_credentials
+      properties:
+        account_id:
+          type: "string"
+          description: Brightcove Video Cloud ID
+        pcode:
+          type: "string"
+          description: Ooyala Provide Code
+        migrated:
+          type: "boolean"
+          description: Whether the customer has been migrated
+        vc_policy_key:
+          type: "string"
+          description: Brightcove Video Cloud Policy Key
+        vc_api_credentials:
+          $ref: '#/components/schemas/VCApiCredentials'
+        ooyala_api_credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/OoyalaApiCredentials'
+
+    OoyalaApiCredentials:
+      type: "object"
+      required:
+        - api_key
+        - api_secret
+      properties:
+        api_key:
+          type: "string"
+          description: Ooyala API Key
+        api_secret:
+          type: "string"
+          description: Ooyala API Secret
+
+    VCApiCredentials:
+      type: "object"
+      required:
+        - client_id
+        - client_secret
+      properties:
+        client_id:
+          type: "string"
+          description: Brightcove Video Cloud Client Id
+        client_secret:
+          type: "string"
+          description: Brightcove Video Cloud Client Secret
+
+    AssetInfo:
+      type: "object"
+      required:
+        - video_id
+      properties:
+        video_id:
+          type: "string"
+          description: Brightcove Video Cloud Video Id
+
+    OptionalRequestBody:
+      description: An encapsulation of parameters you wish to toggle for the module.
+      type: "object"
+
+  parameters:
+    ApiKey:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+    Signature:
+      name: signature
+      in: query
+      required: true
+      schema:
+        type: string
+    Expires:
+      name: expires
+      in: query
+      required: true
+      schema:
+        type: string
+    PCode:
+      name: pcode
+      in: path
+      schema:
+        type: string
+      description: The Ooyala pcode.
+      required: true
+    AssetID:
+      name: asset_id
+      in: path
+      schema:
+        type: string
+      description: The asset id to retrieve.
+      required: true
+    RuleID:
+      name: publishing_rule_id
+      in: path
+      schema:
+        type: string
+      description: The id of the publishing rule to apply to the asset
+      required: true
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+    PolicyId:
+      name: policy_id
+      in: path
+      schema:
+        type: string
+      required: true
+    PaginationOffset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      description: The offset for pagination.
+    PaginationPageToken:
+      name: page_token
+      in: query
+      schema:
+        type: string
+      description: The page token for pagination.
+    PaginationLimit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+      description: The page limit for pagination.
+
+  responses:
+    ArrayStub:
+      description: A stub response for expected array data
+      content:
+        application/json:
+          schema:
+            type: array
+            items: {}
+            example: []
+
+    ObjectStub:
+      description: A stub response for expected json data
+      content:
+        application/json:
+          schema:
+            type: object
+            example: {}
+
+    ItemsArrayStub:
+      description: A stub response for expected json data, that contains items array
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items: {}
+                example: []
+            example:
+              items: []
+
+    BadRequest:
+      description: Bad Request
+
+    Unauthorized:
+      description: Unauthorized
+
+    NotFound:
+      description: Not Found
+
+    ServerError:
+      description: Internal Server Error
+
+    Forbidden:
+      description: Client doesn't have the rights to the content or the API is deprecated by Brightcove

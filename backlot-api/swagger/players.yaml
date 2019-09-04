@@ -1,0 +1,631 @@
+paths:
+  /v2/players:
+    get:
+      tags:
+        - Players
+      description: Get a paginated list of players.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Metadata'
+      responses:
+        200:
+          $ref: '#/components/responses/PlayersList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Players
+      description: Create a player.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new player information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Name'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}:
+    get:
+      tags:
+        - Players
+      description: View a player with specified player ID or public ID.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Metadata'
+      responses:
+        200:
+          $ref: '#/components/responses/Player'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Players
+      description: Modify a player specified by a player ID or public ID.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Players
+      description: Delete a specified player.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}/metadata:
+    get:
+      tags:
+        - Players
+      description: View player metadata as a list of name/value string pairs.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: Object with metadata of pointed player
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Players
+      description: Modify a player metadata.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Players
+      description: Replace all player metadata.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Players
+      description: Delete all player metadata.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}/scrubber_image:
+    put:
+      tags:
+        - Players
+      description: 'Upload a scrubber image (the image file as the request body).
+                    The scrubber image is the image that is displayed in the player as you navigate a video using the player scrubber.'
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalRequestBody'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}/watermark:
+    put:
+      tags:
+        - Players
+      description: 'Upload a watermark (the watermark file as the request body).
+                   Watermarks display while your content is being viewed.
+                   Valid file extensions are .png, .jpg, .gif, and .swf.
+                   We recommend using .png files with transparent backgrounds for best results.'
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}/third_party_modules:
+    get:
+      tags:
+        - Players
+      description: View all third-party modules associated with given player.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: Object with list of third-party modules of pointed player
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/players/{player_id}/third_party_modules/{module_id} :
+    get:
+      tags:
+        - Players
+      description: View the third-party modules associated with your player, as specified by the module's ID.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ModuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: Object with single third-party module of pointed player
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Players
+      description: Modify a third-party module associated to a player, as specified by the module's ID.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ModuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new player information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parameters'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Players
+      description: Add a third-party module to a player, as specified by the module's ID. The module may or may not include parameters.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ModuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: Either null, or else an encapsulation of parameters you wish to toggle for the module.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parameters'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Players
+      description: Remove a third-party module from a player, as specified by the module's ID.
+      parameters:
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ModuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    Metadata:
+      name: metadata
+      in: query
+      schema:
+        type: string
+    PlayerID:
+      name: player_id
+      in: path
+      schema:
+        type: string
+      required: true
+    ModuleID:
+      name: module_id
+      in: path
+      schema:
+        type: string
+      required: true
+
+  schemas:
+    Parameters:
+      type: "object"
+      required:
+        - parameters
+      properties:
+        parameters:
+          type: "object"
+          description: An encapsulation of parameters you wish to toggle for the module.
+    Name:
+      type: "object"
+      required:
+        - name
+      properties:
+        name:
+          type: "string"
+          description: The name of a player.
+
+  responses:
+    Player:
+      description: An object representing Player data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              player_version:
+                type: integer
+              name:
+                type: string
+              is_default:
+                type: integer
+              playback:
+                type: object
+                properties:
+                  buffer_on_pause:
+                    type: boolean
+              up_next_preview:
+                type: object
+                properties:
+                  timing:
+                    type: string
+                  seconds_before_end:
+                    type: string
+                    nullable: true
+              audio:
+                type: object
+                properties:
+                  show_download:
+                    type: integer
+              provider_name:
+                type: string
+                nullable: true
+              watermark:
+                type: object
+                properties:
+                  alpha:
+                    type: string
+                  click_url:
+                    type: string
+                    nullable: true
+                  position:
+                    type: string
+                  image_url:
+                    type: string
+                    nullable: true
+                  scaling_option:
+                    type: string
+                    nullable: true
+                  scaling_percentage:
+                    type: string
+                    nullable: true
+              default_closed_caption_language:
+                type: string
+              scrubber:
+                type: object
+                properties:
+                  always_show:
+                    type: boolean
+                  image_url:
+                    type: string
+                    nullable: true
+              release_version:
+                type: string
+              provider_homepage_url:
+                type: string
+                nullable: true
+              ooyala_branding:
+                type: object
+                properties:
+                  show_ad_countdown:
+                    type: boolean
+                  show_share_button:
+                    type: boolean
+                  show_fullscreen_button:
+                    type: boolean
+                  accent_color:
+                    type: string
+                  show_info_screen_title:
+                    type: boolean
+                  show_info_screen_presented_by:
+                    type: boolean
+                  show_start_screen_title:
+                    type: boolean
+                  enable_error_screen:
+                    type: integer
+                  show_bitrate_button:
+                    type: boolean
+                  show_end_screen_info_button:
+                    type: boolean
+                  show_end_screen_more_videos:
+                    type: boolean
+                  url_sharing:
+                    type: boolean
+                  show_end_screen_share_button:
+                    type: boolean
+                  show_end_screen_embed_button:
+                    type: boolean
+                  twitter_sharing:
+                    type: boolean
+                  show_embed_button:
+                    type: boolean
+                  show_info_button:
+                    type: boolean
+                  show_info_screen_description:
+                    type: boolean
+                  chromeless:
+                    type: boolean
+                  digg_sharing:
+                    type: boolean
+                  stumble_upon_sharing:
+                    type: boolean
+                  show_info_screen_homepage_link:
+                    type: boolean
+                  show_end_screen_replay_button:
+                    type: boolean
+                  show_start_screen_play_button_text:
+                    type: boolean
+                  facebook_sharing:
+                    type: boolean
+                  show_channel_button:
+                    type: boolean
+                  show_volume_button:
+                    type: boolean
+                  show_start_screen_description:
+                    type: boolean
+              related_videos:
+                type: object
+                properties:
+                  source:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: string
+                  sort:
+                    type: string
+                  order:
+                    type: string
+                  click_behavior:
+                    type: string
+
+    PlayersList:
+      description: An object representing a list of Players
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemsCount:
+                type: integer
+              items:
+                type: array
+                items:
+                  $ref: '#/components/responses/Player'

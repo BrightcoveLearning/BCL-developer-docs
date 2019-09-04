@@ -1,0 +1,120 @@
+paths:
+  /v2/processing_profiles:
+    get:
+      tags:
+        - Processing Profiles
+      description: A processing profile determines how an asset is encoded and what types of streams are available for viewing the asset.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilesArray'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/processing_profiles/{profile_id}:
+    get:
+      tags:
+        - Processing Profiles
+      description: View the processing profile specified by a given profile ID. 
+      parameters:
+        - $ref: '#/components/parameters/ProfileId'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilesEntity'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    ProfileId:
+      name: profile_id
+      in: path
+      schema:
+        type: string
+      required: true
+
+  schemas:
+    ProfilesArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProfilesEntity'
+
+    ProfilesEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        private:
+          type: string
+        reseller_id:
+          type: string
+        processing_profile:
+          type: object
+          properties:
+            flv_post_bit_rate_threshold:
+              type: string
+            adobe_http_dynamic_streaming:
+              type: string
+            duplicates_check:
+              type: string
+            target_video_locations:
+              type: string
+            target_image_locations:
+              type: string
+            h264_post_bit_rate_threshold:
+              type: string
+            custom_image_widths:
+              type: string
+            streams:
+              type: array
+              items:
+                type: object
+                properties:
+                  create_ios_stream:
+                    type: string
+                  save_mp4_single_stream_before_segmenting:
+                    type: string
+                  h264_encode_pass2:
+                    type: string
+                  audio_bit_rates:
+                    type: string
+                  h264_video_bit_rates:
+                    type: string
+                  audio_sample_rates:
+                    type: string
+                  encode_widths:
+                    type: string
+                  h264_profile:
+                    type: string

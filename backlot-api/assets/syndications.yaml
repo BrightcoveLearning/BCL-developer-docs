@@ -1,0 +1,344 @@
+paths:
+  /v2/syndications:
+    get:
+      tags:
+        - Syndications
+      description: View all syndications.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/PageToken'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Signature'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Syndications
+      description: Create a syndication.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the syndication.
+                  type: string
+                type:
+                  type: string
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/syndications/{id}:
+    get:
+      tags:
+        - Syndications
+      description: View a syndication with specified ID. You may obtain the ID by using GET commands to view existing syndications, for example [GET] /v2/syndications.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Feed'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - $ref: '#/components/parameters/RedirectContent'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Syndications
+      description: Modify a provider specified by a passcode.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/RequireAccessKey'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                require_access_key:
+                  type: boolean
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Syndications
+      description: Delete a specified syndication.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/syndications/{id}/album_art:
+    put:
+      tags:
+        - Syndications
+      description: This PUT request is only applicable to syndications of type itunes.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/syndications/{id}/template:
+    put:
+      tags:
+        - Syndications
+      description: To upload a USTL template to an advanced syndication, you include the template in the body of the PUT request.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/syndications/{id}/access_keys:
+    get:
+      tags:
+        - Syndications
+      description: View the access keys associated with a syndication with specified ID..
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Signature'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Syndications
+      description: Create an access key for a syndication specified by an ID. Create the key with a plaintext name. A response with the private key will be generated.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the syndication.
+                  type: string
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/syndications/{id}/access_keys/{key_id}:
+    delete:
+      tags:
+        - Syndications
+      description: Delete an access key with ID {key_id} from a syndication with ID {id}.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/KeyId'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+
+    PageToken:
+      name: page_token
+      in: query
+      description: "A URL to the next page of results. Note: If the number of results for a given page is divisible by the value of limit, the service returns a 404 response."
+      schema:
+        type: string
+
+    Name:
+      name: name
+      in: query
+      description: The name of the syndication.
+      schema:
+        type: string
+      required: true
+
+    Type:
+      name: type
+      in: query
+      schema:
+        type: string
+      required: true
+
+    RedirectContent:
+      name: redirect_content
+      in: query
+      schema:
+        type: string
+
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+
+    Feed:
+      name: feed
+      in: query
+      schema:
+        type: string
+
+    Id:
+      name: id
+      in: path
+      schema:
+        type: string
+      required: true
+
+    KeyId:
+      name: key_id
+      in: path
+      schema:
+        type: string
+      required: true
+
+    RequireAccessKey:
+      name: require_access_key
+      in: query
+      description: Access keys can be used to create private URLs for a syndication's MRSS feed. With this you can give out unique feed URLs to third parties, and, if needed, revoke their access to your MRSS feed without having to delete the feed. If this is set to true, then navigation to the feed's syndication_url will no longer work. In that case, the access_key query string parameter must be added to the syndication URL, e.g. http://api.ooyala.com/v2/syndications/syndication_id/feed?pcode=yourPcode&access_key=yourAccessKey.
+      schema:
+        type: boolean

@@ -1,57 +1,181 @@
 openapi: '3.0.0'
 info:
-  version: 1.0.6
-  title: Ooyala Mapping Service API
-  description: API to specify Special Mapping values for transition from Ooyala to Brightcove OVP
+  version: '2.0'
+  title: Backlot API
+  description: |-
+    **Note; This reference is for the Brightcove version of the Backlot API that connects operations to Video Cloud. It is for Ooyala customers who have migrated to Video Cloud. If you have not yet migrated to Video Cloud, you should use the [Ooyala version of this reference](https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html)**
+
+    The **Backlot REST API** is designed to enable custom integrations between your platforms and Video Cloud services. Use cases include automated asset upload, configuration, and retrieval. Thus various Video Cloud Studio actions can be performed programmatically using the Backlot API.
+
+    If an endpoint from the Ooyala version of the API is not shown here, it means that endpoint is not supported by the Backlot / Video Cloud CMS Connector. See [Backlot / Video Cloud CMS Connector](https://support.brightcove.com/backlot-video-cloud-cms-connector) for more information.
 
 servers:
-  - url: https://api.adapter.ooyala.com
-    description: Force testing endpoint
-  - url: https://cms-adapters.ooyala-adapters.us-east-1.qa.deploys.brightcove.com
-    description: Direct endpoint (account mapping service determines path)
   - url: https://api.ooyala.com
-    description: Final production endpoint
+    description: Production endpoint
 
+    tags:
+      - name: Ad Sets
+        description: Operations for Ad Sets.
+      - name: Playlists
+        description: Operations for playlists.
+    
 paths:
-  /v2/pcodes/{pcode}:
+  /v2/ad_sets:
     get:
       tags:
-        - Mapping Operation Endpoints
-      description: Get Video Cloud Account Info from PCode
+        - Ad Sets
+      description: Get list of Ad Sets.
       parameters:
-        - $ref: '#/components/parameters/PCode'
         - $ref: '#/components/parameters/ApiKey'
         - $ref: '#/components/parameters/Signature'
         - $ref: '#/components/parameters/Expires'
       responses:
         200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountInfo'
+          $ref: '#/components/responses/ItemsArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Ad Sets
+      description: Create an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
         404:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/ServerError'
 
-  /v2/pcodes/{pcode}/assets/{asset_id}:
+  /v2/ad_sets/{ad_set_id}:
     get:
       tags:
-        - Mapping Operation Endpoints
-      description: Get Video Cloud Video Id from Ooyala Asset Id
+        - Ad Sets
+      description: Get an Ad Set.
       parameters:
-        - $ref: '#/components/parameters/PCode'
-        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/AdSetObject'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Ad Sets
+      description: Update an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Ad Sets
+      description: Remove an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
       responses:
         200:
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssetInfo'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/ad_sets/{ad_set_id}/ads:
+    post:
+      tags:
+        - Ad Sets
+      description: Add an Ad to an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/AdObject'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/ad_sets/{ad_set_id}/ads/{ad_id}:
+    delete:
+      tags:
+        - Ad Sets
+      description: Remove an Ad from an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+        - $ref: '#/components/parameters/AdID'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
         404:
           $ref: '#/components/responses/NotFound'
         500:
@@ -59,73 +183,26 @@ paths:
 
 components:
   schemas:
-    AccountInfo:
-      type: "object"
-      required:
-        - account_id
-        - pcode
-        - migrated
-        - vc_policy_key
-        - vc_api_credentials
-        - ooyala_api_credentials
-      properties:
-        account_id:
-          type: "string"
-          description: Brightcove Video Cloud ID
-        pcode:
-          type: "string"
-          description: Ooyala Provide Code
-        migrated:
-          type: "boolean"
-          description: Whether the customer has been migrated
-        vc_policy_key:
-          type: "string"
-          description: Brightcove Video Cloud Policy Key
-        vc_api_credentials:
-          $ref: '#/components/schemas/VCApiCredentials'
-        ooyala_api_credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/OoyalaApiCredentials'
-
-    OoyalaApiCredentials:
-      type: "object"
-      required:
-        - api_key
-        - api_secret
-      properties:
-        api_key:
-          type: "string"
-          description: Ooyala API Key
-        api_secret:
-          type: "string"
-          description: Ooyala API Secret
-
-    VCApiCredentials:
-      type: "object"
-      required:
-        - client_id
-        - client_secret
-      properties:
-        client_id:
-          type: "string"
-          description: Brightcove Video Cloud Client Id
-        client_secret:
-          type: "string"
-          description: Brightcove Video Cloud Client Secret
-
-    AssetInfo:
-      type: "object"
-      required:
-        - video_id
-      properties:
-        video_id:
-          type: "string"
-          description: Brightcove Video Cloud Video Id
-
-    OptionalRequestBody:
-      description: An encapsulation of parameters you wish to toggle for the module.
-      type: "object"
+    AdSourceEnum:
+      description: >-
+        Can be either "assets" (Ad comes from your content library) or a string identifying an ad network.
+        As this enum is used for validation of requests only, and not of responses, then here is only values,
+        which are supported by Brightcove
+      type: string
+      enum:
+        - assets
+        - Freewheel
+        - Freewheel Commercial Breaks
+        - Freewheel OPF Module
+        - Freewheel Overlay
+        - Google IMA V3
+        - My Ads
+        - VAST Compliant In-Stream
+        - VAST Compliant Overlay
+        - VAST Live OPF
+        - VPAID OPF
+        - VPAID OPF Overlay
+        - Videoplaza
 
   parameters:
     ApiKey:
@@ -203,37 +280,91 @@ components:
       description: The page limit for pagination.
 
   responses:
-    ArrayStub:
-      description: A stub response for expected array data
-      content:
-        application/json:
-          schema:
-            type: array
-            items: {}
-            example: []
-
-    ObjectStub:
-      description: A stub response for expected json data
-      content:
-        application/json:
-          schema:
-            type: object
-            example: {}
-
-    ItemsArrayStub:
-      description: A stub response for expected json data, that contains items array
+    AdObject:
+      description: Content of single Ad.
       content:
         application/json:
           schema:
             type: object
             properties:
-              items:
-                type: array
-                items: {}
-                example: []
-            example:
-              items: []
+              id:
+                type: string
+                description: String which uniquely associates an Ad with an Ad Set.
+              name:
+                type: string
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Identifies the name of the Asset from your content library to be used as your Ad.
+              ad_source:
+                $ref: '#/components/schemas/AdSourceEnum'
+              ad_type:
+                type: string
+                enum: [preroll, postroll, midroll, cuepoint]
+                description: >-
+                  Can be either "preroll" (Ad plays before your movie begins),
+                  "postroll" (plays after your movie ends), "midroll" (plays in the middle of your movie),
+                  or "cuepoint".
+              click_url:
+                type: string
+                description: URL indicating where to redirect the user when they click the Ad.
+              duration:
+                type: integer
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Indicates the length of your Ad in milliseconds.
+              embed_code:
+                type: string
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Identifies which Asset from your content library is used as your Ad.
+              plays_before:
+                type: integer
+                description: Ad is first shown after the first X plays.
+              plays_between:
+                type: integer
+                description: Ad is shown after every X plays.
+              position:
+                type: integer
+                description: >-
+                  This field is only applies to Ads with type "midroll".
+                  Indicates when the Ad will be played during your movie.
+              position_type:
+                type: string
+                enum: [milliseconds, percent]
+                description: >-
+                  This field is only applies to Ads with type "midroll".
+                  Indicates whether the position is measured in milliseconds or a percentage of movie duration.
+                  Valid values are "milliseconds" and "percent".
+              tag_url:
+                type: string
+                description: This field only applies to third party ads. URL to the XML file containing your ad tag.
+              tracking_pixel_url:
+                type: string
+                description: This URL is pinged whenever the Ad is played.
 
+    AdSetObject:
+      description: Content of Ad Set.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier of Ad Set.
+              name:
+                type: string
+                description: Name of Ad Set.
+              default:
+                type: boolean
+                description: >-
+                  If 'true' then this Ad Set will automatically be applied to movies
+                  that get added to your content library. Only one Ad Set can have
+                  this field set to 'true' at any time.
+              ads:
+                type: array
+                items:
+                  $ref: '#/components/responses/AdObject'
     BadRequest:
       description: Bad Request
 

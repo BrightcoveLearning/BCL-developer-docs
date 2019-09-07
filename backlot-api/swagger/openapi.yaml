@@ -746,6 +746,16 @@ components:
         type: integer
       description: The page limit for pagination.
 
+  requestBodies:
+    AssetUploadStatus:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+                        
+    
+
   responses:
     AdObject:
       description: Content of single Ad.
@@ -807,7 +817,7 @@ components:
                 description: This field only applies to third party ads. URL to the XML file containing your ad tag.
               tracking_pixel_url:
                 type: string
-                description: This URL is pinged whenever the Ad is played.
+                description: This URL is pinged whenever the Ad is played.          
 
     AdSetObject:
       description: Content of Ad Set.
@@ -846,3 +856,39 @@ components:
 
     Forbidden:
       description: Client doesn't have the rights to the content or the API is deprecated by Brightcove
+
+    ExplainedBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Error message
+            example: { "message": "Explanation why the request was bad" }
+
+    AssetNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetNotFound'
+
+    AssetUploadError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            example: { "message": "Explanation why the request was bad" }
+            oneOf:
+              - $ref: '#/components/schemas/AssetNotFound'
+              - $ref: '#/components/schemas/AssetCantUpload'
+    AssetUploadStatus:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+    

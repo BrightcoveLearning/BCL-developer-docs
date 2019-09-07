@@ -384,7 +384,7 @@ components:
           readOnly: true
         custom_fields:
           type: object
-          description: 'map of fieldname-value pairs '
+          description: 'map of field name-value pairs '
           readOnly: true
         cue_points:
           $ref: '#/components/schemas/video.cue_points'
@@ -812,3 +812,47 @@ components:
         three headers). You need to use a search-enabled Policy Key.
       schema:
         type: string
+
+  requestBodies:
+    AssetUploadStatus:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+      
+  responses:
+    ExplainedBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Error message
+            example: { "message": "Explanation why the request was bad" }
+
+    AssetNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetNotFound'
+
+    AssetUploadError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            example: { "message": "Explanation why the request was bad" }
+            oneOf:
+              - $ref: '#/components/schemas/AssetNotFound'
+              - $ref: '#/components/schemas/AssetCantUpload'
+    AssetUploadStatus:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'

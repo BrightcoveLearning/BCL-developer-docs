@@ -1,0 +1,88 @@
+paths:
+  /v2/assets/{channel_id}/lineup:
+    get:
+      tags:
+        - Lineup
+      description: Get asset channel lineup
+      parameters:
+        - $ref: '#/components/parameters/ChannelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ArrayStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Lineup
+      description: Add asset to channel lineup
+      parameters:
+        - $ref: '#/components/parameters/ChannelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{channel_id}/lineup/{asset_id}:
+    put:
+      tags:
+        - Lineup
+      description: Put channel lineup asset
+      parameters:
+        - $ref: '#/components/parameters/ChannelID'
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Lineup
+      description: Delete channel lineup asset
+      parameters:
+        - $ref: '#/components/parameters/ChannelID'
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    ChannelID:
+      name: channel_id
+      in: path
+      schema:
+        type: string
+      description: The channel id to retrieve.
+      required: true

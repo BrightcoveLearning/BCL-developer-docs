@@ -1,0 +1,51 @@
+paths:
+  /v2/assets/{asset_id}/player:
+    get:
+      tags:
+        - Player
+      description: View the player assigned to an asset.
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/player/{player_id}:
+    put:
+      tags:
+        - Player
+      description: Add or update an attribute for a given DRM type.
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/PlayerID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    PlayerID:
+      name: player_id
+      in: path
+      schema:
+        type: string
+      description: The player to retrieve.
+      required: true

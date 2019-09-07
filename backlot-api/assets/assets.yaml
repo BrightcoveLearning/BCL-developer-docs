@@ -1,0 +1,581 @@
+paths:
+  /v2/assets:
+    get:
+      tags:
+        - Assets
+      description: Get assets
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assets'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Updates assets
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assets'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}:
+    get:
+      tags:
+        - Assets
+      description: Get asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Update asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    patch:
+      tags:
+        - Assets
+      description: Update asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Assets
+      description: delete asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/ad_set:
+    get:
+      tags:
+        - Ad Set
+      description: Get asset ad_set info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/generated_preview_images:
+    get:
+      tags:
+        - Generated Preview Images
+      description: Get asset generated preview images
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/PreviewImages'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/upload_status:
+    put:
+      tags:
+        - Upload Status
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/source_file_info:
+    get:
+      tags:
+        - Source File Info
+      description: Retrieve an asset's source file
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/streams:
+    get:
+      tags:
+        - Streams
+      description: Get the streams for a given asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    stream_type:
+                      type: string
+                      description: Can be either single or abr, indicating "adaptive bitrate playback"
+                    profile:
+                      type: string
+                      description: Ingest profile
+                    video_height:
+                      type: integer
+                      description: Height of video (MP4 only)
+                    video_width:
+                      type: integer
+                      description: Width of video (MP4 only)
+                    is_source:
+                      type: string
+                      description: Whether the video was ingested or is a remote asset
+                    file_size:
+                      type: integer
+                      description: File size
+                    audio_codec:
+                      type: string
+                      description: Audio codec
+                    audio_bitrate:
+                      type: integer
+                      description: Audio bitrate
+                    video_codec:
+                      type: string
+                      description: Video codec
+                    average_video_bitrate:
+                      type: integer
+                      description: Average video bitrate (MP4 only)
+                    muxing_format:
+                      type: string
+                      description: The video container (MP4 only)
+                    url:
+                      type: string
+                      description: Non-secure rendition url
+                    url_ssl:
+                      type: string
+                      description: Secure rendition url
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/uploading_urls:
+    get:
+      tags:
+        - Asset Upload
+      description: Get urls to upload for an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Upload URL for a specific part of the file
+                example: ["https://bucket.s3.amazonaws.com/big_bunny.mp4?part=1", "https://bucket.s3.amazonaws.com/big_bunny.mp4?part=2"]
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetUploadError'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/upload_status:
+    put:
+      tags:
+        - Asset Upload
+      description: Complete or abort upload
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        $ref: '#/components/requestBodies/AssetUploadStatus'
+      responses:
+        200:
+          $ref: '#/components/responses/AssetUploadStatus'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetUploadError'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/publishing_rule:
+    get:
+      tags:
+        - Publishing Rule
+      description: Publishing Rule for Asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/PublishingRule'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/labels:
+    get:
+      tags:
+        - Asset Labels
+      description: Labels for an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Labels'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Asset Labels
+      description: Assign multiple labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              description: A list of lable ids to assign to an asset
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/labels/{label_id}:
+    put:
+      tags:
+        - Asset Labels
+      description: Assign a single labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Asset Labels
+      description: Deletes a single labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+
+components:
+  schemas:
+    Assets:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/AssetInfo'
+    AssetInfo:
+      type: "object"
+      properties:
+        name:
+          type: string
+          description: Asset name
+        description:
+          type: string
+          description: Description of asset
+        asset_type:
+          type: string
+          description: The type of asset. Can be video, ad, or remote_asset
+        embed_code:
+          type: string
+          description: The id of the asset
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        original_file_name:
+          type: string
+        status:
+          type: string
+        duration:
+          type: number
+        preview_image_url:
+          type: string
+        external_id:
+          type: string
+        closed_captions_url:
+          type: string
+        publishing_rule_id:
+          type: string
+        time_restrictions:
+          type: object
+          properties:
+            type:
+              type: string
+            start_date:
+              type: string
+            end_date:
+              type: string
+            recurring_days:
+              type: array
+              items:
+                type: string
+        all_day:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        download_allowed:
+          type: string
+        stream_urls:
+          type: object
+          properties:
+            flash:
+              type: string
+            iphone:
+              type: string
+            ipad:
+              type: string
+            itunes:
+              type: string
+            source:
+              type: string
+        click_url:
+          type: string
+        metadata:
+          type: object
+    AssetNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      example: { "message": "No asset exists with the id 95eXdvZTE6FjG3hzZwb05Wx3bHJFKdk2." }
+    AssetCantUpload:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      example: { "message": "This asset cannot be uploaded" }
+    AssetUploadStatus:
+      description: JSON of upload completion command
+      type: object
+      properties:
+          status:
+            type: string
+            enum: [uploaded, failed]
+          key2:
+            type: string
+      example: { "status": "uploaded" }
+
+  requestBodies:
+    AssetUploadStatus:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+
+  responses:
+    ExplainedBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Error message
+            example: { "message": "Explanation why the request was bad" }
+
+    AssetNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetNotFound'
+
+    AssetUploadError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            example: { "message": "Explanation why the request was bad" }
+            oneOf:
+              - $ref: '#/components/schemas/AssetNotFound'
+              - $ref: '#/components/schemas/AssetCantUpload'
+    AssetUploadStatus:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'

@@ -533,62 +533,121 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
 
-          /v2/assets/{asset_id}/closed_captions:
-            get:
-              tags:
-                - Closed Captions
-              description: Get asset closed_captions info
-              parameters:
-                - $ref: '#/components/parameters/AssetID'
-                - $ref: '#/components/parameters/ApiKey'
-                - $ref: '#/components/parameters/Signature'
-                - $ref: '#/components/parameters/Expires'
-              responses:
-                200:
-                  description: Captions File
-                401:
-                  $ref: '#/components/responses/Unauthorized'
-                404:
-                  $ref: '#/components/responses/NotFound'
-                500:
-                  $ref: '#/components/responses/ServerError'
-            put:
-              tags:
-                - Closed Captions
-              description: Put asset closed_captions info
-              parameters:
-                - $ref: '#/components/parameters/AssetID'
-                - $ref: '#/components/parameters/ApiKey'
-                - $ref: '#/components/parameters/Signature'
-                - $ref: '#/components/parameters/Expires'
-              responses:
-                200:
-                  description: OK
-                401:
-                  $ref: '#/components/responses/Unauthorized'
-                404:
-                  $ref: '#/components/responses/AssetNotFound'
-                500:
-                  $ref: '#/components/responses/ServerError'
-            delete:
-              tags:
-                - Closed Captions
-              description: Delete asset closed_captions info
-              parameters:
-                - $ref: '#/components/parameters/AssetID'
-                - $ref: '#/components/parameters/ApiKey'
-                - $ref: '#/components/parameters/Signature'
-                - $ref: '#/components/parameters/Expires'
-              responses:
-                200:
-                  description: OK
-                401:
-                  $ref: '#/components/responses/Unauthorized'
-                404:
-                  $ref: '#/components/responses/AssetNotFound'
-                500:
-                  $ref: '#/components/responses/ServerError'
-        
+  /v2/assets/{asset_id}/closed_captions:
+    get:
+      tags:
+      - Closed Captions
+      description: Get asset closed_captions info
+      parameters:
+      - $ref: '#/components/parameters/AssetID'
+      - $ref: '#/components/parameters/ApiKey'
+      - $ref: '#/components/parameters/Signature'
+      - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: Captions File
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+      - Closed Captions
+      description: Put asset closed_captions info
+      parameters:
+      - $ref: '#/components/parameters/AssetID'
+      - $ref: '#/components/parameters/ApiKey'
+      - $ref: '#/components/parameters/Signature'
+      - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+      - Closed Captions
+      description: Delete asset closed_captions info
+      parameters:
+      - $ref: '#/components/parameters/AssetID'
+      - $ref: '#/components/parameters/ApiKey'
+      - $ref: '#/components/parameters/Signature'
+      - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/drm_attributes/{drm_type}:
+    get:
+      tags:
+        - DRM Attributes
+      description: Fetch all the attributes for a given DRM type.
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/DRMType'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  drm_type:
+                    type: string
+                    description: The DRM type passed in
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - DRM Attributes
+      description: Add or update an attribute for a given DRM type.
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/DRMType'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+                
+                
 
 components:
   schemas:
@@ -799,6 +858,14 @@ components:
       schema:
         type: integer
       description: The page limit for pagination.
+    DRMType:
+      name: drm_type
+      in: path
+      schema:
+        type: string
+      description: The drm type to retrieve.
+      required: true
+  
 
   requestBodies:
     AssetUploadStatus:

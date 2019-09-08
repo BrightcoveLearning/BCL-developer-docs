@@ -1,0 +1,918 @@
+openapi: '3.0.0'
+info:
+  version: '2.0'
+  title: Backlot API
+  description: |-
+    **Note; This reference is for the Brightcove version of the Backlot API that connects operations to Video Cloud. It is for Ooyala customers who have migrated to Video Cloud. If you have not yet migrated to Video Cloud, you should use the [Ooyala version of this reference](https://docs.brightcove.com/apidocs-ooyala/backlot_api/index.html)**
+
+    The **Backlot REST API** is designed to enable custom integrations between your platforms and Video Cloud services. Use cases include automated asset upload, configuration, and retrieval. Thus various Video Cloud Studio actions can be performed programmatically using the Backlot API.
+
+    If an endpoint from the Ooyala version of the API is not shown here, it means that endpoint is not supported by the Backlot / Video Cloud CMS Connector. See [Backlot / Video Cloud CMS Connector](https://support.brightcove.com/backlot-video-cloud-cms-connector) for more information.
+
+servers:
+  - url: https://api.ooyala.com
+    description: Production endpoint
+
+tags:
+  - name: Ad Sets
+    description: Operations for Ad Sets.
+  - name: Playlists
+    description: Operations for playlists.
+    
+paths:
+  /v2/ad_sets:
+    get:
+      tags:
+        - Ad Sets
+      description: Get list of Ad Sets.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ItemsArrayStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/ad_sets/{ad_set_id}:
+    get:
+      tags:
+        - Ad Sets
+      description: Get an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/AdSetObject'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Ad Sets
+      description: Update an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Ad Sets
+      description: Remove an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/ad_sets/{ad_set_id}/ads:
+    post:
+      tags:
+        - Ad Sets
+      description: Add an Ad to an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+      responses:
+        200:
+          $ref: '#/components/responses/AdObject'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/ad_sets/{ad_set_id}/ads/{ad_id}:
+    delete:
+      tags:
+        - Ad Sets
+      description: Remove an Ad from an Ad Set.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/AdSetID'
+        - $ref: '#/components/parameters/AdID'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}:
+    get:
+      tags:
+        - Assets
+      description: Get asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Update asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    patch:
+      tags:
+        - Assets
+      description: Update asset info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Assets
+      description: delete asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/ad_set:
+    get:
+      tags:
+        - Ad Set
+      description: Get asset ad_set info
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/generated_preview_images:
+    get:
+      tags:
+        - Generated Preview Images
+      description: Get asset generated preview images
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/PreviewImages'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/source_file_info:
+    get:
+      tags:
+        - Source File Info
+      description: Retrieve an asset's source file
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/streams:
+    get:
+      tags:
+        - Streams
+      description: Get the streams for a given asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    stream_type:
+                      type: string
+                      description: Can be either single or abr, indicating "adaptive bitrate playback"
+                    profile:
+                      type: string
+                      description: Ingest profile
+                    video_height:
+                      type: integer
+                      description: Height of video (MP4 only)
+                    video_width:
+                      type: integer
+                      description: Width of video (MP4 only)
+                    is_source:
+                      type: string
+                      description: Whether the video was ingested or is a remote asset
+                    file_size:
+                      type: integer
+                      description: File size
+                    audio_codec:
+                      type: string
+                      description: Audio codec
+                    audio_bitrate:
+                      type: integer
+                      description: Audio bitrate
+                    video_codec:
+                      type: string
+                      description: Video codec
+                    average_video_bitrate:
+                      type: integer
+                      description: Average video bitrate (MP4 only)
+                    muxing_format:
+                      type: string
+                      description: The video container (MP4 only)
+                    url:
+                      type: string
+                      description: Non-secure rendition url
+                    url_ssl:
+                      type: string
+                      description: Secure rendition url
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/uploading_urls:
+    get:
+      tags:
+        - Asset Upload
+      description: Get urls to upload for an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Upload URL for a specific part of the file
+                example: ["https://bucket.s3.amazonaws.com/big_bunny.mp4?part=1", "https://bucket.s3.amazonaws.com/big_bunny.mp4?part=2"]
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetUploadError'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/upload_status:
+    put:
+      tags:
+        - Asset Upload
+      description: Complete or abort upload
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        $ref: '#/components/requestBodies/AssetUploadStatus'
+      responses:
+        200:
+          $ref: '#/components/responses/AssetUploadStatus'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetUploadError'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/publishing_rule:
+    get:
+      tags:
+        - Publishing Rule
+      description: Publishing Rule for Asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/PublishingRule'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/labels:
+    get:
+      tags:
+        - Asset Labels
+      description: Labels for an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Labels'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Asset Labels
+      description: Assign multiple labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              description: A list of label ids to assign to an asset
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/labels/{label_id}:
+    put:
+      tags:
+        - Asset Labels
+      description: Assign a single labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Asset Labels
+      description: Deletes a single labels to an asset
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    AdSourceEnum:
+      description: >-
+        Can be either "assets" (Ad comes from your content library) or a string identifying an ad network.
+        As this enum is used for validation of requests only, and not of responses, then here is only values,
+        which are supported by Brightcove
+      type: string
+      enum:
+        - assets
+        - Freewheel
+        - Freewheel Commercial Breaks
+        - Freewheel OPF Module
+        - Freewheel Overlay
+        - Google IMA V3
+        - My Ads
+        - VAST Compliant In-Stream
+        - VAST Compliant Overlay
+        - VAST Live OPF
+        - VPAID OPF
+        - VPAID OPF Overlay
+        - Videoplaza
+    Assets:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/AssetInfo'
+    AssetInfo:
+      type: "object"
+      properties:
+        name:
+          type: string
+          description: Asset name
+        description:
+          type: string
+          description: Description of asset
+        asset_type:
+          type: string
+          description: The type of asset. Can be video, ad, or remote_asset
+        embed_code:
+          type: string
+          description: The id of the asset
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        original_file_name:
+          type: string
+        status:
+          type: string
+        duration:
+          type: number
+        preview_image_url:
+          type: string
+        external_id:
+          type: string
+        closed_captions_url:
+          type: string
+        publishing_rule_id:
+          type: string
+        time_restrictions:
+          type: object
+          properties:
+            type:
+              type: string
+            start_date:
+              type: string
+            end_date:
+              type: string
+            recurring_days:
+              type: array
+              items:
+                type: string
+        all_day:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        download_allowed:
+          type: string
+        stream_urls:
+          type: object
+          properties:
+            flash:
+              type: string
+            iphone:
+              type: string
+            ipad:
+              type: string
+            itunes:
+              type: string
+            source:
+              type: string
+        click_url:
+          type: string
+        metadata:
+          type: object
+    AssetNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      example: { "message": "No asset exists with the id 95eXdvZTE6FjG3hzZwb05Wx3bHJFKdk2." }
+    AssetCantUpload:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      example: { "message": "This asset cannot be uploaded" }
+    AssetUploadStatus:
+      description: JSON of upload completion command
+      type: object
+      properties:
+          status:
+            type: string
+            enum: [uploaded, failed]
+          key2:
+            type: string
+      example: { "status": "uploaded" }
+    
+  parameters:
+    ApiKey:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+    Signature:
+      name: signature
+      in: query
+      required: true
+      schema:
+        type: string
+    Expires:
+      name: expires
+      in: query
+      required: true
+      schema:
+        type: string
+    PCode:
+      name: pcode
+      in: path
+      schema:
+        type: string
+      description: The Ooyala pcode.
+      required: true
+    AdID:
+      name: ad_id
+      in: path
+      schema:
+        type: string
+      required: true
+
+    AdSetID:
+      name: ad_set_id
+      in: path
+      schema:
+        type: string
+      required: true
+    AssetID:
+      name: asset_id
+      in: path
+      schema:
+        type: string
+      description: The asset id to retrieve.
+      required: true
+    RuleID:
+      name: publishing_rule_id
+      in: path
+      schema:
+        type: string
+      description: The id of the publishing rule to apply to the asset
+      required: true
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+    PolicyId:
+      name: policy_id
+      in: path
+      schema:
+        type: string
+      required: true
+    PaginationOffset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      description: The offset for pagination.
+    PaginationPageToken:
+      name: page_token
+      in: query
+      schema:
+        type: string
+      description: The page token for pagination.
+    PaginationLimit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+      description: The page limit for pagination.
+
+  requestBodies:
+    AssetUploadStatus:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+
+  responses:
+    ArrayStub:
+      description: A stub response for expected array data
+      content:
+        application/json:
+          schema:
+            type: array
+            items: {}
+            example: []
+
+    ObjectStub:
+      description: A stub response for expected json data
+      content:
+        application/json:
+          schema:
+            type: object
+            example: {}
+
+    ItemsArrayStub:
+      description: A stub response for expected json data, that contains items array
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items: {}
+                example: []
+            example:
+              items: []
+
+
+    AdObject:
+      description: Content of single Ad.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: String which uniquely associates an Ad with an Ad Set.
+              name:
+                type: string
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Identifies the name of the Asset from your content library to be used as your Ad.
+              ad_source:
+                $ref: '#/components/schemas/AdSourceEnum'
+              ad_type:
+                type: string
+                enum: [preroll, postroll, midroll, cuepoint]
+                description: >-
+                  Can be either "preroll" (Ad plays before your movie begins),
+                  "postroll" (plays after your movie ends), "midroll" (plays in the middle of your movie),
+                  or "cuepoint".
+              click_url:
+                type: string
+                description: URL indicating where to redirect the user when they click the Ad.
+              duration:
+                type: integer
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Indicates the length of your Ad in milliseconds.
+              embed_code:
+                type: string
+                description: >-
+                  This field is only visible if your Ad has ad_source set to "assets".
+                  Identifies which Asset from your content library is used as your Ad.
+              plays_before:
+                type: integer
+                description: Ad is first shown after the first X plays.
+              plays_between:
+                type: integer
+                description: Ad is shown after every X plays.
+              position:
+                type: integer
+                description: >-
+                  This field is only applies to Ads with type "midroll".
+                  Indicates when the Ad will be played during your movie.
+              position_type:
+                type: string
+                enum: [milliseconds, percent]
+                description: >-
+                  This field is only applies to Ads with type "midroll".
+                  Indicates whether the position is measured in milliseconds or a percentage of movie duration.
+                  Valid values are "milliseconds" and "percent".
+              tag_url:
+                type: string
+                description: This field only applies to third party ads. URL to the XML file containing your ad tag.
+              tracking_pixel_url:
+                type: string
+                description: This URL is pinged whenever the Ad is played.          
+
+    AdSetObject:
+      description: Content of Ad Set.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier of Ad Set.
+              name:
+                type: string
+                description: Name of Ad Set.
+              default:
+                type: boolean
+                description: >-
+                  If 'true' then this Ad Set will automatically be applied to movies
+                  that get added to your content library. Only one Ad Set can have
+                  this field set to 'true' at any time.
+              ads:
+                type: array
+                items:
+                  $ref: '#/components/responses/AdObject'
+    BadRequest:
+      description: Bad Request
+
+    Unauthorized:
+      description: Unauthorized
+
+    NotFound:
+      description: Not Found
+
+    ServerError:
+      description: Internal Server Error
+
+    Forbidden:
+      description: Client doesn't have the rights to the content or the API is deprecated by Brightcove
+
+    ExplainedBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Error message
+            example: { "message": "Explanation why the request was bad" }
+
+    AssetNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetNotFound'
+
+    AssetUploadError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            example: { "message": "Explanation why the request was bad" }
+            oneOf:
+              - $ref: '#/components/schemas/AssetNotFound'
+              - $ref: '#/components/schemas/AssetCantUpload'
+    AssetUploadStatus:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssetUploadStatus'
+    

@@ -18,6 +18,22 @@ tags:
     description: Operations for Ad Sets.
   - name: Playlists
     description: Operations for playlists.
+  - name: metadata
+    description: Operations for metadata
+  - name: assets
+    description: Operations for assets
+  - name: Generated Preview Images
+    description: Operations for generated preview images
+  - name: Source File Info
+    description: Operations for Source File Info
+  - name: Streams
+    description: Operations for Streams
+  - name: Asset Upload
+    description: Operations for Asset Upload
+  - name: Asset Labels
+    description: Operations for Asset Labels
+  - name: Closed Captions
+    description: Operations for Closed Captions
     
 paths:
   /v2/ad_sets:
@@ -246,7 +262,7 @@ paths:
   /v2/assets/{asset_id}/ad_set:
     get:
       tags:
-        - Ad Set
+        - Ad Sets
       description: Get asset ad_set info
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -725,6 +741,180 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'           
 
+          /v2/assets/{asset_id}/metadata:
+            get:
+              tags:
+                - Metadata
+              description: Get asset metadata
+              parameters:
+                - $ref: '#/components/parameters/AssetID'
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+              responses:
+                200:
+                  $ref: '#/components/responses/Metadata'
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                404:
+                  $ref: '#/components/responses/AssetNotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+            put:
+              tags:
+                - Metadata
+              description: Update asset metadata
+              parameters:
+                - $ref: '#/components/parameters/AssetID'
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+        
+              requestBody:
+                $ref: '#/components/requestBodies/Metadata'
+              responses:
+                200:
+                  $ref: '#/components/responses/Metadata'
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                404:
+                  $ref: '#/components/responses/AssetNotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+            patch:
+              tags:
+                - Metadata
+              description: Update asset metadata
+              parameters:
+                - $ref: '#/components/parameters/AssetID'
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+              requestBody:
+                $ref: '#/components/requestBodies/Metadata'
+              responses:
+                200:
+                  $ref: '#/components/responses/Metadata'
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                404:
+                  $ref: '#/components/responses/AssetNotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+            delete:
+              tags:
+                - Metadata
+              description: Update asset metadata
+              parameters:
+                - $ref: '#/components/parameters/AssetID'
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+              responses:
+                200:
+                  description: OK
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                404:
+                  $ref: '#/components/responses/AssetNotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+  
+  /v2/assets/{asset_id}/metadata:
+    get:
+      tags:
+        - Metadata
+      description: Get asset metadata
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/Metadata'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Metadata
+      description: Update asset metadata
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+
+      requestBody:
+        $ref: '#/components/requestBodies/Metadata'
+      responses:
+        200:
+          $ref: '#/components/responses/Metadata'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Metadata
+      description: Update asset metadata
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        $ref: '#/components/requestBodies/Metadata'
+      responses:
+        200:
+          $ref: '#/components/responses/Metadata'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Metadata
+      description: Update asset metadata
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+                
 components:
   schemas:
     AdSourceEnum:
@@ -1012,7 +1202,6 @@ components:
                 example: []
             example:
               items: []
-
 
     AdObject:
       description: Content of single Ad.

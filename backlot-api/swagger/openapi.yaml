@@ -34,6 +34,8 @@ tags:
     description: Operations for Asset Labels
   - name: Closed Captions
     description: Operations for Closed Captions
+  - name: DRM Attributes
+    description: Operations for DRM Attributes
     
 paths:
   /v2/ad_sets:
@@ -663,48 +665,10 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
                 
-  /v2/assets/{asset_id}/labels:
-    get:
-      tags:
-        - Labels
-      description: Get asset labels
-      parameters:
-        - $ref: '#/components/parameters/AssetID'
-        - $ref: '#/components/parameters/ApiKey'
-        - $ref: '#/components/parameters/Signature'
-        - $ref: '#/components/parameters/Expires'
-      responses:
-        200:
-          description: OK
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-    post:
-      tags:
-        - Labels
-      description: Update asset labels
-      parameters:
-        - $ref: '#/components/parameters/AssetID'
-        - $ref: '#/components/parameters/ApiKey'
-        - $ref: '#/components/parameters/Signature'
-        - $ref: '#/components/parameters/Expires'
-      responses:
-        200:
-          description: OK
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-
   /v2/assets/{asset_id}/labels/{label_id}:
     put:
       tags:
-        - Labels
+        - Asset Labels
       description: Update asset label
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -723,7 +687,7 @@ paths:
           description: Internal Server Error
     delete:
       tags:
-        - Labels
+        - Asset Labels
       description: Update asset label
       parameters:
         - $ref: '#/components/parameters/AssetID'

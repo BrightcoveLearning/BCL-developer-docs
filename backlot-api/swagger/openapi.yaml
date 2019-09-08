@@ -647,7 +647,83 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
                 
-                
+  /v2/assets/{asset_id}/labels:
+    get:
+      tags:
+        - Labels
+      description: Get asset labels
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Labels
+      description: Update asset labels
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/labels/{label_id}:
+    put:
+      tags:
+        - Labels
+      description: Update asset label
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      tags:
+        - Labels
+      description: Update asset label
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'           
 
 components:
   schemas:
@@ -770,6 +846,29 @@ components:
           key2:
             type: string
       example: { "status": "uploaded" }
+    Assets:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/AssetInfo'
+
+    AssetInfo:
+      type: "object"
+    Labels:
+      type: "array"
+      items: 
+        $ref: '#/components/schemas/LabelInfo'
+    LabelInfo:
+      type: "object"
+      properties:
+        parent_id:
+          type: string
+        id: 
+          type: string
+        name:
+          type: string
+        full_name:
+          type: string
+  
     
   parameters:
     ApiKey:
@@ -866,6 +965,13 @@ components:
       description: The drm type to retrieve.
       required: true
   
+    LabelID:
+      name: label_id
+      in: path
+      schema:
+        type: string
+      description: The label id to retrieve.
+      required: true
 
   requestBodies:
     AssetUploadStatus:

@@ -878,7 +878,74 @@ paths:
           $ref: '#/components/responses/AssetNotFound'
         500:
           $ref: '#/components/responses/ServerError'
-                
+
+  /v2/assets/{asset_id}/movie_urls:
+    get:
+      tags:
+        - Movie URLs
+      description: Get asset movie urls
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/MovieUrls'
+        400:
+          $ref: '#/components/responses/ExplainedBadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Movie URLs
+      description: Update asset movie url
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        $ref: '#/components/requestBodies/MovieUrls'
+      responses:
+        200:
+          $ref: '#/components/responses/MovieUrls'
+        400:
+          $ref: '#/components/responses/ExplainedBadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/movie_urls/{type}:
+    delete:
+      tags:
+        - Movie URLs
+      description: Delete asset movie urls type
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/MovieUrlType'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/MovieUrls'
+        400:
+          $ref: '#/components/responses/ExplainedBadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
 components:
   schemas:
     AdSourceEnum:

@@ -80,12 +80,12 @@
     </thead>
     <tbody class="bcls-table__body">
       <tr>
-        <td><strong>Profile</strong></td>
-  			<td>Your tag management system account can have multiple containers (profiles), with its own tags and variables. Each profile can have multiple environments, usually set up for development, staging and production. </td>
-  		</tr>
-      <tr>
         <td><strong>Event</strong></td>
   			<td>Events are data points used to send data to your reporting tool. These are related to video loading and playback.</td>
+  		</tr>
+      <tr>
+        <td><strong>Profile</strong></td>
+  			<td>Your tag management system account can have multiple containers (profiles), with its own tags and variables. Each profile can have multiple environments, usually set up for development, staging and production. </td>
   		</tr>
       <tr>
         <td><strong>Rule</strong></td>
@@ -104,8 +104,8 @@
   			<td>Trackers are objects that collect, store data and send that data to Google Tag Manager.</td>
   		</tr>
       <tr>
-        <td><strong>utag_data object</strong></td>
-  			<td>The utag_data object refers to the collection of data that lives in the code of your web page. This JavaScript object is used to pass information from your website to your tag manager container. You can then use this information to populate variables and activate triggers in your tag configurations.</td>
+        <td><strong>Universal Data Object (UDO) utag_data object</strong></td>
+  			<td>A JavaScript variable called <code>utag_data</code> which contains the collection of data that lives in the code of your web page. This JavaScript object is used to pass information from your website to your tag manager container. You can then use this information to populate variables and activate events in your tag configurations.</td>
   		</tr>
       <!-- <tr>
         <td><strong>Variable</strong></td>
@@ -177,6 +177,166 @@
 	</aside>
 	</li>
 </ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Events_and_attributes">Events and attributes</h2>
+
+<p>The following events and attributes are available to send to Tealium iQ.</p>
+<h3>Events</h3>
+<p>
+  These events come from your player.
+</p>
+<ul>
+  <li>
+    <code>video_load</code>
+  </li>
+  <li>
+    <code>video_play</code>
+  </li>
+  <li>
+    <code>video_watch</code>
+    <ul>
+      <li>
+        <code>video_watch</code> - 25% Milestone
+      </li>
+      <li>
+        <code>video_watch</code> - 50% Milestone
+      </li>
+      <li>
+        <code>video_watch</code> - 75% Milestone
+      </li>
+    </ul>
+  </li>
+  <li>
+    <code>video_pause</code>
+  </li>
+  <li>
+    <code>ad_start</code>
+  </li>
+  <li>
+    <code>ad_end</code>
+  </li>
+  <li>
+    <code>video_complete</code> - 100% Milestone
+  </li>
+</ul>
+<p>
+  The video watched percentage (<code>video_watch</code>) can be calculated as follows (similar to video_engagement event in Google and Adobe analytics):
+</p>
+<pre><code class="language-json">Video watched percentage = duration the user actually watched / total video duration</code></pre>
+<p>
+  For example, in a 20 second video, the 25% milestone can be achieved in both of the below cases
+</p>
+<ul>
+  <li>
+    User watches from 0-5 seconds
+  </li>
+  <li>
+    User watches from 0-1st second and skip to 11th second and watch to 15th second
+  </li>
+</ul>
+<p>
+  In both of the above cases, the user watched 5 seconds, so milestone will be reported as 25%.
+</p>
+
+<h3>Event attributes</h3>
+<p>
+  These attributes come from your player.
+</p>
+<ul>
+  <li>
+    <code>video_id</code>
+  </li>
+  <li>
+    <code>video_length</code>
+  </li>
+  <li>
+    <code>video_name</code>
+  </li>
+  <li>
+    <code>video_platform</code>
+  </li>
+  <li>
+    <code>video_playhead</code>
+  </li>
+  <li>
+    <code>video_milestone</code>
+  </li>
+</ul>
+
+<h3>Automatic parameters</h3>
+<p>
+  These parameters are automatically sent to Google Tag Manager.
+</p>
+<ul>
+  <li>
+    <code>browser</code>
+  </li>
+  <li>
+    <code>browser_type</code>
+  </li>
+  <li>
+    <code>city</code>
+  </li>
+  <li>
+    <code>country</code>
+  </li>
+  <li>
+    <code>country_name</code>
+  </li>
+  <li>
+    <code>destination</code>
+  </li>
+  <li>
+    <code>device_os</code>
+  </li>
+  <li>
+    <code>device_os_version</code>
+  </li>
+  <li>
+    <code>device_type</code>
+  </li>
+  <li>
+    <code>region</code>
+  </li>
+  <li>
+    <code>region_name</code>
+  </li>
+  <li>
+    <code>source</code>
+  </li>
+</ul>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Tealium_functions">Tealium functions</h2>
+
+<p>Tealium supports two functions to send data on the page:</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th width="15%">Function</th>
+      <th width="85%">Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>utag.view()</code></td>
+      <td>This tells Tealium that a user has viewed another page</td>
+    </tr>
+    <tr>
+      <td><code>utag.link()</code></td>
+      <td>This tells Tealium that something has happened on the page that wasn't a view (e.g. click on a button, a media finishes playing, etc.)</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The Tealium Plugin will use <code>utag.link()</code> to send Media events.
+</p>
+
+
 </section>
 
 <section class="bcls-section">

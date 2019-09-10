@@ -986,6 +986,46 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
         
+  /v2/assets/{asset_id}/publishing_rule:
+    get:
+      tags:
+        - Assets
+      description: Put publishing rule id
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/RuleID'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /v2/assets/{asset_id}/publishing_rule/{publishing_rule_id}:
+    put:
+      tags:
+        - Assets
+      description: Put publishing rule id
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/RuleID'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
         
 components:
   schemas:
@@ -1261,6 +1301,14 @@ components:
         type: string
       description: The movie url type.
       required: true
+
+    ImageID:
+      name: image_id
+      in: path
+      schema:
+        type: string
+      description: The image to retrieve.
+      required: true  
   
   requestBodies:
     AssetUploadStatus:
@@ -1463,5 +1511,68 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MovieUrls'
+
+    PrimaryPreviewImage:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Type of preview image
+              url:
+                type: string
+                description: Non-secure image url
+              url_ssl:
+                type: string
+                description: Secure image url
+              sizes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      description: Non-secure image url
+                    url_ssl:
+                      type: string
+                      description: Secure image url
+                    width:
+                      type: integer
+                      description: Width of preview image
+                    height:
+                      type: integer
+                      description: Height of preview image
+              id:
+                type: string
+                description: id of preview image (just the filename)
+        
+    PreviewImages:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: Non-secure image url
+                url_ssl:
+                  type: string
+                  description: Secure image url
+                time:
+                  type: integer
+                  description: Time at which they appear in your movie
+                width:
+                  type: integer
+                  description: Width of preview image
+                height:
+                  type: integer
+                  description: Height of preview image
+        
         
     

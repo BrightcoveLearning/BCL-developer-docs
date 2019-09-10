@@ -985,7 +985,287 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/ServerError'
+  /v2/labels:
+    get:
+      tags:
+        - Labels
+      description: View all labels. You will need to provide your api_key, expires, and signature parameters.
+      parameters:
+        - $ref: '#/components/parameters/IsRoot'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/LabelsArrayResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Labels
+      description: Create a label. You may optionally include a parent ID to create the label as a child of an existing label with that ID.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new label information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Labels_NewLabelBody'
+      responses:
+        200:
+          $ref: '#/components/responses/LabelObjectResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
         
+  /v2/labels/by_full_path/{paths}:
+    get:
+      tags:
+        - Labels
+      description: View all labels with the specified paths. {paths} is a comma-separated list of label paths. The paths must be CGI-escaped.
+      parameters:
+        - $ref: '#/components/parameters/Paths'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/LabelsArrayResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Labels
+      description: Create the labels with the specified paths. {paths} is a comma-separated list of label paths. The paths must be CGI-escaped.
+      parameters:
+        - $ref: '#/components/parameters/Paths'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/LabelsArrayResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+  /v2/labels/{label_id}:
+    get:
+      tags:
+        - Labels
+      description: View a label with specified ID. You may obtain the ID by using GET commands to view existing labels, for example [GET] /v2/labels.
+      parameters:
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/LabelObjectResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Labels
+      description: Modify a label specified by an ID.
+      parameters:
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        description: A JSON object containing new syndication information.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name cannot contain hidden characters. Hidden characters are those with ASCII values between 0 and 31, except for 10 newline and 13 carriage return.
+                  type: string
+                parent_id:
+                  type: string
+      responses:
+        200:
+          $ref: '#/components/responses/LabelObjectResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Labels
+      description: Delete a specified label, as well as all its children.
+      parameters:
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+  /v2/labels/{label_id}/children:
+    get:
+      tags:
+        - Labels
+      description: View all the children (sublabels) of a label with a specified ID.
+      parameters:
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: A full response for expected json data, that contains items array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Label'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+  /v2/labels/{label_id}/assets:
+    get:
+      tags:
+        - Labels
+      description: View all the assets assigned to a label with a specified ID.
+      parameters:
+        - $ref: '#/components/parameters/LabelID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: A full response for expected json data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        duration:
+                          type: number
+                        time_restrictions:
+                          type: number
+                        download_allowed:
+                          type: string
+                        ad_set_id:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date-time
+                        hosted_at:
+                          type: string
+                          format: date-time
+                        player_id:
+                          type: string
+                        embed_code:
+                          type: string
+                        preview_image_url:
+                          type: string
+                          format: uri
+                        publishing_rule_id:
+                          type: string
+                        description:
+                          type: string
+                        asset_type: 
+                          type: string
+                        name: 
+                          type: string
+                        external_id: 
+                          type: string
+                        status: 
+                          type: string
+                        updated_at: 
+                          type: string
+                          format: date-time
+                        original_file_name: 
+                          type: string
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+              
         
 components:
   schemas:
@@ -1251,6 +1531,28 @@ components:
         type: string
       description: The movie url type.
       required: true
+
+    IsRoot:
+      name: is_root
+      in: query
+      description: Set this to true to view all top-level labels only.
+      schema:
+        type: boolean
+
+    Paths:
+      name: paths
+      in: path
+      schema:
+        type: string
+      required: true
+
+    LabelID:
+      name: label_id
+      in: path
+      schema:
+        type: string
+      required: true
+  
   
   requestBodies:
     AssetUploadStatus:

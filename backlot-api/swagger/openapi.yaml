@@ -18,24 +18,10 @@ tags:
     description: Operations for Ad Sets.
   - name: Playlists
     description: Operations for playlists.
-  - name: metadata
+  - name: Metadata
     description: Operations for metadata
-  - name: assets
+  - name: Assets
     description: Operations for assets
-  - name: Generated Preview Images
-    description: Operations for generated preview images
-  - name: Source File Info
-    description: Operations for Source File Info
-  - name: Streams
-    description: Operations for Streams
-  - name: Asset Upload
-    description: Operations for Asset Upload
-  - name: Asset Labels
-    description: Operations for Asset Labels
-  - name: Closed Captions
-    description: Operations for Closed Captions
-  - name: DRM Attributes
-    description: Operations for DRM Attributes
     
 paths:
   /v2/ad_sets:
@@ -284,7 +270,7 @@ paths:
   /v2/assets/{asset_id}/generated_preview_images:
     get:
       tags:
-        - Generated Preview Images
+        - Assets
       description: Get asset generated preview images
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -301,30 +287,10 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
 
-  /v2/assets/{asset_id}/source_file_info:
-    get:
-      tags:
-        - Source File Info
-      description: Retrieve an asset's source file
-      parameters:
-        - $ref: '#/components/parameters/AssetID'
-        - $ref: '#/components/parameters/ApiKey'
-        - $ref: '#/components/parameters/Signature'
-        - $ref: '#/components/parameters/Expires'
-      responses:
-        200:
-          $ref: '#/components/responses/ObjectStub'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-
   /v2/assets/{asset_id}/streams:
     get:
       tags:
-        - Streams
+        - Assets
       description: Get the streams for a given asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -390,7 +356,7 @@ paths:
   /v2/assets/{asset_id}/uploading_urls:
     get:
       tags:
-        - Asset Upload
+        - Assets
       description: Get urls to upload for an asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -418,7 +384,7 @@ paths:
   /v2/assets/{asset_id}/upload_status:
     put:
       tags:
-        - Asset Upload
+        - Assets
       description: Complete or abort upload
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -464,7 +430,7 @@ paths:
   /v2/assets/{asset_id}/labels:
     get:
       tags:
-        - Asset Labels
+        - Assets
       description: Labels for an asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -486,7 +452,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     post:
       tags:
-        - Asset Labels
+        - Assets
       description: Assign multiple labels to an asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -516,7 +482,7 @@ paths:
           /v2/assets/{asset_id}/labels/{label_id}:
     put:
       tags:
-        - Asset Labels
+        - Assets
       description: Assign a single labels to an asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -534,7 +500,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-        - Asset Labels
+        - Assets
       description: Deletes a single labels to an asset
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -554,7 +520,7 @@ paths:
   /v2/assets/{asset_id}/closed_captions:
     get:
       tags:
-      - Closed Captions
+      - Assets
       description: Get asset closed_captions info
       parameters:
       - $ref: '#/components/parameters/AssetID'
@@ -572,7 +538,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     put:
       tags:
-      - Closed Captions
+      - Assets
       description: Put asset closed_captions info
       parameters:
       - $ref: '#/components/parameters/AssetID'
@@ -590,7 +556,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-      - Closed Captions
+      - Assets
       description: Delete asset closed_captions info
       parameters:
       - $ref: '#/components/parameters/AssetID'
@@ -606,69 +572,11 @@ paths:
           $ref: '#/components/responses/AssetNotFound'
         500:
           $ref: '#/components/responses/ServerError'
-
-  /v2/assets/{asset_id}/drm_attributes/{drm_type}:
-    get:
-      tags:
-        - DRM Attributes
-      description: Fetch all the attributes for a given DRM type.
-      parameters:
-        - $ref: '#/components/parameters/AssetID'
-        - $ref: '#/components/parameters/DRMType'
-        - $ref: '#/components/parameters/ApiKey'
-        - $ref: '#/components/parameters/Signature'
-        - $ref: '#/components/parameters/Expires'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  drm_type:
-                    type: string
-                    description: The DRM type passed in
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Error message
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/AssetNotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-    patch:
-      tags:
-        - DRM Attributes
-      description: Add or update an attribute for a given DRM type.
-      parameters:
-        - $ref: '#/components/parameters/AssetID'
-        - $ref: '#/components/parameters/DRMType'
-        - $ref: '#/components/parameters/ApiKey'
-        - $ref: '#/components/parameters/Signature'
-        - $ref: '#/components/parameters/Expires'
-      responses:
-        403:
-          $ref: '#/components/responses/Forbidden'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/AssetNotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
                 
   /v2/assets/{asset_id}/labels/{label_id}:
     put:
       tags:
-        - Asset Labels
+        - Assets
       description: Update asset label
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -687,7 +595,7 @@ paths:
           description: Internal Server Error
     delete:
       tags:
-        - Asset Labels
+        - Assets
       description: Update asset label
       parameters:
         - $ref: '#/components/parameters/AssetID'

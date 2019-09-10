@@ -45,19 +45,75 @@
 <section class="bcls-section">
 <h2 id="Overview">Overview</h2>
 
-<p>The Google Tag Manager (GTM) player plugin allows you to integrate GTM functionality with Brightcove Player. Tag managers allow you to add and publish tags without having to use code. Because they are a client-side solution, tag managers enable you to collect data across different marketing technologies. </p>
+<p>The Google Tag Manager (GTM) player plugin allows you to integrate GTM functionality with Brightcove Player. Tag managers allow you to add and publish tags without having to use code. Because they are a client-side solution, tag managers enable you to collect data across different marketing technologies. This empowers marketers by giving them the ability to collect user and player data across a diverse set of collection points.</p>
 <p>
-  If you are already using Google Analytics, Adwords and DoubleClick, Google Tag Manager integrates well with this platform of tools.
+  If you are already using Google Analytics, Adwords and DoubleClick, then you may also want to use Google Tag Manager, as it integrates well with these tools. GTM offers a large number of variable and trigger options.
 </p>
 
-<p>To use the plugin follow these steps:</p>
+<p>
+  To familiarize yourself with some common terms, review the <a href="#Tag_management_terminology">Tag management terminology</a> section.
+</p>
+<p>
+  To add the GTM plugin to your Brightcove Player, see the <a href="#Using_the_plugin">Using the plugin</a> section.
+</p>
+
+<!-- <p>To use the plugin follow these steps:</p>
 
 <ol class="bcls-tasklist">
 	<li>Load the Chromecast Plugin for Brightcove Player (detailed below).</li>
 	<li>Be sure the Chromecast device is on the same network as your device that will play the video.</li>
 	<li>Start playing the video.</li>
 	<li>Click the cast button and select your Chromecast device.</li>
-</ol>
+</ol> -->
+</section>
+
+<section class="bcls-section">
+<h2 id="Tag_management_terminology">Tag management terminology</h2>
+
+<p>Here are some of the common terms you will encounter when using Google Tag Manager (GTM).</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th width="15%">Term</th>
+			<th width="85%">Description</th>
+		</tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><strong>Container</strong></td>
+			<td>Your tag management system account can have multiple containers (profiles), with its own tags and variables. Each container can have multiple environments, usually set up for development, staging and production. </td>
+		</tr>
+    <tr>
+      <td><strong>Data layer</strong></td>
+			<td>The data layer refers to the collection of data that lives in the code of your web page. This JavaScript object is used to pass information from your website to your tag manager container. You can then use this information to populate variables and activate triggers in your tag configurations.</td>
+		</tr>
+    <tr>
+      <td><strong>Event</strong></td>
+			<td>Events are data points used to send data to your reporting tool. These are related to video loading and playback.</td>
+		</tr>
+    <tr>
+      <td><strong>Tag</strong></td>
+			<td>Tags are code snippets placed on your web page to collect user interaction data. Tag management systems simplify the process of adding tags to your site, requiring that you only supply the tag id and tag event type.</td>
+		</tr>
+    <tr>
+      <td><strong>Tag marketplace</strong></td>
+			<td>Tag marketplace templates provide code snippets for deploying a tag. While this reduces the amount of code knowledge needed, some familiarity with JavaScript and HTML is required for successful implementation.</td>
+		</tr>
+    <tr>
+      <td><strong>Tracker</strong></td>
+			<td>Trackers are objects that collect, store data and send that data to Google Tag Manager.</td>
+		</tr>
+    <tr>
+      <td><strong>Trigger</strong></td>
+			<td>Triggers tell when tag code should be added to a page. These are user-defined conditions.</td>
+		</tr>
+    <!-- <tr>
+      <td><strong>Variable</strong></td>
+			<td>Variables are data points used to send data to your reporting tool.</td>
+		</tr> -->
+  </tbody>
+</table>
+
 </section>
 
 <section class="bcls-section">
@@ -81,7 +137,7 @@
 	</figure>
 	</li>
 	<li>
-	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>chromecast-receiver</strong>.</p>
+	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>google-tag-manager</strong>.</p>
 
 	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="chromcast-receiver" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-receiver.png" />
 	<figcaption class="bcls-caption--image">chromecast-receiver</figcaption>
@@ -101,16 +157,16 @@
 	<p>See below for details on the options.</p>
 	</li>
 	<li>
-	<p>Select the <strong>Save</strong> button. You will now see the <strong>chromecast-receiver</strong> plugin added to the list of plugins for your player.</p>
+	<p>Select the <strong>Save</strong> button. You will now see the <strong>google-tag-manager</strong> plugin added to the list of plugins for your player.</p>
 
 	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin added" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/plugin-added.png" />
 	<figcaption class="bcls-caption--image">Plugin added</figcaption>
 	</figure>
 	</li>
 	<li>To publish the player, select <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
-	<li>To close the open dialog, select <strong>Close</strong>.</li>
+	<li>To close the dialog, select <strong>Close</strong>.</li>
 	<li>
-	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Chromecast.</p>
+	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Google Tag Manager.</p>
 
 	<p>Once the plugin is loaded, the video has started playing, and an available Chromecast device is in range, the cast button will appear in the player as shown here in this screenshot of a player:</p>
 
@@ -121,6 +177,161 @@
 	</aside>
 	</li>
 </ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Events_and_parameters">Events and parameters</h2>
+
+<p>The following events and parameters are available to send to Google Tag Manager.</p>
+<h3>Events</h3>
+<p>
+  These events come from your player.
+</p>
+<ul>
+  <li>
+    <code>ad_start</code>
+  </li>
+  <li>
+    <code>ad_end</code>
+  </li>
+  <li>
+    <code>error</code>
+  </li>
+  <li>
+    <code>player_load</code>
+  </li>
+  <li>
+    <code>play_request</code>
+  </li>
+  <li>
+    <code>video_complete</code>
+  </li>
+  <li>
+    <code>video_engagement</code>
+    <ul>
+      <li>
+        <code>video_engagement - 25% Milestone</code>
+      </li>
+      <li>
+        <code>video_engagement - 50% Milestone</code>
+      </li>
+      <li>
+        <code>video_engagement - 75% Milestone</code>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <code>video_impression</code>
+  </li>
+  <li>
+    <code>video_view</code>
+  </li>
+</ul>
+<p>
+  The video watched percentage (<code>video_engagement</code>) can be calculated as follows:
+</p>
+<pre><code class="language-json">Video watched percentage = duration the user actually watched / total video duration</code></pre>
+<p>
+  For example, in a 20 second video, the 25% milestone can be achieved in both of the below cases
+</p>
+<ul>
+  <li>
+    User watches from 0-5 seconds
+  </li>
+  <li>
+    User watches from 0-1st second and skip to 11th second and watch to 15th second
+  </li>
+</ul>
+<p>
+  In both of the above cases, the user watched 5 seconds, so milestone will be reported as 25%.
+</p>
+
+<h3>Parameters</h3>
+<p>
+  These parameters come from your player.
+</p>
+<ul>
+  <li>
+    <code>account</code>
+  </li>
+  <li>
+    <code>platform_version</code>
+  </li>
+  <li>
+    <code>player</code>
+  </li>
+  <li>
+    <code>player_name</code>
+  </li>
+  <li>
+    <code>range</code>
+  </li>
+  <li>
+    <code>session</code>
+  </li>
+  <li>
+    <code>video</code>
+  </li>
+  <li>
+    <code>video_duration</code>
+  </li>
+  <li>
+    <code>video_name</code>
+  </li>
+  <li>
+    <code>video_percent_viewed</code>
+  </li>
+  <li>
+    <code>video_playhead</code>
+  </li>
+  <li>
+    <code>video_seconds_viewed</code>
+  </li>
+</ul>
+
+<h3>Automatic parameters</h3>
+<p>
+  These parameters are automatically sent to Google Tag Manager.
+</p>
+<ul>
+  <li>
+    <code>browser</code>
+  </li>
+  <li>
+    <code>browser_type</code>
+  </li>
+  <li>
+    <code>city</code>
+  </li>
+  <li>
+    <code>country</code>
+  </li>
+  <li>
+    <code>country_name</code>
+  </li>
+  <li>
+    <code>destination</code>
+  </li>
+  <li>
+    <code>device_os</code>
+  </li>
+  <li>
+    <code>device_os_version</code>
+  </li>
+  <li>
+    <code>device_type</code>
+  </li>
+  <li>
+    <code>region</code>
+  </li>
+  <li>
+    <code>region_name</code>
+  </li>
+  <li>
+    <code>source</code>
+  </li>
+</ul>
+
 </section>
 
 <section class="bcls-section">

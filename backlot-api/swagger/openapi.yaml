@@ -616,7 +616,7 @@ paths:
           /v2/assets/{asset_id}/metadata:
             get:
               tags:
-                - Metadata
+                - Assets
               description: Get asset metadata
               parameters:
                 - $ref: '#/components/parameters/AssetID'
@@ -636,7 +636,7 @@ paths:
                   $ref: '#/components/responses/ServerError'
             put:
               tags:
-                - Metadata
+                - Assets
               description: Update asset metadata
               parameters:
                 - $ref: '#/components/parameters/AssetID'
@@ -659,7 +659,7 @@ paths:
                   $ref: '#/components/responses/ServerError'
             patch:
               tags:
-                - Metadata
+                - Assets
               description: Update asset metadata
               parameters:
                 - $ref: '#/components/parameters/AssetID'
@@ -681,7 +681,7 @@ paths:
                   $ref: '#/components/responses/ServerError'
             delete:
               tags:
-                - Metadata
+                - Assets
               description: Update asset metadata
               parameters:
                 - $ref: '#/components/parameters/AssetID'
@@ -703,7 +703,7 @@ paths:
   /v2/assets/{asset_id}/metadata:
     get:
       tags:
-        - Metadata
+        - Assets
       description: Get asset metadata
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -723,7 +723,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     put:
       tags:
-        - Metadata
+        - Assets
       description: Update asset metadata
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -746,7 +746,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     patch:
       tags:
-        - Metadata
+        - Assets
       description: Update asset metadata
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -768,7 +768,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-        - Metadata
+        - Assets
       description: Update asset metadata
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -790,7 +790,7 @@ paths:
   /v2/assets/{asset_id}/movie_urls:
     get:
       tags:
-        - Movie URLs
+        - Assets
       description: Get asset movie urls
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -810,7 +810,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     post:
       tags:
-        - Movie URLs
+        - Assets
       description: Update asset movie url
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -834,7 +834,7 @@ paths:
   /v2/assets/{asset_id}/movie_urls/{type}:
     delete:
       tags:
-        - Movie URLs
+        - Assets
       description: Delete asset movie urls type
       parameters:
         - $ref: '#/components/parameters/AssetID'
@@ -853,6 +853,139 @@ paths:
           $ref: '#/components/responses/AssetNotFound'
         500:
           $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/player:
+    get:
+      tags:
+        - Assets
+      description: View the player assigned to an asset.
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/ObjectStub'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+  /v2/assets/{asset_id}/preview_image_files:
+    get:
+      tags:
+        - Assets
+      description: Get asset preview_image_files
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/PreviewImages'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Update asset preview_image_files
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Assets
+      description: Update asset preview_image_files
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /v2/assets/{asset_id}/preview_image_urls:
+    get:
+      tags:
+        - Assets
+      description: Get asset preview_image_urls
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/PreviewImages'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/AssetNotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Update asset preview_image_urls
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Assets
+      description: Update asset preview_image_urls
+      parameters:
+        - $ref: '#/components/parameters/AssetID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        403:
+          $ref: '#/components/responses/Forbidden'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
         
 components:
   schemas:
@@ -1007,7 +1140,17 @@ components:
             type: string
       example: { "key1": "value1", "key2": "value2" }
       
-    
+    MovieUrls:
+      description: JSON containing movie types and their urls.
+      type: object
+      properties:
+          dash:
+            type: string
+          hls:
+            type: string
+          mp4:
+            type: string
+  
   parameters:
     ApiKey:
       name: api_key
@@ -1111,6 +1254,14 @@ components:
       description: The label id to retrieve.
       required: true
 
+    MovieUrlType:
+      name: type
+      in: path
+      schema:
+        type: string
+      description: The movie url type.
+      required: true
+  
   requestBodies:
     AssetUploadStatus:
       required: true
@@ -1125,7 +1276,13 @@ components:
           schema:
             $ref: '#/components/schemas/Metadata'
         
-
+    MovieUrls:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovieUrls'
+        
   responses:
     ArrayStub:
       description: A stub response for expected array data
@@ -1299,4 +1456,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/AssetUploadStatus'
+          
+    MovieUrls:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovieUrls'
+        
     

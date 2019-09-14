@@ -137,44 +137,60 @@
 	</figure>
 	</li>
 	<li>
-	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>google-tag-manager</strong>.</p>
-
-	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="chromcast-receiver" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-receiver.png" />
-	<figcaption class="bcls-caption--image">chromecast-receiver</figcaption>
-	</figure>
+	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>Google Tag Manager plugin</strong>.</p>
+  <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Apps Script project" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/gtm/gtm-plugin.png" />
+  <figcaption class="bcls-caption--image">Google Tag Manager plugin</figcaption>
+  </figure>
 	</li>
+  <li>
+    <p>
+      Now, you are ready to create a JSON object to configure the plugin with your account information and tell Google Tag Manager what you want to track.
+    </p>
+    <p>
+      To review the dimensions that are available, see the <a href="#Events_and_parameters">Events and parameters</a> section of this document.
+    </p>
+  </li>
 	<li>
-	<p><strong>Optional</strong>: Enter the configuration options in the <strong>Options(JSON)</strong> text box. An example for the default player in the <strong>1752604059001</strong> account is shown. You, of course, need to enter information for your player.</p>
-	<!-- <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin options" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/options.png" />
-	<figcaption class="bcls-caption--image">Plugin options</figcaption>
-	</figure> -->
-
+	<p>In the <strong>Options(JSON)</strong> text box, enter the events and parameters you would like to track. Remember to include your account id in the <code>tracker</code> field value. Here is an example: </p>
 	<pre class="line-numbers">
 <code class="language-json">{
-"playerUrl" : "https://players.brightcove.net/1507807800001/default_default/index.min.js"
+  &quot;tracker&quot;:&quot;<span class="bcls-input">your Google Tag Manager id</span>&quot;,
+  &quot;eventsToTrack&quot;: {
+    &quot;error&quot;:&quot;Error&quot;,
+    &quot;play_request&quot;:&quot;Play Request&quot;,
+    &quot;video_engagement&quot;:&quot;Video Engagement&quot;
+  },
+  &quot;paramsToTrack&quot;: {
+    &quot;bcvideo_video_seconds_viewed&quot;:&quot;dimension1&quot;,
+    &quot;bcvideo_video_playhead&quot;:&quot;dimension2&quot;,
+    &quot;bcvideo_account&quot;:&quot;dimension3&quot;,
+    &quot;bcvideo_player&quot;:&quot;dimension4&quot;,
+    &quot;bcvideo_player_name&quot;:&quot;dimension5&quot;,
+    &quot;bcvideo_session&quot;:&quot;dimension8&quot;,
+    &quot;bcvideo_video&quot;:&quot;dimension6&quot;,
+    &quot;bcvideo_video_name&quot;:&quot;dimension7&quot;,
+    &quot;bcvideo_platform_version&quot;:&quot;dimension9&quot;,
+    &quot;bcvideo_video_duration&quot;:&quot;dimension11&quot;,
+    &quot;bcvideo_range&quot;:&quot;dimension10&quot;,
+    &quot;bcvideo_video_percent_viewed&quot;:&quot;dimension12&quot;,
+    &quot;bcvideo_error_code&quot;:&quot;dimension13&quot;,
+    &quot;bcvideo_video_milestone&quot;:&quot;dimension14&quot;,
+    &quot;bcvideo_destination&quot;:&quot;dimension15&quot;
+  }
 }</code></pre>
-
-	<p>See below for details on the options.</p>
 	</li>
 	<li>
-	<p>Select the <strong>Save</strong> button. You will now see the <strong>google-tag-manager</strong> plugin added to the list of plugins for your player.</p>
-
-	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin added" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/plugin-added.png" />
-	<figcaption class="bcls-caption--image">Plugin added</figcaption>
-	</figure>
+	<p>Select the <strong>Save</strong> button. You will now see the <strong>Google Tag Manager</strong> plugin added to the list of plugins for your player.</p>
+  <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Save button" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/gtm/gtm-save.png" />
+  	<figcaption class="bcls-caption--image">Save button</figcaption>
+  	</figure>
 	</li>
 	<li>To publish the player, select <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
 	<li>To close the dialog, select <strong>Close</strong>.</li>
 	<li>
-	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Google Tag Manager.</p>
+  	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Google Tag Manager.</p>
 
-	<p>Once the plugin is loaded, the video has started playing, and an available Chromecast device is in range, the cast button will appear in the player as shown here in this screenshot of a player:</p>
-
-	<figure class="bcls-figure"><img class="bcls-image" alt="Cast button" width="800" height="402" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-button.png" /></figure>
-
-	<aside class="bcls-aside bcls-aside--information">
-	<p>The Chromecast plugin's cast button will appear in the player's controlbar when an available Chromecast device is in range.</p>
-	</aside>
+  	<p>When your player loads and the user interacts with the player, the specified events and parameters will be tracked.</p>
 	</li>
 </ol>
 </section>
@@ -293,7 +309,7 @@
 
 <h3>Automatic parameters</h3>
 <p>
-  These parameters are automatically sent to Google Tag Manager.
+  These parameters are automatically sent to Google Tag Manager, so you don't have to specify these in the JSON code.
 </p>
 <ul>
   <li>
@@ -337,50 +353,79 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Configuration_options">Configuration options</h2>
+<h2 id="Setting_up_custom_dimensions">Setting up custom dimensions</h2>
 
-<p>No matter which method you choose to setup the Chromecast Plugin for Brightcove Player, you can pass options to modify plugin behavior.&nbsp;While setting these options is not necessary, additional customization is possible for advanced users. The available options are:</p>
+<p>To set up custom dimensions in your Google Analytics account, you can follow these steps. This uses a custom app script.</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    Open the <a href="https://drive.google.com/file/d/1Boxem7n4UNy7IbofMTTw2bmsdviSIvbZ/view">custom app script</a> to help you generate the JSON code.
+  </li>
+  <li>
+    Copy the custom app script code to your clip board.
+  </li>
+  <li>
+    <p>
+      Navigate to the <a href="https://script.google.com/home/start">G Suite Developer Hub</a> and select the Apps Script new blank project.
+    </p>
+    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Apps Script project" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/gtm/apps-script-project.png" />
+  	<figcaption class="bcls-caption--image">Apps Script project</figcaption>
+  	</figure>
+  </li>
+  <li>
+    <p>
+      Paste the custom app script from your clip board into the <code>function myFunction(){}</code> code block.
+    </p>
+    <pre class="line-numbers">
+<code class="language-javascript">function myFunction() {
 
-<ul>
-	<li><code class="notranslate">playerUrl </code><br />
-	<strong>Default</strong>: <code class="notranslate">URL of current player</code>
+}</code></pre>
+  </li>
+  <li>
+    <p>
+      Update the following fields with your own values:
+    </p>
+    <pre class="line-numbers">
+<code class="language-json">//Set values for GA Account ID and web property ID to which you have to set custom dimensions.
+var accountId='<span class="bcls-input">your account id</span>';
+var webPropertyId='<span class="bcls-input">your tracking code</span>';</code></pre>
+  </li>
+  <li>
+    <p>
+      Review the dimensions that are being added and update them to match your needs. Notice that the dimensions are prefixed with <code>bcvideo_</code>. This is to ensure there are no naming conflicts with these variables.
+    </p>
+    <pre class="line-numbers">
+<code class="language-json">//Add required custom dimensions to be created to this list
+var dimensions=<span class="bcls-highlight">['bcvideo_video_seconds_viewed','bcvideo_video_playhead',
+'bcvideo_account','bcvideo_player','bcvideo_player_name','bcvideo_video','bcvideo_video_name',
+'bcvideo_session','bcvideo_platform_version','bcvideo_range','bcvideo_video_duration',
+'bcvideo_video_percent_viewed','bcvideo_error_code','bcvideo_milestone','bcvideo_destination'];</span></code></pre>
+  </li>
+  <li>
+    <p>
+      Run the app script as shown below:
+    </p>
+    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Run script" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/gtm/run-script.png" />
+  	<figcaption class="bcls-caption--image">Run script</figcaption>
+  	</figure>
+  </li>
+  <li>
+    <p>
+      To see the dimensions in your account, navigate to <strong>Admin &gt; Custom Definitions &gt; Custom Dimensions</strong>. Your account should look similar to this:
+    </p>
+    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Dimension report" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/gtm/dimension-report.png" />
+  	<figcaption class="bcls-caption--image">Dimension report</figcaption>
+  	</figure>
+  </li>
+</ol>
 
-	<p>When unspecified, this will point to the player that is casting your videos. Supplying this option will force the receiver to load a specific player rather than the player that is currently casting the video. This is useful when you want specific player code to only run on the Chromecast.</p>
-	</li>
-	<li><code class="notranslate">js </code><br />
-	<strong>Default</strong>: <code class="notranslate">[] </code>
-	<p>An array of custom JavaScript to load after the player JavaScript has loaded on the Chromecast receiver.</p>
-	</li>
-	<li><code class="notranslate">css </code><br />
-	<strong>Default</strong>: <code class="notranslate">[] </code>
-	<p>An array of custom CSS to load after the player CSS is loaded on the Chromecast receiver.</p>
-	</li>
-</ul>
-
-<p>To pass options in code, you would use something similar to the following:</p>
-
-<pre class="line-numbers">
-<code class="notranslate language-javascript">videojs.getPlayer('myPlayerID').ready(function() {
-  var myPlayer = this;
-  options = {};
-  options.playerUrl = '//players.brightcove.net/1752604059001/default_default/index.min.js';
-  myPlayer.chromecastReceiver(options);
-});</code></pre>
 </section>
 
+
 <section class="bcls-section">
-<h2 id="Known_issues">Known issues</h2>
+<h2 id="Notes">Notes</h2>
 
 <ul>
-	<li>The Chromecast Plugin is supported with the Brightcove Player version 6+.</li>
-	<li>Google has stopped supporting non-secure origins (HTTP) with Chromecast, hence the plugin will not work in non-secure contexts. In these cases, the player's Chromecast button will not appear.</li>
-	<li>Since the Chromecast Plugin relies on the browser's support for casting, it is only supported in the following OS/browser combinations:
-	<ul>
-		<li>Desktop/Chrome</li>
-		<li>Android/Chrome</li>
-	</ul>
-	</li>
-	<li>Google does not support multiple instances of the Chromecast sender button on a single page. Possible workarounds would be to embed the Brightcove Player using the Standard (iframe) player implementation, or to dynamically instantiate and destroy players as needed. See the document <a href="/node/18169">Brightcove Player Sample: Loading the Player Dynamically</a> for information on the latter possibility.</li>
+	<li>The Google Tag Manager Plugin is supported with the Brightcove Player version 6.36.5+.</li>
 </ul>
 </section>
 

@@ -1266,6 +1266,29 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
               
+  /v2/players:
+    get:
+      tags:
+        - Players
+      description: Get a paginated list of players.
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/Metadata'
+      responses:
+        200:
+          $ref: '#/components/responses/PlayersList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
         
 components:
   schemas:
@@ -1859,4 +1882,162 @@ components:
                 items:
                   $ref: '#/components/schemas/Label'
               
-    
+    Player:
+      description: An object representing Player data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              player_version:
+                type: integer
+              name:
+                type: string
+              is_default:
+                type: integer
+              playback:
+                type: object
+                properties:
+                  buffer_on_pause:
+                    type: boolean
+              up_next_preview:
+                type: object
+                properties:
+                  timing:
+                    type: string
+                  seconds_before_end:
+                    type: string
+                    nullable: true
+              audio:
+                type: object
+                properties:
+                  show_download:
+                    type: integer
+              provider_name:
+                type: string
+                nullable: true
+              watermark:
+                type: object
+                properties:
+                  alpha:
+                    type: string
+                  click_url:
+                    type: string
+                    nullable: true
+                  position:
+                    type: string
+                  image_url:
+                    type: string
+                    nullable: true
+                  scaling_option:
+                    type: string
+                    nullable: true
+                  scaling_percentage:
+                    type: string
+                    nullable: true
+              default_closed_caption_language:
+                type: string
+              scrubber:
+                type: object
+                properties:
+                  always_show:
+                    type: boolean
+                  image_url:
+                    type: string
+                    nullable: true
+              release_version:
+                type: string
+              provider_homepage_url:
+                type: string
+                nullable: true
+              ooyala_branding:
+                type: object
+                properties:
+                  show_ad_countdown:
+                    type: boolean
+                  show_share_button:
+                    type: boolean
+                  show_fullscreen_button:
+                    type: boolean
+                  accent_color:
+                    type: string
+                  show_info_screen_title:
+                    type: boolean
+                  show_info_screen_presented_by:
+                    type: boolean
+                  show_start_screen_title:
+                    type: boolean
+                  enable_error_screen:
+                    type: integer
+                  show_bitrate_button:
+                    type: boolean
+                  show_end_screen_info_button:
+                    type: boolean
+                  show_end_screen_more_videos:
+                    type: boolean
+                  url_sharing:
+                    type: boolean
+                  show_end_screen_share_button:
+                    type: boolean
+                  show_end_screen_embed_button:
+                    type: boolean
+                  twitter_sharing:
+                    type: boolean
+                  show_embed_button:
+                    type: boolean
+                  show_info_button:
+                    type: boolean
+                  show_info_screen_description:
+                    type: boolean
+                  chromeless:
+                    type: boolean
+                  digg_sharing:
+                    type: boolean
+                  stumble_upon_sharing:
+                    type: boolean
+                  show_info_screen_homepage_link:
+                    type: boolean
+                  show_end_screen_replay_button:
+                    type: boolean
+                  show_start_screen_play_button_text:
+                    type: boolean
+                  facebook_sharing:
+                    type: boolean
+                  show_channel_button:
+                    type: boolean
+                  show_volume_button:
+                    type: boolean
+                  show_start_screen_description:
+                    type: boolean
+              related_videos:
+                type: object
+                properties:
+                  source:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: string
+                  sort:
+                    type: string
+                  order:
+                    type: string
+                  click_behavior:
+                    type: string
+
+    PlayersList:
+      description: An object representing a list of Players
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemsCount:
+                type: integer
+              items:
+                type: array
+                items:
+                  $ref: '#/components/responses/Player'
+

@@ -1389,6 +1389,28 @@ components:
             type: string
       example: { "status": "uploaded" }
 
+    Label:
+      type: object
+      properties:
+        id:
+          type: string
+        parent_id:
+          type: string
+        name:
+          type: string
+        full_name:
+          type: string
+
+    Labels_NewLabelBody:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        parent_id:
+          type: string
+  
     LabelInfo:
       type: "object"
       properties:
@@ -1818,5 +1840,23 @@ components:
                   type: integer
                   description: Height of preview image
         
-        
+    LabelObjectResponse:
+      description: A full response for expected json data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Label'
+
+    LabelsArrayResponse:
+      description: A full response for expected json data, that contains items array
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Label'
+              
     

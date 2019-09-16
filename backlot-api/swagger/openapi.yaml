@@ -419,7 +419,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/PublishingRule'
+                $ref: '#/components/schemas/PublishingRule'
         401:
           $ref: '#/components/responses/Unauthorized'
         404:
@@ -443,7 +443,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Labels'
+                $ref: '#/components/schemas/Labels'
         401:
           $ref: '#/components/responses/Unauthorized'
         404:
@@ -1275,7 +1275,6 @@ paths:
         - $ref: '#/components/parameters/ApiKey'
         - $ref: '#/components/parameters/Signature'
         - $ref: '#/components/parameters/Expires'
-        - $ref: '#/components/parameters/Metadata'
       responses:
         200:
           $ref: '#/components/responses/PlayersList'
@@ -1439,6 +1438,133 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
                 
+          /v2/publishing_rules:
+            get:
+              tags:
+                - Publishing rules
+              description: View all publishing rules paginated by 100 rows.
+              parameters:
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+                - $ref: '#/components/parameters/PaginationOffset'
+                - $ref: '#/components/parameters/PaginationPageToken'
+                - $ref: '#/components/parameters/PaginationLimit'
+              responses:
+                200:
+                  $ref: '#/components/responses/PublishingRulesArrayResponse'
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                403:
+                  $ref: '#/components/responses/Forbidden'
+                404:
+                  $ref: '#/components/responses/NotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+            post:
+              tags:
+                - Publishing rules
+              description: Create a publishing rule.
+              parameters:
+                - $ref: '#/components/parameters/ApiKey'
+                - $ref: '#/components/parameters/Signature'
+                - $ref: '#/components/parameters/Expires'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CreatePublishingRule_Body'
+              responses:
+                200:
+                  $ref: '#/components/responses/PublishingRuleObjectResponse'
+                400:
+                  $ref: '#/components/responses/BadRequest'
+                401:
+                  $ref: '#/components/responses/Unauthorized'
+                403:
+                  $ref: '#/components/responses/Forbidden'
+                404:
+                  $ref: '#/components/responses/NotFound'
+                500:
+                  $ref: '#/components/responses/ServerError'
+        
+  /v2/publishing_rules/{publishing_rule_id}:
+    get:
+      tags:
+        - Publishing rules
+      description: View a publishing rule with specified ID.
+      parameters:
+        - $ref: '#/components/parameters/PublishingRuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          $ref: '#/components/responses/PublishingRuleObjectResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Publishing rules
+      description: Modify a publishing rule specified by an ID.
+      parameters:
+        - $ref: '#/components/parameters/PublishingRuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModifyPublishingRule_Body'
+      responses:
+        200:
+          $ref: '#/components/responses/PublishingRuleObjectResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Publishing rules
+      description: Delete a specified publishing rule.
+      parameters:
+        - $ref: '#/components/parameters/PublishingRuleID'
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
 components:
   schemas:
     AdSourceEnum:
@@ -1561,6 +1687,12 @@ components:
             type: string
       example: { "status": "uploaded" }
 
+    Labels:
+      type: array
+      description: Array of labels
+      items:
+        $ref: '#/components/schemas/Label'
+
     Label:
       type: object
       properties:
@@ -1650,6 +1782,43 @@ components:
           items:
             type: string
                 
+    CreatePublishingRule_Body:
+      type: "object"
+      required:
+        - name
+      properties:
+        name:
+          type: "string"
+          description: The name of your publishing rule.
+    ModifyPublishingRule_Body:
+      type: "object"
+    PublishingRule:
+      description: A publishing rule object
+      type: object
+      properties:
+        id:
+          type: string
+        public_id:
+          type: string
+        name:
+          type: string
+        geographic_restrictions:
+          type: object
+          properties:
+            type:
+              type: string
+            locations:
+              type: array
+              items:
+                type: string
+        time_restrictions:
+          type: object
+          properties:
+            start_date:
+              type: string
+            end_date:
+              type: string
+        
   parameters:
     ApiKey:
       name: api_key
@@ -1696,12 +1865,12 @@ components:
         type: string
       description: The asset id to retrieve.
       required: true
-    RuleID:
+    PublishingRuleID:
       name: publishing_rule_id
       in: path
       schema:
         type: string
-      description: The id of the publishing rule to apply to the asset
+      description: The id of the publishing rule
       required: true
     Limit:
       name: limit
@@ -1775,13 +1944,6 @@ components:
         type: string
       required: true
 
-    LabelID:
-      name: label_id
-      in: path
-      schema:
-        type: string
-      required: true
-  
     Playlists_Id:
       name: playlist_id
       in: path
@@ -2231,3 +2393,22 @@ components:
                 items:
                   $ref: '#/components/responses/Player'
 
+    PublishingRuleObjectResponse:
+      description: A full response for expected json data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PublishingRule'
+
+    PublishingRulesArrayResponse:
+      description: A full response for expected json data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublishingRule'
+              

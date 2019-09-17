@@ -107,10 +107,6 @@
         <td><strong>Universal Data Object (UDO) utag_data object</strong></td>
   			<td>A JavaScript variable called <code>utag_data</code> which contains the collection of data that lives in the code of your web page. This JavaScript object is used to pass information from your website to your tag manager container. You can then use this information to populate variables and activate events in your tag configurations.</td>
   		</tr>
-      <!-- <tr>
-        <td><strong>Variable</strong></td>
-  			<td>Variables are data points used to send data to your reporting tool.</td>
-  		</tr> -->
     </tbody>
   </table>
 
@@ -123,7 +119,7 @@
 
 <h3>Using Studio</h3>
 
-<p>The following steps detail using Studio to load the plugin.</p>
+<p>The following steps detail using Video Cloud Studio to load the plugin.</p>
 
 <ol class="bcls-tasklist">
 	<li>Open the <strong>PLAYERS</strong> module and either create a new player or locate the player to which you wish to add the plugin.</li>
@@ -137,58 +133,55 @@
 	</figure>
 	</li>
 	<li>
-	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>tealium</strong>.</p>
+	<p>Expand the <strong>Brightcove Plugin</strong> dropdown and select <strong>Tealium</strong>.</p>
 
-	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="tealium" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-receiver.png" />
-	<figcaption class="bcls-caption--image">tealium</figcaption>
-	</figure>
+  <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Tealium plugin" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/tealium/tealium-plugin.png" />
+  <figcaption class="bcls-caption--image">Tealium plugin</figcaption>
+  </figure>
 	</li>
   <li>
     <p>
-      Next, you will create a JSON object to configure the plugin with your account information and tell Google Tag Manager which parameters you want to track.
+      Now, you are ready to configure Google Analytics with the dimensions you want to track. Review the dimensions that are available, see the <a href="#Events_and_attributes">Events and attributes</a> section of this document.
     </p>
-    <p>
-      To review the events and parameters that are available, see the <a href="#Events_and_attributes">Events and attributes</a> section of this document.
-    </p>
-
   </li>
-
-
-
-
-
-	<li>
-	<p><strong>Optional</strong>: Enter the configuration options in the <strong>Options(JSON)</strong> text box. An example for the default player in the <strong>1752604059001</strong> account is shown. You, of course, need to enter information for your player.</p>
-	<!-- <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin options" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/options.png" />
-	<figcaption class="bcls-caption--image">Plugin options</figcaption>
-	</figure> -->
-
-	<pre class="line-numbers">
+  <li>
+    <p>In the <strong>Options(JSON)</strong> text box, enter the events and parameters you would like to track. Remember to include your values for <code>account</code>, <code>profile</code> and <code>env</code>. Here is an example: </p>
+  <pre class="line-numbers">
 <code class="language-json">{
-"playerUrl" : "https://players.brightcove.net/1507807800001/default_default/index.min.js"
+  &quot;paramsToTrack&quot;: {
+    &quot;video_playhead&quot;: &quot;video_playhead&quot;,
+    &quot;video_platform&quot;: &quot;video_platform&quot;,
+    &quot;video_length&quot;: &quot;video_length&quot;,
+    &quot;video_name&quot;: &quot;video_name&quot;,
+    &quot;video_id&quot;: &quot;video_id&quot;,
+    &quot;video_milestone&quot;: &quot;video_milestone&quot;
+  },
+  &quot;eventsToTrack&quot;: {
+    &quot;video_load&quot;: &quot;video_load&quot;,
+    &quot;video_play&quot;: &quot;video_play&quot;,
+    &quot;video_complete&quot;: &quot;video_complete&quot;,
+    &quot;video_watch&quot;: &quot;video_watch&quot;,
+    &quot;video_pause&quot;: &quot;video_pause&quot;,
+    &quot;ad_start&quot;: &quot;ad_start&quot;,
+    &quot;ad_end&quot;: &quot;ad_end&quot;
+  },
+  &quot;env&quot;: &quot;<span class="bcls-input">your environment</span>&quot;,
+  &quot;profile&quot;: &quot;<span class="bcls-input">your profile</span>&quot;,
+  &quot;account&quot;: &quot;<span class="bcls-input">your account</span>&quot;
 }</code></pre>
-
-	<p>See below for details on the options.</p>
-	</li>
-	<li>
-	<p>Select the <strong>Save</strong> button. You will now see the <strong>chromecast-receiver</strong> plugin added to the list of plugins for your player.</p>
-
-	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Plugin added" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/plugin-added.png" />
-	<figcaption class="bcls-caption--image">Plugin added</figcaption>
-	</figure>
+  </li>
+  <li>
+	<p>Select the <strong>Save</strong> button. You will now see the <strong>Tealium</strong> plugin added to the list of plugins for your player.</p>
+  <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Save button" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/tealium/tealium-save.png" />
+  	<figcaption class="bcls-caption--image">Save button</figcaption>
+  	</figure>
 	</li>
 	<li>To publish the player, select <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
-	<li>To close the open dialog, select <strong>Close</strong>.</li>
+	<li>To close the dialog, select <strong>Close</strong>.</li>
 	<li>
-	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Chromecast.</p>
+  	<p>Return to the <strong>MEDIA</strong> and publish your video or playlist using the player you just updated for Tealium.</p>
 
-	<p>Once the plugin is loaded, the video has started playing, and an available Chromecast device is in range, the cast button will appear in the player as shown here in this screenshot of a player:</p>
-
-	<figure class="bcls-figure"><img class="bcls-image" alt="Cast button" width="800" height="402" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/chromecast/cast-button.png" /></figure>
-
-	<aside class="bcls-aside bcls-aside--information">
-	<p>The Chromecast plugin's cast button will appear in the player's controlbar when an available Chromecast device is in range.</p>
-	</aside>
+  	<p>When your player loads and the user interacts with the player, the specified events and parameters will be tracked.</p>
 	</li>
 </ol>
 </section>
@@ -254,7 +247,7 @@
   In both of the above cases, the user watched 5 seconds, so milestone will be reported as 25%.
 </p>
 
-<h3>Event attributes</h3>
+<h3>Attributes</h3>
 <p>
   These attributes provide more information about the video.
 </p>
@@ -282,50 +275,10 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Configuration_options">Configuration options</h2>
-
-<p>No matter which method you choose to setup the Chromecast Plugin for Brightcove Player, you can pass options to modify plugin behavior.&nbsp;While setting these options is not necessary, additional customization is possible for advanced users. The available options are:</p>
+<h2 id="Notes">Notes</h2>
 
 <ul>
-	<li><code class="notranslate">playerUrl </code><br />
-	<strong>Default</strong>: <code class="notranslate">URL of current player</code>
-
-	<p>When unspecified, this will point to the player that is casting your videos. Supplying this option will force the receiver to load a specific player rather than the player that is currently casting the video. This is useful when you want specific player code to only run on the Chromecast.</p>
-	</li>
-	<li><code class="notranslate">js </code><br />
-	<strong>Default</strong>: <code class="notranslate">[] </code>
-	<p>An array of custom JavaScript to load after the player JavaScript has loaded on the Chromecast receiver.</p>
-	</li>
-	<li><code class="notranslate">css </code><br />
-	<strong>Default</strong>: <code class="notranslate">[] </code>
-	<p>An array of custom CSS to load after the player CSS is loaded on the Chromecast receiver.</p>
-	</li>
-</ul>
-
-<p>To pass options in code, you would use something similar to the following:</p>
-
-<pre class="line-numbers">
-<code class="notranslate language-javascript">videojs.getPlayer('myPlayerID').ready(function() {
-  var myPlayer = this;
-  options = {};
-  options.playerUrl = '//players.brightcove.net/1752604059001/default_default/index.min.js';
-  myPlayer.chromecastReceiver(options);
-});</code></pre>
-</section>
-
-<section class="bcls-section">
-<h2 id="Known_issues">Known issues</h2>
-
-<ul>
-	<li>The Chromecast Plugin is supported with the Brightcove Player version 6+.</li>
-	<li>Google has stopped supporting non-secure origins (HTTP) with Chromecast, hence the plugin will not work in non-secure contexts. In these cases, the player's Chromecast button will not appear.</li>
-	<li>Since the Chromecast Plugin relies on the browser's support for casting, it is only supported in the following OS/browser combinations:
-	<ul>
-		<li>Desktop/Chrome</li>
-		<li>Android/Chrome</li>
-	</ul>
-	</li>
-	<li>Google does not support multiple instances of the Chromecast sender button on a single page. Possible workarounds would be to embed the Brightcove Player using the Standard (iframe) player implementation, or to dynamically instantiate and destroy players as needed. See the document <a href="/node/18169">Brightcove Player Sample: Loading the Player Dynamically</a> for information on the latter possibility.</li>
+	<li>The Tealium Plugin is supported with the Brightcove Player version 6.36.5+.</li>
 </ul>
 </section>
 

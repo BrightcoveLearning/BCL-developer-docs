@@ -216,40 +216,103 @@
 <p>The following events and attributes are available to send to Tealium iQ.</p>
 <h3>Events</h3>
 <p>
-  These events come from your player.
+  These events come from your player. All of these events send the common attributes. Some events may send additional attributes.
 </p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th width="15%">Event</th>
+      <th width="10%">Type</th>
+      <th width="75%">Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>video_load</code></td>
+      <td>Standard</td>
+      <td>When video metadata has finished loading in the player.</td>
+    </tr>
+    <tr>
+      <td><code>video_play</code></td>
+      <td>Standard</td>
+      <td>When playback has been initiated either by the user or with autoplay
+        <br />
+        Additional attributes sent:
+        <ul>
+          <li>
+            <code>video_playhead</code>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>video_watch <sup><a href="#n1"> [1]</a></sup></code></td>
+      <td>Custom</td>
+      <td>This Includes additional rendition selection, bitrate measurements, and buffering information.
+        <br />
+        Additional attributes sent:
+        <ul>
+          <li>
+            <code>video_playhead</code>
+          </li>
+          <li>
+            <code>video_milestone</code>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>video_pause</code></td>
+      <td>Standard</td>
+      <td>When the user pauses video playback
+        <br />
+        Additional attributes sent:
+        <ul>
+          <li>
+            <code>video_playhead</code>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ad_start</code></td>
+      <td>Custom</td>
+      <td>When ad playback has been initiated
+      </td>
+    </tr>
+    <tr>
+      <td><code>ad_end</code></td>
+      <td>Custom</td>
+      <td>When ad playback has ended
+      </td>
+    </tr>
+    <tr>
+      <td><code>video_complete</code></td>
+      <td>Standard</td>
+      <td>Triggered when video playback ends.
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<h5>Notes</h5>
+<p>
+  The following notes refer to the table above.
+</p>
+<p id="n1"><sup>[1]</sup> The <code>video_watch</code> event is sent at the following milestones:</p>
 <ul>
   <li>
-    <code>video_load</code>
+    25% Milestone – When the video has been watched in the range of 25% to 50% of the total video duration
   </li>
   <li>
-    <code>video_play</code>
+    50% Milestone - When the video has been watched in the range of 50% to 75% of the total video duration
   </li>
   <li>
-    <code>video_watch</code>
-    <ul>
-      <li>
-        <code>video_watch</code> - 25% Milestone
-      </li>
-      <li>
-        <code>video_watch</code> - 50% Milestone
-      </li>
-      <li>
-        <code>video_watch</code> - 75% Milestone
-      </li>
-    </ul>
+    75% Milestone - When the video has been watched in the range of 75% to 95% of the total video duration
   </li>
   <li>
-    <code>video_pause</code>
-  </li>
-  <li>
-    <code>ad_start</code>
-  </li>
-  <li>
-    <code>ad_end</code>
-  </li>
-  <li>
-    <code>video_complete</code> - 100% Milestone
+    100% Milestone - When the video has been watched for 100% of the total video duration
   </li>
 </ul>
 <p>
@@ -271,30 +334,89 @@
   In both of the above cases, the user watched 5 seconds, so milestone will be reported as 25%.
 </p>
 
-<h3>Attributes</h3>
+<h3>Common attributes</h3>
 <p>
-  These attributes provide more information about the video.
+  These attributes are common across all events.
 </p>
-<ul>
-  <li>
-    <code>video_id</code>
-  </li>
-  <li>
-    <code>video_length</code>
-  </li>
-  <li>
-    <code>video_name</code>
-  </li>
-  <li>
-    <code>video_platform</code>
-  </li>
-  <li>
-    <code>video_playhead</code>
-  </li>
-  <li>
-    <code>video_milestone</code>
-  </li>
-</ul>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th width="15%">Name</th>
+      <th width="10%">Type</th>
+      <th width="75%">Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>video_id</code></td>
+      <td>String</td>
+      <td>Brightcove video Id that originated the event</td>
+    </tr>
+    <tr>
+      <td><code>video_length</code></td>
+      <td>Number</td>
+      <td>Length of the video specified by the video attribute</td>
+    </tr>
+    <tr>
+      <td><code>video_name</code></td>
+      <td>String</td>
+      <td>Name of the video specified by the video attribute</td>
+    </tr>
+    <tr>
+      <td><code>video_platform</code></td>
+      <td>String</td>
+      <td>Platform in which video is running</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Event-specific attributes</h3>
+<p>
+  These attributes are related to a specific event.
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th width="10%">Name</th>
+      <th width="10%">Type</th>
+      <th width="65%">Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>video_playhead</code></td>
+      <td>Number</td>
+      <td>The time in the video at which the event is triggered.
+        <br />
+        Sent with events:
+        <ul>
+          <li>
+            <code>video_play</code>
+          </li>
+          <li>
+            <code>video_pause</code>
+          </li>
+          <li>
+            <code>video_watch</code>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>video_milestone</code></td>
+      <td>Number</td>
+      <td>The percentage of video completed at the time of triggering of event.
+        <br />
+          Sent with event:
+          <ul>
+            <li>
+              <code>video_watch</code>
+            </li>
+          </ul></td>
+    </tr>
+
+  </tbody>
+</table>
 
 </section>
 

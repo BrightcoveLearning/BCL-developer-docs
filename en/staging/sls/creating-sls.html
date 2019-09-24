@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Creating a Live Stream using Client SDK for Live SSAI (SLS)</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Creating a Live Stream using Client SDK for Live SSAI (SLS)</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how to create a live stream that includes client-side interactivity and Server-Side Ad Insertion.</summary>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+    <p>Brightcove's Client SDK with Live SSAI (SLS) allows client-side interactivity with live streams, including ad countdown timers and click through ads.</p>
+    <p>
+      Your ad information is specified using an ad configuration which retrieves VAST responses to identify what ads to display. The VAST file also contains information about companion ads and beacon URLs.
+    </p>
+    <p>
+      If you are not familiar with SLS, see the <a href="">Overview: Client SDK with Live SSAI (SLS)</a> document.
+    </p>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Workflow">Workflow</h2>
+    <p>To use Brightcove's Client SDK with Live SSAI (SLS), follow these steps:</p>
+    <ol class="bcls-tasklist">
+      <li>
+        Ask your account manager to enable your account for Live, SSAI and SLS
+      </li>
+      <li>
+        <a href="#Create_an_ad_configuration">Create an ad configuration</a>
+      </li>
+      <li>
+        Optional: <a href="https://support.brightcove.com/live-api-server-side-ad-insertion-ssai#Managing_slates">Create slate assets to fill unused ad time</a>
+      </li>
+      <li>
+        <a href="#Create_a_live_job">Create a live job</a>
+      </li>
+      <li>
+        <a href="#Create_a_remote_video">Create a remote video</a>
+      </li>
+      <li>
+        <a href="#Configure_the_player">Configure the player</a>
+      </li>
+      <li>
+        <a href="#Begin_streaming">Begin streaming</a>
+      </li>
+      <li>
+        <a href="https://support.brightcove.com/live-api-cue-points-and-ad-beacons-ssai">Trigger ads using cue points</a> (this can be done before or during the live event)
+      </li>
+      <li>
+        <a href="#Cleanup">Cleanup</a>
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Create_an_ad_configuration">Create an ad configuration</h2>
+    <p>An ad configuration defines the information needed to include server-side ads with a live stream. This includes ad provider URL, expected ad response type and whether beacons should be sent.</p>
+    <aside class="bcls-aside bcls-aside--information">For SLS, Ad configurations MUST have an <code>ad_configuration_expected_response_type</code> value of <code>Vast</code>.</aside>
+
+    <p>
+      To create a new ad configuration, send a POST request as follows:
+    </p>
+    <table class="bcls-table">
+      <tbody class="bcls-table__body">
+        <tr>
+          <th>Method</th>
+  			<td style="width:80em;"><code class="language-http notranslate">POST</code></td>
+  		</tr>
+      <tr>
+        <th>URL</th>
+  			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications</code></td>
+  		</tr>
+      <tr>
+        <th>Header</th>
+  			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
+  		</tr>
+    </tbody>
+  </table>
+  <p>
+    All requests are authenticated using an API key that is provided to you when your account is set up. The key is passed in the <code>X-API-KEY</code> header.
+  </p>
+  <p>
+    For details about the request body fields, see the <a href="https://docs.brightcove.com/live-api/v1/doc/index.html#operation/CreateAdConfiguration">Live API Reference</a> document.
+  </p>
+  <p>
+    Sample request body:
+  </p>
+  <pre class="line-numbers">
+<code class="language-json">{
+  &quot;application_ad_configuration&quot;: {
+	&quot;ad_configuration_description&quot;: &quot;$YOUR_DESCRIPTION&quot;,
+	&quot;ad_configuration_expected_response_type&quot;: &quot;Vast&quot;,
+	&quot;ad_configuration_headers_for_impressions&quot;: false,
+	&quot;ad_configuration_strategy&quot;: &quot;SingleAdResponse&quot;,
+	&quot;ad_configuration_transforms&quot;: [],
+	&quot;ad_configuration_url_format&quot;: &quot;$YOUR_AD_SERVER&quot;
+  },
+  &quot;application_description&quot;: &quot;$YOUR_DESCRIPTION&quot;,
+}</code></pre>
+
+
+    <h3>Player management API</h3>
+    <p>When configuring players with the Player Management API, you can set the <code>delivery_config_id</code> configuration property as follows:</p>
+
+
+    <h3>Standard embed code</h3>
+    <p>With the standard embed code (iframe), use the <code>deliveryConfigId</code> query parameter:</p>
+    <pre>
+<code class="language-html">&lt;iframe src=&rdquo;https://players.brightcove.net/.../index.html?deliveryConfigId=abcdef&rdquo;&gt;</code></pre>
+<br>
+    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
+
+    <h3>Advanced embed code</h3>
+    <p>With the advanced embed code (in-page embed), use the <code>data-delivery-config-id</code> attribute:</p>
+    <pre>
+<code class="language-html">&lt;video-js data-delivery-config-id=&rdquo;abcdef&rdquo;&gt;</code></pre>
+<br>
+    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Create_an_ad_configuration">Create an ad configuration</h2>
+    <p>An ad configuration defines the information needed to include server-side ads with a live stream. This includes ad provider URL, expected ad response type and whether beacons should be sent.</p>
+    <aside class="bcls-aside bcls-aside--information">For SLS, Ad configurations MUST have an <code>ad_configuration_expected_response_type</code> value of <code>Vast</code>.</aside>
+
+    <h3>Player management API</h3>
+    <p>When configuring players with the Player Management API, you can set the <code>delivery_config_id</code> configuration property as follows:</p>
+    <pre class="line-numbers">
+<code class="language-json">{
+  &ldquo;delivery_config_id&rdquo;: &ldquo;abcdef&rdquo;,
+  ...
+}</code></pre>
+
+    <h3>Standard embed code</h3>
+    <p>With the standard embed code (iframe), use the <code>deliveryConfigId</code> query parameter:</p>
+    <pre>
+<code class="language-html">&lt;iframe src=&rdquo;https://players.brightcove.net/.../index.html?deliveryConfigId=abcdef&rdquo;&gt;</code></pre>
+<br>
+    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
+
+    <h3>Advanced embed code</h3>
+    <p>With the advanced embed code (in-page embed), use the <code>data-delivery-config-id</code> attribute:</p>
+    <pre>
+<code class="language-html">&lt;video-js data-delivery-config-id=&rdquo;abcdef&rdquo;&gt;</code></pre>
+<br>
+    <aside class="bcls-aside bcls-aside--information">This will override any Delivery Rules set in the player configuration.</aside>
+  </section>
+
+
+  <section class="bcls-section">
+  <h2 id="Related_topics">Related topics</h2>
+
+  <ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html">Overview: Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/implementing-delivery-rules.html">Implementing Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://support.brightcove.com/node/18476">Overview of Dynamic Delivery</a>
+  </li>
+</ul>
+
+  </section>
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

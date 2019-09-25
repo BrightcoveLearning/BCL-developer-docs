@@ -443,6 +443,91 @@
 
   </section>
 
+  <section class="bcls-section">
+  <h2 id="Begin_streaming">Begin streaming</h2>
+  <p>
+    There are many tools to create a live streaming event. Here are some encoders you can use  to produce a live stream delivered by a CDN: (Use the <code>playback_url</code> from a previous step)
+  </p>
+
+  <ul>
+  <li>
+    <a href="https://support.brightcove.com/quick-start-create-live-stream-using-brightcove-live-api#wirecast">Telestream Wirecast encoder</a>
+  </li>
+  <li>
+    <a href="https://support.brightcove.com/step-step-using-live-module-open-broadcaster-software-obs#encoder">OBS Studio encoder</a>
+  </li>
+</ul>
+
+  </section>
+
+  <section class="bcls-section">
+  <h2 id="Cleanup">Cleanup</h2>
+  <p>
+    When your live stream is complete, you can clean up the artifacts for your stream as follows:
+  </p>
+  <ol class="bcls-tasklist__restart">
+    <li>
+      Stop your streaming encoder
+    </li>
+    <li>
+      <p>
+        Cancel the live job. Note that the live job is only available for 30 minutes after creation.
+      </p>
+      <p>
+        To cancel a live job, send a <code>PUT</code> request as follows:
+      </p>
+      <table class="bcls-table">
+        <tbody class="bcls-table__body">
+          <tr>
+            <th>Method</th>
+    			<td style="width:80em;"><code class="language-http notranslate">PUT</code></td>
+    		</tr>
+        <tr>
+          <th>URL</th>
+    			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/jobs/<span class="bcls-input">your live job id</span>/cancel</code></td>
+    		</tr>
+        <tr>
+          <th>Header</th>
+    			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
+    		</tr>
+      </tbody>
+    </table>
+    <p>
+      For details, see the <a href="https://docs.brightcove.com/live-api/v1/doc/index.html#operation/CancelLiveJob">Live API Reference</a> document.
+    </p>
+    </li>
+    <li>
+      <p>
+        Delete your ad configuration
+      </p>
+      <p>
+        To delete an ad configuration, send a <code>DELETE</code> request as follows:
+      </p>
+      <table class="bcls-table">
+        <tbody class="bcls-table__body">
+          <tr>
+            <th>Method</th>
+    			<td style="width:80em;"><code class="language-http notranslate">PUT</code></td>
+    		</tr>
+        <tr>
+          <th>URL</th>
+    			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications/application/<span class="bcls-input">your ad config id</span></code></td>
+    		</tr>
+        <tr>
+          <th>Header</th>
+    			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
+    		</tr>
+      </tbody>
+    </table>
+    <p>
+      For details, see the <a href="https://docs.brightcove.com/live-api/v1/doc/index.html#operation/DeleteAdConfiguration">Live API Reference</a> document.
+    </p>
+
+    </li>
+  </ol>
+
+  </section>
+
 
   <section class="bcls-section">
   <h2 id="Related_topics">Related topics</h2>

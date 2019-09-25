@@ -95,10 +95,6 @@
       <td><strong>Trigger</strong></td>
 			<td>Triggers tell when tag code should be added to a page. These are user-defined conditions.</td>
 		</tr>
-    <!-- <tr>
-      <td><strong>Variable</strong></td>
-			<td>Variables are data points used to send data to your reporting tool.</td>
-		</tr> -->
   </tbody>
 </table>
 
@@ -136,19 +132,16 @@
     </p>
   </li>
   <li>
-    <!-- <p>
-      There are two ways to populate custom dimensions with Google Analytics.
-    </p> -->
     <p>
-      Next, you will populate custom dimensions with Google Analytics.
+      There are two ways to populate custom dimensions with Google Analytics.
     </p>
     <ul>
       <li>
         <a href="#Configure_dimensions_manually">Configure dimensions manually</a>
       </li>
-      <!-- <li>
+      <li>
         <a href="#Configure_dimensions_automatically">Configure dimensions automatically</a>
-      </li> -->
+      </li>
     </ul>
   </li>
 	<li>
@@ -386,17 +379,48 @@
 
 </section>
 
-<!-- <section class="bcls-section">
+<section class="bcls-section">
 <h2 id="Configure_dimensions_automatically">Configure dimensions automatically</h2>
 <p>
   Follow these steps to automatically configure custom dimensions in your Google Analytics account. These steps to use a Google App Script.
 </p>
 <ol class="bcls-tasklist__restart">
-  <li>
+  <!-- <li>
     Open the <a href="https://drive.google.com/file/d/1Boxem7n4UNy7IbofMTTw2bmsdviSIvbZ/view">custom app script</a>.
-  </li>
+  </li> -->
   <li>
-    Copy the custom app script code to your clip board.
+    <p>
+      Copy the following custom app script code to your clip board.
+    </p>
+    <pre class="line-numbers">
+<code class="language-javascript">//Set values for GA Account ID and web property ID to which you have to set custom dimensions.
+var accountId='134953402';
+var webPropertyId='UA-134953402-21';
+//Add required custom dimensions to be created to this list
+var dimensions=['bcvideo_video_seconds_viewed','bcvideo_video_playhead','bcvideo_account','bcvideo_player','bcvideo_player_name','bcvideo_video','bcvideo_video_name','bcvideo_session','bcvideo_platform_version','bcvideo_range','bcvideo_video_duration',
+'bcvideo_video_percent_viewed','bcvideo_error_code','bcvideo_milestone','bcvideo_destination'];
+
+
+//Function to create custom dimensions in GA
+function createGACustomDimensions() {
+
+  //This loop iterates through the custom dimensions in order to set the custom dimension scope, active values into our GA property
+  for(var index=0;index&lt;dimensions.length;index++){
+  var customDimensions ={
+    'name': dimensions[index],
+    'scope':'HIT',
+    'active':true,
+  }
+
+  //This create a request to the new custom dimension
+  Analytics.Management.CustomDimensions.insert(customDimensions,accountId,webPropertyId);
+
+  // Pause for 1 second between adding each custom dimension, this ensure that the GA property has time
+  // to process the request fully before moving to the next custom dimension.
+  Utilities.sleep(1000)
+  }
+}</code></pre>
+
   </li>
   <li>
     <p>
@@ -445,7 +469,7 @@ var dimensions=<span class="bcls-highlight">['bcvideo_video_seconds_viewed','bcv
   </li>
 </ol>
 
-</section> -->
+</section>
 
 
 <section class="bcls-section">

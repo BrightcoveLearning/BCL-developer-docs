@@ -167,6 +167,53 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/ServerError'
+  
+  /v2/assets:
+    get:
+      tags:
+        - Assets
+      description: Get assets
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+        - $ref: '#/components/parameters/where'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assets'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Assets
+      description: Updates assets
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/Signature'
+        - $ref: '#/components/parameters/Expires'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assets'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+
   /v2/assets/{asset_id}:
     get:
       tags:
@@ -1954,6 +2001,14 @@ components:
       schema:
         type: string
       required: true
+
+    where:
+      name: where
+      description: SQL-like filter. Only `limit` queries are supported
+      in: query
+      schema:
+        type: string
+      example: 'where=limit=10'
   
   requestBodies:
     AssetUploadStatus:

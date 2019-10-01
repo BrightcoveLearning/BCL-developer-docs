@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Implementing Client-Side SDK for Live SSAI with Brightcove Player</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Implementing Client-Side SDK for Live SSAI with Brightcove Player</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how to play a live stream with Brightcove Player that includes client-side interactivity with server-side ads.</summary>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+    <p>Brightcove's Client-Side SDK for Live SSAI (SLS) allows user interactivity with live streams, including ad countdown timers, click through ads and companion ads. These live streams can be played using Brightcove Player.</p>
+    <p>
+      If you are not familiar with SLS, see the following:
+    </p>
+    <ul>
+      <li>
+        <a href="https://docs.google.com/document/d/17nuXWqys_fw5j60FdqlDbB25bC5Zgv8qE3XBVlnLMZw/edit#">Overview: Client-Side SDK with Live SSAI (SLS)</a>
+      </li>
+      <li>
+        <a href="https://docs.google.com/document/d/1IKmOPwJN3Pg0RgLJUHX5uR-hwT4c7fsOEsHFeg628_U/edit#">Workflow: Client-Side SDK for Live SSAI (SLS)</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Steps">Steps</h2>
+    <p>To play live SLS streams with Brightcove Player, follow these steps:</p>
+    <ol class="bcls-tasklist">
+      <li>
+        Create or choose an existing player from the Video Cloud Studio's Players module. Make sure it is enabled for Server-Side Ad Insertion (SSAI).
+      </li>
+      <li>
+        Follow the steps described in the <a href="https://docs.google.com/document/d/1IKmOPwJN3Pg0RgLJUHX5uR-hwT4c7fsOEsHFeg628_U/edit#">Workflow: Client-Side SDK for Live SSAI (SLS)</a> document, up through creating your playback token.
+      </li>
+      <li>
+        <p>
+          Choose how you want to implement SLS with Brightcove Player:
+        </p>
+        <ul>
+          <li>
+            <a href="">Standard embed code</a>
+          </li>
+          <li>
+            <a href="">Advanced embed code</a>
+          </li>
+          <li>
+            <a href="">Live SSAI source</a>
+          </li>
+          <li>
+            <a href="">Non-standard Live SSAI source</a>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Standard_embed_code">Standard embed code</h2>
+    <p>When publishing a video from Video Cloud Studio's <strong>Media</strong> module, you can use the standard embed code to play your live stream. Follow these steps:</p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        From the <strong>Media</strong> module, select your remote video for live streaming and publish it with an SSAI-enabled player.
+      </li>
+      <li>
+        Copy the standard embed code and paste it into your web page.
+      </li>
+      <li>
+        <p>
+          In the <code>&lt;iframe&gt;</code> tag, you should see an <code>src</code> attribute. To the end of this, add the <code>adConfigId</code> URL parameter with the value of your playback token. Your code should look similar to this:
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">&lt;iframe src=&quot;https://players.brightcove.net/6027103979001/IqljF4Olr_default/
+index.html?videoId=6089818309001&amp;adConfigId=live.aaB61234aabbccdd567890&quot;
+  allowfullscreen=&quot;&quot;
+  allow=&quot;encrypted-media&quot;
+  width=&quot;960&quot; height=&quot;540&quot;&gt;
+&lt;/iframe&gt;</code></pre>
+      </li>
+      <li>
+        Your player is ready to play your live stream.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Advanced_embed_code">Advanced embed code</h2>
+    <p>When publishing a video from Video Cloud Studio's <strong>Media</strong> module, you can use the advanced embed code to play your live stream. Follow these steps:</p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        From the <strong>Media</strong> module, select your remote video for live streaming and publish it with an SSAI-enabled player.
+      </li>
+      <li>
+        Copy the advanced embed code and paste it into your web page.
+      </li>
+      <li>
+        <p>
+          In the <code>&lt;video-js&gt;</code> tag, add a <code>data-ad-config-id</code> attribute with the value of your playback token. Your code should look similar to this:
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">&lt;video-js
+  data-account=&quot;6027103979001&quot;
+  data-player=&quot;IqljF4Olr&quot;
+  data-embed=&quot;default&quot;
+  controls=&quot;&quot;
+  data-video-id=&quot;6089818309001&quot;
+  <span class="bcls-highlight">data-ad-config-id=&quot;live.aaB61234aabbccdd567890&quot;</span>
+  data-playlist-id=&quot;&quot;
+  data-application-id=&quot;&quot;
+  width=&quot;960&quot; height=&quot;540&quot;&gt;
+&lt;/video-js&gt;
+&lt;script src=&quot;https://players.brightcove.net/6027103979001/IqljF4Olr_default/index.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+      </li>
+      <li>
+        Your player is ready to play your live stream.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Live_SSAI_source">Live SSAI source</h2>
+    <p>Unlike VOD SSAI sources, Live SSAI sources do not include an initial VMAP. This is because Live SSAI streams don't know in advance when ad breaks will be included. Instead, ad breaks are triggered from cue points that you add to the live job.</p>
+    <p>
+      Brightcove Live SSAI streams start with a standard HLS manifest URL with a specific naming scheme:
+    </p>
+    <pre>
+<code class="language-html">https://.../playlist_ssaiM.m3u8</code></pre>
+    <p>
+      The SSAI plugin looks for the <code>_ssaiM.m3u8</code> suffix and the normal HLS MIME type
+    </p>
+    <p>
+      When publishing a video from Video Cloud Studio's <strong>Media</strong> module, you can play a Live SSAI stream as follows:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        From the <strong>Media</strong> module, select your remote video for live streaming and publish it with an SSAI-enabled player.
+      </li>
+      <li>
+        Copy the advanced embed code and paste it into your web page.
+      </li>
+      <li>
+        <p>
+          To your page code, add the following code:
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">&lt;video-js <span class="bcls-highlight">id=&quot;myPlayerID&quot;</span>
+  data-account=&quot;6027103979001&quot;
+  data-player=&quot;IqljF4Olr&quot;
+  data-embed=&quot;default&quot;
+  controls=&quot;&quot;
+  data-video-id=&quot;&quot;
+  data-playlist-id=&quot;&quot;
+  data-application-id=&quot;&quot;
+  width=&quot;960&quot; height=&quot;540&quot;&gt;
+&lt;/video-js&gt;
+&lt;script src=&quot;https://players.brightcove.net/6027103979001/IqljF4Olr_default/index.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  videojs.getPlayer('<span class="bcls-highlight">myPlayerID</span>').ready(function() {
+    var myPlayer = this;
+    <span class="bcls-highlight">myPlayer.src({
+      type: 'application/x-mpegURL',
+      src: 'https://path/to/playlist_ssaiM.m3u8'
+    })</span>
+  });
+&lt;/script&gt;</code></pre>
+      </li>
+      <li>
+        Your player is ready to play your live stream.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Non_standard_Live_SSAI_source">Non-standard Live SSAI source</h2>
+    <p>When testing or in development, there are times when you may want to force Live SSAI to be enabled for streams that do not match the naming convention shown in the section above.</p>
+    <p>
+      This can be achieved using the following proprietary MIME type with any HLS stream:
+    </p>
+    <pre class="line-numbers">
+<code class="language-html">player.src({
+  <span class="bcls-highlight">type: 'video/vnd.bcov.ssai.live',</span>
+  src: 'https://path/to/playlist.m3u8'
+});</code></pre>
+    <p>
+      The <code>src</code> parameter should be  URL for an HLS manifest. Notice that the name does not include <code>_ssaiM</code>.
+    </p>
+    <p>
+      The <code>type</code> value of <code>'video/vnd.bcov.ssai.live'</code> tells the SSAI plugin that we can handle this media.
+    </p>
+    <p>
+      This value is available as a constant:
+    </p>
+        <pre>
+<code class="language-html">videojs.getPlugin('ssai').LIVE_MIME_TYPE</code></pre>
+    <br />
+  </section>
+
+  <section class="bcls-section">
+  <h2 id="Related_topics">Related topics</h2>
+
+  <ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html">Overview: Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/implementing-delivery-rules.html">Implementing Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://support.brightcove.com/node/18476">Overview of Dynamic Delivery</a>
+  </li>
+</ul>
+  </section>
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

@@ -678,7 +678,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListVodJobs'
+                $ref: '#/components/schemas/GetVodJob'
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -4329,6 +4329,116 @@ components:
         - vod_jobs
       title: List_Live_Jobs200
       type: object
+      example: {
+          "jvod_state": "processing",
+          "jvod_progress": "Chunklist-download-error",
+          "job_id": "3ae7fa89943f4a96aa273fbbf175d527",
+          "jvod_id": "a731d75e39bf40708168cedef60ba404",
+          "jvod_last_state_change_at": 1536151062350,
+          "jvod_type": "s3",
+          "jvod_url": "s3://alive-pr-us-west-2-di-tmp/a5c3b3f8149a43328fd5ac8124765808.mp4",
+          "jvod_worker_id": "i-0dac4a87c61e688ab",
+          "label": "first 30 secs of live job",
+          "cloud_id": "301c91a5d9254b5d944b108c355f12be",
+          "jvod_cancelling_flag": false,
+          "jvod_created_at": 1536151027046,
+          "jvod_duration_s": 93600,
+          "jvod_reported_duration_s": null,
+          "jvod_finished_at": 0,
+          "jvod_region": "us-west-2",
+          "account_id": "a95ac581551b4478b27910e5675db1f8",
+          "user_id": "c2691d4d039040be96c190a949d754a7",
+          "jvod_start_time_relative_s": 10,
+          "jvod_end_time_relative_s": 300,
+          "jvod_videocloud": {
+            "video": {
+              "name": "TEST Clip",
+              "clip_source_video_id": "5831009084001"
+            },
+            "ingest": {}
+          }
+        }
+    GetVodJob:
+      title: Get_VOD_Job200
+      type: object
+      properties:
+        job_id:
+          description: The parent job id
+          type: string
+        jvod_created_at:
+          description: Time vod job was created (UNIX time in milliseconds)
+          type: integer
+        jvod_duration_s:
+          description: Length of VOD clip requested (seconds)
+          type: integer
+        jvod_finished_at:
+          description: Time vod job completed processing (UNIX time in milliseconds)
+          type: integer
+        jvod_id:
+          description: The clip job id
+          type: string
+        jvod_last_state_change_at:
+          description: Time vod job was last modified (UNIX time in milliseconds)
+          type: integer
+        jvod_region:
+          description: Region VOD job is processed in
+          enum:
+            - us-west-2
+            - us-east-1
+            - ap-southeast-2
+            - ap-northeast-1
+            - ap-southeast-1
+            - eu-central-1
+            - eu-west-1
+            - sa-east-1
+          type: string
+        jvod_reported_duration_s:
+          description: Length of VOD clip as generated (seconds)
+          type: integer
+        jvod_state:
+          description: |-
+            Current vod job processing state
+
+            Possible values for
+            **VOD jobs** are:
+            - `error` (An error has occurred; the job will not be processed.)
+            - `waiting_finish_live` ()
+            - `waiting` (The job waiting for processing.)
+            - `waiting_finish_live` (The job waiting for the Live Job to finish [if the clip depends on that].)
+            - `processing` (The clip is being processed.)
+            - `creating_asset` (A VOD asset is being created.)
+            - `cancelling` (The job has been cancelled and the worker is stopping the job and will NOT process any pending VOD outputs.)
+            - `cancelled` (The job has been cancelled successfully.)
+            - `finished` (The job has finished successfully.)
+            - `failed` (The job has stopped as a result of a system error.)
+          enum:
+            - error
+            - waiting
+            - waiting_finish_live
+            - processing
+            - cancelling
+            - cancelled
+            - finished
+            - failed
+            - creating_asset
+          type: string
+        jvod_type:
+          description: VOD job type
+          enum:
+            - s3
+            - ftp
+            - instant
+            - error
+          type: string
+        jvod_url:
+          description: 'VOD job destination (e.g. s3://somebucket or ftp://someserver)'
+          type: string
+        label:
+          description: The clip label (from the input)
+          type: string
+        user_id:
+          description: ID of creating user
+          type: string
       example: {
           "jvod_state": "processing",
           "jvod_progress": "Chunklist-download-error",

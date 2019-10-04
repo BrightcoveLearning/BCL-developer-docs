@@ -25,6 +25,8 @@ tags:
     description: Operations for managing server-side ad insertion with live streams.
   - name: Credentials
     description: Operations for creating and managing credentials for secure destinations.
+  - name: Account Management
+    description: Operations for managing Live accounts.
 paths:
   /jobs:
     post:
@@ -1458,6 +1460,160 @@ paths:
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
   '/credentials/{credential_id}':
+    put:
+      tags:
+        - Credentials
+      summary: Update Credential
+      description: 'Update a credential. '
+      operationId: UpdateCredential
+      parameters:
+        - $ref: '#/components/parameters/CredentialId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Update a credential.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCredentialbody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCredential'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Credentials
+      summary: Delete Credential
+      description: 'Delete a credential. '
+      operationId: DeleteCredential
+      parameters:
+        - $ref: '#/components/parameters/CredentialId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      responses:
+        '204':
+          description: 'NO_CONTENT: the credential was deleted'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    get:
+      tags:
+        - Account Management
+      summary: List Account Information
+      description: >-
+        This endpoint can be used to get Live account information.
+      operationId: getAccounts
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountInfo'
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Account Management
+      summary: Create Credential
+      description: 'Create a new credential. '
+      operationId: CreateCredential
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Create a new credential.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCredentialbody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCredential'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/settings/override':
     put:
       tags:
         - Credentials
@@ -4999,6 +5155,7 @@ components:
         - label
       title: vod_jobs2
       type: object
+      
   parameters:
     ContentType:
       name: Content-Type

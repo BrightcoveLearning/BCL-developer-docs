@@ -1956,6 +1956,32 @@ components:
             description: >-
               Allowed IP address for input stream
           example: ["192.168.0.1/32"]
+        drm:
+          type: object
+          description: >-
+            DRM settings to be applied to all outputs for the job. **Note that you can also apply DRM only to specific outputs if you prefer.**
+          properties:
+            modes: 
+              type: array
+              description: >- 
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported
+              items:
+                type: string
+                enum:
+                  - fairplay
+                  - widevine
+            token_expires_in:
+              type: integer
+              description: Amount of time in seconds before the token expires
+              default: 43200
+              maximum: 31622400
+            require_playback_token:
+              type: boolean
+              description: >-
+                If true, a playback authorization token will need to be specified for playback
+            crt:
+              type: string
+              description: Contents of a crt file
         encryption:
           $ref: '#/components/schemas/CreateLiveJobRequestBody.encryption'
         event_length:
@@ -2271,6 +2297,33 @@ components:
           description: >-
             The name for credentials with private and public keys can be stored with Brightcove to avoid passing plain text on API requests. This is required if the S3 or FTP origins are restricted. If credentials are not provided, it will be assumed that the origin restrictions are set to public or credentials are passed along with the URL.
           type: string
+        drm:
+          type: object
+          description: >-
+            DRM settings to be applied to the output. **Note that you can also apply DRM at the job level to apply to all outputs.**
+          properties:
+            modes: 
+              type: array
+              description: >- 
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported
+              items:
+                type: string
+                enum:
+                  - fairplay
+                  - widevine
+            token_expires_in:
+              type: integer
+              description: Amount of time in seconds before the token expires
+              default: 43200
+              maximum: 31622400
+            require_playback_token:
+              type: boolean
+              description: >-
+                If true, a playback authorization token will need to be specified for playback
+            crt:
+              type: string
+              description: Contents of a crt file
+  
         h264_profile:
           description: >-
             H.264 has three commonly-used profiles: Baseline (lowest), Main, and High. Lower levels are easier to decode, but higher levels offer better compression. For the best compression quality, choose High. For playback on low-CPU machines or many mobile devices, choose

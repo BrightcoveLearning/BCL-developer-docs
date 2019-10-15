@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Implementing Client-Side SDK for Live SSAI with Native SDKs</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Implementing Client-Side SDK for Live SSAI with Native SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how to play a live stream with the Brightcove Native SDKs  that includes client-side interactivity with server-side ads.</summary>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+    <p>Brightcove's Client-Side SDK for Live SSAI (SLS) allows user interactivity with live streams, including ad countdown timers, click through ads and companion ads. These live streams can be played using the Brightcove Native SDKs.</p>
+    <p>
+      If you are not familiar with SLS, see the following:
+    </p>
+    <ul>
+      <li>
+        <a href="https://docs.brightcove.com/en/staging/sls/overview-sls.html">Overview: Client-Side SDK with Live SSAI (SLS)</a>
+      </li>
+      <li>
+        <a href="https://docs.brightcove.com/en/staging/sls/creating-sls.html">Workflow: Client-Side SDK for Live SSAI (SLS)</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Steps">Steps</h2>
+    <p>To play live SLS streams with the Brightcove Native SDKs, follow these steps:</p>
+    <ol class="bcls-tasklist">
+      <li>
+        Follow the steps in the <a href="https://docs.brightcove.com/en/staging/sls/creating-sls.html">Workflow: Client-Side SDK for Live SSAI (SLS)</a> document, up through creating your playback token.
+      </li>
+      <li>
+        <p>
+          Build your app:
+        </p>
+        <ul>
+          <li>
+            <a href="#Android_implementation">Android implementation</a>
+          </li>
+          <li>
+            <a href="#iOS_implementation">iOS implementation</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Continue with the steps in the the <a href="https://docs.brightcove.com/en/staging/sls/creating-sls.html">Workflow: Client-Side SDK for Live SSAI (SLS)</a> document.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Android_implementation">Android implementation</h2>
+    <p>You will need the following values to build your app using the Native SDK for Android:</p>
+    <ul>
+      <li>
+        Playback token
+      </li>
+      <li>
+        Account Id
+      </li>
+      <li>
+        Video Id
+      </li>
+      <li>
+        Policy Key
+      </li>
+    </ul>
+    <p>
+      To get your Policy Key, review the <a href="https://support.brightcove.com/policy-keys">Policy Keys</a> document.
+    </p>
+    <p>
+      Follow these steps to build your app:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        Use the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/BasicSsaiSampleApp">Basic SSAI Sample App</a> as a starting point for your code.
+      </li>
+      <li>
+        In the <strong>res/values/strings.xml</strong> file, replace the following with your own values:
+        <ul>
+          <li>
+            Account Id
+          </li>
+          <li>
+            Video Id
+          </li>
+          <li>
+            Policy Key
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>
+          In the <strong>MainActivity.java</strong> file, replace the <code>ad_config_id</code> value with your <a href="https://docs.brightcove.com/en/staging/sls/creating-sls.html#Configure_the_player">playback token</a>.
+        </p>
+        <pre>
+<code class="language-html">private final String AD_CONFIG_ID_QUERY_PARAM_VALUE = &quot;<span class="bcls-input">your playback token</span>&quot;;</code></pre>
+      </li>
+      <li>
+        <p>
+          The <code>ad_config_id</code> with your playback token value is added to the HTTP request as a query parameter.
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
+  .addQueryParameter(<span class="bcls-highlight">AD_CONFIG_ID_QUERY_PARAM_KEY, AD_CONFIG_ID_QUERY_PARAM_VALUE</span>)
+  .build();</code></pre>
+      </li>
+      <li>
+        <p>
+          Make the catalog call to the Playback API with your live stream video id and the updated HTTP request.
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">catalog.findVideoByID(<span class="bcls-highlight">getString(R.string.video_id), httpRequestConfig</span>, new VideoListener() {
+     @Override
+     public void onVideo(Video video) {
+         plugin.processVideo(video);
+     }
+ });</code></pre>
+      </li>
+      <li>
+        Your player is ready to play your live stream.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="iOS_implementation">iOS implementation</h2>
+    <p>You will need the following values to build your app using the Native SDK for iOS:</p>
+    <ul>
+      <li>
+        Playback token
+      </li>
+      <li>
+        Account Id
+      </li>
+      <li>
+        Video Id
+      </li>
+      <li>
+        Policy Key
+      </li>
+    </ul>
+    <p>
+      To get your Policy Key, review the <a href="https://support.brightcove.com/policy-keys">Policy Keys</a> document.
+    </p>
+    <p>
+      Follow these steps to build your app:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        Use the <a href="https://github.com/BrightcoveOS/ios-player-samples">Basic SSAI Player</a> sample as a starting point for your code.
+      </li>
+      <li>
+        In the <strong>ViewController.swift</strong> file, replace the following with your own values:
+        <ul>
+          <li>
+            Account Id
+          </li>
+          <li>
+            Video Id
+          </li>
+          <li>
+            Policy Key
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>
+          Replace the <code>AdConfigId</code> value with your <a href="https://docs.brightcove.com/en/staging/sls/creating-sls.html#Configure_the_player">playback token</a>.
+        </p>
+        <pre>
+<code class="language-html">static let AdConfigId = &quot;<span class="bcls-input">your playback token</span>&quot;</code></pre>
+      </li>
+      <li>
+        <p>
+          The <code>AdConfigId</code> with your playback token value is added as a query parameter.
+        </p>
+        <pre>
+<code class="language-html">let queryParameters = [kBCOVPlaybackServiceParamaterKeyAdConfigId: <span class="bcls-highlight">Constants.AdConfigId</span>]</code></pre>
+      </li>
+      <li>
+        <p>
+          Make the catalog call to the Playback API with your live stream video id and the query parameter.
+        </p>
+        <pre class="line-numbers">
+<code class="language-html">playbackService.findVideo(withVideoID: <span class="bcls-highlight">Constants.VideoId</span>, parameters: <span class="bcls-highlight">queryParameters</span>)
+  { [weak self] (video: BCOVVideo?, jsonResponse: [AnyHashable: Any]?, error: Error?) -&gt; Void in
+  guard let _video = video else {
+    print(&quot;ViewController Debug - Error retrieving video: \(error?.localizedDescription ?? &quot;unknown error&quot;)&quot;)
+    return
+  }
+  self?.playbackController?.setVideos([_video] as NSFastEnumeration)
+}</code></pre>
+      </li>
+      <li>
+        Your player is ready to play your live stream.
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+  <h2 id="Related_topics">Related topics</h2>
+
+  <ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html">Overview: Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/rules/implementing-delivery-rules.html">Implementing Dynamic Delivery Rules</a>
+  </li>
+  <li>
+    <a href="https://support.brightcove.com/node/18476">Overview of Dynamic Delivery</a>
+  </li>
+</ul>
+  </section>
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Advertising with the SSAI Plugin</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Matt Testing Doc</h1>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+      <section class="bcls-section">
+        <h2 id="Introduction">Introduction</h2>
+        <p>This document will lead you through a series of questions about different sections for you OTT app. The result of answering these questions will be a list or requirements for you app which will be emailed to Brightcove for use when
+          building you Brightcove Beacon Experience.</p>
+      </section>
+
+      <section class="bcls-section">
+        <h2 id="Registration_pages">How do you make money?</h2>
+        <h3>Question 1 actually advertising and/or subscribers</h3>
+        <div class="reg-divs" id="reg1">
+          <p>Will you have subscribers to your app?</p>
+          <p><button value="yes" onclick="req_q1(this)">Yes</button></p>
+          <p><button value="no" onclick="req_q1(this)">No</button></p>
+        </div>
+        <div class="reg-divs" id="reg2">
+          <p>Do you provide a way to register in the app?</p>
+          <p><button value="yes" onclick="req_q2(this)">Yes</button></p>
+          <p><button value="no" onclick="req_q2(this)">No</button></p>
+        </div>
+        <div class="reg-divs" id="reg3">
+          <p>You have completed this section of the doc. If you wish to redo this section again, click the button.</p>
+          <p><button value="again" onclick="startOverReqs(this)">Start Over</button></p>
+        </div>
+      </section>
+
+      <section class="bcls-section">
+        <h2 id="Requirements">Requirements</h2>
+        <p>This section will be dynamically updated to reflect how you have answered questions, determining your list of requirements.</p>
+        <h3>Registration Requirements</h3>
+        <div id="bcb-reqs"></div>
+        <h3>Monetization Requirements</h3>
+        <div id="bcb-monetization"></div>
+      </section>
+
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+    //Hide all reg divs
+    var myClasses = document.querySelectorAll('.reg-divs'),
+      i = 0,
+      l = myClasses.length;
+
+    for (i; i < l; i++) {
+      myClasses[i].style.display = 'none';
+    }
+
+    //Show first reg div
+    document.getElementById('reg1').style.display = "";
+
+    function req_q1(btnObj) {
+      if (btnObj.value == "yes") {
+        document.getElementById('reg1').style.display = "none";
+        document.getElementById('reg2').style.display = "";
+      } else {
+        window.alert('You have completed this section of the doc.');
+      };
+    }
+
+    function req_q2(btnObj) {
+      document.getElementById('reg2').style.display = "none";
+      document.getElementById('reg3').style.display = "";
+      if (btnObj.value == "yes") {
+        document.getElementById('bcb-reqs').textContent = "You need the a registration page, sign in page and a sign out page";
+      } else {
+        document.getElementById('bcb-reqs').textContent = "You need the a sign in page and a sign out page";
+      };
+    }
+
+    function startOverReqs(){
+      document.getElementById('bcb-reqs').textContent = "";
+      document.getElementById('reg3').style.display = "none";
+      document.getElementById('reg1').style.display = "";
+    }
+  </script>
+
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

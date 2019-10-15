@@ -1956,6 +1956,26 @@ components:
             description: >-
               Allowed IP address for input stream
           example: ["192.168.0.1/32"]
+        drm:
+          type: object
+          description: >-
+            DRM settings to be applied to all outputs for the job. **Note that you can also apply DRM only to specific outputs if you prefer.** Also note that if you need something other than the default DRM configuration, contact Support for assistance.
+          properties:
+            modes: 
+              type: array
+              description: >- 
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported. Using `all` will apply all types available
+              items:
+                type: string
+                enum:
+                  - all
+                  - fairplay
+                  - widevine
+            token_expires_in:
+              type: integer
+              description: Amount of time in seconds before the token expires
+              default: 43200
+              maximum: 31622400
         encryption:
           $ref: '#/components/schemas/CreateLiveJobRequestBody.encryption'
         event_length:
@@ -2271,6 +2291,27 @@ components:
           description: >-
             The name for credentials with private and public keys can be stored with Brightcove to avoid passing plain text on API requests. This is required if the S3 or FTP origins are restricted. If credentials are not provided, it will be assumed that the origin restrictions are set to public or credentials are passed along with the URL.
           type: string
+        drm:
+          type: object
+          description: >-
+            DRM settings to be applied to the output. **Note that you can also apply DRM at the job level to apply to all outputs.** Also note that if you need something other than the default DRM configuration, contact Support for assistance.
+          properties:
+            modes: 
+              type: array
+              description: >- 
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported. Using `all` will apply all types available
+              items:
+                type: string
+                enum:
+                  - all
+                  - fairplay
+                  - widevine
+            token_expires_in:
+              type: integer
+              description: Amount of time in seconds before the token expires
+              default: 43200
+              maximum: 31622400
+  
         h264_profile:
           description: >-
             H.264 has three commonly-used profiles: Baseline (lowest), Main, and High. Lower levels are easier to decode, but higher levels offer better compression. For the best compression quality, choose High. For playback on low-CPU machines or many mobile devices, choose
@@ -2330,6 +2371,11 @@ components:
                     type: string
                 type: object
           type: array
+        remove_ads:
+          description: >-
+            For VOD, remove content processed during the duration of cue points received while streaming.
+          type: boolean
+          default: false
         rendition_label:
           description: >-
             Indicates what rendition to use to create a VOD output (from the live job) or which renditions to use. By default, the system uses any transmuxed rendition or the highest resolution output if there is no transmuxed output.
@@ -2629,6 +2675,11 @@ components:
           maximum: 172800
           minimum: 0
           type: integer
+        remove_ads:
+          description: >-
+            Remove content processed during the duration of cue points received while streaming.
+          type: boolean
+          default: false
         start_time:
           description: >-
             Start time for the clip in Epoch (Unix) time (seconds), <code>start_time</code> must be used alone or with <code>end_time</code>.
@@ -4999,6 +5050,7 @@ components:
         - label
       title: vod_jobs2
       type: object
+      
   parameters:
     ContentType:
       name: Content-Type

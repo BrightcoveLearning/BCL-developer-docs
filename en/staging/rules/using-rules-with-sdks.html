@@ -54,11 +54,53 @@
         Define the parameter for your Delivery Rules ID.
       </li>
       <li>
+        Create the <code>HttpRequestConfig</code> with the delivery rule that you want applied. Pass a String value for your <code>config_id</code>, using the <code>HttpRequestConfig.KEY_DELIVERY_RULE_CONFIG_ID</code> parameter.
+      </li>
+      <li>
         <p>
-          Pass the Delivery Rules ID as a parameter with the catalog call to the Playback API. You can use either the <code>findVideoWithVideoID</code> or <code>findPlaylistWithPlaylistID</code> methods. Here is the code:
+          Pass the Delivery Rules ID as a parameter with the catalog call to the Playback API. You can use either the <code>findVideoByID</code> or <code>findPlaylistByID</code> methods. Here is the code:
         </p>
         <pre>
-<code class="language-objectivec"></code></pre>
+<code class="language-java">public class MainActivity extends BrightcovePlayer {
+
+    private final String TAG = this.getClass().getSimpleName();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // Assign the brightcoveVideoView before entering the superclass.
+        // This allows for video player lifecycle management.
+        setContentView(R.layout.activity_main);
+        brightcoveVideoView = (BrightcoveExoPlayerVideoView) findViewById(R.id.brightcove_video_view);
+        super.onCreate(savedInstanceState);
+
+        // Get the event emitter from the SDK for notifications and logging
+        EventEmitter eventEmitter = brightcoveVideoView.getEventEmitter();
+
+        // Create a catalog request to retrieve a video from your Video Cloud library
+        Catalog catalog = new Catalog(eventEmitter,
+                getString(R.string.account),
+                getString(R.string.policy));
+
+        // Create HttpRequestConfig with the delivery rule you want to be applied.
+        // Use the HttpRequestConfig.KEY_DELIVERY_RULE_CONFIG_ID with a String value for config_id
+        <span class="bcls-highlight">HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
+                .addQueryParameter(HttpRequestConfig.KEY_DELIVERY_RULE_CONFIG_ID, &quot;<span class="bcls-input">your rules id</span>&quot;)
+                .build();</span>
+
+        // Add the HttpRequestConfig to the catalog request.
+        <span class="bcls-highlight">catalog.findVideoByID(getString(R.string.videoId), httpRequestConfig, new VideoListener() {</span>
+
+            // Add the video found to the queue with add().
+            // Start playback of the video with start().
+            @Override
+            public void onVideo(Video video) {
+                Log.v(TAG, &quot;onVideo: video = &quot; + video);
+                brightcoveVideoView.add(video);
+                brightcoveVideoView.start();
+            }
+        });
+    }
+}</code></pre>
       </li>
     </ol>
 

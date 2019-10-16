@@ -15,7 +15,7 @@
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
   <meta name="robots" content="noindex">
   <!-- change title to match the h1 heading -->
-  <title>Creating a Live Stream using Client SDK for Live SSAI (SLS)</title>
+  <title>Workflow: Client-Side SDK for Live SSAI (SLS)</title>
 
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -42,7 +42,7 @@
       <div id="sidenav" class="side-nav"></div>
     </div>
     <div id="main" class="large-10 small-12 columns">
-      <h1>Creating a Live Stream using Client SDK for Live SSAI (SLS)</h1>
+      <h1>Workflow: Client-Side SDK for Live SSAI (SLS)</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
       <summary>In this topic, you will learn how to create a live stream that includes client-side interactivity with Server-Side Ad Insertion</summary>
 
@@ -52,18 +52,18 @@
 
   <section class="bcls-section">
     <h2 id="Introduction">Introduction</h2>
-    <p>Brightcove's Client SDK with Live SSAI (SLS) allows client-side interactivity with live streams, including ad countdown timers, click through ads and companion ads.</p>
+    <p>Brightcove's Client-Side SDK for Live SSAI (SLS) allows users to interact with ad breaks in live streams, including ad countdown timers, click through ads and companion ads.</p>
     <p>
       Your ad information is specified using an ad configuration which retrieves VAST responses to identify what ads to display. The VAST file also contains information about companion ads and beacon URLs.
     </p>
     <p>
-      If you are not familiar with SLS, see the <a href="">Overview: Client SDK with Live SSAI (SLS)</a> document.
+      If you are not familiar with SLS, see the <a href="">Overview: Client-Side SDK with Live SSAI (SLS)</a> document.
     </p>
   </section>
 
   <section class="bcls-section">
     <h2 id="Workflow">Workflow</h2>
-    <p>To use Brightcove's Client SDK with Live SSAI (SLS), follow these steps:</p>
+    <p>To use Brightcove's Client-Side SDK for Live SSAI, follow these steps:</p>
     <ol class="bcls-tasklist">
       <li>
         Ask your account manager to enable your account for Live, SSAI and SLS
@@ -126,6 +126,9 @@
     For details about the request body fields, see the <a href="https://docs.brightcove.com/live-api/v1/doc/index.html#operation/CreateAdConfiguration">Live API Reference</a> document.
   </p>
   <p>
+    For the Client-side SDK for Live SSAI (SLS), the highlighted additional fields can be set  inside of <code>application_ad_configuration</code>.
+  </p>
+  <p>
     Sample request body:
   </p>
   <pre class="line-numbers">
@@ -136,21 +139,16 @@
 	&quot;ad_configuration_headers_for_impressions&quot;: false,
 	&quot;ad_configuration_strategy&quot;: &quot;SingleAdResponse&quot;,
 	&quot;ad_configuration_transforms&quot;: [],
-	&quot;ad_configuration_url_format&quot;: &quot;<span class="bcls-input">your ad server</span>&quot;
+	&quot;ad_configuration_url_format&quot;: &quot;<span class="bcls-input">your ad server</span>&quot;,
+<span class="bcls-highlight">    &quot;ad_configuration_client_sdk_enabled&quot;: true,
+    &quot;client_options&quot;: {
+       &quot;show_ad_break_remaining_time&quot;: <span class="bcls-input">true / false</span>,
+       &quot;show_ad_remaining_time&quot;: <span class="bcls-input">true / false</span>,
+       &quot;show_number_of_remaining_ads&quot;: <span class="bcls-input">true / false</span>,
+       &quot;client_only_tracking&quot;: <span class="bcls-input">true / false</span>
+    }</span>
   },
-  &quot;application_description&quot;: &quot;<span class="bcls-input">your aaplication description</span>&quot;,
-}</code></pre>
-
-<p>
-  For Client SDK for Live SSAI (SLS), the following additional fields can be set  inside of <code>application_ad_configuration</code>.
-</p>
-<pre class="line-numbers">
-<code class="language-json">&quot;ad_configuration_client_sdk_enabled&quot;: true,
-&quot;client_options&quot;: {
-   &quot;show_ad_break_remaining_time&quot;: <span class="bcls-input">true / false</span>,
-   &quot;show_ad_remaining_time&quot;: <span class="bcls-input">true / false</span>,
-   &quot;show_number_of_remaining_ads&quot;: <span class="bcls-input">true / false</span>,
-   &quot;client_only_tracking&quot;: <span class="bcls-input">true / false</span>
+  &quot;application_description&quot;: &quot;<span class="bcls-input">your aaplication description</span>&quot;
 }</code></pre>
 
 <p>
@@ -169,11 +167,18 @@
    &quot;ad_configuration_strategy&quot;: &quot;SingleAdResponse&quot;,
    &quot;ad_configuration_transforms&quot;: [],
    &quot;ad_configuration_url_format&quot;: &quot;https://solutions.brightcove.com/bcls/ads/simple-vast.xml&quot;,
-   &quot;ad_configuration_headers_for_impressions&quot;: false
+   &quot;ad_configuration_headers_for_impressions&quot;: false,
+   &quot;ad_configuration_client_sdk_enabled&quot;: true,
+   &quot;client_options&quot;: {
+    &quot;show_ad_break_remaining_time&quot;: true,
+    &quot;show_ad_remaining_time&quot;: true,
+    &quot;show_number_of_remaining_ads&quot;: true,
+    &quot;client_only_tracking&quot;: true
+   }
   },
-  &quot;application_id&quot;: &quot;91bc2d5ff4a4441db34c2457c751c3ca&quot;,
+  &quot;application_id&quot;: &quot;1234567890abcdefghijkl&quot;,
   &quot;application_type&quot;: &quot;ads&quot;,
-  &quot;account_id&quot;: &quot;0077db20eb444b5daa7487438c90a271&quot;
+  &quot;account_id&quot;: &quot;001122334455aabbccddee&quot;
  },
  &quot;action&quot;: &quot;inserted&quot;
 }</code></pre>
@@ -189,9 +194,6 @@
 
   <section class="bcls-section">
     <h2 id="Create_a_live_job">Create a live job</h2>
-    <p>An ad configuration defines the information needed to include server-side ads with a live stream. This includes ad provider URL, expected ad response type and whether beacons should be sent.</p>
-    <aside class="bcls-aside bcls-aside--information">For SLS, Ad configurations MUST have an <code>ad_configuration_expected_response_type</code> value of <code>Vast</code>.</aside>
-
     <p>
       To create a live job, send a <code>POST</code> request as follows:
     </p>
@@ -221,12 +223,15 @@
     If you wish to create a VOD clip from the live stream, include the <code>videocloud</code> parameter in the request body. For details, see the <a href="https://support.brightcove.com/live-api-creating-vod-clips">Live API: Creating VOD Clips</a> document.
   </p>
   <p>
+    The highlighted field in the request body below is needed for server-side ad insertion (SSAI).
+  </p>
+  <p>
     Sample request body:
   </p>
   <pre class="line-numbers">
 <code class="language-json">{
   &quot;live_stream&quot;:true,
-  &quot;ad_insertion&quot;:true,
+  <span class="bcls-highlight">&quot;ad_insertion&quot;:true,</span>
   &quot;region&quot;:&quot;us-west-2&quot;,
   &quot;reconnect_time&quot;:1800,
   &quot;outputs&quot;:[
@@ -283,51 +288,51 @@
 </p>
 <pre class="line-numbers">
 <code class="language-json">{
- &quot;id&quot;: &quot;b09524115f2847b6bb8e895c9f4fdadb&quot;,
+ <span class="bcls-highlight">&quot;id&quot;: &quot;bbccddeeffgghhiijjkk0011223344&quot;,</span>
  &quot;outputs&quot;: [
   {
-   &quot;id&quot;: &quot;0-b09524115f2847b6bb8e895c9f4fdadb&quot;,
-   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_0/chunklist.m3u8&quot;,
-   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_0/chunklist_dvr.m3u8&quot;,
-   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_0/chunklist_vod.m3u8&quot;,
+   &quot;id&quot;: &quot;0-bbccddeeffgghhiijjkk0011223344&quot;,
+   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_0/chunklist.m3u8&quot;,
+   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_0/chunklist_dvr.m3u8&quot;,
+   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_0/chunklist_vod.m3u8&quot;,
    &quot;playback_added_cdns&quot;: [],
    &quot;label&quot;: &quot;hls720p&quot;
   },
   {
-   &quot;id&quot;: &quot;1-b09524115f2847b6bb8e895c9f4fdadb&quot;,
-   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_1/chunklist.m3u8&quot;,
-   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_1/chunklist_dvr.m3u8&quot;,
-   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_1/chunklist_vod.m3u8&quot;,
+   &quot;id&quot;: &quot;1-bbccddeeffgghhiijjkk0011223344&quot;,
+   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_1/chunklist.m3u8&quot;,
+   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_1/chunklist_dvr.m3u8&quot;,
+   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_1/chunklist_vod.m3u8&quot;,
    &quot;playback_added_cdns&quot;: [],
    &quot;label&quot;: &quot;hls540p&quot;
   },
   {
-   &quot;id&quot;: &quot;2-b09524115f2847b6bb8e895c9f4fdadb&quot;,
-   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_2/chunklist.m3u8&quot;,
-   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_2/chunklist_dvr.m3u8&quot;,
-   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/profile_2/chunklist_vod.m3u8&quot;,
+   &quot;id&quot;: &quot;2-bbccddeeffgghhiijjkk0011223344&quot;,
+   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_2/chunklist.m3u8&quot;,
+   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_2/chunklist_dvr.m3u8&quot;,
+   &quot;playback_url_vod&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/profile_2/chunklist_vod.m3u8&quot;,
    &quot;playback_added_cdns&quot;: [],
    &quot;label&quot;: &quot;hls360p&quot;
   },
   {
-   &quot;id&quot;: &quot;3-b09524115f2847b6bb8e895c9f4fdadb&quot;,
+   &quot;id&quot;: &quot;3-bbccddeeffgghhiijjkk0011223344&quot;,
    &quot;playlist_type&quot;: &quot;defaultS3&quot;,
    &quot;type&quot;: &quot;playlist&quot;,
    &quot;filename&quot;: &quot;playlist.m3u8&quot;,
    &quot;dvr_filename&quot;: &quot;playlist_dvr.m3u8&quot;,
-   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/playlist.m3u8&quot;,
-   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/playlist_dvr.m3u8&quot;,
+   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/playlist.m3u8&quot;,
+   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/playlist_dvr.m3u8&quot;,
    &quot;ssai_playback_urls&quot;: {
     &quot;91bc2d5ff4a4441db34c2457c751c3ca&quot;: {
-     &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_ssaiM.m3u8&quot;,
-     &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_dvr_ssaiM.m3u8&quot;,
+     &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_ssaiM.m3u8&quot;,
+     &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_dvr_ssaiM.m3u8&quot;,
      &quot;playback_added_cdns&quot;: [],
      &quot;description&quot;: &quot;Test ad configuration for SLS&quot;,
      &quot;type&quot;: &quot;ads&quot;
     },
     &quot;e7f6e9a3022a45e1b0b322ba57399150&quot;: {
-     &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/e7f6e9a3022a45e1b0b322ba57399150/playlist_ssaiM.m3u8&quot;,
-     &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/e7f6e9a3022a45e1b0b322ba57399150/playlist_dvr_ssaiM.m3u8&quot;,
+     &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/e7f6e9a3022a45e1b0b322ba57399150/playlist_ssaiM.m3u8&quot;,
+     &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/e7f6e9a3022a45e1b0b322ba57399150/playlist_dvr_ssaiM.m3u8&quot;,
      &quot;playback_added_cdns&quot;: [],
      &quot;description&quot;: &quot;House Ads - 0077db20eb444b5daa7487438c90a271&quot;,
      &quot;type&quot;: &quot;ads&quot;
@@ -335,16 +340,16 @@
    }
   }
  ],
- &quot;stream_url&quot;: &quot;rtmp://ep4-usw2.bcovlive.io:1935/b09524115f2847b6bb8e895c9f4fdadb&quot;,
+ <span class="bcls-highlight">&quot;stream_url&quot;: &quot;rtmp://ep4-usw2.bcovlive.io:1935/bbccddeeffgghhiijjkk0011223344&quot;,</span>
  &quot;stream_name&quot;: &quot;alive&quot;,
  &quot;static&quot;: false,
  &quot;encryption&quot;: {},
- &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/playlist.m3u8&quot;,
- &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/playlist_dvr.m3u8&quot;,
+ &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/playlist.m3u8&quot;,
+ &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/playlist_dvr.m3u8&quot;,
  &quot;ssai_playback_urls&quot;: {
   &quot;91bc2d5ff4a4441db34c2457c751c3ca&quot;: {
-   &quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_ssaiM.m3u8&quot;,
-   &quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/b09524115f2847b6bb8e895c9f4fdadb/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_dvr_ssaiM.m3u8&quot;,
+   <span class="bcls-highlight">&quot;playback_url&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_ssaiM.m3u8&quot;,</span>
+   <span class="bcls-highlight">&quot;playback_url_dvr&quot;: &quot;https://bcovlive-a.akamaihd.net/bbccddeeffgghhiijjkk0011223344/us-west-2/NA/91bc2d5ff4a4441db34c2457c751c3ca/playlist_dvr_ssaiM.m3u8&quot;,</span>
    &quot;playback_added_cdns&quot;: [],
    &quot;description&quot;: &quot;Test ad configuration for SLS&quot;,
    &quot;type&quot;: &quot;ads&quot;
@@ -353,20 +358,20 @@
 }</code></pre>
 
 <p>
-  From the API response, make note of the <code>job_id</code> and the <code>stream_url</code> properties. You will need these later.
+  From the API response, make note of the job <code>id</code> and the <code>stream_url</code> properties. You will need these later.
 </p>
 <p>
   In the response body, there will be an object containing SSAI information for each ad configuration in your account. The sample above shows the object for one ad configuration. This should be the ad configuration id you created in the previous step.
 </p>
 <p>
-  The <code>playback_url</code> for your ad configuration id will be used later to verify playback and ad break insertion.
+  The <code>playback_url</code> or <code>playback_url_dvr</code> field associated with your ad configuration id is used in the next step to create a remote video asset.
 </p>
 
   </section>
 
   <section class="bcls-section">
     <h2 id="Create_a_remote_video">Create a remote video</h2>
-    <p>In Video Cloud, you will create a remote video which points to your live stream. For this step, you will need the <code>playback_url</code> from the previous step.</p>
+    <p>In Video Cloud, you will create a remote video which points to your live stream. For this step, you will need the <code>playback_url</code> or <code>playback_url_dvr</code> from the previous step.</p>
     <p>
       There are two ways to create a remote video:
     </p>
@@ -421,7 +426,7 @@
 </p>
 <pre class="line-numbers">
 <code class="language-json">{
- &quot;playback_token&quot;: &quot;live.JhHOzAvku3VsQ3st4og6H0UoIwkfnBfWlSo_prtkiy5Z7ovMbNCUbgIlacRVogFKa8zQ1RKxmM7KXGLEU03Vu1Y4uy4ZZodWMtjy&quot;
+ &quot;playback_token&quot;: &quot;live.JhQabcdefghijkl000000000abcdefghi&quot;
 }</code></pre>
 
 <p>
@@ -430,15 +435,15 @@
 
 <h3>Web player</h3>
 <p>
-  For details about configuring the Brightcove Player, see the <a href="">Implementing SLS with Brightcove Player</a> document.
+  For details about configuring the Brightcove Player, see the <a href="https://docs.brightcove.com/en/staging/sls/sls-with-bcplayer.html">Implementing Client-Side SDK for Live SSAI with Brightcove Player</a> document.
 </p>
 <h3>Native Android player</h3>
 <p>
-  For details about configuring the Native Player for Android, see the <a href="">Implementing SLS with the Native SDKs</a> document.
+  For details about configuring the Native Player for Android, see the <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Implementing Client-Side SDK for Live SSAI with Native SDKs</a> document.
 </p>
 <h3>Native iOS player</h3>
 <p>
-  For details about configuring the Native Player for iOS, see the <a href="">Implementing SLS with the Native SDKs</a> document.
+  For details about configuring the Native Player for iOS, see the <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Implementing Client-Side SDK for Live SSAI with Native SDKs</a> document.
 </p>
 
   </section>
@@ -471,7 +476,8 @@
     </li>
     <li>
       <p>
-        Cancel the live job. Note that the live job is only available for 30 minutes after creation.
+        Cancel the live job.
+        <aside class="bcls-aside bcls-aside--information">The live job is only available for the reconnect time specified when the job was created.</aside>
       </p>
       <p>
         To cancel a live job, send a <code>PUT</code> request as follows:
@@ -534,13 +540,13 @@
 
   <ul>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html">Overview: Dynamic Delivery Rules</a>
+    <a href="https://docs.brightcove.com/en/staging/sls/overview-sls.html">Overview: Client-Side SDK for Live SSAI (SLS)</a>
   </li>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/rules/implementing-delivery-rules.html">Implementing Dynamic Delivery Rules</a>
+    <a href="https://docs.brightcove.com/en/staging/sls/sls-with-bcplayer.html">Implementing Client-Side SDK for Live SSAI (SLS) with Brightcove Player</a>
   </li>
   <li>
-    <a href="https://support.brightcove.com/node/18476">Overview of Dynamic Delivery</a>
+    <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Implementing Client-Side SDK for Live SSAI (SLS) with the Native SDKs</a>
   </li>
 </ul>
 

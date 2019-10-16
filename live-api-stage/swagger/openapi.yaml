@@ -2317,7 +2317,6 @@ components:
               type: boolean
               description: >-
                 If true, a playback authorization token will need to be specified for playback
-  
         h264_profile:
           description: >-
             H.264 has three commonly-used profiles: Baseline (lowest), Main, and High. Lower levels are easier to decode, but higher levels offer better compression. For the best compression quality, choose High. For playback on low-CPU machines or many mobile devices, choose
@@ -2377,6 +2376,11 @@ components:
                     type: string
                 type: object
           type: array
+        remove_ads:
+          description: >-
+            For VOD, remove content processed during the duration of cue points received while streaming.
+          type: boolean
+          default: false
         rendition_label:
           description: >-
             Indicates what rendition to use to create a VOD output (from the live job) or which renditions to use. By default, the system uses any transmuxed rendition or the highest resolution output if there is no transmuxed output.
@@ -2676,6 +2680,11 @@ components:
           maximum: 172800
           minimum: 0
           type: integer
+        remove_ads:
+          description: >-
+            Remove content processed during the duration of cue points received while streaming.
+          type: boolean
+          default: false
         start_time:
           description: >-
             Start time for the clip in Epoch (Unix) time (seconds), <code>start_time</code> must be used alone or with <code>end_time</code>.
@@ -5046,7 +5055,6 @@ components:
         - label
       title: vod_jobs2
       type: object
-      
   parameters:
     ContentType:
       name: Content-Type

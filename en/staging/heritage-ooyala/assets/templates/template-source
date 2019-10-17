@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ext="http://ooyala.com/syndication/ext/" version="2.0">
+  <channel>
+    {%- if title %}
+    <title>{{title | escape}}</title>
+    {%- else %}
+    <title>{{name | escape}}</title>
+    {%- endif %}
+
+    {%- if description %}
+    <description>{{description | escape}}</description>
+    {%- else %}
+    <description>{{name | escape}}</description>
+    {%- endif %}
+
+    {%- if destination_url %}
+    <link>{{destination_url | escape}}</link>
+    {%- elsif syndication_url %}
+    <link>{{syndication_url | escape}}</link>
+    {%- endif %}
+
+    {%- for asset in assets %}
+    <item>
+      {%- if asset.name %}
+      <title>{{asset.name | escape}}</title>
+      {%- endif %}
+
+      {%- if asset.id %}
+      <guid isPermaLink="false">{{account_id}}:{{asset.id}}</guid>
+      <link>{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}</link>
+      {%- endif %}
+
+      {%- if asset.publication_date %}
+      <pubDate>{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
+      {%- else %}
+      <pubDate>{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
+      {%- endif %}
+
+      {%- if asset.name %}
+      <media:title>{{asset.name | escape}}</media:title>
+      {%- endif %}
+
+      {%- if asset.schedule.starts_at or asset.created_at %}
+      <dcterms:valid>
+          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+          {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          scheme=W3C-DTF</dcterms:valid>
+      {%- endif %}
+
+      {%- if asset.images.thumbnail.sources.size > 0 %}
+      {%- assign thumb = asset.images.thumbnail.sources[0] %}
+      <media:thumbnail url="{{thumb.src | escape}}"
+        {%- if thumb.width %} width="{{thumb.width}}" {%- endif %}
+        {%- if thumb.height %} height="{{thumb.height}}" {%- endif -%}
+      />
+      {%- endif %}
+
+      {%- if asset.digital_master.url %}
+      <media:content url="{{asset.digital_master.url | escape}}" medium="video" expression="full"
+        {%- if asset.digital_master.size %} fileSize="{{asset.digital_master.size}}" {%- endif %}
+        {%- if asset.digital_master.duration %} duration="{{asset.digital_master.duration | divided_by: 1000}}" {%- endif -%}
+      />
+      {%- endif %}
+
+      {%- if asset.original_filename %}
+      <ext:originalFilename><![CDATA[ {{asset.original_filename}} ]]></ext:originalFilename>
+      {%- endif %}
+    </item>
+    {%- endfor %}
+  </channel>
+</rss>

@@ -225,38 +225,61 @@
             </section>
             <section class="bcls-subsection">
               <h3 id="Update_a_syndication">Update a syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>PATCH</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
+              <p>Sample request body:</p>
+<pre class="line-numbers"><code class="language-json">{
+  "name": "my new name",
+}</code></pre>
             </section>
             <section class="bcls-subsection">
               <h3 id="Delete_a_syndication">Delete a syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>DELETE</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_all_syndications_for_an_account">Get all syndications for an account</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>GET</code></p>
+              <p>Endpoint: <code>/syndications</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_a_specific_syndication">Get a specific syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>GET</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Set_the_template_for_a_universal_syndication">Set the template for a universal syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>PUT</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}/template</code></p>
+              <p>Sample request body:</p>
+<pre class="line-numbers"><code class="language-json">&lt;feed header&gt;My Feed Header&lt;/feed header&gt;
+{% for asset in assets %}
+&lt;item&gt;
+    &lt;title&gt;{{asset.name}}&lt;/title&gt;
+    &lt;video_info&lt;{{asset.description}}&lt;/video_info&gt;
+    &lt;/item&gt;
+{% endfor %}</code></pre>
+              <p>The above template would generate a feed similar to:</p>
+<pre class="line-numbers"><code class="language-xml">&lt;feed header&gt;My Feed Header&lt;/feed header&gt;
+  &lt;item&gt;
+    &lt;title&gt;Title for Video 1&lt;/title&gt;
+    &lt;video_info&gt;Description for Video 1&lt;/video_info&gt;
+  &lt;/item&gt;
+  &lt;item&gt;
+    &lt;title&gt;Title for Video 2&lt;/title&gt;
+    &lt;video_info&gt;Description for Video 2&lt;/video_info&gt;
+  &lt;/item&gt;</code></pre>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_the_template_for_a_universal_syndication">Get the template for a universal syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>Method: <code>GET</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}/template</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_the_feed_associated_with_a_syndication">Get the feed associated with a syndication</h3>
-              <p>Method: <code></code></p>
-              <p>Endpoint: <code></code></p>
+              <p>The feed url can be obtained from the syndication's <code>syndication_url</code> field, or constructed manually. Note that the base url for this call is different than for the other calls described in this document, see the Base Urls section above. Note also that no authentication is needed for this API call.</p>
+              <p>Method: <code>GET</code></p>
+              <p>Endpoint: <code>/syndications/{syndication_id}/feed</code></p>
             </section>
           </section>
           <section class="bcls-section">

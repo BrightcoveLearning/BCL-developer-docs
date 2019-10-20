@@ -37,16 +37,625 @@
         <!-- BEGIN MAIN CONTENT -->
         <article class="bcls-article">
           <aside class="bcls-aside bcls-aside--information language-editable">Note: these topics apply <strong>only</strong> to Ooyala customers recently migrated to Video Cloud.</aside>
-          <h3>In this document</h3>
-          <ul>
-            <li><a href="#introduction"></a>Introduction</li>
-            <li><a href="#OpenAPI_Specification">OpenAPI Specification</a></li>
-            <li><a href="#Authentication">Authentication</a></li>
-            <li><a href="#Base_URLs">Base URLs</a></li>
-            <li><a href="#Syndication_Resource">Syndication Resource</a></li>
-            <li><a href="#Actions">Actions</a></li>
-            <li><a href="#Universal_Template_Language">Universal Template Language</a></li>
-          </ul>
+          <section class="bcls-section">
+            <h2 id="Introduction">Introduction</h2>
+            <p>This document contains the Liquid templates used for the default syndication types, offered here to provide models and starting points for custom templates if you need them. See the <a href="/en/staging/heritage-ooyala/public-syndication-api-overview.html">Public Social Syndication API Overview</a> for additional information.</p>
+          </section>
+          <section class="bcls-section">
+            <h2 id="advanced">Advanced</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ext="http://ooyala.com/syndication/ext/" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+  
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if category %}
+        &lt;media:category scheme="http://www.tubemogul.com"&gt;{{category | escape}}&lt;/media:category&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+        {%- endif %}
+        {%- if asset.best_mp4_source %}
+        {%- assign source = asset.best_mp4_source %}
+        &lt;media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+          {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
+          {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
+          {%- if source.width %} width="{{source.width}}" {%- endif %}
+          {%- if source.height %} height="{{source.height}}"{%- endif %}/&gt;
+        {%- endif %}
+        {%- if asset.original_filename %}
+        &lt;ext:originalFilename&gt;
+          &lt;![CDATA[ {{asset.original_filename}} ]]&gt;
+        &lt;/ext:originalFilename&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="Google">Google</h2>
+<pre class="line-numbers"><code class="language-xml"></code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="iPad">iPad</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+  
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+        {%- endif %}
+        {%- if asset.best_mp4_source %}
+        {%- assign source = asset.best_mp4_source %}
+        &lt;media:group&gt;
+          &lt;media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+            {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
+            {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
+            {%- if source.width %} width="{{source.width}}" {%- endif %}
+            {%- if source.height %} height="{{source.height}}"{%- endif %}/&gt;
+        &lt;/media:group&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="iPhone">iPhone</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+  
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+        {%- endif %}
+        {%- if asset.best_mp4_source %}
+        {%- assign source = asset.best_mp4_source %}
+        &lt;media:group&gt;
+          &lt;media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+            {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
+            {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
+            {%- if source.width %} width="{{source.width}}" {%- endif %}
+            {%- if source.height %} height="{{source.height}}"{%- endif %}/&gt;
+        &lt;/media:group&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="iTunes">iTunes</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+  
+      {%- if author %}
+      &lt;itunes:author&gt;{{author | escape}}&lt;/itunes:author&gt;
+      {%- endif %}
+  
+      {%- if keywords %}
+      &lt;itunes:keywords&gt;{{keywords | escape}}&lt;/itunes:keywords&gt;
+      {%- endif %}
+  
+      {%- if subtitle %}
+      &lt;itunes:subtitle&gt;{{subtitle | escape}}&lt;/itunes:subtitle&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;itunes:summary&gt;{{description | escape}}&lt;/itunes:summary&gt;
+      {%- endif %}
+  
+      {%- if category %}
+      &lt;itunes:category text="{{category | escape}}"&gt;
+      &lt;/itunes:category&gt;
+      {%- endif %}
+  
+      {%- if album_art_url %}
+      &lt;itunes:image href="{{album_art_url | escape}}"/&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+  
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+        {%- endif %}
+  
+        {%- if asset.best_mp4_source %}
+        {%- assign source = asset.best_mp4_source %}
+  
+        {%- if source.src %}
+        &lt;enclosure url="{{source.src | escape}}" type="video/mp4"
+          {%- if source.size %} length="{{source.size}}" {%- endif %}/&gt;
+        {%- endif %}
+  
+        {%- if source.duration %}
+        &lt;itunes:duration&gt;{{source.duration | divided_by: 1000}}&lt;/itunes:duration&gt;
+        {%- endif %}
+        {%- endif %}
+  
+        {%- if author %}
+        &lt;itunes:author&gt;{{author | escape}}&lt;/itunes:author&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;itunes:summary&gt;{{asset.description | escape}}&lt;/itunes:summary&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="mp4">MP4</h2>
+<pre class="line-numbers"><code class="language-xml"><?xml version="1.0" encoding="UTF-8"?&gt;
+  <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" version="2.0"&gt;
+    <channel&gt;
+      {%- if title %}
+      <title&gt;{{title | escape}}</title&gt;
+      {%- else %}
+      <title&gt;{{name | escape}}</title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      <description&gt;{{description | escape}}</description&gt;
+      {%- else %}
+      <description&gt;{{name | escape}}</description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      <link&gt;{{destination_url | escape}}</link&gt;
+      {%- elsif syndication_url %}
+      <link&gt;{{syndication_url | escape}}</link&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      <item&gt;
+  
+        {%- if asset.name %}
+        <title&gt;{{asset.name | escape}}</title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        <description&gt;{{asset.description | escape}}</description&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        <guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}</guid&gt;
+        <link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}</link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        <pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate&gt;
+        {%- else %}
+        <pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        <media:title&gt;{{asset.name | escape}}</media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        <media:description&gt;{{asset.description | escape}}</media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        <dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF</dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        <media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+        {%- endif %}
+        <media:group&gt;
+        {%- for source in asset.sources %}
+          {%- if source.container == "MP4" and source.codec == "H264" and source.src %}
+          <media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+            {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
+            {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
+            {%- if source.width %} width="{{source.width}}" {%- endif %}
+            {%- if source.height %} height="{{source.height}}"{%- endif %}/&gt;
+          {%- endif %}
+        {%- endfor %}
+        </media:group&gt;
+      </item&gt;
+      {%- endfor %}
+    </channel&gt;
+  </rss&gt;
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="player">Player</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fh="http://purl.org/syndication/history/1.0" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+      &lt;fh:incremental&gt;false&lt;/fh:incremental&gt;
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+  
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.description %}
+        &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.best_mp4_source %}
+        {%- assign source = asset.best_mp4_source %}
+        &lt;media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+        {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
+        {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
+        {%- if source.width %} width="{{source.width}}" {%- endif %}
+        {%- if source.height %} height="{{source.height}}"{%- endif %}&gt;
+  
+          {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+          {%- assign thumb = asset.images.thumbnail.sources[0] %}
+          &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+          {%- endif %}
+          &lt;media:player url="{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}"&gt;
+          &lt;/media:player&gt;
+        &lt;/media:content&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  </code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="roku">Roku</h2>
+<pre class="line-numbers"><code class="language-xml"></code></pre>
+          </section>
+          <section class="bcls-section">
+            <h2 id="Source">Source</h2>
+<pre class="line-numbers"><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ext="http://ooyala.com/syndication/ext/" version="2.0"&gt;
+    &lt;channel&gt;
+      {%- if title %}
+      &lt;title&gt;{{title | escape}}&lt;/title&gt;
+      {%- else %}
+      &lt;title&gt;{{name | escape}}&lt;/title&gt;
+      {%- endif %}
+  
+      {%- if description %}
+      &lt;description&gt;{{description | escape}}&lt;/description&gt;
+      {%- else %}
+      &lt;description&gt;{{name | escape}}&lt;/description&gt;
+      {%- endif %}
+  
+      {%- if destination_url %}
+      &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+      {%- elsif syndication_url %}
+      &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+      {%- endif %}
+  
+      {%- for asset in assets %}
+      &lt;item&gt;
+        {%- if asset.name %}
+        &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+        {%- endif %}
+  
+        {%- if asset.id %}
+        &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+        &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+        {%- endif %}
+  
+        {%- if asset.publication_date %}
+        &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- else %}
+        &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+        {%- endif %}
+  
+        {%- if asset.name %}
+        &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+        {%- endif %}
+  
+        {%- if asset.schedule.starts_at or asset.created_at %}
+        &lt;dcterms:valid&gt;
+            {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
+            {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+            scheme=W3C-DTF&lt;/dcterms:valid&gt;
+        {%- endif %}
+  
+        {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+        {%- assign thumb = asset.images.thumbnail.sources[0] %}
+        &lt;media:thumbnail url="{{thumb.src | escape}}"
+          {%- if thumb.width %} width="{{thumb.width}}" {%- endif %}
+          {%- if thumb.height %} height="{{thumb.height}}" {%- endif -%}
+        /&gt;
+        {%- endif %}
+  
+        {%- if asset.digital_master.url %}
+        &lt;media:content url="{{asset.digital_master.url | escape}}" medium="video" expression="full"
+          {%- if asset.digital_master.size %} fileSize="{{asset.digital_master.size}}" {%- endif %}
+          {%- if asset.digital_master.duration %} duration="{{asset.digital_master.duration | divided_by: 1000}}" {%- endif -%}
+        /&gt;
+        {%- endif %}
+  
+        {%- if asset.original_filename %}
+        &lt;ext:originalFilename&gt;&lt;![CDATA[ {{asset.original_filename}} ]]&gt;&lt;/ext:originalFilename&gt;
+        {%- endif %}
+      &lt;/item&gt;
+      {%- endfor %}
+    &lt;/channel&gt;
+  &lt;/rss&gt;
+  </code></pre>
+          </section>
         </article>
 
         <!-- END MAIN CONTENT -->

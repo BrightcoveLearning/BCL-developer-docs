@@ -68,7 +68,7 @@
               <tbody class="bcls-table__body">
                   <tr>
                       <td><code>bird</code></td>
-                      <td>Videos that that the word "bird" in the <code>name</code>, <code>description</code>, or <code>tags</code> will be returned</td>
+                      <td>Videos that that the word "bird" in some metadata field (see the list below this table)</td>
                   </tr>
                   <tr>
                       <td><code>name:bird</code></td>
@@ -76,7 +76,83 @@
                   </tr>
               </tbody>
             </table>
-            <p>In both these examples, videos that do not have the word "bird" in any relevant field might still be returned. The next section explains how to limit search results to only videos that have the specified terms.</p>
+            <p>When you provide no field name to search, the request will search for that value in the following fields:</p>
+
+            <ul>
+              <li><code>id</code></li>
+              <li><code>name</code></li>
+              <li><code>description</code></li>
+              <li><code>long_description</code></li>
+              <li><code>text</code> (not a real metadata field, but a pseudo-field that you can use to search the <code>name</code>, <code>description</code>, and <code>long_description</code> - e.g. <code>q=text:bird</code>)</li>
+              <li><code>tags</code></li>
+              <li><code>reference_id</code></li>
+              <li><code>custom_fields</code> (searches all custom fields)</li>
+              <li><code>custom_field_name</code> (searches a specific named custom field)</li>
+            </ul>
+
+            <p>The supported fields to search are:</p>
+
+            <table class="bcls-table" id="supported_search_fields">
+              <caption class="bcls-caption--table">Supported Search Fields</caption>
+              <thead class="bcls-table__head">
+                <tr>
+                  <th>Field</th>
+                  <th>Legal values</th>
+                </tr>
+              </thead>
+              <tbody class="bcls-table__body">
+                <tr>
+                  <td><code>name</code></td>
+                  <td>strings or quoted strings</td>
+                </tr>
+                <tr>
+                  <td>text</td>
+                  <td>strings or quoted strings (searches the <code>name</code>, <code>description</code>, and <code>long_description</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>tags</code></td>
+                  <td>strings or quoted strings (multiple tags should be comma-delimited)</td>
+                </tr>
+                <tr>
+                  <td><code>custom_fields</code></td>
+                  <td>strings or quoted strings (searches all custom fields - you can also use a specific custom field <em>internal</em> name)</td>
+                </tr>
+                <tr>
+                  <td><code>reference_id</code></td>
+                  <td>string or quoted string</td>
+                </tr>
+                <tr>
+                  <td><code>state</code></td>
+                  <td><code>ACTIVE</code>, <code>INACTIVE</code>, <code>PENDING</code>, <code>DELETED</code></td>
+                </tr>
+                <tr>
+                  <td><code>updated_at</code></td>
+                  <td>datetime or range (details in a later section)</td>
+                </tr>
+                <tr>
+                  <td><code>created_at</code></td>
+                  <td>datetime or range (details in a later section)</td>
+                </tr>
+                <tr>
+                  <td><code>schedule.starts_at</code></td>
+                  <td>datetime or range (details in a later section)</td>
+                </tr>
+                <tr>
+                  <td><code>schedule.ends_at</code></td>
+                  <td>datetime or range (details in a later section)</td>
+                </tr>
+                <tr>
+                  <td><code>published_at</code></td>
+                  <td>datetime or range (details in a later section)</td>
+                </tr>
+                <tr>
+                  <td><code>complete</code></td>
+                  <td><code>true</code> or <code>false</code></td>
+                </tr>
+              </tbody>
+            </table>
+        
+            <p>In both the examples shown above, videos that do not have the word "bird" in any relevant field might still be returned. The next section explains how to limit search results to only videos that have the specified terms.</p>
           </section>
           <section class="bcls-section">
             <h2 id="advanced_search">Advanced search</h2>
@@ -116,9 +192,9 @@
                       <td>The logical <code>AND</code> and <code>OR</code> operators allow you to combine multiple search terms for complex queries</td>
                       <td>
                         <ul>
-                          <li><code>(+name:heron) AND (+tags:bird)</code> (would return videos that have <strong>both</strong>) "heron" in the <code>name</code></li>
-                          <li><code></code></li>
-                          <li><code></code></li>
+                          <li><code>(+name:heron) AND (+tags:bird)</code> (would return videos that have <strong>both</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>)</li>
+                          <li><code>(+name:heron) OR (+tags:bird)</code> (would return videos that have <strong>either</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>)</li>
+                          <li><code>((+name:heron) AND (+tags:bird)) AND (NOT tags:internal)</code>  (would return videos that have <strong>both</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>, but <strong>not</strong> the tag "internal")</li>
                         </ul>
                       </td>
                   </tr>

@@ -1,3 +1,27 @@
-<rss>
-    TBD
-</rss>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.0">
+{%- for asset in assets %}
+ <url>
+   <loc></loc>
+   <video:video>
+     <video:player_loc allow_embed="yes">{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}</video:player_loc>
+       {%- if asset.name %}
+       <video:title>{{asset.name | escape}}</video:title>
+       {%- endif %}
+       {%- if asset.description %}
+       <video:description>{{asset.description | escape}}</video:description>
+       {%- endif %}
+       {%- if asset.images.thumbnail.sources.size > 0 %}
+       {%- assign thumb = asset.images.thumbnail.sources[0] %}
+       <video:thumbnail_loc>"{{thumb.src | escape}}"</video:thumbnail_loc>
+       {%- endif %}
+       {%- if asset.best_mp4_source %}
+       {%- assign source = asset.best_mp4_source %}
+       {%- if source.duration %}
+       <video:duration>{{source.duration | divided_by: 1000}}</video:duration>
+       {%- endif %}
+       {%- endif %}
+     </video:video>
+ </url>
+{%- endfor %}
+</urlset>

@@ -1,114 +1,142 @@
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0"&gt;
-  &lt;channel&gt;
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+  <channel>
     {%- if title %}
-    &lt;title&gt;{{title | escape}}&lt;/title&gt;
+    <title>{{title | escape}}</title>
     {%- else %}
-    &lt;title&gt;{{name | escape}}&lt;/title&gt;
+    <title>{{name | escape}}</title>
     {%- endif %}
 
     {%- if description %}
-    &lt;description&gt;{{description | escape}}&lt;/description&gt;
+    <description>{{description | escape}}</description>
     {%- else %}
-    &lt;description&gt;{{name | escape}}&lt;/description&gt;
+    <description>{{name | escape}}</description>
     {%- endif %}
 
     {%- if destination_url %}
-    &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
+    <link>{{destination_url | escape}}</link>
     {%- elsif syndication_url %}
-    &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
+    <link>{{syndication_url | escape}}</link>
+    {%- endif %}
+
+    {%- if owner_name or owner_email %}
+    <itunes:owner>
+      {%- if owner_name %}
+      <itunes:name>{{owner_name | escape}}</itunes:name>
+      {%- endif %}
+      {%- if owner_email%}
+      <itunes:email>{{owner_email | escape}}</itunes:email>
+      {%- endif %}
+    </itunes:owner>
+    {%- endif %}
+
+    {%- if language %}
+    <language>{{language | escape}}</language>
     {%- endif %}
 
     {%- if author %}
-    &lt;itunes:author&gt;{{author | escape}}&lt;/itunes:author&gt;
+    <itunes:author>{{author | escape}}</itunes:author>
     {%- endif %}
 
     {%- if keywords %}
-    &lt;itunes:keywords&gt;{{keywords | escape}}&lt;/itunes:keywords&gt;
+    <itunes:keywords>{{keywords | escape}}</itunes:keywords>
     {%- endif %}
 
     {%- if subtitle %}
-    &lt;itunes:subtitle&gt;{{subtitle | escape}}&lt;/itunes:subtitle&gt;
+    <itunes:subtitle>{{subtitle | escape}}</itunes:subtitle>
     {%- endif %}
 
     {%- if description %}
-    &lt;itunes:summary&gt;{{description | escape}}&lt;/itunes:summary&gt;
+    <itunes:summary>{{description | escape}}</itunes:summary>
     {%- endif %}
 
     {%- if category %}
-    &lt;itunes:category text="{{category | escape}}"&gt;
-    &lt;/itunes:category&gt;
+    {%- assign categories = category | split: ":" %}
+    {%- if categories.size == 1 %}
+    <itunes:category text="{{category | escape}}"></itunes:category>
+    {%- elsif categories.size > 1 %}
+    <itunes:category text="{{categories[0] | escape}}">
+      <itunes:category text="{{categories[1] | escape}}"/>
+    </itunes:category>
+    {%- endif %}
     {%- endif %}
 
+    {%- if explicit %}
+    <itunes:explicit>{{explicit}}</itunes:explicit>
+    {%- endif %}
+
+    {%- comment %} Fall back to first asset's poster image if no album_art_url {% endcomment %}
     {%- if album_art_url %}
-    &lt;itunes:image href="{{album_art_url | escape}}"/&gt;
+    <itunes:image href="{{album_art_url | escape}}"/>
+    {%- elsif assets.size > 0 and assets[0].images.poster.sources.size > 0  %}
+    <itunes:image href="{{assets[0].images.poster.sources[0].src | escape}}"/>
     {%- endif %}
 
     {%- for asset in assets %}
-    &lt;item&gt;
+    <item>
 
       {%- if asset.name %}
-      &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
+      <title>{{asset.name | escape}}</title>
       {%- endif %}
 
       {%- if asset.description %}
-      &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
+      <description>{{asset.description | escape}}</description>
       {%- endif %}
 
       {%- if asset.id %}
-      &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
-      &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
+      <guid isPermaLink="false">{{account_id}}:{{asset.id}}</guid>
+      <link>{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}</link>
       {%- endif %}
 
       {%- if asset.publication_date %}
-      &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      <pubDate>{{asset.publication_date | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
       {%- else %}
-      &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      <pubDate>{{asset.created_at | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
       {%- endif %}
 
       {%- if asset.name %}
-      &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
+      <media:title>{{asset.name | escape}}</media:title>
       {%- endif %}
 
       {%- if asset.description %}
-      &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
+      <media:description>{{asset.description | escape}}</media:description>
       {%- endif %}
 
       {%- if asset.schedule.starts_at or asset.created_at %}
-      &lt;dcterms:valid&gt;
-          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
-          {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
-          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
-          scheme=W3C-DTF&lt;/dcterms:valid&gt;
+      <dcterms:valid>
+          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | date: "%Y-%m-%dT%H:%M+00:00"}};
+          {%- else %}start={{asset.created_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          scheme=W3C-DTF</dcterms:valid>
       {%- endif %}
 
-      {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+      {%- if asset.images.thumbnail.sources.size > 0 %}
       {%- assign thumb = asset.images.thumbnail.sources[0] %}
-      &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
+      <media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/>
       {%- endif %}
 
       {%- if asset.best_mp4_source %}
       {%- assign source = asset.best_mp4_source %}
 
       {%- if source.src %}
-      &lt;enclosure url="{{source.src | escape}}" type="video/mp4"
-        {%- if source.size %} length="{{source.size}}" {%- endif %}/&gt;
+      <enclosure url="{{source.src | escape}}" type="video/mp4"
+        {%- if source.size %} length="{{source.size}}" {%- endif %}/>
       {%- endif %}
 
       {%- if source.duration %}
-      &lt;itunes:duration&gt;{{source.duration | divided_by: 1000}}&lt;/itunes:duration&gt;
+      <itunes:duration>{{source.duration | divided_by: 1000}}</itunes:duration>
       {%- endif %}
       {%- endif %}
 
       {%- if author %}
-      &lt;itunes:author&gt;{{author | escape}}&lt;/itunes:author&gt;
+      <itunes:author>{{author | escape}}</itunes:author>
       {%- endif %}
 
       {%- if asset.description %}
-      &lt;itunes:summary&gt;{{asset.description | escape}}&lt;/itunes:summary&gt;
+      <itunes:summary>{{asset.description | escape}}</itunes:summary>
       {%- endif %}
-    &lt;/item&gt;
+    </item>
     {%- endfor %}
-  &lt;/channel&gt;
-&lt;/rss&gt;
+  </channel>
+</rss>
 

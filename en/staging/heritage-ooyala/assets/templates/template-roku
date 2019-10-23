@@ -1,3 +1,60 @@
-<rss>
-    TBD
-</rss>
+{
+  {%- if title %}
+  "providerName": "{{title | escape}}" ,
+  {%- endif %}
+  "lastUpdated": "{{ "now" | toUTC |  date: "%Y-%m-%dT%H:%M:%S+00:00" }}",
+  "shortFormVideos": [
+    {%- assign i = 0 %}
+    {%- for asset in assets %}
+    {%- if i != 0 %}
+    {{- "," }}
+    {%- endif %}
+    {
+      {%- if asset.id %}
+      "id": "{{asset.id | escape}}"
+      {%- endif %}
+      {%- if asset.name %}
+      {{- "," }}
+      "title": "{{asset.name | escape}}"
+      {{- "," }}
+      {%- endif %}
+      "content": {
+        {%- if asset.created_at %}
+        "dateAdded":  "{{asset.created_at | date: "%Y-%m-%dT%H:%M:%S+00:00"}}"
+        {%- endif %}
+        {%- if asset.hls_source %}
+        {%- assign source = asset.hls_source %}
+        {{- "," }}
+        "videos": [
+          {
+            "url": "{{source.src | escape}}",
+            "videoType" : "HLS"
+          }
+         ]
+        {%- if source.duration %}
+        {{- "," }}
+        "duration" : "{{source.duration | divided_by: 1000}}"
+        {%- endif %}
+        {%- endif %}
+      }
+      {%- if asset.images.thumbnail.sources.size > 0 %}
+      {%- assign thumb = asset.images.thumbnail.sources[0] %}
+      {{- "," }}
+      "thumbnail": "{{thumb.src | escape}}"
+      {%- endif %}
+      {%- if asset.description %}
+      {{- "," }}
+      "shortDescription" : "{{asset.description | escape}}"
+      {%- endif %}
+      {%- if asset.publication_date %}
+      {{- "," }}
+      "releaseDate" : "{{asset.publication_date | date: "%Y-%m-%d"}}"
+      {%- elsif asset.updated_at %}
+      {{- "," }}
+      "releaseDate" : "{{asset.updated_at | date: "%Y-%m-%d"}}"
+      {%- endif %}
+    }
+    {% assign i = i | plus: 1%}
+    {%- endfor %}
+  ]
+}

@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" version="2.0">
-  <channel>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" version="2.0"&gt;
+  &lt;channel&gt;
     {%- if title %}
-    <title>{{title | escape}}</title>
+    &lt;title&gt;{{title | escape}}&lt;/title&gt;
     {%- else %}
-    <title>{{name | escape}}</title>
+    &lt;title&gt;{{name | escape}}&lt;/title&gt;
     {%- endif %}
 
     {%- if description %}
-    <description>{{description | escape}}</description>
+    &lt;description&gt;{{description | escape}}&lt;/description&gt;
     {%- else %}
-    <description>{{name | escape}}</description>
+    &lt;description&gt;{{name | escape}}&lt;/description&gt;
     {%- endif %}
 
     {%- if destination_url %}
-    <link>{{destination_url | escape}}</link>
+    &lt;link&gt;{{destination_url | escape}}&lt;/link&gt;
     {%- elsif syndication_url %}
-    <link>{{syndication_url | escape}}</link>
+    &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
     {%- endif %}
 
     {%- for asset in assets %}
-    <item>
+    &lt;item&gt;
 
       {%- if asset.name %}
-      <title>{{asset.name | escape}}</title>
+      &lt;title&gt;{{asset.name | escape}}&lt;/title&gt;
       {%- endif %}
 
       {%- if asset.description %}
-      <description>{{asset.description | escape}}</description>
+      &lt;description&gt;{{asset.description | escape}}&lt;/description&gt;
       {%- endif %}
 
       {%- if asset.id %}
-      <guid isPermaLink="false">{{account_id}}:{{asset.id}}</guid>
-      <link>{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}</link>
+      &lt;guid isPermaLink="false"&gt;{{account_id}}:{{asset.id}}&lt;/guid&gt;
+      &lt;link&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/link&gt;
       {%- endif %}
 
       {%- if asset.publication_date %}
-      <pubDate>{{asset.publication_date | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
+      &lt;pubDate&gt;{{asset.publication_date | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- else %}
-      <pubDate>{{asset.created_at | date: "%a, %d %b %Y %H:%M:%S +0000"}}</pubDate>
+      &lt;pubDate&gt;{{asset.created_at | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- endif %}
 
       {%- if asset.name %}
-      <media:title>{{asset.name | escape}}</media:title>
+      &lt;media:title&gt;{{asset.name | escape}}&lt;/media:title&gt;
       {%- endif %}
 
       {%- if asset.description %}
-      <media:description>{{asset.description | escape}}</media:description>
+      &lt;media:description&gt;{{asset.description | escape}}&lt;/media:description&gt;
       {%- endif %}
 
       {%- if asset.schedule.starts_at or asset.created_at %}
-      <dcterms:valid>
+      &lt;dcterms:valid&gt;
           {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | date: "%Y-%m-%dT%H:%M+00:00"}};
           {%- else %}start={{asset.created_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
           {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
-          scheme=W3C-DTF</dcterms:valid>
+          scheme=W3C-DTF&lt;/dcterms:valid&gt;
       {%- endif %}
 
-      {%- if asset.images.thumbnail.sources.size > 0 %}
+      {%- if asset.images.thumbnail.sources.size &gt; 0 %}
       {%- assign thumb = asset.images.thumbnail.sources[0] %}
-      <media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/>
+      &lt;media:thumbnail url="{{thumb.src | escape}}" width="{{thumb.width}}" height="{{thumb.height}}"/&gt;
       {%- endif %}
-      <media:group>
+      &lt;media:group&gt;
       {%- for source in asset.sources %}
         {%- if source.container == "MP4" and source.codec == "H264" and source.src %}
-        <media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
+        &lt;media:content url="{{source.src | escape}}" type="video/mp4" medium="video" expression="full"
           {%- if source.encoding_rate %} bitrate="{{source.encoding_rate}}" {%- endif %}
           {%- if source.duration %} duration="{{source.duration | divided_by: 1000}}" {%- endif %}
           {%- if source.width %} width="{{source.width}}" {%- endif %}
-          {%- if source.height %} height="{{source.height}}"{%- endif %}/>
+          {%- if source.height %} height="{{source.height}}"{%- endif %}/&gt;
         {%- endif %}
       {%- endfor %}
-      </media:group>
-    </item>
+      &lt;/media:group&gt;
+    &lt;/item&gt;
     {%- endfor %}
-  </channel>
-</rss>
+  &lt;/channel&gt;
+&lt;/rss&gt;

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>BCOVSessionProviderExtension(BCOVFWAdditions) Category Reference</title>
+	<title>BCOVGlobalConfiguration Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
@@ -56,19 +56,25 @@
 	
 	<optgroup label="Properties">
 		
-		<option value="//api/name/pausedOnFreewheelsRequest">pausedOnFreewheelsRequest</option>
+		<option value="//api/name/domainNameForChinaDelivery">domainNameForChinaDelivery</option>
 		
 	</optgroup>
 	
 
 	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/new">+ new</option>
+		
+		<option value="//api/name/sharedConfig">+ sharedConfig</option>
+		
+	</optgroup>
+	
 
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/fw_pause">- fw_pause</option>
-		
-		<option value="//api/name/fw_play">- fw_play</option>
+		<option value="//api/name/init">- init</option>
 		
 	</optgroup>
 	
@@ -85,13 +91,16 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">BCOVSessionProviderExtension(BCOVFWAdditions) Category Reference</h1>
+					<h1 class="title">BCOVGlobalConfiguration Class Reference</h1>
 
 					
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
 	<th>Declared in</th>
-	<td>BCOVFWComponent.h</td>
+	<td>BCOVGlobalConfiguration.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -101,7 +110,10 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>FreeWheel specific methods for the plugin context.</p>
+						<p>The Global Configuration contains properties which are utilized throughout
+the Native Player SDK. If your app requires custom configuration,
+set the necessary properties of the Global Configuration BEFORE using any
+of the services of the Native Player SDK.</p>
 					</div>
 					
 					
@@ -117,8 +129,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/pausedOnFreewheelsRequest" title="pausedOnFreewheelsRequest"></a>
-	<h3 class="method-title"><code><a href="#//api/name/pausedOnFreewheelsRequest">&nbsp;&nbsp;pausedOnFreewheelsRequest</a></code>
+	<a name="//api/name/new" title="new"></a>
+	<h3 class="method-title"><code><a href="#//api/name/new">+&nbsp;new</a></code>
 </h3>
 
 	<div class="method-info">
@@ -128,13 +140,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>If FreeWheel has requested that the content video be in the paused state,
-this will be YES. Otherwise it will be NO.</p>
+				<p>BCOVGlobalConfiguration is a global singleton object. Reference it using:</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly, getter=isPausedOnFreewheelsRequest) BOOL pausedOnFreewheelsRequest</code></div>
+			<div class="method-subsection method-declaration"><code>+ (BCOVGlobalConfiguration *)new</code></div>
 
 		    
 			
@@ -146,8 +157,9 @@ this will be YES. Otherwise it will be NO.</p>
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>If FreeWheel has requested that the content video be in the paused state,
-this will be YES. Otherwise it will be NO.</p>
+				<p>BCOVGlobalConfiguration is a global singleton object. Reference it using:</p>
+
+<p>BCOVGlobalConfiguration *config = <a href="#//api/name/sharedConfig">[BCOVGlobalConfiguration sharedConfig]</a>;</p>
 			</div>
 			
 
@@ -158,15 +170,31 @@ this will be YES. Otherwise it will be NO.</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">BCOVFWComponent.h</code></p>
+				<p><code class="declared-in-ref">BCOVGlobalConfiguration.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fw_play" title="fw_play"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fw_play">&ndash;&nbsp;fw_play</a></code>
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BCOVGlobalConfiguration *)init</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedConfig" title="sharedConfig"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedConfig">+&nbsp;sharedConfig</a></code>
 </h3>
 
 	<div class="method-info">
@@ -176,13 +204,12 @@ this will be YES. Otherwise it will be NO.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Plays the video and updates FreeWheel with a video state of FW_VIDEO_STATE_PLAYING.
-This method will only play the video if <a href="#//api/name/pausedOnFreewheelsRequest">isPausedOnFreewheelsRequest</a> returns NO.</p>
+				<p>Returns the shared Global Configuration singleton.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)fw_play</code></div>
+			<div class="method-subsection method-declaration"><code>+ (BCOVGlobalConfiguration *)sharedConfig</code></div>
 
 		    
 			
@@ -194,11 +221,7 @@ This method will only play the video if <a href="#//api/name/pausedOnFreewheelsR
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>Plays the video and updates FreeWheel with a video state of FW_VIDEO_STATE_PLAYING.
-This method will only play the video if <a href="#//api/name/pausedOnFreewheelsRequest">isPausedOnFreewheelsRequest</a> returns NO.</p>
-
-<p>On first play, before playing content, the session will process all preroll ads before starting
-the content.</p>
+				<p>Returns the shared Global Configuration singleton.</p>
 			</div>
 			
 
@@ -209,15 +232,15 @@ the content.</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">BCOVFWComponent.h</code></p>
+				<p><code class="declared-in-ref">BCOVGlobalConfiguration.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fw_pause" title="fw_pause"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fw_pause">&ndash;&nbsp;fw_pause</a></code>
+	<a name="//api/name/domainNameForChinaDelivery" title="domainNameForChinaDelivery"></a>
+	<h3 class="method-title"><code><a href="#//api/name/domainNameForChinaDelivery">&nbsp;&nbsp;domainNameForChinaDelivery</a></code>
 </h3>
 
 	<div class="method-info">
@@ -227,12 +250,15 @@ the content.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Pauses the video and updates FreeWheel with a video state of FW_VIDEO_STATE_PAUSED.</p>
+				<p>Sets a custom, fully qualified domain name (FQDN) for Catalog API, and Metrics and
+Analytics collection services. This method is to be used specifically for
+reliable content delivery in China and requires particular account arrangements.
+Setting this property in any other situation will result in unknown behavior.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)fw_pause</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) NSString *domainNameForChinaDelivery</code></div>
 
 		    
 			
@@ -244,7 +270,10 @@ the content.</p>
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>Pauses the video and updates FreeWheel with a video state of FW_VIDEO_STATE_PAUSED.</p>
+				<p>Sets a custom, fully qualified domain name (FQDN) for Catalog API, and Metrics and
+Analytics collection services. This method is to be used specifically for
+reliable content delivery in China and requires particular account arrangements.
+Setting this property in any other situation will result in unknown behavior.</p>
 			</div>
 			
 
@@ -255,7 +284,7 @@ the content.</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">BCOVFWComponent.h</code></p>
+				<p><code class="declared-in-ref">BCOVGlobalConfiguration.h</code></p>
 			</div>
 			
 			

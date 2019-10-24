@@ -1,3 +1,27 @@
-<rss>
-    TBD
-</rss>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.0"&gt;
+{%- for asset in assets %}
+ &lt;url&gt;
+   &lt;loc&gt;&lt;/loc&gt;
+   &lt;video:video&gt;
+     &lt;video:player_loc allow_embed="yes"&gt;{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}&lt;/video:player_loc&gt;
+       {%- if asset.name %}
+       &lt;video:title&gt;{{asset.name | escape}}&lt;/video:title&gt;
+       {%- endif %}
+       {%- if asset.description %}
+       &lt;video:description&gt;{{asset.description | escape}}&lt;/video:description&gt;
+       {%- endif %}
+       {%- if asset.images.thumbnail.sources.size &gt; 0 %}
+       {%- assign thumb = asset.images.thumbnail.sources[0] %}
+       &lt;video:thumbnail_loc&gt;"{{thumb.src | escape}}"&lt;/video:thumbnail_loc&gt;
+       {%- endif %}
+       {%- if asset.best_mp4_source %}
+       {%- assign source = asset.best_mp4_source %}
+       {%- if source.duration %}
+       &lt;video:duration&gt;{{source.duration | divided_by: 1000}}&lt;/video:duration&gt;
+       {%- endif %}
+       {%- endif %}
+     &lt;/video:video&gt;
+ &lt;/url&gt;
+{%- endfor %}
+&lt;/urlset&gt;

@@ -37,9 +37,9 @@
       {%- endif %}
 
       {%- if asset.publication_date %}
-      &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      &lt;pubDate&gt;{{asset.publication_date | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- else %}
-      &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      &lt;pubDate&gt;{{asset.created_at | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- endif %}
 
       {%- if asset.name %}
@@ -52,9 +52,9 @@
 
       {%- if asset.schedule.starts_at or asset.created_at %}
       &lt;dcterms:valid&gt;
-          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
-          {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
-          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | date: "%Y-%m-%dT%H:%M+00:00"}};
+          {%- else %}start={{asset.created_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
           scheme=W3C-DTF&lt;/dcterms:valid&gt;
       {%- endif %}
 

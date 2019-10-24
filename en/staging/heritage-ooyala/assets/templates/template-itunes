@@ -19,6 +19,21 @@
     &lt;link&gt;{{syndication_url | escape}}&lt;/link&gt;
     {%- endif %}
 
+    {%- if owner_name or owner_email %}
+    &lt;itunes:owner&gt;
+      {%- if owner_name %}
+      &lt;itunes:name&gt;{{owner_name | escape}}&lt;/itunes:name&gt;
+      {%- endif %}
+      {%- if owner_email%}
+      &lt;itunes:email&gt;{{owner_email | escape}}&lt;/itunes:email&gt;
+      {%- endif %}
+    &lt;/itunes:owner&gt;
+    {%- endif %}
+
+    {%- if language %}
+    &lt;language&gt;{{language | escape}}&lt;/language&gt;
+    {%- endif %}
+
     {%- if author %}
     &lt;itunes:author&gt;{{author | escape}}&lt;/itunes:author&gt;
     {%- endif %}
@@ -36,12 +51,25 @@
     {%- endif %}
 
     {%- if category %}
-    &lt;itunes:category text="{{category | escape}}"&gt;
+    {%- assign categories = category | split: ":" %}
+    {%- if categories.size == 1 %}
+    &lt;itunes:category text="{{category | escape}}"&gt;&lt;/itunes:category&gt;
+    {%- elsif categories.size &gt; 1 %}
+    &lt;itunes:category text="{{categories[0] | escape}}"&gt;
+      &lt;itunes:category text="{{categories[1] | escape}}"/&gt;
     &lt;/itunes:category&gt;
     {%- endif %}
+    {%- endif %}
 
+    {%- if explicit %}
+    &lt;itunes:explicit&gt;{{explicit}}&lt;/itunes:explicit&gt;
+    {%- endif %}
+
+    {%- comment %} Fall back to first asset's poster image if no album_art_url {% endcomment %}
     {%- if album_art_url %}
     &lt;itunes:image href="{{album_art_url | escape}}"/&gt;
+    {%- elsif assets.size &gt; 0 and assets[0].images.poster.sources.size &gt; 0  %}
+    &lt;itunes:image href="{{assets[0].images.poster.sources[0].src | escape}}"/&gt;
     {%- endif %}
 
     {%- for asset in assets %}
@@ -61,9 +89,9 @@
       {%- endif %}
 
       {%- if asset.publication_date %}
-      &lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      &lt;pubDate&gt;{{asset.publication_date | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- else %}
-      &lt;pubDate&gt;{{asset.created_at | toTimestamp | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
+      &lt;pubDate&gt;{{asset.created_at | date: "%a, %d %b %Y %H:%M:%S +0000"}}&lt;/pubDate&gt;
       {%- endif %}
 
       {%- if asset.name %}
@@ -76,9 +104,9 @@
 
       {%- if asset.schedule.starts_at or asset.created_at %}
       &lt;dcterms:valid&gt;
-          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};
-          {%- else %}start={{asset.created_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
-          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | toTimestamp | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.starts_at %}start={{asset.schedule.starts_at | date: "%Y-%m-%dT%H:%M+00:00"}};
+          {%- else %}start={{asset.created_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
+          {%- if asset.schedule.ends_at %}end={{asset.schedule.ends_at | date: "%Y-%m-%dT%H:%M+00:00"}};{%- endif -%}
           scheme=W3C-DTF&lt;/dcterms:valid&gt;
       {%- endif %}
 

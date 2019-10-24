@@ -80,9 +80,9 @@
           <section class="bcls-section">
             <h2 id="Base_URLs">Base URLs</h2>
             <p>For the Configuration API, the base URL is:</p>
-            <pre><code class="language-http"><!-- TODO --></code></pre>
+            <pre><code class="language-http">https://social.api.brightcove.com/v1</code></pre>
             <p>The Feed API is accessed through a CDN that caches feed requests, with an expiration of 5 minutes currently. The base URL is:</p>
-            <pre><code class="language-http"><!-- TODO --></code></pre>
+            <pre><code class="language-http">https://social.feeds.brightcove.com/v1</code></pre>
           </section>
           <section class="bcls-section">
             <h2 id="Syndication_Resource">Syndication Resource</h2>
@@ -95,7 +95,7 @@
   "type": "mp4"
   "title": "Latest racing videos",
   "description": "Amateur Tokyo drift!",
-  "syndication_url": "https://social.feeds.brightcove.com/v1/accounts/9999999999999/mrss/syndications/7f594cd3-4853-4174-aff3-203c3e99e9c2/feed"
+  "syndication_url": "https://social.feeds.brightcove.com/v1/accounts/9999999999999/mrss/accounts/{account_id}/syndications/7f594cd3-4853-4174-aff3-203c3e99e9c2/feed"
   "destination_url": "http://mywebsite.com",
   "keywords": "80s, rock",
   "author": "Rick Astley",
@@ -218,7 +218,7 @@
             <section class="bcls-subsection">
               <h3 id="Create_a_syndication">Create a syndication</h3>
               <p>Method: <code>POST</code></p>
-              <p>Endpoint: <code>/syndications</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications</code></p>
               <p>Sample request body:</p>
 <pre class="line-numbers"><code class="language-json">{
   "name": "my mp4 feed",
@@ -228,7 +228,7 @@
             <section class="bcls-subsection">
               <h3 id="Update_a_syndication">Update a syndication</h3>
               <p>Method: <code>PATCH</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}</code></p>
               <p>Sample request body:</p>
 <pre class="line-numbers"><code class="language-json">{
   "name": "my new name",
@@ -237,7 +237,7 @@
             <section class="bcls-subsection">
               <h3 id="Delete_a_syndication">Delete a syndication</h3>
               <p>Method: <code>DELETE</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_all_syndications_for_an_account">Get all syndications for an account</h3>
@@ -247,12 +247,12 @@
             <section class="bcls-subsection">
               <h3 id="Get_a_specific_syndication">Get a specific syndication</h3>
               <p>Method: <code>GET</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Set_the_template_for_a_universal_syndication">Set the template for a universal syndication</h3>
               <p>Method: <code>PUT</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}/template</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}/template</code></p>
               <p>Sample request body:</p>
 <pre class="line-numbers"><code class="language-json">&lt;feed header&gt;My Feed Header&lt;/feed header&gt;
 {% for asset in assets %}
@@ -275,13 +275,13 @@
             <section class="bcls-subsection">
               <h3 id="Get_the_template_for_a_universal_syndication">Get the template for a universal syndication</h3>
               <p>Method: <code>GET</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}/template</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}/template</code></p>
             </section>
             <section class="bcls-subsection">
               <h3 id="Get_the_feed_associated_with_a_syndication">Get the feed associated with a syndication</h3>
               <p>The feed url can be obtained from the syndication's <code>syndication_url</code> field, or constructed manually. Note that the base url for this call is different than for the other calls described in this document, see the Base Urls section above. Note also that no authentication is needed for this API call.</p>
               <p>Method: <code>GET</code></p>
-              <p>Endpoint: <code>/syndications/{syndication_id}/feed</code></p>
+              <p>Endpoint: <code>/accounts/{account_id}/syndications/{syndication_id}/feed</code></p>
             </section>
           </section>
           <section class="bcls-section">
@@ -299,8 +299,11 @@
                 <li><code>category</code></li>
                 <li><code>description</code></li>
                 <li><code>destination_url</code></li>
+                <li><code>explicit</code></li>
                 <li><code>keywords</code></li>
                 <li><code>name</code></li>
+                <li><code>owner_name</code></li>
+                <li><code>owner_email</code></li>
                 <li><code>subtitle</code></li>
                 <li><code>syndication_id</code></li>
                 <li><code>syndication_url</code></li>
@@ -309,6 +312,12 @@
               <h4>Video Cloud account id</h4>
               <ul>
                 <li><code>account_id</code></li>
+              </ul>
+              <h4>VideoCloud default player page url prefix</h4>
+              <p>Use like this:</p>
+              <pre><code class="language-xml">&lt;media:player url="{{player_url}}/{{account_id}}/default_default/index.html?videoId={{asset.id}}"&gt;</code></pre>
+              <ul>
+                <li><code>player_url</code></li>
               </ul>
               <h4>URL of the feed's next page</h4>
               <ul>
@@ -349,7 +358,7 @@
                 <li><code>asset_id</code></li>
                 <li><code>codec</code></li>
                 <li><code>container</code></li>
-                <li><code>asset_id</code></li>
+                <li><code>created_at</code></li>
                 <li><code>duration</code></li>
                 <li><code>encoding_rate</code></li>
                 <li><code>height</code></li>
@@ -375,11 +384,11 @@
             </section>
             <section class="bcls-subsection">
               <h3 id="Extensions_to_Liquid">Extensions to Liquid</h3>
-              <h4>toTimestamp filter</h4>
-              <p>We have extended our Liquid parser to support a toTimestamp filter which will parse most standard ISO-8601 datetime string formats and transform them into Unix epoch values. This is the input format needed by Liquid's date filter, which can then be used to reformat the timestamps into datetime strings in any desired format. For example:</p>
-              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;{{asset.publication_date | toTimestamp | date: "%a, %d %b %Y %H:%M:%S %Z"}}&lt;/pubDate&gt;</code></pre>
-              <p>produces something like the following:</p>
-              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;Fri, 09 Aug 2019 09:32:52 EDT&lt;/pubDate&gt;</code></pre>
+              <h4>toUTC filter</h4>
+              <p>We have extended our Liquid parser to support a toUTC filter which will parse most standard ISO-8601 datetime string formats and transform them into standard UTC datetime strings. This format is acceptable to Liquid's date filter, which can then be used to reformat the timestamps into datetime strings in any desired format. For example:</p>
+              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;{{asset.publication_date | toUTC | date: "%a, %d %b %Y %H:%M:%S %Z"}}&lt;/pubDate&gt;</code></pre>
+              <p>This produces an output like the following if asset.publication_date has a value of 2019-08-09T13:32:52.031Z::</p>
+              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;Fri, 09 Aug 2019 09:32:52 +0000&lt;/pubDate&gt;</code></pre>
             </section>
           </section>
         </article>

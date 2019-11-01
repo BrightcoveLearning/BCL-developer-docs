@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Brightcove Beacon Video Cloud Ad Configuration</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>DRAFT - Brightcove Beacon Video Cloud Ad Configuration</h1>
+      <summary>
+        In this topic you will learn how to create and manage Live and VOD server-side ad configurations with Video Cloud Studio.
+      </summary>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+      <article class="bcls-article">
+        <section class="bcls-section">
+          <h2 id="Overview">Overview</h2>
+          <p>Ad configurations define various aspects of ad playback, including ad calls, timing, beacons and other ad configuration options. The Server-Side Ad Settings define the ads that can be requested during video on demand (VOD) videos and during live events. Server-side ads take advantage of Brightcove's Server-Side Ad Insertion (SSAI) technology and provide these main features:</p>
+          <ul>
+          	<li>Since ads are stitched into the on-demand or live video stream on the server side, they are not affected by ad blockers</li>
+          	<li>For live events, ads are inserted at cue points sent from your encoder or you can create an instant cue point using the Live module Control Room.</li>
+          	<li>You can configure fill slates to fill any unused ad time</li>
+          </ul>
+          <aside class="bcls-aside bcls-aside--information">Note:
+          <ul>
+          	<li>Before you can use SSAI, your Video Cloud account needs to be configured for Dynamic Delivery and enabled for SSAI. Contact your account manager for details.</li>
+          	<li>VMAP for Brightcove Live SSAI is not currently supported.</li>
+          </ul>
+          </aside>
+          <p>The Server-Side Ad Settings page is used to manage the Live and VOD ad configurations. Note that to access the Server-Side Ad Settings page, you must be a user with the Administrator role.</p>
+
+          <p>To access the Server-Side Ad Settings page:</p>
+
+          <p>A list of all ad configurations will be displayed.</p>
+
+          <div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node18748-list-of-ad-configs.png" /></div>
+
+          <p>To create a new ad configuration, click <strong>Create Ad Configuration</strong> and then click the specific type of ad to create:</p>
+
+          <div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node18748-create-ad.png" /></div>
+
+          <ul>
+          	<li class="language-editable">
+          	<ol class="bcls-tasklist">
+          		<li>Login to Studio.</li>
+          		<li>In the navigation header, click <strong>ADMIN</strong> and then<strong> Server-Side Ad Settings</strong>.</li>
+          	</ol>
+
+          	<ul>
+          		<li><a href="#vod">Video on Demand (VOD)</a></li>
+          		<li><a href="#live">Live</a></li>
+          	</ul>
+          	</li>
+          </ul>
+        </section>
+
+        <section class="bcls-section">
+          <h2 id="Creating_a_Video_On_Demand_ad_configuration">Creating a Video On Demand ad configuration</h2>
+          <aside class="bcls-aside bcls-aside--information">Note: Server-side ad configurations can also be managed using the Server-Side Ad Insertion API.</aside>
+
+          <p>To add a Video On Demand (VOD) ad configuration, follow these steps.</p>
+
+          <ol class="bcls-tasklist__restart">
+          	<li>On the Server-Side Ad Settings page, click <strong>Create Ad Configuration &gt; VOD</strong>.
+
+          	<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node18748-create-vod-ad.png" /></div>
+          	</li>
+          	<li>Enter a <strong>Name</strong>.</li>
+          	<li>Select the <strong>Ad Server Response</strong>:
+          	<ul>
+          		<li>DFP Ad Rules</li>
+          		<li>DFP VMAP</li>
+          		<li>Smart XML</li>
+          		<li>VAST 3.0</li>
+          	</ul>
+          	</li>
+          	<li>Enter the<strong> Ad Tag</strong>.</li>
+          	<li>Check <strong>Disable server-side beacons</strong> to disable server-side beacons. When disabled, SSAI will not fire any beacons server-side and will include all beacons in the VMAP output.</li>
+          	<li>Click <strong>Save</strong>.</li>
+          </ol>
+
+          <p>To edit an ad configuration, click the ad name, make the changes and then click <strong>Save</strong>. To delete an ad config, check the box next to the ad and then click <strong>Delete</strong>. To duplicate an ad config, check the box next to the ad and then click <strong>Duplicate</strong>.</p>
+
+          <p>Once VOD ad configurations have been created, open the Players module and click on a player to view the properties. When the <strong>Enable Server-Side (SSAI)</strong> advertising property is enabled, an ad configuration can be selected.</p>
+
+        </section>
+
+        <section class="bcls-section">
+          <h2 id="Creating_a_Live_ad_configuration">Creating a Live ad configuration</h2>
+          <aside class="bcls-aside bcls-aside--information">Note: Server-side ad configurations can also be managed using the Server-Side Ad Insertion API.</aside>
+          <p>To add a Live ad configuration, follow these steps.</p>
+
+          <ol class="bcls-tasklist">
+          	<li>On the Server-Side Ad Settings page, click <strong>Create Ad Configuration &gt; Live</strong>.
+
+          	<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node18748-create-live-ad.png" /></div>
+          	</li>
+          	<li>Enter a <strong>Name</strong>.</li>
+          	<li>Select the <strong>Ad Server Response</strong>:
+          	<ul>
+          		<li>VAST</li>
+          		<li>DFP (Ad Rules)</li>
+          		<li>Smart XML</li>
+          	</ul>
+          	</li>
+          	<li>Enter the<strong> Ad Tag</strong>.</li>
+          	<li>Click <strong>Save</strong>.</li>
+          </ol>
+
+          <p>To edit an ad configuration, click the ad name, make the changes and then click <strong>Save</strong>. To delete an ad config, check the box next to the ad and then click <strong>Delete</strong>. To duplicate an ad config, check the box next to the ad and then click <strong>Duplicate</strong>.</p>
+
+          <p>Once Live ad configurations have been created, when an event is created with the <strong>Enable Server-Side Ad Insertion (SSAI)</strong> property enabled, an ad configuration can be selected in the Control Room.</p>
+        </section>
+      </article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

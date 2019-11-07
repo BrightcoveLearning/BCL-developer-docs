@@ -118,6 +118,37 @@ Catalog catalog = new Catalog(eventEmitter, accountId, policyKey, playbackApiBas
 catalog.findVideoByReferenceID(videoReferenceId, httpRequestConfig, new VideoListener(){...});
 </code></pre>
 
+<h3>Offline Playback</h3>
+<p>
+  The OfflineCatalog <code>findVideo</code>, <code>requestPurchaseLicense</code> and <code>requestRentalLicense</code> methods all take an <code>HttpRequestConfig</code> as an argument.
+</p>
+<aside class="bcls-aside bcls-aside--tip">Playback Authorization Service with Offline Playback is supported with the Native SDK for Android v6.8.1 or later.</aside>
+<pre class="line-numbers"><code class="language-java">private HttpRequestConfig httpRequestConfig;
+private String pasToken = &quot;YOUR_PAS_TOKEN&quot;;
+...
+HttpRequestConfig.Builder httpRequestConfigBuilder = new HttpRequestConfig.Builder();
+httpRequestConfigBuilder.setBrightcoveAuthorizationToken(pasToken);
+httpRequestConfig = httpRequestConfigBuilder.build();
+playlist.findPlaylist(catalog, httpRequestConfig, new PlaylistListener() {
+    @Override
+    public void onPlaylist(Playlist playlist) {
+        videoListAdapter.setVideoList(playlist.getVideos());
+        onVideoListUpdated(false);
+        brightcoveVideoView.addAll(playlist.getVideos());
+    }
+
+    @Override
+    public void onError(String error) {
+        String message = showToast(&quot;Failed to find playlist[%s]: %s&quot;, playlist.displayName, error);
+        Log.w(TAG, message);
+        onVideoListUpdated(true);
+    }
+});</code></pre>
+
+<p>
+For details, see the <a href="https://github.com/BrightcoveOS/android-player-samples/blob/master/brightcove-exoplayer/OfflinePlaybackSampleApp/src/main/java/com/brightcove/player/samples/offlineplayback/MainActivity.java">Offline Playback sample app</a>.
+</p>
+
 <h3>Responses</h3>
 <p>
   The following responses are associated with PAS:
@@ -133,12 +164,9 @@ catalog.findVideoByReferenceID(videoReferenceId, httpRequestConfig, new VideoLis
 
 <h3>Limitations</h3>
 <p>
-  There are a few limitations with the current release:
+  There is a limitation with the current release:
 </p>
 <ul>
-  <li>
-    Offline Playback with Playback Authorization is not supported.
-  </li>
   <li>
     Chromecast is not supported with Playback Authorization.
   </li>

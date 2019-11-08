@@ -37,7 +37,7 @@ paths:
       operationId: getAdConfigurations
       security:
         - BC_OAuth2:
-          - video-cloud/video/read
+          - video-cloud/ssai/read
       parameters:
         - $ref: '#/components/parameters/AccountId'
       responses:
@@ -62,7 +62,7 @@ paths:
       operationId: createAdConfigurations
       security:
         - BC_OAuth2:
-          - video-cloud/video/all
+          - video-cloud/ssai/all
       parameters:
         - $ref: '#/components/parameters/AccountId'
       requestBody:
@@ -95,7 +95,7 @@ paths:
       operationId: getAdConfiguration
       security:
         - BC_OAuth2:
-          - video-cloud/video/read
+          - video-cloud/ssai/read
       parameters:
         - $ref: '#/components/parameters/AccountId'
         - $ref: '#/components/parameters/ConfigId'
@@ -121,7 +121,7 @@ paths:
       operationId: updateAdConfigurations
       security:
         - BC_OAuth2:
-          - video-cloud/video/all
+          - video-cloud/ssai/all
       parameters:
         - $ref: '#/components/parameters/AccountId'
         - $ref: '#/components/parameters/ConfigId'
@@ -155,7 +155,7 @@ paths:
       operationId: createAdTrace
       security:
         - BC_OAuth2:
-          - video-cloud/video/all
+          - video-cloud/ssai/all
       parameters:
         - $ref: '#/components/parameters/AccountId'
       requestBody:
@@ -186,7 +186,7 @@ paths:
       operationId: getAdCalls
       security:
         - BC_OAuth2:
-          - video-cloud/video/read
+          - video-cloud/ssai/read
       parameters:
         - $ref: '#/components/parameters/AccountId'
         - $ref: '#/components/parameters/SessionId'
@@ -623,6 +623,8 @@ components:
             Empty list for never
 
             Example: ["live-timeline"] to deliver for live-timeline but not for hbbtv
+          items:
+            type: string
           example:
             ["live-timeline"]
         hls:
@@ -635,6 +637,8 @@ components:
             Empty list for never
 
             Example: ["v4","v5"] to deliver for v4 & v5 but not for v3
+          items:
+            type: string
           example:
             ["v4","v5"]
     AdTraceConfiguration:
@@ -744,7 +748,7 @@ components:
         cue_points:
           type: array
           description: >-
-            Array of video cuepoint objects
+            Array of video cuepoint objectsF
           items:
             type: object
             properties:
@@ -805,5 +809,5 @@ components:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
-            video-cloud/video/read: Read video metadata
-            video-cloud/video/all: Read and write video metadata
+            video-cloud/ssai/read: Read SSAI metadata
+            video-cloud/ssai/all: Read and write SSAI metadata

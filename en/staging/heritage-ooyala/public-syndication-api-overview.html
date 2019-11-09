@@ -189,16 +189,59 @@
           <td>only used for itunes and (potentially) universal feeds</td>
       </tr>
       <tr>
-          <td><code>category</code></td>
+          <td><code>subtitle</code></td>
           <td>String</td>
           <td>No</td>
           <td>only used for itunes and (potentially) universal feeds</td>
+      </tr>
+      <tr>
+          <td><code>owner_name</code></td>
+          <td>String</td>
+          <td>No</td>
+          <td>only used for itunes and (potentially) universal feeds</td>
+      </tr>
+      <tr>
+          <td><code>language</code></td>
+          <td>String</td>
+          <td>No</td>
+          <td>only used for itunes and (potentially) universal feeds - two-letter language code in lower-case, such as <code>"en"</code></td>
+      </tr>
+      <tr>
+          <td><code>owner_email</code></td>
+          <td>String</td>
+          <td>No</td>
+          <td>only used for itunes and (potentially) universal feeds</td>
+      </tr>
+      <tr>
+          <td><code>category</code></td>
+          <td>String</td>
+          <td>No</td>
+          <td>only used for itunes and (potentially) universal feeds. To specify a category with a subcategory, separate them by a colon (:) - for example: <code>"Business:Business News".
+  "category": "Music"</code></td>
       </tr>
       <tr>
           <td><code>album_art_url</code></td>
           <td>String</td>
           <td>No</td>
           <td>URL for image, only used for itunes and (potentially) universal feeds</td>
+      </tr>
+      <tr>
+          <td><code>fetch_sources</code></td>
+          <td>Boolean</td>
+          <td>No</td>
+          <td>For universal templates, whether to fetch video source metadata - if the template doesn't need this metadata, performance can be improved by specifying <code>false</code>; could be empty if no usable source exists</td>
+      </tr>
+      <tr>
+          <td><code>fetch_digital_master</code></td>
+          <td>Boolean</td>
+          <td>No</td>
+          <td>For universal templates, whether to fetch video digital master metadata - if the template doesn't need this metadata, performance can be improved by specifying <code>false</code>; could be empty if no digital master exists</td>
+      </tr>
+      <tr>
+          <td><code>fetch_dynamic_renditions</code></td>
+          <td>Boolean</td>
+          <td>No</td>
+          <td>For universal templates, whether to fetch video dynamic rendition metadata - if the template doesn't need this metadata, performance can be improved by specifying <code>false</code></td>
       </tr>
   </tbody>
 </table>
@@ -356,6 +399,14 @@
                 <li><code>text_tracks</code></li>
                 <li><code>updated_at</code></li>
               </ul>
+              <p>Asset resources also support the following properties:</p>
+              <ul>
+                <li><code>sources</code> (collection of sources for the video - see the next section for source properties)</li>
+                <li><code>digital_master</code> (will be empty if no digital master exists - see below for the digital master properties)</li>
+                <li><code>best_mp4_source</code> (the highest quality MP4 source - may be empty if there are no MP4 sources. Properties will be the same as items returned in the <code>sources</code>)</li>
+                <li><code>hls_source</code> (returns the HLS source - will be emptry if none exists)</li>
+                <li><code>best_dynamic_rendition_quality</code> (returns the video quality of the video's dynamic rendition with the largest frame size, if dynamic rendition metadata has been fetched for the video. Allowable values are "SD", "HD", "FHD", and "UHD".)</li>
+              </ul>
             </section>
             <section class="bcls-subsection">
               <h3 id="Source_properties">Source properties</h3>
@@ -387,6 +438,24 @@
                 <li><code>size</code></li>
                 <li><code>url</code></li>
                 <li><code>width</code></li>
+              </ul>
+            </section>
+            <section class="bcls-subsection">
+              <h3 id="Digital_master_properties">Dynamic rendition properties</h3>
+              <p>The <code>dynamic_renditions</code> resource for an asset is derived from the dynamic renditions returned by the CMS Get Digital Master Info API method. The following properties are supported:</p>
+              <ul>
+                <li><code>rendition_id</code></li>
+                <li><code>frame_height</code></li>
+                <li><code>frame_width</code></li>
+                <li><code>media_type</code></li>
+                <li><code>encoding_rate</code></li>
+                <li><code>created_at</code></li>
+                <li><code>updated_at</code></li>
+                <li><code>size</code></li>
+                <li><code>duration</code></li>
+                <li><code>audio_configuration</code></li>
+                <li><code>language</code></li>
+                <li><code>variant</code></li>
               </ul>
             </section>
             <section class="bcls-subsection">

@@ -98,19 +98,17 @@ NAME=${1:-}
 test -z &quot;${NAME:-}&quot; &amp;&amp; NAME=&quot;brightcove-playback-auth-key-$(date +%s)&quot;
 mkdir &quot;$NAME&quot;
 
-CURVE_PEM=&quot;./$NAME/prime256v1.pem&quot;
 PRIVATE_PEM=&quot;./$NAME/private.pem&quot;
 PUBLIC_PEM=&quot;./$NAME/public.pem&quot;
 PUBLIC_TXT=&quot;./$NAME/public_key.txt&quot;
 
-openssl ecparam -name prime256v1 -out &quot;$CURVE_PEM&quot;
-openssl ecparam -in &quot;$CURVE_PEM&quot; -genkey -noout -out &quot;$PRIVATE_PEM&quot;
-openssl ec -in &quot;$PRIVATE_PEM&quot; -pubout -out &quot;$PUBLIC_PEM&quot; 2&gt;/dev/null
-openssl ec -in &quot;$PRIVATE_PEM&quot; -pubout -outform DER | base64 &gt; &quot;$PUBLIC_TXT&quot;
+ssh-keygen -t rsa -b 2048 -m PEM -f &quot;$PRIVATE_PEM&quot; -q -N &quot;&quot;
+openssl rsa -in &quot;$PRIVATE_PEM&quot; -pubout -outform PEM -out &quot;$PUBLIC_PEM&quot; 2&gt;/dev/null
+openssl rsa -in &quot;$PRIVATE_PEM&quot; -pubout -outform DER | base64 &gt; &quot;$PUBLIC_TXT&quot;
 
-rm &quot;$CURVE_PEM&quot;
+rm &quot;$PRIVATE_PEM&quot;.pub
 
-echo &quot;Public key saved in $PUBLIC_TXT&quot;
+echo &quot;Public key to saved in $PUBLIC_TXT&quot;
 </code></pre>
 <p>
   If you put the above code into a file named <strong>keygen.sh</strong>, then you can use the following to run the script:
@@ -127,9 +125,8 @@ echo &quot;Public key saved in $PUBLIC_TXT&quot;
 <pre class="line-numbers"><code class="language-bash">package main
 
 import (
-	&quot;crypto/ecdsa&quot;
-	&quot;crypto/elliptic&quot;
 	&quot;crypto/rand&quot;
+	&quot;crypto/rsa&quot;
 	&quot;crypto/x509&quot;
 	&quot;encoding/base64&quot;
 	&quot;encoding/pem&quot;
@@ -149,22 +146,19 @@ func main() {
 	flag.Parse()
 
 	if out == &quot;&quot; {
-		out = &quot;ec-key_&quot; + strconv.FormatInt(time.Now().Unix(), 10)
+		out = &quot;rsa-key_&quot; + strconv.FormatInt(time.Now().Unix(), 10)
 	}
 
 	if err := os.MkdirAll(out, os.ModePerm); err != nil {
 		panic(err.Error())
 	}
 
-	priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	priv, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	privBytes, err := x509.MarshalECPrivateKey(priv)
-	if err != nil {
-		panic(err.Error())
-	}
+	privBytes := x509.MarshalPKCS1PrivateKey(priv)
 
 	pubBytes, err := x509.MarshalPKIXPublicKey(priv.Public())
 	if err != nil {
@@ -176,7 +170,7 @@ func main() {
 		panic(err.Error())
 	}
 
-	if err := pem.Encode(privOut, &amp;pem.Block{Type: &quot;EC PRIVATE KEY&quot;, Bytes: privBytes}); err != nil {
+	if err := pem.Encode(privOut, &amp;pem.Block{Type: &quot;RSA PRIVATE KEY&quot;, Bytes: privBytes}); err != nil {
 		panic(err.Error())
 	}
 
@@ -231,11 +225,6 @@ crypto.generateKeyPair(
     );
   }
 );</code></pre>
-<p>
-  If you put the above code into a file named <strong>keygen.js</strong>, then you can use the following to run the script:
-</p>
-<pre><code class="language-bash">node keygen.js
-</code></pre>
 
 </div>
 
@@ -354,12 +343,6 @@ crypto.generateKeyPair(
       <td>The account id that owns the content being played</td>
     </tr>
     <tr>
-      <td><code>conid</code></td>
-      <td>String</td>
-      <td></td>
-      <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
-    </tr>
-    <tr>
       <td><code>exp</code></td>
       <td>Integer</td>
       <td>Yes</td>
@@ -370,6 +353,12 @@ crypto.generateKeyPair(
       <td>Integer</td>
       <td>Yes</td>
       <td>Time this token was issued, in seconds since the Epoch</td>
+    </tr>
+    <tr>
+      <td><code>conid</code></td>
+      <td>String</td>
+      <td></td>
+      <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
     </tr>
     <tr>
       <td><code>maxip</code></td>
@@ -419,8 +408,10 @@ crypto.generateKeyPair(
 <pre class="line-numbers"><code class="language-bash">package main
 
 import (
+	&quot;crypto&quot;
 	&quot;crypto/ecdsa&quot;
 	&quot;crypto/rand&quot;
+	&quot;crypto/rsa&quot;
 	&quot;crypto/sha256&quot;
 	&quot;crypto/x509&quot;
 	&quot;encoding/base64&quot;
@@ -430,11 +421,15 @@ import (
 	&quot;fmt&quot;
 	&quot;io/ioutil&quot;
 	&quot;os&quot;
+	&quot;strings&quot;
 	&quot;time&quot;
 )
 
-// Header is the base64UrlEncoded string of a JWT header for the ES256 algorithm
-const Header = &quot;eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9&quot;
+// Header is the base64UrlEncoded string of a JWT header for the RS256 algorithm
+const RSAHeader = &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9&quot;
+
+// Header is the base64UrlEncoded string of a JWT header for the EC256 algorithm
+const ECHeader = &quot;eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9&quot;
 
 // Claims represents constraints that should be applied to the use of the token
 type Claims struct {
@@ -448,7 +443,7 @@ type Claims struct {
 }
 
 func main() {
-	var key string
+	var key, algorithm string
 
 	c := Claims{Iat: float64(time.Now().Unix())}
 
@@ -459,6 +454,7 @@ func main() {
 	flag.Float64Var(&amp;c.Maxu, &quot;max-uses&quot;, 0, &quot;Maximum number of times the token is valid for&quot;)
 	flag.Float64Var(&amp;c.Maxip, &quot;max-ips&quot;, 0, &quot;Maximum number of unique IP addresses the token is valid for&quot;)
 	flag.StringVar(&amp;c.Ua, &quot;user-agent&quot;, &quot;&quot;, &quot;User Agent that the token is valid for&quot;)
+	flag.StringVar(&amp;algorithm, &quot;algo&quot;, &quot;&quot;, &quot;Key algorithm to use for signing. Valid: ec256, rsa256&quot;)
 	flag.Parse()
 
 	if key == &quot;&quot; {
@@ -467,43 +463,104 @@ func main() {
 		os.Exit(1)
 	}
 
+	if algorithm == &quot;&quot; {
+		fmt.Printf(&quot;missing required flag: -algo\n\n&quot;)
+		flag.Usage()
+		os.Exit(2)
+	}
+
+	if algorithm != &quot;rsa256&quot; &amp;&amp; algorithm != &quot;ec256&quot; {
+		fmt.Printf(&quot;missing valid value for -algo flag. Valid: rsa256, ec256\n\n&quot;)
+		flag.Usage()
+		os.Exit(3)
+	}
+
 	if c.Accid == &quot;&quot; {
 		fmt.Printf(&quot;missing required flag: -account-id\n\n&quot;)
 		flag.Usage()
-		os.Exit(2)
+		os.Exit(4)
 	}
 
 	bs, err := json.Marshal(c)
 	if err != nil {
 		fmt.Println(&quot;failed to marshal token to json&quot;, err)
-		os.Exit(3)
+		os.Exit(5)
 	}
 
 	kbs, err := ioutil.ReadFile(key)
 	if err != nil {
 		fmt.Println(&quot;failed to read private key&quot;, err)
-		os.Exit(4)
+		os.Exit(6)
 	}
 
+	if algorithm == &quot;rsa256&quot; {
+		processRSA256(kbs, bs)
+	} else {
+		processEC256(kbs, bs)
+	}
+}
+
+func processRSA256(kbs, bs []byte) {
 	block, _ := pem.Decode(kbs)
-	if block == nil || block.Type != &quot;EC PRIVATE KEY&quot; {
-		fmt.Println(&quot;failed to decode PEM block containing ec private key&quot;)
-		os.Exit(5)
+	if block == nil {
+		fmt.Println(&quot;failed to decode PEM block containing private key&quot;)
+		os.Exit(7)
+	}
+
+	if block.Type != &quot;RSA PRIVATE KEY&quot; {
+		fmt.Println(&quot;failed to decode PEM block containing private key&quot;)
+		os.Exit(8)
+	}
+
+	pKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	if err != nil {
+		fmt.Println(&quot;failed to parse rsa private key&quot;, err)
+		os.Exit(9)
+	}
+
+	message := RSAHeader + &quot;.&quot; + base64.RawURLEncoding.EncodeToString(bs)
+
+	hash := crypto.SHA256
+	hasher := hash.New()
+	_, _ = hasher.Write([]byte(message))
+	hashed := hasher.Sum(nil)
+
+	r, err := rsa.SignPKCS1v15(rand.Reader, pKey, hash, hashed)
+	if err != nil {
+		fmt.Println(&quot;failed to sign token&quot;, err)
+		os.Exit(10)
+	}
+
+	sig := strings.TrimRight(base64.RawURLEncoding.EncodeToString(r), &quot;=&quot;)
+
+	fmt.Println(message + &quot;.&quot; + sig)
+}
+
+func processEC256(kbs, bs []byte) {
+	block, _ := pem.Decode(kbs)
+	if block == nil {
+		fmt.Println(&quot;failed to decode PEM block containing private key&quot;)
+		os.Exit(7)
+	}
+
+	if block.Type != &quot;EC PRIVATE KEY&quot; {
+		fmt.Println(&quot;failed to decode PEM block containing private key&quot;)
+		os.Exit(8)
 	}
 
 	pkey, err := x509.ParseECPrivateKey(block.Bytes)
 	if err != nil {
 		fmt.Println(&quot;failed to parse ec private key&quot;, err)
-		os.Exit(6)
+		os.Exit(9)
 	}
 
-	message := Header + &quot;.&quot; + base64.RawURLEncoding.EncodeToString(bs)
+	message := ECHeader + &quot;.&quot; + base64.RawURLEncoding.EncodeToString(bs)
 	hash := sha256.Sum256([]byte(message))
 
 	r, s, err := ecdsa.Sign(rand.Reader, pkey, hash[:])
 	if err != nil {
 		fmt.Println(&quot;failed to sign token&quot;, err)
-		os.Exit(7)
+		os.Exit(10)
 	}
 
 	curveBits := pkey.Curve.Params().BitSize
@@ -524,7 +581,6 @@ func main() {
 	out := append(rBytesPadded, sBytesPadded...)
 
 	sig := base64.RawURLEncoding.EncodeToString(out)
-
 	fmt.Println(message + &quot;.&quot; + sig)
 }
 </code></pre>
@@ -538,7 +594,7 @@ func main() {
   HEADER:
 </p>
 <pre class="line-numbers"><code class="language-json">{
-  &quot;alg&quot;: &quot;ES256&quot;,
+  &quot;alg&quot;: &quot;RS256&quot;,
   &quot;type&quot;: &quot;JWT&quot;
 }
 </code></pre>

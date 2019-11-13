@@ -441,18 +441,19 @@ catalog.addDownloadEventListener(downloadEventListener);</code></pre>
 <p>
   To avoid this, you could add code to check device capabilities and prevent devices on slow connections from attempting to download high bitrate assets.
 </p>
+<h3>Android</h3>
 <p>
-  For details about handling errors, see the following:
+  For details about handling errors, see the <a href="/node/18236">Error Messages from the Native SDK for Android</a> document. This includes error messages related to offline playback.
 </p>
-<ul>
-  <li>
-    <a href="/node/18236">Error Messages from the Native SDK for Android</a> - This includes error messages related to offline playback
-  </li>
-  <li>
-    <a href="/node/18671/">Error Handling with the Native SDK for iOS</a> - For messages related to offline playback, review the <strong>BCOVOfflineVideoManager.h</strong> file.
-  </li>
-</ul>
 
+<h3>iOS</h3>
+<p>
+  For details about handling errors, see the <a href="/node/18671/">Error Handling with the Native SDK for iOS</a> document.
+</p>
+<p>
+  When the offline playback code receives an error, we catch it and throw an NSError. To get the underlying error, you can try this:
+</p>
+<pre class="line-numbers"><code class="language-objectivec">NSError *underlyingError = initialError.userInfo[NSUnderlyingErrorKey];</code></pre>
 
 </section>
 

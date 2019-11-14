@@ -195,38 +195,45 @@ func main() {
 </code></pre>
 </div>
 
-<!-- <h3 id="Example_using_node_js" class="bcls-expander-head">Example using node.js</h3>
+<h3 id="Example_using_node_js" class="bcls-expander-head">Example using node.js</h3>
 <div class="bcls-expander-content">
 <p>
   Example using node.js to generate the key pair:
 </p>
 <aside class="bcls-aside bcls-aside--tip">This script example requires node version 11 or later.</aside>
-<pre class="line-numbers"><code class="language-bash">var crypto = require(&quot;crypto&quot;);
+<pre class="line-numbers"><code class="language-javascript">var crypto = require(&quot;crypto&quot;);
 var fs = require(&quot;fs&quot;);
 
+var now = Math.floor(new Date() / 1000);
+var dir = &quot;rsa-key_&quot; + now;
+fs.mkdirSync(dir);
+
 crypto.generateKeyPair(
-  &quot;ec&quot;,
-  { namedCurve: &quot;prime256v1&quot; },
+  &quot;rsa&quot;,
+  {modulusLength: 2048},
   (err, publicKey, privateKey) =&gt; {
     fs.writeFile(
-      &quot;public.pem&quot;,
+      dir + &quot;/public.pem&quot;,
       publicKey.export({ type: &quot;spki&quot;, format: &quot;pem&quot; }),
       err =&gt; {}
     );
     fs.writeFile(
-      &quot;public.txt&quot;,
-      publicKey.export({ type: &quot;spki&quot;, format: &quot;der&quot; }).toString(&quot;base64&quot;),
+      dir + &quot;/public_key.txt&quot;,
+      publicKey.export({ type: &quot;spki&quot;, format: &quot;der&quot; }).toString(&quot;base64&quot;) +
+        &quot;\n&quot;,
       err =&gt; {}
     );
     fs.writeFile(
-      &quot;private.pem&quot;,
-      privateKey.export({ type: &quot;sec1&quot;, format: &quot;pem&quot; }),
+      dir + &quot;/private.pem&quot;,
+      privateKey.export({ type: &quot;pkcs1&quot;, format: &quot;pem&quot; }),
       err =&gt; {}
     );
   }
-);</code></pre>
+);
 
-</div> -->
+console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;);</code></pre>
+
+</div>
 
 </section>
 

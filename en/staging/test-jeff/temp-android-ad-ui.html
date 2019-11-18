@@ -72,11 +72,11 @@
       Skip Ad view (C)
     </li>
   </ul>
-  <aside class="bcls-aside bcls-aside--information">The Skip Ad button is only supported with VOD server-side ad insertion (SSAI). It is currently not supported with Live SSAI.</aside>
   <figure class="bcls-figure">
     <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/ssai/ad-overlay.png" alt="Ad overlay">
     <figcaption class="bcls-caption--image">Ad overlay</figcaption>
   </figure>
+    <aside class="bcls-aside bcls-aside--information">The Skip Ad button is only supported with VOD server-side ad insertion (SSAI). It is currently not supported with Live SSAI.</aside>
 
   <h3>Ad media controller</h3>
   <p>
@@ -104,43 +104,47 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Video_Cloud_Analytics">Video Cloud Analytics</h2>
+<h2 id="Enable/disable_ad_UI_components">Enable/disable ad UI components</h2>
 
-<p>Video Cloud customers who use the catalog service will have analytics data automatically collected by our own Brightcove Analytics system. This data is then aggregated and displayed in the Video Cloud Analytics module. The following table highlights data points currently collected in the SDKs:</p>
+<p>You can add or remove ad UI components from the view using either of the following methods:</p>
+<ul>
+  <li>
+    Modifying the VAST document
+  </li>
+  <li>
+    Specifying the ad configuration
+  </li>
+</ul>
 
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Tracked Event</th>
-			<th style="text-align: center;">iOS SDK</th>
-			<th style="text-align: center;">Android SDK</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td>Video impression</td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-		</tr>
-		<tr>
-			<td>Video view</td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-		</tr>
-		<tr>
-			<td>Video engagement</td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-		</tr>
-		<tr>
-			<td>Video complete</td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-			<td style="text-align: center;"><img alt="yes" width="20/" height="20" src="//img.brightcove.com/node15056-checked-checkbox.png" /></td>
-		</tr>
-	</tbody>
-</table>
+<h3 id="Modifying_the_VAST_document">Modifying the VAST document</h3>
+<p>The <strong>Learn More</strong> and <strong>Skip Ad</strong> views can be displayed or hidden based on the ad definition in the VAST document.</p>
+<p>
+  The <strong>Learn More</strong> view will appear only when the Linear Creative contains a <code>ClickThrough</code> URL, as shown here:
+</p>
+<pre class="line-numbers"><code class="language-xml"> &lt;VAST xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+  &lt;Ad id=&quot;blue-01-5s&quot;&gt;
+    &lt;InLine&gt;
+      ...
+      &lt;Creatives&gt;
+        &lt;Creative id=&quot;creative-01-5s&quot;&gt;
+          &lt;Linear&gt;
+            ...
+            &lt;VideoClicks&gt;
+              &lt;ClickThrough id=&quot;clickthrough&quot;&gt;https://www.brightcove.com/en/&lt;/ClickThrough&gt;
+              &lt;ClickTracking id=&quot;...&rdquo;&gt;...&lt;/ClickTracking&gt;
+            &lt;/VideoClicks&gt;
+          &lt;/Linear&gt;
+        &lt;/Creative&gt;
+      &lt;/Creatives&gt;
+    &lt;/InLine&gt;
+  &lt;/Ad&gt;
+&lt;/VAST&gt;
+</code></pre>
 
-<p>In addition to these events, you can specify your own custom data, configurable in the app, that can be sent and aggregated for viewing by Brightcove Analytics.</p>
+
+
+
+
 
 <p>Brightcove Analytics is only available to Brightcove Video Cloud customers.</p>
 

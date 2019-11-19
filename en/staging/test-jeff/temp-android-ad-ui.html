@@ -294,7 +294,7 @@
 <p>
   The <strong>Learn More</strong> view uses the following string:
 </p>
-<pre class="line-numbers"><code class="language-xml">&lt;string name=&quot;ssai_message_learn_more&quot;&gt;Learn More &gt;&gt; &lt;/string&gt;
+<pre><code class="language-xml">&lt;string name=&quot;ssai_message_learn_more&quot;&gt;Learn More &gt;&gt; &lt;/string&gt;
 </code></pre>
 <p>
   The <strong>Skip Ad</strong> view uses the following strings:
@@ -315,36 +315,63 @@
   <h3>Modifying the View</h3>
   <p>To customize the Ad Media Controller, you can replace your version of the <strong>default_ssai_ad_media_controller.xml</strong> layout file in your app’s <strong>res</strong> folder.</p>
   <p>
-    This overrides the default layout used in the SSAI plugin. Everytime an Ad is detected, the SSAI plugin will switch to this layout and then return to the default controller when the Ad is finished
+    This overrides the default layout used in the SSAI plugin. Every time an Ad is detected, the SSAI plugin will switch to this layout and then return to the default controller when the Ad is finished.
   </p>
-  <figure class="bcls-figure">
-    <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/ssai/ad-overlay-layouts.png" alt="Ad Overlay layouts">
-    <figcaption class="bcls-caption--image">Ad Overlay layouts</figcaption>
-  </figure>
+  <p>
+    When working with your own layout, use the same view type and view ids as originally specified to avoid unintended results. Explore the Ad Media Controller layout using Android Studio. For the SSAI plugin version 6.9.0, the <strong>default_ssai_ad_media_controller.xml</strong> looks like this:
+  </p>
+  <pre class="line-numbers"><code class="language-xml">&lt;com.brightcove.player.mediacontroller.BrightcoveControlBar
+   xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+   xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+   android:id=&quot;@+id/brightcove_control_bar&quot;
+   style=&quot;@style/SSAIAdControlBar&quot;
+   android:layout_width=&quot;match_parent&quot;
+   android:layout_height=&quot;wrap_content&quot;
+   android:layout_gravity=&quot;bottom&quot;
+   android:background=&quot;@color/bmc_background&quot;
+   android:orientation=&quot;vertical&quot;
+   android:padding=&quot;8dp&quot;&gt;
 
-  <p>
-    For example, you could override the Ad Pod duration view by updating the <strong>ssai_ad_pod_duration_countdown_view.xml</strong> file. You could also override the entire Ad Overlay View by replacing the <strong>ssai_ad_overlay.xml</strong> file.
-  </p>
-  <p>
-    This layout structure allows you to  override particular components while maintaining backward compatibility with older SSAI plugin versions.
-  </p>
-  <p>
-    Explore the Ad Overlay files using Android Studio. As of version 6.9.0 of the Native SDK for Android, the SSAI plugin's <strong>ssai_ad_overlay.xml</strong> looks like this:
-  </p>
-  <pre class="line-numbers"><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:background=&quot;@color/white&quot;&gt;
+   &lt;LinearLayout
+       android:layout_width=&quot;match_parent&quot;
+       android:layout_height=&quot;wrap_content&quot;
+       android:gravity=&quot;bottom&quot;
+       android:orientation=&quot;horizontal&quot;&gt;
 
-   &lt;include layout=&quot;@layout/ssai_ad_countdown_and_learn_more_overlay&quot;/&gt;
-   &lt;include layout=&quot;@layout/ssai_ad_skip_overlay&quot;/&gt;
-&lt;/FrameLayout&gt;
+       &lt;Button style=&quot;@style/BorderlessButton&quot;
+           android:id=&quot;@id/play&quot;
+           android:layout_width=&quot;wrap_content&quot;
+           android:layout_height=&quot;wrap_content&quot;
+           android:text=&quot;@string/brightcove_controls_play&quot;
+           android:visibility=&quot;gone&quot;
+           tools:visibility=&quot;visible&quot;/&gt;
+
+       &lt;include layout=&quot;@layout/ssai_ad_number_countdown_view&quot;/&gt;
+
+       &lt;include layout=&quot;@layout/ssai_single_ad_duration_countdown_view&quot;/&gt;
+
+       &lt;View
+           android:id=&quot;@id/two_line_spacer&quot;
+           android:layout_width=&quot;0dp&quot;
+           android:layout_height=&quot;0dp&quot;
+           android:layout_weight=&quot;1&quot;
+           android:visibility=&quot;gone&quot;
+           tools:visibility=&quot;visible&quot;/&gt;
+
+       &lt;Button style=&quot;@style/BorderlessButton&quot;
+           android:id=&quot;@id/full_screen&quot;
+           android:layout_width=&quot;wrap_content&quot;
+           android:layout_height=&quot;wrap_content&quot;
+           android:padding=&quot;4dp&quot;
+           android:text=&quot;@string/brightcove_controls_enter_full_screen&quot;
+           android:visibility=&quot;gone&quot;
+           tools:visibility=&quot;visible&quot;/&gt;
+   &lt;/LinearLayout&gt;
+
+&lt;/com.brightcove.player.mediacontroller.BrightcoveControlBar&gt;
 </code></pre>
-
 <p>
-  When replacing a component xml file, you must use a <code>TextView</code> with the original view Id specified to avoid unintended results. For details, see the following table
+  The SSAI Ad Media Controller component view types and view ids are described here:
 </p>
 <table class="bcls-table">
   <thead class="bcls-table__head">
@@ -356,51 +383,69 @@
   </thead>
   <tbody class="bcls-table__body">
     <tr>
-      <td>Ad Pod duration view</td>
-      <td><code>text_ad_countdown</code></td>
-      <td><code>TextView</code></td>
+      <td>Play button</td>
+      <td><code>play</code></td>
+      <td>Button</td>
     </tr>
     <tr>
-      <td>Learn More view</td>
-      <td><code>text_ad_learn_more</code></td>
-      <td><code>TextView</code></td>
+      <td>Full Screen button</td>
+      <td><code>full_screen</code></td>
+      <td>Button</td>
     </tr>
     <tr>
-      <td>Skip Ad view</td>
-      <td><code>text_ad_skip</code></td>
-      <td><code>TextView</code></td>
+      <td>Ad number countdown</td>
+      <td><code>text_ad_number_countdown</code></td>
+      <td>TextView</td>
     </tr>
+    <tr>
+      <td>Single Ad duration countdown</td>
+      <td><code>text_single_ad_duration_countdown</code></td>
+      <td>TextView</td>
+    </tr>
+
   </tbody>
 </table>
 
+<p>
+  Check out the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-player-controls/CustomizedControlsSampleApp">Customized Controls Sample App</a>, where the default media controller is customized to add new buttons. You can apply the same approach to customize your SSAI Ad Media Controller.
+</p>
+
 <h3>Modifying the default text</h3>
 <p>
-  All of the Ad Overlay components are <code>TextViews</code>s defined in your app's <strong>string.xml</strong> file. To change the display text, override it by creating a <code>string</code> or <code>plurals</code> item using the same string id used by the Native SDK for Android.
+  All of the Ad Media Controller components are <code>TextViews</code>s defined in your app's <strong>string.xml</strong> file. To change the display text, override it by creating a <code>string</code> or <code>plurals</code> item using the same string id used by the Native SDK for Android.
 </p>
 <p>
-  The <strong>Ad Pod duration</strong> view uses the following strings:
+  The <strong>Ad number countdown</strong> view uses the following string:
 </p>
-<pre class="line-numbers"><code class="language-xml">&lt;plurals name=&quot;ssai_message_ad_break_duration_countdown&quot;&gt;
-   &lt;item quantity=&quot;one&quot;&gt;Your video will resume in\n%1$d second&lt;/item&gt;
-   &lt;item quantity=&quot;other&quot;&gt;Your video will resume in\n%1$d seconds&lt;/item&gt;
-&lt;/plurals&gt;
-&lt;string name=&quot;ad_info_now_text&quot;&gt;Your video will resume now&lt;/string&gt;
-&lt;string name=&quot;ad_buffering_text&quot;&gt;Your ad is buffering &#8230;&lt;/string&gt;
+<pre><code class="language-xml">&lt;string name=&quot;ssai_message_ad_number_countdown&quot;&gt;Ad %1$d of %2$d&lt;/string&gt;
 </code></pre>
 <p>
-  The <strong>Learn More</strong> view uses the following string:
+  The <strong>Single Ad duration countdown</strong> view uses the following string:
 </p>
-<pre class="line-numbers"><code class="language-xml">&lt;string name=&quot;ssai_message_learn_more&quot;&gt;Learn More &gt;&gt; &lt;/string&gt;
+<pre><code class="language-xml">&lt;string name=&quot;ssai_message_ad_duration_countdown&quot;&gt;(%1$s)&lt;/string&gt;
 </code></pre>
-<p>
-  The <strong>Skip Ad</strong> view uses the following strings:
-</p>
-<pre class="line-numbers"><code class="language-xml">&lt;plurals name=&quot;you_can_skip_text&quot;&gt;
-   &lt;item quantity=&quot;one&quot;&gt;You can skip this ad in\n%d second&lt;/item&gt;
-   &lt;item quantity=&quot;other&quot;&gt;You can skip this ad in\n%d seconds&lt;/item&gt;
-&lt;/plurals&gt;
-&lt;string name=&quot;skip_text&quot;&gt;Skip Ad&lt;/string&gt;
-</code></pre>
+</section>
+
+<section class="bcls-section">
+  <h2 id="Summary">Summary</h2>
+  <p>You have a few options to customize the SSAI UI elements. The level of complexity will depend on what you want to achieve. From low to high level of complexity, you can:</p>
+  <ol>
+    <li>
+      Configure/hide certain components through your VAST configuration
+    </li>
+    <li>
+      Show/hide components using the <code>client_options</code> object in your ad configuration (currently Live SSAI only)
+    </li>
+    <li>
+      Change the string value displayed
+    </li>
+    <li>
+      Override the UI layout
+    </li>
+  </ol>
+  <p>
+    Please share any ideas or feedback you have in the <a href="https://groups.google.com/forum/#!forum/brightcove-native-player-sdks">Brightcove Native Player SDKs forum</a>.
+  </p>
 </section>
 
 

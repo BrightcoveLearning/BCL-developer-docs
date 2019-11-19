@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>HEVC Video</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+
+<div class="training-video-player-ipx" data-experience="5a73630f7afd7a00101bc1b5" data-video-ids="5018055033001">&nbsp;</div>
+<script src="https://players.brightcove.net/20318290001/experience_5a73630f7afd7a00101bc1b5/live.js"></script>
+
+<p>Brightcove Social allows you to easily publish videos in your Video Cloud account out to YouTube, Facebook and Twitter. Before you can publish videos, you must create publishing destinations for the social accounts you wish to publish videos to. For information on creating publishing destinations, see <a href="/node/16345">Creating Social Media Publishing Destinations</a>.</p>
+
+<p>Note that using Auto Sync and manually publishing videos using the Social module are independent operations. Auto Sync is not aware of which videos have been manually published using the Social module. If a video is tagged in a way that causes Auto Sync to publish it to one of your social destinations, it will do that regardless if that video has previously been manually published using the Social module.</p>
+
+<div class="BCL-concept">
+<h2 id="rules">Determining the rendition to publish</h2>
+
+<p>In order to distribute videos to a social platform, videos should have at least one MP4 rendition or a video master available. Videos uploaded using one of the Brightcove provided, standard ingest profiles will save a master by default. For more information on archiving masters, see the <a href="/node/18035">Archiving Masters</a> document.</p>
+
+<p>When distributing videos to a social platform, Brightcove Social will attempt to distribute the highest quality rendition that meets the rules applied by the individual social platform. If the rendition sent to the social platform is rejected, there is no attempt to send another rendition.</p>
+
+<p>The rules to rank videos are as follows:</p>
+
+<ul>
+	<li>MP4 assets are better than any other video container. No attempt is made to order the other types of video containers.</li>
+	<li>If the video containers are of equivalent quality, the video with the higher encoding rate is considered better.</li>
+	<li>If the encoding rates are of equivalent quality, the video with the higher resolution is considered better. Note that because not all renditions of a video necessarily have the same aspect ratio, we compare videos based on a computed 'compound' proxy for the resolution by using the product of the height and the width of the respective videos.</li>
+</ul>
+
+<p>Note that if one of the video assets is lacking any of the above information necessary to make the comparison, that video is considered 'worse' than the video that has all of the necessary information.</p>
+</div>
+
+<div class="BCL-concept">
+<h2 id="publish">Publishing videos to social media</h2>
+
+<p>Once you have <a href="/node/16345">created publishing destinations</a>, follow these steps to publish videos to social media.</p>
+
+<ol class="bcls-tasklist">
+	<li>Open Brightcove Social.</li>
+	<li>Click <strong>Videos</strong> in the left navigation. A list of videos in your Video Cloud account will display. Videos that haven't been published to a social media account will display a <strong>Status</strong> of <strong>Never Published</strong>. Videos that have been published will display <strong>Check Status</strong>. Click the link to see the publishing status of the video on the social media destinations.
+	<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-video-list.png" /></div>
+	</li>
+	<li>Click on a video to publish and then click <strong>Publish</strong>.
+	<p class="BCL-aside">Note: Videos that are DRM enabled will display a lock icon in the video thumbnail. DRM enabled videos that were ingested using a Dynamic Delivery ingest profile can be published, however, they can't be downloaded or have clips created. These buttons will be disabled when a DRM enabled video is selected.</p>
+	</li>
+	<li>Select the destination(s) to publish the video to. You can also click <strong>Add New Destination</strong> to <a href="/node/16345">create a new destination</a>.
+	<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-publish-preview.png" /></div>
+
+	<p class="BCL-aside">Note: Destinations with an error will display an error icon (<img alt="" src="https://img.brightcove.com/node16344-error-icon.png" />) next to the name. Select the destination and then click <strong>Reconnect</strong> to resolve the issue.</p>
+	</li>
+	<li>Review the video metadata properties for each destination. The video properties will differ depending on the social media platform you are publishing to. For more information, see the sections for each social media platform:
+	<ul>
+		<li><a href="#youtube">YouTube</a></li>
+		<li><a href="#facebook">Facebook</a></li>
+		<li><a href="#twitter">Twitter</a></li>
+	</ul>
+	</li>
+	<li>Click the <strong>Publish to Destination</strong> button to publish the videos. Monitor the distribution status by clicking <strong>Published</strong> in the left navigation. For information on viewing the status of publishing streams, see <a href="/node/16343">Viewing Your Social Media Publishing Streams</a>.</li>
+</ol>
+
+<p>Publishing videos using the Publish button is a one-time publishing operation. Videos published using this method will not receive any metadata updates from the Social module after the initial upload.</p>
+</div>
+
+<div class="BCL-concept">
+<h2 id="youtube">Setting video properties for YouTube</h2>
+
+<p>By default, videos that are up to 15 minutes long can be uploaded to YouTube. For information on uploading longer videos, see <a href="/node/8450">Enabling Longer Videos In YouTube</a>. After a video is published to YouTube, any updates to the source video in Studio will not update on the YouTube side.</p>
+
+<p>When choosing a YouTube destination, the following video properties can be configured:</p>
+
+<ul>
+	<li><a href="#ytthumb">Thumbnail Source</a></li>
+	<li><a href="#ytpostinfo">Post Info</a></li>
+	<li><a href="#ytschedule">Schedule</a></li>
+	<li><a href="#ytcaptions">Captions</a></li>
+	<li><a href="#ytvisibility">Visibility</a></li>
+	<li><a href="#ytlicense">License</a></li>
+	<li><a href="#ytmonetize">Monetize</a></li>
+</ul>
+
+<p class="BCL-aside">Note: <a href="node/16345#youtube_defaults">Default video properties for YouTube</a> can be set by editing the destination.</p>
+
+<p class="BCL-aside">Note: The YouTube API doesn't support disabling comments via their current API so there is no option to disable comments in the Social UI.</p>
+
+<div id="ytthumb" class="BCL-subsection">
+<h3>Configuring the thumbnail source</h3>
+
+<p>When posting to YouTube, the video thumbnail source can be set to:</p>
+
+<ul>
+	<li><strong>YouTube</strong> - YouTube will select a thumbnail</li>
+	<li><strong>Video Cloud</strong> - Use the Video Cloud thumbnail image as the YouTube thumbnail</li>
+	<li><strong>Custom Image</strong> - Browse and select a custom thumbnail image to use</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-thumb.png" /></div>
+
+<p>Checking <strong>Use for all destinations</strong> will use this thumbnail for all destinations currently being published to.</p>
+
+<p class="BCL-aside">Note: Before you can post custom video thumbnails from Brightcove Social to YouTube, your YouTube account must be verified. For information on verifying your YouTube account, see <a href="https://www.youtube.com/verify">this link</a>.</p>
+
+<p class="BCL-aside">Note: Updates to thumbnail images in Studio will not update the thumbnail image on the YouTube side.</p>
+</div>
+
+<div id="ytpostinfo" class="BCL-subsection">
+<h3>Configuring the Post Info properties</h3>
+
+<p>Click on the <strong>POST INFO Info</strong> link. The following YouTube video properties can be set:</p>
+
+<ul>
+	<li><strong>Title</strong> - Title of the video (defaults to Video Cloud title). YouTube supports up to 100 characters.</li>
+	<li><strong>Description</strong> - Description of the video (defaults to Video Cloud short description). YouTube supports up to 5000 characters.</li>
+	<li><strong>YouTube Category</strong> - Content category for the video</li>
+	<li><strong>Tags</strong> - Tags for the video (defaults to Video Cloud tags). There's no specific tag count limit; you can use max 30 characters per tag, and the text field accepts up to 500 characters.</li>
+</ul>
+
+<aside class="bcls-aside bcls-aside--information">A few things to note about the character limit for tags:
+<ol>
+	<li>The property value is a list, and commas between items in the list count toward the 500 character limit.</li>
+	<li>If a tag contains a space, the API server handles the tag value as though it were wrapped in quotation marks, and the quotation marks count toward the character limit. So if you have a tag such as <code>late news</code>, this is treated as <code>"late news"</code> and counts as 11 characters (including the quotation marks).</li>
+	<li>If you exceed the character limit on tags, no error will be reported in the Social module. To verify that videos were shared successfully, click <strong>Published</strong> in the left navigation, check on YouTube or get the status using the <a href="/node/18659">Social API</a>.</li>
+</ol>
+</aside>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-post-info.png" /></div>
+</div>
+
+<div id="ytschedule" class="BCL-subsection">
+<h3>Configuring the Schedule properties</h3>
+
+<p>Click on the <strong>SCHEDULE</strong> link and select a schedule setting:</p>
+
+<ul>
+	<li><strong>Publish Immediately</strong> - To publish the video immediately</li>
+	<li><strong>Schedule Publish Date</strong> - To choose a publish date and time for the video.</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-schedule-info.png" /></div>
+
+<p class="BCL-aside">Note: The schedule date and time are sent to YouTube only once, when the video is sent to YouTube. If the schedule date and/or time needs to be changed, they must be changed in YouTube. The Social module will not update any schedule dates or times after the initial sync to YouTube.</p>
+
+<p class="BCL-aside">Note: To have the <a href="#ytvisibility">video visibility</a> set to <strong>Unlisted</strong> or <strong>Private</strong>, set the <strong>Schedule</strong> option to <strong>Publish Immediately</strong> and set the <strong>Visibility</strong> option to <strong>Unlisted</strong> or <strong>Private</strong>.</p>
+</div>
+
+<div id="ytcaptions" class="BCL-subsection">
+<h3>Configuring the Captions properties</h3>
+
+<p>Click on the <strong>CAPTIONS</strong> link. Select the source for the captions:</p>
+
+<ul>
+	<li><strong>Use Video Cloud captions</strong> - Uses the captions associated with the video. For information on working with captions in Video Cloud, see <a href="/node/17952">Overview: Adding Captions to a Video</a>.</li>
+	<li><strong>No captions</strong> - No captions will be sent to YouTube</li>
+	<li><strong>Upload captions</strong> - Click <strong>Upload captions</strong> and browse and select a captions file. The captions file should be in .VTT or .SRT format. Select the caption <strong>Language</strong>, add a <strong>Label</strong> and select the <strong>Format</strong>. Click <strong>Add Caption File</strong>.</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-captions-info.png" /></div>
+</div>
+
+<div id="ytvisibility" class="BCL-subsection">
+<h3>Configuring the Visibility properties</h3>
+
+<p>Click on the <strong>VISIBILITY</strong> link and select a Privacy setting for the video. The following Privacy settings are available:</p>
+
+<ul>
+	<li><strong>Public</strong> - Anyone can view the video</li>
+	<li><strong>Unlisted</strong> - Anyone who has the link to the video can view it</li>
+	<li><strong>Private</strong> - Video can only be seen by you and the users you select</li>
+</ul>
+
+<p class="BCL-aside">Note: With YouTube destinations, it is possible to dynamically assign the privacy setting using a custom field associated with the video. For information, see <a href="/node/15611">Setting the Privacy Status for a Video</a>.</p>
+
+<p>There is also a setting to <strong>Notify subscribers when video is posted to YouTube</strong>. If checked, your subscribers will see your videos in their Subscriptions feed and may receive a notification that the video was uploaded.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-privacy-info.png" /></div>
+
+<p class="BCL-aside">Note: For more information on the YouTube Privacy settings, see the <a href="https://support.google.com/youtube/answer/157177">YouTube documentation</a>.</p>
+</div>
+
+<div id="ytlicense" class="BCL-subsection">
+<h3>Configuring the License properties</h3>
+
+<p>Click on the <strong>LICENSE</strong> link and select a License and Rights Ownership setting for the video. The following settings are available:</p>
+
+<ul>
+	<li>Standard YouTube License</li>
+	<li>Creative Commons - Attribution</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-yt-license-info.png" /></div>
+
+<p class="BCL-aside">Note: For more information on YouTube License and Rights Ownership, see the <a href="https://support.google.com/youtube/answer/2797468">YouTube documentation</a>.</p>
+</div>
+<div id="ytmonetize" class="BCL-subsection">
+  <h3>Configuring the Monetize properties</h3>
+  <p>Your YouTube account must be enabled for monetization before using this feature. Click on the <strong>Monetize</strong> link and optionally select a <strong>Usage Policy</strong> and <strong>Match Policy</strong> for the video. The following YouTube  properties can be set:</p>
+  <ul>
+    <li><strong>Usage Policy</strong> - Select this option and then select a Usage Policy. </li>
+    <li><strong>I have the necessary rights to claim other videos that contain this content</strong> - Selecting this option allows you to select a <strong>Match Policy</strong></li>
+  </ul>
+  <p class="BCL-aside">Note: For more information on YouTube usage policies and match policies, see the <a href="https://support.google.com/youtube/answer/107129">YouTube documentation</a>.</p>
+</div>
+</div>
+
+<div class="BCL-concept">
+<h2 id="facebook">Setting video properties for Facebook</h2>
+
+<p>When choosing a Facebook destination, the following video properties can be configured:</p>
+
+<ul>
+	<li><a href="#fbthumb">Thumbnail</a></li>
+	<li><a href="#fbpostinfo">Post Info</a></li>
+	<li><a href="#fbschedule">Schedule</a></li>
+	<li><a href="#fbcaptions">Captions</a></li>
+	<li><a href="#fbtarget">Target</a></li>
+	<li><a href="#fbmonetize">Monetize</a></li>
+	<li><a href="#fbrights">Rights</a></li>
+	<li><a href="#fbdistribution">Distribution</a></li>
+	<li><a href="#fbtracking">Tracking</a></li>
+</ul>
+
+<p>After a video is published to Facebook, any updates to the source video in Studio will not update on the Facebook side.</p>
+
+<p class="BCL-aside">Note: <a href="node/16345#facebook_defaults">Default video properties for Facebook</a> can be set by editing the destination.</p>
+
+<p class="BCL-aside">Note: Facebook does not allow .gif images. If your video is using a .gif for the thumbnail image, the publish to Facebook will fail.</p>
+
+<div id="fbthumb" class="BCL-subsection">
+<h3>Configuring the thumbnail source</h3>
+
+<p>When posting to Facebook, the video thumbnail source can be set to:</p>
+
+<ul>
+	<li><strong>Facebook</strong> - Facebook will select a thumbnail</li>
+	<li><strong>Video Cloud</strong> - Use the Video Cloud thumbnail image as the Facebook thumbnail</li>
+	<li><strong>Custom Image</strong> - Browse and select a custom thumbnail image to use</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-thumb.png" /></div>
+
+<p>Checking <strong>Use for all destinations</strong> will use this thumbnail for all destinations currently being published to.</p>
+
+<p class="BCL-aside">Note: Updates to thumbnail images in Studio will not update the thumbnail image on the Facebook side.</p>
+</div>
+
+<div id="fbpostinfo" class="BCL-subsection">
+<h3>Configuring the Post Info properties</h3>
+
+<p>Click on the <strong>POST INFO</strong> link. The following Facebook video properties can be set:</p>
+
+<ul>
+	<li><strong>Title</strong> - Title of the video (defaults to Video Cloud title). Facebook will truncate after 65 characters</li>
+	<li><strong>Status Message</strong> - Description of the video (defaults to Video Cloud short description). Note that Facebook has disabled their search API, therefore, it's not possible for us to auto complete a Facebook mention.</li>
+	<li><strong>Tags</strong> - Select a Facebook tag from the list. Note that Facebook manages the tags. The Social module must comply with them so Social checks the list when typing into the <strong>Tags</strong> field.</li>
+	<li><strong>Facebook Category</strong> - Content category for the video</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-post-info.png" /></div>
+</div>
+
+<div id="fbschedule" class="BCL-subsection">
+<h3>Configuring the Schedule properties</h3>
+
+<p>Click on the <strong>SCHEDULE</strong> link. Select <strong>Publish Immediately</strong> to publish the video immediately or select <strong>Schedule Publish Date</strong> and select a <strong>Publish Date &amp; Time</strong>. You can also set that <strong>Posts Never Expire</strong> or select <strong>Schedule Expiration </strong> and then select a <strong>Expiration Date and Time</strong>. A<strong> Time Zone</strong> can also be selected.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-schedule-info.png" /></div>
+
+<p class="BCL-aside">Note: The schedule date and time are sent to Facebook only once, when the video is sent to Facebook. If the schedule date and/or time needs to be changed, they must be changed in Facebook. The Social module will not update any schedule dates or times after the initial sync to Facebook.</p>
+</div>
+
+<div id="fbcaptions" class="BCL-subsection">
+<h3>Configuring the Captions properties</h3>
+
+<p>Click on the <strong>CAPTIONS</strong> link. Select the source for the captions:</p>
+
+<ul>
+	<li><strong>Use Video Cloud captions</strong> - Uses the captions associated with the video. For information on working with captions in Video Cloud, see <a href="/node/17952">Overview: Adding Captions to a Video</a>.
+
+	<p>For captions Facebook requires a <code class="notranslate">language</code>, which Social populates from the <code class="notranslate">language</code> on the text track, and a <code class="notranslate">name</code>, which Social populates from the <code class="notranslate">label</code> on the text track.</p>
+
+	<p>Be aware that the <code class="notranslate">name</code> will be visible to viewers in the Facebook player via the 'Setting' menu and the 'Closed Captions' menu. We recommend that text track labels be set to something that will be meaningful to viewers. (For example, Labelling captions in different languages in those languages.)</p>
+	</li>
+	<li><strong>No captions</strong> - No captions will be sent to YouTube</li>
+	<li><strong>Upload captions</strong> - Click <strong>Upload captions</strong> and browse and select a captions file. The captions file should be in .VTT or .SRT format. Select the caption <strong>Language</strong> and <strong>Format</strong>. Click <strong>Add Caption File</strong>.</li>
+</ul>
+
+<p class="BCL-aside">Note: Facebook requires that the caption language include a country in addition to the language. e.g., en-US or en-UK. A language code of just a country code (i.e. 'us') will fail when syncing.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-captions-info.png" /></div>
+</div>
+
+<div id="fbtarget" class="BCL-subsection">
+<h3>Configuring the Target properties</h3>
+
+<p>Click on the <strong>TARGET</strong> link to set where the video can be seen. The following options are available:</p>
+
+<ul>
+	<li><strong>Audience Optimization Interests</strong> - Add tags to describe the interests of people who are most likely to enjoy your post. For more information, see the <a href="https://www.facebook.com/facebookmedia/get-started/interest-targeting">Facebook documentation</a>.</li>
+	<li><strong>Location Restrictions</strong> - Add countries to include or exclude from seeing the post</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-targeting-info.png" /></div>
+</div>
+
+<div id="fbmonetize" class="BCL-subsection">
+<h3>Configuring the Monetize properties</h3>
+
+<p>Click on the<strong> MONETIZE </strong>link. The following properties can be set:</p>
+
+<ul>
+	<li><strong>Who is your business partner for posts to this destination?</strong> - Add a business partner for branded content posts. As you type, a list of matching businesses will appear. For information on Facebook branded content, see the <a href="https://www.facebook.com/facebookmedia/solutions/branded-content">Facebook documentation</a>.</li>
+	<li><strong>Allow business partner to boost posts</strong></li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-monetize-info.png" /></div>
+</div>
+
+<div id="fbrights" class="BCL-subsection">
+<h3>Configuring the Rights properties</h3>
+
+<p class="BCL-aside">Note: Your Facebook account must have access to the Facebook Rights Manager for the Rights option to appear.</p>
+
+<p>Click on the<strong> RIGHTS </strong>link. The following properties can be set:</p>
+
+<ul>
+	<li><strong>Detect Matching Content</strong> - Check to enable Facebook rights management. For information, see the <a href="https://rightsmanager.fb.com">Facebook documentation</a>.</li>
+	<li><strong>Specify Ownership</strong> - Specify copyright ownership on video, audio, or both</li>
+	<li><strong>Country Selection</strong> - Select <strong>Worldwide</strong>, <strong>Include Countries</strong> or <strong>Exclude Countries</strong>. If include or exclude is selected, then add the <strong>Location Restrictions</strong>.</li>
+	<li><strong>Apply Match Rule</strong> - Select a rule. The <strong>Match Rule</strong> determines what automatic actions happen when people upload matched videos. Match Rules are managed inside of Facebook.</li>
+	<li><strong>Grant Permission</strong> - Authorize certain people or Pages or Instagram accounts to have permission to post videos matching your content.</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-rights-info.png" /></div>
+</div>
+
+<div id="fbdistribution" class="BCL-subsection">
+<h3>Configuring the Distribution properties</h3>
+
+<p>Click on the <strong>DISTRIBUTION</strong> link to set where the video can be seen. The following<strong> Custom Distribution and Moderation </strong>options are available:</p>
+
+<ul>
+	<li><strong>Show in News Feed</strong> - Shows video in News Feed</li>
+	<li><strong>Allow Embedding</strong> - Allow video embeds on third-party sites</li>
+	<li><strong>Add as Secret Video</strong> - Videos will be accessible only via a direct URL and are not searchable for people on Facebook
+	<ul>
+		<li><strong>Turn off Reactions, Comments and Shares</strong> - Disallows likes and comments</li>
+	</ul>
+	</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-distribution.png" /></div>
+</div>
+
+<div id="fbtracking" class="BCL-subsection">
+<h3>Configuring the Tracking properties</h3>
+
+<p>Click on the <strong>TRACKING</strong> link to assign a universal ID to track the video across systems. The following <strong>Universal ID</strong> options are available:</p>
+
+<ul>
+	<li>Leave Blank</li>
+	<li>Use Video ID from Video Cloud</li>
+	<li>Use Reference ID from Video Cloud, if present</li>
+</ul>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-fb-tracking.png" /></div>
+</div>
+
+<div class="BCL-concept">
+<h2 id="twitter">Setting video properties for Twitter</h2>
+
+<p>When choosing a Twitter destination, the following properties can be configured:</p>
+
+<ul>
+	<li><a href="#twpostinfo">Post Info</a></li>
+</ul>
+
+<p class="BCL-aside">After a video is published to Twitter, any updates to the source video in Studio will not update on the Twitter side.</p>
+
+<p class="BCL-aside">Note:<a href="node/16345#twitter_defaults"> Default video properties for Twitter</a> can be set by editing the destination.</p>
+
+<div id="twpostinfo" class="BCL-subsection">
+<h3>Configuring the Post Info properties</h3>
+
+<p>Click on the <strong>POST INFO</strong> link and enter the <strong>Tweet</strong> content. Note that @mentions will be converted to #hashtags when being sent to Twitter. For more information, see the blog post, <a href="https://www.brightcove.com/en/blog/2018/11/deprecation-twitter-mentions-brightcove-social">Deprecation of Twitter @mentions in Brightcove Social</a>.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-twitter-tweet.png" /></div>
+</div>
+</div>
+
+<div class="BCL-concept">
+<h2 id="clip">Creating a clip</h2>
+
+<p>Brightcove Social provides the ability to create video clips from existing videos in your Video Cloud account. Clips can be used as short, teaser videos that can be posted to social media. To create a clip, click <strong>Create Clip</strong>. For information on creating a clip, see <a href="/node/16672">Creating a Video Clip Using Brightcove Social</a>.</p>
+</div>
+
+<div class="BCL-concept">
+<h2 id="download">Downloading videos</h2>
+
+<p>Brightcove Social provides the ability to copy the video URL or download a video source file. When downloading, the highest quality MP4 rendition will be downloaded. If there are no MP4 renditions, the <strong>Download</strong> link will be disabled.</p>
+
+<p class="BCL-aside">Note: You cannot download videos that have DRM enabled (lock appears in the video thumbnail). If you select a DRM enabled video, the <strong>Download</strong> button will be disabled.</p>
+
+<p>Follow these steps to download a video.</p>
+
+<ol class="bcls-tasklist">
+	<li>Open Brightcove Social.</li>
+	<li>Click <strong>Videos</strong> in the left navigation. A list of videos in your Video Cloud account will display.</li>
+	<li>Click on the video to download and then click <strong>Download</strong>.</li>
+	<li>Copy the video URL or click the link to open the video in your browser. <span class="bcl-aside">Right click the video to save the source file locally.</span>
+	<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-download-info1.png" /></div>
+	</li>
+	<li>Click <strong>Done</strong>.</li>
+</ol>
+
+<p>The intention of the download link is to allow you to download the file or to use the URL as a value that can be provided to a social platform’s uploader module (for platforms that support upload from an URL). The URL is not intended to be a long-lived, publicly-accessible URL that you would paste into a public social platform post.</p>
+</div>
+
+<div class="BCL-concept">
+<h2 id="viewvc">Viewing videos in the Media module</h2>
+
+<p>Videos on the Videos page can be viewed in the Media module by clicking on a video and then clicking <strong>View in Media</strong>.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-view-in-vc.png" /></div>
+</div>
+
+<div class="BCL-concept">
+<h2 id="status">Viewing the published locations</h2>
+
+<p>Videos that have been attempted to be published to social media will display <strong>Check Status</strong> in the Status column.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-status1.png" /></div>
+
+<p>Clicking the <strong>Check Status</strong> link will display a list of social destinations that the video was published to and the status of the publish.</p>
+
+<div><img class="bcls-image--no-border" alt="" src="https://img.brightcove.com/node16344-published-locations1.png" /></div>
+</div>
+
+<div class="BCL-concept">
+<h2 id="360">Publishing 360° videos</h2>
+
+<p>Both YouTube, Facebook and the Brightcove Player support 360° video playback. When a 360° video is published to YouTube or Facebook using Brightcove Social, the video will playback in 360° mode. Note that there may be a delay while the 360° effect is processing. Before uploading 360° videos to Video Cloud, there are some things you must do. For information on working with 360° videos, see <a href="/node/16784">Working with 360° Videos</a>. Once your video has been uploaded, the process to publish 360° videos is the same as regular videos.</p>
+
+<p class="BCL-aside">Note: Playback of 360° videos is limited to certain browsers.</p>
+
+<p class="BCL-aside">Note: When using the Social module to sync a 360° video, the ingest profile used to ingest the video must be configured to save the master file or the video won't sync in 360.</p>
+</div>
+<!-- End of Drupal content -->
+</div>
+</div>
+
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+  $(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+</body>
+
+</html>

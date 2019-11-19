@@ -305,10 +305,102 @@
 &lt;/plurals&gt;
 &lt;string name=&quot;skip_text&quot;&gt;Skip Ad&lt;/string&gt;
 </code></pre>
+</section>
 
+<section class="bcls-section">
+  <h2 id="Customizing_the_Ad_Media_Controller">Customizing the Ad Media Controller</h2>
+  <p>
+    You can customize the views and the default text associated with the Ad Media Controller.
+  </p>
+  <h3>Modifying the View</h3>
+  <p>To customize the Ad Media Controller, you can replace your version of the <strong>default_ssai_ad_media_controller.xml</strong> layout file in your app’s <strong>res</strong> folder.</p>
+  <p>
+    This overrides the default layout used in the SSAI plugin. Everytime an Ad is detected, the SSAI plugin will switch to this layout and then return to the default controller when the Ad is finished
+  </p>
+  <figure class="bcls-figure">
+    <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/ssai/ad-overlay-layouts.png" alt="Ad Overlay layouts">
+    <figcaption class="bcls-caption--image">Ad Overlay layouts</figcaption>
+  </figure>
 
+  <p>
+    For example, you could override the Ad Pod duration view by updating the <strong>ssai_ad_pod_duration_countdown_view.xml</strong> file. You could also override the entire Ad Overlay View by replacing the <strong>ssai_ad_overlay.xml</strong> file.
+  </p>
+  <p>
+    This layout structure allows you to  override particular components while maintaining backward compatibility with older SSAI plugin versions.
+  </p>
+  <p>
+    Explore the Ad Overlay files using Android Studio. As of version 6.9.0 of the Native SDK for Android, the SSAI plugin's <strong>ssai_ad_overlay.xml</strong> looks like this:
+  </p>
+  <pre class="line-numbers"><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:background=&quot;@color/white&quot;&gt;
 
+   &lt;include layout=&quot;@layout/ssai_ad_countdown_and_learn_more_overlay&quot;/&gt;
+   &lt;include layout=&quot;@layout/ssai_ad_skip_overlay&quot;/&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
 
+<p>
+  When replacing a component xml file, you must use a <code>TextView</code> with the original view Id specified to avoid unintended results. For details, see the following table
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Component Name</th>
+      <th>Component Id</th>
+      <th>Component View</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td>Ad Pod duration view</td>
+      <td><code>text_ad_countdown</code></td>
+      <td><code>TextView</code></td>
+    </tr>
+    <tr>
+      <td>Learn More view</td>
+      <td><code>text_ad_learn_more</code></td>
+      <td><code>TextView</code></td>
+    </tr>
+    <tr>
+      <td>Skip Ad view</td>
+      <td><code>text_ad_skip</code></td>
+      <td><code>TextView</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Modifying the default text</h3>
+<p>
+  All of the Ad Overlay components are <code>TextViews</code>s defined in your app's <strong>string.xml</strong> file. To change the display text, override it by creating a <code>string</code> or <code>plurals</code> item using the same string id used by the Native SDK for Android.
+</p>
+<p>
+  The <strong>Ad Pod duration</strong> view uses the following strings:
+</p>
+<pre class="line-numbers"><code class="language-xml">&lt;plurals name=&quot;ssai_message_ad_break_duration_countdown&quot;&gt;
+   &lt;item quantity=&quot;one&quot;&gt;Your video will resume in\n%1$d second&lt;/item&gt;
+   &lt;item quantity=&quot;other&quot;&gt;Your video will resume in\n%1$d seconds&lt;/item&gt;
+&lt;/plurals&gt;
+&lt;string name=&quot;ad_info_now_text&quot;&gt;Your video will resume now&lt;/string&gt;
+&lt;string name=&quot;ad_buffering_text&quot;&gt;Your ad is buffering &#8230;&lt;/string&gt;
+</code></pre>
+<p>
+  The <strong>Learn More</strong> view uses the following string:
+</p>
+<pre class="line-numbers"><code class="language-xml">&lt;string name=&quot;ssai_message_learn_more&quot;&gt;Learn More &gt;&gt; &lt;/string&gt;
+</code></pre>
+<p>
+  The <strong>Skip Ad</strong> view uses the following strings:
+</p>
+<pre class="line-numbers"><code class="language-xml">&lt;plurals name=&quot;you_can_skip_text&quot;&gt;
+   &lt;item quantity=&quot;one&quot;&gt;You can skip this ad in\n%d second&lt;/item&gt;
+   &lt;item quantity=&quot;other&quot;&gt;You can skip this ad in\n%d seconds&lt;/item&gt;
+&lt;/plurals&gt;
+&lt;string name=&quot;skip_text&quot;&gt;Skip Ad&lt;/string&gt;
+</code></pre>
 </section>
 
 

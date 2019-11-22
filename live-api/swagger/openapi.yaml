@@ -2457,19 +2457,6 @@ components:
       type: object
       description: >-
         Video Cloud customers have the option to create a video to use for the live stream. The `videocloud` object in the `job` settings is used for this purpose. If you want to define VOD clips to send to Video Cloud, use the `videocloud` object in `outputs`.
-    CreateLiveJobRequestBody.videocloud.ingest:
-      properties:
-        callbacks:
-          description: >-
-            An array of URLs that notifications for the ingest job should be
-            sent to
-          items:
-            type: string
-          type: array
-      title: Create_Live_Job_Request_Body.videocloud.ingest
-      description: >-
-        An object containing inputs for Video Cloud video ingestion - see the [Dynamic Ingest Reference](https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost) - do not include the master field, as that information will be provided by the Live API
-      type: object
     CreateLiveJobRequestBody.videocloud.video:
       properties:
         cue_points:
@@ -2766,99 +2753,6 @@ components:
           description: >-
             The ingest profile to use - we recommend that you do **not** include this field and use the account default profile instead
           type: string
-        audio_tracks:
-          description: >-
-            array of audio track objects - see [Implementing Multiple Audio Tracks Using the APIs](https://support.brightcove.com/implementing-multiple-audio-tracks-using-apis) for more information.  **Dynamic Delivery only**
-          type: array
-          items:
-            type: object
-            properties:
-              merge_with_existing:
-                type: boolean
-                description: >-
-                  Whether to replace existing audio tracks or add the new ones (currently only `false` is supported)
-                default: false
-              masters:
-                type: array
-                description: Array of audio master objects
-                items:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-                      description: URL for the audio file
-                    language:
-                      type: string
-                      description: >-
-                        'Language code for the audio track from the subtags in (https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) (default can be set for the account by contacting
-                        Brightcove Support)'
-                    variant:
-                      type: string
-                      description: >-
-                        the type of audio track (default can be set for the account by contacting Brightcove Support)
-                      enum:
-                        - main
-                        - alternate
-                        - commentary
-                        - dub
-                        - descriptive
-        text_tracks:
-          description: >-
-            array of text_tracks objects - see [Ingesting WebVTT Files (Text Tracks)](https://support.brightcove.com/ingesting-webvtt-files-text-tracks)
-          type: array
-          items:
-            type: object
-            properties:
-              url:
-                type: string
-                description: URL for a WebVTT file
-              srclang:
-                type: string
-                description: ISO 639 2-letter (alpha-2) language code for the text tracks
-              kind:
-                type: string
-                description: How the vtt file is meant to be used
-                enum:
-                  - captions
-                  - subtitles
-                  - chapters
-                  - metadata
-                default: captions
-              label:
-                type: string
-                description: User-readable title for tracks
-              default:
-                type: boolean
-                description: Sets the default language for captions/subtitles
-                default: false
-        poster:
-          description: >-
-            The custom video poster to be ingested - see [Images and the Dynamic Ingest API](https://support.brightcove.com/images-and-dynamic-ingest-api) for more information. Do not use if `capture-images` is set to `true`
-          type: object
-          properties:
-            url:
-              type: string
-              description: URL for the video poster image
-            height:
-              type: integer
-              description: Height of the poster in pixels
-            width:
-              type: integer
-              description: Width of the poster in pixels
-        thumbnail:
-          description: >-
-            The custom video thumbnail to be ingested - see [Images and the Dynamic Ingest API](https://support.brightcove.com/images-and-dynamic-ingest-api) for more information. Do not use if `capture-images` is set to `true`
-          type: object
-          properties:
-            url:
-              type: string
-              description: URL for the video thumbnail image
-            height:
-              type: integer
-              description: Height of the thumbnail in pixels
-            width:
-              type: integer
-              description: Width of the thumbnail in pixels
       title: Create_VOD_ClipBody.outputs.videocloud.ingest
       description: >-
         An object containing inputs for Video Cloud video ingestion - see the [Dynamic Ingest Reference](https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost) - do not include the master field, as that information will be provided by the Live API. If no ingest profile is specified, the account default profile will be used.
@@ -3653,7 +3547,6 @@ components:
               "audio_bitrate_in_kbps": null,
               "audio_codec": null,
               "audio_sample_rate": null,
-              "audio_tracks": null,
               "channels": null,
               "created_at": "2018-09-05T12:19:29.826Z",
               "duration_in_ms": 1242901,

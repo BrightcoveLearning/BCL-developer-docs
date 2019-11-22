@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Live API: Server-Side Ad Insertion (SSAI)</title>
+  	<title>Live SSAI with the Native SDKs</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,10 +33,9 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Live API: Server-Side Ad Insertion (SSAI)</h1>
+			<h1>Live SSAI with the Native SDKs</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <summary>This topic shows you how to set up server-side ad insertion (SSAI) for your live stream jobs.</summary>
-      <!-- <aside class="bcls-aside bcls-aside--information">The content in this document applies to Video Cloud only.</aside> -->
+      <summary>In this topic, you will learn how to play live streams with server-side ad insertion (SSAI) using the Native SDKs.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -59,117 +58,45 @@
   <p>To create a Live stream with server-side ads, follow these steps:</p>
 
   <ol class="bcls-tasklist__restart">
-  	<li><a href="#General_information">Review the general information about the Live API</a></li>
-  	<li><a href="#Create_an_ad_configuration">Create a live ad configuration</a>. You can also do this in <a href="node/18748#bc-ipnav-1">Video Cloud Studio</a>. See the sections below for details about managing your ad configurations using the Live API.</li>
-  	<li><a href="#Managing_slates">Create slate assets</a>. If you prefer a UI, you can <a href="node/18753#fill_slate">manage slates in Studio</a>.</li>
-  	<li>Optional: <a href="node/18835">Insert cue points and ad beacons</a>.</li>
-  	<li>Now, you are ready to <a href="node/17765/">create a Live stream Using the Live API</a>. If you prefer to use Studio, you can <a href="node/18753">implement server-side ads in the Live module</a></li>
+  	<li><a href="/node/18748#Creating_a_Live_ad_configuration">Create a live ad configuration</a> using Video Cloud Studio</li>
+  	<li>Optional: <a href="/node/18753#fill_slate">Create slate assets</a></li>
+  	<li><a href="/node/18753#request_ad">Request an ad break</a></li>
+    <li>Optional: <a href="node/18835">Insert cue points and ad beacons</a></li>
+  	<li>
+      <p>
+        <a href="/node/18753#create_event">Create and publish a live event</a>
+      </p>
+      <aside class="bcls-aside bcls-aside--tip">If you prefer, you can use the Live API to create your stream and configure your ad breaks. For details, see the <a href="/node/17763">Live API: Server-Side Ad Insertion (SSAI)</a> document.</aside>
+  </li>
+  <li>
+    <p>Build your app:</p>
+
+    <ul><li><a href="#Android_implementation">Android implementation</a></li>
+      <li><a href="#iOS_implementation">iOS implementation</a></li>
+      <!-- <li><a href="#tvOS_implementation">tvOS implementation</a></li> -->
+    </ul>
+  </li>
   </ol>
 
-  <p>See the rest of this document for details about custom headers, ad config variables, using DFP and ad macros.</p>
   </section>
 
-  <section class="bcls-section">
-  <h2 id="General_information">General information</h2>
+  <section class="bcls-section"><h2 id="Create_an_ad_configuration">Create an ad configuration</h2>
 
-  <p>The following information pertains to all Live API with SSAI requests.</p>
+    <p>The ad configuration defines various aspects of SSAI playback, including a URL to your Video Multiple Ad Playlist (VMAP) file, beacons, and other configurations. To create an ad configuration, follow these steps:</p>
 
-  <h3>Base URL</h3>
+    <ol class="bcls-tasklist__restart"><li>
+    	<p>In Video Cloud Studio, expand the <strong>ADMIN</strong> menu and select <strong>Server-Side Ad Settings</strong>.</p>
 
-  <p>The base URL for the Live API with SSAI is:</p>
+    	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Ad configuration admin" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/ssai/ad-config-admin.png" /><figcaption class="bcls-caption--image">Ad configuration admin</figcaption></figure></li>
+    	<li>
+    	<p>Add information for your ad configuration and select <strong>Save</strong>.</p>
 
-  <pre>
-    <code class="notranslate language-http">https://api.bcovlive.io/v1/ssai</code></pre>
+    	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Ad settings" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/ssai/ad-settings.png" /><figcaption class="bcls-caption--image">Ad settings</figcaption></figure></li>
+    </ol><p>For details, see the <a href="/configuring-server-side-ad-settings">Configuring Server-Side Ad Settings</a> document.</p>
 
-  <h3>Authentication</h3>
+    <p>To create an ad configuration using the SSAI API, see the <a href="/video-cloud-ssai-ad-config-api">Video Cloud SSAI Ad Config API</a> document.</p>
+</section>
 
-  <p>Authentication for requests requires a header with an API key:</p>
-
-  <pre class="line-numbers">
-    <code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span>
-    </code></pre>
-
-  <p>Contact your account manager to get an API key associated with your account.</p>
-  </section>
-
-  <section class="bcls-section">
-  <h2 id="Create_an_ad_configuration">Create an ad configuration</h2>
-
-  <p>To create a new ad configuration, send a <code>POST</code> request as follows:</p>
-
-  <table class="bcls-table">
-  	<tbody class="bcls-table__body">
-  		<tr>
-  			<th>Method</th>
-  			<td style="width:80em;"><code class="language-http notranslate">POST</code></td>
-  		</tr>
-  		<tr>
-  			<th>URL</th>
-  			<td><code class="language-http notranslate">https://api.bcovlive.io/v1/ssai/applications</code></td>
-  		</tr>
-  		<tr>
-  			<th>Header</th>
-  			<td><code class="language-http notranslate">X-API-KEY: <span class="bcls-input">your API KEY</span></code></td>
-  		</tr>
-  	</tbody>
-  </table>
-
-  <h3>Sample request body</h3>
-
-  <pre class="line-numbers">
-    <code class="language-json notranslate">{
-      "application_ad_configuration": {
-        "ad_configuration_description": "Human readable description of the configuration",
-        "ad_configuration_expected_response_type": "<span class="bcls-input">Dfp, Vast or SmartXML</span>",
-        "ad_configuration_headers": {
-        "X-Custom-Header-Rand": "{{random.int32}}",
-        "X-VIDEOPLAZA-FORWARDED-FOR": "{{client.ipaddress}}"
-        },
-        "ad_configuration_headers_for_impressions": false,
-        "ad_configuration_strategy": "<span class="bcls-input">SingleAdResponse or MultipleAdResponse</span>",
-        "ad_configuration_transforms": [
-          {
-          "xpath": "/",
-          "xslt": "&lt;xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:Det=\"http://Det.com\"&gt;&lt;xsl:output omit-xml-declaration=\"yes\"/&gt;&lt;xsl:template match=\"node()|@*\"&gt;&lt;xsl:copy&gt;&lt;xsl:apply-templates select=\"node()|@*\"/&gt;&lt;/xsl:copy&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;"
-          }
-        ],
-        "ad_configuration_url_format": "https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}"
-      },
-      "application_description": "Human readable description of the ad application",
-      "account_id": "<span class="bcls-input">User's Account ID [Optional]</span>"
-    }</code></pre>
-
-  <aside class="bcls-aside bcls-aside--information">The <code>account_id </code> field is the Live Account ID. When omitted, the Account ID of the requesting user is used.</aside>
-
-  <h3>Sample response</h3>
-
-  <pre class="line-numbers">
-    <code class="language-json notranslate">{
-      "application": {
-        "account_id": "User Account ID",
-        "application_description": "Human readable description of the ad application",
-        "application_ad_configuration": {
-          "ad_configuration_description": "Human readable description of the configuration",
-          "ad_configuration_expected_response_type": "<span class="bcls-highlight">Dfp | Vast | SmartXML</span>",
-          "ad_configuration_headers": {
-            "X-Custom-Header-Rand": "{{random.int32}}",
-            "X-VIDEOPLAZA-FORWARDED-FOR": "{{client.ipaddress}}"
-          },
-          "ad_configuration_headers_for_impressions": false,
-          "ad_configuration_strategy": "<span class="bcls-highlight">SingleAdResponse | MultipleAdResponse</span>",
-          "ad_configuration_transforms": [
-            {
-              "xpath": "/",
-              "xslt": "&lt;xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:Det=\"http://Det.com\"&gt;&lt;xsl:output omit-xml-declaration=\"yes\"/&gt;&lt;xsl:template match=\"node()|@*\"&gt;&lt;xsl:copy&gt;&lt;xsl:apply-templates select=\"node()|@*\"/&gt;&lt;/xsl:copy&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;"
-            }
-          ],
-          "ad_configuration_url_format": "https://ad-provider-host.com/path/to/ad-handler?ip={{client.ipaddress}}&amp;num={{random.int32}}&amp;ses={{session.session_id}}"
-        },
-        "application_id": <span class="bcls-highlight">"Application ID"</span>
-      },
-      "inserted": true
-    }</code></pre>
-  </section>
 
   <section class="bcls-section">
   <h2 id="Update_an_ad_configuration">Update an ad configuration</h2>

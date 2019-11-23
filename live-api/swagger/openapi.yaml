@@ -15,6 +15,9 @@ tags:
   - name: Live Jobs
     description: |-
        Operations for creating live jobs, listing live jobs, getting job details, and canceling live jobs. There are also operations for activating and deactivating SEP jobs, and for inserting cuepoints or ID3 timed metadata.
+  - name: Redundant Groups
+    description: >-
+      Operations for creating redundant groups of live jobs for failover in case one stream fails
   - name: RTMP Outputs
     description: >-
        Operations for creating and managing RTMP outputs. Note that RTMP output hours will be billed against event hours.
@@ -609,6 +612,51 @@ paths:
         '500':
           description: >-
             INTERNAL_SERVER_ERROR: see Live API Error Messages for more details
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Create Redundant Group
+      description: Creates a redundant group of live jobs to provide failover in case one stream fails
+      operationId: CreateRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Create a redundant group of two Live jobs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRedundantGroup'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRedundantGroupResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
       deprecated: false
       security: []
       x-operation-settings:
@@ -1535,6 +1583,21 @@ paths:
         IsMultiContentStreaming: false
 components:
   schemas:
+    CreateRedundantGroup:
+      title: Create Redundant Group Request Body
+      properties:
+        ad_insertion:
+          type: boolean
+          description: Set to true if this stream should be SSAI enabled
+        add_cdns:
+          description: >-
+            Array of additional CDN providers to be used for manifest generation. For each CDN provided, the manifest will be prepended accordingly
+          items:
+            $ref: '#/components/schemas/CreateLiveJobRequestBody.addCdns'
+          type: array
+        drm:
+          type: object
+          description: Not yet supported
     ActivateSepStreamResponse:
       properties:
         id:

@@ -664,6 +664,87 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/jobs:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Add Jobs to Redundant Group
+      description: Add Jobs to Redundant Group
+      operationId: AddJobsRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Array of job ids to add to a redundant groups
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJobsToRedundantGroup'
+        required: true
+      responses:
+        '200':
+          description: A success response will just contain the redundant group id
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}:
+    get:
+      tags:
+        - Redundant Groups
+      summary: Get Redundant Group Status
+      description: Get the current status of a redundant group
+      operationId: GetStatusRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetStatusRedundantGroupResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
   /vods:
     post:
       tags:
@@ -1162,7 +1243,7 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  /ssai/beaconsets/beaconset/beacon_set_id:
+  /ssai/beaconsets/beaconset/{beacon_set_id}:
     put:
       tags:
         - SSAI
@@ -1601,6 +1682,250 @@ components:
         encryption:
           type: object
           description: Not yet supported
+        label:
+          type: string
+          description: A label to identify the group
+        live_dvr_sliding_window_duration:
+          default: 1
+          description: >-
+            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`.
+          maximum: 86400
+          minimum: 1
+          type: integer
+        notifications:
+          description: >-
+            'Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object. See [Events](https://support.brightcove.com/live-api-notifications#Events) for an explanation of the events reported in `state_changed` notifications. <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br> `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry =
+            now_s + retry_count * delay_delta_s`'
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Notification'
+              - type: string
+                description: A URL to send notifications to
+          type: array
+        processing_regions:
+          description: >-
+            'Processing regions for the Redundant Group. This will determine which AWS regions will generate the manifests. Recommended this matches storage_regions and the regions the Live Jobs are created in.'
+          type: array
+          items:
+            type: object
+            properties:
+              region: 
+                type: string
+                description: An AWS region
+                enum:
+                  - us-west-2
+                  - us-east-1
+                  - ap-southeast-2
+                  - ap-northeast-1
+                  - ap-southeast-1
+                  - ap-south-1
+                  - eu-central-1
+                  - eu-west-1
+              probability:
+                type: integer
+                description: usually set to `1`
+        storage_regions:
+          description: >-
+            'Storage regions media chunks and playlists will be uploaded to in S3. Recommended this matches processing_regions and the regions the Live Jobs are created in.'
+          type: array
+          items:
+            type: string
+            description: An AWS region
+            enum:
+              - us-west-2
+              - us-east-1
+              - ap-southeast-2
+              - ap-northeast-1
+              - ap-southeast-1
+              - ap-south-1
+              - eu-central-1
+              - eu-west-1
+        videocloud:
+          $ref: '#/components/schemas/CreateLiveJobRequestBody.videocloud'
+      required:
+        - label
+        - processing_regions
+        - storage_regions
+      example: >-
+        {
+          "ad_insertion": true,
+          "processing_regions": ["us-west-2"],
+          "storage_regions": ["us-west-2", "us-east-1"],
+          "label": "Test RG",
+          "live_dvr_sliding_window_duration": 1800
+        }
+    CreateRedundantGroupResponse:
+      properties:
+        id:
+          type: string
+          description: ID of the redundant group
+        processing_regions:
+          type: array
+          description: The processing regions defined for the group
+        storage_regions:
+          type: array
+          description: The storage regions defined for the group
+        jobs:
+          type: array
+          description: Array of live job ids included in the group
+        state:
+          type: string
+          description: The current state of the group
+        live_dvr_sliding_window_duration: 
+          type: integer
+          description: Duration of live DVR sliding window in seconds
+        label: 
+          type: string
+          description: The label for the group
+        status: 
+          type: object
+          description: >-
+            The properties will be processing regions and the value their current status
+        ad_insertion:
+          type: boolean
+          description: Whether this group is SSAI enabled
+        outputs:
+          type: object
+          description: Outputs for the group
+      example: >-
+        {
+          "id": "481ff4cf0bf74956bc2ec6e126588080",
+          "processing_regions": [
+              {
+                  "region": "us-west-2",
+                  "probability": 1
+              }
+          ],
+          "storage_regions": [
+              "us-west-2",
+              "us-east-1"
+          ],
+          "jobs": [],
+          "state": "standby",
+          "label": "Test RG",
+          "live_dvr_sliding_window_duration": 1800,
+          "status": {
+              "us-west-2": null
+          },
+          "ad_insertion": true,
+          "outputs": {
+            "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist.m3u8",
+            "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist_dvr.m3u8",
+            "ssai_playback_urls": {
+              "26f8470f61374e608e27af9c1b3f7ff0": {
+                  "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_ssaiM.m3u8",
+                  "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_dvr_ssaiM.m3u8",
+                  "description": "House Ads - 864b84f712ae40bca1510a8052b34312",
+                  "type": "ads"
+              }
+            }
+          }
+        }
+    AddJobsToRedundantGroup:
+      title: Add Jobs to a Redundant Group Request Body
+      description: A set of job ids to add to a redundant group
+      type: array
+      items:
+        type: object
+        properties:
+          job_id:
+            type: string
+            description: A live job id
+          playlist:
+            type: string
+            description: >-
+              Label of playlist to use as the outputs for the stream. If `playlist` is defined, `streams` **must** be *undefined*.
+          streams:
+            type: array
+            description: >-
+              List of stream labels to be used as outputs for the stream. If `streams` is defined, `playlist` **must** be *undefined*.
+        required:
+          - job_id
+      example: >-
+        [
+          {
+            "job_id": "0b76bc73f92f46dc917bbe5061c0c633"
+          },
+          {
+            "job_id": "0ae5a4a71dc54b3181af0f98ee407c27"
+          }
+        ]
+    GetStatusRedundantGroupResponse:
+      title: Get Redundant Group Status Response
+      example: >-
+        {
+            "id": "481ff4cf0bf74956bc2ec6e126588080",
+            "processing_regions": [
+                {
+                    "region": "us-west-2",
+                    "probability": 1
+                }
+            ],
+            "storage_regions": [
+                "us-west-2",
+                "us-east-1"
+            ],
+            "jobs": [
+                {
+                    "job_id": "0b76bc73f92f46dc917bbe5061c0c633",
+                    "streams": [
+                        "hls720p",
+                        "hls540p",
+                        "hls360p"
+                    ],
+                    "state": "processing"
+                },
+                {
+                    "job_id": "0ae5a4a71dc54b3181af0f98ee407c27",
+                    "streams": [
+                        "hls720p",
+                        "hls540p",
+                        "hls360p"
+                    ],
+                    "state": "processing"
+                }
+            ],
+            "state": "processing",
+            "created_at": 1568057414849,
+            "updated_at": 1568059153017,
+            "label": "Test RG",
+            "live_dvr_sliding_window_duration": 1800,
+            "status": {
+                "us-west-2": {
+                    "SwitchDrift": 0,
+                    "Ended": false,
+                    "OnAir": "0b76bc73f92f46dc917bbe5061c0c633",
+                    "Mode": "auto",
+                    "InManifest": true,
+                    "MediaSequence": 10,
+                    "Healthiness": 0,
+                    "Duration": 4,
+                    "DiscontinuitySequence": 1,
+                    "SourceChunk": {
+                        "MediaSequence": 3639,
+                        "Duration": 4,
+                        "DiscontinuitySequence": 0,
+                        "ProgramDateTime": "2019-09-09T19:59:36Z",
+                        "LiveJobID": "0b76bc73f92f46dc917bbe5061c0c633"
+                    },
+                    "UpdatedAt": "2019-09-09T19:59:46Z",
+                    "ProgramDateTime": "2019-09-09T19:59:36Z"
+                }
+            },
+            "ad_insertion": true,
+            "outputs": {
+                "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist.m3u8",
+                "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist_dvr.m3u8",
+                "ssai_playback_urls": {
+                    "26f8470f61374e608e27af9c1b3f7ff0": {
+                        "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_ssaiM.m3u8",
+                        "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_dvr_ssaiM.m3u8",
+                        "description": "House Ads - 864b84f712ae40bca1510a8052b34312",
+                        "type": "ads"
+                    }
+                }
+            }
+        }
     ActivateSepStreamResponse:
       properties:
         id:
@@ -2072,7 +2397,7 @@ components:
           minimum: 0
           type: integer
         live_dvr_sliding_window_duration:
-          default: 0
+          default: 1
           description: >-
             The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`.
           maximum: 86400
@@ -5042,6 +5367,15 @@ components:
       name: live_account_id
       in: path
       description: Live account ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    redundant_group_id:
+      name: redundant_group_id
+      in: path
+      description: Redundant group ID
       required: true
       style: simple
       explode: false

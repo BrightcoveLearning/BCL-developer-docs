@@ -1966,6 +1966,103 @@ components:
         ]
     GetStatusRedundantGroupResponse:
       title: Get Redundant Group Status Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: The redundant group id
+        processing_regions:
+          type: array
+          items:
+            type: object
+            properties:
+              region: 
+                type: string
+                description: An AWS processing region
+              probability:
+                type: number
+                description: The approximate percentage of playback that will be processed in this region
+                minimum: 0
+                maximum: 1
+        storage_regions:
+          type: array
+          items:
+            type: string
+            description: AWS regions used for storage
+        jobs:
+          type: array
+          description: Live jobs in this redundant group
+          items:
+            type: object
+            properties:
+              job_id:
+                type: string
+                description: The Live job id
+              streams:
+                type: array
+                description: Array of output renditions for this job
+                items:
+                  type: string
+                  description: The output label
+              state:
+                type: string
+                description: The current state of the job
+        state:
+          type: string
+          description: The current state of the redundant group
+        created_at:
+          type: integer
+          description: When the group was created in Epoch time
+        updated_at:
+          type: integer
+          description: When the group was last modified in Epoch time
+        label:
+          type: string
+          description: The label for the redundant group
+        live_dvr_sliding_window_duration:
+          type: integer
+          description: The DVR sliding window duration in seconds
+        status:
+          type: object
+          description: Detailed status by processing region
+          properties:
+            SwitchDrift:
+              type: number
+            ended:
+              type: boolean
+              description: Whether the stream has ended
+            OnAir:
+              type: string
+              description: The job id for the Live job that is being used for streaming
+            Mode:
+              type: string
+              description: The current failover mode, either `auto` or `manual`
+            InManifest:
+              type: boolean
+            MediaSequence:
+              type: number
+            Healthiness:
+              type: number
+            Duration:
+              type: number
+              description: Segment duration in seconds
+            DiscontinuitySequence:
+              type: number
+            SourceChunk:
+              type: object
+              description: Details for source of the current segment
+            UpdateAt:
+              type: string
+              description: Date-time of the last status update
+            ProgramDateTime:
+              type: string
+              description: Date-time of the stream start
+        ad_insertion:
+          type: boolean
+          description: Whether SSAI is enabled
+        outputs:
+          type: object
+          description: The output URLs
       example: >-
         {
             "id": "481ff4cf0bf74956bc2ec6e126588080",

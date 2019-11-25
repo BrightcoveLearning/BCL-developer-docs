@@ -675,6 +675,40 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '204':
+          description: 204 NO_CONTENT
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Redundant Groups
+      summary: Remove Jobs from Redundant Group
+      description: Remove All Jobs from a Redundant Group
+      operationId: RemoveJobsRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
       requestBody:
         description: Array of job ids to add to a redundant groups
         content:
@@ -1902,7 +1936,7 @@ components:
     AddJobsToRedundantGroup:
       title: Add Jobs to a Redundant Group Request Body
       description: >-
-        A set of job ids to add to a redundant group. Note that to remove all jobs and put the redundant stream in standby mode, send an empty array (`[]`)
+        A set of job ids to add to a redundant group.
       type: array
       items:
         type: object

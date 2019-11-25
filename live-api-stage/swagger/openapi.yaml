@@ -821,7 +821,7 @@ paths:
       summary: Delete a redundant group
       description: >-
         Deletes a redundant group and ends the redundant stream. Note that alternatively you can put the stream in standby mode by removing all jobs from it.
-      operationId: ForceRedundantStreamFailover
+      operationId: DeleteRedundantGroup
       parameters:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
@@ -1945,6 +1945,8 @@ components:
             type: array
             description: >-
               List of stream labels to be used as outputs for the stream. If `streams` is defined, `playlist` **must** be *undefined*.
+            items:
+              type: string
         required:
           - job_id
       example: [
@@ -5639,7 +5641,6 @@ components:
         Force failover for a redundant stream without going to manual mode
       style: form
       explode: true
-      default: false
       schema:
         type: boolean
     modified_at:

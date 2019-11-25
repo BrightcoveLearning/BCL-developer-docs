@@ -1958,6 +1958,110 @@ components:
         ]
     GetStatusRedundantGroupResponse:
       title: Get Redundant Group Status Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: Redundant group ID
+        processing_regions:
+          type: array
+          description: Processing regions for the group
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                description: an AWS region
+              probability:
+                type: number
+                description: >-
+                  Approximate percentage of playback that this region will process (from 0 to 1)
+        storage_regions:
+          type: array
+          description: Storage regions for the group
+          items:
+            type: string
+            description: AWS regions
+        jobs:
+          type: array
+          description: Array of objects with properties for the jobs
+          items:
+            type: object
+            properties:
+              job_id:
+                type: string
+                description: Live job id
+              streams:
+                type: array
+                items:
+                  type: string
+                  description: label for a job output
+              state:
+                type: string
+                description: Current state of the job
+        state:
+          type: string
+          description: Current state of the group
+        created_at:
+          type: number
+          description: Date-time the group was created in Epoch time
+        updated_at:
+          type: number
+          description: Date-time the group was last updated in Epoch time
+        ad_insertion:
+          type: boolean
+          description: Whether SSAI is enabled
+        outputs:
+          type: object
+          description: The output URLs
+        status:
+          type: object
+          description: object containing the status for processing regions
+          properties:
+            SwitchDrift:
+              type: number
+              description: >-
+                time in nanoseconds of "drift" that occured in the stream after a failover happened (auto or manual). Failovers are only segment accurate, and since the input jobs are not synced, it is possible that some content may repeated/skipped when a failover occurs and the jobs are not segmented in sync.
+            Ended:
+              type: boolean
+              description: >-
+                When true, the stream has been ended and an EXT-X-ENDLIST tag has been added to the stream
+            OnAir:
+              type: string
+              description: The on air job id
+            Mode:
+              type: string
+              description: The failover mode, manual or auto
+            InManifest:
+              type: boolean
+              description: Whether the current status has been added to the m3u8
+            MediaSequence:
+              type: number
+              description: >-
+                The media sequence number of the last chunk added to the stream
+            Healthiness:
+              type: number
+              description: >-
+                A computed number used mostly internally. If it goes to 0, the group is not being updated.
+            Duration:
+              type: integer 
+              description: >-
+                Duration of the last chunk added to the stream.
+            DiscontinuitySequence:
+              type: integer
+              description: >-
+                Discontinuty Sequence of the last chunk added to the stream
+            SourceChunk:
+              type: object
+              description: >-
+                Source information of the last chunk added to the stream
+            UpdatedAt:
+              type: string
+              description: Last updated to the redundant group
+            ProgramDateTime:
+              type: string
+              description: >-
+                The program date time of the last chunk added. to the stream;
       example: {
             "id": "481ff4cf0bf74956bc2ec6e126588080",
             "processing_regions": [

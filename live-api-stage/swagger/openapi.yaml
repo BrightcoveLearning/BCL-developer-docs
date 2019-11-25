@@ -15,6 +15,9 @@ tags:
   - name: Live Jobs
     description: |-
        Operations for creating live jobs, listing live jobs, getting job details, and canceling live jobs. There are also operations for activating and deactivating SEP jobs, and for inserting cuepoints or ID3 timed metadata.
+  - name: Redundant Groups
+    description: >-
+      Operations for creating redundant groups of live jobs for failover in case one stream fails
   - name: RTMP Outputs
     description: >-
        Operations for creating and managing RTMP outputs. Note that RTMP output hours will be billed against event hours.
@@ -616,6 +619,237 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
+  /redundantgroups:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Create Redundant Group
+      description: Creates a redundant group of live jobs to provide failover in case one stream fails
+      operationId: CreateRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+      requestBody:
+        description: Create a redundant group of two Live jobs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRedundantGroup'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRedundantGroupResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/jobs:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Add Jobs to Redundant Group
+      description: Add Jobs to Redundant Group
+      operationId: AddJobsRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '204':
+          description: 204 NO_CONTENT
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Redundant Groups
+      summary: Remove Jobs from Redundant Group
+      description: Remove All Jobs from a Redundant Group
+      operationId: RemoveJobsRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '200':
+          description: A success response will just contain the redundant group id
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}:
+    get:
+      tags:
+        - Redundant Groups
+      summary: Get Redundant Group Status
+      description: Get the current status of a redundant group
+      operationId: GetStatusRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetStatusRedundantGroupResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    put:
+      tags:
+        - Redundant Groups
+      summary: Force Redundant Stream Failover
+      description: >-
+        Force failover from the `on_air` stream to a specified secondary stream; note that you can also accomplish this by stopping the encoder for the `on_air` stream.
+      operationId: ForceRedundantStreamFailover
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+        - $ref: '#/components/parameters/force'
+      requestBody:
+        description: Force failover to a secondary job
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForceRedundantStreamFailover'
+        required: true
+      responses:
+        '200':
+          description: '200 - no content returned'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Redundant Groups
+      summary: Delete a redundant group
+      description: >-
+        Deletes a redundant group and ends the redundant stream. Note that alternatively you can put the stream in standby mode by removing all jobs from it.
+      operationId: DeleteRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      responses:
+        '204':
+          description: '204 NO_CONTENT'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
   /vods:
     post:
       tags:
@@ -1114,7 +1348,7 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  /ssai/beaconsets/beaconset/beacon_set_id:
+  /ssai/beaconsets/beaconset/{beacon_set_id}:
     put:
       tags:
         - SSAI
@@ -1535,6 +1769,285 @@ paths:
         IsMultiContentStreaming: false
 components:
   schemas:
+    CreateRedundantGroup:
+      title: Create Redundant Group Request Body
+      properties:
+        ad_insertion:
+          type: boolean
+          description: Set to true if this stream should be SSAI enabled
+        add_cdns:
+          description: >-
+            Array of additional CDN providers to be used for manifest generation. For each CDN provided, the manifest will be prepended accordingly
+          items:
+            $ref: '#/components/schemas/CreateLiveJobRequestBody.addCdns'
+          type: array
+        drm:
+          type: object
+          description: Not yet supported
+        encryption:
+          type: object
+          description: Not yet supported
+        label:
+          type: string
+          description: A label to identify the group
+        live_dvr_sliding_window_duration:
+          default: 0
+          description: >-
+            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`. If you do not want to be charged for DVR usage, set this to 0 or do not included it in the request body.
+          maximum: 86400
+          minimum: 0
+          type: integer
+        notifications:
+          description: >-
+            'Array of notification destination objects or strings - notifications defined here are for job-level events.  A notification will be sent to the destination when selected event occurs. You can use a simple string with a url: &quot;http://log:pass@httpbin.org/post&quot;, or you can use an object. See [Events](https://support.brightcove.com/live-api-notifications#Events) for an explanation of the events reported in `state_changed` notifications. <br> Retry strategy: In the event of a failed request to send a notification, the default retry strategy is to retry 50 times with an exponential delay between attempts: <br> `max_retry_times = 50` <br> `delay_delta_s = 5` <br> `next_retry =
+            now_s + retry_count * delay_delta_s`'
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Notification'
+              - type: string
+                description: A URL to send notifications to
+          type: array
+        processing_regions:
+          description: >-
+            'Processing regions for the Redundant Group. This will determine which AWS regions will generate the manifests. Recommended this matches storage_regions and the regions the Live Jobs are created in.'
+          type: array
+          items:
+            type: object
+            properties:
+              region: 
+                type: string
+                description: An AWS region
+                enum:
+                  - us-west-2
+                  - us-east-1
+                  - ap-southeast-2
+                  - ap-northeast-1
+                  - ap-southeast-1
+                  - ap-south-1
+                  - eu-central-1
+                  - eu-west-1
+              probability:
+                type: integer
+                description: usually set to `1`
+        storage_regions:
+          description: >-
+            'Storage regions media chunks and playlists will be uploaded to in S3. Recommended this matches processing_regions and the regions the Live Jobs are created in.'
+          type: array
+          items:
+            type: string
+            description: An AWS region
+            enum:
+              - us-west-2
+              - us-east-1
+              - ap-southeast-2
+              - ap-northeast-1
+              - ap-southeast-1
+              - ap-south-1
+              - eu-central-1
+              - eu-west-1
+        videocloud:
+          $ref: '#/components/schemas/CreateLiveJobRequestBody.videocloud'
+      required:
+        - label
+        - processing_regions
+        - storage_regions
+      example: >-
+        {
+          "ad_insertion": true,
+          "processing_regions": ["us-west-2"],
+          "storage_regions": ["us-west-2", "us-east-1"],
+          "label": "Test RG",
+          "live_dvr_sliding_window_duration": 1800
+        }
+    CreateRedundantGroupResponse:
+      properties:
+        id:
+          type: string
+          description: ID of the redundant group
+        processing_regions:
+          type: array
+          description: The processing regions defined for the group
+        storage_regions:
+          type: array
+          description: The storage regions defined for the group
+        jobs:
+          type: array
+          description: Array of live job ids included in the group
+        state:
+          type: string
+          description: The current state of the group
+        live_dvr_sliding_window_duration: 
+          type: integer
+          description: Duration of live DVR sliding window in seconds
+        label: 
+          type: string
+          description: The label for the group
+        status: 
+          type: object
+          description: >-
+            The properties will be processing regions and the value their current status
+        ad_insertion:
+          type: boolean
+          description: Whether this group is SSAI enabled
+        outputs:
+          type: object
+          description: Outputs for the group
+      example: {
+          "id": "481ff4cf0bf74956bc2ec6e126588080",
+          "processing_regions": [
+              {
+                  "region": "us-west-2",
+                  "probability": 1
+              }
+          ],
+          "storage_regions": [
+              "us-west-2",
+              "us-east-1"
+          ],
+          "jobs": [],
+          "state": "standby",
+          "label": "Test RG",
+          "live_dvr_sliding_window_duration": 1800,
+          "status": {
+              "us-west-2": null
+          },
+          "ad_insertion": true,
+          "outputs": {
+            "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist.m3u8",
+            "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist_dvr.m3u8",
+            "ssai_playback_urls": {
+              "26f8470f61374e608e27af9c1b3f7ff0": {
+                  "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_ssaiM.m3u8",
+                  "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_dvr_ssaiM.m3u8",
+                  "description": "House Ads - 864b84f712ae40bca1510a8052b34312",
+                  "type": "ads"
+              }
+            }
+          }
+        }
+    AddJobsToRedundantGroup:
+      title: Add Jobs to a Redundant Group Request Body
+      description: >-
+        A set of job ids to add to a redundant group.
+      type: array
+      items:
+        type: object
+        properties:
+          job_id:
+            type: string
+            description: >-
+              A live job id - required unless you are removing all jobs
+          playlist:
+            type: string
+            description: >-
+              Label of playlist to use as the outputs for the stream. If `playlist` is defined, `streams` **must** be *undefined*.
+          streams:
+            type: array
+            description: >-
+              List of stream labels to be used as outputs for the stream. If `streams` is defined, `playlist` **must** be *undefined*.
+            items:
+              type: string
+        required:
+          - job_id
+      example: [
+          {
+            "job_id": "0b76bc73f92f46dc917bbe5061c0c633"
+          },
+          {
+            "job_id": "0ae5a4a71dc54b3181af0f98ee407c27"
+          }
+        ]
+    GetStatusRedundantGroupResponse:
+      title: Get Redundant Group Status Response
+      example: {
+            "id": "481ff4cf0bf74956bc2ec6e126588080",
+            "processing_regions": [
+                {
+                    "region": "us-west-2",
+                    "probability": 1
+                }
+            ],
+            "storage_regions": [
+                "us-west-2",
+                "us-east-1"
+            ],
+            "jobs": [
+                {
+                    "job_id": "0b76bc73f92f46dc917bbe5061c0c633",
+                    "streams": [
+                        "hls720p",
+                        "hls540p",
+                        "hls360p"
+                    ],
+                    "state": "processing"
+                },
+                {
+                    "job_id": "0ae5a4a71dc54b3181af0f98ee407c27",
+                    "streams": [
+                        "hls720p",
+                        "hls540p",
+                        "hls360p"
+                    ],
+                    "state": "processing"
+                }
+            ],
+            "state": "processing",
+            "created_at": 1568057414849,
+            "updated_at": 1568059153017,
+            "label": "Test RG",
+            "live_dvr_sliding_window_duration": 1800,
+            "status": {
+                "us-west-2": {
+                    "SwitchDrift": 0,
+                    "Ended": false,
+                    "OnAir": "0b76bc73f92f46dc917bbe5061c0c633",
+                    "Mode": "auto",
+                    "InManifest": true,
+                    "MediaSequence": 10,
+                    "Healthiness": 0,
+                    "Duration": 4,
+                    "DiscontinuitySequence": 1,
+                    "SourceChunk": {
+                        "MediaSequence": 3639,
+                        "Duration": 4,
+                        "DiscontinuitySequence": 0,
+                        "ProgramDateTime": "2019-09-09T19:59:36Z",
+                        "LiveJobID": "0b76bc73f92f46dc917bbe5061c0c633"
+                    },
+                    "UpdatedAt": "2019-09-09T19:59:46Z",
+                    "ProgramDateTime": "2019-09-09T19:59:36Z"
+                }
+            },
+            "ad_insertion": true,
+            "outputs": {
+                "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist.m3u8",
+                "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/playlist_dvr.m3u8",
+                "ssai_playback_urls": {
+                    "26f8470f61374e608e27af9c1b3f7ff0": {
+                        "playback_url": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_ssaiM.m3u8",
+                        "playback_url_dvr": "https://playback-qa.a-live.io/r481ff4cf0bf74956bc2ec6e126588080/us-west-2/NA/26f8470f61374e608e27af9c1b3f7ff0/playlist_dvr_ssaiM.m3u8",
+                        "description": "House Ads - 864b84f712ae40bca1510a8052b34312",
+                        "type": "ads"
+                    }
+                }
+            }
+        }
+    ForceRedundantStreamFailover:
+      title: Force failover request body
+      type: object
+      properties:
+        mode:
+          type: string
+          enum:
+            - auto
+            - manual
+          default: auto
+          description: >-
+            The mode for failover. `manual` means automatic failover will **not** occur. To resume automatic failover, you must submit another request with `mode: auto`
+        on_air:
+          type: string
+          description: >-
+            The id of the job that should be used for streaming. To force failover, this must be a different job than the one that is currently `on_air`
     ActivateSepStreamResponse:
       properties:
         id:
@@ -1956,18 +2469,24 @@ components:
             description: >-
               Allowed IP address for input stream
           example: ["192.168.0.1/32"]
+        copy_outputs_from_job:
+          type: string
+          description: >-
+            The value is the `id` of an existing job that you want to copy the output settings for to this new job
+          example: '481ff4cf0bf74956bc2ec6e126588080'
         drm:
           type: object
           description: >-
             DRM settings to be applied to all outputs for the job. **Note that you can also apply DRM only to specific outputs if you prefer.** Also note that if you need something other than the default DRM configuration, contact Support for assistance.
           properties:
-            modes: 
+            modes:
               type: array
-              description: >- 
-                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported
+              description: >-
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported. Using `all` will apply all types available
               items:
                 type: string
                 enum:
+                  - all
                   - fairplay
                   - widevine
             token_expires_in:
@@ -1975,10 +2494,6 @@ components:
               description: Amount of time in seconds before the token expires
               default: 43200
               maximum: 31622400
-            require_playback_token:
-              type: boolean
-              description: >-
-                If true, a playback authorization token will need to be specified for playback
         encryption:
           $ref: '#/components/schemas/CreateLiveJobRequestBody.encryption'
         event_length:
@@ -1998,11 +2513,13 @@ components:
           default: 100
           description: >-
             Indicates the window from the live edge on DVR session start, in seconds, for which ad breaks will have ads inserted, before which slate will be inserted. All ad breaks inserted after session start will have ads inserted.
+            <br>
+            <img src="https://docs.brightcove.com/live-api/assets/live_dvr_ads_window.png" height="250px">
           maximum: 600
           minimum: 0
           type: integer
         live_dvr_sliding_window_duration:
-          default: 0
+          default: 1
           description: >-
             The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`.
           maximum: 86400
@@ -2299,13 +2816,14 @@ components:
           description: >-
             DRM settings to be applied to the output. **Note that you can also apply DRM at the job level to apply to all outputs.** Also note that if you need something other than the default DRM configuration, contact Support for assistance.
           properties:
-            modes: 
+            modes:
               type: array
-              description: >- 
-                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported
+              description: >-
+                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported. Using `all` will apply all types available
               items:
                 type: string
                 enum:
+                  - all
                   - fairplay
                   - widevine
             token_expires_in:
@@ -2313,10 +2831,7 @@ components:
               description: Amount of time in seconds before the token expires
               default: 43200
               maximum: 31622400
-            require_playback_token:
-              type: boolean
-              description: >-
-                If true, a playback authorization token will need to be specified for playback
+
         h264_profile:
           description: >-
             H.264 has three commonly-used profiles: Baseline (lowest), Main, and High. Lower levels are easier to decode, but higher levels offer better compression. For the best compression quality, choose High. For playback on low-CPU machines or many mobile devices, choose
@@ -2460,19 +2975,6 @@ components:
       type: object
       description: >-
         Video Cloud customers have the option to create a video to use for the live stream. The `videocloud` object in the `job` settings is used for this purpose. If you want to define VOD clips to send to Video Cloud, use the `videocloud` object in `outputs`.
-    CreateLiveJobRequestBody.videocloud.ingest:
-      properties:
-        callbacks:
-          description: >-
-            An array of URLs that notifications for the ingest job should be
-            sent to
-          items:
-            type: string
-          type: array
-      title: Create_Live_Job_Request_Body.videocloud.ingest
-      description: >-
-        An object containing inputs for Video Cloud video ingestion - see the [Dynamic Ingest Reference](https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost) - do not include the master field, as that information will be provided by the Live API
-      type: object
     CreateLiveJobRequestBody.videocloud.video:
       properties:
         cue_points:
@@ -2769,99 +3271,6 @@ components:
           description: >-
             The ingest profile to use - we recommend that you do **not** include this field and use the account default profile instead
           type: string
-        audio_tracks:
-          description: >-
-            array of audio track objects - see [Implementing Multiple Audio Tracks Using the APIs](https://support.brightcove.com/implementing-multiple-audio-tracks-using-apis) for more information.  **Dynamic Delivery only**
-          type: array
-          items:
-            type: object
-            properties:
-              merge_with_existing:
-                type: boolean
-                description: >-
-                  Whether to replace existing audio tracks or add the new ones (currently only `false` is supported)
-                default: false
-              masters:
-                type: array
-                description: Array of audio master objects
-                items:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-                      description: URL for the audio file
-                    language:
-                      type: string
-                      description: >-
-                        'Language code for the audio track from the subtags in (https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) (default can be set for the account by contacting
-                        Brightcove Support)'
-                    variant:
-                      type: string
-                      description: >-
-                        the type of audio track (default can be set for the account by contacting Brightcove Support)
-                      enum:
-                        - main
-                        - alternate
-                        - commentary
-                        - dub
-                        - descriptive
-        text_tracks:
-          description: >-
-            array of text_tracks objects - see [Ingesting WebVTT Files (Text Tracks)](https://support.brightcove.com/ingesting-webvtt-files-text-tracks)
-          type: array
-          items:
-            type: object
-            properties:
-              url:
-                type: string
-                description: URL for a WebVTT file
-              srclang:
-                type: string
-                description: ISO 639 2-letter (alpha-2) language code for the text tracks
-              kind:
-                type: string
-                description: How the vtt file is meant to be used
-                enum:
-                  - captions
-                  - subtitles
-                  - chapters
-                  - metadata
-                default: captions
-              label:
-                type: string
-                description: User-readable title for tracks
-              default:
-                type: boolean
-                description: Sets the default language for captions/subtitles
-                default: false
-        poster:
-          description: >-
-            The custom video poster to be ingested - see [Images and the Dynamic Ingest API](https://support.brightcove.com/images-and-dynamic-ingest-api) for more information. Do not use if `capture-images` is set to `true`
-          type: object
-          properties:
-            url:
-              type: string
-              description: URL for the video poster image
-            height:
-              type: integer
-              description: Height of the poster in pixels
-            width:
-              type: integer
-              description: Width of the poster in pixels
-        thumbnail:
-          description: >-
-            The custom video thumbnail to be ingested - see [Images and the Dynamic Ingest API](https://support.brightcove.com/images-and-dynamic-ingest-api) for more information. Do not use if `capture-images` is set to `true`
-          type: object
-          properties:
-            url:
-              type: string
-              description: URL for the video thumbnail image
-            height:
-              type: integer
-              description: Height of the thumbnail in pixels
-            width:
-              type: integer
-              description: Width of the thumbnail in pixels
       title: Create_VOD_ClipBody.outputs.videocloud.ingest
       description: >-
         An object containing inputs for Video Cloud video ingestion - see the [Dynamic Ingest Reference](https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost) - do not include the master field, as that information will be provided by the Live API. If no ingest profile is specified, the account default profile will be used.
@@ -3474,14 +3883,14 @@ components:
 
             Possible states:
               * `none` (not an SEP job)
-              * `ready`	(The entry point has been activated and ready for the encoder to connect)
-              * `waiting`	(The job is currently deactivated)
+              * `ready`  (The entry point has been activated and ready for the encoder to connect)
+              * `waiting`  (The job is currently deactivated)
               * `pending_activation` (The entry point has been queued for streaming worker assignment.)
-              * `activation_in_progress`	(The entry point is updating to route connections to the streaming worker.)
-              * `pending_deactivation`	(The entry point has been queued for cleanup from the streaming worker.)
-              * `deactivation_in_progress`	(The entry point is disconnecting from the streaming worker.)
-              * `cancelled`	(The entry point has been cancelled.)
-              * `finished`	(The entry point has completed successfully.)
+              * `activation_in_progress`  (The entry point is updating to route connections to the streaming worker.)
+              * `pending_deactivation`  (The entry point has been queued for cleanup from the streaming worker.)
+              * `deactivation_in_progress`  (The entry point is disconnecting from the streaming worker.)
+              * `cancelled`  (The entry point has been cancelled.)
+              * `finished`  (The entry point has completed successfully.)
           enum:
             - none
             - ready
@@ -3499,11 +3908,11 @@ components:
 
             Possible states:
               * `none` (not an SSAI job)
-              * `waiting_input`	(The streaming worker is waiting for the encoder to connect and provide the stream input information.)
-              * `start_transcoding`	(The encoder has connected and the SSAI slate has been queued for transcoding based on the stream input data and outputs data.)
-              * `transcoding`	(The slate is being transcoded.)
-              * `error`	(The slate could not be downloaded or transcoded.)
-              * `ready`	(The slate has been generated and the job is ready for SSAI playback.)
+              * `waiting_input`  (The streaming worker is waiting for the encoder to connect and provide the stream input information.)
+              * `start_transcoding`  (The encoder has connected and the SSAI slate has been queued for transcoding based on the stream input data and outputs data.)
+              * `transcoding`  (The slate is being transcoded.)
+              * `error`  (The slate could not be downloaded or transcoded.)
+              * `ready`  (The slate has been generated and the job is ready for SSAI playback.)
             enum:
               - none
               - waiting_input
@@ -3656,7 +4065,6 @@ components:
               "audio_bitrate_in_kbps": null,
               "audio_codec": null,
               "audio_sample_rate": null,
-              "audio_tracks": null,
               "channels": null,
               "created_at": "2018-09-05T12:19:29.826Z",
               "duration_in_ms": 1242901,
@@ -5055,6 +5463,7 @@ components:
         - label
       title: vod_jobs2
       type: object
+
   parameters:
     ContentType:
       name: Content-Type
@@ -5080,6 +5489,15 @@ components:
       name: live_account_id
       in: path
       description: Live account ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    redundant_group_id:
+      name: redundant_group_id
+      in: path
+      description: Redundant group ID
       required: true
       style: simple
       explode: false
@@ -5216,6 +5634,15 @@ components:
       explode: true
       schema:
         type: integer
+    force:
+      name: force
+      in: query
+      description: >-
+        Force failover for a redundant stream without going to manual mode
+      style: form
+      explode: true
+      schema:
+        type: boolean
     modified_at:
       name: modified_at
       in: query

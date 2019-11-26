@@ -699,16 +699,18 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/jobs/{job_id}:
     delete:
       tags:
         - Redundant Groups
-      summary: Remove Jobs from Redundant Group
-      description: Remove All Jobs from a Redundant Group
-      operationId: RemoveJobsRedundantGroup
+      summary: Remove a Job from Redundant Group
+      description: Remove the specified Jobs from a Redundant Group
+      operationId: RemoveJobRedundantGroup
       parameters:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+        - $ref: '#/components/parameters/JobId'
       responses:
         '200':
           description: A success response will just contain the redundant group id
@@ -1828,7 +1830,9 @@ components:
                   - eu-west-1
               probability:
                 type: integer
-                description: usually set to `1`
+                minimum: 0
+                maximum: 1
+                description: not used currently - should be set to 1
         storage_regions:
           description: >-
             'Storage regions media chunks and playlists will be uploaded to in S3. Recommended this matches processing_regions and the regions the Live Jobs are created in.'
@@ -1946,6 +1950,7 @@ components:
               List of stream labels to be used as outputs for the stream. If `streams` is defined, `playlist` **must** be *undefined*.
             items:
               type: string
+              description: A stream label
         required:
           - job_id
       example: [
@@ -1975,7 +1980,7 @@ components:
               probability:
                 type: number
                 description: >-
-                  Approximate percentage of playback that this region will process (from 0 to 1)
+                  Approximate percentage of playback that this region will process (from 0 to 1) - this field is not used yet
         storage_regions:
           type: array
           description: Storage regions for the group

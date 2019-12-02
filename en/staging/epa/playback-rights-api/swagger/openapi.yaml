@@ -3,35 +3,117 @@ x-bc-implicit-head: true
 x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
-  title: Playback Config API Reference
+  title: Playback Rights API Reference
   description: >-
-    Reference for the Brightcove Playback Config API. This API allows you to get, add, update and delete behaviors for an account. These behaviors are outlined in the [Dynamic Delivery Rules](https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html) documents.
+    Reference for the Brightcove Playback Rights API. This API allows you to create, read, update and delete video playback rights.
 
-     **Base URL**: https://playback-auth.api.brightcove.com
+     **Base URL**: https://playback-auth.brightcove.com
   version: 1.0.0
   x-bc-access: public
 servers:
-  - url: 'https://playback-auth.api.brightcove.com/management/v1'
+  - url: 'https://playback-auth.brightcove.com/v1'
     variables: {}
 tags:
-  - name: Playback Config
-    description: Operations for getting, adding, updating and deleting behaviors for Delivery Rules.
+  - name: Playback Rights
+    description: Operations for creating, reading, updating and deleting video playback rights.
 paths:
-  '/accounts/{accountID}/behaviors':
+  '/accounts/{accountID}/playback_rights':
     post:
       tags:
-        - Playback Config
-      summary: Add behaviors to an account
-      description: |-
-        Add behaviors to an account to support Brightcove's Delivery Rules
-      operationId: AddBehavior
+        - New Playback Right
+      summary: Create a new playback right
+      description: 'Create a new playback right'
+      operationId: CreateRight
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/audit
+          - video-cloud/playback-auth/playback-rights/write
       parameters:
         - name: accountID
           in: path
           description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Create playback right metadata
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackRight'
+      responses:
+        '201':
+          description: 'Playback right created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackRightResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid request Body
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '409':
+          description: >-
+            STATUS_CONFLICT: Something went wrong while trying to update the file
+          content:
+            text/plain:
+              example: "Invalid country: MIX"
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/playback_rights/{playbackRightsID}':
+    put:
+      tags:
+        - Update Playback Right
+      summary: Updates a specific playback right
+      description: |-
+        Update a specific playback right for an account
+      operationId: UpdateRight
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/playback-rights/write
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: playbackRightsID
+          in: path
+          description: Playback rights ID
           required: true
           style: simple
           explode: false
@@ -59,17 +141,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddBehaviorResponse'
+                $ref: '#/components/schemas/PlaybackRight'
+        '204':
+          description: >-
+            BAD_REQUEST: No content for successful update
         '400':
           description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+            BAD_REQUEST: Invalid request Body
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your policy
             key is correct
         '404':
           description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+            RESOURCE_NOT_FOUND: The playback right ID was not found
+        "409":
+          description: Status Conflict, something went wrong while trying to update the file
+          content:
+            text/plain:
+              example: "Invalid country: MIX"
         '500':
           description: |-
             UNKNOWN: Issue in Brightcove system; try again later.
@@ -82,10 +172,10 @@ paths:
         IsMultiContentStreaming: false
     get:
       tags:
-        - Playback Config
-      summary: Get latest version of behaviors for an account
-      description: 'Get only the latest version of the behaviors defined for an account.'
-      operationId: GetLatestBehaviors
+        - Playback Rights
+      summary: Get a specific playback right for an account
+      description: 'Get a specific playback right for an account'
+      operationId: GetPlaybackRight
       security:
         - BC_OAuth2:
           - video-cloud/playback-auth/audit
@@ -93,6 +183,14 @@ paths:
         - name: accountID
           in: path
           description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: playbackRightsID
+          in: path
+          description: Playback rights ID
           required: true
           style: simple
           explode: false
@@ -140,6 +238,71 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status500'
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Playback Config
+      summary: Delete a behavior for an account
+      description: 'Delete a behavior for an account.'
+      operationId: DeleteBehavior
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/audit
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: A unique ID associated with a behavior defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'SUCCESS: The specified behavior has been deleted'
+        '400':
+          description: >-
+            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -216,150 +379,10 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/behavior/{id}':
-    put:
-      tags:
-        - Playback Config
-      summary: Update a behavior for an account
-      description: 'Update a behavior for an account. Note: Only the properties in the request will be updated. Other properties in the behavior will not be modified.'
-      operationId: UpdateBehavior
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/audit
-      parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: A unique ID associated with a behavior defined for an account
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      requestBody:
-        description: Update behavior metadata
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/behavior'
-      responses:
-        '200':
-          description: '200'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateBehaviorResponse'
-        '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
-    delete:
-      tags:
-        - Playback Config
-      summary: Delete a behavior for an account
-      description: 'Delete a behavior for an account.'
-      operationId: DeleteBehavior
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/audit
-      parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: A unique ID associated with a behavior defined for an account
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'SUCCESS: The specified behavior has been deleted'
-        '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
+
 components:
   schemas:
-    AddBehaviorResponse:
+    PlaybackRight:
       title:  Add Behavior Response
       type: object
       properties:
@@ -465,7 +488,7 @@ components:
               - maximum number of video renditions
               - first video bitrate
               - discontinuities
-    GetLatestBehaviorsResponse:
+    PlaybackRightResponse:
       title:  Get Latest Behaviors Response
       type: object
       properties:

@@ -5,7 +5,7 @@ x-bc-upstream: 'http://backend_server'
 info:
   title: Playback Rights API Reference
   description: >-
-    Reference for the Brightcove Playback Rights API. This API allows you to create, read, update and delete video playback rights.
+    Reference for the Brightcove Playback Rights API. This API allows you to create, read, update and delete video Playback Rights.
 
      **Base URL**: https://playback-auth.brightcove.com
   version: 1.0.0
@@ -15,14 +15,14 @@ servers:
     variables: {}
 tags:
   - name: Playback Rights
-    description: Operations for creating, reading, updating and deleting video playback rights.
+    description: Operations for creating, reading, updating and deleting video Playback Rights.
 paths:
   '/accounts/{accountID}/playback_rights':
     post:
       tags:
         - New Playback Right
-      summary: Create a new playback right
-      description: 'Create a new playback right'
+      summary: Create a new Playback Right
+      description: 'Create a new Playback Right'
       operationId: CreateRight
       security:
         - BC_OAuth2:
@@ -92,6 +92,79 @@ paths:
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
   '/accounts/{accountID}/playback_rights/{playbackRightsID}':
+    get:
+      tags:
+        - Playback Rights
+      summary: Get a specific Playback Right for an account
+      description: 'Get a specific Playback Right for an account'
+      operationId: GetPlaybackRight
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/playback-rights/read
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: playbackRightsID
+          in: path
+          description: Playback Rights ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackRightResponse'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid request Body
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your policy
+            key is correct
+        '404':
+          description: Playback right id was not found
+          content:
+            text/plain:
+              example: "Playback Rights not found"
+        '500':
+          description: '500'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status500'
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
     put:
       tags:
         - Update Playback Right
@@ -137,24 +210,28 @@ paths:
             type: string
       responses:
         '200':
-          description: '200'
+          description: Expected response to a valid request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackRight'
+                $ref: "#/components/schemas/PlaybackRight"
         '204':
           description: >-
             BAD_REQUEST: No content for successful update
         '400':
-          description: >-
-            BAD_REQUEST: Invalid request Body
+          description: Bad Request
+          content:
+            text/plain:
+              example: "Invalid request Body"
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your policy
             key is correct
         '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The playback right ID was not found
+          description: Playback Right ID was not found
+          content:
+            text/plain:
+              example: "Playback Rights not found"
         "409":
           description: Status Conflict, something went wrong while trying to update the file
           content:
@@ -164,80 +241,6 @@ paths:
           description: |-
             UNKNOWN: Issue in Brightcove system; try again later.
             TIMEOUT: Server likely too busy; try again later.
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
-    get:
-      tags:
-        - Playback Rights
-      summary: Get a specific playback right for an account
-      description: 'Get a specific playback right for an account'
-      operationId: GetPlaybackRight
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/audit
-      parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: playbackRightsID
-          in: path
-          description: Playback rights ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: '200'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetLatestBehaviorsResponse'
-        '400':
-          description: '400'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status400'
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '500':
-          description: '500'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status500'
       deprecated: false
       x-operation-settings:
         CollectParameters: false

@@ -322,7 +322,7 @@ paths:
       summary: Add or update Ad Metadata
       description: >-
         Allows  content metadata to be pushed and constantly updated out-of-band from a customer live stream..
-      operationId: AddAdMatadata
+      operationId: AddAdMetadata
       parameters:
         - $ref: '#/components/parameters/JobId'
         - $ref: '#/components/parameters/ContentType'
@@ -332,7 +332,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddAdMatadatabody'
+              $ref: '#/components/schemas/AddAdMetadatabody'
         required: true
       responses:
         '200':
@@ -630,7 +630,7 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
       requestBody:
-        description: Create a redundant group of two Live jobs
+        description: Create a redundant group of multiple Live jobs
         content:
           application/json:
             schema:
@@ -675,6 +675,13 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Create a redundant group of multiple Live jobs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJobsRedundantGroupRequest'
+        required: true
       responses:
         '200':
           description: A success response will just contain the group id
@@ -797,7 +804,15 @@ paths:
         required: true
       responses:
         '200':
-          description: '200 - no content returned'
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of the redundant group
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -830,9 +845,57 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+        - $ref: '#/components/parameters/force'
       responses:
         '204':
           description: '204 NO_CONTENT'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/cuepoint:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Insert cuepoint for redundant group
+      description: >-
+        Manually inserts a cuepoint for a redundant Live job.
+      operationId: InsertCuepointRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Inserts a manual Cue-Out with a duration to the Live ingest point for the redundant group.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualAdCuePointInsertionbody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualAdCuePointInsertionResponse'
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -1930,7 +1993,7 @@ components:
             }
           }
         }
-    AddJobsToRedundantGroup:
+    AddJobsRedundantGroupRequest:
       title: Add Jobs to a Redundant Group Request Body
       description: >-
         A set of job ids to add to a redundant group.
@@ -2028,7 +2091,7 @@ components:
             SwitchDrift:
               type: number
               description: >-
-                time in nanoseconds of "drift" that occured in the stream after a failover happened (auto or manual). Failovers are only segment accurate, and since the input jobs are not synced, it is possible that some content may repeated/skipped when a failover occurs and the jobs are not segmented in sync.
+                time in nanoseconds of "drift" that occurred in the stream after a failover happened (auto or manual). Failovers are only segment accurate, and since the input jobs are not synced, it is possible that some content may repeated/skipped when a failover occurs and the jobs are not segmented in sync.
             Ended:
               type: boolean
               description: >-
@@ -2193,7 +2256,7 @@ components:
         playback_token:
           type: string
           example: 'live.TCaG-5GnlxmTFA8twsstmHqgET9npvC3nVtokT5nte...'
-    AddAdMatadatabody:
+    AddAdMetadatabody:
       title: Add Ad Metadata Request body
       description: ->
         A set of key/value pairs for ad requests.
@@ -2205,9 +2268,9 @@ components:
             Object containing a collection of keys and values. Values may be strings, numbers, or boolean.
           example: {
               "ad_server_data": {
-                "one":"won",
-                "two":2,
-                "three":false
+                "one": "won",
+                "two": 2,
+                "three": false
               }
             }
     Application:
@@ -5230,10 +5293,11 @@ components:
               4. Elemental hardware encoders do support the sending timecode via `OnFI` packets in the RTMP stream'
           type: string
           example: {
-              "duration": 30,
               "ad_server_data": {
                 "subject": "wildlife"
-              }
+              },
+              "duration": 30,
+              "timecode": "09:23:18:05"
             }
       required:
         - duration
@@ -5748,7 +5812,9 @@ components:
       name: force
       in: query
       description: >-
-        Force failover for a redundant stream without going to manual mode
+        '1. For force failover requests: force failover for a redundant stream without going to manual mode
+        2. For remove job from redundant group requests: force removal of on-air job
+        3. For delete redundant group requests: force delete redundant group in processing state'
       style: form
       explode: true
       schema:

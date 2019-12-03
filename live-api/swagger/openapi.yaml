@@ -319,7 +319,7 @@ paths:
       summary: Add or update Ad Metadata
       description: >-
         Allows  content metadata to be pushed and constantly updated out-of-band from a customer live stream..
-      operationId: AddAdMatadata
+      operationId: AddAdMetadata
       parameters:
         - $ref: '#/components/parameters/JobId'
         - $ref: '#/components/parameters/ContentType'
@@ -329,7 +329,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddAdMatadatabody'
+              $ref: '#/components/schemas/AddAdMetadatabody'
         required: true
       responses:
         '200':
@@ -359,7 +359,7 @@ paths:
       summary: Delete Ad Metadata
       description: >-
         Deletes ad metadata from a customer live stream..
-      operationId: DeleteAdMatadata
+      operationId: DeleteAdMetadata
       parameters:
         - $ref: '#/components/parameters/JobId'
         - $ref: '#/components/parameters/ContentType'
@@ -1570,7 +1570,7 @@ components:
         playback_token:
           type: string
           example: 'live.TCaG-5GnlxmTFA8twsstmHqgET9npvC3nVtokT5nte...'
-    AddAdMatadatabody:
+    AddAdMetadatabody:
       title: Add Ad Metadata Request body
       description: ->
         A set of key/value pairs for ad requests.
@@ -1582,9 +1582,9 @@ components:
             Object containing a collection of keys and values. Values may be strings, numbers, or boolean.
           example: {
               "ad_server_data": {
-                "one":"won",
-                "two":2,
-                "three":false
+                "one": "won",
+                "two": 2,
+                "three": false
               }
             }
     Application:
@@ -4602,10 +4602,11 @@ components:
               4. Elemental hardware encoders do support the sending timecode via `OnFI` packets in the RTMP stream'
           type: string
           example: {
-              "duration": 30,
               "ad_server_data": {
                 "subject": "wildlife"
-              }
+              },
+              "duration": 30,
+              "timecode": "09:23:18:05"
             }
       required:
         - duration

@@ -630,7 +630,7 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
       requestBody:
-        description: Create a redundant group of two Live jobs
+        description: Create a redundant group of multiple Live jobs
         content:
           application/json:
             schema:
@@ -675,6 +675,13 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Create a redundant group of multiple Live jobs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJobsRedundantGroupRequest'
+        required: true
       responses:
         '200':
           description: A success response will just contain the group id
@@ -797,7 +804,15 @@ paths:
         required: true
       responses:
         '200':
-          description: '200 - no content returned'
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of the redundant group
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -830,6 +845,7 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+        - $ref: '#/components/parameters/force'
       responses:
         '204':
           description: '204 NO_CONTENT'
@@ -1930,7 +1946,7 @@ components:
             }
           }
         }
-    AddJobsToRedundantGroup:
+    AddJobsRedundantGroupRequest:
       title: Add Jobs to a Redundant Group Request Body
       description: >-
         A set of job ids to add to a redundant group.
@@ -5748,7 +5764,9 @@ components:
       name: force
       in: query
       description: >-
-        Force failover for a redundant stream without going to manual mode
+        '1. For force failover requests: force failover for a redundant stream without going to manual mode
+        2. For remove job from redundant group requests: force removal of on-air job
+        3. For delete redundant group requests: force delete redundant group in processing state'
       style: form
       explode: true
       schema:

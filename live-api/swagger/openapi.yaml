@@ -2,11 +2,11 @@ openapi: 3.0.0
 info:
   title: Live API Reference
   description: |-
-    Reference for the Brightcove Live API, used to create and manage live streaming events.
+    'Reference for the Brightcove Live API, used to create and manage live streaming events.
 
     For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/live)**.
 
-    **Base URL**: https://api.bcovlive.io/v1
+    **Base URL**: https://api.bcovlive.io/v1'
   version: 1.0.0
 servers:
   - url: 'https://api.bcovlive.io/v1'
@@ -322,7 +322,7 @@ paths:
       summary: Add or update Ad Metadata
       description: >-
         Allows  content metadata to be pushed and constantly updated out-of-band from a customer live stream..
-      operationId: AddAdMatadata
+      operationId: AddAdMetadata
       parameters:
         - $ref: '#/components/parameters/JobId'
         - $ref: '#/components/parameters/ContentType'
@@ -332,7 +332,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddAdMatadatabody'
+              $ref: '#/components/schemas/AddAdMetadatabody'
         required: true
       responses:
         '200':
@@ -630,7 +630,7 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
       requestBody:
-        description: Create a redundant group of two Live jobs
+        description: Create a redundant group of multiple Live jobs
         content:
           application/json:
             schema:
@@ -675,9 +675,16 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Create a redundant group of multiple Live jobs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJobsRedundantGroupRequest'
+        required: true
       responses:
-        '204':
-          description: 204 NO_CONTENT
+        '200':
+          description: A success response will just contain the group id
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -699,26 +706,23 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/jobs/{job_id}:
     delete:
       tags:
         - Redundant Groups
-      summary: Remove Jobs from Redundant Group
-      description: Remove All Jobs from a Redundant Group
-      operationId: RemoveJobsRedundantGroup
+      summary: Remove a Job from Redundant Group
+      description: >-
+        Remove the specified Jobs from a Redundant Group; normally the operation will not remove the job that is currently `on_air`, but adding the `force=true` query parameter will remove it
+      operationId: RemoveJobRedundantGroup
       parameters:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
-      requestBody:
-        description: Array of job ids to add to a redundant groups
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddJobsToRedundantGroup'
-        required: true
+        - $ref: '#/components/parameters/JobId'
+        - $ref: '#/components/parameters/force'
       responses:
-        '200':
-          description: A success response will just contain the redundant group id
+        '204':
+          description: 204 NO_CONTENT
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -800,7 +804,15 @@ paths:
         required: true
       responses:
         '200':
-          description: '200 - no content returned'
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of the redundant group
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -828,14 +840,62 @@ paths:
       summary: Delete a redundant group
       description: >-
         Deletes a redundant group and ends the redundant stream. Note that alternatively you can put the stream in standby mode by removing all jobs from it.
-      operationId: ForceRedundantStreamFailover
+      operationId: DeleteRedundantGroup
       parameters:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/XAPIKEY'
         - $ref: '#/components/parameters/redundant_group_id'
+        - $ref: '#/components/parameters/force'
       responses:
         '204':
           description: '204 NO_CONTENT'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid input value - see Live API Error Messages for
+            more details
+        '401':
+          description: >-
+            UNAUTHORIZED: Unauthorized - see Live API Error Messages for more
+            details
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you
+            requested - see Live API Error Messages for more details
+        '500':
+          description: 'INTERNAL_SERVER_ERROR: see Live API Error Messages for more details'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /redundantgroups/{redundant_group_id}/cuepoint:
+    post:
+      tags:
+        - Redundant Groups
+      summary: Insert cuepoint for redundant group
+      description: >-
+        Manually inserts a cuepoint for a redundant Live job.
+      operationId: InsertCuepointRedundantGroup
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/XAPIKEY'
+        - $ref: '#/components/parameters/redundant_group_id'
+      requestBody:
+        description: Inserts a manual Cue-Out with a duration to the Live ingest point for the redundant group.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualAdCuePointInsertionbody'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualAdCuePointInsertionResponse'
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -1835,7 +1895,9 @@ components:
                   - eu-west-1
               probability:
                 type: integer
-                description: usually set to `1`
+                minimum: 0
+                maximum: 1
+                description: not used currently - should be set to 1
         storage_regions:
           description: >-
             'Storage regions media chunks and playlists will be uploaded to in S3. Recommended this matches processing_regions and the regions the Live Jobs are created in.'
@@ -1858,8 +1920,7 @@ components:
         - label
         - processing_regions
         - storage_regions
-      example: >-
-        {
+      example: {
           "ad_insertion": true,
           "processing_regions": ["us-west-2"],
           "storage_regions": ["us-west-2", "us-east-1"],
@@ -1899,8 +1960,7 @@ components:
         outputs:
           type: object
           description: Outputs for the group
-      example: >-
-        {
+      example: {
           "id": "481ff4cf0bf74956bc2ec6e126588080",
           "processing_regions": [
               {
@@ -1933,7 +1993,7 @@ components:
             }
           }
         }
-    AddJobsToRedundantGroup:
+    AddJobsRedundantGroupRequest:
       title: Add Jobs to a Redundant Group Request Body
       description: >-
         A set of job ids to add to a redundant group.
@@ -1953,10 +2013,12 @@ components:
             type: array
             description: >-
               List of stream labels to be used as outputs for the stream. If `streams` is defined, `playlist` **must** be *undefined*.
+            items:
+              type: string
+              description: A stream label
         required:
           - job_id
-      example: >-
-        [
+      example: [
           {
             "job_id": "0b76bc73f92f46dc917bbe5061c0c633"
           },
@@ -1970,101 +2032,107 @@ components:
       properties:
         id:
           type: string
-          description: The redundant group id
+          description: Redundant group ID
         processing_regions:
           type: array
+          description: Processing regions for the group
           items:
             type: object
             properties:
-              region: 
+              region:
                 type: string
-                description: An AWS processing region
+                description: an AWS region
               probability:
                 type: number
-                description: The approximate percentage of playback that will be processed in this region
-                minimum: 0
-                maximum: 1
+                description: >-
+                  Approximate percentage of playback that this region will process (from 0 to 1) - this field is not used yet
         storage_regions:
           type: array
+          description: Storage regions for the group
           items:
             type: string
-            description: AWS regions used for storage
+            description: AWS regions
         jobs:
           type: array
-          description: Live jobs in this redundant group
+          description: Array of objects with properties for the jobs
           items:
             type: object
             properties:
               job_id:
                 type: string
-                description: The Live job id
+                description: Live job id
               streams:
                 type: array
-                description: Array of output renditions for this job
                 items:
                   type: string
-                  description: The output label
+                  description: label for a job output
               state:
                 type: string
-                description: The current state of the job
+                description: Current state of the job
         state:
           type: string
-          description: The current state of the redundant group
+          description: Current state of the group
         created_at:
-          type: integer
-          description: When the group was created in Epoch time
+          type: number
+          description: Date-time the group was created in Epoch time
         updated_at:
-          type: integer
-          description: When the group was last modified in Epoch time
-        label:
-          type: string
-          description: The label for the redundant group
-        live_dvr_sliding_window_duration:
-          type: integer
-          description: The DVR sliding window duration in seconds
-        status:
-          type: object
-          description: Detailed status by processing region
-          properties:
-            SwitchDrift:
-              type: number
-            ended:
-              type: boolean
-              description: Whether the stream has ended
-            OnAir:
-              type: string
-              description: The job id for the Live job that is being used for streaming
-            Mode:
-              type: string
-              description: The current failover mode, either `auto` or `manual`
-            InManifest:
-              type: boolean
-            MediaSequence:
-              type: number
-            Healthiness:
-              type: number
-            Duration:
-              type: number
-              description: Segment duration in seconds
-            DiscontinuitySequence:
-              type: number
-            SourceChunk:
-              type: object
-              description: Details for source of the current segment
-            UpdateAt:
-              type: string
-              description: Date-time of the last status update
-            ProgramDateTime:
-              type: string
-              description: Date-time of the stream start
+          type: number
+          description: Date-time the group was last updated in Epoch time
         ad_insertion:
           type: boolean
           description: Whether SSAI is enabled
         outputs:
           type: object
           description: The output URLs
-      example: >-
-        {
+        status:
+          type: object
+          description: object containing the status for processing regions
+          properties:
+            SwitchDrift:
+              type: number
+              description: >-
+                time in nanoseconds of "drift" that occurred in the stream after a failover happened (auto or manual). Failovers are only segment accurate, and since the input jobs are not synced, it is possible that some content may repeated/skipped when a failover occurs and the jobs are not segmented in sync.
+            Ended:
+              type: boolean
+              description: >-
+                When true, the stream has been ended and an `EXT-X-ENDLIST` tag has been added to the stream
+            OnAir:
+              type: string
+              description: The on air job id
+            Mode:
+              type: string
+              description: The failover mode, manual or auto
+            InManifest:
+              type: boolean
+              description: Whether the current status has been added to the m3u8
+            MediaSequence:
+              type: number
+              description: >-
+                The media sequence number of the last chunk added to the stream
+            Healthiness:
+              type: number
+              description: >-
+                A computed number used mostly internally. If it goes to 0, the group is not being updated.
+            Duration:
+              type: integer 
+              description: >-
+                Duration of the last chunk added to the stream.
+            DiscontinuitySequence:
+              type: integer
+              description: >-
+                Discontinuty Sequence of the last chunk added to the stream
+            SourceChunk:
+              type: object
+              description: >-
+                Source information of the last chunk added to the stream
+            UpdatedAt:
+              type: string
+              description: Last updated to the redundant group
+            ProgramDateTime:
+              type: string
+              description: >-
+                The program date time of the last chunk added. to the stream;
+      example: {
             "id": "481ff4cf0bf74956bc2ec6e126588080",
             "processing_regions": [
                 {
@@ -2188,7 +2256,7 @@ components:
         playback_token:
           type: string
           example: 'live.TCaG-5GnlxmTFA8twsstmHqgET9npvC3nVtokT5nte...'
-    AddAdMatadatabody:
+    AddAdMetadatabody:
       title: Add Ad Metadata Request body
       description: ->
         A set of key/value pairs for ad requests.
@@ -2200,9 +2268,9 @@ components:
             Object containing a collection of keys and values. Values may be strings, numbers, or boolean.
           example: {
               "ad_server_data": {
-                "one":"won",
-                "two":2,
-                "three":false
+                "one": "won",
+                "two": 2,
+                "three": false
               }
             }
     Application:
@@ -2626,9 +2694,9 @@ components:
         live_dvr_sliding_window_duration:
           default: 1
           description: >-
-            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`.
+            The time, in seconds, to keep in the live DVR manifest. If the stream duration is longer than the window duration, segment references will be removed first in first out. **Note: for SSAI jobs, the limit is `7200`. If you do not want to be charged for DVR usage, set this to 0 or do not included it in the request body.
           maximum: 86400
-          minimum: 1
+          minimum: 0
           type: integer
         live_stream:
           description: Indicates that the job is a live streaming job.
@@ -5225,10 +5293,11 @@ components:
               4. Elemental hardware encoders do support the sending timecode via `OnFI` packets in the RTMP stream'
           type: string
           example: {
-              "duration": 30,
               "ad_server_data": {
                 "subject": "wildlife"
-              }
+              },
+              "duration": 30,
+              "timecode": "09:23:18:05"
             }
       required:
         - duration
@@ -5743,10 +5812,11 @@ components:
       name: force
       in: query
       description: >-
-        Force failover for a redundant stream without going to manual mode
+        '1. For force failover requests: force failover for a redundant stream without going to manual mode
+        2. For remove job from redundant group requests: force removal of on-air job
+        3. For delete redundant group requests: force delete redundant group in processing state'
       style: form
       explode: true
-      default: false
       schema:
         type: boolean
     modified_at:

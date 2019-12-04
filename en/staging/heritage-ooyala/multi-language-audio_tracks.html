@@ -44,9 +44,72 @@
 
             <p>Both multiple audio tracks within the source video and additional separate audio files can be used for multiple audio tracks. Video Cloud does not store audio masters, however - separate audio files used as alternate audio tracks must be hosted on public URLs.</p>
 
-            <p>By default, external audio tracks will be merged with those contained in the video. If instead you want to replace the audio tracks contained in the video, you can set the <code>merge_with_existing</code> flag to false.</p>
-
-            <p>For a complete guide to ingesting multiple audio tracks using the Dynamic Ingest API, see <a href="https://support.brightcove.com/implementing-multiple-audio-tracks-using-apis">this topic</a>.</p>
+            <p>By default, external audio tracks will be merged with those contained in the video. If instead you want to replace the audio tracks contained in the video, you can set the <code>merge_with_existing</code> flag to <code>false</code>.</p>
+          </section>
+          <section class="bcls-section">
+            <h2 id="Sample_request_bodies">Sample request bodies</h2>
+            <p>Below are some sample request bodies for different cases.</p>
+            <h3>Only master audio tracks</h3>
+<pre class="line-numbers"><code class="language-json">{
+  "master": {
+      "url": "https://mybucket.com/videos/video1.mp4",
+      "audio_tracks": [
+        {
+          "language": "en",
+          "variant": "main"
+        },
+        {
+          "language": "fr",
+          "variant": "main"
+        },
+        {
+          "language": "es",
+          "variant": "main"
+        }
+      ]
+  },
+}</code></pre>
+            <h3>Master audio tracks with multiple audio inputs</h3>
+<pre class="line-numbers"><code class="language-json">{
+  "master": {
+      "url": "https://mybucket.com/videos/video1.mp4",
+      "audio_tracks": [
+          {
+              "language": "en",
+              "variant": "main"
+          },
+          {
+              "language": "fr",
+              "variant": "main"
+          },
+          {
+              "language": "es",
+              "variant": "main"
+          }
+      ]
+  },
+  "audio_tracks": {
+      "merge_with_existing": true,
+      "masters": [
+          {
+              "language": "en",
+              "variant": "commentary",
+              "url": "https://mybucket.com/audio/video1-en-commentary.m4a"
+          },
+          {
+              "language": "fr",
+              "variant": "commentary",
+              "url": "https://mybucket.com/audio/video1-fr-commentary.m4a"
+          }
+      ]
+  }
+}</code></pre>
+            <h4>Notes</h4>
+            <ul>
+              <li>Ingest will <strong>not</strong> fail the job for any master track that is not part of the media info and that track will be skipped.</li>
+              <li>For the master audio tracks input, any one of the languages or the variants can be passed as well. In that case we will look for that in media info and skip it if not present.</li>
+              <li>Where the language or variant for a track is not specified in the request, we will default to <code>en</code> for the language, and <code>main</code> for the variant.</li>
+            </ul>
           </section>
           <section class="bcls-section">
               <h2 id="Audio_service_type">Audio service type</h2>

@@ -895,7 +895,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManualAdCuePointInsertionResponse'
+                $ref: '#/components/schemas/RedundantGroupCuePointInsertionResponse'
         '400':
           description: >-
             BAD_REQUEST: Invalid input value - see Live API Error Messages for
@@ -5301,7 +5301,67 @@ components:
         }
       required:
         - duration
-      title: Manual_Ad_Cue_Point_InsertionBody
+      title: Manual Cue Point Insertion Request Body
+      type: object
+    RedundantGroupCuePointInsertionResponse:
+      properties:
+        id:
+          type: string
+          description: The redundant group id
+        jobs:
+          type: array
+          items:
+            type: object
+            description: Job details
+            properties:
+              id:
+                type: string
+                description: The Live job id
+              error:
+                type: string
+                description: An error message returned if the cuepoint insertion failed
+              cue_point:
+                type: object
+                description: The cuepoint details
+                properties:
+                  accuracy:
+                    type: string
+                    description: The accuracy of the timing
+                    enum:
+                      - segment
+                      - frame
+                  duration:
+                    type: integer
+                    description: The duration of the break in seconds
+                  id:
+                    type: string
+                    description: Cuepoint id
+      example: {
+          "id": "3ae7fa89943f4a96aa273fbbf175d527",
+          "jobs": [
+            {
+              "id": "3fbbf175d5273ae7fa89943f4a96aa27",
+              "cue_point": {
+                "accuracy": "segment",
+                "duration": 30,
+                "id": "3f273ae4a96aa273ae4a96aafa8994"
+              }
+            },
+            {
+              "id": "7fa89943f3fbbf175d5273ae4a96aa27",
+              "error": "error message"
+            },
+            {
+              "id": "3ae4a96aa277fa89943f3fbbf175d527",
+              "cue_point": {
+                "accuracy": "segment",
+                "duration": 30,
+                "id": "3f273ae4a96aa273ae4a96aafa8994"
+              }
+            }
+          ]
+        }
+      title: Redundant Group Cuepoint Insertion Response
       type: object
     Notification:
       properties:

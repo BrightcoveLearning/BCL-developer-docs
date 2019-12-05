@@ -89,7 +89,7 @@
 
 <h4>Geography</h4>
 <p>
-  You can limit video playback by geography as follows:
+  Geographic restrictions let you control where your content is viewed. You can specify restrictions based on the following:
 </p>
 <ul>
   <li>
@@ -111,18 +111,54 @@
 
 <h4>Schedules</h4>
 <p>
-  Click-through ads let you maximize revenue and align ad sales.
+  Recurring schedules is a powerful tool that lets you restrict video playback for particular timeframes. An example would be to allow your content to be played on weekends only. Another example would be to allow playback between 8:00am and 8:00pm on Mondays, Tuesdays and Fridays.
 </p>
-<p>
-  Click-through URLs from the ad server will be passed to the playback client. The video will be clickable, and will send tracking events on user click. When clicked, the client will pause the stream and open the destination in a new browser tab or a separate webview.
-</p>
-<aside class="bcls-aside bcls-aside--information">Since TVs do not support a web browser, click-through ads are not available on connected TVs.</aside>
 
-<h3>Enables companion ads</h3>
+</section>
+
+<section class="bcls-section">
+<h2 id="User_level_restrictions">User level restrictions</h2>
+
+<p>You have the ability to create a unique id, per account, for each viewer. With this, you can set the following restrictions:</p>
+
+<h3>Device limit</h3>
 <p>
-  Companion ads provide another format for displaying ad content. They are usually text, display ads or rich media that appear outside of the player. The benefit of these ads is that they can remain visible throughout video playback.
+  Device registration happens when a DRM license request is made. A unique id is assigned to each device. With each license request, the device limit is checked and enforced. To use this restriction, you need to generate a JWT with the current user id (uid).
 </p>
-<aside class="bcls-aside bcls-aside--information">Companion ads do not appear on connected TVs.</aside>
+<p>
+  When a video has a <code>playback_right_id</code>, the restrictions specified in the Playback Rights object are applied to ALL requests for that video.
+</p>
+<p>
+  Playback Rights include the following categories:
+</p>
+
+<h3>Concurrency limits</h3>
+<p>
+  Limit a user id to be able to watch a specified number of videos at the same time.
+</p>
+
+<h3>Entitlement</h3>
+<p>
+  Limit the content viewers can watch based on subscription entitlement.
+</p>
+<p>
+  Let's say you have the following subscription levels:
+</p>
+<ul>
+  <li>
+    Silver - watch any video except first-run movies and live streams
+  </li>
+  <li>
+    Gold - watch any video except live streams
+  </li>
+  <li>
+    Platinum - watch any video or live stream
+  </li>
+</ul>
+<p>
+  First, associate tags wtih your videos to distinguish between standard, first run and live.Then, specify the applicable tags in the JWT token that you generate for the user. The Playback Authorization Service allows the user to watch videos with the specified tags.
+</p>
+
 </section>
 
 <section class="bcls-section">

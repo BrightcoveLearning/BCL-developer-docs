@@ -78,14 +78,46 @@
               </li>
             </ul>
             
-            <p>The easiest way to get client credentials is to use the Studio <a href="https://support.brightcove.com/managing-api-authentication-credentials">admin tools</a>.</p>
+            <p>The easiest way to get client credentials is to use the Studio <a href="https://support.brightcove.com/managing-api-authentication-credentials">admin tools</a>. When you register a new app, check the <strong>Create</strong> box under Dynamic Ingest, and the other permissions you need will be selected automatically:</p>
+            <figure class="bcls-figure">
+              <img class="bcls-image" src="/en/staging/heritage-ooyala/images/di-permissions.png" alt="Operation Permissions">
+              <figcaption class="bcls-caption--image">Operation Permissions</figcaption>
+            </figure>
             
+            <p>If you prefer to use the OAuth API directly to create your client credentials, see one of these topics:</p>
+            <ul>
+              <li><a href="https://support.brightcove.com/oauth-create-client-credentials-using-curl">OAuth: Get Client Credentials Using CURL</a></li>
+              <li><a href="https://support.brightcove.com/oauth-create-client-credentials-using-postman">OAuth: Get Client Credentials Using Postman</a></li>
+              <li><a href="https://support.brightcove.com/oauth-api-sample-create-client-credentials">Brightcove Learning Services Online App</a></li>
+            </ul>
+            <h3>Getting access tokens</h3>
+            <p>Once you have client credentials, you can get an access token by submitting a <code>POST</code> request to:</p>
+
+            <pre class="line-numbers">
+            <code class="language-http notranslate">https://oauth.brightcove.com/v4/access_token</code></pre>
+            
+            <p>You must pass the following headers with this call:</p>
             
             <ul>
-              <li><a href="/node/17924">OAuth: Get Client Credentials Using CURL</a></li>
-              <li><a href="/node/17923">OAuth: Get Client Credentials Using Postman</a></li>
+              <li><code class="language-http notranslate">Content-Type: application/x-www-form-urlencoded</code></li>
+              <li><code class="language-http notranslate">Authorization: Basic {client_id}:{client_secret}</code></li>
             </ul>
-            </section>
+            
+            <p>The entire <code class="language-http notranslate">{client_id}:{client_secret}</code> string must be Base64-encoded (curl will automatically Base64-encode the string if you pass it as <code>--user</code> credentials; in other languages, you'll need to handle the Base64-encoding yourself).</p>
+            
+            <p>You must also send the following key/value pair as the request body or as URL parameter:</p>
+            
+            <pre class="line-numbers">
+            <code class="language-http notranslate">grant_type=client_credentials</code></pre>
+            
+            <aside class="bcls-aside bcls-aside--information">Note that since the <code class="notranslate">Content-Type</code> must be <code class="notranslate">application/x-www-form-urlencoded</code>, the key/value pair will be sent to the API as a URL param even if you put it in the request body.</aside>
+
+            <p>If you will only need to do this a few times, we also have an <a href="https://support.brightcove.com/oauth-api-sample-get-access-token">online app for creating access tokens</a>, as well as instructions for setting up popular REST API clients to do this:</p>
+            <ul>
+              <li><a href=""></a></li>
+              <li><a href=""></a></li>
+            </ul>
+          </section>
             
           <section class="bcls-section">
               <h2 id="using_dynamic_ingest_api">Using the Dynamic Ingest API</h2>

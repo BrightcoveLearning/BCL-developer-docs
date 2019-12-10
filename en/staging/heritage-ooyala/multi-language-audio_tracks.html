@@ -54,11 +54,53 @@
             </ul>
           </section>
           <section class="bcls-section">
+            <h2 id="authentication">Authentication for API requests</h2>
+            
+            <p>Authentication for most of Brightcove's REST (platform) APIs is managed using OAuth 2. For a full explanation of Brightcove's OAuth implementation, see the <a href="https://support.brightcove.com/oauth-api">OAuth API documentation</a>. The short version, however, is that you need two things to authenticate API requests:</p>
+            <ul>
+              <li>Client credentials, consisting of a <code>client_id</code> and <code>client_secret</code> (getting these is a one-time operation)</li>
+              <li>Access token (you need to retrieve an access token for each API request from the OAuth API)</li>
+            </ul>
+            <p>Client credentials carry permissions for specific API operations. The operations required for Dynamic Ingest are:</p>
+            <ul>
+              <li>
+              <ul>
+                <li><code>video-cloud/video/create</code></li>
+                <li><code>video-cloud/video/read</code></li>
+                <!-- for adding images and webvtt files -->
+                <li><code>video-cloud/video/update</code></li>
+                <li><code>video-cloud/ingest-profiles/profile/read</code></li>
+                <li><code>video-cloud/ingest-profiles/account/read</code></li>
+                <li><code>video-cloud/ingest-profiles/account/write</code></li>
+                <li><code>video-cloud/ingest-profiles/profile/write</code></li>
+                <li><code>video-cloud/upload-urls/read</code></li>
+              </ul>
+              </li>
+            </ul>
+            
+            <p>The easiest way to get client credentials is to use the Studio <a href="https://support.brightcove.com/managing-api-authentication-credentials">admin tools</a>.</p>
+            
+            
+            <ul>
+              <li><a href="/node/17924">OAuth: Get Client Credentials Using CURL</a></li>
+              <li><a href="/node/17923">OAuth: Get Client Credentials Using Postman</a></li>
+            </ul>
+            </section>
+            
+          <section class="bcls-section">
               <h2 id="using_dynamic_ingest_api">Using the Dynamic Ingest API</h2>
               <p>There are two steps to ingesting a video using the Dynamic Ingest API</p>
               <ol>
-                <li>Create a video object in Video Cloud using the CMS API</li>
+                <li><a href="#create_video">Create a video object</a> in Video Cloud using the CMS API</li>
+                <li><a href="#ingest_video">Ingest the video</a> using the Dynamic Ingest API</li>
               </ol>
+              <section class="bcls-subsection">
+                <h3 id="create_video"></h3>
+                <p>To create a new video object in your Video Cloud video library, make <code>POST</code> request to:</p>
+              </section>
+              <section class="bcls-subsection">
+                <h3 id="ingest_video"></h3>
+              </section>
             </section>
           <section class="bcls-section">
             <h2 id="Sample_request_bodies">Sample request bodies</h2>

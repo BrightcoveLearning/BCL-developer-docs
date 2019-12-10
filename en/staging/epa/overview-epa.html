@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Managing Restrictions with Playback Authorization Service</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Managing Restrictions with Playback Authorization Service</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how Brightcove's Playback Authorization Service (PAS) allows you to manage playback with videos ingested for Dynamic Delivery.</summary>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Introduction">Introduction</h2>
+
+<p>Brightcove's Playback Authorization Service provides a scalable and expressive way to manage video playback. This service includes the following features:</p>
+<ul>
+  <li>
+    Limit playback by geography
+    <ul>
+      <li>
+        Country
+      </li>
+      <li>
+        Zip code
+      </li>
+      <li>
+        Designated market area (DMA)
+      </li>
+    </ul>
+  </li>
+  <li>
+    Define IP restrictions for each video
+  </li>
+  <li>
+    Define domain restrictions
+  </li>
+  <li>
+    Set recurring schedules
+  </li>
+  <li>
+    Limit viewing by device
+  </li>
+  <li>
+    Limit the number of videos a viewer can watch at one time
+  </li>
+</ul>
+<p>
+  This diagram shows the flow from the users video and license request to playback.
+</p>
+<figure class="bcls-figure">
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18953-pas-restrictions/pas-diagram.png" alt="Playback Authorization Service">
+  <figcaption class="bcls-caption--image">Playback Authorization Service</figcaption>
+</figure>
+</section>
+
+<section class="bcls-section">
+<h2 id="Account_setup">Account setup</h2>
+
+<p>Make sure your account is set up for Dynamic Delivery. Then, contact your account manager to enable your account for Brightcove's Playback Authorization Service.</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Specifications">Specifications</h2>
+
+<p>Brightcove's Playback Authorization Service provides the following functionality:</p>
+
+<h3>Playback Rights</h3>
+<p>
+  Playback Rights allow you to specify restrictions for video playback. These rights will be stored in the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/">Playback Rights API</a> and each set is assigned a unique id (<code>playback_right_id</code>). A set of rights can be associated with zero or more videos.
+</p>
+<p>
+  When a video has a <code>playback_right_id</code>, the restrictions specified in the Playback Rights object are applied to ALL requests for that video.
+</p>
+<p>
+  Playback Rights include the following categories:
+</p>
+
+<h4>Geography</h4>
+<p>
+  Geographic restrictions let you control where your content is viewed. You can specify restrictions based on the following:
+</p>
+<ul>
+  <li>
+    Country
+  </li>
+  <li>
+    Zip code (US only)
+  </li>
+  <li>
+    Designated market area (DMA - a concept developed by Nielson)
+  </li>
+  <li>
+    IP address (account or video level)
+  </li>
+</ul>
+<p>
+  The geography check is run at the start of video playback as well as during playback. If the mid-stream geo check fails, the player will stop video playback.
+</p>
+
+<h4>Schedules</h4>
+<p>
+  Recurring schedules is a powerful tool that lets you restrict video playback for particular timeframes. An example would be to allow your content to be played on weekends only. Another example would be to allow playback between 8:00am and 8:00pm on Mondays, Tuesdays and Fridays.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="User_level_restrictions">User level restrictions</h2>
+
+<p>You have the ability to create a unique id, per account, for each viewer. With this, you can set the following restrictions:</p>
+
+<h3>Device limit</h3>
+<p>
+  Device registration happens when a DRM license request is made. A unique id is assigned to each device. With each license request, the device limit is checked and enforced. To use this restriction, you need to generate a JWT with the current user id (uid).
+</p>
+<p>
+  When a video has a <code>playback_right_id</code>, the restrictions specified in the Playback Rights object are applied to ALL requests for that video.
+</p>
+<p>
+  Playback Rights include the following categories:
+</p>
+
+<h3>Concurrency limits</h3>
+<p>
+  Limit a user id to be able to watch a specified number of videos at the same time.
+</p>
+
+<h3>Entitlement</h3>
+<p>
+  Limit the content viewers can watch based on subscription entitlement.
+</p>
+<p>
+  Let's say you have the following subscription levels:
+</p>
+<ul>
+  <li>
+    Silver - watch any video except first-run movies and live streams
+  </li>
+  <li>
+    Gold - watch any video except live streams
+  </li>
+  <li>
+    Platinum - watch any video or live stream
+  </li>
+</ul>
+<p>
+  First, associate tags wtih your videos to distinguish between standard, first run and live.Then, specify the applicable tags in the JWT token that you generate for the user. The Playback Authorization Service allows the user to watch videos with the specified tags.
+</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Related_topics">Related topics</h2>
+
+<ul>
+  <li>
+    <!-- <a href="https://docs.brightcove.com/en/staging/sls/workflow-sls.html">Implementing Live SSAI and Advanced Player Toolkit</a> -->
+  </li>
+  <li>
+    <!-- <a href="https://docs.brightcove.com/en/staging/sls/sls-with-bcplayer.html">Using Live SSAI and Advanced Player Toolkit with Brightcove Player</a> -->
+  </li>
+  <li>
+    <!-- <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Using Live SSAI and Advanced Player Toolkit with the Native SDKs</a> -->
+  </li>
+</ul>
+
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+
+
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+</body>
+
+</html>

@@ -143,6 +143,57 @@
                 <h3 id="ingest_video">Ingest the video</h3>
                 <p>After you create the video object and retrieve its <code>id</code>, you can ingest the video to Video Cloud by sending a <code>POST</code> request to:</p>
 <pre><code class="language-http">https://ingest.api.brightcove.com/v1/accounts/<span class="bcls-input">{account_id}</span>/videos/<span class="bcls-input">{video_id}</span>/ingest-requests</code></pre>
+                <p>The request body will look something like this:</p>
+<pre class="line-numbers"><code class="language-json">{
+  "master": {
+    "url": "http://learning-services-media.brightcove.com/videos/mp4/greatblueheron.mp4",
+    "audio_tracks": [
+      {
+        "language": "en",
+        "variant": "main"
+      },
+      {
+        "language": "fr",
+        "variant": "main"
+      },
+      {
+        "language": "es",
+        "variant": "main"
+      }
+    ]
+  },
+  "profile": "Multiplatform Extended with MP4",
+  "audio_tracks": [
+    {
+      "merge_with_existing": true,
+      "masters": [
+        {
+          "url": "http://learning-services-media.brightcove.com/audio/alternate-en.m4a",
+          "language": "en",
+          "variant": "alternate"
+        },
+        {
+          "url": "http://learning-services-media.brightcove.com/audio/commentary-es.m4a",
+          "language": "es",
+          "variant": "commentary"
+        }
+      ]
+    }
+  ]
+}</code></pre>
+                <p>In this example:</p>
+                <ul>
+                  <li>The <code>master</code> &gt; <code>url</code> is the location of the source video file</li>
+                  <li>The <code>master</code> &gt; <code>audio_tracks</code> provide information about the audio tracks embedded in the video</li>
+                  <li>Note that the language codes should come from <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry</a></li>
+                  <li>The <code>profile</code> is the name of the ingest profile to use - if you omit this, the default profile for the account will be used</li>
+                  <li>The additional <code>audio_tracks</code> array contains information about separate, externally hosted audio files to be used as additional audio tracks</li>
+                  <li><code>merge_with_existing</code> means "use the remote audio tracks in addition to the embedded ones" if <code>true</code> (or replace the embedded tracks with the remote ones if <code>false</code>)</li>
+                </ul>
+                <p>Additional notes:</p>
+                <ul>
+                  <li>There are additional</li>
+                </ul>
               </section>
             </section>
           <section class="bcls-section">

@@ -71,7 +71,7 @@
 		</tr>
     <tr>
 			<td>403</td>
-			<td><code>ACCESS_DENIED</code>, <code>VIDEO_NOT_PLAYABLE</code>, <code>PLAYLIST_NOT_PLAYABLE</code>, <code>JWT_AUTH</code></td>
+			<td><code>ACCESS_DENIED</code>, <code>VIDEO_NOT_PLAYABLE</code><sup><a href="#n1"> [1]</a></sup>, <code>PLAYLIST_NOT_PLAYABLE</code>, <code>JWT_AUTH</code></td>
 			<td>The policy key provided does not permit this account or video, or the requested resource is inactive.</td>
 		</tr>
     <tr>
@@ -106,6 +106,92 @@
 		</tr>
 	</tbody>
 </table>
+
+<h4>Notes</h4>
+<p id="n1"><sup>[1]</sup> <code>VIDEO_NOT_PLAYABLE</code> can be returned from Roebuck by single video requests. It indicates that the video does not pass the playable check (ingested, active, in schedule).</p>
+
+<h3>Error responses</h3>
+<p>
+  As per the API design standards, error responses (<code>4xx</code> and <code>5xx</code>) consist of an error response list of one or more maps that include an <code>error_code</code>, an optional <code>error_subcode</code>, and optionally a non-localized <code>message</code> with more details.
+</p>
+<pre><code class="language-jsaon">[{&quot;error_code&quot;: &quot;ERROR_CODE1&quot;},
+ {&quot;error_code&quot;: &quot;ERROR_CODE2&quot;, &quot;message&quot;: &quot;details can go here&quot;}
+ {&quot;error_code&quot;: &quot;ERROR_CODE3&quot;, &quot;error_subcode&quot;: &quot;MORE_SPECIFIC_CODE&quot;, &quot;message&quot;: &quot;human readable details about what happened&quot;}]</code></pre>
+
+ <h3>Error codes</h3>
+ <p>
+   The <code>error_code</code> that is meant to be both human understandable and to be used by client code to choose different actions and translatable user messages. The error codes are UPPER_SNAKE_CASE.
+ </p>
+ <table class="bcls-table">
+ 	<thead class="bcls-table__head">
+ 		<tr>
+ 			<th>Status</th>
+ 			<th>Error Code</th>
+ 			<th>Error Source</th>
+ 		</tr>
+ 	</thead>
+ 	<tbody class="bcls-table__body">
+    <tr>
+      <td>403</td>
+ 			<td><code>ACCESS_DENIED</code></td>
+ 			<td>Nomic policy</td>
+ 		</tr>
+    <tr>
+      <td>403</td>
+ 			<td><code>VIDEO_NOT_PLAYABLE</code></td>
+ 			<td>Roebuck</td>
+ 		</tr>
+    <tr>
+      <td>404</td>
+ 			<td><code>VIDEO_NOT_FOUND</code></td>
+ 			<td>Roebuck</td>
+ 		</tr>
+    <tr>
+      <td>other</td>
+ 			<td><code>VIDEO_RETRIEVE_FAILURE</code> if could not retrieve video</td>
+ 			<td>Roebuck</td>
+ 		</tr>
+    <tr>
+      <td>other</td>
+ 			<td><code>VIDEO_URLS_RETRIEVE_FAILURE</code> if could not retrieve sources or images</td>
+ 			<td>Roebuck</td>
+ 		</tr>
+ 	</tbody>
+ </table>
+
+ <h3>Error subcodes</h3>
+ <p>
+   Here are some but not all of the error subcodes (search for <code>:error_subcode</code> in the source)
+ </p>
+ <table class="bcls-table">
+   <thead class="bcls-table__head">
+     <tr>
+       <th>Error Code</th>
+       <th>Error Subcodes</th>
+     </tr>
+   </thead>
+   <tbody class="bcls-table__body">
+    <tr>
+       <td><code>BAD_REQUEST</code></td>
+       <td><code>DUPLICATE_PARAMETERS</code></td>
+     </tr>
+
+   </tbody>
+ </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <table class="bcls-table">
 	<thead class="bcls-table__head">

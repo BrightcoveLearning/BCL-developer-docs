@@ -161,31 +161,127 @@
         You will also need the Account Id and Policy Key for your account.
       </li>
     </ol>
-
   </section>
-
-
 
   <section class="bcls-section">
-  <h2 id="Known_issues">Known issues</h2>
-
-  <ul>
-  	<li>SSAI requires that the live streaming video have an audio track.</li>
-  	<li>If the VAST returned has the same ad ID, then the server will not request the ad content, even though the ad URL uses dynamic variables to make it a unique URL. This does <strong>not</strong> apply if you are using DFP for ads.</li>
-  	<li>With DFP, while you can use the same ad ID, there still needs to be a different creative ID - in other words, you can't do a simple swap of the MediaFile.</li>
-  	<li>
-  	<p>If an ad break has a duration less than the MAX duration of the ad URL (min_ad_duration=0&amp;max_ad_duration=30000), if ad is returned longer than the ad break, the ad will not be played.</p>
-  	</li>
-  	<li>
-  	<p>VPAID or clickable ads are not supported for <span class="”notranslate”">Brightcove Live SSAI</span>.</p>
-  	</li>
-  	<li>
-  	<p>When an ad break has remaining time shorter than the segment seconds of the stream and a slate is displayed, the slate is displayed for its segment duration and the actual ad break will be longer than expected.</p>
-  	</li>
-  	<li>The first time the ad is seen by our system, it will not play until it is transcoded and ready to deliver.</li>
-  	<li>VMAP for Live SSAI is not currently supported.</li>
-  </ul>
+    <h2 id="Android_implementation">Android implementation</h2>
+    <p>
+      To play a live stream, you need to include the <code>adConfigId</code> parameter with your calls to the Playback API.
+    </p>
+    <p>
+      Follow these steps to build your app:
+    </p>
+    <ol class="bcls-tasklist__restart">
+    <li>
+      Use the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/BasicSsaiSampleApp">Basic SSAI Sample App</a> as a starting point for your code.
+    </li>
+    <li>
+      In the <strong>res/values/strings.xml</strong> file, replace the following with your own values
+      <ul>
+        <li>
+          Account Id
+        </li>
+        <li>
+          Video Id
+        </li>
+        <li>
+          Policy Key
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        In the <strong>MainActivity.java</strong> file, replace the <code>ad_config_id</code> value with your playback token (live URL) that you you copied from the Live module in the previous section.
+      </p>
+      <pre><code class="language-java">private final String AD_CONFIG_ID_QUERY_PARAM_VALUE = &quot;live.abcdefghijkl_-Bn1234567890abcde&quot;;</code></pre>
+    </li>
+    <li>
+      <p>
+        The <code>ad_config_id</code> with your playback token value is added to the HTTP request as a query parameter.
+      </p>
+      <pre class="line-numbers"><code class="language-java">HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
+  .addQueryParameter(AD_CONFIG_ID_QUERY_PARAM_KEY, AD_CONFIG_ID_QUERY_PARAM_VALUE)
+  .build();
+</code></pre>
+    </li>
+    <li>
+      <p>
+        Make the catalog call to the Playback API with your live stream video id and the updated HTTP request.
+      </p>
+      <pre class="line-numbers"><code class="language-java">catalog.findVideoByID(getString(R.string.video_id), httpRequestConfig, new VideoListener() {
+   @Override
+   public void onVideo(Video video) {
+       plugin.processVideo(video);
+   }
+ });
+</code></pre>
+    </li>
+    <li>
+      Your app is ready to play the live stream.
+    </li>
+  </ol>
   </section>
+
+  <section class="bcls-section">
+    <h2 id="iOS_implementation">iOS implementation</h2>
+    <p>
+      To play a live stream, you need to include the <code>adConfigId</code> parameter with your calls to the Playback API.
+    </p>
+    <p>
+      Follow these steps to build your app:
+    </p>
+    <ol class="bcls-tasklist__restart">
+    <li>
+      Use the <a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/SSAI/BasicSSAIPlayer">Basic SSAI Sample App</a> as a starting point for your code.
+    </li>
+    <li>
+      In the <strong>ViewController.swift</strong> file, replace the following with your own values
+      <ul>
+        <li>
+          Account Id
+        </li>
+        <li>
+          Video Id
+        </li>
+        <li>
+          Policy Key
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        In the <strong>ViewController.swift</strong> file, replace the <code>AdConfigId</code> value with your playback token (live URL) that you you copied from the Live module in the previous section.
+      </p>
+      <pre><code class="language-swift">static let AdConfigId = &quot;live.abcdefghijkl_-Bn1234567890abcde&quot;;</code></pre>
+    </li>
+    <li>
+      <p>
+        The <code>AdConfigId</code> with your playback token value is added to the HTTP request as a query parameter.
+      </p>
+      <pre class="line-numbers"><code class="language-swift">let queryParameters = [kBCOVPlaybackServiceParamaterKeyAdConfigId: Constants.AdConfigId]
+</code></pre>
+    </li>
+    <li>
+      <p>
+        Make the catalog call to the Playback API with your live stream video id and the updated HTTP request.
+      </p>
+      <pre class="line-numbers"><code class="language-swift">playbackService.findVideo(withVideoID: Constants.VideoId, parameters: queryParameters) { [weak self] (video: BCOVVideo?, jsonResponse: [AnyHashable: Any]?, error: Error?) -&gt; Void in
+
+   guard let _video = video else {
+     print(&quot;ViewController Debug - Error retrieving video: \(error?.localizedDescription ?? &quot;unknown error&quot;)&quot;)
+     return
+   }
+
+   self?.playbackController?.setVideos([_video] as NSFastEnumeration)
+}
+</code></pre>
+    </li>
+    <li>
+      Your app is ready to play the live stream.
+    </li>
+  </ol>
+  </section>
+
   </article>
 
   <!-- END DRUPAL CONTENT -->

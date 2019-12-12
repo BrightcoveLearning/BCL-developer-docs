@@ -74,95 +74,35 @@
 			<td><code>ACCESS_DENIED</code>, <code>VIDEO_NOT_PLAYABLE</code>, <code>PLAYLIST_NOT_PLAYABLE</code>, <code>JWT_AUTH</code></td>
 			<td>The policy key provided does not permit this account or video, or the requested resource is inactive.</td>
 		</tr>
-		<tr>
-		</tr>
-		<tr>
-			<td>403</td>
-			<td><code>FORBIDDEN</code></td>
-			<td>The video cannot be retrieved because:
-			<ul>
-				<li><code>ACCOUNT_ID</code>: The account id in the policy key does not match the account in the api request</li>
-				<li><code>API</code>: The policy key is not search-enabled when attempting to perform a video search. Example:
-				<pre class="line-numbers">
-<code class="language-json">[{
-  "api_call": "search",
-  "error_subcode": "API",
-  "error_code": "ACCESS_DENIED",
-  "message": "Access to this resource is forbidden by access policy."
-}]</code></pre>
-				</li>
-				<li><code>CLIENT_GEO</code>: The video is restricted from playing in the current geo region; the message will contain additional information about the specific issue. Example:
-				<pre class="line-numbers">
-<code class="language-json">"errors": [{
-  "error_code": "ACCESS_DENIED",
-  "error_subcode": "CLIENT_GEO",
-  "client_geo": "us",
-  "message": "Access to this resource is forbidden by access policy."
-}]</code></pre>
-
-				<aside class="bcls-aside bcls-aside--information">Also note that when you request a playlist, if some videos cannot be played because of geo-restrictions, the server will return a 200 OK status, and the playlist data, but will also include an errors array similar to the one shown above, indicating that some videos were omitted.</aside>
-				</li>
-				<li><code>CLIENT_IP</code>: The video is restricted at the current IP address</li>
-				<li><code>DOMAIN</code>: The video is restricted from playing on the current domain</li>
-				<li><code>POLICY_ERROR</code>: Error when evaluating the policy key or the request came from an ipV6 address, which is not currently supported</li>
-				<li><code>VIDEO_NOT_PLAYABLE</code>: For a single video request, the video exists, but is not allowed to be played now. That could be any of the three reasons that videos are not playable:
-				<ul>
-					<li>not sufficiently ingested</li>
-					<li>not active</li>
-					<li>not in scheduled date range</li>
-				</ul>
-				</li>
-			</ul>
-			</td>
-		</tr>
-		<tr>
+    <tr>
 			<td>404</td>
-			<td><code>NOT_FOUND</code></td>
-			<td>The requested resource is not available:
-			<ul>
-				<li><code>VIDEO_NOT_FOUND</code></li>
-				<li><code>PLAYLIST_NOT_FOUND</code></li>
-			</ul>
-			</td>
+			<td><code>VIDEO_NOT_FOUND</code>, <code>PLAYLIST_NOT_FOUND</code>, <code>RESOURCE_NOT_FOUND</code>, <code>ACCOUNT_NOT_FOUND</code></td>
+			<td>The designated resource was not found.</td>
 		</tr>
-		<tr>
+    <tr>
 			<td>405</td>
 			<td><code>METHOD_NOT_ALLOWED</code></td>
-			<td>Only <code>GET</code>, <code>HEAD</code> and <code>OPTIONS</code> are allowed for this api.</td>
+			<td>Only GET, HEAD and OPTIONS are allowed for this api.</td>
 		</tr>
-		<tr>
+    <tr>
 			<td>500</td>
 			<td><code>SERVER_ERROR</code></td>
-			<td>Internal server error.</td>
+			<td>Internal Wedge server error, usually will have more information in the logs.</td>
 		</tr>
-		<!-- <tr>
-												<td>501</td>
-												<td><code>NOT_IMPLEMENTED</code>
-												</td>
-												<td>Feature not supported.</td>
-										</tr> -->
-		<tr>
+    <tr>
 			<td>502</td>
-			<td><code>SERVER_ERROR</code></td>
-			<td>Got a bad response from a backend server. Various <code>*_RETRIEVE_FAILURE</code> error codes:
-			<ul>
-				<li><code>ACCOUNT_RETRIEVE_FAILURE</code></li>
-				<li><code>VIDEO_RETRIEVE_FAILURE</code></li>
-				<li><code>VIDEO_URLS_RETRIEVE_FAILURE</code></li>
-				<li><code>PLAYLIST_RETRIEVE_FAILURE</code></li>
-				<li><code>PLAYLIST_VIDEOS_RETRIEVE_FAILURE</code></li>
-			</ul>
-			</td>
+			<td><code>SERVER_ERROR</code>, <code>ACCOUNT_RETRIEVE_FAILURE</code>, <code>VIDEO_RETRIEVE_FAILURE</code>, <code>VIDEO_URLS_RETRIEVE_FAILURE</code>, <code>PLAYLIST_RETRIEVE_FAILURE</code>, <code>PLAYLIST_VIDEOS_RETRIEVE_FAILURE</code></td>
+			<td>Got a bad response from a backend server, generally Roebuck or Nomic returned a 5xx error.</td>
 		</tr>
-		<tr>
+    <tr>
 			<td>503</td>
 			<td><code>SERVICE_UNAVAILABLE</code></td>
-			<td>Returned this response from a backend server.</td>
+			<td>Not returned by Wedge. Could happen if there were no active servers in the Load Balancer. That would be bad. (The Playerback API does not do rate limiting, nor do the services it calls.)</td>
 		</tr>
-		<tr>
+    <tr>
 			<td>504</td>
 			<td><code>SERVER_TIMEOUT</code></td>
-			<td>Either a backend server or one of the servers they rely on timed out.</td>
+			<td>A call to a backend server or one of the servers they rely on timed out.</td>
 		</tr>
 	</tbody>
 </table>

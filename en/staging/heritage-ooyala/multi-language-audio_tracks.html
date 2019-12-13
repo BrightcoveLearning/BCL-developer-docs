@@ -100,7 +100,7 @@
             
             <ul>
               <li><code class="language-http notranslate">Content-Type: application/x-www-form-urlencoded</code></li>
-              <li><code class="language-http notranslate">Authorization: Basic {client_id}:{client_secret}</code></li>
+              <li><code class="language-http notranslate">Authorization: Basic <span class="bcls-input">client_id:client_secret</span></code></li>
             </ul>
             
             <p>The entire <code class="language-http notranslate">{client_id}:{client_secret}</code> string must be Base64-encoded (curl will automatically Base64-encode the string if you pass it as <code>--user</code> credentials; in other languages, you'll need to handle the Base64-encoding yourself).</p>
@@ -114,9 +114,11 @@
 
             <p>If you will only need to do this a few times, we also have an <a href="https://support.brightcove.com/oauth-api-sample-get-access-token">online app for creating access tokens</a>, as well as instructions for setting up popular REST API clients to do this:</p>
             <ul>
-              <li><a href=""></a></li>
-              <li><a href=""></a></li>
+              <li><a href="https://support.brightcove.com/use-postman-api-requests">Use Postman for API Requests</a></li>
+              <li><a href="https://support.brightcove.com/use-insomnia-api-requests">Use Insomnia for API Requests</a></li>
             </ul>
+            <p>If you are creating your own app/integration, or using curl to submit API requests, the access token is passed in an <code>Authorization</code> header:</p>
+            <pre class="line-numbers"><code class="language-bash">Authorization: Bearer <span class="bcls-input">your_access_token</span></code></pre>
           </section>
             
           <section class="bcls-section">
@@ -127,14 +129,83 @@
                 <li><a href="#ingest_video">Ingest the video</a> using the Dynamic Ingest API</li>
               </ol>
               <section class="bcls-subsection">
-                <h3 id="create_video"></h3>
+                <h3 id="create_video">Create the video object</h3>
                 <p>To create a new video object in your Video Cloud video library, make <code>POST</code> request to:</p>
+<pre><code class="language-http">https://cms.api.brightcove.com/v1/accounts/<span class="bcls-input">{account_id}</span>/videos</code></pre>
+                <p>You must include a request body that contains at least the video <code>name</code>:</p>
+<pre class="line-numbers"><code class="language-json">{
+  "name": "My Video Title"
+  }</code></pre>
+                <p>You can also include additional video metadata (see the <a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/CreateVideo">CMS API Reference</a>), but these can also be added later in Studio or via the CMS API.</p>
+                <p>The response will be a JSON object containing many video properties. The first one will be the video <code>id</code>, and you will need this value to make the ingest request.</p>
               </section>
               <section class="bcls-subsection">
-                <h3 id="ingest_video"></h3>
+                <h3 id="ingest_video">Ingest the video</h3>
+                <p>After you create the video object and retrieve its <code>id</code>, you can ingest the video to Video Cloud by sending a <code>POST</code> request to:</p>
+<pre><code class="language-http">https://ingest.api.brightcove.com/v1/accounts/<span class="bcls-input">{account_id}</span>/videos/<span class="bcls-input">{video_id}</span>/ingest-requests</code></pre>
+                <p>The request body will look something like this:</p>
+<pre class="line-numbers"><code class="language-json">{
+  "master": {
+    "url": "http://learning-services-media.brightcove.com/videos/mp4/greatblueheron.mp4",
+    "audio_tracks": [
+      {
+        "language": "en",
+        "variant": "main"
+      },
+      {
+        "language": "fr",
+        "variant": "main"
+      },
+      {
+        "language": "es",
+        "variant": "main"
+      }
+    ]
+  },
+  "profile": "Multiplatform Extended with MP4",
+  "audio_tracks": [
+    {
+      "merge_with_existing": true,
+      "masters": [
+        {
+          "url": "http://learning-services-media.brightcove.com/audio/alternate-en.m4a",
+          "language": "en",
+          "variant": "alternate"
+        },
+        {
+          "url": "http://learning-services-media.brightcove.com/audio/commentary-es.m4a",
+          "language": "es",
+          "variant": "commentary"
+        }
+      ]
+    }
+  ]
+}</code></pre>
+                <p>In this example:</p>
+                <ul>
+                  <li>The <code>master</code> &gt; <code>url</code> is the location of the source video file</li>
+                  <li>The <code>master</code> &gt; <code>audio_tracks</code> provide information about the audio tracks embedded in the video</li>
+                  <li>Note that the language codes should come from <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry</a></li>
+                  <li>The <code>profile</code> is the name of the ingest profile to use - if you omit this, the default profile for the account will be used</li>
+                  <li>The additional <code>audio_tracks</code> array contains information about separate, externally hosted audio files to be used as additional audio tracks</li>
+                  <li><code>merge_with_existing</code> means "use the remote audio tracks in addition to the embedded ones" if <code>true</code> (or replace the embedded tracks with the remote ones if <code>false</code>)</li>
+                </ul>
+                <p>Additional notes:</p>
+                <ul>
+                  <li>There are additional (all optional) fields for the ingest request, such as adding images and text tracks. See the <a href="https://docs.brightcove.com/dynamic-ingest-api/v1/doc/index.html#operation/AccountsVideosIngestRequestsByAccountIdAndVideoIdPost">Dynamic Ingest API Reference</a> for full details.</li>
+                  <li>You do not have to ingest all video assets at once. For instance, in the example above, you could just ingest the video with its embedded audio tracks first, and then submit a separate request to add the additional remote audio tracks.</li>
+                </ul>
               </section>
             </section>
-          <section class="bcls-section">
+            <section class="bcls-section">
+              <h2 id="Multiple_audio_tracks_in_player">Multiple audio tracks in the Brightcove Player</h2>
+              <p>When you embed a video with multiple audio tracks in a Brightcove Player,the tracks will be available from a selector in the player control bar:</p>
+              <figure class="bcls-figure">
+                <img class="bcls-image" src="/en/staging/heritage-ooyala/images/sample_player_audio_tracks.png" alt="Audio Track Selector">
+                <figcaption class="bcls-caption--image">Audio Track Selector</figcaption>
+              </figure>
+            </section>
+          <!-- <section class="bcls-section">
             <h2 id="Sample_request_bodies">Sample request bodies</h2>
             <p>Below are some sample request bodies for different cases.</p>
             <h3>Only master audio tracks</h3>
@@ -192,7 +263,7 @@
       ]
   }
 }</code></pre>
-          </section>
+          </section> -->
           <section class="bcls-section">
               <h2 id="Audio_service_type">Audio service type</h2>
               <p>Dolby audio codecs (ac-3 and eac-3) support including audio service type metadata. (AAC audio <strong>cannot</strong> contain service type metadata.)</p>

@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Managing Restrictions with Playback Authorization Service</title>
+  	<title>Managing Content with Playback Authorization Service</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,7 +33,7 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Managing Restrictions with Playback Authorization Service</h1>
+			<h1>Managing Content with Playback Authorization Service</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
       <summary>In this topic, you will learn how Brightcove's Playback Authorization Service (PAS) allows you to manage playback with videos ingested for Dynamic Delivery.</summary>
 
@@ -44,7 +44,7 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 
-<p>Brightcove's Playback Authorization Service provides a scalable and expressive way to manage video playback. This service includes the following features:</p>
+<p>Brightcove's Playback Authorization Service (PAS) provides a scalable and expressive way to manage video playback. This service includes the following features:</p>
 <ul>
   <li>
     Limit playback by geography
@@ -122,12 +122,14 @@
   <li>
     Designated market area (DMA - a concept developed by Nielson)
   </li>
-  <li>
-    IP address (account or video level)
-  </li>
 </ul>
 <p>
   The geography check is run at the start of video playback as well as during playback. If the mid-stream geo check fails, the player will stop video playback.
+</p>
+
+<h4>IP addresses and domains</h4>
+<p>
+  Domain restrictions allow you to limit where a video can be viewed to specific domains. IP restrictions limit video playback to specific IP addresses (account or video level).
 </p>
 
 <h4>Schedules</h4>
@@ -140,17 +142,11 @@
 <section class="bcls-section">
 <h2 id="User_level_restrictions">User level restrictions</h2>
 
-<p>You have the ability to create a unique id, per account, for each viewer. With this, you can set the following restrictions:</p>
+<p>You have the ability to create a unique id, per account, for each viewer. For user level restrictions, you will need to use a JWT token with each request. With this, you can set the following restrictions:</p>
 
 <h3>Device limit</h3>
 <p>
   Device registration happens when a DRM license request is made. A unique id is assigned to each device. With each license request, the device limit is checked and enforced. To use this restriction, you need to generate a JWT with the current user id (uid).
-</p>
-<p>
-  When a video has a <code>playback_right_id</code>, the restrictions specified in the Playback Rights object are applied to ALL requests for that video.
-</p>
-<p>
-  Playback Rights include the following categories:
 </p>
 
 <h3>Concurrency limits</h3>
@@ -158,9 +154,9 @@
   Limit a user id to be able to watch a specified number of videos at the same time.
 </p>
 
-<h3>Entitlement</h3>
+<h3>Tags</h3>
 <p>
-  Limit the content viewers can watch based on subscription entitlement.
+  Limit the content viewers can watch based on subscription entitlement. The JWT token that you generate will specify the tags that are allowable for viewing. The Playback Authorization Service ensures that the user can only watch videos with the specified tags.
 </p>
 <p>
   Let's say you have the following subscription levels:
@@ -177,7 +173,7 @@
   </li>
 </ul>
 <p>
-  First, associate tags wtih your videos to distinguish between standard, first run and live.Then, specify the applicable tags in the JWT token that you generate for the user. The Playback Authorization Service allows the user to watch videos with the specified tags.
+  First, associate tags with your videos to distinguish between standard, first run and live.Then, specify the applicable tags in the JWT token that you generate for the user.
 </p>
 
 </section>
@@ -187,14 +183,14 @@
 
 <ul>
   <li>
-    <!-- <a href="https://docs.brightcove.com/en/staging/sls/workflow-sls.html">Implementing Live SSAI and Advanced Player Toolkit</a> -->
+    <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html">Implementing Restrictions with Playback Authorization Service</a>
+  </li>
+  <!-- <li>
+    <a href="https://docs.brightcove.com/en/staging/sls/sls-with-bcplayer.html">Using Live SSAI and Advanced Player Toolkit with Brightcove Player</a>
   </li>
   <li>
-    <!-- <a href="https://docs.brightcove.com/en/staging/sls/sls-with-bcplayer.html">Using Live SSAI and Advanced Player Toolkit with Brightcove Player</a> -->
-  </li>
-  <li>
-    <!-- <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Using Live SSAI and Advanced Player Toolkit with the Native SDKs</a> -->
-  </li>
+    <a href="https://docs.brightcove.com/en/staging/sls/sls-with-sdks.html">Using Live SSAI and Advanced Player Toolkit with the Native SDKs</a>
+  </li> -->
 </ul>
 
 </section>

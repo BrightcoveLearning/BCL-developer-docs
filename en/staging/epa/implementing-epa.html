@@ -81,6 +81,193 @@
     <a href="#Configure_the_player">Configure the player</a>
   </li>
 </ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Define_restrictions">Define restrictions</h2>
+
+<p>Use the Playback Rights API to define video playback restrictions.</p>
+<h3>Playback Rights API</h3>
+<p>
+  Each playback rights restriction object can be used with one or more videos.
+</p>
+
+<h4>Base URL</h4>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://playback-rights.api.brightcove.com/</code></pre>
+
+<h4>Account path</h4>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-rights.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+
+<h4>Authorization</h4>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h4>Permissions</h4>
+<p>
+  Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/playback-auth/playback-rights/read</code>
+  </li>
+  <li>
+    <code>video-cloud/playback-auth/playback-rights/write</code>
+  </li>
+</ul>
+
+<h4>Manage restrictions</h4>
+<p>
+  The Playback Rights API supports the following requests:
+</p>
+
+<p>
+  <strong>Create new playback rights:</strong>
+</p>
+<pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/playback_rights
+  Content-Type: application/json
+  Body: {playback rights object}
+</code></pre>
+<p>
+  For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
+</p>
+<p>
+  From the API response, copy the value of the <code>playback_rights_id</code> field for later use.
+</p>
+
+<p>
+  <strong>Get a specific playback right for an account:</strong>
+</p>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+
+<p>
+  <strong>Update a specific playback right:</strong>
+</p>
+<pre><code class="language-http">PUT /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+
+<p>
+  <strong>Delete a specific playback right:</strong>
+</p>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+<p>
+  For complete details about using the API, see the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/">Playback Rights API Reference</a>.
+</p>
+
+<h3 id="Request_body">Request body</h3>
+<p>
+  Here is an example of all of the fields you can include in the request body:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;geo&quot;: {
+  &quot;allowed_countries&quot;: [
+    &quot;MX&quot;,
+    &quot;US&quot;
+  ],
+  &quot;blocked_countries&quot;: [
+    &quot;JP&quot;,
+    &quot;CN&quot;
+  ],
+  &quot;allowed_zip_codes&quot;: [
+    &quot;MX-90210&quot;
+  ],
+  &quot;blocked_zip_codes&quot;: [
+    &quot;MX-72810&quot;
+  ],
+  &quot;allowed_dmas&quot;: [
+    501
+  ],
+  &quot;blocked_dmas&quot;: [
+    803
+  ]
+},
+&quot;allowed_domains&quot;: [
+  &quot;www.google.com&quot;,
+  &quot;www.brigtcove.com&quot;
+],
+&quot;blocked_domains&quot;: [
+  &quot;www.ooyala.com&quot;
+],
+&quot;start_time&quot;: 1572905011,
+&quot;end_time&quot;: 1672905011,
+&quot;allowed_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;blocked_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;allowed_days&quot;: [
+  &quot;mon&quot;,
+  &quot;tue&quot;
+],
+&quot;allowed_hours&quot;: [
+  &quot;5-6&quot;
+],
+&quot;allow_insecure&quot;: true,
+&quot;enabled&quot;: false,
+&quot;external_id&quot;: &quot;8f0b409f-e13e-4e7e-8004-fedd39933a10&quot;
+}
+</code></pre>
+
+<p>
+  Here are the field details:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>allowed_countries</code>, <code>blocked_countries</code></td>
+      <td>String</td>
+      <td>Array of two letter country codes</td>
+    </tr>
+    <tr>
+      <td><code>allowed_zip_codes</code>, <code>blocked_zip_codes</code></td>
+      <td>String</td>
+      <td>Array of two letter country codes</td>
+    </tr>
+
+
+
+    <tr>
+      <td><code>maxu</code></td>
+      <td>Integer</td>
+
+      <td>
+          If present, this token will only be valid for this many license requests
+        <br><br>
+        <ul>
+          <li>
+            For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
+          </li>
+          <li>
+            For DRM, one licence request is made per playback
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ua</code></td>
+      <td>String</td>
+      <td>If present, this token will only be valid for requests from this User-Agent</td>
+    </tr>
+  </tbody>
+</table>
+
 
 </section>
 

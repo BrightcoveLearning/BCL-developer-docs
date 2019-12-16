@@ -86,8 +86,17 @@
 <section class="bcls-section">
 <h2 id="Define_restrictions">Define restrictions</h2>
 
-<p>Use the Playback Rights API to define video playback restrictions.</p>
-<h3>Playback Rights API</h3>
+<p>Use the following to define playback restrictions: Playback Rights API to define video playback restrictions.</p>
+<ul>
+  <li>
+    <a href="#Playback_Rights_API">Playback Rights API</a>
+  </li>
+  <li>
+    <a href="#Playback_Rights_API">JWT Token</a>
+  </li>
+</ul>
+
+<h3 id="Playback_Rights_API">Playback Rights API</h3>
 <p>
   Each playback rights restriction object can be used with one or more videos.
 </p>
@@ -242,7 +251,7 @@
     </tr>
     <tr>
       <td><code>allowed_dmas</code>, <code>blocked_dmas</code></td>
-      <td>String</td>
+      <td>Integer</td>
       <td>Array of DMA numbers</td>
     </tr>
     <tr>
@@ -252,12 +261,12 @@
     </tr>
     <tr>
       <td><code>start_time</code>, <code>end_time</code></td>
-      <td>String</td>
+      <td>Datetime</td>
       <td>Single ISO formatted datetime (NOT AN ARRAY)</td>
     </tr>
     <tr>
       <td><code>allowed_ips</code>, <code>blocked_ips</code></td>
-      <td>String</td>
+      <td>Integer</td>
       <td>
           Array of IP addresses. Format:
         <br><br>
@@ -274,17 +283,23 @@
         <ul>
           <li>
             All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
-            <ul>
-              <li>
-                <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:</code><IPv4>
-              </li>
-            </ul>
+            <br />
+            <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:</code><IPv4>
+              <!-- <ul>
+                <li>
+                  <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:</code><IPv4>
+                </li>
+              </ul> -->
           </li>
         </ul>
         <ul>
           <li>
             For IPv6-mapped IPv4 and native IPv6 addresses, they need to be converted into binary (resulting in a 128 bits number). Separate them into 32 bit blocks, adding a comma between these blocks:
-            <ul>
+            <br /><br />
+            192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
+            <br /><br />
+            2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
+            <!-- <ul>
               <li>
                 192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
               </li>
@@ -293,42 +308,37 @@
               <li>
                 2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
               </li>
-            </ul>
+            </ul> -->
           </li>
         </ul>
       </td>
       <tr>
-        <td><code>allowed_days</code>, <code>allowed_hours</code></td>
+        <td><code>allowed_days</code></td>
         <td>String</td>
-        <td>Two headers are evaluated together to determine if we are in an active viewing window. Combined with Schedules, these define a recurring block of time during which a resource is available.</td>
+        <td>Array of 3-letter lowercase names for the days that the resource is allowed to be retrieved. One or more of: <code>mon, tue, wed, thu, fri, sat, sun</code></td>
       </tr>
-
-    </tr>
-
-
-
-    <tr>
-      <td><code>maxu</code></td>
-      <td>Integer</td>
-
-      <td>
-          If present, this token will only be valid for this many license requests
-        <br><br>
-        <ul>
-          <li>
-            For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
-          </li>
-          <li>
-            For DRM, one licence request is made per playback
-          </li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>ua</code></td>
-      <td>String</td>
-      <td>If present, this token will only be valid for requests from this User-Agent</td>
-    </tr>
+      <tr>
+        <td><code>allowed_hours</code></td>
+        <td>Integer</td>
+        <td>Array of hours from the 24-hour clock (starting at 0 and up to 47) during which the resource is allowed to be retrieved. 0 to 23 for current day, and 24 to 47 for next day end-date. If an allowed hours block starts in previous day and ends at the following day then a 24+ notation is required.
+        <br /><br />
+        Example: the value of <code>;3;4;</code> in this header means that the resource is available from 3am UTC to 4:59am UTC</td>
+      </tr>
+      <tr>
+        <td><code>allow_insecure</code></td>
+        <td>Boolean</td>
+        <td>Default: false</td>
+      </tr>
+      <tr>
+        <td><code>enabled</code></td>
+        <td>Boolean</td>
+        <td>Default: true</td>
+      </tr>
+      <tr>
+        <td><code>external_id</code></td>
+        <td>String</td>
+        <td>Playback Rights id</td>
+      </tr>
   </tbody>
 </table>
 

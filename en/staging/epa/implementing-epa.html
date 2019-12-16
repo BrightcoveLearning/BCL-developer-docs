@@ -63,7 +63,7 @@
   </li>
   <li>
     <p>
-      Optional: If you want user level restrictions, you will need a JWT token.
+      Optional: If you want user-level restrictions, you will need a JWT token.
     </p>
     <ul>
       <li>
@@ -74,6 +74,9 @@
       </li>
       <li>
         <a href="#Generate_JWT_token">Generate JWT token</a>
+      </li>
+      <li>
+        <a href="#Define_user_level_restrictions">Define user-level restrictions</a>
       </li>
     </ul>
   </li>
@@ -417,17 +420,47 @@
 
 <section class="bcls-section">
 <h2 id="Generate_public_private_key_pair">Generate public-private key pair</h2>
-<p>Generate a public-private key pair. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Implementing Security with Playback Authorization Service</a>.</p>
+<p>Generate a public-private key pair. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Implementing DRM with Playback Authorization Service</a>.</p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Register_your_public_key">Register your public key</h2>
-<p>Register your public key with Brightcove using the Key API. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Implementing Security with Playback Authorization Service</a>.</p>
+<p>Register your public key with Brightcove using the Key API. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Implementing DRM with Playback Authorization Service</a>.</p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Generate_JWT_token">Generate JWT token</h2>
-<p>Generate a JWT token for each playback session, signed with the private key. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Implementing Security with Playback Authorization Service</a>.</p>
+<p>Generate a JWT token for each playback session, signed with the private key. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Implementing DRM with Playback Authorization Service</a>.</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Define_user_level_restrictions">Define user-level restrictions</h2>
+<p>
+  The JWT token is used to configure the following restrictions:
+</p>
+<h3>Device limit</h3>
+<p>
+  When a DRM license request is made, the user's device is registered and a unique id is assigned. The device limit is checked and enforced with each license request. To use this restriction, generate a JWT with the current user id (uid).
+</p>
+
+<h3>Concurrency limits</h3>
+<p>
+  When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
+</p>
+
+<h3>Tags</h3>
+<p>
+  The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
+</p>
+<p>
+  Tags in the JWT token will be listed as an array of tags.
+</p>
+<aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
+
+
+
+
 
 </section>
 

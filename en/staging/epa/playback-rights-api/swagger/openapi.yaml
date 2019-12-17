@@ -5,7 +5,7 @@ x-bc-upstream: 'http://backend_server'
 info:
   title: Playback Rights API Reference
   description: >-
-    Reference for the Brightcove Playback Rights API. This API allows you to create, read, update and delete video playback rights.
+    Reference for the Brightcove Playback Rights API. This API allows you to create, read, update and delete video Playback Rights.
 
      **Base URL**: https://playback-rights.api.brightcove.com/v1
   version: 1.0.0
@@ -15,14 +15,14 @@ servers:
     variables: {}
 tags:
   - name: Playback Rights
-    description: Operations for creating, reading, updating and deleting video playback rights.
+    description: Operations for creating, reading, updating and deleting video Playback Rights.
 paths:
   '/accounts/{accountID}/playback_rights':
     post:
       tags:
         - Playback Rights
-      summary: Create new playback rights
-      description: 'Create new playback rights'
+      summary: Create new Playback Rights
+      description: 'Create new Playback Rights'
       operationId: CreateRight
       security:
         - BC_OAuth2:
@@ -53,7 +53,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Create playback right metadata
+        description: Create Playback Right metadata
         content:
             application/json:
               schema:
@@ -70,8 +70,8 @@ paths:
             BAD_REQUEST: Invalid request Body
         '401':
           description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
+            UNAUTHORIZED: Authentication failed; check to make sure your Policy
+            Key is correct
         '404':
           description: >-
             RESOURCE_NOT_FOUND: The api could not find the resource you requested
@@ -95,8 +95,8 @@ paths:
     get:
       tags:
         - Playback Rights
-      summary: Get a specific playback right for an account
-      description: 'Get a specific playback right for an account'
+      summary: Get a specific Playback Right for an account
+      description: 'Get a specific Playback Right for an account'
       operationId: GetPlaybackRight
       security:
         - BC_OAuth2:
@@ -112,7 +112,7 @@ paths:
             type: string
         - name: playbackRightsID
           in: path
-          description: playback rights ID
+          description: Playback Rights ID
           required: true
           style: simple
           explode: false
@@ -137,26 +137,42 @@ paths:
       responses:
         '200':
           description: 'SUCCESS'
-          #content:
-            #application/json:
-              #schema:
-                #$ref: '#/components/schemas/PlaybackRightsResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackRights'
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
         '401':
           description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
+            UNAUTHORIZED: Authentication failed; check to make sure your Policy
+            Key is correct
         '404':
           description: >-
-            NOT_FOUND: Playback rights ID was not found
-        '500':
-          description: '500'
+            NOT_FOUND: Playback Right ID was not found
+            content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Playback right not found",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Status500'
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "PLAYBACK_RIGHT_RETRIEVE_FAILURE",
+                    "message": "Cannot retrieve playback right 37f696fb-6cf3-4670-8c1b-753d4c0a9bdb",
+                  },
+                ]
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -166,9 +182,9 @@ paths:
     put:
       tags:
         - Playback Rights
-      summary: Update a specific playback right
+      summary: Update a specific Playback Right
       description: |-
-        Update a specific playback right for an account
+        Update a specific Playback Right for an account
       operationId: UpdateRight
       security:
         - BC_OAuth2:
@@ -217,8 +233,17 @@ paths:
           description: >-
             NO_CONTENT: No content for successful update
         '400':
-          description: >-
-            BAD_REQUEST: Invalid request Body
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your policy
@@ -226,6 +251,19 @@ paths:
         '404':
           description: >-
             NOT_FOUND: Playback rights ID was not found
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "UNPROCESSABLE_ENTITY",
+                    "error_subcode": "INVALID_IP",
+                    "message": "Invalid ip: 0.0.0.0/40",
+                  },
+                ]
+
         "409":
           description: >-
             STATUS_CONFLICT: Something went wrong while trying to update the file
@@ -233,9 +271,28 @@ paths:
             text/plain:
               example: "Invalid country: MIX"
         '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "SERVER_ERROR",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "PLAYBACK_RIGHT_STORE_FAILURE",
+                    "message": "Cannot store playback right",
+                  },
+                ]
       deprecated: false
       x-operation-settings:
         CollectParameters: false

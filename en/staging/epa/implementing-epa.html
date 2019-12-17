@@ -145,7 +145,7 @@
 </p>
 
 <p>
-  <strong>Create new playback rights:</strong>
+  <h5>Create new playback rights</h5>
 </p>
 <pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/playback_rights
   Content-Type: application/json
@@ -154,22 +154,25 @@
 <p>
   For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
 </p>
+<strong>Response</strong>
 <p>
-  From the API response, copy the value of the <code>playback_rights_id</code> field for later use.
+  From the API response, copy the value of the <code>playback_rights_id</code> field for later use. This value can be found in the <code>Location</code> field of the Header response. It should be similar to this:
 </p>
+<pre><code class="language-http">/v1/accounts/1231231111234/playback_rights/<span class="bcls-highlight">f111de22-3a33-44ce-5555-000abc000abc</span>
+</code></pre>
 
 <p>
-  <strong>Get a specific playback right for an account:</strong>
+  <h5>Get a specific playback right for an account</h5>
 </p>
 <pre><code class="language-http">GET /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
 
 <p>
-  <strong>Update a specific playback right:</strong>
+  <h5>Update a specific playback right:</h5>
 </p>
 <pre><code class="language-http">PUT /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
 
 <p>
-  <strong>Delete a specific playback right:</strong>
+  <h5>Delete a specific playback right:</h5>
 </p>
 <pre><code class="language-http">DELETE /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
 <p>
@@ -302,20 +305,17 @@
         </ul>
       </td>
       </tr>
-      <!-- <tr>
+      <tr>
         <td><code>allowed_cidr</code>, <code>blocked_cidr</code></td>
         <td>Integer</td>
         <td>
-            Array of <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> addresses. You can use either IP or CIDR restrictions. Format:
+            Array of <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> addresses. Format:
           <br><br>
           <ul>
             <li>
               The format of this field is unique and composed of 4 32-bit integers separated by commas followed by a slash and the number of significant bits in the CIDR rule:
-              <ul>
-                <li>
-                  &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;/&lt;mask_width&gt;
-                </li>
-              </ul>
+              <br />
+              &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;/&lt;mask_width&gt;
             </li>
             <br>
             <li>
@@ -323,7 +323,21 @@
             </li>
             <br>
             <li>
-              For IPv4, there should be used an IPv4 address mapped to IPv6; for this we should translate it by following this convention.
+              For IPv4, you should use an IPv4 address mapped to IPv6. You should translate using <a href="https://tools.ietf.org/html/rfc5156#section-2.2">this convention</a>.
+              <br />
+              0:0:0:0:0:FFFF:&lt;IPv4 data&gt;/&lt;96 to 128&gt;
+              <br /><br />
+              For IPv4 mask width values are between 0 and 32, you will need to add 96 to the desired IPv4 mask.
+              <br /><br />
+              To create this IPv4 CIDR block <code>192.168.0.0/16</code>, translate it into an IPv6 address as <code>::FFFF:192.168.0.0/112</code>. Then, transform this Ipv6 address into 4 32-bits blocks to get <code>0,0,65535,3232235776/112</code>.
+              <br /><br />
+            </li>
+            <li>
+              For IPv6, all four integers are used though some may still be zero:
+              <br />
+              &lt;Bits 96-127&gt;,&lt;Bits 64-95&gt;,&lt;Bits 32-63&gt;,&lt;Bits 0-31&gt;/&lt;0 to 128&gt;
+              <br /><br />
+              To create this IPv6 CIDR block <code>2620:0:2d0:200::7/80</code>, transform it into 4 32-bits blocks as: <code>639631360,47186432,0,7/80</code>
             </li>
           </ul>
           <ul>
@@ -331,6 +345,7 @@
               All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
               <br />
               <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:&lt;IPv4&gt;</code>
+              <br />
             </li>
           </ul>
           <ul>
@@ -343,7 +358,7 @@
             </li>
           </ul>
         </td>
-      </tr> -->
+      </tr>
       <tr>
         <td><code>allowed_days</code></td>
         <td>String</td>
@@ -359,17 +374,21 @@
       <tr>
         <td><code>allow_insecure</code></td>
         <td>Boolean</td>
-        <td>Default: false</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> makes the JWT token optional.</td>
       </tr>
       <tr>
-        <td><code>enabled</code></td>
+        <td><code>disabled</code></td>
         <td>Boolean</td>
-        <td>Default: true</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> disables the Playback Right, allowing playback for everyone.</td>
       </tr>
       <tr>
         <td><code>external_id</code></td>
         <td>String</td>
-        <td>Playback Rights id</td>
+        <td>Optional reference id</td>
       </tr>
   </tbody>
 </table>

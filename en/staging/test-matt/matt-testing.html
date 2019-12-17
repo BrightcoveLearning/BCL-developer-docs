@@ -47,263 +47,214 @@
       <!-- BEGIN DRUPAL CONTENT -->
 
 <article class="bcls-article">
-<aside class="bcls-aside bcls-aside--information">
-<p>Note: The Quality Selection Plugin does not work with all video sources. The following points clarify the situation:</p>
-
-<ul>
-	<li>This plugin only works with HLS/DASH sources.</li>
-	<li>This plugin will display the resolution information for any M3U8 master file that includes the resolution info for the child renditions. If no resolution is specified, the plugin will show HD/SD instead.</li>
-	<li>It does not matter where the HLS M3U8 file is hosted or whether it is LIVE or VOD.</li>
-	<li>This plugin does NOT work with MP4. If you have five MP4 sources, and only one HLS source, you will not see the quality selector appear showing the different MP4 qualities.</li>
-</ul>
-</aside>
-
 <section class="bcls-section">
 <h2 id="Player_example">Player example</h2>
+<!-- UPDATE description -->
 
-<p>The following is a Brightcove Player that is using the quality selection plugin. Once you play the video, in the controlbar you will see the following icon: <img alt="" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/icon-in-controlbar.png" /></p>
+<aside class="bcls-aside bcls-aside--information language-editable">This sample and associated code is provided as a guide for your production development. The code is not certified for production use nor officially supported.</aside>
 
-<p>Once you make a selection, the gear will spin until the new quality is rendered, for DASH sources, or until the new quality is being loaded, for HLS sources. More information is provided below on the quality options you see for the selection, and gear spinning behavior.</p>
+<p>In the player you will see there are four videos that continually play as background videos. Also, at the start of each video the title and description of each video are displayed overlaying the background video. In this example a way to stop the playlist from repeating is also shown. It is a rate use case in which you would want the playlist to repeat indefinitely.</p>
+<!-- UPDATE codepen here -->
 
-<aside class="bcls-aside bcls-aside--information">If you have a fast Internet connection, you may have to make a number of selections before you see the gear spin as changes take place quickly with HLS renditions, which this video is using.</aside>
+<p data-height="553" data-theme-id="dark" data-slug-hash="VyGqbN" data-default-tab="result" data-user="rcrooks1969" data-embed-version="2" data-pen-title="18529-background-video-playlist" class="codepen">See the Pen <a href="https://codepen.io/team/rcrooks1969/pen/VyGqbN/">18529-background-video-playlist</a> by Brightcove Learning Services (<a href="https://codepen.io/rcrooks1969">@rcrooks1969</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script><!-- UPDATE link to GitHub source -->
 
-<video data-video-id="5842800655001" data-account="1752604059001" data-player="B1CWQFiPZ" data-embed="default" data-application-id="" class="video-js" controls="" width="640" height="360">&nbsp;</video>
-<script src="//players.brightcove.net/1752604059001/B1CWQFiPZ_default/index.min.js"></script>
+<p>View the <a href="https://github.com/BrightcoveLearning/18529-background-video-playlist">source code</a>.</p>
+</section>
 
 <section class="bcls-section">
-<h2 id="Quality_options">Quality options</h2>
+<h2 id="Using_the_CodePen" class="bcls-expander-head">Using the CodePen</h2>
 
-<p>When the gear icon is clicked, a number of quality options are displayed for user selection. For example, a video with the following renditions:</p>
-
-<figure class="bcls-figure"><img class="bcls-image" alt="All video renditions" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/video-renditions.png" /></figure>
-
-<p>will create the following quality options:</p>
-
-<figure class="bcls-figure"><img class="bcls-image" alt="Quality options" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/quality-options.png" /></figure>
-
-<p>Here is how those options are built and then a specific rendition selected:</p>
+<div class="bcls-expander-content">
+<p>Here are some tips to effectively use the above CodePen:</p>
 
 <ul>
-	<li>All renditions are grouped based on lines of horizontal resolution (e.g. 270p, 360p, 540p, 720p and 1080p in the example above) and used as quality options.</li>
-	<li>After user selection of a group, if there are multiple renditions in the selected group the standard adaptive bitrate streaming algorithm then chooses the optimal rendition in the selected resolution group. The process is how rendition selection currently works, but only within a selected resolution group.</li>
-	<li>If resolution information is not available, options will fallback to show options <strong>SD</strong> and <strong>HD</strong>, for Standard Definition and High Definition respectively. The plugin will use bitrate information for each rendition to determine whether it is SD or HD, using a configurable dividing line.</li>
-</ul>
-</section>
-
-<section class="bcls-section">
-<h2 id="Buffering">Buffering</h2>
-
-<p>When changing the quality it is possible that some buffering will take place and you will see the loading spinner appear. This is because the quality is changed immediately on quality selection and segments will need to be downloaded. If you prefer to have the same smooth transition behavior seen with automatic rendition switches, you can manually initialize the player with the following option:</p>
-
-<pre class="line-numbers">
-<code class="language-javascript">var options = {
-  html5: {
-    hls: {
-      smoothQualityChange: true
-    }
-  }
-};</code></pre>
-
-<p>Details on manually initializing the player using the <code>bc()</code> method can be found in the <a href="/node/18712#bc_method_details">Using bc() and getPlayer() Methods</a> document.</p>
-</section>
-
-<section class="bcls-section">
-<h2 id="Gear_spinning">Gear spinning</h2>
-
-<p>The gear icon spinning represents changes to the rendition used. The rules for spinning differ for DASH and HLS sources:</p>
-
-<ul>
-	<li>For DASH sources, the gear will spin until the quality has changed in the player and being rendered on screen.</li>
-	<li>For HLS sources, the gear stops spinning when the internal algorithm has decided to start LOADING the new quality, not when it has been rendered. This decision happens quickly, so it is probable you won't see the spinning action that frequently with an HLS source.</li>
-</ul>
-</section>
-
-<section class="bcls-section">
-<h2 id="Implement_using_Players_module">Implement using Players module</h2>
-
-<p>To implement the quality selection plugin using the Players module, follow these steps:</p>
-
-<ol class="bcls-tasklist">
-	<li>Open the <strong>PLAYERS</strong> module and either create a new player or locate the player to which you wish to add the plugin.</li>
-	<li>Click the link for the player to open the player's properties.</li>
-	<li>Click <strong>Controls</strong> in the left navigation menu.</li>
-	<li>Check the box in front of <strong>Quality Selector</strong>.
-	<figure class="bcls-figure"><img class="bcls-image" alt="Configuration show quality selector" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/studio-show-quality-selector.png" /></figure>
+	<li>Toggle the actual display of the player by clicking the <strong>Result</strong> button.</li>
+	<li>Click the <strong>HTML/CSS/JS</strong> buttons to display ONE of the code types.</li>
+	<li>Later in this document the logic, flow and styling used in the application will be discussed in the <a href="#Player/HTML_configuration">Player/HTML configuration</a>, <a href="#Applicaton_flow">Application flow</a> and <a href="#Application_styling">Application styling</a> sections. The best way to follow along with the information in those sections is to:
+	<ol>
+		<li>Click the <strong>EDIT ON CODEPEN</strong> button in the CodePen and have the code available in one browser/browser tab.</li>
+		<li>In CodePen, adjust what code you want displayed. You can change the width of different code sections within CodePen.</li>
+		<li>View the <a href="#Player/HTML_configuration">Player/HTML configuration</a>, <a href="#Applicaton_flow">Application flow</a> and/or <a href="#Application_styling">Application styling</a> sections in another browser/browser tab. You will now be able to follow the code explanations and at the same time view the code.</li>
+	</ol>
 	</li>
-	<li>Use a radio button to display either the different resolutions available, or simply an <strong>HD/SD</strong> option.</li>
-	<li>Click <strong>Save</strong>.</li>
-	<li>To publish the player, click <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
-	<li>To close the open dialog, click <strong>Close</strong>.</li>
+</ul>
+</div>
+</section>
+
+<section class="bcls-section">
+<h2 id="developmentsequence" class="bcls-expander-head">Development sequence</h2>
+
+<div class="bcls-expander-content">
+<p>Here is the recommended development sequence:</p>
+
+<ol>
+	<li>Use the In-Page embed player implementation to test the functionality of your player, plugin and CSS (if CSS is needed)</li>
+	<li>Put the plugin's JavaScript and CSS into separate files for local testing</li>
+	<li>Deploy the plugin code and CSS to your server once you have worked out any errors</li>
+	<li>Use Studio to add the plugin and CSS to your player</li>
+	<li>Replace the In-Page embed player implementation if you determine that the iframe implementation is a better fit (detailed in next section)</li>
 </ol>
-</section>
 
-<section class="bcls-section">
-<h2 id="Configuration_options">Configuration options</h2>
+<p>For details about these steps, review the <a href="/node/18081">Step-by-Step: Plugin Development</a> guide.</p>
 
-<p>The following options are available to configure the plugin if you are implementing the plugin using code:</p>
+<h3>iframe or In-Page embed</h3>
+
+<p>When developing enhancements for the Brightcove player you will need to decide if the code is a best fit for the iframe or In-Page embed implementation. The best practice recommendation is to build a plugin for use with an iframe implementation. The advantages of using the iframe player are:</p>
 
 <ul>
-	<li>
-	<h3><code>defaultResolution</code></h3>
-
-	<ul>
-		<li>Type: <code>String</code></li>
-		<li>Default: <code>none</code></li>
-		<li>Defines the default resolution or resolution mapping to use. Pass it either the horizontal resolution or <strong>SD</strong>/<strong>HD</strong>.</li>
-	</ul>
-	</li>
-	<li>
-	<h3><code>sdBitrateLimit</code></h3>
-
-	<ul>
-		<li>Type: <code>Number</code></li>
-		<li>Default: <code>2000000</code></li>
-		<li>Defines the upper bitrate limit (exclusive) for considering a rendition <strong>SD</strong>.</li>
-	</ul>
-	</li>
-	<li>
-	<h3><code>useResolutionLabels</code></h3>
-
-	<ul>
-		<li>Type: <code>Boolean</code></li>
-		<li>Default: <code>true</code></li>
-		<li>When <code>true</code>, the plugin will attempt to categorize renditions by lines of horizontal resolution when available. Set to false to always use <strong>SD</strong>/<strong>HD</strong> categorization.</li>
-	</ul>
-
-	<p>To implement the <code>useResolutionLabels</code> option, you would enter the following in the plugin's options in Studio:</p>
-
-	<pre class="line-numbers">
-<code class="language-json">{
-  "useResolutionLabels": false
-}</code></pre>
-
-	<p>The resulting quality options would appear as follows:</p>
-
-	<figure class="bcls-figure"><img class="bcls-image" alt="Options SD and HD only" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/quality-options-sd-hd-only.png" /></figure>
-
-	<p>The player would then select the optimal rendition from the selected group. As detailed in this section, <code>sdBitrateLimit</code> is configurable to determine the renditions classified as <strong>SD</strong> and <strong>HD.</strong></p>
-    <aside class="bcls-aside bcls-aside--tip language-editable">Contradictory settings will not work. For instance, neither of the following make sense to use as in both cases you are providing an illegal value for a label based on the  <code>useResolutionLabels</code> setting.
-<pre class="line-numbers"><code class="language-json">"useResolutionLabels": true,
-"defaultResolution": "HD"</code></pre>
-<pre class="line-numbers"><code class="language-json">"useResolutionLabels": false,
-"defaultResolution": "1080p"</code></pre>
-    </aside>
-	</li>
-	<li>
-	<h3><code>resolutionLabelBitrates</code></h3>
-
-	<ul>
-		<li>Type: <code>Boolean</code></li>
-		<li>Default: <code>false</code></li>
-		<li>When <code>true</code>, the plugin will attach bitrate information to the resolution labels (e.g. 720p @ 13806 kbps). This option has no effect when <code>useResolutionLabels</code> is false or when resolution information is unavailable.</li>
-	</ul>
-
-	<p>When this configuration option is set the <code>true</code>, the quality selector will appear as follows:</p>
-
-	<figure class="bcls-figure"><img class="bcls-image" alt="All video bitrates" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/bitrates-displayed.png" /></figure>
-	</li>
+	<li>No collisions with existing JavaScript and/or CSS</li>
+	<li>Automatically responsive</li>
+	<li>The iframe eases use in social media apps (or whenever the video will need to "travel" into other apps)</li>
 </ul>
-</section>
+
+<p>Although integrating the In-Page embed player can be more complex, there are times when you will plan your code around that implementation. To generalize, this approach is best when the containing page needs to communicate to the player. Specifically, here are some examples:</p>
+
+<ul>
+	<li>Code in the containing page needs to listen for and act on player events</li>
+	<li>The player uses styles from the containing page</li>
+	<li>The iframe will cause app logic to fail, like a redirect from the containing page</li>
+</ul>
+
+<p>Even if your final implementation does not use the iframe code, you can still use the In-Page embed code with a plugin for your JavaScript and a separate file for your CSS. This encapsulates your logic so that you can easily use it in multiple players.</p>
+</div>
+<!-- id="expanderContent" --></section>
 
 <section class="bcls-section">
-<h2 id="Styling_the_control">Styling the control</h2>
-
-<p>CSS is used to style the gear icon, as well as the menu that appears. The following table shows the common components you can style, the components' selectors and finally the CSS property to set.</p>
+<h2 id="API/Plugin_resources_used">API/Plugin resources used</h2>
+<!-- UPDATE table, remove unneeded columns -->
 
 <table class="bcls-table">
 	<thead class="bcls-table__head">
 		<tr>
-			<th>Component</th>
-			<th>Selector</th>
-			<th>Property</th>
+			<th>API Methods</th>
+			<th>API Events</th>
+			<th>API Properties</th>
 		</tr>
 	</thead>
 	<tbody class="bcls-table__body">
 		<tr>
-			<td>Gear icon</td>
-			<td>button.vjs-quality-menu-button.vjs-menu-button.vjs-menu-button-popup.vjs-button</td>
-			<td>color</td>
+			<td><a href="/node/18099#repeat">player.playlist.repeat()</a></td>
+			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#event:loadstart">loadstart</a></td>
+			<td><a href="/node/18085">player.mediainfo</a></td>
 		</tr>
 		<tr>
-			<td>Color of menu items</td>
-			<td>div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item</td>
-			<td>background-color</td>
-		</tr>
-		<tr>
-			<td>Text color of menu items</td>
-			<td>div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item-text</td>
-			<td>color</td>
-		</tr>
-		<tr>
-			<td>Color of selected menu item</td>
-			<td>div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item.vjs-selected</td>
-			<td>background-color</td>
-		</tr>
-		<tr>
-			<td>Text color of selected item</td>
-			<td>div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item.vjs-selected .vjs-menu-item-text</td>
-			<td>color</td>
-		</tr>
-		<tr>
-			<td>Text color of <strong>HD</strong> label</td>
-			<td>div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-quality-menu-item-sub-label</td>
-			<td>color</td>
+			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/module-events.html#.on">on()</a></td>
+			<td><a href="/node/18099#playlistitem">playlistitem</a> &nbsp;</td>
+			<td>&nbsp;</td>
 		</tr>
 	</tbody>
 </table>
-
-<p>For example, to achieve the following:</p>
-
-<figure class="bcls-figure"><img class="bcls-image" alt="All video bitrates" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/manual-rendition-selection/styled-menu.png" /></figure>
-
-<p>You would use this CSS:</p>
-
-<pre class="line-numbers">
-<code class="language-css">/* Style the icon */
-button.vjs-quality-menu-button.vjs-menu-button.vjs-menu-button-popup.vjs-button {
-  color: red;
-}
-/* Style the background of the menu items */
-div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item {
-  background-color: yellow;
-}
-/* Style the text of menu items */
-div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item-text {
-  color: green;
-}
-/* Style the background color of selected menu item */
-div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item.vjs-selected {
-  background-color: white;
-}
-/* Style the text color of selected menu item */
-div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-menu-item.vjs-selected .vjs-menu-item-text{
-  color: blue;
-}
-/* Style the HD label */
-div.vjs-quality-menu-wrapper.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button.vjs-quality-menu-button-use-resolution .vjs-quality-menu-item-sub-label {
-  color: lime;
-}</code></pre>
-</section>
+<!-- <aside class="bcls-aside bcls-aside--tip">This code sample uses one of the Brightcove REST APIs. To understand working with this API it is vital you read and understand the <a href="/node/18132">Learning Guide: Using the REST APIs</a> document.</aside> --></section>
+<!-- UPDATE player and HTML configuration -->
 
 <section class="bcls-section">
-<h2 id="Known_issues">Known issues</h2>
+<h2 id="Player/HTML_configuration">Player/HTML configuration</h2>
+
+<p>This section details any special configuration needed during player creation. In addition, other HTML elements that must be added to the page, beyond the in-page embed player implementation code, are described.</p>
+
+<h3>Player configuration</h3>
+
+<p>Be sure when you create the player the following settings are implemented:</p>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Set responsive" src="//learning-services-media.brightcove.com/doc-assets/player-development/samples/background-playlist/player-settings1.png" />
+<figcaption class="bcls-caption--image">Set responsive</figcaption>
+</figure>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Set playlist" src="//learning-services-media.brightcove.com/doc-assets/player-development/samples/background-playlist/player-settings2.png" />
+<figcaption class="bcls-caption--image">Set playlist</figcaption>
+</figure>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Set autostart and play when selected" src="//learning-services-media.brightcove.com/doc-assets/player-development/samples/background-playlist/player-settings3.png" />
+<figcaption class="bcls-caption--image">Set autostart and play when selected</figcaption>
+</figure>
+
+<figure class="bcls-figure"><img class="bcls-image" alt="Set skip to next video in a playlist" src="//learning-services-media.brightcove.com/doc-assets/player-development/samples/background-playlist/player-settings4.png" />
+<figcaption class="bcls-caption--image">Set skip to next video in a playlist</figcaption>
+</figure>
+
+<h3>Other HTML</h3>
+
+<p>First, the in-page embed player code is nested in TWO HTML <code>div</code> elements. Both of the <code>div</code>s contain the appropriate styles to fill the entire browser window, and behave responsively. Next, another <code>div</code> element is used to define where the text that is placed over the background video should be located.</p>
+</section>
+<!-- UPDATE application flow -->
+
+<section class="bcls-section">
+<h2 id="Application_flow">Application flow</h2>
+
+<p>The basic logic behind this application is:</p>
 
 <ul>
-	<li>The plugin functions with Brightcove Player version 5.17.0 and later. Functionality with earlier versions of the player is not supported.</li>
-	<li>The quality selector does not work in Safari.</li>
-	<li>The quality selector does not appear in iOS.</li>
-	<li>At times the quality switch will not happen at the desired time, it can take longer than expected.</li>
-	<li>Setting the source in the player configuration and building with single video template will cause the quality menu to not be initialized properly. This is because the source will be set through a call to the <code>videojs</code> constructor, which does not have access to the player or plugins. The source should be set by calling <code>player.src()</code>. This does not affect Video Cloud users.</li>
-	<li>The quality menu will not be displayed when using DASH content with Silverlight.</li>
-	<li>The Video Quality in the selector is re-set to <strong>Auto</strong> at every player load. It does not maintain any previous setting.</li>
+	<li>Appropriately style the player and box that contains the overlaid text.</li>
+	<li>Set the playlist to repeat indefinitely.</li>
+	<li>On the load of every video from the playlist display the video title and short description.</li>
+</ul>
+<!-- UPDATE task 1 -->
+
+<h3>Set the playlist to repeat</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre>
+<code class="language-javascript">// +++ Set the playlist to repeat, but stop after 2 times through +++</code></pre>
+
+<p>The <code>repeat()</code> method from the Playlist API is used to keep the playlist playing indefinitely. If you wish to halt the repeating use the <code>playlistitem</code> event, which is dispatched every time a video from the playlist is played. In this case, since there are four videos in the playlist, and you wish to stop the playlist after 2 repetitions, you would count the number of times <code>playlistitem</code> is dispatched. When the counter is great than four (or greater than or equal to 4, both will work), stop the playlist from repeating. When you set <code>myPlayer.playlist.repeat(false);</code>, the playlist will finish the current loop through all the videos. </p>
+<!-- UPDATE task 2 -->
+
+<h3>Display the title and description</h3>
+
+<p>Find the code which is labeled:</p>
+
+<pre>
+<code class="language-javascript">// ### Display the title and description ###</code></pre>
+
+<p>An event handler is used to wait for the <code>loadstart</code> event. This is done as the <code>mediainfo</code> object is not populated until that event is dispatched. Then the <code>name</code> and <code>description</code> are injected into the HTML.</p>
+</section>
+<!-- UPDATE CSS description -->
+
+<section class="bcls-section">
+<h2 id="Application_styling">Application styling</h2>
+
+<p>The CSS performs the following tasks:</p>
+
+<ul>
+	<li>Makes the background color of the window black.</li>
+	<li>Hides the player controls for the background video player.</li>
+	<li>Disables pointer events on the player.</li>
+	<li>Styles the box that overlays the text. Depending on the size of your player and the amount of content display these styles may need to be adjusted.</li>
+	<li>Styles the <code>h1</code> used in the overlay text.</li>
 </ul>
 </section>
 
 <section class="bcls-section">
-<h2 id="Changelog">Changelog</h2>
+<h2 id="Plugin_code">Plugin code</h2>
 
-<p>See the <a href="/node/18799">changelog here</a>.</p>
-</section>
+<p>Normally when converting the JavaScript into a Brightcove Player plugin nominal changes are needed. One required change is to replace the standard use of the <code>ready()</code> method with the code that defines a plugin.</p>
+
+<p>Here is the very commonly used start to JavaScript code that will work with the player:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">videojs.getPlayer('myPlayerID').ready(function() {
+  var myPlayer = this;
+  ...
+});</code></pre>
+
+<p>You will change the first line to use the standard syntax to start a Brightcove Player plugin:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">videojs.registerPlugin('pluginName', function(options) {
+  var myPlayer = this;
+  ...
+});</code></pre>
+<!-- UPDATE path to plugin's JavaScript -->
+
+<p>As mentioned earlier, you can see the plugin's JavaScript code in this document's corresponding GitHub repo: <a href="https://github.com/BrightcoveLearning/18529-background-video-playlist/blob/master/plugin/background-playlist.js">background-playlist.js</a>.</p>
+
+<h3>Using the plugin with a player</h3>
+
+<p>Once you have the plugin's CSS and JavaScript files stored in an Internet accessible location, you can use the plugin with a player. In Studio's <strong>PLAYERS</strong> module you can choose a player, then in the <strong>PLUGINS</strong> section add the URLs to the CSS and JavaScript files, and also add the <strong>Name</strong> and <strong>Options</strong>, if options are needed.</p>
+
+<aside class="bcls-aside bcls-aside--tip">For more information on using Studio to assign plugins to players see the <a href="/node/14053">Configuring Player Plugins</a> document.</aside>
 </section>
 </article>
 

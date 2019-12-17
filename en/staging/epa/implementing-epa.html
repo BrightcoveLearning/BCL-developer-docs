@@ -279,7 +279,7 @@
             The format of this field is unique and composed of 4 32-bit integers separated by commas:
             <ul>
               <li>
-                <32-bit>,<32-bit>,<32-bit>,<32-bit>
+                &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;
               </li>
             </ul>
           </li>
@@ -288,12 +288,7 @@
           <li>
             All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
             <br />
-            <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:</code><IPv4>
-              <!-- <ul>
-                <li>
-                  <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:</code><IPv4>
-                </li>
-              </ul> -->
+            <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:&lt;IPv4&gt;</code>
           </li>
         </ul>
         <ul>
@@ -303,19 +298,52 @@
             192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
             <br /><br />
             2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
-            <!-- <ul>
-              <li>
-                192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
-              </li>
-            </ul> -->
           </li>
         </ul>
       </td>
+      </tr>
+      <!-- <tr>
+        <td><code>allowed_cidr</code>, <code>blocked_cidr</code></td>
+        <td>Integer</td>
+        <td>
+            Array of <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> addresses. You can use either IP or CIDR restrictions. Format:
+          <br><br>
+          <ul>
+            <li>
+              The format of this field is unique and composed of 4 32-bit integers separated by commas followed by a slash and the number of significant bits in the CIDR rule:
+              <ul>
+                <li>
+                  &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;/&lt;mask_width&gt;
+                </li>
+              </ul>
+            </li>
+            <br>
+            <li>
+                This format allows you to specify CIDR rules for both IPv4 and IPv6 with a single common format.
+            </li>
+            <br>
+            <li>
+              For IPv4, there should be used an IPv4 address mapped to IPv6; for this we should translate it by following this convention.
+            </li>
+          </ul>
+          <ul>
+            <li>
+              All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
+              <br />
+              <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:&lt;IPv4&gt;</code>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              For IPv6-mapped IPv4 and native IPv6 addresses, they need to be converted into binary (resulting in a 128 bits number). Separate them into 32 bit blocks, adding a comma between these blocks:
+              <br /><br />
+              192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
+              <br /><br />
+              2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
+            </li>
+          </ul>
+        </td>
+      </tr> -->
       <tr>
         <td><code>allowed_days</code></td>
         <td>String</td>

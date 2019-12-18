@@ -562,96 +562,6 @@ paths:
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
   '/accounts/{accountID}/users/{userID}/devices/{deviceID}':
-    put:
-      tags:
-        - Playback Rights
-      summary: Add a user device
-      description: 'Add a user device'
-      operationId: AddADevice
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/devices/write
-      parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: userID
-          in: path
-          description: user unique id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: deviceID
-          in: path
-          description: end user device unique id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Device added
-        '204':
-          description: No content
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in account_id",
-                  },
-                ]
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "DEVICE_STORE_FAILURE",
-                    "message": "Cannot store device",
-                  },
-                ]
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
     delete:
       tags:
         - Playback Rights
@@ -819,7 +729,7 @@ components:
         require_token:
           type: boolean
           example: false
-        disnabled:
+        disabled:
           type: boolean
           example: true
         external_id:

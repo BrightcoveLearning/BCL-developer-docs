@@ -21,8 +21,8 @@ paths:
     post:
       tags:
         - Playback Rights
-      summary: Create new Playback Rights
-      description: 'Create new Playback Rights'
+      summary: Create a new Playback Right
+      description: 'Create a new Playback Right'
       operationId: CreateRight
       security:
         - BC_OAuth2:
@@ -61,30 +61,60 @@ paths:
       responses:
         '201':
           description: 'Playback right created'
-          #content:
-          #  application/json:
-            #  schema:
-             #   $ref: '#/components/schemas/PlaybackRightsResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackRights'
         '400':
-          description: >-
-            BAD_REQUEST: Invalid request Body
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your Policy
-            Key is correct
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
         '404':
           description: >-
             RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '409':
-          description: >-
-            STATUS_CONFLICT: Something went wrong while trying to update the file
+        '422':
+          description: Unprocessable entity
           content:
-            text/plain:
-              example: "Invalid country: MIX"
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "UNPROCESSABLE_ENTITY",
+                    "error_subcode": "INVALID_IP",
+                    "message": "Invalid ip: 0.0.0.0/40",
+                  },
+                ]
         '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "SERVER_ERROR",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "PLAYBACK_RIGHT_STORE_FAILURE",
+                    "message": "Cannot store playback right",
+                  },
+                ]
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -144,10 +174,6 @@ paths:
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your Policy
-            Key is correct
         '404':
           description: >-
             NOT_FOUND: Playback Right ID was not found
@@ -244,10 +270,6 @@ paths:
                     "message": "Invalid characters in account_id",
                   },
                 ]
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
         '404':
           description: >-
             NOT_FOUND: Playback rights ID was not found
@@ -302,8 +324,8 @@ paths:
     delete:
       tags:
         - Playback Rights
-      summary: Delete a specific playback right
-      description: 'Delete a specific playback right'
+      summary: Delete a specific Playback Right
+      description: 'Delete a specific Playback Right'
       operationId: DeleteRight
       security:
         - BC_OAuth2:
@@ -350,10 +372,6 @@ paths:
         '400':
           description: >-
             NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
         '404':
           description: >-
             RESOURCE_NOT_FOUND: The api could not find the resource you requested
@@ -361,6 +379,361 @@ paths:
           description: |-
             UNKNOWN: Issue in Brightcove system; try again later.
             TIMEOUT: Server likely too busy; try again later.
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/users/{userID}/devices':
+    get:
+      tags:
+        - Playback Rights
+      summary: Get all user devices
+      description: 'Get all user devices'
+      operationId: GetDevices
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/read
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: userID
+          in: path
+          description: user unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get all devices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/devices"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
+        '404':
+          description: Devices were not found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Devices not found",
+                  },
+                ]
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICES_RETRIEVE_FAILURE",
+                    "message": "Cannot retrieve devices",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Playback Rights
+      summary: Delete all user devices
+      description: 'Delete all user devices'
+      operationId: DeleteDevices
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: userID
+          in: path
+          description: user unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: All devices deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICES_DELETE_FAILURE",
+                    "message": "Cannot delete devices",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/users/{userID}/devices/{deviceID}':
+    put:
+      tags:
+        - Playback Rights
+      summary: Add a user device
+      description: 'Add a user device'
+      operationId: AddADevice
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: userID
+          in: path
+          description: user unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: deviceID
+          in: path
+          description: end user device unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Device added
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICE_STORE_FAILURE",
+                    "message": "Cannot store device",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Playback Rights
+      summary: Delete a soecific user device
+      description: 'Delete a soecific user device'
+      operationId: DeleteADevice
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: userID
+          in: path
+          description: user unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: deviceID
+          in: path
+          description: end user device unique id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Device deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in account_id",
+                  },
+                ]
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICE_DELETE_FAILURE",
+                    "message": "Cannot delete device",
+                  },
+                ]
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -501,18 +874,11 @@ components:
       "enabled": false,
       "external_id": "8f0b409f-e13e-4e7e-8004-fedd39933a10"
       }
-    Status500:
-      title:  Status Response 500
-      type: object
-      description: The status returned from the Playback Rights API
-      properties:
-        state:
-          type: string
-          description: The status returned from the Playback Rights API.
-      example: {
-          "status": "failed",
-          "message": "Internal Server Error"
-          }
+    devices:
+      type: array
+      items:
+        type: string
+        example: "device_01"
   securitySchemes:
     BC_OAuth2:
       type: oauth2

@@ -17,7 +17,7 @@ tags:
   - name: Playback Rights
     description: Operations for creating, reading, updating and deleting video Playback Rights.
 paths:
-  '/accounts/{accountID}/playback_rights':
+  '/accounts/{account_id}/playback_rights':
     post:
       tags:
         - Playback Rights
@@ -28,14 +28,7 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/playback-rights/write
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -57,14 +50,14 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackRights'
+                $ref: '#/components/schemas/playback_rights'
       responses:
         '201':
           description: 'Playback right created'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackRights'
+                $ref: '#/components/schemas/playback_rights'
         '400':
           description: Bad Request
           content:
@@ -121,7 +114,7 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/playback_rights/{playbackRightsID}':
+  '/accounts/{account_id}/playback_rights/{playback_rights_id}':
     get:
       tags:
         - Playback Rights
@@ -132,22 +125,8 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/playback-rights/read
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: playbackRightsID
-          in: path
-          description: Playback Rights ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/PlaybackRightID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -170,7 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackRights'
+                $ref: '#/components/schemas/playback_rights'
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
@@ -216,22 +195,8 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/playback-rights/write
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: playbackRightsID
-          in: path
-          description: Playback rights ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/PlaybackRightID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -254,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackRights"
+                $ref: "#/components/schemas/playback_rights"
         '204':
           description: >-
             NO_CONTENT: No content for successful update
@@ -331,22 +296,8 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/playback-rights/write
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: playbackRightsID
-          in: path
-          description: Playback rights ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/PlaybackRightID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -385,7 +336,7 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/users/{userID}/devices':
+  '/accounts/{account_id}/users/{user_id}/devices':
     get:
       tags:
         - Playback Rights
@@ -396,21 +347,8 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/devices/read
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: userID
-          in: path
-          description: user unique id
-          required: true
-          style: simple
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -490,21 +428,8 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/devices/write
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: userID
-          in: path
-          description: user unique id
-          required: true
-          style: simple
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -561,7 +486,7 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/users/{userID}/devices/{deviceID}':
+  '/accounts/{account_id}/users/{user_id}/devices/{device_id}':
     delete:
       tags:
         - Playback Rights
@@ -572,28 +497,9 @@ paths:
         - BC_OAuth2:
           - video-cloud/playback-auth/devices/write
       parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: userID
-          in: path
-          description: user unique id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: deviceID
-          in: path
-          description: end user device unique id
-          required: true
-          style: simple
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/DeviceID'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -652,8 +558,47 @@ paths:
         IsMultiContentStreaming: false
 
 components:
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      description: Video Cloud account id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    PlaybackRightID:
+      name: playback_rights_id
+      in: path
+      description: The playback right id
+      required: true
+      style: simple
+      schema:
+        type: string
+    UserID:
+      name: user_id
+      in: path
+      description: user unique id
+      required: true
+      style: simple
+      schema:
+        type: string
+    DeviceID:
+      name: device_id
+      in: path
+      description: end user device unique id
+      required: true
+      style: simple
+      schema:
+        type: string
   schemas:
-    PlaybackRights:
+    devices:
+      type: array
+      items:
+        type: string
+        example: "device_01"
+    playback_rights:
       title:  Playback Rights
       type: object
       properties:
@@ -784,11 +729,6 @@ components:
       "enabled": false,
       "external_id": "8f0b409f-e13e-4e7e-8004-fedd39933a10"
       }
-    devices:
-      type: array
-      items:
-        type: string
-        example: "device_01"
   securitySchemes:
     BC_OAuth2:
       type: oauth2

@@ -1,5 +1,27 @@
 Brightcove Native Player for Android Release Notes:
 
+Version 6.10.0:
+
+  SDK Changes:
+
+      * [Breaking Change] The Brightcove Android Native SDK is now built using AndroidX (JetPack) libraries. Please refer to the Android SDK Support pages for more information on this change, and required steps to migrate your application code.
+      * Fixed an issue with the backgroundOpacity method in BrightcoveCaptionStyle where this method was not setting background opacity on captions as expected.
+      * Fixed an issue where fullscreen functionality was not working as expected in the BrightcovePlayerFragment.
+
+  ExoPlayer Changes:
+
+      * ExoPlayer support in the Brightcove Android Native SDK has been upgraded to 2.10.8.
+      * Fixed an issue in audio track selection where higher-bitrate renditions could not be selected after switching languages.
+
+  IMA Plugin Changes:
+
+      * Adds support for live content with pre-roll client-side ads.
+
+  SSAI Plugin Changes:
+
+      * Fixed an issue where the Captions button would not consistently display during content playback. Please note that this issue is currently fixed for mobile devices only; a solution for Android TV devices will follow in an upcoming release.
+
+
 Version 6.9.0:
 
   SDK Changes:
@@ -18,6 +40,8 @@ Version 6.9.0:
   SSAI Plugin Changes:
 
       * Live and Live DVR streams with Server Side Ad Insertion (Live SSAI) are now supported.
+      * [Breaking Change] The Event.PLAYHEAD_POSITION property in both events, EventType.PROGRESS and EventType.AD_PROGRESS, now contains the absolute playhead position, which is the same playhead position given by the underlying player. Please use Event.PROGRESS_BAR_PLAYHEAD_POSITION instead to get the relative playhead position.
+      * The Event.PROGRESS_BAR_PLAYHEAD_POSITION property was introduced for both EventType.PROGRESS and EventType.AD_PROGRESS events which contains the relative playhead position (as Event.PLAYHEAD_POSITION did in older versions).
       * Added Ad controls for Android TV.
       * Fixed an issue where the rewind button will not rewind properly after consecutive clicks.
 

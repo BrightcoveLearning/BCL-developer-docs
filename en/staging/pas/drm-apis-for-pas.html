@@ -443,15 +443,6 @@ Audit API calls for a given account and a given day are cached on API side. If y
   <li>
     There is a limit of 100 blacklisted tokens. After that, an error will be thrown.
   </li>
-  <li>
-    For HLSe (AES-128), the token will be appended to the master manifest request, and will propagate to the encryption key URL. Because these URLs are appended to the master manifest, customers should consider restricting the number of uses to minimize exposure of their content.
-  </li>
-  <li>
-    For HLSe (AES-128), players will make mutlitple requests when playing a video, typically one per rendition. The <a href="#Generate_JWT_token">maxu claim</a> needs to be set high enough to account for these requests. You should consider additional claims to minimize the exposure of your content. Switching renditions will request a new license.
-  </li>
-  <li>
-    Tracking of the <a href="#Generate_JWT_token">maxu and maxip claims</a> is eventually consistent. This means that if a token using these claims is reused many times in quick succession, it is possible to see that token accepted more times than those claims declare. The tracking becomes consistent within a few seconds and after that window the token will be blocked as expected.
-  </li>
 </ul>
 
 </section>

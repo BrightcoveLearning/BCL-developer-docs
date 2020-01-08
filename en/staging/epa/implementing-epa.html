@@ -46,7 +46,7 @@
 
 <p>Brightcove's Playback Authorization Service (PAS) provides a scalable and expressive way to manage video playback.</p>
 
-<p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Managing Content with Playback Authorization Service</a> document.</p>
+<p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
 
 </section>
 
@@ -79,7 +79,7 @@
 <section class="bcls-section">
 <h2 id="Workflow">Workflow</h2>
 
-<p>To use Playback Authorization Service, follow these steps:</p>
+<p>To manage playback restrictions, follow these steps:</p>
 <ol class="bcls-tasklist">
   <li>
     <a href="#Define_restrictions">Define restrictions</a>
@@ -89,25 +89,8 @@
   </li>
   <li>
     <p>
-      Optional: If you want user-level restrictions, you will need a JWT token.
+      Optional: <a href="#Define_user_level_restrictions">Define user-level restrictions</a>
     </p>
-    <ul>
-      <li>
-        <a href="#Generate_public_private_key_pair">Generate public-private key pair</a>
-      </li>
-      <li>
-        <a href="#Register_your_public_key">Register your public key</a>
-      </li>
-      <li>
-        <a href="#Generate_JWT_token">Generate JWT token</a>
-      </li>
-      <li>
-        <a href="#Define_user_level_restrictions">Define user-level restrictions</a>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <a href="#Configure_the_player">Configure the player</a>
   </li>
 </ol>
 </section>
@@ -215,10 +198,10 @@
     &quot;CN&quot;
   ],
   &quot;allowed_zip_codes&quot;: [
-    &quot;MX-90210&quot;
+    &quot;US-90210&quot;
   ],
   &quot;blocked_zip_codes&quot;: [
-    &quot;MX-72810&quot;
+    &quot;US-72810&quot;
   ],
   &quot;allowed_dmas&quot;: [
     501
@@ -289,15 +272,15 @@
     </tr>
     <tr>
       <td><code>start_time</code>, <code>end_time</code></td>
-      <td>Datetime</td>
-      <td>Single ISO formatted datetime (NOT AN ARRAY)</td>
+      <td>Integer</td>
+      <td>Epoch time</td>
     </tr>
     <tr>
       <td><code>allowed_ips</code>, <code>blocked_ips</code></td>
       <td>Integer</td>
       <td>
-          Array of IP addresses. These can be allowed ipv4 and ipv6 addresses or ipv4 and ipv6 CIDR blocks. Format:
-        <br><br>
+          Array of ipv4/ipv6 addresses or CIDR blocks.
+        <!-- <br><br>
         <ul>
           <li>
             The format of this field is unique and composed of 4 32-bit integers separated by commas:
@@ -323,7 +306,7 @@
             <br /><br />
             2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
           </li>
-        </ul>
+        </ul> -->
       </td>
       </tr>
       <!-- <tr>
@@ -487,25 +470,9 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Generate_public_private_key_pair">Generate public-private key pair</h2>
-<p>Generate a public-private key pair. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Implementing DRM with Playback Authorization Service</a>.</p>
-</section>
-
-<section class="bcls-section">
-<h2 id="Register_your_public_key">Register your public key</h2>
-<p>Register your public key with Brightcove using the Key API. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Implementing DRM with Playback Authorization Service</a>.</p>
-</section>
-
-<section class="bcls-section">
-<h2 id="Generate_JWT_token">Generate JWT token</h2>
-<p>Generate a JWT token for each playback session, signed with the private key. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Implementing DRM with Playback Authorization Service</a>.</p>
-
-</section>
-
-<section class="bcls-section">
 <h2 id="Define_user_level_restrictions">Define user-level restrictions</h2>
 <p>
-  The JWT token is used to configure the following restrictions:
+  If you want user-level restrictions, you will need a JWT token. This token is used to configure the following restrictions:
 </p>
 <h3>Device limit</h3>
 <p>
@@ -526,29 +493,58 @@
 </p>
 <aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
 
-
-
-
-
-</section>
-
-<section class="bcls-section">
-<h2 id="Configure_the_player">Configure the player</h2>
-
-<p>The token is passed with the playback request. The player will check the Playback API response for a value in the <code>playback_rights_id</code> field. The player must be configured to use the token.</p>
-
-<h3>Web player</h3>
+<h3>Steps</h3>
 <p>
-  For details about configuring the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a> document.
+  To create the JWT token and pass it to your player, follow these steps:
 </p>
-<h3>Native Android player</h3>
-<p>
-  For details about configuring the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
-</p>
-<h3>Native iOS player</h3>
-<p>
-  For details about configuring the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
-</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    <h4 id="Generate_public_private_key_pair">Generate public-private key pair</h4>
+    <p>Generate a public-private key pair. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Generate public-private key pair</a> section in the Implementing DRM with Playback Authorization Service document.</p>
+  </li>
+  <li>
+    <h4 id="Register_your_public_key">Register your public key</h4>
+    <p>Register your public key with Brightcove using the Key API. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Register public key</a> section in the Implementing DRM with Playback Authorization Service document.</p>
+  </li>
+  <li>
+    <h4 id="Generate_JWT_token">Generate JWT token</h4>
+    <p>Generate a JWT token for each playback session, signed with the private key. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Generate JWT token</a> section in the Implementing DRM with Playback Authorization Service document.</p>
+  </li>
+  <li>
+    <h4 id="Configure_the_player">Configure the player</h4>
+
+    <p>The token is passed with the playback request. The player will check the Playback API response for a value in the <code>playback_rights_id</code> field. The player must be configured to use the token.</p>
+
+    <h5>Web player</h5>
+    <p>
+      For details about configuring the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a> document.
+    </p>
+    <h5>Native Android player</h5>
+    <p>
+      For details about configuring the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+    </p>
+    <h5>Native iOS player</h5>
+    <p>
+      For details about configuring the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+    </p>
+  </li>
+</ol>
+
+<!-- <ol class="bcls-tasklist__restart">
+  <li>
+    <a href="#Generate_public_private_key_pair">Generate public-private key pair</a>
+  </li>
+  <li>
+    <a href="#Register_your_public_key">Register your public key</a>
+  </li>
+  <li>
+    <a href="#Generate_JWT_token">Generate JWT token</a>
+  </li>
+  <li>
+    <a href="#Configure_the_player">Configure the player</a>
+  </li>
+</ol> -->
+
 </section>
 
 <section class="bcls-section">

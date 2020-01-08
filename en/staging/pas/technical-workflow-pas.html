@@ -335,71 +335,159 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
   A subset of the standard <a href="https://auth0.com/docs/tokens/jwt-claims">JSON Web Token claims</a> will be used, along with some private claims defined by Brightcove:
 </p>
 <table class="bcls-table">
-  <thead class="bcls-table__head">
-    <tr>
-      <th>Field</th>
-      <th>Type</th>
-      <th>Required</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody class="bcls-table__body">
-    <tr>
-      <td><code>accid</code></td>
-      <td>String</td>
-      <td>Yes</td>
-      <td>The account id that owns the content being played</td>
-    </tr>
-    <tr>
-      <td><code>exp</code></td>
-      <td>Integer</td>
-      <td>Yes</td>
-      <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
-    </tr>
-    <tr>
-      <td><code>iat</code></td>
-      <td>Integer</td>
-      <td>Yes</td>
-      <td>Time this token was issued, in seconds since the Epoch</td>
-    </tr>
-    <tr>
-      <td><code>conid</code></td>
-      <td>String</td>
-      <td></td>
-      <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
-    </tr>
-    <tr>
-      <td><code>maxip</code></td>
-      <td>Integer</td>
-      <td></td>
-      <td>If present, this token will only be able to be used by this many different IP addresses</td>
-    </tr>
-    <tr>
-      <td><code>maxu</code></td>
-      <td>Integer</td>
-      <td></td>
-      <td>
-          If present, this token will only be valid for this many license requests
-        <br><br>
-        <ul>
-          <li>
-            For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
-          </li>
-          <li>
-            For DRM, one licence request is made per playback
-          </li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>ua</code></td>
-      <td>String</td>
-      <td></td>
-      <td>If present, this token will only be valid for requests from this User-Agent</td>
-    </tr>
-  </tbody>
-</table>
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Required for Concurrency</th>
+          <th>DRM only</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>accid</code></td>
+          <td>String</td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+          <td>The account id that owns the content being played</td>
+        </tr>
+        <tr>
+          <td><code>exp</code></td>
+          <td>Integer</td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+          <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
+        </tr>
+        <tr>
+          <td><code>iat</code></td>
+          <td>Integer</td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+          <td>Time this token was issued, in seconds since the Epoch</td>
+        </tr>
+        <tr>
+          <td><code>pkid</code></td>
+          <td>String</td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+          <td>The public key id used to verify this token</td>
+        </tr>
+        <tr>
+          <td><code>nbf</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Time this token will begin being valid, in seconds since the Epoch</td>
+        </tr>
+        <tr>
+          <td><code>ua</code></td>
+          <td>String</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>If present, this token will only be valid for requests from this User-Agent.</td>
+        </tr>
+        <tr>
+          <td><code>rip</code></td>
+          <td>String</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Requester's IP address. Used to generate tokens that are locked to a single IP</td>
+        </tr>
+        <tr>
+          <td><code>prid</code></td>
+          <td>String</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>A <code>playback_rights_id</code>. Used to override the id set in the catalog for this video</td>
+        </tr>
+        <tr>
+          <td><code>tags</code></td>
+          <td>Array &lt;Strings&gt;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>An array of tags that this token is authorized for playback</td>
+        </tr>
+        <!-- <tr>
+          <td><code>offers</code></td>
+          <td>Array&lt;Strings&gt;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>An array of tags that this token is authorized for playback. This is for Ooyala customers only</td>
+        </tr> -->
+        <tr>
+          <td><code>conid</code></td>
+          <td>String</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
+        </tr>
+        <tr>
+          <td><code>maxip</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td></td>
+          <td>Yes</td>
+          <td>If present, this token will only be able to be used by this many different IP addresses</td>
+        </tr>
+        <tr>
+          <td><code>maxu</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td></td>
+          <td>Yes</td>
+          <td>
+              If present, this token will only be valid for this many license requests
+            <br><br>
+            <ul>
+              <li>
+                For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
+              </li>
+              <li>
+                For DRM, one license request is made per playback
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>uid</code></td>
+          <td>String</td>
+          <td></td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>User id</td>
+        </tr>
+        <tr>
+          <td><code>sid</code></td>
+          <td>String</td>
+          <td></td>
+          <td></td>
+          <td>Yes</td>
+          <td>Session id. Defaults to hash of IP User-Agent video id (still in progress)</td>
+        </tr>
+        <tr>
+          <td><code>cexp</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td></td>
+          <td>Yes</td>
+          <td>Concurrency expiration of session - Default is 2 * video length</td>
+        </tr>
 
+      </tbody>
+    </table>
 
 <p>
   Libraries are commonly available to generate JWT tokens. For details, see the <a href="https://jwt.io/">JSON Web Tokens</a> site.

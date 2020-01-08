@@ -500,15 +500,84 @@
 <ol class="bcls-tasklist__restart">
   <li>
     <h4 id="Generate_public_private_key_pair">Generate public-private key pair</h4>
-    <p>Generate a public-private key pair. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Implementing DRM with Playback Authorization Service</a>.</p>
+    <p>Generate a public-private key pair. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Generate public-private key pair</a> section in the Implementing DRM with Playback Authorization Service document.</p>
   </li>
   <li>
     <h4 id="Register_your_public_key">Register your public key</h4>
-    <p>Register your public key with Brightcove using the Key API. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Implementing DRM with Playback Authorization Service</a>.</p>
+    <p>Register your public key with Brightcove using the Key API. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Register public key</a> section in the Implementing DRM with Playback Authorization Service document.</p>
   </li>
   <li>
     <h4 id="Generate_JWT_token">Generate JWT token</h4>
-    <p>Generate a JWT token for each playback session, signed with the private key. For details, see <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Implementing DRM with Playback Authorization Service</a>.</p>
+    <p>Generate a JWT token for each playback session, signed with the private key. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Generate JWT token</a> section in the Implementing DRM with Playback Authorization Service document.</p>
+    <h5>Claims</h5>
+    <p>
+      A subset of the standard <a href="https://auth0.com/docs/tokens/jwt-claims">JSON Web Token claims</a> will be used, along with some private claims defined by Brightcove:
+    </p>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>accid</code></td>
+          <td>String</td>
+          <td>Yes</td>
+          <td>The account id that owns the content being played</td>
+        </tr>
+        <tr>
+          <td><code>exp</code></td>
+          <td>Integer</td>
+          <td>Yes</td>
+          <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
+        </tr>
+        <tr>
+          <td><code>iat</code></td>
+          <td>Integer</td>
+          <td>Yes</td>
+          <td>Time this token was issued, in seconds since the Epoch</td>
+        </tr>
+        <tr>
+          <td><code>conid</code></td>
+          <td>String</td>
+          <td></td>
+          <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
+        </tr>
+        <tr>
+          <td><code>maxip</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td>If present, this token will only be able to be used by this many different IP addresses</td>
+        </tr>
+        <tr>
+          <td><code>maxu</code></td>
+          <td>Integer</td>
+          <td></td>
+          <td>
+              If present, this token will only be valid for this many license requests
+            <br><br>
+            <ul>
+              <li>
+                For HLSe, players will make multiple requests when playing a video, typically one per rendition. The <code>maxu</code> must be set high enough to account for these additional requests.
+              </li>
+              <li>
+                For DRM, one licence request is made per playback
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>ua</code></td>
+          <td>String</td>
+          <td></td>
+          <td>If present, this token will only be valid for requests from this User-Agent</td>
+        </tr>
+      </tbody>
+    </table>
   </li>
   <li>
     <h4 id="Configure_the_player">Configure the player</h4>

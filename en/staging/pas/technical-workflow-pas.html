@@ -65,6 +65,9 @@
     <a href="#Generate_JWT_token">Generate JWT token for each playback session, signed with the private key</a>
   </li>
   <li>
+    <a href="#Test_playback">Test playback</a>
+  </li>
+  <li>
     <a href="#Configure_the_player">Configure the player to use the token</a>
   </li>
 </ol>
@@ -105,9 +108,9 @@ rm &quot;$PRIVATE_PEM&quot;.pub
 echo &quot;Public key to saved in $PUBLIC_TXT&quot;
 </code></pre>
 <p>
-  If you put the above code into a file named <strong>keygen.sh</strong>, then you can use the following to run the script:
+  Run the script:
 </p>
-<pre><code class="language-bash">bash keygen.sh
+<pre><code class="language-bash">$ bash keygen.sh
 </code></pre>
 
 <h3 id="Example_using_Go" class="bcls-expander-head">Example using Go</h3>
@@ -302,6 +305,7 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
 <p>
   Put the value of your public key in the API request body. You can find the key in the <strong>public_key.txt</strong> file.
 </p>
+<h5>Request</h5>
 <pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/keys
     Content-Type: application/json
     Body: {&quot;value&quot;: &quot;MFkwEwYHKoZIzj0CAQYIKoZIzj...MyeQviqploA==&quot;}
@@ -512,6 +516,52 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
 <p>
   Libraries are commonly available to generate JWT tokens. For details, see the <a href="https://jwt.io/">JSON Web Tokens</a> site.
 </p>
+<h3>
+  Example bash script:
+</h3>
+<p>
+  Example script to generate the JWT token:
+</p>
+<pre class="line-numbers"><code class="language-bash">#! /usr/bin/env bash
+# Static header fields.
+HEADER='{
+	&quot;type&quot;: &quot;JWT&quot;,
+	&quot;alg&quot;: &quot;RS256&quot;
+}'
+
+payload='{
+	&quot;pkid&quot;: &quot;{your_public_key_id}&quot;,
+	&quot;accid&quot;: &quot;{your_account_id}&quot;
+}'
+
+# Use jq to set the dynamic `iat` and `exp`
+# fields on the payload using the current time.
+# `iat` is set to now, and `exp` is now + 1 second.
+PAYLOAD=$(
+	echo &quot;${payload}&quot; | jq --arg time_str &quot;$(date +%s)&quot; \
+	'
+	($time_str | tonumber) as $time_num
+	| .iat=$time_num
+	| .exp=($time_num + 60 * 60)
+	'
+)
+
+function b64enc() { openssl enc -base64 -A | tr '+/' '-_' | tr -d '='; }
+
+function rs_sign() { openssl dgst -binary -sha256 -sign playback-auth-keys/private.pem ; }
+
+JWT_HDR_B64=&quot;$(echo -n &quot;$HEADER&quot; | b64enc)&quot;
+JWT_PAY_B64=&quot;$(echo -n &quot;$PAYLOAD&quot; | b64enc)&quot;
+UNSIGNED_JWT=&quot;$JWT_HDR_B64.$JWT_PAY_B64&quot;
+SIGNATURE=$(echo -n &quot;$UNSIGNED_JWT&quot; | rs_sign | b64enc)
+
+echo &quot;$UNSIGNED_JWT.$SIGNATURE&quot;
+</code></pre>
+<p>
+  Run the script:
+</p>
+<pre><code class="language-bash">$ bash jwtgen.sh
+</code></pre>
 <p>
 
 </p>
@@ -728,7 +778,19 @@ func processEC256(kbs, bs []byte) {
   &quot;ua&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36&quot;
 }
 </code></pre>
+</section>
 
+<section class="bcls-section">
+<h2 id="Test_playback">Test playback</h2>
+
+<p>Although not required, you may want to test video playback before configuring a player.</p>
+<p>
+  Request playback:
+</p>
+<pre class="line-numbers"><code class="language-http">curl -X GET \
+ -H 'Authorization: Bearer {JWT}' \
+ https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}
+</code></pre>
 </section>
 
 <section class="bcls-section">
@@ -748,7 +810,6 @@ func processEC256(kbs, bs []byte) {
 <p>
   For details about configuring the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
 </p>
-
 </section>
 
 <section class="bcls-section">
@@ -766,7 +827,6 @@ func processEC256(kbs, bs []byte) {
     Tracking of the <a href="#Generate_JWT_token">maxu and maxip claims</a> is eventually consistent. This means that if a token using these claims is reused many times in quick succession, it is possible to see that token accepted more times than those claims declare. The tracking becomes consistent within a few seconds and after that window the token will be blocked as expected.
   </li>
 </ul>
-
 </section>
 
 <section class="bcls-section">
@@ -786,7 +846,6 @@ func processEC256(kbs, bs []byte) {
     <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>
   </li>
 </ul>
-
 </section>
 
 </article>

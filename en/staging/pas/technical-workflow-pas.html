@@ -239,21 +239,26 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
 <p>
   The Key API is used to manage your public keys with Brightcove.
 </p>
+<aside class="bcls-aside bcls-aside--tip">
+  <p>
+    When managing DRM, you can also use <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>.
+  </p>
+</aside>
 
 
-<h4>Base URL</h4>
+<h3>Base URL</h3>
 <p>
   The base URL for the API is:
 </p>
 <pre><code class="language-http">https://playback-auth.api.brightcove.com</code></pre>
 
-<h4>Account path</h4>
+<h3>Account path</h3>
 <p>
   In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
 </p>
 <pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}</code></pre>
 
-<h4>Authorization</h4>
+<h3>Authorization</h3>
 <p>
   An access token for requests is required and must be present in the Authorization header::
 </p>
@@ -262,7 +267,7 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
   The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
 </p>
 
-<h4>Permissions</h4>
+<h3>Permissions</h3>
 <p>
   Requests to the Key API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
@@ -275,7 +280,7 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
   </li>
 </ul>
 
-<h4>Manage keys</h4>
+<h3>Manage keys</h3>
 <p>
   The Key API supports the following requests:
 </p>
@@ -293,35 +298,50 @@ console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;
   </ul>
 </aside>
 
+<h4>Register a new key:</h4>
 <p>
-  <strong>Register a new key:</strong>
+  Put the value of your public key in the API request body. You can find the key in the <strong>public_key.txt</strong> file.
 </p>
 <pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/keys
     Content-Type: application/json
     Body: {&quot;value&quot;: &quot;MFkwEwYHKoZIzj0CAQYIKoZIzj...MyeQviqploA==&quot;}
 </code></pre>
+<h5 id="Using_Curl" class="bcls-expander-head">Using Curl</h5>
+<div class="bcls-expander-content">
+  <pre class="line-numbers"><code class="language-curl">curl -X POST \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer {access_token}&quot; \
+  -d '{&quot;value&quot;: &quot;{your_public_key_value}&quot;}' \
+https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
+</code></pre>
+</div>
+<h5>Response</h5>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;id&quot;: &quot;{your_public_key_id}&quot;,
+  &quot;type&quot;: &quot;public&quot;,
+  &quot;algorithm&quot;: &quot;rsa&quot;,
+  &quot;value&quot;: &quot;{your_public_key_value}&quot;,
+  &quot;createdAt&quot;: &quot;2020-01-03T20:30:36.488Z&quot;
+}</code></pre>
 
+
+<h4>List keys:</h4>
 <p>
-  <strong>List keys:</strong>
+  Get a list of public keys in your account.
 </p>
 <pre><code class="language-http">GET /v1/accounts/{accountID}/keys</code></pre>
 
+<h4>Get one key:</h4>
 <p>
-  <strong>Get one key:</strong>
+  Get the details for a public key in your account.
 </p>
 <pre><code class="language-http">GET /v1/accounts/{accountID}/keys/{key_Id}</code></pre>
 
+<h4>Delete one key:</h4>
 <p>
-  <strong>Delete one key:</strong>
+  Delete a public key in your account.
 </p>
 <pre><code class="language-http">DELETE /v1/accounts/{accountID}/keys/{key_Id}</code></pre>
-
-<br />
-<aside class="bcls-aside bcls-aside--tip">
-  <p>
-    When managing DRM, you can also use <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>.
-  </p>
-</aside>
 
 </section>
 

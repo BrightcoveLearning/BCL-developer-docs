@@ -65,7 +65,7 @@ What this means is that you might want to allow a specific ip to avoid a country
 </p> -->
 
 <p>The following flow diagrams show how the validation process works.</p>
-<ol class="bcls-tasklist__restart">
+<ol class="bcls-tasklist">
   <li>
     <figure class="bcls-figure">
       <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/playback-rights-flow1.png" alt="Playback Rights geo check">
@@ -91,7 +91,10 @@ What this means is that you might want to allow a specific ip to avoid a country
 <h2 id="Workflow">Workflow</h2>
 
 <p>To manage playback restrictions, follow these steps:</p>
-<ol class="bcls-tasklist">
+<ol class="bcls-tasklist__restart">
+  <li>
+    <a href="#Set_up_your_account">Set up your account</a>
+  </li>
   <li>
     <a href="#Define_restrictions">Define restrictions</a>
   </li>
@@ -102,6 +105,79 @@ What this means is that you might want to allow a specific ip to avoid a country
     <p>
       Optional: <a href="#Define_user_level_restrictions">Define user-level restrictions</a>
     </p>
+  </li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Set_up_your_account">Set up your account</h2>
+
+<p>Currently, you cannot set account permissions for Playback Rights in Video Cloud studio. Instead, follow these steps:</p>
+<h3>Generate OAuth credentials</h3>
+<p>
+  Get your <code>BC_TOKEN</code> and account number.
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    Log into Video Cloud Studio. In the <strong>Admin</strong> dropdown, select <strong>Account Information</strong>. Copy your <strong>Account ID</strong>.
+  </li>
+  <li>
+    <p>
+      With any page in Studio open, open the developer tools for the browser, go to the Console, and paste in the following code:
+    </p>
+    <pre class="line-numbers"><code class="language-javascript">var cookiesArray = document.cookie.split(&quot;;&quot;), cookiesObj = {}, i, tmpArray = [];
+for (i = 0; i &lt; cookiesArray.length; i++) {
+    tmpArray = cookiesArray[i].split(&quot;=&quot;);
+    if (tmpArray[0].indexOf('BC_TOKEN') &gt; -1) {
+        cookiesObj.BC_TOKEN = tmpArray[1];
+    }
+}
+window.prompt(&quot;BC_TOKEN:&quot;, cookiesObj.BC_TOKEN);</code></pre>
+    <p>
+      and press return.
+    </p>
+  </li>
+  <li>
+    You should see a prompt appear that contains your <code>BC_TOKEN</code>
+  </li>
+</ol>
+
+<h3>Request client credentials</h3>
+<p>
+  Add accout permissions for the Playback Rights API.
+</p>
+<ol class="bcls-tasklist">
+  <li>
+    <p>
+  Here is an example of an OAuth client request with the permissions needed.
+</p>
+<pre class="line-numbers"><code class="language-curl">curl \
+  --include \
+  --header &quot;Authorization: BC_TOKEN <span class="bcls-input">your BC_TOKEN</span>&quot; \
+  --data {
+    name=demo&amp;maximum_scope=[{
+      &quot;identity&quot;: {
+        &quot;type&quot;: &quot;video-cloud-account&quot;,
+        &quot;account-id&quot;: <span class="bcls-input">your account id</span>
+      },
+      &quot;operations&quot;: [
+        &quot;video-cloud/playback-auth/playback-rights/read&quot;,
+        &quot;video-cloud/playback-auth/playback-rights/write&quot;,
+        &quot;video-cloud/video/read&quot;,
+        &quot;video-cloud/video/create&quot;,
+        &quot;video-cloud/video/update&quot;,
+        &quot;video-cloud/video/delete&quot;,
+        &quot;video-cloud/playback-auth/key/read&quot;,
+        &quot;video-cloud/playback-auth/key/write&quot;
+      ]
+  }]
+} \
+https://oauth.brightcove.com/v4/client_credentials</code></pre>
+
+<aside class="bcls-aside bcls-aside--information">It may not be a best practice to generate a single client with all policies.</aside>
+  </li>
+  <li>
+    From the API response, copy the <code>client_id</code> and <code>client_secret</code>. You will use these to generate an access token when making requests to the Playback Rights API.
   </li>
 </ol>
 </section>

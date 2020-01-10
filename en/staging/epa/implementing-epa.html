@@ -241,11 +241,31 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
 <p>
   For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
 </p>
-<strong>Response</strong>
+
+<h5 id="Curl_example" class="bcls-expander-head">Curl example</h5>
+<div class="bcls-expander-content">
+  <p>
+    Create playback right valid only for Australia.
+  </p>
+  <pre class="line-numbers"><code class="language-curl">curl -X POST \
+  https://playback-rights.api.brightcove.com/v1/accounts/{your_account_id}/playback_rights \
+  -H 'Authorization: Bearer {access_token}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;geo&quot;: {
+    &quot;allowed_countries&quot;: [
+      &quot;AU&quot;
+    ]
+  }
+}'</code></pre>
+</div>
+<br />
+
+<strong>Response header</strong>
 <p>
   From the API response, copy the value of the <code>playbackRightsID</code> field for later use. This value can be found in the <code>Location</code> field of the Header response. It should be similar to this:
 </p>
-<pre><code class="language-http">/v1/accounts/1231231111234/playback_rights/<span class="bcls-highlight">f111de22-3a33-44ce-5555-000abc000abc</span>
+<pre><code class="language-http">Location: /v1/accounts/<span class="bcls-highlight">your account_id</span>/playback_rights/<span class="bcls-highlight">your playback_rights_id</span>
 </code></pre>
 
 <p>
@@ -496,19 +516,19 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   Each playback rights restriction object can be used with one or more videos.
 </p>
 
-<h4>Base URL</h4>
+<h3>Base URL</h3>
 <p>
   The base URL for the API is:
 </p>
 <pre><code class="language-http">https://cms.api.brightcove.com/v1</code></pre>
 
-<h4>Account path</h4>
+<h3>Account path</h3>
 <p>
   In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
 </p>
 <pre><code class="language-http">https://cms.api.brightcove.com/v1/accounts/{accountId}</code></pre>
 
-<h4>Authorization</h4>
+<h3>Authorization</h3>
 <p>
   An access token for requests is required and must be present in the Authorization header::
 </p>
@@ -517,7 +537,7 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
 </p>
 
-<h4>Permissions</h4>
+<h3>Permissions</h3>
 <p>
   Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
@@ -530,25 +550,36 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   </li>
 </ul>
 
-<h4>Manage restrictions</h4>
+<h3>Manage restrictions</h3>
 <p>
   The CMS API supports the many request types. To update a video, use the following:
 </p>
 
-<p>
-  <strong>Update a video:</strong>
-</p>
+  <h4>Update a video:</h4>
+  <p>
+    Associate a <code>playback_rights_id</code> with a video. This id should exist in the Playback Rights API, which you created in the previous step.
+  </p>
 <pre class="line-numbers"><code class="language-http">PATCH /v1/accounts/{account_id}/videos/{video_id}
   Content-Type: application/json
   Body: {<a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">video object</a>}
 </code></pre>
-<p>
-  Add a value for the <code>playback_rights_id</code> field. This should be associated with a rights object in the Playback Rights API, which you created in the previous step.
-</p>
 
-<p>
-  <strong>Get a specific video:</strong>
-</p>
+<h5 id="Curl_example" class="bcls-expander-head">Curl example</h5>
+<div class="bcls-expander-content">
+  <p>
+    Add a playback_rights_id to a video.
+  </p>
+  <pre class="line-numbers"><code class="language-curl">curl -X PATCH \
+  https://cms.api.brightcove.com/v1/accounts/<span class="bcls-input">your account_id</span>/videos/<span class="bcls-input">your video_id</span> \
+  -H 'Authorization: Bearer <span class="bcls-input">your access_token</span>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+	&quot;playback_rights_id&quot;: &quot;<span class="bcls-input">your playback_rights_id</span>&quot;
+}'</code></pre>
+</div>
+<br />
+
+  <h4>Get a specific video:</h4>
 <pre><code class="language-http">GET /v1/accounts/{account_id}/videos/{video_ids}</code></pre>
 
 <p>

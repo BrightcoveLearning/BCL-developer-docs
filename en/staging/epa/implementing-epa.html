@@ -190,19 +190,19 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   Each playback rights restriction object can be used with one or more videos.
 </p>
 
-<h4>Base URL</h4>
+<h3>Base URL</h3>
 <p>
   The base URL for the API is:
 </p>
 <pre><code class="language-http">https://playback-rights.api.brightcove.com/v1</code></pre>
 
-<h4>Account path</h4>
+<h3>Account path</h3>
 <p>
   In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
 </p>
 <pre><code class="language-http">https://playback-rights.api.brightcove.com/v1/accounts/{accountID}</code></pre>
 
-<h4>Authorization</h4>
+<h3>Authorization</h3>
 <p>
   An access token for requests is required and must be present in the Authorization header::
 </p>
@@ -211,7 +211,7 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
 </p>
 
-<h4>Permissions</h4>
+<h3>Permissions</h3>
 <p>
   Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
@@ -224,14 +224,12 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   </li>
 </ul>
 
-<h4>Manage restrictions</h4>
+<h3>Manage restrictions</h3>
 <p>
   The Playback Rights API supports the following requests:
 </p>
 
-<p>
-  <h5>Create new playback rights</h5>
-</p>
+<h4>Create new playback rights</h4>
 <pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/playback_rights
   Content-Type: application/json
   Body: {playback rights object}
@@ -240,7 +238,7 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
 </p>
 
-<h5 id="Curl_example" class="bcls-expander-head">Curl example</h5>
+<h5 id="Curl_example2" class="bcls-expander-head">Curl example</h5>
 <div class="bcls-expander-content">
   <p>
     Create playback right valid only for Australia.
@@ -259,36 +257,33 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
 </div>
 <br />
 
-<strong>Response header</strong>
+<h5>Response header</h5>
 <p>
   From the API response, copy the value of the <code>playbackRightsID</code> field for later use. This value can be found in the <code>Location</code> field of the Header response. It should be similar to this:
 </p>
 <pre><code class="language-http">Location: /v1/accounts/<span class="bcls-highlight">your account_id</span>/playback_rights/<span class="bcls-highlight">your playback_rights_id</span>
 </code></pre>
+<br />
 
-<p>
-  <h5>Get a specific playback right for an account</h5>
-</p>
+<h4>Get a specific playback right for an account</h4>
 <pre><code class="language-http">GET /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+<br />
 
-<p>
-  <h5>Update a specific playback right:</h5>
-</p>
+<h4>Update a specific playback right:</h4>
 <pre class="line-numbers"><code class="language-http">PUT /v1/accounts/{accountID}/playback_rights/{playbackRightsID}
   Content-Type: application/json
   Body: {playback rights object}</code></pre>
-<p>
   <p>
     For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
   </p>
-  <h5>Delete a specific playback right:</h5>
-</p>
+
+<h4>Delete a specific playback right:</h4>
 <pre><code class="language-http">DELETE /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
 <p>
   For complete details about using the API, see the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/">Playback Rights API Reference</a>.
 </p>
 
-<h3 id="Request_body">Request body</h3>
+<h4 id="Request_body">Request body</h4>
 <p>
   Here is an example of all of the fields you can include in the request body:
 </p>
@@ -562,7 +557,7 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
   Body: {<a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">video object</a>}
 </code></pre>
 
-<h5 id="Curl_example" class="bcls-expander-head">Curl example</h5>
+<h5 id="Curl_example1" class="bcls-expander-head">Curl example</h5>
 <div class="bcls-expander-content">
   <p>
     Add a playback_rights_id to a video.

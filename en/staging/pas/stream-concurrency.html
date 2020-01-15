@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Stream Concurrency</title>
+  	<title>Implementing Stream Concurrency</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,7 +33,7 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Stream Concurrency</h1>
+			<h1>Implementing Stream Concurrency</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
       <p>In this topic, you will learn how to implement stream concurrency when using Brightcove's Playback Authorization Service.</p>
 
@@ -57,7 +57,38 @@
 <p>
   Be sure to include the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> required for concurrency.
 </p>
+</section>
 
+<section class="bcls-section">
+<h2 id="Renewal_Interval">Renewal Interval</h2>
+
+<p>Today each renewal request counts as an additional license that would go towards the number of your purchased licenses. This should be taken into account when you are deciding on an interval.</p>
+<table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Renewal Interval</th>
+          <th>Licenses Served per User for 2 hour content</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td>None</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>15 minutes</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>5 minutes</td>
+          <td>24</td>
+        </tr>
+        <tr>
+          <td>2 minutes</td>
+          <td>60</td>
+        </tr>
+      </tbody>
+    </table>
 </section>
 
 <section class="bcls-section">
@@ -94,7 +125,11 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-<h3>PlayReady Only</h3>
+<h3>Limited functionality with PlayReady</h3>
+<p>
+  When Stream Concurrency is enabled with PlayReady the behavior changes slightly, described in the examples below.
+</p>
+<h4>PlayReady Only</h4>
 <p>
   Microsoft PlayReady does not support renewal requests, but uses secure stop instead. The only way to limit the total number of streams is to deny any new sessions.
 </p>
@@ -121,7 +156,7 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-<h3>PlayReady: Secure Stop</h3>
+<h4>PlayReady: Secure Stop</h4>
 <p>
   In case the secure stop signal is not received, the session duration limit applies.
 </p>
@@ -151,7 +186,7 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-<h3>PlayReady interaction with other DRM types</h3>
+<h4>PlayReady interaction with other DRM types</h4>
 <p>
   When the maximum number of sessions has been reached by PlayReady requests, even Google Widevine and Apple FairPlay license requests are denied and don't lead to new sessions.
 </p>
@@ -181,23 +216,6 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-</section>
-
-<section class="bcls-section">
-<h2 id="Limitations">Limitations</h2>
-
-<p>The following limitations apply with the initial release of this feature:</p>
-<ul>
-  <li>
-    For HLSe (AES-128), the token will be appended to the master manifest request, and will propagate to the encryption key URL. Because these URLs are appended to the master manifest, customers should consider restricting the number of uses to minimize exposure of their content.
-  </li>
-  <li>
-    For HLSe (AES-128), players will make mutlitple requests when playing a video, typically one per rendition. The <a href="#Generate_JWT_token">maxu claim</a> needs to be set high enough to account for these requests. You should consider additional claims to minimize the exposure of your content. Switching renditions will request a new license.
-  </li>
-  <li>
-    Tracking of the <a href="#Generate_JWT_token">maxu and maxip claims</a> is eventually consistent. This means that if a token using these claims is reused many times in quick succession, it is possible to see that token accepted more times than those claims declare. The tracking becomes consistent within a few seconds and after that window the token will be blocked as expected.
-  </li>
-</ul>
 </section>
 
 <section class="bcls-section">

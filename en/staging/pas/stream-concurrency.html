@@ -62,129 +62,55 @@
 
 <section class="bcls-section">
 <h2 id="Behavior_examples">Behavior examples</h2>
-
-<p>The publisher will generate a public-private key pair and provide the public key to Brightcove. The private key is used by the publisher to sign tokens, and is not shared with Brightcove.</p>
-
-
-
-<h3 id="Example_using_Go" class="bcls-expander-head">Example using Go</h3>
-<div class="bcls-expander-content">
+<h3>General Behavior</h3>
 <p>
-  Example using the Go programming language to generate the key pair:
+  For DRM systems supporting renewal requests, DRMtoday uses a defensive limiting strategy, where the oldest session is stopped first, once its
+upcoming renewal request is processed. This has the advantage of always granting the most recent user request vs. denying new requests because
+other playbacks are believed to be in progress, but not known with certainty. (e.g. a device or network failure).
 </p>
-<aside class="bcls-aside bcls-aside--tip">If you are new to Go, see the <a href="https://golang.org/">The Go Programming Language</a> homepage.</aside>
-<pre class="line-numbers"><code class="language-bash">package main
+<figure class="bcls-figure">
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency_general.png" alt="General concurrency">
+  <figcaption class="bcls-caption--image">General concurrency</figcaption>
+</figure>
 
-import (
-	&quot;crypto/rand&quot;
-	&quot;crypto/rsa&quot;
-	&quot;crypto/x509&quot;
-	&quot;encoding/base64&quot;
-	&quot;encoding/pem&quot;
-	&quot;flag&quot;
-	&quot;fmt&quot;
-	&quot;io/ioutil&quot;
-	&quot;os&quot;
-	&quot;path&quot;
-	&quot;strconv&quot;
-	&quot;time&quot;
-)
+<ol>
+  <li>
+    Amy, Ben and Claire enjoy watching a movie.
+  </li>
+  <li>
+    Dave decides to  also start watching, causing Amy's upcoming renewal request to be denied.
+  </li>
+  <li>
+    Amy restarts the movie, now causing Ben's renewal request to fail.
+  </li>
+  <li>
+    Ben starts watching another movie some time later, causing Claire's movie to stop.
+  </li>
+</ol>
 
-func main() {
-	var out string
-
-	flag.StringVar(&amp;out, &quot;output-dir&quot;, &quot;&quot;, &quot;Output directory to write files into&quot;)
-	flag.Parse()
-
-	if out == &quot;&quot; {
-		out = &quot;rsa-key_&quot; + strconv.FormatInt(time.Now().Unix(), 10)
-	}
-
-	if err := os.MkdirAll(out, os.ModePerm); err != nil {
-		panic(err.Error())
-	}
-
-	priv, err := rsa.GenerateKey(rand.Reader, 2048)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	privBytes := x509.MarshalPKCS1PrivateKey(priv)
-
-	pubBytes, err := x509.MarshalPKIXPublicKey(priv.Public())
-	if err != nil {
-		panic(err.Error())
-	}
-
-	privOut, err := os.OpenFile(path.Join(out, &quot;private.pem&quot;), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	if err := pem.Encode(privOut, &amp;pem.Block{Type: &quot;RSA PRIVATE KEY&quot;, Bytes: privBytes}); err != nil {
-		panic(err.Error())
-	}
-
-	pubOut, err := os.OpenFile(path.Join(out, &quot;public.pem&quot;), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	if err := pem.Encode(pubOut, &amp;pem.Block{Type: &quot;PUBLIC KEY&quot;, Bytes: pubBytes}); err != nil {
-		panic(err.Error())
-	}
-
-	var pubEnc = base64.StdEncoding.EncodeToString(pubBytes)
-
-	var pubEncOut = path.Join(out, &quot;public_key.txt&quot;)
-	if err := ioutil.WriteFile(pubEncOut, []byte(pubEnc+&quot;\n&quot;), 0600); err != nil {
-		panic(err.Error())
-	}
-
-	fmt.Println(&quot;Public key saved in &quot; + pubEncOut)
-}
-</code></pre>
-</div>
-
-<h3 id="Example_using_node_js" class="bcls-expander-head">Example using node.js</h3>
-<div class="bcls-expander-content">
+<h3>Playready Only</h3>
 <p>
-  Example using node.js to generate the key pair:
+  Microsoft PlayReady does not support renewal requests, but uses secure stop instead. The only way to limit the total number of streams is to deny any new sessions.
 </p>
-<aside class="bcls-aside bcls-aside--tip">This script example requires node version 11 or later.</aside>
-<pre class="line-numbers"><code class="language-javascript">var crypto = require(&quot;crypto&quot;);
-var fs = require(&quot;fs&quot;);
+<figure class="bcls-figure">
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency_playready.png" alt="Playready Only">
+  <figcaption class="bcls-caption--image">Playready Only</figcaption>
+</figure>
 
-var now = Math.floor(new Date() / 1000);
-var dir = &quot;rsa-key_&quot; + now;
-fs.mkdirSync(dir);
-
-crypto.generateKeyPair(
-  &quot;rsa&quot;,
-  {modulusLength: 2048},
-  (err, publicKey, privateKey) =&gt; {
-    fs.writeFile(
-      dir + &quot;/public.pem&quot;,
-      publicKey.export({ type: &quot;spki&quot;, format: &quot;pem&quot; }),
-      err =&gt; {}
-    );
-    fs.writeFile(
-      dir + &quot;/public_key.txt&quot;,
-      publicKey.export({ type: &quot;spki&quot;, format: &quot;der&quot; }).toString(&quot;base64&quot;) +
-        &quot;\n&quot;,
-      err =&gt; {}
-    );
-    fs.writeFile(
-      dir + &quot;/private.pem&quot;,
-      privateKey.export({ type: &quot;pkcs1&quot;, format: &quot;pem&quot; }),
-      err =&gt; {}
-    );
-  }
-);
-
-console.log(&quot;Public key saved in &quot; + dir + &quot;/public_key.txt&quot;);</code></pre>
-
-</div>
+<ol>
+  <li>
+    Amy, Ben and Claire enjoy watching another movie.
+  </li>
+  <li>
+    Dave decides to also start watching, but his request is denied due to the limit.
+  </li>
+  <li>
+    Amy stops watching and her player sends the secure stop request. This opens a new slot.
+  </li>
+  <li>
+    Dave can now use the new slot.
+  </li>
+</ol>
 
 </section>
 

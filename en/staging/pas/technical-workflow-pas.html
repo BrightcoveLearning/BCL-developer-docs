@@ -400,7 +400,10 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <td>Yes</td>
           <td></td>
           <td></td>
-          <td>The public key id used to verify this token</td>
+          <td>The public key id used to verify this token.
+            <br /><br />
+            The public key registered with Brightcove's Playback Authorization Service must use the RSA key format. Previously created EC keys will not work.
+          </td>
         </tr>
         <tr>
           <td><code>nbf</code></td>
@@ -491,7 +494,15 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <td></td>
           <td>Yes</td>
           <td>Yes</td>
-          <td>User id</td>
+          <td>The user id of the end viewer. This field is used to correlate multiple sessions to enforce Stream Concurrency.</td>
+        </tr>
+        <tr>
+          <td><code>climit</code></td>
+          <td>String</td>
+          <td></td>
+          <td>Yes</td>
+          <td></td>
+          <td>When this field is included it enables Stream Concurrency checking along with license renewal requests. This value indicates the number of concurrent streams allowed.</td>
         </tr>
         <tr>
           <td><code>sid</code></td>
@@ -499,7 +510,10 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <td></td>
           <td></td>
           <td>Yes</td>
-          <td>Session id. Defaults to hash of IP User-Agent video id (still in progress)</td>
+          <td>Specifying the Session ID of the current stream allows for custom control over what defines a session.
+            <br /><br />
+              When not specified, the default is a combination of User-Agent, IP Address, & Video ID.
+          </td>
         </tr>
         <tr>
           <td><code>cexp</code></td>
@@ -507,7 +521,9 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <td></td>
           <td></td>
           <td>Yes</td>
-          <td>Concurrency expiration of session - Default is 2 * video length</td>
+          <td>Concurrency expiration of session - Defaults to 2 times the content duration.
+            <br /><br />
+            This defines how long the session is valid, after which time the end viewer has to start a new session to continue playback. Example: <code>2h</code> or <code>42m</code></td>
         </tr>
 
       </tbody>

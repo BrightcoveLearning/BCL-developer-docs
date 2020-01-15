@@ -56,7 +56,7 @@
           </section>
           <section class="bcls-section">
             <h2 id="basics">Basics</h2>
-            <p>The basic element of a search string is a <em>search term</em>, which may be prefixed by a field name. If the field name is included, only that metadata field will be searched. Otherwise, the <code>name</code>, <code>descriptions</code> and <code>tags</code> will be searched.</p>
+            <p>The basic element of a search string is a <em>search term</em>, which may be prefixed by a field name. If the field name is included, only that metadata field will be searched. Otherwise, several fields (<a href="#default_fields"></a>listed below</a>) will be searched.</p>
             <p>For example:</p>
             <table class="bcls-table">
               <caption class="bcls-caption--table">Basic Search</caption>
@@ -69,17 +69,17 @@
               <tbody class="bcls-table__body">
                   <tr>
                       <td><code>bird</code></td>
-                      <td>Videos that that the word "bird" in some metadata field (see the list below this table)</td>
+                      <td>Videos that that the word "<code>bird</code>" in the fields <a href="#default_fields"></a>listed below</a></td>
                   </tr>
                   <tr>
                       <td><code>name:bird</code></td>
-                      <td>Videos that have the word "bird" in the <code>name</code> (title) will be returned.</td>
+                      <td>Videos that have the word "<code>bird</code>" in the <code>name</code> (title) will be returned.</td>
                   </tr>
               </tbody>
             </table>
             <p>When you provide no field name to search, the request will search for that value in the following fields:</p>
-
-            <ul>
+          
+            <ul id="default_fields">
               <li><code>id</code></li>
               <li><code>name</code></li>
               <li><code>description</code></li>
@@ -90,9 +90,9 @@
               <li><code>custom_fields</code> (searches all custom fields)</li>
               <li><code>custom_field_name</code> (searches a specific named custom field)</li>
             </ul>
-
+          
             <p>The supported fields to search are:</p>
-
+          
             <table class="bcls-table" id="supported_search_fields">
               <caption class="bcls-caption--table">Supported Search Fields</caption>
               <thead class="bcls-table__head">
@@ -124,27 +124,27 @@
                 </tr>
                 <tr>
                   <td><code>state</code></td>
-                  <td><code>ACTIVE</code>, <code>INACTIVE</code>, <code>PENDING</code>, <code>DELETED</code></td>
+                  <td><code>ACTIVE</code>, <code>INACTIVE</code>, <code>PENDING</code>, <code>DELETED</code> (only videos deleted within the past 10 days will be returned)</td>
                 </tr>
                 <tr>
                   <td><code>updated_at</code></td>
-                  <td>datetime or range (details in a later section)</td>
+                  <td>datetime or range (<a href="#date_times">details below</a>)</td>
                 </tr>
                 <tr>
                   <td><code>created_at</code></td>
-                  <td>datetime or range (details in a later section)</td>
+                  <td>datetime or range (<a href="#date_times">details below</a>)</td>
                 </tr>
                 <tr>
                   <td><code>schedule.starts_at</code></td>
-                  <td>datetime or range (details in a later section)</td>
+                  <td>datetime or range (<a href="#date_times">details below</a>)</td>
                 </tr>
                 <tr>
                   <td><code>schedule.ends_at</code></td>
-                  <td>datetime or range (details in a later section)</td>
+                  <td>datetime or range (<a href="#date_times">details below</a>)</td>
                 </tr>
                 <tr>
                   <td><code>published_at</code></td>
-                  <td>datetime or range (details in a later section)</td>
+                  <td>datetime or range (<a href="#date_times">details below</a>)</td>
                 </tr>
                 <tr>
                   <td><code>complete</code></td>
@@ -152,8 +152,8 @@
                 </tr>
               </tbody>
             </table>
-        
-            <p>In both the examples shown above, videos that do not have the word "bird" in any relevant field might still be returned. The next section explains how to limit search results to only videos that have the specified terms.</p>
+          
+            <p>In both the examples shown above, videos that do not have the word "<code>bird</code>" in any relevant field might still be returned. The next section explains how to limit search results to only videos that have the specified terms.</p>
           </section>
           <section class="bcls-section">
             <h2 id="advanced_search">Advanced search</h2>
@@ -173,8 +173,8 @@
                       <td>Prefixing a search term with the plus (+) sign signifies that the returned videos <strong>must</strong> have the specified term</td>
                       <td>
                         <ul>
-                          <li><code>+bird</code> (returns <em>only</em> videos with "bird" in the <code>name</code>, <code>description</code>, or <code>tags</code>)</li>
-                          <li><code>+tags:bird</code> (returns <em>only</em> videos with "bird" in the <code>name</code>)</li>
+                          <li><code>+bird</code> (returns <em>only</em> videos with "<code>bird</code>" in the fields <a href="#default_fields"></a>listed above</a>)</li>
+                          <li><code>+tags:bird</code> (returns <em>only</em> videos with "<code>bird</code>" in the <code>name</code>)</li>
                         </ul>
                       </td>
                   </tr>
@@ -183,8 +183,8 @@
                       <td>Prefixing a search term with the minus (-) sign or <code>NOT</code> signifies that the returned videos <strong>must not</strong> have the specified term</td>
                       <td>
                         <ul>
-                          <li><code>-birds</code> or <code>NOT birds</code> (returns only videos that do <strong>not</strong> have "bird" in the <code>name</code>, <code>description</code>, or <code>tags</code>)</li>
-                          <li><code>-name:birds</code> or <code>NOT name:birds</code> (returns only videos that do <strong>not</strong> have "bird" in the <code>name</code>)</li>
+                          <li><code>-birds</code> or <code>NOT birds</code> (returns only videos that do <strong>not</strong> have "<code>bird</code>" in the fields <a href="#default_fields"></a>listed above</a>)</li>
+                          <li><code>-name:birds</code> or <code>NOT name:birds</code> (returns only videos that do <strong>not</strong> have "<code>bird</code>" in the <code>name</code>)</li>
                         </ul>
                       </td>
                   </tr>
@@ -193,9 +193,9 @@
                       <td>The logical <code>AND</code> and <code>OR</code> operators allow you to combine multiple search terms for complex queries</td>
                       <td>
                         <ul>
-                          <li><code>(+name:heron) AND (+tags:bird)</code> (would return videos that have <strong>both</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>)</li>
-                          <li><code>(+name:heron) OR (+tags:bird)</code> (would return videos that have <strong>either</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>)</li>
-                          <li><code>((+name:heron) AND (+tags:bird)) AND (NOT tags:internal)</code>  (would return videos that have <strong>both</strong> "heron" in the <code>name</code> and "bird" in the <code>tags</code>, but <strong>not</strong> the tag "internal")</li>
+                          <li><code>(+name:heron) AND (+tags:bird)</code> (would return videos that have <strong>both</strong> "<code>heron</code>" in the <code>name</code> and "<code>bird</code>" in the <code>tags</code>)</li>
+                          <li><code>(+name:heron) OR (+tags:bird)</code> (would return videos that have <strong>either</strong> "<code>heron</code>" in the <code>name</code> and "<code>bird</code>" in the <code>tags</code>)</li>
+                          <li><code>((+name:heron) AND (+tags:bird)) AND (NOT tags:internal)</code>  (would return videos that have <strong>both</strong> "<code>heron</code>" in the <code>name</code> and "<code>bird</code>" in the <code>tags</code>, but <strong>not</strong> the tag "<code>internal</code>")</li>
                         </ul>
                       </td>
                   </tr>
@@ -258,25 +258,25 @@
                 </thead>
                 <tbody class="bcls-table__body">
                     <tr>
-                        <td><code>+updated_at:[2019-09-30T00-00-00.000 TO 2019-10-07T00-00-00.000]</code></td>
+                        <td><code>+updated_at:[2019-09-30T00-00-00.000Z TO 2019-10-07T00-00-00.000Z]</code></td>
                         <td>Videos updated between 30 Sep 2019 and 7 Oct 2019</td>
                     </tr>
                     <tr>
-                        <td><code>+created_at:[2019-09-30T00-00-00.000 TO 2019-09-30T00-00-00.000]</code></td>
+                        <td><code>+created_at:[2019-09-30T00-00-00.000Z TO 2019-09-30T00-00-00.000Z]</code></td>
                         <td>Videos added on 30 Sep 2019</td>
                     </tr>
                     <tr>
                         <td><code>+created_at:[2019-09-30T14:00:00.000Z TO 2019-09-30T16:30:00.000Z]</code></td>
-                        <td>Videos added between 2:00 PM and 4:30PM (UTC) on 30 Sep 2019</td>
+                        <td>Videos added between 2:00PM and 4:30PM (UTC) on 30 Sep 2019</td>
                     </tr>
                     <tr>
-                        <td><code>+created_at:[* TO 2019-09-30T00-00-00.000]</code></td>
+                        <td><code>+created_at:[* TO 2019-09-30T00-00-00.000Z]</code></td>
                         <td>Videos added before 30 Sep 2019</td>
                     </tr>
                 </tbody>
             </table>
           </section>
-        </article>
+                </article>
 
         <!-- END MAIN CONTENT -->
       </div>

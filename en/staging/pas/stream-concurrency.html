@@ -101,9 +101,7 @@
 </p>
 <h3>General Behavior</h3>
 <p>
-  For DRM systems supporting renewal requests, DRMtoday uses a defensive limiting strategy, where the oldest session is stopped first, once its
-upcoming renewal request is processed. This has the advantage of always granting the most recent user request vs. denying new requests because
-other playbacks are believed to be in progress, but not known with certainty. (e.g. a device or network failure).
+  Brightcove supports limiting playback streams for DRM-proteced content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency-general.png" alt="General concurrency">
@@ -115,16 +113,16 @@ other playbacks are believed to be in progress, but not known with certainty. (e
 </p>
 <ol>
   <li>
-    Amy, Ben and Claire enjoy watching a movie.
+    Ben, Jason and Sarah begin watching a movie.
   </li>
   <li>
-    Dave decides to  also start watching, causing Amy's upcoming renewal request to be denied.
+    Jamie decides to also start watching, causing Ben's upcoming renewal request to be denied.
   </li>
   <li>
-    Amy restarts the movie, now causing Ben's renewal request to fail.
+    Ben restarts the movie, now causing Jason's renewal request to fail.
   </li>
   <li>
-    Ben starts watching another movie some time later, causing Claire's movie to stop.
+    Jason starts watching another movie some time later, causing Sarah's movie to stop.
   </li>
 </ol>
 
@@ -132,13 +130,13 @@ other playbacks are believed to be in progress, but not known with certainty. (e
 <p>
   When Stream Concurrency is enabled with PlayReady the behavior changes slightly, described in the examples below.
 </p>
-<h4>PlayReady Only</h4>
+<h4>PlayReady: Secure stop</h4>
 <p>
-  Microsoft PlayReady does not support renewal requests, but uses secure stop instead. The only way to limit the total number of streams is to deny any new sessions.
+  Since Microsoft PlayReady does not support renewal requests, it denies any new sessions to limit the total number of streams. This behavior is referred to as secure stop.
 </p>
 <figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-only.png" alt="PlayReady Only">
-  <figcaption class="bcls-caption--image">PlayReady Only</figcaption>
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-only.png" alt="PlayReady Secure stop">
+  <figcaption class="bcls-caption--image">PlayReady Secure stop</figcaption>
 </figure>
 
 <p>
@@ -159,13 +157,13 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-<h4>PlayReady: Secure Stop</h4>
+<h4>PlayReady: Session duration</h4>
 <p>
-  In case the secure stop signal is not received, the session duration limit applies.
+  If the session duration limit is reached before a secure stop signal is received, then the duration limit is used.
 </p>
 <figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-secure-stop.png" alt="PlayReady Secure Stop">
-  <figcaption class="bcls-caption--image">PlayReady Secure Stop</figcaption>
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-secure-stop.png" alt="PlayReady Session duration">
+  <figcaption class="bcls-caption--image">PlayReady Session duration</figcaption>
 </figure>
 
 <p>
@@ -189,9 +187,9 @@ other playbacks are believed to be in progress, but not known with certainty. (e
   </li>
 </ol>
 
-<h4>PlayReady interaction with other DRM types</h4>
+<h4>PlayReady with other DRMs</h4>
 <p>
-  When the maximum number of sessions has been reached by PlayReady requests, even Google Widevine and Apple FairPlay license requests are denied and don't lead to new sessions.
+  When PlayReady receives the maximum number of session requests, then all other license requests are denied, including Google Widevine and Apple FairPlay. No new sessions will be allowed.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-with-drms.png" alt="PlayReady with other DRMs">

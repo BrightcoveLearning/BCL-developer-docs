@@ -670,13 +670,24 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
     <p>
       For details about configuring the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
     </p>
-    <h5>Non-Brightcove player</h5>
+    <h5>Your own player</h5>
     <p>
       If your content is in the Video Cloud library, but you are using your own player, you can make calls to the Playback API as shown in the <a href="https://support.brightcove.com/overview-playback-api">Overview: Playback API</a> document. Replace the base URL with the following:
     </p>
-    <pre class="line-numbers"><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
+    <pre ><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
+    <p>
+      Instead of using a Policy Key, you will use the JWT token for authentication:
+    </p>
+    <pre ><code class="language-http">Authorization: Bearer {JWT}</code></pre>
+    <p>
+      Here is a Curl example:
+    </p>
+    <pre class="line-numbers"><code class="language-curl">curl -X GET \
+ -H 'Authorization: Bearer {JWT}' \
+ https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}</code></pre>
   </li>
 </ol>
+
 
 <!-- <ol class="bcls-tasklist__restart">
   <li>

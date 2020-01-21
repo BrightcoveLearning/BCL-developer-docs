@@ -5651,7 +5651,7 @@ components:
           example: Sea Birds
         reference_id:
           type: string
-          description: the playlist reference id
+          description: the playlist reference id (must be unique within the account)
           example: sea_birds_playlist
         search:
           type: string
@@ -5703,7 +5703,7 @@ components:
           example: Sea Bird Playlist
         reference_id:
           type: string
-          description: the playlist reference id
+          description: the playlist reference id (must be unique within the account)
           example: sea_bird_playlist
         search:
           type: string
@@ -5777,9 +5777,7 @@ components:
           type: array
         custom_fields:
           description: >-
-            map of `fieldname: value` pairs; values have a maximum length of 1024
-              single-byte characters Note: be sure to use the **internal** name for
-              the field, not the display name
+            map of `fieldname: value` pairs; values have a maximum length of 1024 single-byte characters Note: be sure to use the **internal** name for the field, not the display name
           type: object
           example: {"subject":"birds"}
         description:
@@ -6779,7 +6777,6 @@ components:
         ]
     VideoAsset:
       title: VideoAsset
-      required:
       type: object
       properties:
         controller_type:
@@ -6823,7 +6820,7 @@ components:
           description: the media asset reference id (must be unique within the account) - this is **not** the same as the video reference id
         remote_url:
           type: string
-          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding a rendition (POST)**
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
           maxLength: 250
         remote_stream_name:
           type: string
@@ -7026,18 +7023,6 @@ components:
         ]
     Manifest:
       title: Manifest
-      required:
-        - audio_only
-        - controller_type
-        - current_filename
-        - name
-        - progressive_download
-        - reference_id
-        - remote_url
-        - remote_stream_name
-        - size
-        - type
-        - video_duration
       type: object
       properties:
         audio_only:
@@ -7063,10 +7048,10 @@ components:
             applicable to other asset types or remote renditions)
         reference_id:
           type: string
-          description: video reference id (must be unique within the account)
+          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
         remote_url:
           type: string
-          description: the url for a remote asset (not applicable to ingested assets)
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
           maxLength: 250
         remote_stream_name:
           type: string
@@ -7125,17 +7110,6 @@ components:
         }
     ImageAsset:
       title: ImageAsset
-      required:
-        - audio_only
-        - controller_type
-        - current_filename
-        - name
-        - progressive_download
-        - reference_id
-        - remote_url
-        - remote_stream_name
-        - size
-        - type
       type: object
       properties:
         audio_only:
@@ -7161,10 +7135,10 @@ components:
             applicable to other asset types or remote renditions)
         reference_id:
           type: string
-          description: video reference id (must be unique within the account)
+          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
         remote_url:
           type: string
-          description: the url for a remote asset (not applicable to ingested assets)
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
           maxLength: 250
         remote_stream_name:
           type: string
@@ -7220,14 +7194,11 @@ components:
     DynamicRendition:
       title: DynamicRendition
       required:
-        - rendition_id
         - media_type
         - encoding_rate
         - frame_height
         - frame_width
         - size
-        - updated_at
-        - uploaded_at
         - duration
         - audio_configuration
         - variant

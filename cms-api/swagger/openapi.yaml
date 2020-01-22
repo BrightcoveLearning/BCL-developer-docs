@@ -5112,254 +5112,221 @@ paths:
         IsMultiContentStreaming: false
 components:
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      description: 'Content-Type: application/json'
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-        default: application/json
-      example: application/json
-    Authorization:
-      name: Authorization
-      in: header
-      description: >-
-        Authorization: Bearer {access_token} - see [Getting Access
-        Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token)
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-        default: application/json
     AccountId:
-      name: account_id
-      in: path
       description: Video Cloud account ID.
-      required: true
-      style: simple
       explode: false
+      in: path
+      name: account_id
+      required: true
       schema:
         type: string
-    GetStatusVideoId:
-      name: video_id
+      style: simple
+    AffiliateAccountId:
+      description: Video Cloud affiliate account ID for media sharing relationships
+      explode: false
       in: path
+      name: affiliate_account_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    AssetId:
+      description: The asset ID
+      explode: false
+      in: path
+      name: asset_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    AudioTrackId:
+      description: 'the id for the audio track, formed as `language_variant`'
+      explode: false
+      in: path
+      name: audio_track_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    Authorization:
+      description: 'Authorization: Bearer {access_token} - see [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token)'
+      explode: false
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        default: application/json
+        type: string
+      style: simple
+    ChannelName:
+      description: The name of the channel - usually `default`
+      explode: false
+      in: path
+      name: channel_name
+      required: true
+      schema:
+        type: string
+      style: simple
+    ContentType:
+      description: 'Content-Type: application/json'
+      example: application/json
+      explode: false
+      in: header
+      name: Content-Type
+      required: true
+      schema:
+        default: application/json
+        type: string
+      style: simple
+    FolderId:
+      description: Folder ID.
+      explode: false
+      in: path
+      name: folder_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    GetStatusVideoId:
       description: |-
         Video ID.
 
         For example:
         - https://cms.api.brightcove.com/v1/accounts/videos/9827342837937
-      required: true
-      style: simple
       explode: false
-      schema:
-        type: string
-    VideoId:
+      in: path
       name: video_id
-      in: path
-      description: |-
-        Video ID (specified as `/{video_id}`) or reference id (specified as `/ref:{reference_id}`).
       required: true
-      style: simple
-      explode: false
       schema:
         type: string
-    VideoIds:
-      name: video_ids
+      style: simple
+    JobId:
+      description: The Job ID for the ingest job (returned in the response to an ingest request
+      explode: false
       in: path
+      name: job_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    Limit:
+      description: 'Number of items to return - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information'
+      explode: true
+      in: query
+      name: limit
+      schema:
+        default: 20
+        example: 20
+        format: int32
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+    MasterAccountId:
+      description: Video Cloud master account ID for media sharing relationships
+      explode: false
+      in: path
+      name: master_account_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    Offset:
+      description: 'Number of items to skip - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information'
+      explode: true
+      in: query
+      name: offset
+      schema:
+        default: 0
+        example: 20
+        format: int32
+        type: integer
+      style: form
+    PlaylistId:
+      description: Playlist ID.
+      explode: false
+      in: path
+      name: playlist_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    PlaylistSort:
+      description: 'Field to sort results by - if absent and there is a search string, results are sorted by relevance or if there is no search string, results are sorted by `-updated_at` - note: to sort in descending order, preface the field name with a minus(`-`) sign'
+      explode: true
+      in: query
+      name: sort
+      schema:
+        default: '-updated_at'
+        enum:
+          - name
+          - reference_id
+          - created_at
+          - published_at
+          - updated_at
+          - schedule.starts_at
+          - schedule.ends_at
+          - state
+          - plays_total
+          - plays_trailing_week
+        example: created_at
+        type: string
+        x-enum-elements:
+          - description: The playlist name
+            name: name
+          - description: Date playlist was last updated (by a user or the system)
+            name: updated_at
+      style: form
+    Search:
+      description: 'Search string - see [search guide](https://support.brightcove.com/cmsplayback-api-videos-search) for details'
+      explode: true
+      in: query
+      name: q
+      schema:
+        example: '+tags:bird'
+        type: string
+      style: form
+    SubscriptionId:
+      description: Subscription ID.
+      explode: false
+      in: path
+      name: subscription_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    VideoId:
+      description: 'Video ID (specified as `/{video_id}`) or reference id (specified as `/ref:{reference_id}`).'
+      explode: false
+      in: path
+      name: video_id
+      required: true
+      schema:
+        type: string
+      style: simple
+    VideoIds:
       description: |-
         One or more video ids.
 
         For example:
         - https://cms.api.brightcove.com/v1/accounts/videos/9827342837937
         - https://cms.api.brightcove.com/v1/accounts/videos/9827342837937,47584736360
-      required: true
-      style: simple
       explode: false
-      schema:
-        type: string
-    PlaylistId:
-      name: playlist_id
       in: path
-      description: Playlist ID.
+      name: video_ids
       required: true
-      style: simple
-      explode: false
       schema:
         type: string
-    AudioTrackId:
-      name: audio_track_id
-      in: path
-      description: 'the id for the audio track, formed as `language_variant`'
-      required: true
       style: simple
-      explode: false
-      schema:
-        type: string
-    SubscriptionId:
-      name: subscription_id
-      in: path
-      description: Subscription ID.
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    JobId:
-      name: job_id
-      in: path
-      description: >-
-        The Job ID for the ingest job (returned in the response to an ingest
-        request
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    FolderId:
-      name: folder_id
-      in: path
-      description: Folder ID.
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    AssetId:
-      name: asset_id
-      in: path
-      description: The asset ID
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    AffiliateAccountId:
-      name: affiliate_account_id
-      in: path
-      description: Video Cloud affiliate account ID for media sharing relationships
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    MasterAccountId:
-      name: master_account_id
-      in: path
-      description: Video Cloud master account ID for media sharing relationships
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    ChannelName:
-      name: channel_name
-      in: path
-      description: The name of the channel - usually `default`
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: >-
-        Number of items to return - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information
-      style: form
-      explode: true
-      schema:
-        type: integer
-        format: int32
-        default: 20
-        example: 20
-        minimum: 1
-        maximum: 100
-    Offset:
-      name: offset
-      in: query
-      description: >-
-        Number of items to skip - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information
-      style: form
-      explode: true
-      schema:
-        type: integer
-        format: int32
-        default: 0
-        example: 20
-    include_details:
-      name: include_details
-      in: query
-      description: >-
-        When it's false, api call response won't include caption info in [text_tracks] at all and it makes the response returns quicker.
-      style: form
-      explode: true
-      schema:
-        type: boolean
-        default: true
     VideoSort:
-      name: sort
-      in: query
       description: |-
         Field to sort results by - if absent and there is a search string, results are sorted by relevance or if there is no search string, results are sorted by `-updated_at`.
         Note: to sort in descending order, preface the field name with a minus (`-`) sign
-      style: form
       explode: true
-      schema:
-        type: string
-        enum:
-          - name
-          - reference_id
-          - created_at
-          - published_at
-          - updated_at
-          - schedule.starts_at
-          - schedule.ends_at
-          - state
-          - plays_total
-          - plays_trailing_week
-        default: '-updated_at'
-        example: created_at
-        x-enum-elements:
-          - name: name
-            description: The video name
-          - name: reference_id
-            description: The video reference id
-          - name: created_at
-            description: Date video was created in the Video Cloud
-          - name: published_at
-            description: Date video was activated
-          - name: updated_at
-            description: Date video was last updated (by a user or the system)
-          - name: schedule.starts_at
-            description: Date video scheduled to become available
-          - name: schedule.ends_at
-            description: Date video scheduled to become unavailable
-          - name: state
-            description: Whether the video is playable (`ACTIVE` or `INACTIVE`)
-          - name: plays_total
-            description: >-
-              All time video views (this field can only be sorted on - it is not
-              returned)
-          - name: plays_trailing_week
-            description: >-
-              Trailing week video views (this field can only be sorted on - it
-              is not returned)
-    PlaylistSort:
+      in: query
       name: sort
-      in: query
-      description: >-
-        Field to sort results by - if absent and there is a search string,
-        results are sorted by relevance or if there is no search string, results
-        are sorted by `-updated_at` - note: to sort in descending order, preface
-        the field name with a minus(`-`) sign
-      style: form
-      explode: true
       schema:
-        type: string
+        default: '-updated_at'
         enum:
           - name
           - reference_id
@@ -5371,71 +5338,81 @@ components:
           - state
           - plays_total
           - plays_trailing_week
-        default: '-updated_at'
         example: created_at
-        x-enum-elements:
-          - name: name
-            description: The playlist name
-          - name: updated_at
-            description: Date playlist was last updated (by a user or the system)
-    Search:
-      name: q
-      in: query
-      description: >-
-        Search string - see [search
-        guide](https://support.brightcove.com/cmsplayback-api-videos-search) for
-        details
-      style: form
-      explode: true
-      schema:
         type: string
-        example: '+tags:bird'
+        x-enum-elements:
+          - description: The video name
+            name: name
+          - description: The video reference id
+            name: reference_id
+          - description: Date video was created in the Video Cloud
+            name: created_at
+          - description: Date video was activated
+            name: published_at
+          - description: Date video was last updated (by a user or the system)
+            name: updated_at
+          - description: Date video scheduled to become available
+            name: schedule.starts_at
+          - description: Date video scheduled to become unavailable
+            name: schedule.ends_at
+          - description: Whether the video is playable (`ACTIVE` or `INACTIVE`)
+            name: state
+          - description: All time video views (this field can only be sorted on - it is not returned)
+            name: plays_total
+          - description: Trailing week video views (this field can only be sorted on - it is not returned)
+            name: plays_trailing_week
+      style: form
+    include_details:
+      description: 'When it''s false, api call response won''t include caption info in [text_tracks] at all and it makes the response returns quicker.'
+      explode: true
+      in: query
+      name: include_details
+      schema:
+        default: true
+        type: boolean
+      style: form
   schemas:
-    AudioTracks:
-      title: Audio Tracks
-      description: >-
-        Audio tracks for the video
-      type: array
-      items:
-        $ref: '#/components/schemas/AudioTrack'
-    AudioTrack:
-      title: AudioTrack
+    AddAffiliate:
+      example:
+        account_id: '1937897674001'
+      properties:
+        account_id:
+          description: affiliate account id
+          type: string
+      title: AddAffiliate
       type: object
+    AudioTrack:
       properties:
         duration:
-          type: integer
           description: URL the duration of the audio track in milliseconds
-          readOnly: true
           example: 86053
+          readOnly: true
+          type: integer
         encoding_rates:
-          type: array
+          description: array of encoding rates for the audio track renditions in KBPS
+          example:
+            - 64000
+            - 96000
+            - 127000
+            - 192000
           items:
             type: integer
-          description: array of encoding rates for the audio track renditions in KBPS
-          example: [
-              64000,
-              96000,
-              127000,
-              192000
-            ]
+          type: array
         id:
-          type: string
           description: ID for the audio track formed as language_variant
-          readOnly: true
           example: en_alternate
+          readOnly: true
+          type: string
         is_default:
-          type: boolean
           description: Whether this is the default audio track
           example: true
+          type: boolean
         language:
-          type: string
           description: language code for the audio track
           example: en
-        variant:
           type: string
-          description: >-
-            the type of audio track (default can be set for the account by
-            contacting Brightcove Support)
+        variant:
+          description: the type of audio track (default can be set for the account by contacting Brightcove Support)
           enum:
             - main
             - alternate
@@ -5443,55 +5420,258 @@ components:
             - dub
             - descriptive
           example: main
-    DigitalMaster:
-      title: DigitalMaster
+          type: string
+      title: AudioTrack
       type: object
+    AudioTracks:
+      description: Audio tracks for the video
+      items:
+        $ref: '#/components/schemas/AudioTrack'
+      title: Audio Tracks
+      type: array
+    Channel:
+      description: the channel this contract belongs to
+      example:
+        - account_id: '1486906377'
+          account_name: Brightcove Training
+          created_at: '2017-09-27T13:54:08.661Z'
+          enforce_custom_fields: false
+          enforce_geo: true
+          name: default
+          updated_at: '2017-09-27T13:54:08.661Z'
       properties:
-        encoding_rate:
-          type: integer
-          description: encoding rate in bps
-          readOnly: true
-          example: 23152000
-        height:
-          type: integer
-          description: frame height in pixels
-          readOnly: true
-          example: 1080
-        width:
-          type: integer
-          description: frame width in pixels
-          readOnly: true
-          example: 1920
-        id:
+        account_id:
+          description: master account id
           type: string
-          description: the system id for the digital master
-          readOnly: true
-          example: a0a2e032-4de4-4495-a59e-a806d52989
-        size:
-          type: integer
-          description: file size in bytes
-          readOnly: true
-          example: 90990884
-        updated_at:
+        account_name:
+          description: master account name
           type: string
-          description: date/time last modified
-          readOnly: true
-          example: 2019-04-30T10:09:12.548Z
         created_at:
-          type: string
-          description: date/time created
+          description: when the channel was created
           readOnly: true
+          type: string
+        enforce_custom_fields:
+          description: 'if true, will allow sharing only if the affiliate account has all custom fields that have values for the video to be shared'
+          type: boolean
+        enforce_geo:
+          description: 'if true, and master account is enabled for geo-filtering'
+          type: boolean
+        name:
+          description: channel name
+          type: string
+        updated_at:
+          description: when the channel was last updated
+          type: string
+      title: Channel
+      type: object
+    ChannelAffiliate:
+      example:
+        - account_id: '57838016001'
+          account_name: BrightcoveLearning
+          approved: true
+        - account_id: '1481353044001'
+          account_name: BC - Bob Bailey
+          approved: true
+        - account_id: '301925175'
+          account_name: BC Studio Home Page Player - EN
+          approved: true
+      properties:
+        account_id:
+          description: affiliate account id
+          type: string
+        account_name:
+          description: affiliate account name
+          type: string
+        approved:
+          description: whether the affiliate has approved the relationship
+          type: boolean
+      required:
+        - account_id
+        - account_name
+        - approved
+      title: ChannelAffiliate
+      type: object
+    Contract:
+      example:
+        - account_id: '1485884786001'
+          approved: true
+          approved_at: '2017-08-27T12:27:21.582Z'
+          auto_accept: true
+          channel:
+            account_id: '57838016001'
+            name: default
+          channel_account_name: BrightcoveLearning
+          created_at: '2017-08-23T17:45:41.556Z'
+          updated_at: '2017-12-27T19:29:49.498Z'
+      properties:
+        account_id:
+          description: affiliate account id
+          type: string
+        approved:
+          description: whether the contract is approved
+          type: boolean
+        approved_at:
+          description: when the contract was approved
+          type: string
+        auto_accept:
+          description: whether shared videos will be automatically accepted
+          type: boolean
+        channel:
+          $ref: '#/components/schemas/Channel'
+        created_at:
+          description: when the contract was created
+          readOnly: true
+          type: string
+        updated_at:
+          description: when the contract was last updated
+          readOnly: true
+          type: string
+      title: Contract
+      type: object
+    CreateVideoRequestBodyFields:
+      description: 'Only certain video metadata fields can be set when you initially create the video, and are listed here. Other fields must be set through an update (`PATCH`) request type: object'
+      properties:
+        cue_points:
+          description: Array of cuepoint objects
+          items:
+            $ref: '#/components/schemas/CuePoint'
+          type: array
+        custom_fields:
+          description: 'map of `fieldname: value` pairs; values have a maximum length of 1024 single-byte characters Note: be sure to use the **internal** name for the field, not the display name'
+          example:
+            subject: birds
+          type: object
+        description:
+          description: Video short description
+          example: Laughing Gull
+          type: string
+        drm_disabled:
+          description: Use to disable DRM packaging for this video - applies only to DRM-enabled accounts
+          example: true
+          type: boolean
+        economics:
+          description: whether the video supports ads
+          enum:
+            - AD_SUPPORTED
+            - FREE
+          example: AD_SUPPORTED
+          type: string
+        geo:
+          $ref: '#/components/schemas/Geo'
+        long_description:
+          description: A longer description of the video
+          example: 'Herring Gull near Fort Point Channel in Boston, MA, USA. 2019-04-25.'
+          maxLength: 5000
+          type: string
+        name:
+          description: Title of the video video
+          example: A happy herring gull
+          maxLength: 255
+          minLength: 1
+          type: string
+        offline_enabled:
+          default: false
+          description: whether video is enabled for offline viewing
+          example: true
+          type: boolean
+        reference_id:
+          description: Reference id for the clip - must be unique within the account
+          example: laughing_gull_2019_04_25
+          type: string
+        schedule:
+          $ref: '#/components/schemas/Schedule'
+        state:
+          description: Whether the video should be active or inactive
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+          type: string
+        tags:
+          description: Array of tags for the video - note that  tags are string that may not contain a comma
+          example:
+            - birds
+            - sea
+          items:
+            type: string
+          type: array
+      required:
+        - name
+      title: Create Video Request Body Fields
+    CuePoint:
+      properties:
+        id:
+          description: System id for the cuepoint
+          readOnly: true
+          type: string
+        metadata:
+          description: optional metadata string (512 single-byte characters maximum)
+          maxLength: 512
+          type: string
+        name:
+          description: cue point name
+          type: string
+        time:
+          description: time of the cue point in seconds
+          example: 10.527
+          type: number
+        type:
+          description: cue point type
+          enum:
+            - AD
+            - DATA
+          type: string
+      required:
+        - time
+        - type
+      title: cue_point
+      type: object
+    DigitalMaster:
+      properties:
+        created_at:
+          description: date/time created
           example: 2019-04-30T10:09:12.548Z
+          readOnly: true
+          type: string
         duration:
-          type: integer
           description: duration in milliseconds
           example: 31431
-    Drm:
-      title: Drm
+          type: integer
+        encoding_rate:
+          description: encoding rate in bps
+          example: 23152000
+          readOnly: true
+          type: integer
+        height:
+          description: frame height in pixels
+          example: 1080
+          readOnly: true
+          type: integer
+        id:
+          description: the system id for the digital master
+          example: a0a2e032-4de4-4495-a59e-a806d52989
+          readOnly: true
+          type: string
+        size:
+          description: file size in bytes
+          example: 90990884
+          readOnly: true
+          type: integer
+        updated_at:
+          description: date/time last modified
+          example: 2019-04-30T10:09:12.548Z
+          readOnly: true
+          type: string
+        width:
+          description: frame width in pixels
+          example: 1920
+          readOnly: true
+          type: integer
+      title: DigitalMaster
       type: object
+    Drm:
       description: DRM packaging details (not applicable to remote assets or Dynamic Delivery accounts)
       nullable: true
-      readOnly: true
       properties:
         metadata_cdn_origin_id:
           type: string
@@ -5501,75 +5681,279 @@ components:
           type: string
         state:
           type: string
-    Folder:
-      title: Folder
+      readOnly: true
+      title: Drm
       type: object
+    DynamicRendition:
+      example:
+        - audio_configuration: L_R
+          created_at: '2016-11-14T15:05:56.209Z'
+          duration: 31488
+          encoding_rate: 125000
+          frame_height: null
+          frame_width: null
+          language: en
+          media_type: audio
+          rendition_id: default/audio128
+          size: 506818
+          updated_at: '2016-11-14T15:05:56.209Z'
+          variant: main
+        - created_at: '2016-11-14T15:06:17.295Z'
+          duration: 31465
+          encoding_rate: 902000
+          frame_height: 360
+          frame_width: 640
+          media_type: video
+          rendition_id: default/video900
+          size: 3561912
+          updated_at: '2016-11-14T15:06:17.295Z'
+          variant: main
+      properties:
+        audio_configuration:
+          description: The audio configuration of the audio track
+          readOnly: true
+          type: string
+        duration:
+          description: duration in milliseconds
+          readOnly: true
+          type: integer
+        encoding_rate:
+          description: average encoding rate in kbps
+          readOnly: true
+          type: integer
+        frame_height:
+          description: frame height in pixels
+          readOnly: true
+          type: integer
+        frame_width:
+          description: frame width in pixels
+          readOnly: true
+          type: integer
+        media_type:
+          description: media type for the rendition (audio or video)
+          enum:
+            - audio
+            - video
+          readOnly: true
+          type: boolean
+        rendition_id:
+          description: the rendition id
+          readOnly: true
+          type: string
+        size:
+          description: the size of the asset in bytes (integer)
+          readOnly: true
+          type: integer
+        updated_at:
+          description: when the video was last modified
+          readOnly: true
+          type: string
+        uploaded_at:
+          description: when the asset was added to the video in Video Cloud
+          readOnly: true
+          type: string
+        variant:
+          description: 'The variant of the HLS profile (baseline, main, or high)'
+          enum:
+            - baseline
+            - main
+            - high
+          readOnly: true
+          type: string
+      title: DynamicRendition
+      type: object
+    Folder:
       properties:
         account_id:
-          type: string
           description: Video Cloud account id
-          readOnly: true
           example: 57838016001
+          readOnly: true
+          type: string
         created_at:
-          type: string
           description: date/time folder created
-          readOnly: true
           example: 2017-11-23T19:53:59.687Z
-        id:
-          type: string
-          description: system id for the folder
           readOnly: true
-          example: 5a17275782aca45b631295f9
-        name:
           type: string
+        id:
+          description: system id for the folder
+          example: 5a17275782aca45b631295f9
+          readOnly: true
+          type: string
+        name:
           description: folder name
           example: birds
+          type: string
         updated_at:
-          type: string
           description: date/time folder last modified
-          readOnly: true
           example: 2017-11-23T20:06:24.537Z
-        video_count:
-          type: string
-          description: number of videos in the folder
           readOnly: true
+          type: string
+        video_count:
+          description: number of videos in the folder
           example: 5
-    IngestJobStatus:
-      title: Ingest Job Status
+          readOnly: true
+          type: string
+      title: Folder
       type: object
+    Geo:
+      description: map of geo-filtering properties
+      properties:
+        countries:
+          description: 'array of ISO 3166 list of 2-letter codes(https://www.iso.org/obp/ui/#home) (search for "country codes")'
+          example:
+            - us
+            - ca
+            - fr
+          items:
+            type: string
+          type: array
+        exclude_countries:
+          description: 'if true, country array is treated as a list of countries excluded from viewing'
+          type: boolean
+        restricted:
+          description: whether geo-restriction is enabled for this video
+          type: boolean
+      required:
+        - countries
+        - exclude_countries
+        - restricted
+      title: geo
+      type: object
+    Image:
+      description: map of poster or thumbnail properties
+      properties:
+        asset_id:
+          description: asset id for the image
+          readOnly: true
+          type: string
+        sources:
+          description: array of image source maps
+          items:
+            $ref: '#/components/schemas/Image.sources'
+          type: array
+        src:
+          description: URL for the default image source image
+          readOnly: true
+          type: string
+      readOnly: true
+      required:
+        - sources
+        - src
+      title: image
+      type: object
+    Image.sources:
+      properties:
+        src:
+          description: URL for a image source image
+          type: string
+      required:
+        - src
+      title: image.sources
+      type: object
+    ImageAsset:
+      example:
+        account_id: '1752604059001'
+        audio_only: false
+        cdn_origin_id: '5602'
+        complete: true
+        controller_type: DEFAULT
+        current_filename: 1752604059001_5510492050001_5510487311001-vs.jpg
+        frame_height: 720
+        frame_width: 1280
+        id: '5510492050001'
+        key_systems: []
+        name: Lightning-over-mosque-Utrecht.m4v Video Still
+        progressive_download: false
+        reference_id: ''
+        remote_stream_name: ''
+        remote_url: ''
+        size: 41742
+        type: VIDEO_STILL
+        updated_at: '2017-07-26T07:02:42.077Z'
+        uploaded_at: '2017-07-17T17:46:17.295Z'
+      properties:
+        audio_only:
+          description: not applicable to posters
+          type: boolean
+        cdn_origin_id:
+          description: an internally used id (not applicable to remote assets)
+          type: string
+        complete:
+          description: whether processing is complete for the asset (will be true for remote assets if a remote_url is supplied)
+          type: boolean
+        controller_type:
+          description: the controller type for ingested renditions (not applicable to remote renditions or other types of assets)
+          type: string
+        current_filename:
+          description: the filename for an ingested asset in the Video Cloud system (not applicable to remote assets)
+          type: string
+        id:
+          description: the asset id
+          readOnly: true
+          type: string
+        name:
+          description: asset name
+          type: string
+        progressive_download:
+          description: whether ingested rendition is available by progressive download (not applicable to other asset types or remote renditions)
+          type: boolean
+        reference_id:
+          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
+          type: string
+        remote_stream_name:
+          description: name for remote streams (not applicable to asset types other than rendition)
+          type: string
+        remote_url:
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
+          maxLength: 250
+          type: string
+        size:
+          description: the size of the asset in bytes (integer)
+          type: integer
+        type:
+          description: the type of the asset
+          type: string
+        updated_at:
+          description: when the video was last modified
+          type: string
+        uploaded_at:
+          description: when the asset was added to the video in Video Cloud
+          type: string
+      title: ImageAsset
+      type: object
+    IngestJobStatus:
       properties:
         account_id:
-          type: string
           description: the Video Cloud account id
-          readOnly: true
           example: 57838016001
+          readOnly: true
+          type: string
         error_code:
-          type: string
           description: the error code if the job failed
-          readOnly: true
           example: UnableToResolveHostError
+          readOnly: true
+          type: string
         error_message:
-          type: string
           description: the error message if the job failed
+          example: 'There was a problem resolving the host at https://learning-services-media.brightcove.comm/videos/mp4/IMG_0544.MOV. Please check that it is correct.'
           readOnly: true
-          example: There was a problem resolving the host at https://learning-services-media.brightcove.comm/videos/mp4/IMG_0544.MOV. Please check that it is correct.
+          type: string
         id:
-          type: string
           description: the ingest job id returned when you submit the Dynamic Ingest API request
-          readOnly: true
           example: 879a3301-5c1a-4b1b-a368-58e200a6e64b
+          readOnly: true
+          type: string
         priority:
-          type: string
-          description: 'priority of the job (normal or low)'
-          readOnly: true
+          description: priority of the job (normal or low)
           example: normal
-        started_at:
-          type: string
-          description: when processing started
           readOnly: true
-          example: 2018-11-14T19:30:36.265Z
-        state:
           type: string
+        started_at:
+          description: when processing started
+          example: 2018-11-14T19:30:36.265Z
+          readOnly: true
+          type: string
+        state:
           description: |-
             the current state of the ingest job - status:
               - `processing` - video processing in progress - the video is not currently playable
@@ -5577,473 +5961,81 @@ components:
               - `published` - that at least one playable rendition is available for the video
               - `finished` - that all processing is complete
               - `failed` - video processing failed to complete
-          readOnly: true
-          example: failed
           enum:
             - processing
             - publishing
             - published
             - finished
             - failed
+          example: failed
+          readOnly: true
+          type: string
           x-enum-elements:
-            - name: processing
-              description: >-
-                video processing in progress - the video is not currently
-                playable
-            - name: publishing
-              description: >-
-                video processing in progress - publishing a playable rendition
-            - name: published
-              description: there is at least one playable rendition available for the video
-            - name: finished
-              description: video processing is complete
-            - name: failed
-              description: video processing failed to complete
+            - description: video processing in progress - the video is not currently playable
+              name: processing
+            - description: video processing in progress - publishing a playable rendition
+              name: publishing
+            - description: there is at least one playable rendition available for the video
+              name: published
+            - description: video processing is complete
+              name: finished
+            - description: video processing failed to complete
+              name: failed
         submitted_at:
-          type: string
           description: when the job was submitted
-          readOnly: true
           example: 2018-11-14T19:30:36.196Z
-        updated_at:
+          readOnly: true
           type: string
+        updated_at:
           description: when the status was last updated
-          readOnly: true
           example: 2018-11-14T19:43:08.641Z
+          readOnly: true
+          type: string
         video_id:
-          type: string
           description: the video id
-          readOnly: true
           example: 5966995221001
-    Playlist:
-      title: Playlist
+          readOnly: true
+          type: string
+      title: Ingest Job Status
       type: object
+    Link:
+      description: 'map of related link properties - can only be added on update, not creation'
       properties:
-        account_id:
-          type: string
-          description: Video Cloud account id
-          readOnly: true
-          example: 57838016001
-        created_at:
-          type: string
-          description: date/time created
-          format: date-time
-          readOnly: true
-          example: 2018-11-14T19:30:36.196Z
-        description:
-          type: string
-          description: playlist description
+        text:
+          description: text for the link
           maxLength: 255
-          example: Sea bird playlist
-        favorite:
-          type: boolean
-          description: whether playlist is in favorites list
-          default: false
-          example: false
-        id:
           type: string
-          description: the playlist id
-          readOnly: true
-          example: 1403635561001
-        name:
-          type: string
-          description: the playlist name
+        url:
+          description: URL for the link
           maxLength: 255
-          example: Sea Birds
-        reference_id:
           type: string
-          description: the playlist reference id (must be unique within the account)
-          example: sea_birds_playlist
-        search:
-          type: string
-          description: search string to retrieve the videos (smart playlists only)
-          example: +tags:captions,training
-        type:
-          type: string
-          description: 'the playlist type: EXPLICIT or smart playlist type'
-          enum:
-            - EXPLICIT
-            - ACTIVATED_OLDEST_TO_NEWEST
-            - ACTIVATED_NEWEST_TO_OLDEST
-            - ALPHABETICAL
-            - PLAYS_TOTAL
-            - PLAYS_TRAILING_WEEK
-            - START_DATE_OLDEST_TO_NEWEST
-            - START_DATE_NEWEST_TO_OLDEST
-          example: ACTIVATED_NEWEST_TO_OLDEST
-        updated_at:
-          type: string
-          description: date/time last modified
-          format: date-time
-          readOnly: true
-          example: 2018-11-14T19:30:36.196Z
-        video_ids:
-          type: array
-          items:
-            type: string
-          description: 'array of video ids (EXPLICIT playlists only)'
-          example: [ "4084164751001", "1532562858001", "734484322001", "1532530235001", "734462570001", "734462569001", "734451481001", "734445537001" ]
-    PlaylistInputFields:
-      title: Create/Update Playlist Fields
+      title: link
       type: object
-      properties:
-        description:
-          type: string
-          description: playlist description
-          maxLength: 255
-          example: Playlist of Birds that Live by the Sea
-        favorite:
-          type: boolean
-          description: whether playlist is in favorites list
-          default: false
-          example: true
-        name:
-          type: string
-          description: the playlist name
-          maxLength: 255
-          example: Sea Bird Playlist
-        reference_id:
-          type: string
-          description: the playlist reference id (must be unique within the account)
-          example: sea_bird_playlist
-        search:
-          type: string
-          description: search string to retrieve the videos (smart playlists only)
-          example: +tags:birds,sea
-        type:
-          type: string
-          description: 'the playlist type: EXPLICIT or smart playlist type'
-          enum:
-            - EXPLICIT
-            - ACTIVATED_OLDEST_TO_NEWEST
-            - ACTIVATED_NEWEST_TO_OLDEST
-            - ALPHABETICAL
-            - PLAYS_TOTAL
-            - PLAYS_TRAILING_WEEK
-            - START_DATE_OLDEST_TO_NEWEST
-            - START_DATE_NEWEST_TO_OLDEST
-          example: START_DATE_NEWEST_TO_OLDEST
-        video_ids:
-          type: array
-          items:
-            type: string
-          description: 'array of video ids (EXPLICIT playlists only)'
-          example: [ "4084164751001", "1532562858001", "734484322001", "1532530235001", "734462570001", "734462569001", "734451481001", "734445537001" ]
-    PlaylistReferences:
-      title: PlaylistReferences
-      type: object
-      properties:
-        playlists:
-          type: array
-          items:
-            type: string
-          description: array of EXPLICIT playlist ids that contain the video
-          example: 749117323001
-    Subscription:
-      title: Subscription
-      type: object
-      properties:
-        endpoint:
-          type: string
-          description: the notifications endpoint
-          example: 'http://solutions.brightcove.com/bcls/di-api/cms-callbacks.php'
-        events:
-          type: string
-          enum:
-            - video-change
-          description: list of events subscribed to
-          example: video-change
-        id:
-          type: string
-          description: system id for the subscription
-          readOnly: true
-          example: a0847083-79f4-4315-8a2c-403465a3d9bc
-        service_account:
-          type: string
-          description: the Video Cloud account id
-          readOnly: true
-          example: 57838016001
-    CreateVideoRequestBodyFields:
-      title: Create Video Request Body Fields
-      description: >-
-        Only certain video metadata fields can be set when you initially create the video, and are listed here. Other fields must be set through an update (`PATCH`) request
-        type: object
-      properties:
-        cue_points:
-          description: Array of cuepoint objects
-          items:
-            $ref: '#/components/schemas/CuePoint'
-          type: array
-        custom_fields:
-          description: >-
-            map of `fieldname: value` pairs; values have a maximum length of 1024 single-byte characters Note: be sure to use the **internal** name for the field, not the display name
-          type: object
-          example: {"subject":"birds"}
-        description:
-          description: Video short description
-          type: string
-          example: Laughing Gull
-        drm_disabled:
-          description: >-
-            Use to disable DRM packaging for this video - applies only to
-            DRM-enabled accounts
-          type: boolean
-          example: true
-        economics:
-          type: string
-          description: whether the video supports ads
-          enum:
-            - AD_SUPPORTED
-            - FREE
-          example: AD_SUPPORTED
-        geo:
-          $ref: '#/components/schemas/Geo'
-        long_description:
-          description: A longer description of the video
-          type: string
-          maxLength: 5000
-          example: Herring Gull near Fort Point Channel in Boston, MA, USA. 2019-04-25.
-        name:
-          description: Title of the video video
-          type: string
-          minLength: 1
-          maxLength: 255
-          example: A happy herring gull
-        offline_enabled:
-          type: boolean
-          description: whether video is enabled for offline viewing
-          default: false
-          example: true
-        reference_id:
-          description: Reference id for the clip - must be unique within the account
-          type: string
-          example: laughing_gull_2019_04_25
-        schedule:
-          $ref: '#/components/schemas/Schedule'
-        state:
-          type: string
-          description: Whether the video should be active or inactive
-          example: ACTIVE
-          enum:
-            - ACTIVE
-            - INACTIVE
-        tags:
-          description: >-
-            Array of tags for the video - note that  tags are string that may
-            not contain a comma
-          type: array
-          example: ["birds", "sea"]
-          items:
-            type: string
-      required:
-        - name
-    Video:
-      title: Video
-      description: |-
-        Object containing metadata for a video
-      type: object
-      properties:
-        ad_keys:
-          type: string
-          description: >-
-            string representing the ad key/value pairs assigned to the video.
-            Key/value pairs are formatted as key=value and are separated by
-            ampersands - can only be added on update, not creation
-          nullable: true
-          example: ' "adKeys": "category=sports&live=true"'
-        clip_source_video_id:
-          type: string
-          description: >-
-            The ID of the source video that was clipped to produce this video or
-            null if this video is not a clip of another video
-          readOnly: true
-          example: 4723947979
-        complete:
-          type: boolean
-          description: >-
-            whether processing is complete -Note: when you create a new video, the complete property is automatically set to false. As soon as one rendition exists for the video, the complete property will be automatically set to true
-          readOnly: true
-          example: true
-        created_by:
-          $ref: '#/components/schemas/User'
-        created_at:
-          type: string
-          description: when the video was created
-          readOnly: true
-          example: '2015-09-17T16:08:37.108Z'
-        cue_points:
-          type: array
-          items:
-            $ref: '#/components/schemas/CuePoint'
-          description: 'array of cue points - can only be added on update, not creation'
-        custom_fields:
-          type: object
-          additionalProperties:
-            type: string
-            description: >-
-              map of fieldname-value pairs; values have a maximum length of 1024 single-byte characters Note: be sure to use the internal name for the field, not the display name
-        delivery_type:
-          type: string
-          description: |-
-           video delivery type:
-             - `remote`: a remote asset
-             - `static_origin`: processed using the legacy ingest system
-             - `dynamic_origin`: processed using the Dynamic Delivery ingest system
-             - `live_origin`: a live stream from Brightcove Live
-             - `unknown`: the delivery type could not be determined (may mean there are no playable renditions)
-          enum:
-            - remote
-            - static_origin
-            - dynamic_origin
-            - live_origin
-            - unknown
-          readOnly: true
-          example: dynamic_origin
-        description:
-          type: string
-          description: video short description
-          maxLength: 248
-          example: Herring gull on a wharf in Boston
-        digital_master_id:
-          type: string
-          description: asset id of the digital master
-          readOnly: true
-          example: 734462494001
-        drm_disabled:
-          type: boolean
-          description: >-
-            if true, the video is not DRM-packaged - applies to accounts that
-            are enabled for DRM only
-          example: true
-        duration:
-          type: integer
-          description: video duration in milliseconds
-          readOnly: true
-          example: 18160
-        economics:
-          type: string
-          description: whether video is `AD_SUPPORTED`
-          default: AD_SUPPORTED
-          enum:
-            - AD_SUPPORTED
-            - FREE
-          example: AD_SUPPORTED
-        folder_id:
-          type: string
-          description: id of the folder that contains the video
-          readOnly: true
-          example: 560039e5e4b0e69e4b01cacd
-        geo:
-          $ref: '#/components/schemas/Geo'
-        has_digital_master:
-          type: boolean
-          description: >-
-            whether video has an archived master than can be used for
-            retranscoding
-          readOnly: true
-          example: true
-        id:
-          type: string
-          description: video id
-          readOnly: true
-          example: 734462567001
-        images:
-          $ref: '#/components/schemas/VideoImages'
-        link:
-          $ref: '#/components/schemas/Link'
-        live:
-          $ref: '#/components/schemas/Live'
-        long_description:
-          type: string
-          description: 'video long description - can only be added on update, not creation'
-          maxLength: 5000
-          example: Herring Gull near Fort Point Channel in Boston, MA, USA. 2019-04-25.
-        name:
-          type: string
-          description: video title
-          minLength: 1
-          maxLength: 255
-          example: Laughing Gull
-        offline_enabled:
-          type: boolean
-          description: whether video is enabled for offline viewing
-          default: false
-          example: true
-        original_filename:
-          type: string
-          description: the original file name for the uploaded video
-          readOnly: true
-          example: gull-boston.mov
-        projection:
-          type: string
-          description: used for 360 videos
-          nullable: true
-          enum:
-            - equirectangular
-          example: equirectangular
-        published_at:
-          type: string
-          description: >-
-            start date-time of first activation in
-            ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15)
-            format
-          readOnly: true
-          example: 2019-04-30T23:27:22.507Z
-        reference_id:
-          type: string
-          description: video reference-id (must be unique within the account)
-          nullable: true
-          maxLength: 150
-          example: laughing_gull_2019_04_25
-        schedule:
-          $ref: '#/components/schemas/Schedule'
-        sharing:
-          $ref: '#/components/schemas/Sharing'
-        state:
-          type: string
-          description: state determines whether the video is playable or not
-          enum:
-            - ACTIVE
-            - INACTIVE
-          example: ACTIVE
-        tags:
-          type: array
-          items:
-            type: string
-          description: array of tags
-          example: ["birds","sea"]
-        text_tracks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TextTrack'
-          description: 'array of text tracks - can only be added on update, not creation'
-        updated_at:
-          type: string
-          description: when the video was last modified
-          readOnly: true
-          example: 2018-02-27T19:09:20.401Z
-        updated_by:
-          $ref: '#/components/schemas/User'
     Live:
-      title: live
       description: Properties for a live stream created by the Live Module or Live API
-      type: object
       properties:
-        type:
-          type: string
-          description: the live stream type
+        clip_ended_at:
+          description: the ending point for a VOD clip
+          example: 2018-08-12T15:34:30.047Z
           readOnly: true
-          enum:
-            - EVENT
-          example: EVENT
+          type: string
+        clip_started_at:
+          description: the starting point for a VOD clip
+          example: 2018-08-12T15:24:30.047Z
+          readOnly: true
+          type: string
+        ended_at:
+          description: the date-time that the live stream ended
+          example: 2018-08-12T15:34:30.047Z
+          readOnly: true
+          type: string
         job_id:
-          type: string
           description: the live job id
-          readOnly: true
           example: 935808e9a3bb47ea825fe9276835a01e
-        job_state:
-          type: string
-          description: the current state of the job
           readOnly: true
+          type: string
+        job_state:
+          description: the current state of the job
           enum:
             - error
             - standby
@@ -6056,190 +6048,376 @@ components:
             - finished
             - failed
           example: finished
-        ended_at:
-          type: string
-          description: the date-time that the live stream ended
           readOnly: true
-          example: 2018-08-12T15:34:30.047Z
-        name:
           type: string
+        name:
           description: the name of the live job
           readOnly: true
-        clip_started_at:
           type: string
-          description: the starting point for a VOD clip
-          readOnly: true
-          example: 2018-08-12T15:24:30.047Z
-        clip_ended_at:
-          type: string
-          description: the ending point for a VOD clip
-          readOnly: true
-          example: 2018-08-12T15:34:30.047Z
-        updated_at:
-          type: string
-          description: the date-time the live job was last updated
-          readOnly: true
-          example: 2018-08-12T15:34:30.047Z
-    CuePoint:
-      title: cue_point
-      required:
-        - time
-        - type
-      type: object
-      properties:
-        id:
-          type: string
-          description: System id for the cuepoint
-          readOnly: true
-        time:
-          type: number
-          description: time of the cue point in seconds
-          example: 10.527
         type:
-          type: string
-          description: cue point type
+          description: the live stream type
           enum:
-            - AD
-            - DATA
-        metadata:
+            - EVENT
+          example: EVENT
+          readOnly: true
           type: string
-          description: optional metadata string (512 single-byte characters maximum)
-          maxLength: 512
-        name:
+        updated_at:
+          description: the date-time the live job was last updated
+          example: 2018-08-12T15:34:30.047Z
+          readOnly: true
           type: string
-          description: cue point name
-    Geo:
-      title: geo
-      description: map of geo-filtering properties
-      required:
-        - countries
-        - exclude_countries
-        - restricted
+      title: live
       type: object
+    Manifest:
+      example:
+        account_id: '57838016001'
+        audio_only: false
+        cdn_origin_id: '8801'
+        complete: true
+        controller_type: DEFAULT
+        current_filename: 57838016001_5819043232001_5819044609001.m3u8
+        id: '5819043232001'
+        key_systems: []
+        name: greatblueheron.mp4
+        progressive_download: false
+        reference_id: ''
+        remote_stream_name: ''
+        remote_url: ''
+        size: 0
+        type: HLS_MANIFEST
+        updated_at: '2018-08-07T14:06:52.489Z'
+        uploaded_at: '2018-08-07T14:05:57.105Z'
+        video_duration: 0
       properties:
-        countries:
-          type: array
-          description: >-
-            array of ISO 3166 list of 2-letter
-            codes(https://www.iso.org/obp/ui/#home) (search for "country codes")
+        audio_only:
+          description: not applicable to ism_manifests
+          type: boolean
+        cdn_origin_id:
+          description: an internally used id (not applicable to remote assets)
+          type: string
+        complete:
+          description: whether processing is complete for the asset (will be true for remote assets if a remote_url is supplied)
+          type: boolean
+        controller_type:
+          description: the controller type for ingested renditions (not applicable to remote renditions or other types of assets)
+          type: string
+        current_filename:
+          description: the filename for an ingested asset in the Video Cloud system (not applicable to remote assets)
+          type: string
+        id:
+          description: the asset id
+          readOnly: true
+          type: string
+        name:
+          description: asset name
+          type: string
+        progressive_download:
+          description: whether ingested rendition is available by progressive download (not applicable to other asset types or remote renditions)
+          type: boolean
+        reference_id:
+          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
+          type: string
+        remote_stream_name:
+          description: name for remote streams (not applicable to asset types other than rendition)
+          type: string
+        remote_url:
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
+          maxLength: 250
+          type: string
+        size:
+          description: the size of the asset in bytes (integer)
+          type: integer
+        type:
+          description: the type of the asset
+          type: string
+        updated_at:
+          description: when the video was last modified
+          type: string
+        uploaded_at:
+          description: when the asset was added to the video in Video Cloud
+          type: string
+        video_duration:
+          description: video duration in seconds (present if you included it when you created the asset)
+          type: integer
+      title: Manifest
+      type: object
+    Playlist:
+      properties:
+        account_id:
+          description: Video Cloud account id
+          example: 57838016001
+          readOnly: true
+          type: string
+        created_at:
+          description: date/time created
+          example: 2018-11-14T19:30:36.196Z
+          format: date-time
+          readOnly: true
+          type: string
+        description:
+          description: playlist description
+          example: Sea bird playlist
+          maxLength: 255
+          type: string
+        favorite:
+          default: false
+          description: whether playlist is in favorites list
+          example: false
+          type: boolean
+        id:
+          description: the playlist id
+          example: 1403635561001
+          readOnly: true
+          type: string
+        name:
+          description: the playlist name
+          example: Sea Birds
+          maxLength: 255
+          type: string
+        reference_id:
+          description: the playlist reference id (must be unique within the account)
+          example: sea_birds_playlist
+          type: string
+        search:
+          description: search string to retrieve the videos (smart playlists only)
+          example: '+tags:captions,training'
+          type: string
+        type:
+          description: 'the playlist type: EXPLICIT or smart playlist type'
+          enum:
+            - EXPLICIT
+            - ACTIVATED_OLDEST_TO_NEWEST
+            - ACTIVATED_NEWEST_TO_OLDEST
+            - ALPHABETICAL
+            - PLAYS_TOTAL
+            - PLAYS_TRAILING_WEEK
+            - START_DATE_OLDEST_TO_NEWEST
+            - START_DATE_NEWEST_TO_OLDEST
+          example: ACTIVATED_NEWEST_TO_OLDEST
+          type: string
+        updated_at:
+          description: date/time last modified
+          example: 2018-11-14T19:30:36.196Z
+          format: date-time
+          readOnly: true
+          type: string
+        video_ids:
+          description: array of video ids (EXPLICIT playlists only)
+          example:
+            - '4084164751001'
+            - '1532562858001'
+            - '734484322001'
+            - '1532530235001'
+            - '734462570001'
+            - '734462569001'
+            - '734451481001'
+            - '734445537001'
           items:
             type: string
-          example: ["us", "ca", "fr"]
-        exclude_countries:
-          type: boolean
-          description: >-
-            if true, country array is treated as a list of countries excluded
-            from viewing
-        restricted:
-          type: boolean
-          description: whether geo-restriction is enabled for this video
-    VideoImages:
-      title: VideoImages
-      description: map of image maps
-      readOnly: true
-      type: object
-      properties:
-        poster:
-          $ref: '#/components/schemas/Image'
-        thumbnail:
-          $ref: '#/components/schemas/Image'
-      example: {
-          "poster": {
-            "src": "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg",
-            "sources": [
-              {
-                "src": "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg",
-                "height": 720,
-                "width": 1280
-              }
-            ]
-          },
-          "thumbnail": {
-            "src": "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg",
-            "sources": [
-              {
-                "src": "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg",
-                "height": 90,
-                "width": 160
-              }
-            ]
-          }
-        }
-    Image:
-      title: image
-      description: map of poster or thumbnail properties
-      required:
-        - sources
-        - src
-      type: object
-      readOnly: true
-      properties:
-        sources:
           type: array
+      title: Playlist
+      type: object
+    PlaylistCount:
+      example:
+        count: 84
+      properties:
+        count:
+          description: count of videos
+          type: integer
+      title: Get_Playlist_CountResponse
+      type: object
+    PlaylistInputFields:
+      properties:
+        description:
+          description: playlist description
+          example: Playlist of Birds that Live by the Sea
+          maxLength: 255
+          type: string
+        favorite:
+          default: false
+          description: whether playlist is in favorites list
+          example: true
+          type: boolean
+        name:
+          description: the playlist name
+          example: Sea Bird Playlist
+          maxLength: 255
+          type: string
+        reference_id:
+          description: the playlist reference id (must be unique within the account)
+          example: sea_bird_playlist
+          type: string
+        search:
+          description: search string to retrieve the videos (smart playlists only)
+          example: '+tags:birds,sea'
+          type: string
+        type:
+          description: 'the playlist type: EXPLICIT or smart playlist type'
+          enum:
+            - EXPLICIT
+            - ACTIVATED_OLDEST_TO_NEWEST
+            - ACTIVATED_NEWEST_TO_OLDEST
+            - ALPHABETICAL
+            - PLAYS_TOTAL
+            - PLAYS_TRAILING_WEEK
+            - START_DATE_OLDEST_TO_NEWEST
+            - START_DATE_NEWEST_TO_OLDEST
+          example: START_DATE_NEWEST_TO_OLDEST
+          type: string
+        video_ids:
+          description: array of video ids (EXPLICIT playlists only)
+          example:
+            - '4084164751001'
+            - '1532562858001'
+            - '734484322001'
+            - '1532530235001'
+            - '734462570001'
+            - '734462569001'
+            - '734451481001'
+            - '734445537001'
           items:
-            $ref: '#/components/schemas/Image.sources'
-          description: array of image source maps
-        src:
-          type: string
-          description: URL for the default image source image
-          readOnly: true
-        asset_id:
-          type: string
-          description: asset id for the image
-          readOnly: true
-    Image.sources:
-      title: image.sources
-      required:
-        - src
+            type: string
+          type: array
+      title: Create/Update Playlist Fields
       type: object
+    PlaylistReferences:
       properties:
-        src:
-          type: string
-          description: URL for a image source image
-    Link:
-      title: link
-      description: >-
-        map of related link properties - can only be added on update, not
-        creation
+        playlists:
+          description: array of EXPLICIT playlist ids that contain the video
+          example: 749117323001
+          items:
+            type: string
+          type: array
+      title: PlaylistReferences
       type: object
-      properties:
-        text:
-          type: string
-          description: text for the link
-          maxLength: 255
-        url:
-          type: string
-          description: URL for the link
-          maxLength: 255
     Schedule:
-      title: schedule
       description: map of scheduling properties
-      type: object
       properties:
         ends_at:
-          type: string
-          description: >-
-            end date-time of availability in
-            ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15)
-            format
-          nullable: true
+          description: 'end date-time of availability in ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) format'
           example: 2020-05-20T20:41:07.689Z
-        starts_at:
-          type: string
-          description: >-
-            start date-time of availability in
-            ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15)
-            format
           nullable: true
-          example: 2019-05-20T20:41:07.689Z
-    User:
-      title: User
-      type: object
-      description: information about who created or modified a video, if available
-      readOnly: true
-      properties:
-        type:
           type: string
+        starts_at:
+          description: 'start date-time of availability in ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) format'
+          example: 2019-05-20T20:41:07.689Z
+          nullable: true
+          type: string
+      title: schedule
+      type: object
+    ShareVideoRequest:
+      example:
+        - id: '47509719001'
+      properties:
+        id:
+          description: affiliate account id to share to
+          type: string
+      required:
+        - id
+      title: ShareVideoRequest
+      type: object
+    Sharing:
+      description: map of the sharing properties for the video
+      properties:
+        by_external_acct:
+          description: whether the video was shared from another account
+          example: true
+          readOnly: true
+          type: boolean
+        by_id:
+          description: 'id of the account that shared the video; note that this field is populated only for the shared copy, not for the original video'
+          example: 57838016001
+          readOnly: true
+          type: string
+        by_reference:
+          description: whether the video is shared by reference
+          example: true
+          readOnly: true
+          type: boolean
+        source_id:
+          description: 'id of the video in its original account; note that this field is populated only for the shared copy, not for the original video'
+          example: 239487239487
+          readOnly: true
+          type: string
+        to_external_acct:
+          description: whether the video is shared to another account
+          example: true
+          readOnly: true
+          type: boolean
+      readOnly: true
+      title: sharing
+      type: object
+    Subscription:
+      properties:
+        endpoint:
+          description: the notifications endpoint
+          example: 'http://solutions.brightcove.com/bcls/di-api/cms-callbacks.php'
+          type: string
+        events:
+          description: list of events subscribed to
+          enum:
+            - video-change
+          example: video-change
+          type: string
+        id:
+          description: system id for the subscription
+          example: a0847083-79f4-4315-8a2c-403465a3d9bc
+          readOnly: true
+          type: string
+        service_account:
+          description: the Video Cloud account id
+          example: 57838016001
+          readOnly: true
+          type: string
+      title: Subscription
+      type: object
+    TextTrack:
+      properties:
+        default:
+          default: false
+          description: whether this is the default track - should only be true for one text track
+          type: boolean
+        id:
+          description: System id for the text track
+          readOnly: true
+          type: string
+        kind:
+          default: captions
+          description: kind of text track
+          enum:
+            - subtitles
+            - captions
+            - descriptions
+            - chapters
+            - metadata
+          type: string
+        label:
+          description: label for the track
+          type: string
+        mime_type:
+          description: mime-type for the track
+          type: string
+        src:
+          description: URL for the .vtt file
+          type: string
+        srclang:
+          description: '2-letter language code, such as "en" or "ko"'
+          type: string
+      required:
+        - src
+        - srclang
+      title: text_track
+      type: object
+    User:
+      description: 'information about who created or modified a video, if available'
+      properties:
+        email:
+          description: the user's email address in Video Cloud
+          type: string
+        id:
+          description: Video Cloud system id of the user
+          type: string
+        type:
           description: |-
             The type of the updater, either:
               - `user` a user in Studio
@@ -6249,1059 +6427,691 @@ components:
             - user
             - api-key
             - internal
-        id:
           type: string
-          description: Video Cloud system id of the user
-        email:
-          type: string
-          description: the user's email address in Video Cloud
-    Sharing:
-      title: sharing
-      description: map of the sharing properties for the video
-      type: object
       readOnly: true
-      properties:
-        by_external_acct:
-          type: boolean
-          description: whether the video was shared from another account
-          readOnly: true
-          example: true
-        by_id:
-          type: string
-          description: >-
-            id of the account that shared the video; note that this field is
-            populated only for the shared copy, not for the original video
-          readOnly: true
-          example: 57838016001
-        by_reference:
-          type: boolean
-          description: whether the video is shared by reference
-          readOnly: true
-          example: true
-        source_id:
-          type: string
-          description: >-
-            id of the video in its original account; note that this field is
-            populated only for the shared copy, not for the original video
-          readOnly: true
-          example: 239487239487
-        to_external_acct:
-          type: boolean
-          description: whether the video is shared to another account
-          readOnly: true
-          example: true
-    TextTrack:
-      title: text_track
-      required:
-        - src
-        - srclang
+      title: User
       type: object
+    Video:
+      description: Object containing metadata for a video
       properties:
-        id:
+        ad_keys:
+          description: 'string representing the ad key/value pairs assigned to the video. Key/value pairs are formatted as key=value and are separated by ampersands - can only be added on update, not creation'
+          example: ' "adKeys": "category=sports&live=true"'
+          nullable: true
           type: string
-          description: System id for the text track
+        clip_source_video_id:
+          description: The ID of the source video that was clipped to produce this video or null if this video is not a clip of another video
+          example: 4723947979
           readOnly: true
-        src:
           type: string
-          description: URL for the .vtt file
-        srclang:
-          type: string
-          description: '2-letter language code, such as "en" or "ko"'
-        default:
+        complete:
+          description: 'whether processing is complete -Note: when you create a new video, the complete property is automatically set to false. As soon as one rendition exists for the video, the complete property will be automatically set to true'
+          example: true
+          readOnly: true
           type: boolean
-          description: >-
-            whether this is the default track - should only be true for one text
-            track
-          default: false
-        kind:
+        created_at:
+          description: when the video was created
+          example: '2015-09-17T16:08:37.108Z'
+          readOnly: true
           type: string
-          description: kind of text track
-          default: captions
-          enum:
-            - subtitles
-            - captions
-            - descriptions
-            - chapters
-            - metadata
-        label:
-          type: string
-          description: label for the track
-        mime_type:
-          type: string
-          description: mime-type for the track
-    VideoFields:
-      title: VideoFields
-      type: object
-      properties:
+        created_by:
+          $ref: '#/components/schemas/User'
+        cue_points:
+          description: 'array of cue points - can only be added on update, not creation'
+          items:
+            $ref: '#/components/schemas/CuePoint'
+          type: array
         custom_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Videofields.customField'
-          description: array of standard field maps
-        max_custom_fields:
+          additionalProperties:
+            description: 'map of fieldname-value pairs; values have a maximum length of 1024 single-byte characters Note: be sure to use the internal name for the field, not the display name'
+            type: string
+          type: object
+        delivery_type:
+          description: |-
+            video delivery type:
+              - `remote`: a remote asset
+              - `static_origin`: processed using the legacy ingest system
+              - `dynamic_origin`: processed using the Dynamic Delivery ingest system
+              - `live_origin`: a live stream from Brightcove Live
+              - `unknown`: the delivery type could not be determined (may mean there are no playable renditions)
+          enum:
+            - remote
+            - static_origin
+            - dynamic_origin
+            - live_origin
+            - unknown
+          example: dynamic_origin
+          readOnly: true
           type: string
-          description: maximum number of custom fields for the account
-        standard_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Videofields.standardField'
-          description: array of standard field maps
-      example: {
-          "max_custom_fields": 10,
-          "custom_fields": [
-            {
-              "id": "subject",
-              "display_name": "Subject",
-              "description": "Add a topic",
-              "required": false,
-              "type": "enum",
-              "enum_values": [
-                "Reptiles",
-                "Mammals",
-                "Other",
-                "wildlife",
-                "Fish",
-                "Birds",
-                "Insects"
-              ]
-            },
-            {
-              "id": "uploader-userid",
-              "display_name": "Uploader UserID",
-              "description": null,
-              "required": false,
-              "type": "string"
-            },
-            {
-              "id": "rating",
-              "display_name": "Rating",
-              "description": null,
-              "required": false,
-              "type": "string"
-            },
-            {
-              "id": "duration",
-              "display_name": "Duration",
-              "description": null,
-              "required": false,
-              "type": "string"
-            },
-            {
-              "id": "associated-topics",
-              "display_name": "Associatedtopics",
-              "description": null,
-              "required": false,
-              "type": "string"
-            },
-            {
-              "id": "customthemepath",
-              "display_name": "Custom Theme Path",
-              "description": null,
-              "required": false,
-              "type": "enum",
-              "enum_values": [
-                "http://files.brightcove.com/BCL_customLabelTheme2.css",
-                "http://files.brightcove.com/BCL_customLabelTheme.css"
-              ]
-            },
-            {
-              "id": "textcolor",
-              "display_name": "Text Color",
-              "description": null,
-              "required": false,
-              "type": "enum",
-              "enum_values": [
-                "#4C4D4F",
-                "#CF0050",
-                "#F4901E",
-                "#619FA8"
-              ]
-            },
-            {
-              "id": "dfxppath",
-              "display_name": "Captions File URL",
-              "description": null,
-              "required": false,
-              "type": "string"
-            },
-            {
-              "id": "purpose",
-              "display_name": "Purpose",
-              "description": null,
-              "required": false,
-              "type": "enum",
-              "enum_values": [
-                "Training",
-                "Demo",
-                "Sample",
-                "Solution"
-              ]
-            },
-            {
-              "id": "downloadable",
-              "display_name": "Downloadable",
-              "description": null,
-              "required": false,
-              "type": "enum",
-              "enum_values": [
-                "yes",
-                "no"
-              ]
-            }
-          ],
-          "standard_fields": [
-            {
-              "id": "description",
-              "description": null,
-              "required": false
-            },
-            {
-              "id": "tags",
-              "description": null,
-              "required": false
-            }
-          ]
-        }
-    Videofields.customField:
-      title: VideoFields.custom_field
-      type: object
-      properties:
         description:
+          description: video short description
+          example: Herring gull on a wharf in Boston
+          maxLength: 248
           type: string
-          description: description (instruction for user)
-        display_name:
+        digital_master_id:
+          description: asset id of the digital master
+          example: 734462494001
+          readOnly: true
           type: string
-          description: display name
-        enum_values:
-          type: array
+        drm_disabled:
+          description: 'if true, the video is not DRM-packaged - applies to accounts that are enabled for DRM only'
+          example: true
+          type: boolean
+        duration:
+          description: video duration in milliseconds
+          example: 18160
+          readOnly: true
+          type: integer
+        economics:
+          default: AD_SUPPORTED
+          description: whether video is `AD_SUPPORTED`
+          enum:
+            - AD_SUPPORTED
+            - FREE
+          example: AD_SUPPORTED
+          type: string
+        folder_id:
+          description: id of the folder that contains the video
+          example: 560039e5e4b0e69e4b01cacd
+          readOnly: true
+          type: string
+        geo:
+          $ref: '#/components/schemas/Geo'
+        has_digital_master:
+          description: whether video has an archived master than can be used for retranscoding
+          example: true
+          readOnly: true
+          type: boolean
+        id:
+          description: video id
+          example: 734462567001
+          readOnly: true
+          type: string
+        images:
+          $ref: '#/components/schemas/VideoImages'
+        link:
+          $ref: '#/components/schemas/Link'
+        live:
+          $ref: '#/components/schemas/Live'
+        long_description:
+          description: 'video long description - can only be added on update, not creation'
+          example: 'Herring Gull near Fort Point Channel in Boston, MA, USA. 2019-04-25.'
+          maxLength: 5000
+          type: string
+        name:
+          description: video title
+          example: Laughing Gull
+          maxLength: 255
+          minLength: 1
+          type: string
+        offline_enabled:
+          default: false
+          description: whether video is enabled for offline viewing
+          example: true
+          type: boolean
+        original_filename:
+          description: the original file name for the uploaded video
+          example: gull-boston.mov
+          readOnly: true
+          type: string
+        projection:
+          description: used for 360 videos
+          enum:
+            - equirectangular
+          example: equirectangular
+          nullable: true
+          type: string
+        published_at:
+          description: 'start date-time of first activation in ISO-8601(http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) format'
+          example: 2019-04-30T23:27:22.507Z
+          readOnly: true
+          type: string
+        reference_id:
+          description: video reference-id (must be unique within the account)
+          example: laughing_gull_2019_04_25
+          maxLength: 150
+          nullable: true
+          type: string
+        schedule:
+          $ref: '#/components/schemas/Schedule'
+        sharing:
+          $ref: '#/components/schemas/Sharing'
+        state:
+          description: state determines whether the video is playable or not
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+          type: string
+        tags:
+          description: array of tags
+          example:
+            - birds
+            - sea
           items:
             type: string
-          description: array of string values for select type fields
-        id:
-          type: string
-          description: 'data name for the field (used to access it in searches, etc.)'
-        required:
-          type: boolean
-          description: whether field must have a value before video can be active
-        type:
-          type: string
-          description: custom field type (enum or string)
-    Videofields.standardField:
-      title: VideoFields.standard_field
-      type: object
-      properties:
-        description:
-          type: string
-          description: description (instruction for user)
-        id:
-          type: string
-          description: 'data name for the field (used to access it in searches, etc.)'
-        required:
-          type: boolean
-          description: whether field must have a value before video can be active
-    VideoSources:
-      title: VideoSources
-      type: object
-      properties:
-        app_name:
-          type: string
-          description: address for RTMP stream
+          type: array
+        text_tracks:
+          description: 'array of text tracks - can only be added on update, not creation'
+          items:
+            $ref: '#/components/schemas/TextTrack'
+          type: array
+        updated_at:
+          description: when the video was last modified
+          example: 2018-02-27T19:09:20.401Z
           readOnly: true
-        codec:
           type: string
-          description: the video codec for the rendition
-        container:
+        updated_by:
+          $ref: '#/components/schemas/User'
+      title: Video
+      type: object
+    VideoAsset:
+      example:
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: '8801'
+          complete: true
+          controller_type: DEFAULT
+          current_filename: 57838016001_5819042450001_5819044609001.zip
+          drm: null
+          encoding_rate: 512000
+          frame_height: 270
+          frame_width: 480
+          hds: null
+          hls: null
+          id: '5819042450001'
+          key_systems: []
+          name: greatblueheron.mp4
+          progressive_download: true
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: ''
+          size: 2112932
+          type: FULL_LENGTH
+          updated_at: '2018-08-07T14:05:47.045Z'
+          uploaded_at: '2018-08-07T14:05:44.835Z'
+          video_codec: H264
+          video_container: M2TS
+          video_duration: 31398
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: '6101'
+          complete: true
+          controller_type: DEFAULT
+          current_filename: 57838016001_5819042821001_5819044609001-th.jpg
+          frame_height: 90
+          frame_width: 160
+          id: '5819042821001'
+          key_systems: []
+          name: greatblueheron.mp4 Thumbnail
+          progressive_download: false
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: ''
+          size: 5430
+          type: THUMBNAIL
+          updated_at: '2018-08-15T06:03:41.209Z'
+          uploaded_at: '2018-08-07T14:05:33.672Z'
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: ''
+          complete: true
+          controller_type: DEFAULT
+          current_filename: 57838016001_5819043030001_5819044609001.mp4
+          drm: null
+          encoding_rate: 23152000
+          frame_height: 1080
+          frame_width: 1920
+          hds: null
+          hls: null
+          id: '5819043030001'
+          key_systems: []
+          name: greatblueheron.mp4
+          progressive_download: true
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: ''
+          size: 90990884
+          type: DIGITAL_MASTER
+          updated_at: '2018-08-07T14:05:33.714Z'
+          uploaded_at: '2018-08-07T14:05:31.234Z'
+          video_codec: H264
+          video_container: MP4
+          video_duration: 31431
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: '8801'
+          complete: true
+          controller_type: DEFAULT
+          current_filename: 57838016001_5819043232001_5819044609001.m3u8
+          id: '5819043232001'
+          key_systems: []
+          name: greatblueheron.mp4
+          progressive_download: false
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: ''
+          size: 0
+          type: HLS_MANIFEST
+          updated_at: '2018-08-07T14:06:52.489Z'
+          uploaded_at: '2018-08-07T14:05:57.105Z'
+          video_duration: 0
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: '6101'
+          complete: true
+          controller_type: DEFAULT
+          current_filename: 57838016001_5819043394001_5819044609001-vs.jpg
+          frame_height: 720
+          frame_width: 1280
+          id: '5819043394001'
+          key_systems: []
+          name: greatblueheron.mp4 Video Still
+          progressive_download: false
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: ''
+          size: 139316
+          type: VIDEO_STILL
+          updated_at: '2018-08-15T06:03:41.210Z'
+          uploaded_at: '2018-08-07T14:05:35.253Z'
+        - account_id: '57838016001'
+          audio_only: false
+          cdn_origin_id: ''
+          complete: true
+          controller_type: DEFAULT
+          current_filename: ''
+          id: '5819491822001'
+          key_systems: []
+          name: ''
+          profiles: null
+          progressive_download: false
+          reference_id: ''
+          remote_stream_name: ''
+          remote_url: 'http://learning-services-media.brightcove.com/videos/hls/greatblueheron/greatblueheron.mpd'
+          size: 0
+          type: MPD_MANIFEST
+          updated_at: '2018-08-08T12:02:03.059Z'
+          uploaded_at: '2018-08-08T12:02:03.059Z'
+          video_duration: 31
+      properties:
+        account_id:
+          description: the Video Cloud account id
           type: string
-          description: the video container for the rendition
-        duration:
-          type: integer
-          description: duration in milliseconds
+        audio_only:
+          description: 'this rendition contains only an audio track, no video track (a rendition for low bandwidth devices)'
+          type: boolean
+        cdn_origin_id:
+          description: an internally used id (not applicable to remote assets)
+          type: string
+        complete:
+          description: whether processing is complete for the asset (will be true for remote assets if a remote_url is supplied)
+          type: boolean
+        controller_type:
+          description: the controller type for ingested renditions (not applicable to remote renditions or other types of assets)
+          type: string
+        current_filename:
+          description: the filename for an ingested asset in the Video Cloud system (not applicable to remote assets)
+          type: string
+        drm:
+          $ref: '#/components/schemas/Drm'
         encoding_rate:
+          description: average encoding rate in kbps
           type: integer
-          description: encoding rate in bps
-        height:
-          type: integer
+        frame_height:
           description: frame height in pixels
-          readOnly: true
-        remote:
-          type: boolean
-          description: whether the source is a remote asset
-        size:
           type: integer
-          description: file size in bytes
-        src:
-          type: string
-          description: URL for HTTP rendition
-          readOnly: true
-        stream_name:
-          type: string
-          description: the stream name on the CDN
-          readOnly: true
-        type:
-          type: string
-          description: the type for segmented streams
-          readOnly: true
-        width:
-          type: integer
+        frame_width:
           description: frame width in pixels
-          readOnly: true
-        asset_id:
-          type: string
-          description: system id for the rendition
-          readOnly: true
-        uploaded_at:
-          type: string
-          description: date/time when the video was uploaded
-          readOnly: true
-      example: [
-          {
-            "src": "https://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/10s/master.m3u8?fastly_token=NWJiMmIyNmNfMWM3YmVhZTA5OTc4YjM4ZjZiZjU1OTk0ZTkzZTUyMzhhNGU5Zjc5YTNkZGYwYWQyNWZkMTcyMGM1MzlmMWVmZg%3D%3D",
-            "type": "application/x-mpegURL",
-            "ext_x_version": "4",
-            "uploaded_at": "2017-06-05T11:20:53.731Z"
-          },
-          {
-            "src": "https://manifest.prod.boltdns.net/manifest/v1/hls/v5/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/10s/master.m3u8?fastly_token=NWJiMmIyNmNfNDc4YjJiNTM1YzkwYzcwNzliNmY3MDVjMzJmZjJhZjdmNjAxMzM0NWEzMTk3MzY2MGIwYWZhNzVhYjMyMzNhYg%3D%3D",
-            "type": "application/x-mpegURL",
-            "ext_x_version": "5",
-            "uploaded_at": "2017-06-05T11:20:53.731Z"
-          },
-          {
-            "src": "https://manifest.prod.boltdns.net/manifest/v1/dash/live-baseurl/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/2s/manifest.mpd?fastly_token=NWJiMmIyNmNfYjM3YTFiZjU5MmJjNzQzZjFkZTVlZmY0NTVhNmYxMzU3N2M2ODk5MmU1YjkyNDg5ZWRlNWRmMGNlODdjYjg5YQ%3D%3D",
-            "type": "application/dash+xml",
-            "profiles": "urn:mpeg:dash:profile:isoff-live:2011",
-            "uploaded_at": "2017-06-05T11:20:53.731Z"
-          },
-          {
-            "src": "https://bcbolt446c5271-a.akamaihd.net/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/high.mp4?akamai_token=exp=1538437740~acl=/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/high.mp4*~hmac=619d67d75397e01c0bb9bd88ea047ace80bd03b56261337233b5d53f2632c690",
-            "remote": false,
-            "uploaded_at": "2017-06-05T11:20:53.731Z",
-            "codec": "H264",
-            "container": "MP4",
-            "encoding_rate": 2129000,
-            "duration": 49690,
-            "height": 720,
-            "width": 1280,
-            "size": 13242064
-          },
-          {
-            "src": "https://bcbolt446c5271-a.akamaihd.net/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/mid.mp4?akamai_token=exp=1538437740~acl=/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/mid.mp4*~hmac=fde050eac8c8d3bb5b6c9141639a3dc770b8b8a3a3f88f5436c803b133d940fc",
-            "remote": false,
-            "uploaded_at": "2017-06-05T11:20:53.731Z",
-            "codec": "H264",
-            "container": "MP4",
-            "encoding_rate": 574000,
-            "duration": 49690,
-            "height": 270,
-            "width": 480,
-            "size": 3586929
-          }
-        ]
-    ShareVideoRequest:
-      title: ShareVideoRequest
-      required:
-        - id
-      type: object
-      properties:
+          type: integer
         id:
+          description: the asset id
+          readOnly: true
           type: string
-          description: affiliate account id to share to
-      example: [
-          {
-              "id":"47509719001"
-          }
-        ]
+        key_systems:
+          description: array of strings that denote the kind of encryption used for DRM packaged renditions
+          items:
+            type: string
+          type: array
+        name:
+          description: asset name
+          type: string
+        progressive_download:
+          description: whether ingested rendition is available by progressive download (not applicable to other asset types or remote renditions)
+          type: boolean
+        reference_id:
+          description: the media asset reference id (must be unique within the account) - this is **not** the same as the video reference id
+          type: string
+        remote_stream_name:
+          description: name for remote streams (not applicable to asset types other than rendition)
+          type: string
+        remote_url:
+          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
+          maxLength: 250
+          type: string
+        size:
+          description: the size of the asset in bytes (integer)
+          type: integer
+        type:
+          description: the type of the asset
+          type: string
+        updated_at:
+          description: when the video was last modified
+          type: string
+        uploaded_at:
+          description: when the asset was added to the video in Video Cloud
+          type: string
+        video_codec:
+          description: not applicable to remote assets
+          type: string
+        video_container:
+          description: not applicable to remote assets
+          type: string
+        video_duration:
+          description: duration in milliseconds
+          type: integer
+      title: VideoAsset
+      type: object
+    VideoCount:
+      example:
+        count: 7650
+      properties:
+        count:
+          description: count of videos
+          type: integer
+      title: Get_Video_CountResponse
+      type: object
+    VideoCountInPlaylist:
+      example:
+        count: 5
+      properties:
+        count:
+          description: count of videos
+          type: integer
+      title: Get_Video_Count_in_PlaylistResponse
+      type: object
+    VideoFields:
+      example:
+        custom_fields:
+          - description: Add a topic
+            display_name: Subject
+            enum_values:
+              - Reptiles
+              - Mammals
+              - Other
+              - wildlife
+              - Fish
+              - Birds
+              - Insects
+            id: subject
+            required: false
+            type: enum
+          - description: null
+            display_name: Uploader UserID
+            id: uploader-userid
+            required: false
+            type: string
+          - description: null
+            display_name: Rating
+            id: rating
+            required: false
+            type: string
+          - description: null
+            display_name: Duration
+            id: duration
+            required: false
+            type: string
+          - description: null
+            display_name: Associatedtopics
+            id: associated-topics
+            required: false
+            type: string
+          - description: null
+            display_name: Custom Theme Path
+            enum_values:
+              - 'http://files.brightcove.com/BCL_customLabelTheme2.css'
+              - 'http://files.brightcove.com/BCL_customLabelTheme.css'
+            id: customthemepath
+            required: false
+            type: enum
+          - description: null
+            display_name: Text Color
+            enum_values:
+              - '#4C4D4F'
+              - '#CF0050'
+              - '#F4901E'
+              - '#619FA8'
+            id: textcolor
+            required: false
+            type: enum
+          - description: null
+            display_name: Captions File URL
+            id: dfxppath
+            required: false
+            type: string
+          - description: null
+            display_name: Purpose
+            enum_values:
+              - Training
+              - Demo
+              - Sample
+              - Solution
+            id: purpose
+            required: false
+            type: enum
+          - description: null
+            display_name: Downloadable
+            enum_values:
+              - 'yes'
+              - 'no'
+            id: downloadable
+            required: false
+            type: enum
+        max_custom_fields: 10
+        standard_fields:
+          - description: null
+            id: description
+            required: false
+          - description: null
+            id: tags
+            required: false
+      properties:
+        custom_fields:
+          description: array of standard field maps
+          items:
+            $ref: '#/components/schemas/Videofields.customField'
+          type: array
+        max_custom_fields:
+          description: maximum number of custom fields for the account
+          type: string
+        standard_fields:
+          description: array of standard field maps
+          items:
+            $ref: '#/components/schemas/Videofields.standardField'
+          type: array
+      title: VideoFields
+      type: object
+    VideoImages:
+      description: map of image maps
+      example:
+        poster:
+          sources:
+            - height: 720
+              src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg'
+              width: 1280
+          src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg'
+        thumbnail:
+          sources:
+            - height: 90
+              src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg'
+              width: 160
+          src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg'
+      properties:
+        poster:
+          $ref: '#/components/schemas/Image'
+        thumbnail:
+          $ref: '#/components/schemas/Image'
+      readOnly: true
+      title: VideoImages
+      type: object
     VideoShare:
-      title: VideoShare
+      example:
+        - affiliate_id: '47509719001'
+          affiliate_video_id: '5766941108001'
+          error_message: null
+          shared_at: '2018-04-09T13:43:04.284Z'
+          status: COMPLETE
+          updated_at: '2018-04-09T13:43:13.687Z'
+          video_id: '5341769699001'
+      properties:
+        affiliate_id:
+          description: the id of the affiliate account the video is shared to
+          type: string
+        affiliate_video_id:
+          description: the id of the shared video in the affiliate account
+          type: string
+        shared_at:
+          description: when the video was shared
+          type: string
+        status:
+          description: 'the status of the sharing - either PROCESSING, COMPLETE, or FAILED'
+          type: string
+        updated_at:
+          description: the video was last updated in the affiliate account
+          type: string
+        video_id:
+          description: the video id
+          type: string
       required:
         - video_id
         - affiliate_id
         - affiliate_video_id
+      title: VideoShare
       type: object
+    VideoSources:
+      example:
+        - ext_x_version: '4'
+          src: 'https://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/10s/master.m3u8?fastly_token=NWJiMmIyNmNfMWM3YmVhZTA5OTc4YjM4ZjZiZjU1OTk0ZTkzZTUyMzhhNGU5Zjc5YTNkZGYwYWQyNWZkMTcyMGM1MzlmMWVmZg%3D%3D'
+          type: application/x-mpegURL
+          uploaded_at: '2017-06-05T11:20:53.731Z'
+        - ext_x_version: '5'
+          src: 'https://manifest.prod.boltdns.net/manifest/v1/hls/v5/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/10s/master.m3u8?fastly_token=NWJiMmIyNmNfNDc4YjJiNTM1YzkwYzcwNzliNmY3MDVjMzJmZjJhZjdmNjAxMzM0NWEzMTk3MzY2MGIwYWZhNzVhYjMyMzNhYg%3D%3D'
+          type: application/x-mpegURL
+          uploaded_at: '2017-06-05T11:20:53.731Z'
+        - profiles: 'urn:mpeg:dash:profile:isoff-live:2011'
+          src: 'https://manifest.prod.boltdns.net/manifest/v1/dash/live-baseurl/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/2s/manifest.mpd?fastly_token=NWJiMmIyNmNfYjM3YTFiZjU5MmJjNzQzZjFkZTVlZmY0NTVhNmYxMzU3N2M2ODk5MmU1YjkyNDg5ZWRlNWRmMGNlODdjYjg5YQ%3D%3D'
+          type: application/dash+xml
+          uploaded_at: '2017-06-05T11:20:53.731Z'
+        - codec: H264
+          container: MP4
+          duration: 49690
+          encoding_rate: 2129000
+          height: 720
+          remote: false
+          size: 13242064
+          src: 'https://bcbolt446c5271-a.akamaihd.net/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/high.mp4?akamai_token=exp=1538437740~acl=/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/high.mp4*~hmac=619d67d75397e01c0bb9bd88ea047ace80bd03b56261337233b5d53f2632c690'
+          uploaded_at: '2017-06-05T11:20:53.731Z'
+          width: 1280
+        - codec: H264
+          container: MP4
+          duration: 49690
+          encoding_rate: 574000
+          height: 270
+          remote: false
+          size: 3586929
+          src: 'https://bcbolt446c5271-a.akamaihd.net/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/mid.mp4?akamai_token=exp=1538437740~acl=/media/v1/pmp4/static/clear/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/mid.mp4*~hmac=fde050eac8c8d3bb5b6c9141639a3dc770b8b8a3a3f88f5436c803b133d940fc'
+          uploaded_at: '2017-06-05T11:20:53.731Z'
+          width: 480
       properties:
-        video_id:
-          type: string
-          description: the video id
-        affiliate_id:
-          type: string
-          description: the id of the affiliate account the video is shared to
-        affiliate_video_id:
-          type: string
-          description: the id of the shared video in the affiliate account
-        status:
-          type: string
-          description: 'the status of the sharing - either PROCESSING, COMPLETE, or FAILED'
-        shared_at:
-          type: string
-          description: when the video was shared
-        updated_at:
-          type: string
-          description: the video was last updated in the affiliate account
-      example: [
-          {
-            "video_id": "5341769699001",
-            "affiliate_id": "47509719001",
-            "affiliate_video_id": "5766941108001",
-            "status": "COMPLETE",
-            "error_message": null,
-            "shared_at": "2018-04-09T13:43:04.284Z",
-            "updated_at": "2018-04-09T13:43:13.687Z"
-          }
-        ]
-    AddAffiliate:
-      title: AddAffiliate
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: affiliate account id
-      example: {
-          "account_id": "1937897674001"
-        }
-    Channel:
-      title: Channel
-      description: the channel this contract belongs to
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: master account id
-        name:
-          type: string
-          description: channel name
-        enforce_custom_fields:
-          type: boolean
-          description: >-
-            if true, will allow sharing only if the affiliate account has all
-            custom fields that have values for the video to be shared
-        enforce_geo:
-          type: boolean
-          description: 'if true, and master account is enabled for geo-filtering'
-        account_name:
-          type: string
-          description: master account name
-        created_at:
-          type: string
-          description: when the channel was created
+        app_name:
+          description: address for RTMP stream
           readOnly: true
-        updated_at:
           type: string
-          description: when the channel was last updated
-      example: [
-          {
-            "account_id": "1486906377",
-            "name": "default",
-            "enforce_custom_fields": false,
-            "enforce_geo": true,
-            "account_name": "Brightcove Training",
-            "created_at": "2017-09-27T13:54:08.661Z",
-            "updated_at": "2017-09-27T13:54:08.661Z"
-          }
-        ]
-    Contract:
-      title: Contract
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: affiliate account id
-        approved:
-          type: boolean
-          description: whether the contract is approved
-        auto_accept:
-          type: boolean
-          description: whether shared videos will be automatically accepted
-        approved_at:
-          type: string
-          description: when the contract was approved
-        created_at:
-          type: string
-          description: when the contract was created
+        asset_id:
+          description: system id for the rendition
           readOnly: true
-        updated_at:
           type: string
-          description: when the contract was last updated
-          readOnly: true
-        channel:
-          $ref: '#/components/schemas/Channel'
-      example: [
-          {
-            "account_id": "1485884786001",
-            "channel": {
-              "account_id": "57838016001",
-              "name": "default"
-            },
-            "approved": true,
-            "auto_accept": true,
-            "approved_at": "2017-08-27T12:27:21.582Z",
-            "created_at": "2017-08-23T17:45:41.556Z",
-            "updated_at": "2017-12-27T19:29:49.498Z",
-            "channel_account_name": "BrightcoveLearning"
-          }
-        ]
-    ChannelAffiliate:
-      title: ChannelAffiliate
-      required:
-        - account_id
-        - account_name
-        - approved
-      type: object
-      properties:
-        account_id:
+        codec:
+          description: the video codec for the rendition
           type: string
-          description: affiliate account id
-        account_name:
+        container:
+          description: the video container for the rendition
           type: string
-          description: affiliate account name
-        approved:
-          type: boolean
-          description: whether the affiliate has approved the relationship
-      example: [
-          {
-            "account_id": "57838016001",
-            "approved": true,
-            "account_name": "BrightcoveLearning"
-          },
-          {
-            "account_id": "1481353044001",
-            "approved": true,
-            "account_name": "BC - Bob Bailey"
-          },
-          {
-            "account_id": "301925175",
-            "approved": true,
-            "account_name": "BC Studio Home Page Player - EN"
-          }
-        ]
-    VideoAsset:
-      title: VideoAsset
-      type: object
-      properties:
-        controller_type:
-          type: string
-          description: >-
-            the controller type for ingested renditions (not applicable to
-            remote renditions or other types of assets)
-        current_filename:
-          type: string
-          description: >-
-            the filename for an ingested asset in the Video Cloud system (not
-            applicable to remote assets)
-        drm:
-          $ref: '#/components/schemas/Drm'
+        duration:
+          description: duration in milliseconds
+          type: integer
         encoding_rate:
+          description: encoding rate in bps
           type: integer
-          description: average encoding rate in kbps
-        frame_height:
-          type: integer
+        height:
           description: frame height in pixels
-        frame_width:
+          readOnly: true
           type: integer
+        remote:
+          description: whether the source is a remote asset
+          type: boolean
+        size:
+          description: file size in bytes
+          type: integer
+        src:
+          description: URL for HTTP rendition
+          readOnly: true
+          type: string
+        stream_name:
+          description: the stream name on the CDN
+          readOnly: true
+          type: string
+        type:
+          description: the type for segmented streams
+          readOnly: true
+          type: string
+        uploaded_at:
+          description: date/time when the video was uploaded
+          readOnly: true
+          type: string
+        width:
           description: frame width in pixels
-        key_systems:
-          type: array
+          readOnly: true
+          type: integer
+      title: VideoSources
+      type: object
+    Videofields.customField:
+      properties:
+        description:
+          description: description (instruction for user)
+          type: string
+        display_name:
+          description: display name
+          type: string
+        enum_values:
+          description: array of string values for select type fields
           items:
             type: string
-          description: >-
-            array of strings that denote the kind of encryption used for DRM
-            packaged renditions
-        name:
-          type: string
-          description: asset name
-        progressive_download:
-          type: boolean
-          description: >-
-            whether ingested rendition is available by progressive download (not
-            applicable to other asset types or remote renditions)
-        reference_id:
-          type: string
-          description: the media asset reference id (must be unique within the account) - this is **not** the same as the video reference id
-        remote_url:
-          type: string
-          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
-          maxLength: 250
-        remote_stream_name:
-          type: string
-          description: >-
-            name for remote streams (not applicable to asset types other than
-            rendition)
-        size:
-          type: integer
-          description: the size of the asset in bytes (integer)
-        type:
-          type: string
-          description: the type of the asset
-        video_codec:
-          type: string
-          description: not applicable to remote assets
-        video_container:
-          type: string
-          description: not applicable to remote assets
-        video_duration:
-          type: integer
-          description: duration in milliseconds
-        account_id:
-          type: string
-          description: the Video Cloud account id
+          type: array
         id:
+          description: 'data name for the field (used to access it in searches, etc.)'
           type: string
-          description: the asset id
-          readOnly: true
-        audio_only:
+        required:
+          description: whether field must have a value before video can be active
           type: boolean
-          description: >-
-            this rendition contains only an audio track, no video track (a
-            rendition for low bandwidth devices)
-        cdn_origin_id:
-          type: string
-          description: an internally used id (not applicable to remote assets)
-        complete:
-          type: boolean
-          description: >-
-            whether processing is complete for the asset (will be true for
-            remote assets if a remote_url is supplied)
-        updated_at:
-          type: string
-          description: when the video was last modified
-        uploaded_at:
-          type: string
-          description: when the asset was added to the video in Video Cloud
-      example: [
-          {
-            "id": "5819042450001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "8801",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "57838016001_5819042450001_5819044609001.zip",
-            "key_systems": [
-
-            ],
-            "name": "greatblueheron.mp4",
-            "progressive_download": true,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "",
-            "size": 2112932,
-            "type": "FULL_LENGTH",
-            "uploaded_at": "2018-08-07T14:05:44.835Z",
-            "updated_at": "2018-08-07T14:05:47.045Z",
-            "drm": null,
-            "encoding_rate": 512000,
-            "frame_height": 270,
-            "frame_width": 480,
-            "hds": null,
-            "hls": null,
-            "video_codec": "H264",
-            "video_container": "M2TS",
-            "video_duration": 31398
-          },
-          {
-            "id": "5819042821001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "6101",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "57838016001_5819042821001_5819044609001-th.jpg",
-            "key_systems": [
-
-            ],
-            "name": "greatblueheron.mp4 Thumbnail",
-            "progressive_download": false,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "",
-            "size": 5430,
-            "type": "THUMBNAIL",
-            "uploaded_at": "2018-08-07T14:05:33.672Z",
-            "updated_at": "2018-08-15T06:03:41.209Z",
-            "frame_height": 90,
-            "frame_width": 160
-          },
-          {
-            "id": "5819043030001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "57838016001_5819043030001_5819044609001.mp4",
-            "key_systems": [
-
-            ],
-            "name": "greatblueheron.mp4",
-            "progressive_download": true,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "",
-            "size": 90990884,
-            "type": "DIGITAL_MASTER",
-            "uploaded_at": "2018-08-07T14:05:31.234Z",
-            "updated_at": "2018-08-07T14:05:33.714Z",
-            "drm": null,
-            "encoding_rate": 23152000,
-            "frame_height": 1080,
-            "frame_width": 1920,
-            "hds": null,
-            "hls": null,
-            "video_codec": "H264",
-            "video_container": "MP4",
-            "video_duration": 31431
-          },
-          {
-            "id": "5819043232001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "8801",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "57838016001_5819043232001_5819044609001.m3u8",
-            "key_systems": [
-
-            ],
-            "name": "greatblueheron.mp4",
-            "progressive_download": false,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "",
-            "size": 0,
-            "type": "HLS_MANIFEST",
-            "uploaded_at": "2018-08-07T14:05:57.105Z",
-            "updated_at": "2018-08-07T14:06:52.489Z",
-            "video_duration": 0
-          },
-          {
-            "id": "5819043394001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "6101",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "57838016001_5819043394001_5819044609001-vs.jpg",
-            "key_systems": [
-
-            ],
-            "name": "greatblueheron.mp4 Video Still",
-            "progressive_download": false,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "",
-            "size": 139316,
-            "type": "VIDEO_STILL",
-            "uploaded_at": "2018-08-07T14:05:35.253Z",
-            "updated_at": "2018-08-15T06:03:41.210Z",
-            "frame_height": 720,
-            "frame_width": 1280
-          },
-          {
-            "id": "5819491822001",
-            "account_id": "57838016001",
-            "audio_only": false,
-            "cdn_origin_id": "",
-            "complete": true,
-            "controller_type": "DEFAULT",
-            "current_filename": "",
-            "key_systems": [
-
-            ],
-            "name": "",
-            "progressive_download": false,
-            "reference_id": "",
-            "remote_stream_name": "",
-            "remote_url": "http://learning-services-media.brightcove.com/videos/hls/greatblueheron/greatblueheron.mpd",
-            "size": 0,
-            "type": "MPD_MANIFEST",
-            "uploaded_at": "2018-08-08T12:02:03.059Z",
-            "updated_at": "2018-08-08T12:02:03.059Z",
-            "profiles": null,
-            "video_duration": 31
-          }
-        ]
-    Manifest:
-      title: Manifest
-      type: object
-      properties:
-        audio_only:
-          type: boolean
-          description: not applicable to ism_manifests
-        controller_type:
-          type: string
-          description: >-
-            the controller type for ingested renditions (not applicable to
-            remote renditions or other types of assets)
-        current_filename:
-          type: string
-          description: >-
-            the filename for an ingested asset in the Video Cloud system (not
-            applicable to remote assets)
-        name:
-          type: string
-          description: asset name
-        progressive_download:
-          type: boolean
-          description: >-
-            whether ingested rendition is available by progressive download (not
-            applicable to other asset types or remote renditions)
-        reference_id:
-          type: string
-          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
-        remote_url:
-          type: string
-          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
-          maxLength: 250
-        remote_stream_name:
-          type: string
-          description: >-
-            name for remote streams (not applicable to asset types other than
-            rendition)
-        size:
-          type: integer
-          description: the size of the asset in bytes (integer)
         type:
+          description: custom field type (enum or string)
           type: string
-          description: the type of the asset
-        video_duration:
-          type: integer
-          description: >-
-            video duration in seconds (present if you included it when you
-            created the asset)
+      title: VideoFields.custom_field
+      type: object
+    Videofields.standardField:
+      properties:
+        description:
+          description: description (instruction for user)
+          type: string
         id:
+          description: 'data name for the field (used to access it in searches, etc.)'
           type: string
-          description: the asset id
-          readOnly: true
-        complete:
+        required:
+          description: whether field must have a value before video can be active
           type: boolean
-          description: >-
-            whether processing is complete for the asset (will be true for
-            remote assets if a remote_url is supplied)
-        cdn_origin_id:
-          type: string
-          description: an internally used id (not applicable to remote assets)
-        updated_at:
-          type: string
-          description: when the video was last modified
-        uploaded_at:
-          type: string
-          description: when the asset was added to the video in Video Cloud
-      example: {
-          "id": "5819043232001",
-          "account_id": "57838016001",
-          "audio_only": false,
-          "cdn_origin_id": "8801",
-          "complete": true,
-          "controller_type": "DEFAULT",
-          "current_filename": "57838016001_5819043232001_5819044609001.m3u8",
-          "key_systems": [
-          ],
-          "name": "greatblueheron.mp4",
-          "progressive_download": false,
-          "reference_id": "",
-          "remote_stream_name": "",
-          "remote_url": "",
-          "size": 0,
-          "type": "HLS_MANIFEST",
-          "uploaded_at": "2018-08-07T14:05:57.105Z",
-          "updated_at": "2018-08-07T14:06:52.489Z",
-          "video_duration": 0
-        }
-    ImageAsset:
-      title: ImageAsset
+      title: VideoFields.standard_field
       type: object
-      properties:
-        audio_only:
-          type: boolean
-          description: not applicable to posters
-        controller_type:
-          type: string
-          description: >-
-            the controller type for ingested renditions (not applicable to
-            remote renditions or other types of assets)
-        current_filename:
-          type: string
-          description: >-
-            the filename for an ingested asset in the Video Cloud system (not
-            applicable to remote assets)
-        name:
-          type: string
-          description: asset name
-        progressive_download:
-          type: boolean
-          description: >-
-            whether ingested rendition is available by progressive download (not
-            applicable to other asset types or remote renditions)
-        reference_id:
-          type: string
-          description: the asset reference id (must be unique within the account); this is **not** the same as the video reference id
-        remote_url:
-          type: string
-          description: the url for a remote asset (not applicable to ingested assets); **`remote_url` is required when adding an asset (POST)**
-          maxLength: 250
-        remote_stream_name:
-          type: string
-          description: >-
-            name for remote streams (not applicable to asset types other than
-            rendition)
-        size:
-          type: integer
-          description: the size of the asset in bytes (integer)
-        type:
-          type: string
-          description: the type of the asset
-        id:
-          type: string
-          description: the asset id
-          readOnly: true
-        complete:
-          type: boolean
-          description: >-
-            whether processing is complete for the asset (will be true for
-            remote assets if a remote_url is supplied)
-        cdn_origin_id:
-          type: string
-          description: an internally used id (not applicable to remote assets)
-        updated_at:
-          type: string
-          description: when the video was last modified
-        uploaded_at:
-          type: string
-          description: when the asset was added to the video in Video Cloud
-      example: {
-          "id": "5510492050001",
-          "account_id": "1752604059001",
-          "audio_only": false,
-          "cdn_origin_id": "5602",
-          "complete": true,
-          "controller_type": "DEFAULT",
-          "current_filename": "1752604059001_5510492050001_5510487311001-vs.jpg",
-          "key_systems": [
-          ],
-          "name": "Lightning-over-mosque-Utrecht.m4v Video Still",
-          "progressive_download": false,
-          "reference_id": "",
-          "remote_stream_name": "",
-          "remote_url": "",
-          "size": 41742,
-          "type": "VIDEO_STILL",
-          "uploaded_at": "2017-07-17T17:46:17.295Z",
-          "updated_at": "2017-07-26T07:02:42.077Z",
-          "frame_height": 720,
-          "frame_width": 1280
-        }
-    DynamicRendition:
-      title: DynamicRendition
-      type: object
-      properties:
-        rendition_id:
-          type: string
-          description: the rendition id
-          readOnly: true
-        media_type:
-          type: boolean
-          description: media type for the rendition (audio or video)
-          readOnly: true
-          enum:
-            - audio
-            - video
-        encoding_rate:
-          type: integer
-          description: average encoding rate in kbps
-          readOnly: true
-        frame_height:
-          type: integer
-          description: frame height in pixels
-          readOnly: true
-        frame_width:
-          type: integer
-          description: frame width in pixels
-          readOnly: true
-        size:
-          type: integer
-          description: the size of the asset in bytes (integer)
-          readOnly: true
-        updated_at:
-          type: string
-          description: when the video was last modified
-          readOnly: true
-        uploaded_at:
-          type: string
-          description: when the asset was added to the video in Video Cloud
-          readOnly: true
-        duration:
-          type: integer
-          description: duration in milliseconds
-          readOnly: true
-        audio_configuration:
-          type: string
-          description: The audio configuration of the audio track
-          readOnly: true
-        variant:
-          type: string
-          description: 'The variant of the HLS profile (baseline, main, or high)'
-          readOnly: true
-          enum:
-            - baseline
-            - main
-            - high
-      example: [
-          {
-            "rendition_id": "default/audio128",
-            "frame_height": null,
-            "frame_width": null,
-            "media_type": "audio",
-            "size": 506818,
-            "created_at": "2016-11-14T15:05:56.209Z",
-            "updated_at": "2016-11-14T15:05:56.209Z",
-            "encoding_rate": 125000,
-            "duration": 31488,
-            "audio_configuration": "L_R",
-            "language": "en",
-            "variant": "main"
-          },
-          {
-            "rendition_id": "default/video900",
-            "frame_height": 360,
-            "frame_width": 640,
-            "media_type": "video",
-            "size": 3561912,
-            "created_at": "2016-11-14T15:06:17.295Z",
-            "updated_at": "2016-11-14T15:06:17.295Z",
-            "encoding_rate": 902000,
-            "duration": 31465,
-            "variant": "main"
-          }
-        ]
-    PlaylistCount:
-      title: Get_Playlist_CountResponse
-      type: object
-      properties:
-        count:
-          type: integer
-          description: count of videos
-      example: {
-          "count": 84
-        }
-    VideoCountInPlaylist:
-      title: Get_Video_Count_in_PlaylistResponse
-      type: object
-      properties:
-        count:
-          type: integer
-          description: count of videos
-      example: {
-          "count": 5
-        }
-    VideoCount:
-      title: Get_Video_CountResponse
-      type: object
-      properties:
-        count:
-          type: integer
-          description: count of videos
-      example: {
-          "count": 7650
-        }
   securitySchemes:
     BC_OAuth2:
       type: oauth2

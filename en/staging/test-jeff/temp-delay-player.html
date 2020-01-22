@@ -256,6 +256,59 @@
   // You can pass custom arguments to bc, as normal, if needed.
   bc();
 });</code></pre>
+<h3>
+  Example
+</h3>
+<p>
+  Here is some example code.
+</p>
+<h4>HTML</h4>
+<p>
+  This is the HTML for the example.
+</p>
+<pre class="line-numbers">
+<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
+	data-embed=&quot;default&quot;
+	data-application-id
+	class=&quot;video-js&quot;
+	controls
+	width=&quot;640&quot;
+	height=&quot;360&quot;&gt;&lt;/video-js&gt;
+&lt;script src=&quot;//players.brightcove.net/1752604059001/W6RmT8TVL_default/index.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<h4>JavaScript</h4>
+<p>
+  This is the JavaScript for the example.
+</p>
+<pre class="line-numbers">
+<code class="language-javascript">&lt;script type=&quot;text/javascript&quot;&gt;
+  // +++ Define the player options +++
+  var options = {
+    controlBar: {
+      volumePanel: {
+        inline: false,
+        vertical: true
+      }
+    }
+  };
+
+  // +++ Add the player attributes +++
+  var myPlayer,
+		myPlayerEl = document.getElementById(&quot;myPlayerID&quot;);
+  myPlayerEl.setAttribute('data-account', 1752604059001);
+  myPlayerEl.setAttribute('data-player', 'W6RmT8TVL');
+  myPlayerEl.setAttribute('data-video-id', 5802784116001);
+
+  // +++ Create the player +++
+  bc.usingAdBlocker().then(function() {
+    myPlayer = bc(myPlayerEl, options);
+
+    // +++ Optionally, mute and start playback +++
+    myPlayer.on('loadedmetadata',function(){
+      myPlayer.muted(true);
+      myPlayer.play();
+    });
+  });
+&lt;/script&gt;</code></pre>
 
 
 

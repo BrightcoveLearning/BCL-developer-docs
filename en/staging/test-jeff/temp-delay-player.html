@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Delaying Player Instantiation</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Delaying Player Instantiation</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how to delay instantiation of Brightcove Player when an HTML page is browsed. Use cases where this technique is helpful are, for example, lightbox styles and single page web apps where the page with the player is not initially instantiated.</summary>
+      <!-- <aside class="bcls-aside bcls-aside--warning">The React Player Loader is an open source tool and is NOT officially supported by Brightcove.</aside> -->
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-article">
+<section id="delayinstantiation" class="bcls-section">
+<h2>Delay instantiation</h2>
+
+<p>There are a few use cases where you will want to use the Advanced (in-page embed) player implementation code, but delay player instantiation. To do this, you have to alter the <code>&lt;videos-js&gt;</code> tag's attributes and use the <code>bc()</code> method to initialize the player. Note that the method can take either the player ID or the player element itself as an argument.</p>
+
+<aside class="bcls-aside bcls-aside--information">Note: If you wish to dynamically add the entire player the <a href="/node/18169">Brightcove Player Sample: Loading the Player Dynamically</a> document has instructions how to do so.</aside>
+</section>
+
+<section id="Modify_video-js_tag" class="bcls-section">
+<h2>Modify video-js tag</h2>
+
+<aside class="bcls-aside bcls-aside--information player-only">Note: If you are a Brightcove Player customer, you will not use the <code>data-video-id</code> attribute to assign a video to your player. You would either assign the video in the <strong>Players</strong> module, use curl or the <code>src</code> method (which is used in this document).</aside>
+
+<p>When delaying player instantiation, you CANNOT use all the <code>&lt;video-js&gt;</code> tag's attributes, or the player will be instantiated. You must remove three of the attributes from the standard Advanced (in-page embed) code. The attributes that need to be removed are:</p>
+
+<ul>
+	<li><code>data-account</code></li>
+	<li><code>data-player</code></li>
+	<li><code>data-video-id</code></li>
+</ul>
+
+<p>This leaves the following attributes in the <code>&lt;video-js&gt;</code> tag:</p>
+
+<ul>
+	<li><code>data-embed</code></li>
+	<li><code>class</code></li>
+	<li><code>controls (optional)</code></li>
+</ul>
+
+<p>The reason the attributes must be removed as any of those three attributes remain it will cause Brightcove Player to be instantiated.</p>
+
+<p>The Advanced code used should be patterned on the following code snippet. Note that an <code>id</code> is added to the tag.</p>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;video-js id="myPlayerID"
+  data-embed="default"
+  class="video-js" controls&gt;&lt;/video-js&gt;
+
+&lt;script src="https://players.brightcove.net/1507807800001/5e28670f-28ce-4ed6-8809-227784965834_default/index.min.js"&gt;&lt;/script&gt;</code></pre>
+
+<p>These changes to the Advanced code and JavaScript code shown below work together to delay the instantiation of the player.</p>
+</section>
+
+<section id="JavaScript_used" class="bcls-section">
+<h2>JavaScript used</h2>
+
+<p>A very common practice is to use code similar to the following to prepare to programmatically interact with the player:</p>
+
+<pre class="line-numbers">
+<code class="language-javascript">videojs.getPlayer('myPlayerID').ready(function() {
+  var myPlayer = this;
+});</code></pre>
+
+<p>This approach cannot be used as it would instantiate the player. Instead, you will use the <code>bc()</code> method to instantiate the player AFTER other preferences have been set. This <code>bc()</code> method is used to create a new instance of Brightcove Player and is normally automatically called when using the <code>&lt;video-js&gt;</code> tag, unless the steps detailed here are followed.</p>
+
+<div class="video-cloud-only">
+<ul>
+	<li>Lines 2-3: Declare a variable for the player, and get the <code>video-js</code> element.</li>
+	<li>Lines 4-5: Use the JavaScript <code>setAttribute()</code> method to set the <code>data-account</code> and <code>data-player</code>. This is important for tracking analytics and other services.</li>
+	<li>Line 6: Uses the JavaScript <code>setAttribute()</code> method to set the video ID.</li>
+	<li>Line 9: Uses the <code>bc()</code> method to initialize the player.</li>
+	<li>Lines 12-15: Programmatically plays the video. Waiting for the <code>loadedmetadata</code> event to dispatch ensures the video has been retrieved by the catalog before it tries to play.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;script type="text/javascript"&gt;
+  var myPlayer,
+    vTag = document.getElementById('myPlayerID');
+  vTag.setAttribute('data-account', 1507807800001);
+  vTag.setAttribute('data-player', 'BdGVdOd36');
+  vTag.setAttribute('data-video-id', 2114345470001);
+
+  // Use the bc() method to initialize the Brightcove Player
+  myPlayer = <span class="bcls-highlight">bc(vTag)</span>;
+
+  // Mute (in case there is an audio track, in which case play won't work) and play the video
+  myPlayer.on('loadedmetadata',function(){
+    myPlayer.muted(true);
+    myPlayer.play();
+  });
+&lt;/script&gt;</code></pre>
+</div>
+
+<div class="player-only">
+<ul>
+	<li>Lines 2-3: Declare a variable for the player, and get the <code>video-js</code> element.</li>
+	<li>Lines 4-5: Use the JavaScript <code>setAttribute()</code> method to set the <code>data-account</code> and <code>data-player</code>. This is important for tracking analytics and other services.</li>
+	<li>Line 8: Uses the <code>bc()</code> method to initialize the player.</li>
+	<li>Line 10: Sets the <code>src</code> for the player. It is <strong>very important</strong> to set both the <code>src</code> and <code>type</code> for the source object. Problems can occur in some browsers if the first option in playback technology order does not match the video's type.</li>
+	<li>Line 13: Programmatically plays the video. Of course, this is not required.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;script type="text/javascript"&gt;
+  var myPlayer,
+    vTag = document.getElementById('myPlayerID');
+  vTag.setAttribute('data-account', 1507807800001);
+  vTag.setAttribute('data-player', 'BdGVdOd36');
+
+  // Use the bc() method to initialize the Brightcove Player
+  myPlayer = <span class="bcls-highlight">bc(vTag)</span>;
+
+  myPlayer.src({ src: "//solutions.brightcove.com/bcls/assets/videos/Tiger.m3u8", type: "application/x-mpegURL"});
+  // Mute (in case there is an audio track, in which case play won't work) and play the video
+  myPlayer.muted(true);
+  myPlayer.play();
+&lt;/script&gt; </code></pre>
+</div>
+
+<aside class="bcls-aside bcls-aside--tip">
+<p>Alternatively, if you are comfortable addressing elements directly by ID you can use this more concise code:</p>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;script type="text/javascript"&gt;
+  var myPlayer;
+  myPlayerID.setAttribute('data-account', 1507807800001);
+  myPlayerID.setAttribute('data-player', 'BdGVdOd36');
+  myPlayerID.setAttribute('data-video-id', 2114345470001);
+
+  // Use the bc() method to initialize the Brightcove Player
+  myPlayer = bc('myPlayerID');
+
+  // Mute (in case there is an audio track, in which case play won't work) and play the video
+  myPlayer.on('loadedmetadata',function(){
+    myPlayer.muted(true);
+    myPlayer.play();
+  });
+&lt;/script&gt;</code></pre>
+</aside>
+
+<h4>No <code>id</code> on the player</h4>
+
+<p>If for some reason you do not wish to use an <code>id</code> with your player, you can use the following code to delay instantiation.</p>
+
+<div class="video-cloud-only">
+<ul>
+	<li>Lines 3-4: Declare a variable for the player, and get the <code>video-js</code> element.</li>
+	<li>Lines 7-8: Use the JavaScript <code>setAttribute()</code> method to set the <code>data-account</code> and <code>data-player</code>. This is important for tracking analytics and other services.</li>
+	<li>Line 9: Uses the JavaScript <code>setAttribute()</code> method to set the video ID.</li>
+	<li>Line 12: Uses the <code>bc()</code> method to initialize the player.</li>
+	<li>Lines 15-18: Programmatically plays the video. Waiting for the <code>loadedmetadata</code> event to dispatch ensures the video has been retrieved by the catalog before it tries to play.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;script type="text/javascript"&gt;
+  // Retrieve the element by tag name, returns an array so use the zeroth array element
+  var myPlayer,
+    vTag = document.getElementsByTagName('video-js')[0];
+
+  // Assign the needed attributes
+  vTag.setAttribute('data-account', 1507807800001);
+  vTag.setAttribute('data-player', 'BdGVdOd36');
+  vTag.setAttribute('data-video-id', 2114345470001);
+
+  // Use the bc() method to initialize the Brightcove Player
+  myPlayer = bc(vTag);
+
+  // Mute (in case there is an audio track, in which case play won't work) and play the video
+  myPlayer.on('loadedmetadata',function(){
+    myPlayer.muted(true);
+    myPlayer.play();
+  });
+&lt;/script&gt;</code></pre>
+</div>
+
+<div class="player-only">
+<ul>
+	<li>Lines 3-4: Declare a variable for the player, and get the <code>video-js</code> element.</li>
+	<li>Lines 7-8: Use the JavaScript <code>setAttribute()</code> method to set the <code>data-account</code> and <code>data-player</code>. This is important for tracking analytics and other services.</li>
+	<li>Line 11: Uses the <code>bc()</code> method to initialize the player.</li>
+	<li>Line 13: Sets the <code>src</code> for the player. It is <strong>very important</strong> to set both the <code>src</code> and <code>type</code> for the source object. Problems can occur in some browsers if the first option in playback technology order does not match the video's type.</li>
+	<li>Line 16: Programmatically plays the video. Of course, this is not required.</li>
+</ul>
+
+<pre class="line-numbers">
+<code class="language-html">&lt;script type="text/javascript"&gt;
+  // Retrieve the element by tag name, returns an array so use the zeroth array element
+  var myPlayer,
+    vTag = document.getElementsByTagName('video-js')[0];
+
+  // Assign the needed attributes
+  vTag.setAttribute('data-account', 1507807800001);
+  vTag.setAttribute('data-player', 'BdGVdOd36');
+
+  // Use the bc() method to initialize the Brightcove Player
+  myPlayer = bc('vTag');
+
+  myPlayer.src({ src: "//solutions.brightcove.com/bcls/assets/videos/Tiger.m3u8", type: "application/x-mpegURL"});
+  // Mute (in case there is an audio track, in which case play won't work) and play the video
+  myPlayer.muted(true);
+  myPlayer.play();
+&lt;/script&gt; </code></pre>
+</div>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+
+</html>

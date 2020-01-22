@@ -44,8 +44,8 @@
 
 
 <article class="bcls-article">
-<section id="delayinstantiation" class="bcls-section">
-<h2>Delay instantiation</h2>
+<section class="bcls-section">
+<h2 id="Delay_instantiation">Delay instantiation</h2>
 
 <p>There are a few use cases where you will want to use the Advanced (in-page embed) player implementation code, but delay player instantiation. To do this, you have to alter the <code>&lt;videos-js&gt;</code> tag's attributes and use the <code>bc()</code> method to initialize the player. Note that the method can take either the player ID or the player element itself as an argument.</p>
 
@@ -87,8 +87,8 @@
 <p>These changes to the Advanced code and JavaScript code shown below work together to delay the instantiation of the player.</p>
 </section>
 
-<section id="JavaScript_used" class="bcls-section">
-<h2>JavaScript used</h2>
+<section class="bcls-section">
+<h2 id="JavaScript_used">JavaScript used</h2>
 
 <p>A very common practice is to use code similar to the following to prepare to programmatically interact with the player:</p>
 
@@ -219,7 +219,7 @@
 </ul>
 
 <pre class="line-numbers">
-<code class="language-html">&lt;script type="text/javascript"&gt;
+<code class="language-javascript">&lt;script type="text/javascript"&gt;
   // Retrieve the element by tag name, returns an array so use the zeroth array element
   var myPlayer,
     vTag = document.getElementsByTagName('video-js')[0];
@@ -237,6 +237,28 @@
   myPlayer.play();
 &lt;/script&gt; </code></pre>
 </div>
+</section>
+
+<section class="bcls-section">
+<h2 id="CSAI_with_SSAI_ad_failover">CSAI with SSAI ad failover</h2>
+<p>
+  With ad failover turned on, the Brightcove Player detects if an ad blocker is present in the browser. If not, your client-side ads (CSAI) are played. If an ad blocker is detected, then the player automatically requests your server-side ads (SSAI). For details, see the <a href="node/18586">SSAI: Ad Block Detection and Auto-Failover</a> document.
+</p>
+<p>
+  By default, calling the <code>bc()</code> method forces the player to initialize immediately. If you want to use ad failover with the <code>bc()</code> method, you need to wait for the player to check if an ad blocker is present. You can do this with the following code:
+</p>
+<pre class="line-numbers">
+<code class="language-javascript">bc.usingAdBlocker().then(function() {
+  // The promise callback receives a true/false result, which is stored
+  // internally, so future bc() calls will use it. There is no need to
+  // handle it yourself.
+  //
+  // You can pass custom arguments to bc, as normal, if needed.
+  bc();
+});</code></pre>
+
+
+
 </section>
 </article>
 

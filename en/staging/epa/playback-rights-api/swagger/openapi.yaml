@@ -56,7 +56,7 @@ paths:
           description: 'Playback right created'
           headers:
             Location:
-              description: Values include account_id and playback_rights_id
+              description: Values include account id and playback rights id
               schema:
                 type: string
                 example: "/v1/accounts/12345679001/playback_rights/111111b0-22a2-3b33-4ce4-555a55ef555d"
@@ -112,6 +112,73 @@ paths:
                     "error_code": "SERVER_ERROR",
                     "error_subcode": "PLAYBACK_RIGHT_STORE_FAILURE",
                     "message": "Cannot store playback right",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    get:
+      tags:
+        - Playback Rights
+      summary: Get all Playback Rights for an account
+      description: 'Get all Playback Rights for an account'
+      operationId: GetAllPlaybackRights
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/playback-rights/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'SUCCESS'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playback_rights'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid request Body
+        '404':
+          description: Playback rights not found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Playback rights not found",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "PLAYBACK_RIGHT_RETRIEVE_FAILURE",
+                    "message": "Cannot retrieve playback rights for account {account_id}",
                   },
                 ]
       deprecated: false
@@ -181,7 +248,7 @@ paths:
                   {
                     "error_code": "SERVER_ERROR",
                     "error_subcode": "PLAYBACK_RIGHT_RETRIEVE_FAILURE",
-                    "message": "Cannot retrieve playback right 37f696fb-6cf3-4670-8c1b-753d4c0a9bdb",
+                    "message": "Cannot retrieve playback right {playback_rights_id}",
                   },
                 ]
       deprecated: false
@@ -393,7 +460,7 @@ paths:
                   {
                     "error_code": "BAD_REQUEST",
                     "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in account_id",
+                    "message": "Invalid characters in {account_id}",
                   },
                 ]
         '404':
@@ -470,7 +537,7 @@ paths:
                   {
                     "error_code": "BAD_REQUEST",
                     "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in account_id",
+                    "message": "Invalid characters in {account_id}",
                   },
                 ]
         '404':
@@ -540,7 +607,7 @@ paths:
                   {
                     "error_code": "BAD_REQUEST",
                     "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in account_id",
+                    "message": "Invalid characters in {account_id}",
                   },
                 ]
         '404':
@@ -743,7 +810,7 @@ components:
       ],
       "allow_insecure": true,
       "disabled": false,
-      "external_id": "8f0b409f-e13e-4e7e-8004-fedd39933a10"
+      "external_id": "888888f-e11e-2e2e-3333-fedd44444a44"
       }
   securitySchemes:
     BC_OAuth2:

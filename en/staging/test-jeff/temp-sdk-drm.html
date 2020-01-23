@@ -42,8 +42,8 @@
 
 
 <article class="bcls-article">
-<section class="bcls-section" id="DRM_solutions">
-<h2>DRM solutions</h2>
+<section class="bcls-section">
+<h2 id="DRM_solutions">DRM solutions</h2>
 
 <p>For more information on Video Cloud support for DRM, see <a href="/node/18436">Overview: Digital Rights Management (DRM) in Video Cloud</a>.</p>
 
@@ -75,8 +75,8 @@
 The use of Widevine Classic has been deprecated. We encourage you to migrate to FairPlay Streaming.
 </aside> --></section>
 
-<section class="bcls-section" id="Video_Cloud_customers">
-<h2>Video Cloud customers</h2>
+<section class="bcls-section">
+<h2 id="Video_Cloud_customers">Video Cloud customers</h2>
 
 <p>In the following steps, you will create DRM-enabled content.</p>
 
@@ -86,11 +86,18 @@ The use of Widevine Classic has been deprecated. We encourage you to migrate to 
 
 <ol class="bcls-tasklist">
 	<li>
-	<p>If your account(s) is not already DRM-enabled, then contact your account manager to have it enabled.</p>
+	<p>If your account(s) is not DRM-enabled, contact your account manager to have it enabled.</p>
 
 	<aside class="bcls-aside bcls-aside--information">To use DRM encryption, your account must be enabled for these features. Contact your account manager for more information.</aside>
 	</li>
-	<li>If your account is enabled for <a href="/node/18476">Dynamic Delivery</a>, you videos will be automatically packaged for DRM when you ingest them (older videos will also be packaged automatically if they were ingested or have been re-transcoded using a Dynamic Delivery profile). If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.</li>
+	<li>
+    <p>
+      With accounts enabled for <a href="/node/18476">Dynamic Delivery</a> and DRM, your videos are automatically packaged for DRM when you ingest them. Since DRM is not retroactively applied to Dynamic Delivery assets, older content needs to be re-transcoded (our Engineering team can help apply DRM to pre-existing content).
+    </p>
+    <p>
+      If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.
+    </p>
+  </li>
 	<li>
 	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
 
@@ -110,71 +117,17 @@ The use of Widevine Classic has been deprecated. We encourage you to migrate to 
 
 <ol class="bcls-tasklist__restart">
 	<li>
-	<p>If your account(s) is not already DRM-enabled, then contact your account manager to have it enabled.</p>
+	<p>If your account(s) is not DRM-enabled, contact your account manager to have it enabled.</p>
 
 	<aside class="bcls-aside bcls-aside--information">To use DRM encryption, your account must be enabled for these features. Contact your account manager for more information.</aside>
 	</li>
-	<li>If your account is enabled for <a href="/node/18476">Dynamic Delivery</a>, you videos will be automatically packaged for DRM when you ingest them (older videos will also be packaged automatically if they were ingested or have been re-transcoded using a Dynamic Delivery profile). If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.</li>
 	<li>
-	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you will need to use the ExoPlayer video view. For more details see the following documents:</p>
-
-	<ul>
-		<li><a href="https://google.github.io/ExoPlayer/guide.html#digital-rights-management">DRM-protected content with the ExoPlayer</a></li>
-		<li><a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/WidevineModularSampleApp/src/main">Basic player sample using Widevine Modular</a></li>
-	</ul>
-	&nbsp;
-
-	<aside class="bcls-aside bcls-aside--tip">The ExoPlayer video view (<a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcoveExoPlayerVideoView.html">BrightcoveExoPlayerVideoView</a>) supports Widevine Modular without the need for additional plugins.</aside>
-	</li>
-</ol>
-</section>
-
-<section class="bcls-section" id="Perform_customers">
-<h2>Brightcove Player customers</h2>
-
-<h3>Using Apple FairPlay Streaming</h3>
-
-<p>If you are using Widevine Classic with your iOS apps, you can transition to using Apple FairPlay Streaming as follows:</p>
-
-<ol class="bcls-tasklist__restart">
-	<li>For FairPlay, you will need to produce DRM-protected content which uses HLS manifests with segmented and encrypted videos.</li>
-	<li>
-	<p>Since you will not be using the Brightcove FairPlay license server, you will need to define some properties related to the FairPlay license</p>
-
-	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
-
-	<ul>
-		<li><a href="https://docs.brightcove.com/ios-sdk/index.html#FairPlay">Migrating from the Brightcove FairPlay plugin</a></li>
-		<li><a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/FairPlay/BasicFairPlayPlayer/swift">Basic player sample using FairPlay</a></li>
-	</ul>
-	&nbsp;
-
-	<aside class="bcls-aside bcls-aside--information">To display FairPlay content on an external screen, see the <a href="/node/18228#Displaying_FairPlay_content_on_an_external_screen">iOS Code Snippets</a> document.</aside>
-	</li>
-</ol>
-
-<h3>Using Google Widevine Modular</h3>
-
-<p>If you are using Widevine Classic with your Android apps, you can transition to using Google Widevine Modular as follows:</p>
-
-<ol class="bcls-tasklist__restart">
-	<li>
-	<p>For Widevine Modular, you will need to produce DRM-protected content which uses MPEG-DASH manifests with segmented and encrypted videos.</p>
-	</li>
-	<li>
-	<p>The Brightcove Native SDK for Android is configured by default to use Brightcove's Widevine licensing server. Your videos will need to be configured to use your Widevine licensing server. Here is an example:</p>
-
-	<pre class="line-numbers">
-<code class="language-java">import com.brightcove.player.display.WidevineMediaDrmCallback;
-import com.brightcove.player.media.DeliveryType;
-import com.brightcove.player.model.Video;
-String performVideoUrl = "http://url.to.your.video";
-String performLicenseUrl = "https://url.to.your.licensing.server";
-Video performVideo = Video.createVideo(performVideoUrl, DeliveryType.DASH);
-performVideo.getProperties().put(WidevineMediaDrmCallback.DEFAULT_URL, performLicenseUrl);
-</code>
-</pre>
-	</li>
+    <p>
+      With accounts enabled for <a href="/node/18476">Dynamic Delivery</a> and DRM, your videos are automatically packaged for DRM when you ingest them. Since DRM is not retroactively applied to Dynamic Delivery assets, older content needs to be re-transcoded (our Engineering team can help apply DRM to pre-existing content).
+    </p>
+    <p>
+      If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.
+    </p>
 	<li>
 	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you will need to use the ExoPlayer video view. For more details see the following documents:</p>
 
@@ -190,9 +143,69 @@ performVideo.getProperties().put(WidevineMediaDrmCallback.DEFAULT_URL, performLi
 </section>
 
 <section class="bcls-section">
-<h2 id="legacy_ingest">For customers using legacy ingestion</h2>
+<h2 id="Brightcove_Player_customers">Brightcove Player customers</h2>
 
-<p>For customers using the legacy ingest system (not <a href="/node/18476">Dynamic Delivery</a>), you will need to follow the steps below to package for you videos for DRM.</p>
+<h3>Using Apple FairPlay Streaming</h3>
+
+<p>If you are using Widevine Classic with your iOS apps, you can transition to using Apple FairPlay Streaming as follows:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>For FairPlay, you need to produce DRM-protected content which uses HLS manifests with segmented and encrypted videos.</li>
+	<li>
+	<p>Since you will not be using the Brightcove FairPlay license server, you need to define some properties related to the FairPlay license</p>
+
+	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
+
+	<ul>
+		<li><a href="https://docs.brightcove.com/ios-sdk/index.html#FairPlay">Migrating from the Brightcove FairPlay plugin</a></li>
+		<li><a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/FairPlay/BasicFairPlayPlayer/swift">Basic player sample using FairPlay</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--information">To display FairPlay content on an external screen, see the <a href="/node/18228#Displaying_FairPlay_content_on_an_external_screen">iOS Code Snippets</a> document.</aside>
+	</li>
+</ol>
+
+<h3>Using Google Widevine Modular</h3>
+
+<p>If you are using Widevine Classic with your Android apps, you can transition to using Google Widevine Modular as follows:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>
+	<p>For Widevine Modular, you need to produce DRM-protected content which uses MPEG-DASH manifests with segmented and encrypted videos.</p>
+	</li>
+	<li>
+	<p>The Brightcove Native SDK for Android is configured by default to use Brightcove's Widevine licensing server. Your videos need to be configured to use your Widevine licensing server. Here is an example:</p>
+
+	<pre class="line-numbers">
+<code class="language-java">import com.brightcove.player.display.WidevineMediaDrmCallback;
+import com.brightcove.player.media.DeliveryType;
+import com.brightcove.player.model.Video;
+String performVideoUrl = "http://url.to.your.video";
+String performLicenseUrl = "https://url.to.your.licensing.server";
+Video performVideo = Video.createVideo(performVideoUrl, DeliveryType.DASH);
+performVideo.getProperties().put(WidevineMediaDrmCallback.DEFAULT_URL, performLicenseUrl);
+</code>
+</pre>
+	</li>
+	<li>
+	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you need to use the ExoPlayer video view. For details see the following:</p>
+
+	<ul>
+		<li><a href="https://google.github.io/ExoPlayer/guide.html#digital-rights-management">DRM-protected content with the ExoPlayer</a></li>
+		<li><a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/WidevineModularSampleApp/src/main">Basic player sample using Widevine Modular</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--tip">The ExoPlayer video view (<a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcoveExoPlayerVideoView.html">BrightcoveExoPlayerVideoView</a>) supports Widevine Modular without the need for additional plugins.</aside>
+	</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="For_customers_using_legacy_ingestion">For customers using legacy ingestion</h2>
+
+<p>For customers using the legacy ingest system (not <a href="/node/18476">Dynamic Delivery</a>), follow the steps below to package your videos for DRM.</p>
 
 <aside class="bcls-aside bcls-aside--information">If your account is enabled for Dynamic Delivery, you do <strong>not</strong> need to complete these steps. See <a href="/node/18038">Ingesting content with DRM</a> for more information.</aside>
 

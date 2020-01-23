@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Content Security (DRM) with the Native Player SDKs</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Content Security (DRM) with the Native Player SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn how to protect your video content.</summary>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+
+<article class="bcls-article">
+<section class="bcls-section" id="DRM_solutions">
+<h2>DRM solutions</h2>
+
+<p>For more information on Video Cloud support for DRM, see <a href="/node/18436">Overview: Digital Rights Management (DRM) in Video Cloud</a>.</p>
+
+<p>The Brightcove Native Player SDK platforms support the following DRM solutions:</p>
+
+<table class="bcls-table">
+	<thead class="bcls-table__head">
+		<tr>
+			<th>Platform</th>
+			<th>DRM Solution</th>
+		</tr>
+	</thead>
+	<tbody class="bcls-table__body">
+		<tr>
+			<td>Native Player SDK for iOS</td>
+			<td>HLS with FairPlay Streaming</td>
+		</tr>
+		<tr>
+			<td>Native Player SDK for tvOS</td>
+			<td>HLS with FairPlay Streaming</td>
+		</tr>
+		<tr>
+			<td>Native Player SDK for Android</td>
+			<td>DASH with Widevine Modular</td>
+		</tr>
+	</tbody>
+</table>
+<!-- <aside class="bcls-aside bcls-aside--warning">
+The use of Widevine Classic has been deprecated. We encourage you to migrate to FairPlay Streaming.
+</aside> --></section>
+
+<section class="bcls-section" id="Video_Cloud_customers">
+<h2>Video Cloud customers</h2>
+
+<p>In the following steps, you will create DRM-enabled content.</p>
+
+<h3>Using Apple FairPlay Streaming</h3>
+
+<p>If you are using Widevine Classic with your iOS apps, you can transition to using Apple FairPlay Streaming as follows:</p>
+
+<ol class="bcls-tasklist">
+	<li>
+	<p>If your account(s) is not already DRM-enabled, then contact your account manager to have it enabled.</p>
+
+	<aside class="bcls-aside bcls-aside--information">To use DRM encryption, your account must be enabled for these features. Contact your account manager for more information.</aside>
+	</li>
+	<li>If your account is enabled for <a href="/node/18476">Dynamic Delivery</a>, you videos will be automatically packaged for DRM when you ingest them (older videos will also be packaged automatically if they were ingested or have been re-transcoded using a Dynamic Delivery profile). If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.</li>
+	<li>
+	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
+
+	<ul>
+		<li><a href="https://docs.brightcove.com/ios-sdk/index.html#FairPlay">Migrating from the Brightcove FairPlay plugin</a></li>
+		<li><a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/FairPlay/BasicFairPlayPlayer/swift">Basic player sample using FairPlay</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--information">To display FairPlay content on an external screen, see the <a href="/node/18228#Displaying_FairPlay_content_on_an_external_screen">iOS Code Snippets</a> document.</aside>
+	</li>
+</ol>
+
+<h3>Using Google Widevine Modular</h3>
+
+<p>If you are using Widevine Classic with your Android apps, you can transition to using Google Widevine Modular as follows:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>
+	<p>If your account(s) is not already DRM-enabled, then contact your account manager to have it enabled.</p>
+
+	<aside class="bcls-aside bcls-aside--information">To use DRM encryption, your account must be enabled for these features. Contact your account manager for more information.</aside>
+	</li>
+	<li>If your account is enabled for <a href="/node/18476">Dynamic Delivery</a>, you videos will be automatically packaged for DRM when you ingest them (older videos will also be packaged automatically if they were ingested or have been re-transcoded using a Dynamic Delivery profile). If your account <strong>does not</strong> use Dynamic Delivery, see the <a href="#legacy_ingest">Legacy Ingest section</a> below.</li>
+	<li>
+	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you will need to use the ExoPlayer video view. For more details see the following documents:</p>
+
+	<ul>
+		<li><a href="https://google.github.io/ExoPlayer/guide.html#digital-rights-management">DRM-protected content with the ExoPlayer</a></li>
+		<li><a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/WidevineModularSampleApp/src/main">Basic player sample using Widevine Modular</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--tip">The ExoPlayer video view (<a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcoveExoPlayerVideoView.html">BrightcoveExoPlayerVideoView</a>) supports Widevine Modular without the need for additional plugins.</aside>
+	</li>
+</ol>
+</section>
+
+<section class="bcls-section" id="Perform_customers">
+<h2>Brightcove Player customers</h2>
+
+<h3>Using Apple FairPlay Streaming</h3>
+
+<p>If you are using Widevine Classic with your iOS apps, you can transition to using Apple FairPlay Streaming as follows:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>For FairPlay, you will need to produce DRM-protected content which uses HLS manifests with segmented and encrypted videos.</li>
+	<li>
+	<p>Since you will not be using the Brightcove FairPlay license server, you will need to define some properties related to the FairPlay license</p>
+
+	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
+
+	<ul>
+		<li><a href="https://docs.brightcove.com/ios-sdk/index.html#FairPlay">Migrating from the Brightcove FairPlay plugin</a></li>
+		<li><a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/FairPlay/BasicFairPlayPlayer/swift">Basic player sample using FairPlay</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--information">To display FairPlay content on an external screen, see the <a href="/node/18228#Displaying_FairPlay_content_on_an_external_screen">iOS Code Snippets</a> document.</aside>
+	</li>
+</ol>
+
+<h3>Using Google Widevine Modular</h3>
+
+<p>If you are using Widevine Classic with your Android apps, you can transition to using Google Widevine Modular as follows:</p>
+
+<ol class="bcls-tasklist__restart">
+	<li>
+	<p>For Widevine Modular, you will need to produce DRM-protected content which uses MPEG-DASH manifests with segmented and encrypted videos.</p>
+	</li>
+	<li>
+	<p>The Brightcove Native SDK for Android is configured by default to use Brightcove's Widevine licensing server. Your videos will need to be configured to use your Widevine licensing server. Here is an example:</p>
+
+	<pre class="line-numbers">
+<code class="language-java">import com.brightcove.player.display.WidevineMediaDrmCallback;
+import com.brightcove.player.media.DeliveryType;
+import com.brightcove.player.model.Video;
+String performVideoUrl = "http://url.to.your.video";
+String performLicenseUrl = "https://url.to.your.licensing.server";
+Video performVideo = Video.createVideo(performVideoUrl, DeliveryType.DASH);
+performVideo.getProperties().put(WidevineMediaDrmCallback.DEFAULT_URL, performLicenseUrl);
+</code>
+</pre>
+	</li>
+	<li>
+	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you will need to use the ExoPlayer video view. For more details see the following documents:</p>
+
+	<ul>
+		<li><a href="https://google.github.io/ExoPlayer/guide.html#digital-rights-management">DRM-protected content with the ExoPlayer</a></li>
+		<li><a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/WidevineModularSampleApp/src/main">Basic player sample using Widevine Modular</a></li>
+	</ul>
+	&nbsp;
+
+	<aside class="bcls-aside bcls-aside--tip">The ExoPlayer video view (<a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcoveExoPlayerVideoView.html">BrightcoveExoPlayerVideoView</a>) supports Widevine Modular without the need for additional plugins.</aside>
+	</li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="legacy_ingest">For customers using legacy ingestion</h2>
+
+<p>For customers using the legacy ingest system (not <a href="/node/18476">Dynamic Delivery</a>), you will need to follow the steps below to package for you videos for DRM.</p>
+
+<aside class="bcls-aside bcls-aside--information">If your account is enabled for Dynamic Delivery, you do <strong>not</strong> need to complete these steps. See <a href="/node/18038">Ingesting content with DRM</a> for more information.</aside>
+
+<ol class="bcls-tasklist">
+	<li>
+	<p>Create a <a href="/node/18038">custom ingest profile</a> with defined packages for each DRM type, Widevine Modular and Apple FairPlay.</p>
+	</li>
+	<li>In Studio, in the <strong>Upload</strong> module, you should now see your custom DRM profiles in the <strong>Ingest Profile</strong> dropdown menu. Here is an example of what your menu might look like:
+	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="DRM profiles with FairPlay selected" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/guides/drm/drm-profiles.png" />
+	<figcaption class="bcls-caption--image">DRM profiles with FairPlay selected</figcaption>
+	</figure>
+	</li>
+	<li>
+	<p>Upload your content using the DRM ingest profile.</p>
+	</li>
+	<li>For existing content in Video Cloud, you can use the <strong>Retranscode</strong> button in the <strong>Media</strong> module and select your desired ingest profile. Retranscoding works only if you initially used the new Studio's <strong>Upload</strong> module or Dynamic Ingest.
+	<figure class="bcls-figure"><img class="bcls-image" alt="Retranscode in Studio" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/guides/drm/retranscode.png" />
+	<figcaption class="bcls-caption--image">Retranscode in Studio</figcaption>
+	</figure>
+
+	<aside class="bcls-aside bcls-aside--tip">If you have a large number of videos to retranscode, then using the <a href="/node/17948">Dynamic Ingest API</a> may be a better option for you.</aside>
+	</li>
+</ol>
+</section>
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+</html>

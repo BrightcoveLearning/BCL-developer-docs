@@ -63,7 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playback_rights_response'
+                $ref: '#/components/schemas/playback_rights'
         '400':
           description: Bad Request
           content:
@@ -153,7 +153,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playback_rights_response'
+                type: array
+                items:
+                  $ref: '#/components/schemas/playback_rights'
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
@@ -222,7 +224,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playback_rights_response'
+                $ref: '#/components/schemas/playback_rights'
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
@@ -298,7 +300,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/playback_rights_response"
+                $ref: "#/components/schemas/playback_rights"
         '204':
           description: >-
             NO_CONTENT: No content for successful update
@@ -681,140 +683,9 @@ components:
       title:  Playback Rights
       type: object
       properties:
-        allowed_domains:
-          type: array
-          items:
-            type: string
-            example: "someDomain.com"
-        blocked_domains:
-          type: array
-          items:
-            type: string
-            example: "someDomain.com"
-        geo:
-          type: object
-          properties:
-            allowed_countries:
-              type: array
-              items:
-                type: string
-                example: "US"
-            blocked_countries:
-              type: array
-              items:
-                type: string
-                example: "MX"
-            allowed_zip_codes:
-              type: array
-              items:
-                type: string
-                example: "US-90210"
-            blocked_zip_codes:
-              type: array
-              items:
-                type: string
-                example: "US-72810"
-            allowed_dmas:
-              type: array
-              items:
-                type: integer
-                example: 500, 717
-            blocked_dmas:
-              type: array
-              items:
-                type: integer
-                example: 500, 717
-        start_time:
-          type: integer
-          example: 1571242764
-        end_time:
-          type: integer
-          example: 1571242764
-        allowed_ips:
-          type: array
-          items:
-            type: string
-            example: "172.16.254.1"
-        blocked_ips:
-          type: array
-          items:
-            type: string
-            example: "172.16.254.1"
-        allowed_days:
-          type: array
-          items:
-            type: string
-            example: "mon, tue"
-        allowed_hours:
-          type: array
-          items:
-            type: string
-            example: "3-4, 8-19"
-        allow_insecure:
-          type: boolean
-          example: false
-        disabled:
-          type: boolean
-          example: true
-        external_id:
-          type: string
-          example: "111111-2d22-22f2-a333-44444444bc4"
-      example: {
-        "id": "dad11111-e2e2-3333-4ff4-5555555555ba",
-        "geo": {
-        "allowed_countries": [
-          "MX",
-          "US"
-        ],
-        "blocked_countries": [
-          "JP",
-          "CN"
-        ],
-        "allowed_zip_codes": [
-          "MX-90210"
-        ],
-        "blocked_zip_codes": [
-          "MX-72810"
-        ],
-        "allowed_dmas": [
-          501
-        ],
-        "blocked_dmas": [
-          803
-        ]
-      },
-      "allowed_domains": [
-        "www.google.com",
-        "www.brightcove.com"
-      ],
-      "blocked_domains": [
-        "www.ooyala.com"
-      ],
-      "start_time": 1572905011,
-      "end_time": 1672905011,
-      "allowed_ips": [
-        "192.168.1.1"
-      ],
-      "blocked_ips": [
-        "192.168.1.1"
-      ],
-      "allowed_days": [
-        "mon",
-        "tue"
-      ],
-      "allowed_hours": [
-        "5-6"
-      ],
-      "allow_insecure": true,
-      "disabled": false,
-      "external_id": "888888f-e11e-2e2e-3333-fedd44444a44"
-      }
-    playback_rights_response:
-      title:  Playback Rights Response
-      type: object
-      properties:
         id:
           type: string
+          readOnly: true
           example: "dad11111-e2e2-3333-4ff4-5555555555ba"
           description: playback rights id
         allowed_domains:
@@ -895,7 +766,60 @@ components:
         external_id:
           type: string
           example: "111111-2d22-22f2-a333-44444444bc4"
-      example: {
+
+  examples:
+    request_body_example:
+      value: {
+        "geo": {
+        "allowed_countries": [
+          "MX",
+          "US"
+        ],
+        "blocked_countries": [
+          "JP",
+          "CN"
+        ],
+        "allowed_zip_codes": [
+          "MX-90210"
+        ],
+        "blocked_zip_codes": [
+          "MX-72810"
+        ],
+        "allowed_dmas": [
+          501
+        ],
+        "blocked_dmas": [
+          803
+        ]
+      },
+      "allowed_domains": [
+        "www.google.com",
+        "www.brightcove.com"
+      ],
+      "blocked_domains": [
+        "www.ooyala.com"
+      ],
+      "start_time": 1572905011,
+      "end_time": 1672905011,
+      "allowed_ips": [
+        "192.168.1.1"
+      ],
+      "blocked_ips": [
+        "192.168.1.1"
+      ],
+      "allowed_days": [
+        "mon",
+        "tue"
+      ],
+      "allowed_hours": [
+        "5-6"
+      ],
+      "allow_insecure": true,
+      "disabled": false,
+      "external_id": "888888f-e11e-2e2e-3333-fedd44444a44"
+      }
+    response_body_example:
+      value: {
         "id": "dad11111-e2e2-3333-4ff4-5555555555ba",
         "geo": {
         "allowed_countries": [
@@ -945,6 +869,7 @@ components:
       "disabled": false,
       "external_id": "888888f-e11e-2e2e-3333-fedd44444a44"
       }
+
   securitySchemes:
     BC_OAuth2:
       type: oauth2

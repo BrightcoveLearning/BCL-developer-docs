@@ -67,26 +67,6 @@
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/validation.png" alt="Playback Rights validation">
   <figcaption class="bcls-caption--image">Playback Rights validation</figcaption>
 </figure>
-<!-- <ol class="bcls-tasklist">
-  <li>
-    <figure class="bcls-figure">
-      <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/playback-rights-flow1.png" alt="Playback Rights geo check">
-      <figcaption class="bcls-caption--image">Playback Rights geo check</figcaption>
-    </figure>
-  </li>
-  <li>
-    <figure class="bcls-figure">
-      <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/playback-rights-flow2.png" alt="Playback Rights schedule check">
-      <figcaption class="bcls-caption--image">Playback Rights schedule check</figcaption>
-    </figure>
-  </li>
-  <li>
-    <figure class="bcls-figure">
-      <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/playback-rights-flow3.png" alt="Playback Rights domain check">
-      <figcaption class="bcls-caption--image">Playback Rights domain check</figcaption>
-    </figure>
-  </li>
-</ol> -->
 </section>
 
 <section class="bcls-section">
@@ -107,6 +87,9 @@
     <p>
       Optional: <a href="#Define_user_level_restrictions">Define user-level restrictions</a>
     </p>
+  </li>
+  <li>
+    <a href="#Configure_your_player">Configure your player</a>
   </li>
 </ol>
 </section>
@@ -655,40 +638,41 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
       To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> required for concurrency. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
     </p>
   </li>
-  <li>
-    <h4 id="Configure_the_player">Configure the player</h4>
-
-    <p>The JWT token is passed with the playback request, as shown in the following documents:</p>
-
-    <h5>Web player</h5>
-    <p>
-      To configure the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a> document.
-    </p>
-    <h5>Native Android player</h5>
-    <p>
-      To configure the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
-    </p>
-    <h5>Native iOS player</h5>
-    <p>
-      To configure the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
-    </p>
-    <h5>Your own player</h5>
-    <p>
-      If your content is in the Video Cloud library, but you are using your own player, you can make calls to the Playback API as shown in the <a href="https://support.brightcove.com/overview-playback-api">Overview: Playback API</a> document. Replace the base URL with the following:
-    </p>
-    <pre ><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
-    <p>
-      Instead of using a Policy Key, you will use the JWT token for authentication:
-    </p>
-    <pre ><code class="language-http">Authorization: Bearer {JWT}</code></pre>
-    <p>
-      Here is a Curl example:
-    </p>
-    <pre class="line-numbers"><code class="language-curl">curl -X GET \
- -H 'Authorization: Bearer {JWT}' \
- https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}</code></pre>
-  </li>
 </ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Configure_your_player">Configure your player</h2>
+<p>
+  By default, the Brightcove Player talks to the Brightcove Playback API (PAPI). A new system to manage playback restrictions sits in front of the Playback API. To configure your player, see the following:
+</p>
+<h3>Web player</h3>
+<p>
+  To configure the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization Service with Brightcove Player</a> document.
+</p>
+<h3>Native Android player</h3>
+<p>
+  To configure the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+</p>
+<h3>Native iOS player</h3>
+<p>
+  To configure the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization Service with the Native SDKs</a> document.
+</p>
+<h3>Your own player</h3>
+<p>
+  If your content is in the Video Cloud library, but you are using your own player, you can make calls to the Playback API as shown in the <a href="https://support.brightcove.com/overview-playback-api">Overview: Playback API</a> document. Replace the base URL with the following:
+</p>
+<pre ><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
+<p>
+  Instead of using a Policy Key, you will use the JWT token for authentication:
+</p>
+<pre ><code class="language-http">Authorization: Bearer {JWT}</code></pre>
+<p>
+  Here is a Curl example:
+</p>
+<pre class="line-numbers"><code class="language-curl">curl -X GET \
+-H 'Authorization: Bearer {JWT}' \
+https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}</code></pre>
 
 </section>
 

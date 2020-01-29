@@ -53,26 +53,18 @@
 
   <section class="bcls-section">
     <h2 id="Introduction">Introduction</h2>
-
-    <p>Brightcove's Playback Authorization Service (PAS) offers an extra level of security when using Dynamic Delivery with DRM-protected or HTTP Live Streaming Encryption (HLSe) content. With PAS, license requests will be authenticated using a signed <a href="https://jwt.io/introduction/">JSON Web Token (JWT)</a>. The token is used when requesting the video license, once the video has been loaded to the player and the source has been selected.</p>
-    <p>This document focuses on using PAS with Brightcove Player. For more information about PAS in general, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a> document.</p>
+    <p>
+      By default, the Brightcove Player talks to the Brightcove Playback API (PAPI). A new system to manage playback restrictions sits in front of the Playback API and provides playback authorization using DRM licenses. This system is called Edge Playback Authorization (EPA).
+    </p>
+    <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Player version <strong>6.39.0</strong> or greater.</aside>
+    <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
   </section>
 
   <section class="bcls-section">
-    <h2 id="Overview">Overview</h2>
-    <p>To configuring Brightcove Player to use PAS, pass a token parameter when making the catalog request for the video. The code will be shown in the next section. To be sure you have the pre-requisites to understand the code, the concepts in the following documents will help provide a base on which to build:</p>
-    <ul>
-      <li><a href="https://support.brightcove.com/concepts-using-javascript-promises">Concepts: Using JavaScript Promises</a></li>
-      <li><a href="https://support.brightcove.com/player-catalog#Catalog_parameters_object">Catalog Parameters</a></li>
-      <li><a href="https://support.brightcove.com/configuring-brightcove-player-drm">Configuring the Brightcove Player for DRM</a></li>
-    </ul>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="Using_a_token_in_the_catalog_parameters">Using a token in the catalog parameters</h2>
+    <h2 id="Using_playback_restrictions">Using playback restrictions</h2>
     <p>This section details the code needed to configure the player to use PAS. To do this, pass a string token as part of a <a href="https://support.brightcove.com/player-catalog#Catalog_parameters_object">catalog parameters</a> object, using the property name <code>bcovAuthToken</code>.</p>
     <p>This approach will work for both DRM as well as HLSe. The player will detect the type of source being loaded from the Playback API and provide the correct implementation for that source.</p>
-    <aside class="bcls-aside bcls-aside--information language-editable">Note: This implementation requires Player version <strong>6.33.0</strong> or greater. If using DRM, you will need version <strong>5.5.0</strong>  or later of the <a href="https://support.brightcove.com/configuring-brightcove-player-drm#Changelog">DRM plugin</a>.</aside>
+
     <p>This sample implementation code uses the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method to request the video while supplying the token (which would need to replace the <code>&lt;BCOV_AUTH_TOKEN&gt;</code> placeholder). Be sure NOT to include the video ID in the <code>&lt;video-js&gt;</code> tag.</p>
     <pre class="line-numbers">
 <code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
@@ -103,7 +95,7 @@
   </section>
 
   <section class="bcls-section">
-    <h2 id="SSAI_configuration">SSAI configuration</h2>
+    <h2 id="Using_the_default_catalog">Using the default catalog</h2>
     <p>If you are going to use PAS with SSAI, there is one small configuration addition that needs to be done. An addition parameter needs to be added to the catalog parameters object, named <code>adConfigId</code>.  </p>
     <pre class="line-numbers">
 <code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;

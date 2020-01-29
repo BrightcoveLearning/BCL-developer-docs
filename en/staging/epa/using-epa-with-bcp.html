@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Using Playback Restrictions with Brightcove Player</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Using Playback Restrictions with Brightcove Player</h1>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+  <p>In this topic, you will learn how to configure Brightcove Player to use Brightcove's Playback Restrictions.</p>
+</section>
+
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+
+    <p>Brightcove's Playback Authorization Service (PAS) offers an extra level of security when using Dynamic Delivery with DRM-protected or HTTP Live Streaming Encryption (HLSe) content. With PAS, license requests will be authenticated using a signed <a href="https://jwt.io/introduction/">JSON Web Token (JWT)</a>. The token is used when requesting the video license, once the video has been loaded to the player and the source has been selected.</p>
+    <p>This document focuses on using PAS with Brightcove Player. For more information about PAS in general, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a> document.</p>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Overview">Overview</h2>
+    <p>To configuring Brightcove Player to use PAS, pass a token parameter when making the catalog request for the video. The code will be shown in the next section. To be sure you have the pre-requisites to understand the code, the concepts in the following documents will help provide a base on which to build:</p>
+    <ul>
+      <li><a href="https://support.brightcove.com/concepts-using-javascript-promises">Concepts: Using JavaScript Promises</a></li>
+      <li><a href="https://support.brightcove.com/player-catalog#Catalog_parameters_object">Catalog Parameters</a></li>
+      <li><a href="https://support.brightcove.com/configuring-brightcove-player-drm">Configuring the Brightcove Player for DRM</a></li>
+    </ul>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Using_a_token_in_the_catalog_parameters">Using a token in the catalog parameters</h2>
+    <p>This section details the code needed to configure the player to use PAS. To do this, pass a string token as part of a <a href="https://support.brightcove.com/player-catalog#Catalog_parameters_object">catalog parameters</a> object, using the property name <code>bcovAuthToken</code>.</p>
+    <p>This approach will work for both DRM as well as HLSe. The player will detect the type of source being loaded from the Playback API and provide the correct implementation for that source.</p>
+    <aside class="bcls-aside bcls-aside--information language-editable">Note: This implementation requires Player version <strong>6.33.0</strong> or greater. If using DRM, you will need version <strong>5.5.0</strong>  or later of the <a href="https://support.brightcove.com/configuring-brightcove-player-drm#Changelog">DRM plugin</a>.</aside>
+    <p>This sample implementation code uses the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method to request the video while supplying the token (which would need to replace the <code>&lt;BCOV_AUTH_TOKEN&gt;</code> placeholder). Be sure NOT to include the video ID in the <code>&lt;video-js&gt;</code> tag.</p>
+    <pre class="line-numbers">
+<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
+  data-account=&quot;1507807800001&quot;
+  data-player=&quot;default&quot;
+  data-embed=&quot;default&quot;
+  controls
+  data-application-id&gt;&lt;/video-js&gt;
+&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  (function() {
+    var myPlayer = videojs.getPlayer('myPlayerID');
+
+    myPlayer.catalog.get({
+      type: 'video',
+      id: '6015247091001',
+      <span class="bcls-highlight">bcovAuthToken: '&lt;BCOV_AUTH_TOKEN&gt;</span>'
+    })
+      .then(function(videoReturned){
+        myPlayer.catalog.load(videoReturned);
+      })
+      .catch(function(err){
+        console.log('err:', err);
+      });
+  })();
+&lt;/script&gt;</code></pre>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="SSAI_configuration">SSAI configuration</h2>
+    <p>If you are going to use PAS with SSAI, there is one small configuration addition that needs to be done. An addition parameter needs to be added to the catalog parameters object, named <code>adConfigId</code>.  </p>
+    <pre class="line-numbers">
+<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
+  data-account=&quot;1507807800001&quot;
+  data-player=&quot;default&quot;
+  data-embed=&quot;default&quot;
+  controls
+  data-application-id&gt;&lt;/video-js&gt;
+&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  (function() {
+    var myPlayer = videojs.getPlayer('myPlayerID');
+
+    myPlayer.catalog.get({
+      type: 'video',
+      id: '6015247091001',
+      bcovAuthToken: '<span class="bcls-input">BCOV_AUTH_TOKEN</span>',
+      <span class="bcls-highlight">adConfigId: '&lt;YOUR_ADD_CONFIG_ID&gt;</span>'
+    })
+      .then(function(videoReturned){
+        myPlayer.catalog.load(videoReturned);
+      })
+      .catch(function(err){
+        console.log('err:', err);
+      });
+  })();
+&lt;/script&gt;</code></pre>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Using_a_custom_implementation">Using a custom implementation</h2>
+    <p>You may be using a custom implementation where you don't have the <code>bcovAuthToken</code> to set the value with the the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method request. If you are using your own or a third-party player, you can use one of the following approaches to pass your token into the license request:</p>
+    <ul>
+      <li>
+        HTTP header: <code>BCOV-Auth</code> (Not supported for HLSe)
+      </li>
+      <li>
+        Cookie: <code>bcov-auth</code> (Not supported for HLSe)
+      </li>
+      <li>
+        Query parameter: <code>bcov-auth</code> (Only supported for HLSe) Must be appended to the master manifest url, instead of the license url.
+      </li>
+    </ul>
+    <p>
+      Here is an example showing how to set the <code>source.emeHeaders['BCOV-Auth']</code> attribute on the video object to the token. This inserts the <code>emeHeader</code> on each source AFTER the catalog request.
+    </p>
+    <pre class="line-numbers">
+<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
+  data-account=&quot;1507807800001&quot;
+  data-player=&quot;default&quot;
+  data-embed=&quot;default&quot;
+  controls
+  data-application-id&gt;&lt;/video-js&gt;
+&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  (function() {
+    var myPlayer = videojs.getPlayer('myPlayerID');
+
+    myPlayer.catalog.get({
+      type: 'video',
+      id: '6015247091001'
+    })
+    .then(function(video){
+      sources=video.sources;
+
+      for (let i = 0; i &lt; sources.length; i++) {
+        const source = sources[i];
+
+        // Only add the auth token as an eme header for DRM content
+        if (<span class="bcls-input">BCOV_AUTH_TOKEN</span> &amp;&amp; source.key_systems) {
+          source.emeHeaders = {
+              'BCOV-Auth': <span class="bcls-input">BCOV_AUTH_TOKEN</span>
+            };
+        }
+      }
+        myPlayer.catalog.load(video);
+      })
+      .catch(function(err){
+        console.log('err:', err);
+      });
+  })();
+&lt;/script&gt;</code></pre>
+    <!-- <p>
+      For more details about working with MPEG-DASH, see the <a href="https://support.brightcove.com/creating-dash-drm-manifest-brightcove-player">Creating a DASH DRM Manifest for the Brightcove Player</a> document.
+    </p> -->
+
+  </section>
+
+
+  <section class="bcls-section">
+  <h2 id="Related_topics">Related topics</h2>
+
+  <ul>
+    <li><a href="http://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a></li>
+    <li><a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html">Implementing DRM with Playback Authorization Service</a></li>
+    <li><a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization DRM with the Native SDKs</a></li>
+    <li>
+      <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>
+    </li>
+  </ul>
+
+  </section>
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+
+</html>

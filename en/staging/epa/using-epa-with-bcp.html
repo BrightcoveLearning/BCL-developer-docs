@@ -54,136 +54,73 @@
   <section class="bcls-section">
     <h2 id="Introduction">Introduction</h2>
     <p>
-      By default, the Brightcove Player talks to the Brightcove Playback API (PAPI). A new system to manage playback restrictions sits in front of the Playback API and provides playback authorization using DRM licenses. This system is called Edge Playback Authorization (EPA).
+      By default, the Brightcove Player talks to the Brightcove Playback API. A new system to manage playback restrictions sits in front of the Playback API and provides playback authorization using DRM licenses.
     </p>
     <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Player version <strong>6.39.0</strong> or greater.</aside>
     <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
   </section>
 
   <section class="bcls-section">
-    <h2 id="Using_playback_restrictions">Using playback restrictions</h2>
-    <p>This section details the code needed to configure the player to use PAS. To do this, pass a string token as part of a <a href="https://support.brightcove.com/player-catalog#Catalog_parameters_object">catalog parameters</a> object, using the property name <code>bcovAuthToken</code>.</p>
-    <p>This approach will work for both DRM as well as HLSe. The player will detect the type of source being loaded from the Playback API and provide the correct implementation for that source.</p>
-
-    <p>This sample implementation code uses the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method to request the video while supplying the token (which would need to replace the <code>&lt;BCOV_AUTH_TOKEN&gt;</code> placeholder). Be sure NOT to include the video ID in the <code>&lt;video-js&gt;</code> tag.</p>
-    <pre class="line-numbers">
-<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
-  data-account=&quot;1507807800001&quot;
-  data-player=&quot;default&quot;
-  data-embed=&quot;default&quot;
-  controls
-  data-application-id&gt;&lt;/video-js&gt;
-&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
-
-&lt;script&gt;
-  (function() {
-    var myPlayer = videojs.getPlayer('myPlayerID');
-
-    myPlayer.catalog.get({
-      type: 'video',
-      id: '6015247091001',
-      <span class="bcls-highlight">bcovAuthToken: '&lt;BCOV_AUTH_TOKEN&gt;</span>'
-    })
-      .then(function(videoReturned){
-        myPlayer.catalog.load(videoReturned);
-      })
-      .catch(function(err){
-        console.log('err:', err);
-      });
-  })();
-&lt;/script&gt;</code></pre>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="Using_the_default_catalog">Using the default catalog</h2>
-    <p>If you are going to use PAS with SSAI, there is one small configuration addition that needs to be done. An addition parameter needs to be added to the catalog parameters object, named <code>adConfigId</code>.  </p>
-    <pre class="line-numbers">
-<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
-  data-account=&quot;1507807800001&quot;
-  data-player=&quot;default&quot;
-  data-embed=&quot;default&quot;
-  controls
-  data-application-id&gt;&lt;/video-js&gt;
-&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
-
-&lt;script&gt;
-  (function() {
-    var myPlayer = videojs.getPlayer('myPlayerID');
-
-    myPlayer.catalog.get({
-      type: 'video',
-      id: '6015247091001',
-      bcovAuthToken: '<span class="bcls-input">BCOV_AUTH_TOKEN</span>',
-      <span class="bcls-highlight">adConfigId: '&lt;YOUR_ADD_CONFIG_ID&gt;</span>'
-    })
-      .then(function(videoReturned){
-        myPlayer.catalog.load(videoReturned);
-      })
-      .catch(function(err){
-        console.log('err:', err);
-      });
-  })();
-&lt;/script&gt;</code></pre>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="Using_a_custom_implementation">Using a custom implementation</h2>
-    <p>You may be using a custom implementation where you don't have the <code>bcovAuthToken</code> to set the value with the the <a href="https://support.brightcove.com/player-catalog#get_method">catalog.get()</a> method request. If you are using your own or a third-party player, you can use one of the following approaches to pass your token into the license request:</p>
-    <ul>
-      <li>
-        HTTP header: <code>BCOV-Auth</code> (Not supported for HLSe)
-      </li>
-      <li>
-        Cookie: <code>bcov-auth</code> (Not supported for HLSe)
-      </li>
-      <li>
-        Query parameter: <code>bcov-auth</code> (Only supported for HLSe) Must be appended to the master manifest url, instead of the license url.
-      </li>
-    </ul>
+    <h2 id="Request_with_playback_restrictions">Request with playback restrictions</h2>
     <p>
-      Here is an example showing how to set the <code>source.emeHeaders['BCOV-Auth']</code> attribute on the video object to the token. This inserts the <code>emeHeader</code> on each source AFTER the catalog request.
+      To utilize playback restrictions, follow these steps:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        <p>
+          The Brightcove Player makes a request to the Playback API if it has a policy key. This is the default for all Brightcove Players. The first step is to remove the default policy key built into the player:
+        </p>
+        <pre>
+<code class="language-javascript">player.catalog.setPolicyKey(null);</code></pre>
+      </li>
+      <li>
+        <p>
+          If you have user-level restrictions, you need an authorization token. You can add one to the player as follows:
+        </p>
+        <pre>
+<code class="language-javascript">player.catalog.setBcovAuthToken('&lt;MY_TOKEN&gt;');</code></pre>
+    <p>
+      If specified, this token is added as an Authorization header to any subsequent requests.
+    </p>
+      </li>
+      <li>
+        <p>
+          After changing the policy key and/or authorization token, you are ready to request data from the Brightcove Playback API and load it into the player. This process is identical to the default case. Here is an example of fetching a single video with playback restrictions and an authorization token:
+        </p>
+        <pre class="line-numbers">
+<code class="language-javascript">// Unset the player policy key
+player.catalog.setPolicyKey(null);
+// Set the authorization token
+player.catalog.setBcovAuthToken('&lt;MY_TOKEN&gt;');
+
+// This should trigger a request to:
+//
+//   https://edge-auth.api.brightcove.com/playback/v1/videos/1
+//
+// With header:
+//
+//   Authorization: Bearer &lt;MY_TOKEN&gt;
+//
+player.catalog.get({id: '1', type: 'video'}).
+  then(function(data) {
+    player.catalog.load(data);
+  }).
+  catch(function(error) {
+    throw new Error(error);
+  });</code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Request_without_restrictions">Request without restrictions</h2>
+    <p>This process can be reversed to direct requests back to Playback API without restrictions.</p>
+    <p>
+      Set the policy key and authorization token as follows:
     </p>
     <pre class="line-numbers">
-<code class="language-html">&lt;video-js id=&quot;myPlayerID&quot;
-  data-account=&quot;1507807800001&quot;
-  data-player=&quot;default&quot;
-  data-embed=&quot;default&quot;
-  controls
-  data-application-id&gt;&lt;/video-js&gt;
-&lt;script src=&quot;//players.brightcove.net/1507807800001/default_default/index.min.js&quot;&gt;&lt;/script&gt;
-
-&lt;script&gt;
-  (function() {
-    var myPlayer = videojs.getPlayer('myPlayerID');
-
-    myPlayer.catalog.get({
-      type: 'video',
-      id: '6015247091001'
-    })
-    .then(function(video){
-      sources=video.sources;
-
-      for (let i = 0; i &lt; sources.length; i++) {
-        const source = sources[i];
-
-        // Only add the auth token as an eme header for DRM content
-        if (<span class="bcls-input">BCOV_AUTH_TOKEN</span> &amp;&amp; source.key_systems) {
-          source.emeHeaders = {
-              'BCOV-Auth': <span class="bcls-input">BCOV_AUTH_TOKEN</span>
-            };
-        }
-      }
-        myPlayer.catalog.load(video);
-      })
-      .catch(function(err){
-        console.log('err:', err);
-      });
-  })();
-&lt;/script&gt;</code></pre>
-    <!-- <p>
-      For more details about working with MPEG-DASH, see the <a href="https://support.brightcove.com/creating-dash-drm-manifest-brightcove-player">Creating a DASH DRM Manifest for the Brightcove Player</a> document.
-    </p> -->
-
+<code class="language-javascript">player.catalog.setPolicyKey('&lt;MY_POLICY_KEY&gt;');
+player.catalog.setBcovAuthToken(null);</code></pre>
   </section>
 
 
@@ -191,12 +128,15 @@
   <h2 id="Related_topics">Related topics</h2>
 
   <ul>
-    <li><a href="http://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a></li>
-    <li><a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html">Implementing DRM with Playback Authorization Service</a></li>
-    <li><a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization DRM with the Native SDKs</a></li>
     <li>
-      <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>
-    </li>
+    <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html">Implementing Playback Rights</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a>
+  </li>
   </ul>
 
   </section>

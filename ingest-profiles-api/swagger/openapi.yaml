@@ -1052,7 +1052,7 @@ components:
       description: Array of ingest profiles
       type: array
       items:
-        $ref: '#/components/schemas/IngestProfile'
+        $ref: '#/components/schemas/IngestProfileResponse'
     IngestProfile:
       title: Ingest Profile
       required:
@@ -1133,6 +1133,90 @@ components:
               }
             ]
           }
+        }
+    IngestProfileResponse:
+      title: Ingest Profile
+      required:
+        - name
+        - account_id
+      type: object
+      properties:
+        id:
+          description: System id for the profile
+          type: string
+          readOnly: true
+        version:
+          type: number
+          description: system-managed version number
+          readOnly: true
+        name:
+          type: string
+          description: profile name (must be unique within the account)
+        account_id:
+          type: string
+          description: Video Cloud account ID.
+          readOnly: true
+        dynamic_origin:
+          $ref: '#/components/schemas/IngestProfile.dynamicOrigin'
+        renditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngestProfile.renditions'
+          description: >-
+            array of rendition maps **Legacy Ingest only** - should be an empty array for Dynamic Delivery
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngestProfile.packages'
+          description: >-
+            array of package maps for DRM (see Content Security) **Legacy Ingest
+            only** - should be an empty array for Dynamic Delivery
+        description:
+          type: string
+          description: description of the profile
+        digital_master:
+          $ref: '#/components/schemas/IngestProfile.digitalMaster'
+      example: {
+          "version": 2,
+          "name": "multi-platform-standard-static",
+          "display_name": "Multiplatform Standard",
+          "description": "Deliver a wide range of content types across a variety of platforms on mobile and desktop.",
+          "account_id": -1,
+          "brightcove_standard": true,
+          "date_created": 1495114240899,
+          "date_last_modified": 1503002227773,
+          "digital_master": {
+            "rendition": "passthrough",
+            "distribute": false
+          },
+          "renditions": [],
+          "packages": [],
+          "dynamic_origin": {
+            "renditions": [
+              "default/audio64",
+              "default/audio128",
+              "default/video700",
+              "default/video2000",
+              "default/video1700",
+              "default/video1200",
+              "default/audio96",
+              "default/video450",
+              "default/video900"
+            ],
+            "images": [
+              {
+                "label": "poster",
+                "height": 720,
+                "width": 1280
+              },
+              {
+                "label": "thumbnail",
+                "height": 90,
+                "width": 160
+              }
+            ]
+          },
+          "id": "6198c17bbbdc42a4bb60a41f"
         }
   securitySchemes:
     BC_OAuth2:

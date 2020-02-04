@@ -54,106 +54,93 @@
   <section class="bcls-section">
     <h2 id="Introduction">Introduction</h2>
     <p>
-      By default, the Brightcove Player talks to the Brightcove Playback API. A new system to manage playback rights and restrictions sits in front of the Playback API and provides playback authorization using DRM licenses.
+      By default, the Native SDKs talk to the Brightcove Playback API to retrieve your video and playlist content. A new system to manage playback rights and restrictions sits in front of the Playback API and provides playback authorization using DRM licenses.
     </p>
-    <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Player version <strong>6.39.0</strong> or greater.</aside>
     <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
+    <p>
+      Make requests using Playback Rights:
+    </p>
+    <ul>
+      <li>
+        <a href="#Android_implementation">Android implementation</a>
+      </li>
+      <li>
+        <a href="#iOS_implementation">iOS implementation</a>
+      </li>
+    </ul>
   </section>
 
   <section class="bcls-section">
-    <h2 id="Request_with_playback_restrictions">Request with playback rights</h2>
+    <h2 id="Android_implementation">Android implementation</h2>
     <p>
-      To utilize playback rights, follow these steps:
+      To make Playback API requests which check for Playback rights and restrictions, follow these steps:
     </p>
     <ol class="bcls-tasklist__restart">
       <li>
         <p>
-          The Brightcove Player makes a request to the Playback API if it has a policy key. This is the default for all Brightcove Players. The first step is to remove the default policy key built into the player:
+          Start with the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/BasicSampleApp/src/main">Basic Sample App</a>.
         </p>
-        <pre>
-<code class="language-javascript">player.catalog.setPolicyKey(null);</code></pre>
+        <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Brightcove Native SDK for Android version <strong>6.11.0</strong> or greater.</aside>
       </li>
       <li>
         <p>
-          If you have user-level restrictions, you need an authorization token. When specified, this token is added as an Authorization header for any subsequent requests.
+          By default, the Native SDK for Android makes a request to the Playback API if it has a policy key. To utilize Playback rights, do not send the policy key with your request.
         </p>
         <p>
-          You can add one to the player as follows:
+          Create an instance of <code>com.brightcove.player.edge.Catalog</code>, without supplying a policy key. Here is an example:
         </p>
         <pre>
-<code class="language-javascript">player.catalog.setBcovAuthToken('<span class="bcls-input">your jwt token</span>');</code></pre>
+<code class="language-java">Catalog catalog = new Catalog(eventEmitter, accountId);</code></pre>
       </li>
       <li>
         <p>
-          After changing the policy key and/or authorization token, you are ready to request data from the Brightcove Playback API and load it into the player. This process is identical to the default case.
+          For <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">user-level restrictions</a>, you need to create a JWT token and pass it with the catalog request.
         </p>
         <p>
-          Here is an example of fetching a single video with playback restrictions and an authorization token:
+          To create your JWT token, follow the steps in the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights document.
         </p>
-        <aside class="bcls-aside bcls-aside--tip language-editable">Notice that the <a href="https://support.brightcove.com/using-bc-and-getplayer-methods#bc_method_details">bc() method</a> is used to allow you to set the policy key before making a call to the catalog.</aside>
-
-    <h3>HTML</h3>
-  <pre class="line-numbers">
-<code class="language-html">&lt;div style=&quot;max-width: 960px;&quot;&gt;
-  &lt;video-js id=&quot;myPlayerID&quot;
-    data-embed=&quot;default&quot;
-    controls=&quot;&quot;
-    data-application-id=&quot;&quot;
-    class=&quot;vjs-fluid&quot;&gt;&lt;/video-js&gt;
-&lt;/div&gt;
-&lt;script src=&quot;https://players.brightcove.net/<span class="bcls-input">your account id</span>/<span class="bcls-input">your player id</span>_default/index.min.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-    <h3>JavaScript</h3>
-    <pre class="line-numbers">
-<code class="language-javascript">&lt;script&gt;
-    // +++ Add the player attributes +++
-    var myPlayer,
-    	myPlayerEl = document.getElementById(&quot;myPlayerID&quot;);
-    myPlayerEl.setAttribute('data-account', <span class="bcls-input">your account id</span>);
-    myPlayerEl.setAttribute('data-player', '<span class="bcls-input">your player id</span>');
-
-    // +++ Create the player +++
-    myPlayer = bc(myPlayerEl);
-
-    // Unset the player policy key
-    myPlayer.catalog.setPolicyKey(null);
-
-    // Set the authorization token
-    myPlayer.catalog.setBcovAuthToken('<span class="bcls-input">your jwt token</span>');
-    // This should trigger a request to:
-    //
-    //   https://edge-auth.api.brightcove.com/playback/v1/videos/1
-    //
-    // With header:
-    //
-    //   Authorization: Bearer &lt;span class=&quot;bcls-input&quot;&gt;your jwt token&lt;/span&gt;
-    //
-
-    myPlayer.catalog.get({id: '<span class="bcls-input">your video id</span>', type: 'video'}).
-    then(function(data) {
-      myPlayer.catalog.load(data);
-      myPlayer.muted(true);
-      myPlayer.play();
-    }).
-    catch(function(error) {
-      throw new Error(error);
-    });
-&lt;/script&gt;</code></pre>
+        <p>
+          To pass your token with the catalog request, follow the steps in the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html#Android_Implementation">Android Implementation</a> section of the Using Playback Authorization DRM with the Native SDKs document.
+        </p>
       </li>
     </ol>
   </section>
 
   <section class="bcls-section">
-    <h2 id="Request_without_playback_rights">Request without playback rights</h2>
-    <p>This process can be reversed to direct requests back to Playback API without rights and restrictions.</p>
+    <h2 id="iOS_implementation">iOS implementation</h2>
     <p>
-      Set the policy key and authorization token as follows:
+      To make Playback API requests which check for Playback rights and restrictions, follow these steps:
     </p>
-    <pre class="line-numbers">
-<code class="language-javascript">player.catalog.setPolicyKey('<span class="bcls-input">your policy key</span>');
-player.catalog.setBcovAuthToken(null);</code></pre>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        <p>
+          Start with the <a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/Player/VideoCloudBasicPlayer">Basic Sample App</a>.
+        </p>
+        <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Brightcove Native SDK for iOS version <strong>6.7.0</strong> or greater.</aside>
+      </li>
+      <li>
+        <p>
+          By default, the Native SDK for iOS makes a request to the Playback API if it has a policy key. To utilize Playback rights, do not send the policy key with your request.
+        </p>
+        <p>
+          Create an instance of <code>BCOVPlaybackService</code>, setting the policy key to <code>nil</code>. Here is an example:
+        </p>
+        <pre>
+<code class="language-java">let playbackService = BCOVPlaybackService(accountId: kViewControllerAccountID, policyKey: nil)</code></pre>
+      </li>
+      <li>
+        <p>
+          For <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">user-level restrictions</a>, you need to create a JWT token and pass it with the catalog request.
+        </p>
+        <p>
+          To create your JWT token, follow the steps in the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights document.
+        </p>
+        <p>
+          To pass your token with the catalog request, follow the steps in the <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html#iOS_Implementation">iOS Implementation</a> section of the Using Playback Authorization DRM with the Native SDKs document.
+        </p>
+      </li>
+    </ol>
   </section>
-
 
   <section class="bcls-section">
   <h2 id="Related_topics">Related topics</h2>
@@ -164,6 +151,9 @@ player.catalog.setBcovAuthToken(null);</code></pre>
   </li>
   <li>
     <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html">Implementing Playback Rights</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-bcp.html">Using Playback Restrictions with Brightcove Player</a>
   </li>
   <li>
     <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Begin Drupal Taxonomy Data -->
+  <meta name="products" content="Video Cloud, Brightcove Player">
+  <meta name="role" content="Device SDK Developer">
+  <meta name="task" content="Develop with the Native SDKs">
+  <meta name="topic" content="Troubleshooting/Error Handling">
+  <meta name="sdk" content="iOS,tvOS,Android">
+  <meta name="keywords" content="device,SDK,FAQ">
+  <!-- End Drupal Taxonomy Data -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+  <meta name="robots" content="noindex">
+  <!-- change title to match the h1 heading -->
+  <title>Using Playback Rights with the Native SDKs</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+  <script src="//use.edgefonts.net/source-code-pro.js"></script>
+  <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+  <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+  <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+  <!-- header navbar -->
+  <div id="navWrapper" class="fixed"></div>
+  <!-- breadcrumbs -->
+  <nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+  <!-- search -->
+  <div id="searchModal" class="reveal-modal" data-reveal></div>
+  <!-- content -->
+  <div class="row">
+    <div class="sidebar large-2 columns show-for-large-up">
+      <div id="sidenav" class="side-nav"></div>
+    </div>
+    <div id="main" class="large-10 small-12 columns">
+      <h1>Using Playback Rights with the Native SDKs</h1>
+
+      <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+  <summary>In this topic, you will learn how to use the Brightcove's Playback Rights with the Brightcove Native SDKs.</summary>
+</section>
+
+  <section class="bcls-section">
+    <h2 id="Introduction">Introduction</h2>
+    <p>
+      By default, the Brightcove Player talks to the Brightcove Playback API. A new system to manage playback rights and restrictions sits in front of the Playback API and provides playback authorization using DRM licenses.
+    </p>
+    <aside class="bcls-aside bcls-aside--information language-editable">This implementation requires Player version <strong>6.39.0</strong> or greater.</aside>
+    <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Request_with_playback_restrictions">Request with playback rights</h2>
+    <p>
+      To utilize playback rights, follow these steps:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        <p>
+          The Brightcove Player makes a request to the Playback API if it has a policy key. This is the default for all Brightcove Players. The first step is to remove the default policy key built into the player:
+        </p>
+        <pre>
+<code class="language-javascript">player.catalog.setPolicyKey(null);</code></pre>
+      </li>
+      <li>
+        <p>
+          If you have user-level restrictions, you need an authorization token. When specified, this token is added as an Authorization header for any subsequent requests.
+        </p>
+        <p>
+          You can add one to the player as follows:
+        </p>
+        <pre>
+<code class="language-javascript">player.catalog.setBcovAuthToken('<span class="bcls-input">your jwt token</span>');</code></pre>
+      </li>
+      <li>
+        <p>
+          After changing the policy key and/or authorization token, you are ready to request data from the Brightcove Playback API and load it into the player. This process is identical to the default case.
+        </p>
+        <p>
+          Here is an example of fetching a single video with playback restrictions and an authorization token:
+        </p>
+        <aside class="bcls-aside bcls-aside--tip language-editable">Notice that the <a href="https://support.brightcove.com/using-bc-and-getplayer-methods#bc_method_details">bc() method</a> is used to allow you to set the policy key before making a call to the catalog.</aside>
+
+    <h3>HTML</h3>
+  <pre class="line-numbers">
+<code class="language-html">&lt;div style=&quot;max-width: 960px;&quot;&gt;
+  &lt;video-js id=&quot;myPlayerID&quot;
+    data-embed=&quot;default&quot;
+    controls=&quot;&quot;
+    data-application-id=&quot;&quot;
+    class=&quot;vjs-fluid&quot;&gt;&lt;/video-js&gt;
+&lt;/div&gt;
+&lt;script src=&quot;https://players.brightcove.net/<span class="bcls-input">your account id</span>/<span class="bcls-input">your player id</span>_default/index.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+    <h3>JavaScript</h3>
+    <pre class="line-numbers">
+<code class="language-javascript">&lt;script&gt;
+    // +++ Add the player attributes +++
+    var myPlayer,
+    	myPlayerEl = document.getElementById(&quot;myPlayerID&quot;);
+    myPlayerEl.setAttribute('data-account', <span class="bcls-input">your account id</span>);
+    myPlayerEl.setAttribute('data-player', '<span class="bcls-input">your player id</span>');
+
+    // +++ Create the player +++
+    myPlayer = bc(myPlayerEl);
+
+    // Unset the player policy key
+    myPlayer.catalog.setPolicyKey(null);
+
+    // Set the authorization token
+    myPlayer.catalog.setBcovAuthToken('<span class="bcls-input">your jwt token</span>');
+    // This should trigger a request to:
+    //
+    //   https://edge-auth.api.brightcove.com/playback/v1/videos/1
+    //
+    // With header:
+    //
+    //   Authorization: Bearer &lt;span class=&quot;bcls-input&quot;&gt;your jwt token&lt;/span&gt;
+    //
+
+    myPlayer.catalog.get({id: '<span class="bcls-input">your video id</span>', type: 'video'}).
+    then(function(data) {
+      myPlayer.catalog.load(data);
+      myPlayer.muted(true);
+      myPlayer.play();
+    }).
+    catch(function(error) {
+      throw new Error(error);
+    });
+&lt;/script&gt;</code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section class="bcls-section">
+    <h2 id="Request_without_playback_rights">Request without playback rights</h2>
+    <p>This process can be reversed to direct requests back to Playback API without rights and restrictions.</p>
+    <p>
+      Set the policy key and authorization token as follows:
+    </p>
+    <pre class="line-numbers">
+<code class="language-javascript">player.catalog.setPolicyKey('<span class="bcls-input">your policy key</span>');
+player.catalog.setBcovAuthToken(null);</code></pre>
+  </section>
+
+
+  <section class="bcls-section">
+  <h2 id="Related_topics">Related topics</h2>
+
+  <ul>
+    <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html">Implementing Playback Rights</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a>
+  </li>
+  </ul>
+
+  </section>
+
+</article>
+
+      <!-- END DRUPAL CONTENT -->
+    </div>
+  </div>
+
+  <!-- bcl scripts -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="/en/scripts/docs-nav-data.min.js"></script>
+  <script src="/en/scripts/bcls-doc-site-v3.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+  <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+
+</html>

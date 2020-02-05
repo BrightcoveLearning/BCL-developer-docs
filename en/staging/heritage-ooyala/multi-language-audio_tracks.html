@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="eng">
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -44,8 +44,11 @@
 
             <p>For general information on how to ingest videos using the API, please see the <a href="https://support.brightcove.com/overview-dynamic-ingest-api-dynamic-delivery">Overview of the Dynamic Ingest API</a>.</p>
 
-            <h4>Notes</h4>
+            <h4>Notes and Limitations</h4>
             <ul>
+              <li>You must input only <a href="https://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-2 three letter codes</a>, using only Terminology and not <strong>Bibliography</strong> codes.</li>
+              <li>When no supplied language codes are matched with the source audio, we will process the default language and tag it with supplied language code</li>
+              <li></li>
               <li>Both multiple audio tracks within the source video and additional separate audio files can be used for multiple audio tracks. Video Cloud does not store audio masters, however - separate audio files used as alternate audio tracks must be hosted on public URLs.</li>
               <li>By default, external audio tracks will be merged with those contained in the video. If instead you want to replace the audio tracks contained in the video, you can set the <code>merge_with_existing</code> flag to <code>false</code>.</li>
               <li>Ingest will <strong>not</strong> fail the job for any master track that is not part of the media info and that track will be skipped.</li>
@@ -149,15 +152,15 @@
     "url": "http://learning-services-media.brightcove.com/videos/mp4/greatblueheron.mp4",
     "audio_tracks": [
       {
-        "language": "en",
+        "language": "eng",
         "variant": "main"
       },
       {
-        "language": "fr",
+        "language": "fra",
         "variant": "main"
       },
       {
-        "language": "es",
+        "language": "spa",
         "variant": "main"
       }
     ]
@@ -169,12 +172,12 @@
       "masters": [
         {
           "url": "http://learning-services-media.brightcove.com/audio/alternate-en.m4a",
-          "language": "en",
+          "language": "eng",
           "variant": "alternate"
         },
         {
           "url": "http://learning-services-media.brightcove.com/audio/commentary-es.m4a",
-          "language": "es",
+          "language": "spa",
           "variant": "commentary"
         }
       ]
@@ -214,15 +217,15 @@
       "url": "https://mybucket.com/videos/video1.mp4",
       "audio_tracks": [
         {
-          "language": "en",
+          "language": "eng",
           "variant": "main"
         },
         {
-          "language": "fr",
+          "language": "fra",
           "variant": "main"
         },
         {
-          "language": "es",
+          "language": "spa",
           "variant": "main"
         }
       ]
@@ -234,15 +237,15 @@
       "url": "https://mybucket.com/videos/video1.mp4",
       "audio_tracks": [
           {
-              "language": "en",
+              "language": "eng",
               "variant": "main"
           },
           {
-              "language": "fr",
+              "language": "fra",
               "variant": "main"
           },
           {
-              "language": "es",
+              "language": "spa",
               "variant": "main"
           }
       ]
@@ -251,12 +254,12 @@
       "merge_with_existing": true,
       "masters": [
           {
-              "language": "en",
+              "language": "eng",
               "variant": "commentary",
               "url": "https://mybucket.com/audio/video1-en-commentary.m4a"
           },
           {
-              "language": "fr",
+              "language": "fra",
               "variant": "commentary",
               "url": "https://mybucket.com/audio/video1-fr-commentary.m4a"
           }

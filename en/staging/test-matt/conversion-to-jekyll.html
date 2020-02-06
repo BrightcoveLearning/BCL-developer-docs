@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Doc Conversion Guide</title>
+        <script src="//use.edgefonts.net/source-code-pro.js"></script>
+        <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <style>
+        body {
+            vertical-align: top;
+            font-family: Arial, Helvetical, sans-serif;
+            padding: 3em;
+        }
+        article {
+            border-bottom: 1px #666 solid;
+        }
+    </style>
+    </head>
+    <body>
+        <article>
+            <header class="bcls-header">
+                <h1>Doc Conversion Guide</h1>
+                <p>Guide to converting docs for use in Jekyll.</p>
+                <p>Following the steps, there is a <a href="#style_reference">style reference</a> showing examples of the new styles.</p>
+
+            </header>
+            <section id="Steps" class="bcls-section">
+                <h2 class="bcls-section__title">Steps</h2>
+
+                <h3>Wrap the main content in an <code class="language-html">&lt;article class="bcls-article"&gt;</code> tag</h3>
+                <ol class="bcls-tasklist">
+                    <li>The main contents of the page should all be included in <code class="language-html">&lt;article&gt;</code> tag.
+                </ol>
+                <h3>Convert section divs to section tags</h3>
+                <ol class="bcls-tasklist">
+                    <li>For each <code class="language-html">&lt;div&gt;</code> tag with a <code>section</code> class, change the tag from <code class="language-html">&lt;div&gt;</code> to <code class="language-html">&lt;section&gt;</code> (remember to change the end tag as well as the start tag!).</li>
+                    <li>Also change the class name <code>section</code> to <code>bcls-section</code>. (You can use find/replace-all for that.) The template look is:
+<pre><code>&lt;section class=&quot;bcls-section&quot;&gt;
+  &lt;h2 id=&quot;section-name&quot;&gt;section-title&lt;/h2&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+                    </li>
+                    <li>For each section you should have an <code>h2</code> tag in the format:
+                      <code>&lt;h2 id=&quot;section-name&quot;&gt;section-title&lt;/h2&gt;</code>
+                      The <code>title</code> is not title case, only the first letter is capitalized, for example <strong>How are the device apps updated?</strong>. The <code>section-name</code> is the title with underscores for spaces, for example <strong>How_are_the_device_apps_updated</strong>
+                      (any punctuation removed).
+                    </li>
+                    <li>If the section has the additional class <code>video-cloud-only</code> or <code>player-only</code>, leave that class as is.</li>
+                </ol>
+                <h3>Fix the asides</h3>
+                <ol class="bcls-tasklist">
+                    <li>Do a search on <code>class="BCL-aside"</code> to find all the asides.</li>
+                    <li>If the element is a <code class="language-html">&lt;p&gt;</code> or <code class="language-html">&lt;div&gt;</code>, change it to an <code class="language-html">&lt;aside&gt;</code> tag and change the class to one of the 3 new <a href="#asides">aside types</a>. Note that the new asides include an icon, so beginning asides with "Note:" is redundant now.</li>
+                    <li>If the <code>BCL-aside</code> class is applied to a <code class="language-html">&lt;li&gt;</code> or <code class="language-html">&lt;td&gt;</code> tag, remove the class from the tag and wrap the contents inside one of the 3 new <a href="#asides">aside types</a>.</li>
+                </ol>
+                <h3>Fix code blocks</h3>
+                <ol class="bcls-tasklist">
+                    <li>See the Dash snippets for code blocks above - they'll be helpful in the following steps.</li>
+                    <li><code class="language-html">&lt;pre&gt;&lt;code&gt;</code> tags should be changed to: <code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-XXXX"&gt;</code>, where XXXX is the language code (for HTML that includes CSS and/or JavaScript code, you can just use <code class="language-html">language-html</code>). See codes for all supported languages here: <a href="http://prismjs.com/#languages-list">http://prismjs.com/#languages-list</a>. The ones you will use most often are:
+                        <ul>
+                            <li>html</li>
+                            <li>css</li>
+                            <li>javascript</li>
+                            <li>http</li>
+                            <li>json</li>
+                            <li>swift</li>
+                            <li>objectivec</li>
+                            <li>java</li>
+                            <li>bash</li>
+                            <li>ruby</li>
+                            <li>python</li>
+                        </ul>
+                        <p>There are Dash snippets for each of those.</p>
+                        <aside class="bcls-aside bcls-aside--tip">For a code block without line numbers, just omit the <code class="language-html">class="line-numbers"</code> attribute. For no syntax highlighting, just omit the <code class="language-html">class="language-XXXX"</code> attribute. Note the difference between <code class="language-html">this code with a language class</code> and <code>this code with no language class</code> and decide which is better for the context.</aside>
+                    </li>
+                    <li>You can also use the <code class="language-html">class="language-XXXX"</code> attribute on inline <code class="language-html">&lt;code&gt;</code></li>
+                </ol>
+                <h3>Fix expander sections</h3>
+                <p><strong>(applies only to some pages, mostly player samples)</strong></p>
+                <ol class="bcls-tasklist">
+                    <li>Find the <code class="language-html">&lt;h2 id="expanderHead"&gt;</code> tag(s) and change <code>id="expanderHead"</code> to <code>class="bcls-expander-head"</code></li>
+                    <li>In the following <code class="language-html">&lt;div id="expanderContent" style="display:none"&gt;</code> tag, change <code>id="expanderContent"</code> to <code>class="bcls-expander-content"</code> and remove the <code>style="display:none"</code> attribute.</li>
+                </ol>
+                <h3>Fix images</h3>
+                <aside class="bcls-aside bcls-aside--warning">All images and other external assets should be moved to the doc-assets folder on S3 via the BCL-Doc-Assets repo!</aside>
+                <ol class="bcls-tasklist">
+                    <li>Find all <code class="language-html">&lt;img&gt;</code> tags in the doc.</li>
+                    <li>For <strong>inline</strong> images, do nothing.</li>
+                    <li>All block images need to be wrapped in a <code class="language-html">&lt;figure class="bcls-figure"&gt;</code> tag.
+                    <aside class="bcls-aside bcls-aside--tip">If you are using the group Dash snippets, type <code>bcimg</code> to get a figure block - you will be promted to enter a description that will be used for the <code>alt</code> value as well as a numbered image caption. (Or type <code>bcimgnoborder</code> to get the same thing without the image border.)</aside>
+                    </li>
+                    <li>While you are there, if the image is a screenshot, check to make sure it's up to date.</li>
+                </ol>
+                <h3>Convert Task Steps</h3>
+                <ol class="bcls-tasklist">
+                    <li>If there are task steps in the document, give the <code class="language-html">&lt;ol&gt;</code> tags for the steps lists the class <code>bcls-tasklist</code> and <strong>remove any <code>start</code> attributes.</strong></li>
+                    <li></li>
+                </ol>
+                <h3>Identify non-standard classes</h3>
+                <ol class="bcls-tasklist">
+                    <li>Search the doc for <code>class=</code>.</li>
+                    <li>The only classes that should <strong>not</strong> start with <code>bcls-</code> are:
+                    <ul>
+                        <li>video-cloud-only</li>
+                        <li>player-only</li>
+                        <li>Prism classes: <code>line-numbers</code> and <code>language=xxxx</code></li>
+                        <li>classes for a sample in the page (requires a stylesheet for page -- but please let me know where you think this is necessary, so that I can look and decide if the styles should be added to the site stylesheet)</li>
+                    </ul>
+                    </li>
+                    <li>If you see any other classes that don't begin with <code>bcls-</code>, send me the branch name so I can take a look.</li>
+                </ol>
+            </section>
+        </article>
+        <article>
+            <header class="bcls-header" id="style_reference">
+                <h1>Reference to the template styles</h1>
+                <p>Reference for the style classes used in the new template. If you need additional classes, <strong>tell me!</strong></p>
+            </header>
+            <section id="classes" class="bcls-section">
+                <h2>Article Header</h2>
+                <header id="bcls_header" class="bcls-header">Header <code>&lt;header id="bcls_header" class="bcls-header"&gt;&lt;/header&gt;</code></header>
+                <h2>Section</h2>
+                <section id="Some_section" class="bcls-section">Section <code>&lt;section id="Some_section" class="bcls-section"&gt;&lt;/section&gt;</code></section>
+                <h2 id="asides">Aside classes</h2>
+                <aside class="bcls-aside bcls-aside--information">An <strong>information</strong> aside: <code>&lt;aside class="bcls-aside bcls-aside--information"&gt;&lt;/aside&gt;</code></aside>
+                <aside class="bcls-aside bcls-aside--tip">A <strong>tip</strong> aside: <code>&lt;aside class="bcls-aside bcls-aside--tip"&gt;&lt;/aside&gt;</code></aside>
+                <aside class="bcls-aside bcls-aside--warning">A <strong>warning</strong> aside: <code>&lt;aside class="bcls-aside bcls-aside--warning"&gt;&lt;/aside&gt;</code></aside>
+                <h2>Expander</h2>
+                <h2 class="bcls-expander-head">Expander heading <code>&lt;h2 class="bcls-expander-head"&gt;&lt;/h2&gt;</code></h2>
+                <div class="bcls-expander-content">Expander Content <code>&lt;div class="bcls-expander-content"&gt;&lt;/div&gt;</code></div>
+                <h2>FAQ (click on a question to see the answer)</h2>
+                <p class="bcls-question">Question use <code>class="bcls-question"</code> on any block element</p>
+                <p class="bcls-answer">Answer use <code>class="bcls-answer"</code> on any block element - current answer will close when another question is clicked</p>
+                <p class="bcls-question">Question 2</p>
+                <p class="bcls-answer">Answer 2 - current answer will close when another question is clicked</p>
+                <h2>Images</h2>
+                <h3>With border</h3>
+                <figure class="bcls-figure">
+                    <img class="bcls-image" src="../assets/sample-with-border.png" alt="image description">
+                    <figcaption class="bcls-caption--image">image description</figcaption>
+                </figure>
+                <h3>No Border</h3>
+                <figure class="bcls-figure">
+                    <img class="bcls-image--no-border" src="../assets/sample-no-border.png" alt="image description">
+                    <figcaption class="bcls-caption--image">image description</figcaption>
+                </figure>
+                <h2>Task List</h2>
+                <h3>Task number 1</h3>
+                <ol class="bcls-tasklist">
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                    <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                </ol>
+                <h3>Another task</h3>
+                <ol class="bcls-tasklist">
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                    <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                </ol>
+                <p>
+                    Code for task list:
+                </p>
+<pre class="line-numbers"><code class="language-html">&lt;h3&gt;Task Header&lt;/h3&gt;
+&lt;ol class="bcls-tasklist"&gt;
+    &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+                  <h3>Numbering details</h3>
+                  <p>If you create an <code>&lt;article&gt;</code> with NO <strong>class="bcls-article"</strong> the numbering starts over with each <code>ol</code>.</p>
+                  <p>If you create an <code>&lt;article&gt;</code> that DOES include <strong>class="bcls-article"</strong> the numbering is continuous throughout the doc.</p>
+                  <p>If you want to mix the two, do NOT use the class with the article and do this (not valid HTML, but is works):</p>
+                  <pre class="line-numbers"><code class="language-html">&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
+ &lt;/ol&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+&lt;p&gt;Text between lists&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;p&gt;This is not legal HTML, but it works&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;Continue&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
+&lt;/ol&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+&lt;p&gt;Text between lists&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+                <h2>Table</h2>
+                <table class="bcls-table">
+                    <caption class="bcls-caption--table">Table Caption (optional <code class="language-html">&lt;caption class="bcls-caption--table"&gt;</code>)</caption>
+                    <thead class="bcls-table__head">
+                        <tr>
+                            <th>Table Header</th>
+                            <th>Table Header</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bcls-table__body">
+                        <tr>
+                            <td>Table cell</td>
+                            <td>Table cell</td>
+                        </tr>
+                        <tr>
+                            <td>Table cell</td>
+                            <td>Table cell</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>(table code)</h3>
+<pre class="line-numbers"><code class="language-html">&lt;table class="bcls-table"&gt;
+    &lt;caption class="bcls-caption--table"&gt;Table Caption (optional &lt;strong&gt;&lt;caption class="bcls-caption--table"&gt;&lt;/strong&gt;)&lt;/caption&gt;
+    &lt;thead class="bcls-table__head"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Table Header&lt;/th&gt;
+            &lt;th&gt;Table Header&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody class="bcls-table__body"&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                <h2>Code blocks</h2>
+                <h3>Inline code</h3>
+                <p>
+                    Some text and then some code <code class="language-javascript">var now = new Date();</code> and then some more text. Inline code is done like this: <code class="language-html">&lt;code class="language-javascript"&gt;var now = new Date()&lt;/code&gt;</code>
+                </p>
+                <aside class="bcls-aside bcls-aside--tip">If the code block isn't any particular language (or not really code) just don't add the class attribute at all, and you'll just get the default styling from our stylesheet.</aside>
+<pre class="line-numbers"><code class="language-html">&lt;p&gt;Ordinary code blocks get wrapped
+in &lt;pre&gt;&lt;code class="language-XXXX"&gt;&lt;/code&gt;&lt;/pre&gt;
+blocks like this one. See the Dash snippet list above for the common languages&lt;p&gt;
+&lt;ul&gt;</code></pre>
+                <h3>Auto-selected code</h3>
+                <textarea class="bcls-code">textarea with class="bcls-code". The entire contents are automatically selected when the user clicks on it. Use only plain text in textareas. HTML will be rendered as code, e.g. &lt;textarea class="bcls-code"&gt;, which is ok if that's what you want - also, lines are wrapped; to create a linebreak, use &amp;#10; </textarea>
+                <h2>Buttons</h2>
+                <p><button class="bcls-button">Button</button> <code class="language-html">&lt;button class="bcls-button"&gt;&lt;/button&gt;</code></p>
+            </section>
+        </article>
+        <article id="dashSnippets">
+            <section>
+                <h2>Dash snippets</h2>
+                <table class="bcls-table" style="width:100%">
+                    <caption class="bcls-caption--table">Dash Snippets</caption>
+                    <thead class="bcls-table__head">
+                        <tr>
+                            <th>Snippet shortcut</th>
+                            <th>Generated code</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bcls-table__body">
+                        <tr>
+                            <td>bcarticle</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;article class="bcls-article"&gt;
+    &lt;header id="bcls_header" class="blcs-header"&gt;
+        &lt;h1&gt;Doc Title&lt;/h1&gt;
+        &lt;p&gt;This topic ...&lt;/p&gt;
+    &lt;/header&gt;
+&lt;/article&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcsection</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;section id="" class="bcls-section"&gt;
+    &lt;h2&gt;&lt;/h2&gt;
+    &lt;p&gt;&lt;/p&gt;
+&lt;/section&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcinfo</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;aside class="bcls-aside bcls-aside--information"&gt;&lt;/aside&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>cbcinfo</td>
+                            <td><pre class="line-numbers"><code class="language-html">class="bcls-aside bcls-aside--information"</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bctip</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;aside class="bcls-aside bcls-aside--tip"&gt;&lt;/aside&gt;"</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>cbctip</td>
+                            <td><pre class="line-numbers"><code class="language-html">class="bcls-aside bcls-aside--tip"</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcwarning</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;aside class="bcls-aside bcls-aside--warning"&gt;&lt;/aside&gt;"</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>cbcwarning</td>
+                            <td><pre class="line-numbers"><code class="language-html">class="bcls-aside bcls-aside--warning"</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcbutton</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;button class="bcls-button"&gt;Button&lt;/button&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcimg</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;figure class="bcls-figure"&gt;
+    &lt;img class="bcls-image" src="" alt="My Image"&gt;
+    &lt;figcaption class="bcls-caption--image"&gt;My Image&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcimgnoborder</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;figure class="bcls-figure"&gt;
+    &lt;img class="bcls-image--no-border" src="" alt="My Image"&gt;
+    &lt;figcaption class="bcls-caption--image"&gt;My Image&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bctasklist</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;h3&gt;Task Header&lt;/h3&gt;
+&lt;ol class="bcls-tasklist"&gt;
+    &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>bcnewlist</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;h3&gt;Task Header&lt;/h3&gt;
+&lt;ol class="bcls-tasklist__restart"&gt;
+    &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td>pchtml</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-html"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>phtml</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-html"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pccss</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-css"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcss</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-css"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcjs</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-javascript"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pjs</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-javascript"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pchttp</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-http"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>phttp</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-http"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcljson</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-json"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pljson</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-json"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcswift</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-swift"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pswift</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-swift"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcobjc</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-objectivec"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pobjc</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-objectivec"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcjava</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-java"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pjava</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">class="language-java"</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcbash</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-bash"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcruby</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-ruby"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>pcpython</td>
+                            <td>
+                                <pre class="line-numbers"><code class="language-html">&lt;pre class="line-numbers"&gt;&lt;code class="language-python"&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>bchighlight</td>
+                            <td>
+                                To highlight some text, <span class="bcls-highlight">wrap it in &lt;span class="bcls-highlight"&gt;&lt;/span&gt;</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>bctable</td>
+                            <td><pre class="line-numbers"><code class="language-html">&lt;table class="bcls-table"&gt;
+    &lt;caption class="bcls-caption--table"&gt;My Table&lt;/caption&gt;
+    &lt;thead class="bcls-table__head"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Table Header&lt;/th&gt;
+            &lt;th&gt;Table Header&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody class="bcls-table__body"&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+            &lt;td&gt;Table cell&lt;/td&gt;
+        &lt;/tr&lt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <p>
+              If you need to override the size of an image you can use
+              <pre class="line-numbers"><code class="language-html">style="max-width: none"</code></pre>
+            </p>
+            <p>
+              Note for the top of Video Cloud only docs-nav-data
+              <pre class="line-numbers"><code class="language-html">&lt;aside class=&quot;player-only bcls-aside bcls-aside--warning&quot;&gt;The information contained in this document is not applicable for Perform customers.&lt;/aside&gt;</code></pre>
+            </p>
+        </article>
+        <script src="/en/scripts/bcls-utils.js"></script>
+        <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+
+        <!-- doc footer -->
+        <footer class="bcls-footer"><a id="feedbackMail" href="mailto:docs@brightcove.com">Questions or comments?</a></footer>
+        <!-- footer script -->
+        <script>
+            var feedbackMail = document.getElementById("feedbackMail");
+            feedbackMail.setAttribute("href", "mailto:docs@brightcove.com?subject=question regarding " + encodeURI(document.location.href));
+        </script>
+
+    <script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+</html>

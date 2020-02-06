@@ -76,12 +76,6 @@
                     </li>
                     <li>You can also use the <code class="language-html">class="language-XXXX"</code> attribute on inline <code class="language-html">&lt;code&gt;</code></li>
                 </ol>
-                <h3>Fix expander sections</h3>
-                <p><strong>(applies only to some pages, mostly player samples)</strong></p>
-                <ol class="bcls-tasklist">
-                    <li>Find the <code class="language-html">&lt;h2 id="expanderHead"&gt;</code> tag(s) and change <code>id="expanderHead"</code> to <code>class="bcls-expander-head"</code></li>
-                    <li>In the following <code class="language-html">&lt;div id="expanderContent" style="display:none"&gt;</code> tag, change <code>id="expanderContent"</code> to <code>class="bcls-expander-content"</code> and remove the <code>style="display:none"</code> attribute.</li>
-                </ol>
                 <h3>Fix images</h3>
                 <aside class="bcls-aside bcls-aside--warning">All images and other external assets should be moved to the doc-assets folder on S3 via the BCL-Doc-Assets repo!</aside>
                 <ol class="bcls-tasklist">
@@ -94,8 +88,11 @@
                 </ol>
                 <h3>Convert Task Steps</h3>
                 <ol class="bcls-tasklist">
-                    <li>If there are task steps in the document, give the <code class="language-html">&lt;ol&gt;</code> tags for the steps lists the class <code>bcls-tasklist</code> and <strong>remove any <code>start</code> attributes.</strong></li>
-                    <li></li>
+                    <li>If there are task steps in the document, give the <code class="language-html">&lt;ol&gt;</code> tags for the steps lists the class <code>bcls-tasklist</code> and remove any old <code>start</code> attributes.</li>
+                    <li>If you want to restart numbering for the list use:
+                      <code>&lt;ol class=&quot;bcls-tasklist-restart&quot;&gt;</code>
+                      otherwise omit the <code>-restart</code>.
+                    </li>
                 </ol>
                 <h3>Identify non-standard classes</h3>
                 <ol class="bcls-tasklist">
@@ -105,10 +102,16 @@
                         <li>video-cloud-only</li>
                         <li>player-only</li>
                         <li>Prism classes: <code>line-numbers</code> and <code>language=xxxx</code></li>
-                        <li>classes for a sample in the page (requires a stylesheet for page -- but please let me know where you think this is necessary, so that I can look and decide if the styles should be added to the site stylesheet)</li>
+                        <li>classes for a sample in the page (requires a stylesheet for page -- but please let Robert know where you think this is necessary, so that Robert can look and decide if the styles should be added to the site stylesheet)</li>
                     </ul>
                     </li>
-                    <li>If you see any other classes that don't begin with <code>bcls-</code>, send me the branch name so I can take a look.</li>
+                    <li>If you see any other classes that don't begin with <code>bcls-</code>, send Robert the branch name so I can take a look.</li>
+                </ol>
+                <h3>Fix expander sections</h3>
+                <p><strong>(applies only to some pages, mostly player samples)</strong></p>
+                <ol class="bcls-tasklist">
+                    <li>Find the <code class="language-html">&lt;h2 id="expanderHead"&gt;</code> tag(s) and change <code>id="expanderHead"</code> to <code>class="bcls-expander-head"</code></li>
+                    <li>In the following <code class="language-html">&lt;div id="expanderContent" style="display:none"&gt;</code> tag, change <code>id="expanderContent"</code> to <code>class="bcls-expander-content"</code> and remove the <code>style="display:none"</code> attribute.</li>
                 </ol>
             </section>
         </article>
@@ -162,39 +165,6 @@
 <pre class="line-numbers"><code class="language-html">&lt;h3&gt;Task Header&lt;/h3&gt;
 &lt;ol class="bcls-tasklist"&gt;
     &lt;li&gt;&lt;/li&gt;
-&lt;/ol&gt;</code></pre>
-                  <h3>Numbering details</h3>
-                  <p>If you create an <code>&lt;article&gt;</code> with NO <strong>class="bcls-article"</strong> the numbering starts over with each <code>ol</code>.</p>
-                  <p>If you create an <code>&lt;article&gt;</code> that DOES include <strong>class="bcls-article"</strong> the numbering is continuous throughout the doc.</p>
-                  <p>If you want to mix the two, do NOT use the class with the article and do this (not valid HTML, but is works):</p>
-                  <pre class="line-numbers"><code class="language-html">&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
- &lt;/ol&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-&lt;p&gt;Text between lists&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;p&gt;This is not legal HTML, but it works&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;Continue&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
-&lt;/ol&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-&lt;p&gt;Text between lists&lt;/p&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-&lt;ol class=&quot;bcls-tasklist&quot;&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;Restart&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-  &lt;li&gt;s;alkjasl;fa&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
                 <h2>Table</h2>
                 <table class="bcls-table">
@@ -481,14 +451,10 @@ blocks like this one. See the Dash snippet list above for the common languages&l
                     </tbody>
                 </table>
             </section>
-            <p>
-              If you need to override the size of an image you can use
+            <p>If you need to override the size of an image you can use</p>
               <pre class="line-numbers"><code class="language-html">style="max-width: none"</code></pre>
-            </p>
-            <p>
-              Note for the top of Video Cloud only docs-nav-data
+            <p>Note for the top of Video Cloud only docs-nav-data</p>
               <pre class="line-numbers"><code class="language-html">&lt;aside class=&quot;player-only bcls-aside bcls-aside--warning&quot;&gt;The information contained in this document is not applicable for Perform customers.&lt;/aside&gt;</code></pre>
-            </p>
         </article>
         <script src="/en/scripts/bcls-utils.js"></script>
         <script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>

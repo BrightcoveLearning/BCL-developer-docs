@@ -48,7 +48,23 @@
             <ul>
               <li>You must input only <a href="https://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-2 three letter codes</a>, using only Terminology and not <strong>Bibliography</strong> codes.</li>
               <li>When no supplied language codes are matched with the source audio, we will process the default language and tag it with supplied language code</li>
-              <li></li>
+              <li>If you do specify a Bibliography language code and it matches a source track, we will attach the language code to that track, but you should always use <strong>Terminology</strong> language codes.</li>
+              <li>When multiple tracks are specified as <code>default</code> we will use the first one as the default</li>
+              <li>If you specify a non-English track as default, but no audio information is supplied about the track, we will tag it as "eng".</li>
+              <li>There is limit of 100 jobs that can be in the processing queue (unless you specify <a href="http://support.brightcove.com/dynamic-ingest-api-sample-ingesting-low-priority-videos-dynamic-delivery">Low Priority</a> processing). If you are adding a large number of audio tracks, you may hit this limit, and requests will fail until the processing queue falls below 100. See <a href="http://support.brightcove.com/fallback-retry-strategy">Fallback/Retry Strategy</a> for more details.</li>
+              <li>
+                Not all audio service types are supported: only the following types may be used:
+                <ul>
+                  <li><code>main</code></li>
+                  <li><code>alternate</code></li>
+                  <li><code>commentary</code></li>
+                  <li><code>dub</code></li>
+                  <li><code>descriptive</code></li>
+                </ul>
+              </li>
+              <li>When you add eng &gt; main and eng &gt; commentary tracks during ingestion and the source contain eng with no audio service type, the source audio will be missing in the output renditions.</li>
+              <li>If you include two tracks with the same language code, and specify one as <code>variant</code> and provide no service type for the other, the ingest will fail.</li>
+              <li>When a video with a single audio track is replaced by a video with multiple language audio tracks, the track for the original single language will also be included in the renditions, with its original language identifier.</li>
               <li>Both multiple audio tracks within the source video and additional separate audio files can be used for multiple audio tracks. Video Cloud does not store audio masters, however - separate audio files used as alternate audio tracks must be hosted on public URLs.</li>
               <li>By default, external audio tracks will be merged with those contained in the video. If instead you want to replace the audio tracks contained in the video, you can set the <code>merge_with_existing</code> flag to <code>false</code>.</li>
               <li>Ingest will <strong>not</strong> fail the job for any master track that is not part of the media info and that track will be skipped.</li>

@@ -340,6 +340,8 @@
             <p>The sections below identify the syndication, asset, source, and digital master properties you can use, as well as an extension to Liquid added for convenience.</p>
             <p>To see all Video Cloud video metadata fields with descriptions, to go the <a href="https://support.brightcove.com/cms-api-video-fields-reference">CMS API Video Fields Reference</a>.</p>
 
+            <p></p>
+
             <section class="bcls-subsection">
               <h3 id="Top_level_properties">Top level properties</h3>
               <h4>Derived from Syndication fields</h4>
@@ -465,6 +467,41 @@
               <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;{{asset.publication_date | toUTC | date: "%a, %d %b %Y %H:%M:%S %Z"}}&lt;/pubDate&gt;</code></pre>
               <p>This produces an output like the following if asset.publication_date has a value of 2019-08-09T13:32:52.031Z::</p>
               <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;Fri, 09 Aug 2019 09:32:52 +0000&lt;/pubDate&gt;</code></pre>
+              <h4>toEpoch filter</h4>
+              <p>The Liquid parser we use does not support the "%s" token in date filters for converting dates to Unix epoch timestamps. To address this, a toEpoch custom filter is provided that can be used to convert valid date specifications to the epoch format. The filter returns a numeric data value representing milliseconds since the epoch that is suitable for input to mathematical filters. For example:</p>
+<pre class="line-numbers"><code class="language-html">&lt;toEpochMillis&gt;{{"now" | toEpoch }}&lt;/toEpochMillis&gt;
+&lt;toEpochSeconds&gt;{{"now" | toEpoch | divided_by : 1000 }}&lt;/toEpochSeconds&gt;
+&lt;thirtyDaysAgo&gt;{{'now' | toEpoch | minus:2592000000 | fromEpoch }}&lt;/thirtyDaysAgo&gt;</code></pre>
+
+
+<p>
+  produces an output like the following:
+</p>
+<pre class="line-numbers"><code class="language-html">&lt;toEpochMillis&gt;1580917253024&lt;/toEpochMillis&gt;
+&lt;toEpochSeconds&gt;1580917253&lt;/toEpochSeconds&gt;
+&lt;thirtyDaysAgo&gt;2020-01-06T15:40:53.055Z&lt;/thirtyDaysAgo&gt;</code></pre>
+
+<h4>
+  fromEpoch filter
+</h4>
+<p>
+  The fromEpoch filter converts numbers representing milliseconds since the epoch to UTC date strings. The filter will also accept a string containing the epoch value digits as an input. The output can be passed to the date filter for reformatting if necessary.
+</p>
+
+<p>
+  For example:
+</p>
+<pre class="line-numbers"><code class="language-html">
+&lt;fromEpochMillis&gt;{{"now" | toEpoch | fromEpoch }}&lt;/fromEpochMillis&gt;
+&lt;thirtyDaysAgoAltFormat&gt;{{1580917253024 | fromEpoch | date:"%Y-%m-%d" }}&lt;/thirtyDaysAgo&gt;
+</code></pre>
+
+<p>
+  produces an output like the following:
+</p>
+<pre class="line-numbers"><code class="language-html">
+&lt;fromEpochMillis&gt;2020-02-05T16:09:37.809Z&lt;/fromEpochMillis&gt;
+&lt;thirtyDaysAgoAltFormat&gt;2020-02-05&lt;/thirtyDaysAgo&gt;</code></pre>
             </section>
           </section>
         </article>

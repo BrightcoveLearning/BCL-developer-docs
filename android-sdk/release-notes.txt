@@ -1,5 +1,25 @@
 Brightcove Native Player for Android Release Notes:
 
+Version 6.11.0:
+
+  SDK Changes:
+
+      * Added support for the Brightcove Playback Rights Management Service. Please note that this new feature is in Limited Availability.
+      * The Video object now has a status code, which can be either Status.OK or Status.ERROR. You may retrieve the status through Video.getStatus():Status.
+        - Status.OK: The Video has all the expected properties and does not have Video.Fields.ERRORS in it.
+        - Status.ERROR: The video has Video.Fields.ERRORS in its properties in the form of List<CatalogError>.
+      * [Breaking Change] The Playlist object is now immutable.
+      * The Playlist object can now contain a mix of videos with status Status.OK and Status.ERROR.
+        - Playlist.getErrorVideos(): This new method will return only videos with status Status.ERROR.
+        - Playlist.getAllVideosAndErrors(): This new method will return all videos with both status, Status.OK and Status.ERROR, following the same order as returned from the Playback Rights Management Service response.
+        - Note: Playlist.getVideos() and Playlist.getCount() behave the same way as previous versions, that is, they consider only the videos with status Status.OK.
+      * Added ErrorListener.onError(List<CatalogError>) callback.
+      * Deprecated ErrorListener.onError(String) callback.
+
+  VMAP Plugin:
+
+      * The VMAP plugin has been deprecated. For client-side advertising with VMAP and VAST documents, please use the IMA plugin.
+
 Version 6.10.1:
 
   ExoPlayer Changes:

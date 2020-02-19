@@ -1963,13 +1963,17 @@ components:
             modes:
               type: array
               description: >-
-                The kinds of DRM to apply - currently Widevine and FairPlay with HLS are supported. Using `all` will apply all types available
+                The kinds of DRM to apply - currently Widevine and Playready with DASH and FairPlay with HLS are supported. If you prefer to make Widevine with HLS your default instead of Widevine with DASH, an account-level configuration is required and you must submit a Support request for that. Using `all` will apply all types available. See [Live DRM via the Live API](https://support.brightcove.com/live-drm-live-api) for more information.
               items:
                 type: string
                 enum:
                   - all
                   - fairplay
+                  - playready
                   - widevine
+                  - widevine:dash
+                  - widevine:hls
+              example: "all"
             token_expires_in:
               type: integer
               description: Amount of time in seconds before the token expires
@@ -4429,6 +4433,53 @@ components:
           items:
             $ref: '#/components/schemas/playback_added_cdns'
           type: array
+        drm:
+          description: >-
+            Information on DRM packaging of outputs
+          type: object
+          properties:
+            token:
+              type: string
+              description: The DRM token
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiYnJpZ2h0Y292ZV9hbGl2ZS1xYS1uYS01ZmZlYWRlYjhlNWQ0ODM4OTEwOTEzMTQyOWRiMDM1NCIsInBsYXlsaXN0IjoiZGVmYXVsdCIsIm9wdGlvbnMiOltdLCJjcnQiOm51bGwsImFjY2lkIjoiMzAzMTI2NDE1NjQyMDIiLCJpYXQiOjE1ODA3ODg3MjQsImV4cCI6MTU4MDgzMTkyNCwiaXNzIjoiYWxpdmUiLCJzdWIiOiIxMjNlODgzZGVlNzg0MjgyYjlkMWU4OTk0ZTZmMWUxZCIsImp0aSI6IjFmYmM2ZGMxZjZjNzJlOGVmZGIzMzU1N2I4MjBjMmJlIn0.IpH2AQglCZAU8ECYZ3Uq_p-0QXNx7-cbmFFI7tsQfik"
+            mode:
+              type: array
+              description: Array of DRM packages applied
+              items:
+                type: object
+                description: Details of the DRM packaging
+                properties:
+                  type:
+                    type: string
+                    description: The DRM type
+                    enum:
+                      - fairplay
+                      - playready
+                      - widevine
+                  key_system:
+                    type: string
+                    description: The key system used
+                    example: "com.widevine.alpha"
+                  license_url:
+                    type: string
+                    description: URL to acquire the license
+                    example: "https://license-proxy-qa.alive.us-west-2.qa.deploys.brightcove.com/lic/wv?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiYnJpZ2h0Y292ZV9hbGl2ZS1xYS1uYS01ZmZlYWRlYjhlNWQ0ODM4OTEwOTEzMTQyOWRiMDM1NCIsInBsYXlsaXN0IjoiZGVmYXVsdCIsIm9wdGlvbnMiOltdLCJjcnQiOm51bGwsImFjY2lkIjoiMzAzMTI2NDE1NjQyMDIiLCJpYXQiOjE1ODA3ODg3MjQsImV4cCI6MTU4MDgzMTkyNCwiaXNzIjoiYWxpdmUiLCJzdWIiOiIxMjNlODgzZGVlNzg0MjgyYjlkMWU4OTk0ZTZmMWUxZCIsImp0aSI6IjFmYmM2ZGMxZjZjNzJlOGVmZGIzMzU1N2I4MjBjMmJlIn0.IpH2AQglCZAU8ECYZ3Uq_p-0QXNx7-cbmFFI7tsQfik"
+                  filename: 
+                    type: string
+                    description: File name for the DRM packaged output
+                    example: "playlist.mpd"
+                  dvr_filename:
+                    type: string
+                    description: File name for the DRM packaged, DVR enabled stream
+                    example: "dvr_filename"
+                  playback_url:
+                    type: string
+                    description: URL for DRM packaged stream
+                    example: "https://playback-qa.a-live.io/123e883dee784282b9d1e8994e6f1e1d/us-west-2/NA/playlist.mpd"
+                  playback_url_dvr:
+                    type: string
+                    description: URL for DRM packaged, DVR-enabled stream
+                    example: "https://playback-qa.a-live.io/123e883dee784282b9d1e8994e6f1e1d/us-west-2/NA/playlist_dvr.mpd"
         event_length:
           description: >-
             Used to preset and define an end time for the live event. At any

@@ -53,7 +53,7 @@
             <li><a href="/en/staging/heritage-ooyala/search-syntax-for-syndication.html">Search Syntax for Syndication</a></li>
             <li><a href="/en/staging/heritage-ooyala/sample-templates-universal-syndication.html">Sample Templates for Universal Syndication</a></li>
             <li><a href="https://docs.brightcove.com/mrss-config-api/v1/doc/index.html">Syndication Configuration API Reference</a></li>
-            <li><a href="https://docs.brightcove.com/mrss-feed-api/v1/doc/index.html">Syndication Feed API Reference</li>
+            <li><a href="https://docs.brightcove.com/mrss-feed-api/v1/doc/index.html">Syndication Feed API Reference</a></li>
           </ul>
       <section class="bcls-section">
             <h2 id="introduction">Introduction</h2>
@@ -93,24 +93,50 @@
           </section>
           <section class="bcls-section">
             <h2 id="Syndication_Resource">Syndication Resource</h2>
-            <p>The syndication resource (also the response for creating a new syndication, and the request body, excluding read-only fields) looks like the following:</p>
+            <p>The syndication resource is an object that defines how the syndication will be created. Here is a sample request body for creating a syndication resource:</p>
 <pre class="line-numbers"><code class="language-json">{
-  "id": "7f594cd3-4853-4174-aff3-203c3e99e9c2",
-  "name": "an internal name for this syndication",
+  "name": "80s music videos syndication",
+  "type": "advanced",
   "include_all_content": false,
   "include_filter": "tags:mytag",
-  "type": "mp4"
-  "title": "Latest racing videos",
+  "title": "80s Music Videos",
   "description": "Amateur Tokyo drift!",
-  "syndication_url": "https://social.feeds.brightcove.com/v1/accounts/9999999999999/mrss/accounts/{account_id}/mrss/syndications/7f594cd3-4853-4174-aff3-203c3e99e9c2/feed"
   "destination_url": "http://mywebsite.com",
   "keywords": "80s, rock",
   "author": "Rick Astley",
-  "subtitle": "Best Of Astley",
   "category": "Music",
-  "album_art_url": "http://my_album_art.jpg"
+  "album_art_url": "http://my_album_art.jpg",
+  "explicit": "no",
+  "owner_name": "http://my_album_art.jpg",
+  "owner_email": "rick@astley.com",
+  "language": "en-us",
+  "fetch_sources": true,
+  "fetch_digital_master": false,
+  "fetch_dynamic_renditions": true
 }</code></pre>
-
+<p>The response will add some read-only fields:</p>
+<pre class="line-numbers"><code class="language-json">{
+  "id": "7f594cd3-4853-4174-aff3-203c3e99e9c2",
+  "name": "80s music videos syndication",
+  "type": "advanced",
+  "include_all_content": false,
+  "include_filter": "tags:mytag",
+  "title": "80s Music Videos",
+  "description": "Amateur Tokyo drift!",
+  "syndication_url": "https://social.feeds.brightcove.com/v1/accounts/9999999999999/mrss/accounts/{account_id}/mrss/syndications/7f594cd3-4853-4174-aff3-203c3e99e9c2/feed",
+  "destination_url": "http://mywebsite.com",
+  "keywords": "80s, rock",
+  "author": "Rick Astley",
+  "category": "Music",
+  "album_art_url": "http://my_album_art.jpg",
+  "explicit": "no",
+  "owner_name": "http://my_album_art.jpg",
+  "owner_email": "rick@astley.com",
+  "language": "en-us",
+  "fetch_sources": true,
+  "fetch_digital_master": false,
+  "fetch_dynamic_renditions": true
+  }</code></pre>
 <table class="bcls-table">
   <caption class="bcls-caption--table">Syndication Resource</caption>
   <thead class="bcls-table__head">
@@ -184,12 +210,6 @@
       </tr>
       <tr>
           <td><code>author</code></td>
-          <td>String</td>
-          <td>No</td>
-          <td>only used for itunes and (potentially) universal feeds</td>
-      </tr>
-      <tr>
-          <td><code>subtitle</code></td>
           <td>String</td>
           <td>No</td>
           <td>only used for itunes and (potentially) universal feeds</td>
@@ -443,7 +463,7 @@
               </ul>
             </section>
             <section class="bcls-subsection">
-              <h3 id="Digital_master_properties">Dynamic rendition properties</h3>
+              <h3 id="Dynamic_rendition_properties">Dynamic rendition properties</h3>
               <p>The <code>dynamic_renditions</code> resource for an asset is derived from the dynamic renditions returned by the CMS Get Digital Master Info API method. The following properties are supported:</p>
               <ul>
                 <li><code>rendition_id</code></li>

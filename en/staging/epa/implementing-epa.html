@@ -607,6 +607,9 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
 <p>
   When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
 </p>
+<p>
+  To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html#Create_a_JSON_Web_Token">JWT claims</a> required for concurrency. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
+</p>
 
 <h3>Tags</h3>
 <p>
@@ -619,24 +622,16 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
 
 <h3>Steps</h3>
 <p>
-  To create the JWT token and pass it to your player, follow these steps:
+  To create a JSON Web Token (JWT) to pass to your player, follow these steps:
 </p>
 <ol class="bcls-tasklist__restart">
   <li>
-    <h4 id="Generate_public_private_key_pair">Generate public-private key pair</h4>
-    <p>Generate a public-private key pair. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_public_private_key_pair">Generate public-private key pair</a> section in the Implementing DRM with Playback Authorization Service document.</p>
+    <h4 id="Determine_restrictions">Determine restrictions</h4>
+    <p>Determine the type of user-level restrictions you want to use from the list above. Include the necessary JWT claims when you create your JSON Web Token (JWT) in the next step.</p>
   </li>
   <li>
-    <h4 id="Register_your_public_key">Register your public key</h4>
-    <p>Register your public key with Brightcove using the Key API. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Register_public_key">Register public key</a> section in the Implementing DRM with Playback Authorization Service document.</p>
-  </li>
-  <li>
-    <h4 id="Generate_JWT_token">Generate JWT token</h4>
-    <p>Generate a JWT token for each playback session, signed with the private key. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">Generate JWT token</a> section in the Implementing DRM with Playback Authorization Service document.</p>
-    <h5>Stream concurrency</h5>
-    <p>
-      To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> required for concurrency. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
-    </p>
+    <h4 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h4>
+    <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
   </li>
 </ol>
 </section>

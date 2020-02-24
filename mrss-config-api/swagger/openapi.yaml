@@ -3,10 +3,7 @@ x-bc-implicit-head: true
 x-bc-implicit-options: true
 x-bc-upstream: 'https://mrss_config_server'
 info:
-  description: |-
-    Syndication Configuration API
-
-    Base URL: https://social.api.brightcove.com/v1
+  description: Syndication Configuration API
   version: 1.0.0
   title: Brightcove Syndication Configuration API
   x-bc-access: public
@@ -41,12 +38,28 @@ paths:
                 $ref: '#/components/schemas/Syndication'
         '400':
           description: Request body syntax error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '422':
           description: Invalid request body fields or values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
     get:
       tags:
         - Syndications
@@ -68,15 +81,23 @@ paths:
                 $ref: '#/components/schemas/SyndicationList'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
   '/accounts/{account_id}/mrss/syndications/{syndication_id}':
     put:
       tags:
         - Syndications
       summary: Update a syndication.
       description: >-
-        Updates the confguration data for a syndication.  A fully populated Syndication object should be passed as the request body.
+        Updates the configuration data for a syndication.  A fully populated Syndication object should be passed as the request body.  Read-only fields can be omitted, and will be ignored if they are included.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
       operationId: putSyndication
       security:
         - BC_OAuth2:
@@ -98,16 +119,28 @@ paths:
                 $ref: '#/components/schemas/Syndication'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '404':
           description: Syndication not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
     patch:
       tags:
         - Syndications
       summary: Update a syndication.
       description: >-
-        Updates the confguration data for a syndication.  A Syndication object specifying non-null values for fields to be updated should be passed as the request body.
+        Updates the configuration data for a syndication.  A Syndication object specifying non-null values for writable fields to be updated should be passed as the request body.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
       operationId: patchSyndication
       security:
         - BC_OAuth2:
@@ -129,10 +162,22 @@ paths:
                 $ref: '#/components/schemas/Syndication'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '404':
           description: Syndication not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
     delete:
       tags:
         - Syndications
@@ -151,10 +196,22 @@ paths:
           description: Syndication successfully deleted
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '404':
           description: Syndication not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
     get:
       tags:
         - Syndications
@@ -177,10 +234,22 @@ paths:
                 $ref: '#/components/schemas/Syndication'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '404':
           description: Syndication not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
   '/accounts/{account_id}/mrss/syndications/{syndication_id}/template':
     put:
       tags:
@@ -207,10 +276,22 @@ paths:
           description: The newly uploaded template.
         '400':
           description: Request body syntax error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
     get:
       tags:
         - Templates
@@ -229,32 +310,63 @@ paths:
           description: The universal syndication's feed template.  If one has not yet been uploaded, a default empty template will be returned.
         '401':
           description: Insufficient permissions to access this API method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '403':
           description: Forbidden, syndication was not of type universal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '404':
           description: Syndication not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
         '500':
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorList'
 components:
   schemas:
     Syndication:
       type: object
+      required:
+      - name
+      - type
       properties:
         id:
           type: string
           description: Id of this syndication
+          readOnly: true
         name:
           type: string
           description: Name of this syndication
-        include_all_content:
-          type: boolean
-          description: If true, all content is included in this syndication.
-        include_filter:
-          type: string
-          description: A CMS video search filter string used to select the subset of content included in this syndication.
         type:
           type: string
-          description: The syndication type.  Valid values are [advanced, google, iphone, ipad, mp4, itunes, roku, source, universal]
+          enum: [
+            "advanced",
+            "google",
+            "iphone",
+            "ipad",
+            "mp4",
+            "itunes",
+            "roku",
+            "source",
+            "universal"
+          ]
+          description: The syndication type.  Valid values are [advanced, google, iphone, ipad, mp4, itunes, roku, source, universal].  Cannot be changed after syndication creation time.
+        include_all_content:
+          type: boolean
+          description: If true, all content is included in this syndication.  If false, a valid include_filter property must be specified for the syndication.
+        include_filter:
+          type: string
+          description: A CMS video search filter string used to select the subset of content included in this syndication.  The include_all_content field must be set to false if a value is specified for this property.
         title:
           type: string
           description: The title of this feed. Will be included inside of the <channel> tag for some syndication types.
@@ -263,51 +375,64 @@ components:
           description: The description of this feed. Will be included inside of the <channel> tag for some syndication types.
         syndication_url:
           type: string
-          description: The URL of this syndication's feed. Read only.
-          read_only: true
+          readOnly: true
+          description: The URL of this syndication's feed.  Read-only.
         destination_url:
           type: string
           description: The URL to be included inside of the <channel> tag in the feed.
         keywords:
-          type: string
-          description: A comma-separated list of keywords for iTunes
+            type: string
+            description: A comma-separated list of keywords for iTunes
         author:
-          type: string
-          description: iTunes author specification
+            type: string
+            description: iTunes author specification
         category:
-          type: string
-          description: iTunes category specification
+            type: string
+            description: iTunes category specification
         album_art_url:
-          type: string
-          description: iTunes album art url.
+            type: string
+            description: iTunes album art url.
         explicit:
-          type: string
-          description: iTunes explicit content indicator, accepts "yes" or "no" values.
+            type: string
+            enum: ["yes", "no"]
+            description: iTunes explicit content indicator, accepts "yes" or "no" values.
         owner_name:
-          type: string
-          description: iTunes owner name.
+            type: string
+            description: iTunes owner name.
         owner_email:
-          type: string
-          description: iTunes owner email.
+            type: string
+            description: iTunes owner email.
         language:
-          type: string
-          description: iTunes or Roku feed language field
+            type: string
+            description: iTunes or Roku feed language field.
         fetch_sources:
-          type: boolean
-          description: >-
-            For universal feeds, specifies whether the feed service should fetch video source metadata and make it available to the template.  The default value is true.  If source metadata is not needed by the template, setting this to false can improve feed generation performance.
+            type: boolean
+            description: For universal feeds, specifies whether the feed service should fetch video source metadata and make it available to the template.  The default value is true.  If source metadata is not needed by the template, setting this to false can improve feed generation performance.
         fetch_digital_master:
-          type: boolean
-          description: >-
-            For universal feeds, specifies whether the feed service should fetch digital master metadata and make it available to the template.  The default value is false.  If digital master metadata is not needed by the template, keeping this setting as false can improve feed generation performance.
+            type: boolean
+            description: For universal feeds, specifies whether the feed service should fetch digital master metadata and make it available to the template.  The default value is false.  If digital master metadata is not needed by the template, keeping this setting as false can improve feed generation performance.
         fetch_dynamic_renditions:
-          type: boolean
-          description: >-
-            For universal feeds, specifies whether the feed service should fetch dynamic rendition metadata and make it available to the template.  The default value is false.  If dynamic rendition metadata is not needed by the template, keeping this setting as false can improve feed generation performance.
+            type: boolean
+            description: For universal feeds, specifies whether the feed service should fetch dynamic rendition metadata and make it available to the template.  The default value is false.  If dynamic rendition metadata is not needed by the template, keeping this setting as false can improve feed generation performance.
     SyndicationList:
       type: array
       items:
         $ref: '#/components/schemas/Syndication'
+    ResponseError:
+      type: object
+      properties:
+        error_code:
+          type: string
+          description: Application error code
+          readOnly: true
+        message:
+          type: string
+          description: Application error message
+          readOnly: true
+    ResponseErrorList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ResponseError'
   parameters:
     AccountId:
       name: account_id

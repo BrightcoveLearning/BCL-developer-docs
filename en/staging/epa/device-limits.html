@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Implementing Playback Rights Management Service</title>
+  	<title>Implementing Device Limits</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,9 +33,9 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Implementing Playback Rights Management Service</h1>
+			<h1>Implementing Device Limits</h1>
       <aside class="bcls-aside bcls-aside--tip">This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service.</aside>
-      <summary>In this topic, you will learn how to manage video playback using Brightcove's Playback Rights Management Service.</summary>
+      <summary>In this topic, you will learn how to enable device limits for video playback using Brightcove's Playback Rights Management Service.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -44,29 +44,13 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 
-<p>Brightcove's Playback Rights Management Service provides a scalable and expressive way to manage video playback.</p>
+<p>With Brightcove's Playback Rights Management Service, you can enable device limits for video playback. Each user's device is registered with a unique id when a DRM license request is made. You control the number of devices per user.</p>
+<p>
+  The device limit is checked and enforced with each license request. To use this restriction, you will pass a Jason Web Token (JWT) with the current user id (uid) to the Playback API.
+</p>
 
 <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a> document.</p>
 
-</section>
-
-<section class="bcls-section">
-<h2 id="Validation_process">Validation process</h2>
-<p>
-  Playback rights are applied in order of specificity and matching. An allow rule negates the rest of the rules since they are less specific than the one allowing the rule.
-</p>
-<p>
-  You may want to allow a specific ip to avoid a country rule for that ip. You may also want to block a different ip that would normally be allowed by the country restriction. So, it can make sense to have both <code>block-ips</code> and <code>allow-ips</code> in the same playback rights definition. The same holds true for other rules.
-</p>
-<p>
-  You can have allow and block rules for most rights. Countries is the only one where it might not make sense to have both.
-</p>
-
-<p>The following flow diagrams show how the validation process works.</p>
-<figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/validation.png" alt="Playback Rights validation">
-  <figcaption class="bcls-caption--image">Playback Rights validation</figcaption>
-</figure>
 </section>
 
 <section class="bcls-section">
@@ -596,43 +580,44 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
 <section class="bcls-section">
 <h2 id="Define_user_level_restrictions">Define user-level restrictions</h2>
 <p>
-  If you want user-level restrictions, you will need a JSON Web Token (JWT) configured with claims associated with your restrictions.
+  If you want user-level restrictions, you will need a JWT token. This token is used to configure the following restrictions:
 </p>
+<h3>Device limit</h3>
+<p>
+  When a DRM license request is made, the user's device is registered and a unique id is assigned. The device limit is checked and enforced with each license request. To use this restriction, generate a JWT with the current user id (uid).
+</p>
+
+<h3>Concurrency limits</h3>
+<p>
+  When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
+</p>
+<p>
+  To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html#Create_a_JSON_Web_Token">JWT claims</a> required for concurrency. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
+</p>
+
+<h3>Tags</h3>
+<p>
+  The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
+</p>
+<p>
+  Tags in the JWT token will be listed as an array of tags.
+</p>
+<aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
+
 <h3>Steps</h3>
 <p>
   To create a JSON Web Token (JWT) to pass to your player, follow these steps:
+</p>
 <ol class="bcls-tasklist__restart">
   <li>
-    <h3 id="Determine_restrictions">Determine restrictions</h3>
-    <p>Determine the type of user-level restrictions you want to use from the list below. Include the necessary JWT claims when you create your JSON Web Token (JWT).</p>
-  <h4>Device limit</h4>
-  <p>
-    When a DRM license request is made, the user's device is registered and a unique id is assigned. The device limit is checked and enforced with each license request. To use this restriction, generate a JWT with the current user id (uid).
-  </p>
-
-  <h4>Concurrency limits</h4>
-  <p>
-    When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
-  </p>
-  <p>
-    To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html#Create_a_JSON_Web_Token">JWT claims</a> required for concurrency. For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
-  </p>
-
-  <h4>Tags</h4>
-  <p>
-    The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
-  </p>
-  <p>
-    Tags in the JWT token will be listed as an array of tags.
-  </p>
-  <aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
+    <h4 id="Determine_restrictions">Determine restrictions</h4>
+    <p>Determine the type of user-level restrictions you want to use from the list above. Include the necessary JWT claims when you create your JSON Web Token (JWT) in the next step.</p>
   </li>
   <li>
-    <h3 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h3>
+    <h4 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h4>
     <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
   </li>
 </ol>
-
 </section>
 
 <section class="bcls-section">

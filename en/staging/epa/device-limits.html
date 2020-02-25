@@ -55,11 +55,23 @@
 
 <section class="bcls-section">
 <h2 id="Implementation">Implementation</h2>
-
-<p>To use device limits, follow the steps in the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights Management Service document.</p>
 <p>
   To enable device limits, you must include the <code>dlimit</code> claim in your JSON Web Token (JWT).
 </p>
+<p>With the <code>dlimit</code> claim, you control how many devices can be associated with the specified user <code>uid</code>. The value must be &gt; <code>0</code>.
+</p>
+<p>If the <code>dlimit</code> claim value is dropped in later requests, previously allowed devices will continue to operate.
+</p>
+<h4>Example</h4>
+<p>
+  If the <code>dlimit</code> value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.
+</p>
+<p>
+  If the <code>dlimit</code> value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the Playback Rights API. To do this, see the <a href="#Manage_devices">Manage devices</a> section.
+</p>
+<h4>Details</h4>
+<p>For details, see the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights Management Service document.</p>
+
 
 </section>
 

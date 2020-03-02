@@ -120,86 +120,35 @@ Customer's CDN will deliver only the video segments.
 
 
 <section class="bcls-section">
-<h2 id="Define_user_level_restrictions">Define user-level restrictions</h2>
-<p>
-  If you want user-level restrictions, you will need a JSON Web Token (JWT) configured with claims associated with your restrictions.
-</p>
-<h3>Steps</h3>
-<p>
-  To create a JSON Web Token (JWT) to pass to your player, follow these steps:
-<ol class="bcls-tasklist__restart">
-  <li>
-    <h3 id="Determine_restrictions">Determine restrictions</h3>
-    <p>Determine the type of user-level restrictions you want to use from the list below. Include the necessary JWT claims when you create your JSON Web Token (JWT).</p>
-  <h4>Device limits</h4>
+<h2 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h2>
+  <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
   <p>
-    When a DRM license request is made, the user's device is registered and a unique id is assigned. The device limit is checked and enforced with each license request. To use this restriction, generate a JWT with the current user id (uid).
+    Here is an example of the JSON Web Token (JWT) claims that you might use:
   </p>
-  <p>
-    For details, see the <a href="https://docs.brightcove.com/en/staging/epa/device-limits.html">Implementing Device Limits</a> document.
-  </p>
+  <pre class="line-numbers"><code class="language-json">{
+    // issued at: timestamp when the JWT was created
+    &quot;iat&quot;:1575484132,
+    // expires: timestamp when JWT expires
+    &quot;exp&quot;:1577989732,
+    // account id: JWT is only valid for this accounts
+    &quot;accid&quot;:4590388311111,
+    // content id: JWT is only valid for video id or reference id
+    &quot;conid&quot;:5805807122222,
+    // delivery rules: list of delivery rules to apply to this manifest
+    &quot;drules&quot;:[&quot;rule1&quot;,&quot;rule2&quot;],
+    // protection: specify a protection type in the case where multiple are available for a single video
+    &quot;pro&quot;:&quot;aes128&quot;,
+    // VOD specific configuration options
+    &quot;vod&quot;:{
+      // SSAI configuration to apply
+      &quot;ssai&quot;:&quot;efcc566-b44b-5a77-a0e2-d33333333333&quot;
+    }
+  }</code></pre>
 
-  <h4>Concurrency limits</h4>
-  <p>
-    When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
-  </p>
-  <p>
-    For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
-  </p>
-
-  <h4>Tags</h4>
-  <p>
-    The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
-  </p>
-  <p>
-    Tags in the JWT token will be listed as an array of tags.
-  </p>
-  <aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
-  </li>
-  <li>
-    <h3 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h3>
-    <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
-  </li>
-</ol>
 
 </section>
 
-<section class="bcls-section">
-<h2 id="Configure_your_player">Configure your player</h2>
-<p>
-  By default, the Brightcove Player talks to the Brightcove Playback API (PAPI). A new system to manage playback restrictions sits in front of the Playback API. To configure your player, see the following:
-</p>
-<h3>Web player</h3>
-<p>
-  To configure the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-bcp.html">Using Playback Rights with Brightcove Player</a> document.
-</p>
-<h3>Native Android player</h3>
-<p>
-  To configure the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a> document.
-</p>
-<h3>Native iOS player</h3>
-<p>
-  To configure the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a> document.
-</p>
-<h3>Your own player</h3>
-<p>
-  If your content is in the Video Cloud library, but you are using your own player, you can make calls to the Playback API as shown in the <a href="https://support.brightcove.com/overview-playback-api">Overview: Playback API</a> document. Replace the base URL with the following:
-</p>
-<pre ><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
-<p>
-  Instead of using a Policy Key, you will use the JWT token for authentication:
-</p>
-<pre ><code class="language-http">Authorization: Bearer {JWT}</code></pre>
-<p>
-  Here is a Curl example:
-</p>
-<pre class="line-numbers"><code class="language-curl">curl -X GET \
--H 'Authorization: Bearer {JWT}' \
-https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}</code></pre>
-
-</section>
-
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Related_topics">Related topics</h2>
 
 <ul>
@@ -217,7 +166,7 @@ https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/vide
   </li>
 </ul>
 
-</section>
+</section> -->
 
 </article>
 

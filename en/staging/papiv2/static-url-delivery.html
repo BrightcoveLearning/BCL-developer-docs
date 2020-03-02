@@ -35,7 +35,7 @@
 		<div id="main" class="large-10 small-12 columns">
 			<h1>Static URL Delivery</h1>
       <aside class="bcls-aside bcls-aside--tip">This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service.</aside>
-      <summary>In this topic, you will learn how to retrieve and use static URLs from the Brightcove Playback API.</summary>
+      <summary>In this topic, you will learn how to retrieve and use static URLs from the Brightcove Playback API v2.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -65,6 +65,9 @@
 
 <section class="bcls-section">
 <h2 id="Static_URLs">Static URLs</h2>
+<p>
+  With Brightcove's Playback API v2, static URLs are now avaiable.
+</p>
 
 <p>Static URLs include the Account ID, Video ID(or reference), delivery type(HLS,Dash), and configuration options (SSAI, DRM kind, Delivery Rules, …). These URLs are secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the JSON Web Token (JWT) section.</p>
 <p>
@@ -92,10 +95,25 @@
   <tbody class="bcls-table__body">
     <tr>
       <td>Static URL support for VOD</td>
-      <td>Supported formats are HLS, DASH, HLS VMAP & DASH VMAP via Dynamic delivery Only</td>
+      <td>Supported video formats via Dynamic Delivery only:
+        <ul>
+          <li>
+            HLS
+          </li>
+          <li>
+            DASH
+          </li>
+          <li>
+            HLS VMAP
+          </li>
+          <li>
+            DASH VMAP
+          </li>
+        </ul>
+      </td>
     </tr>
     <tr>
-      <td>Authorization</td>
+      <td>Authorization (DRM)</td>
       <td>Support for JWT</td>
     </tr>
     <tr>
@@ -118,7 +136,6 @@ Customer's CDN will deliver only the video segments.
 </table>
 </section>
 
-
 <section class="bcls-section">
 <h2 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h2>
   <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
@@ -134,8 +151,6 @@ Customer's CDN will deliver only the video segments.
     &quot;accid&quot;:4590388311111,
     // content id: JWT is only valid for video id or reference id
     &quot;conid&quot;:5805807122222,
-    // delivery rules: list of delivery rules to apply to this manifest
-    &quot;drules&quot;:[&quot;rule1&quot;,&quot;rule2&quot;],
     // protection: specify a protection type in the case where multiple are available for a single video
     &quot;pro&quot;:&quot;aes128&quot;,
     // VOD specific configuration options
@@ -144,8 +159,35 @@ Customer's CDN will deliver only the video segments.
       &quot;ssai&quot;:&quot;efcc566-b44b-5a77-a0e2-d33333333333&quot;
     }
   }</code></pre>
+</section>
 
+<section class="bcls-section">
+<h2 id="Notes">Notes</h2>
+  <p>The following notes apply to Static URL Delivery.</p>
+  <ul>
+    <li>
+    In-Manifest captions are supported. Out-of-band sidecar captions will be supported in a future release.
+    </li>
+    <li>
+      The customer's BYO CDN will deliver the video segments, while Brightcove's CDN will continue to deliver manifest and sub-manifests.
+    </li>
+  </ul>
+</section>
 
+<section class="bcls-section">
+<h2 id="Limitations">Limitations</h2>
+  <p>The following limitations apply to Static URL Delivery.</p>
+  <ul>
+    <li>
+      Live streams will be supported in a later release.
+    </li>
+    <li>
+      MP4s will be supported in a later release.
+    </li>
+    <li>
+      Delivery Rules will be supported in a later release.
+    </li>
+  </ul>
 </section>
 
 <!-- <section class="bcls-section">

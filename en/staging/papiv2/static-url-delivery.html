@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Static URL Delivery</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Static URL Delivery</h1>
+      <aside class="bcls-aside bcls-aside--tip">This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service.</aside>
+      <summary>In this topic, you will learn how to retrieve and use static URLs from the Brightcove Playback API.</summary>
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+<article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Introduction">Introduction</h2>
+
+<p>Brightcove provides static URLs to video manifest files for assets in your Video Cloud library. This gives you the flexibility to manage your content in your own CMS, and deliver it using a custom security schema. </p>
+
+<p>This is important for customers who have existing architecture that does not allow a Playback API call before needing the manifest url(s).</p>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Current_process">Current process</h2>
+<p>
+  Today, every playback through VideoCloud requires 2 API calls to start video playback.
+</p>
+
+<p>The following diagram shows you the API calls for video playback.</p>
+<figure class="bcls-figure">
+  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18955-playback-rights-implementing/validation.png" alt="Playback Rights validation">
+  <figcaption class="bcls-caption--image">Playback Rights validation</figcaption>
+</figure>
+</section>
+
+<section class="bcls-section">
+<h2 id="Static_URLs">Static URLs</h2>
+
+<p>Static URLs include the Account ID, Video ID(or reference), delivery type(HLS,Dash), and configuration options (SSAI, DRM kind, Delivery Rules, …). These URL sare secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the JSON Web Token (JWT) section.</p>
+<p>
+  For manifests & VMAPs, the response will be returned directly. For MP4s it will 302 to the right CDN URL. DRM is not necessary to include here. This is controlled by flags on the account & video themselves. You  can use a claim in the JWT, if necessary, to switch between DRM types on the fly.
+</p>
+<p>
+  Static URLs will look similar to this:
+</p>
+<pre class="line-numbers"><code class="language-javascript">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/hks,vmap?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="Set_up_your_account">Set up your account</h2>
+
+<p>This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service. Contact your account manager for details.</p>
+<h3>Generate OAuth credentials</h3>
+<p>
+  Get your <code>BC_TOKEN</code> and account number.
+</p>
+<ol class="bcls-tasklist__restart">
+  <li>
+    Log into Video Cloud Studio. In the <strong>Admin</strong> dropdown, select <strong>Account Information</strong>. Copy your <strong>Account ID</strong>.
+  </li>
+  <li>
+    <p>
+      With any page in Studio open, open the developer tools for the browser, go to the Console, and paste in the following code:
+    </p>
+    <pre class="line-numbers"><code class="language-javascript">var cookiesArray = document.cookie.split(&quot;;&quot;), cookiesObj = {}, i, tmpArray = [];
+for (i = 0; i &lt; cookiesArray.length; i++) {
+    tmpArray = cookiesArray[i].split(&quot;=&quot;);
+    if (tmpArray[0].indexOf('BC_TOKEN') &gt; -1) {
+        cookiesObj.BC_TOKEN = tmpArray[1];
+    }
+}
+window.prompt(&quot;BC_TOKEN:&quot;, cookiesObj.BC_TOKEN);</code></pre>
+    <p>
+      and press return.
+    </p>
+  </li>
+  <li>
+    You should see a prompt appear that contains your <code>BC_TOKEN</code>
+  </li>
+</ol>
+
+<h3>Request client credentials</h3>
+<p>
+  Add accout permissions for the Playback Rights API.
+</p>
+<ol class="bcls-tasklist">
+  <li>
+    <p>
+  Here is an example of an OAuth client request with the permissions needed.
+</p>
+<pre class="line-numbers"><code class="language-curl">curl \
+  --include \
+  --header &quot;Authorization: BC_TOKEN <span class="bcls-input">your BC_TOKEN</span>&quot; \
+  --data {
+    name=demo&amp;maximum_scope=[{
+      &quot;identity&quot;: {
+        &quot;type&quot;: &quot;video-cloud-account&quot;,
+        &quot;account-id&quot;: <span class="bcls-input">your account id</span>
+      },
+      &quot;operations&quot;: [
+        &quot;video-cloud/playback-auth/playback-rights/read&quot;,
+        &quot;video-cloud/playback-auth/playback-rights/write&quot;,
+        &quot;video-cloud/video/read&quot;,
+        &quot;video-cloud/video/create&quot;,
+        &quot;video-cloud/video/update&quot;,
+        &quot;video-cloud/video/delete&quot;,
+        &quot;video-cloud/playback-auth/key/read&quot;,
+        &quot;video-cloud/playback-auth/key/write&quot;
+      ]
+  }]
+} \
+https://oauth.brightcove.com/v4/client_credentials</code></pre>
+
+<aside class="bcls-aside bcls-aside--information">It may not be a best practice to generate a single client with all policies.</aside>
+  </li>
+  <li>
+    From the API response, copy the <code>client_id</code> and <code>client_secret</code>. You will use these to generate an access token when making requests to the Playback Rights API.
+  </li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="Define_restrictions">Define restrictions</h2>
+
+<p>Use the Playback Rights API to define video playback restrictions.</p>
+
+<h3 id="Playback_Rights_API">Playback Rights API</h3>
+<p>
+  Each playback rights restriction object can be used with one or more videos.
+</p>
+
+<h3>Base URL</h3>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://playback-rights.api.brightcove.com/v1</code></pre>
+
+<h3>Account path</h3>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-rights.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+
+<h3>Authorization</h3>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h3>Permissions</h3>
+<p>
+  Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/playback-auth/playback-rights/read</code>
+  </li>
+  <li>
+    <code>video-cloud/playback-auth/playback-rights/write</code>
+  </li>
+</ul>
+
+<h3>Manage restrictions</h3>
+<p>
+  The Playback Rights API supports the following requests. For API details, see the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/">Playback Rights API Reference</a>.
+</p>
+
+<h4>Create new playback rights</h4>
+<pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/playback_rights
+  Content-Type: application/json
+  Body: {playback rights object}
+</code></pre>
+<p>
+  For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
+</p>
+
+<h5 id="Curl_example2" class="bcls-expander-head">Curl example</h5>
+<div class="bcls-expander-content">
+  <p>
+    Create playback right valid only for Australia.
+  </p>
+  <pre class="line-numbers"><code class="language-curl">curl -X POST \
+  https://playback-rights.api.brightcove.com/v1/accounts/{your_account_id}/playback_rights \
+  -H 'Authorization: Bearer {access_token}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;geo&quot;: {
+    &quot;allowed_countries&quot;: [
+      &quot;AU&quot;
+    ]
+  }
+}'</code></pre>
+</div>
+<br />
+
+<h5>API Response</h5>
+<p>
+  Save the <code>playback_rights_id</code> value for later use. You can find this value in the API response. Either:
+</p>
+<ul>
+  <li>
+    <p>
+      <strong>Response header</strong>:
+    </p>
+    <p>
+      The <code>playback_rights_id</code> value can be found in the <code>Location</code> field of the Header response. It should be similar to this:
+    </p>
+    <pre><code class="language-http">Location: /v1/accounts/<span class="bcls-highlight">your account_id</span>/playback_rights/<span class="bcls-highlight">your playback_rights_id</span>
+    </code></pre>
+  </li>
+  <li>
+    <p>
+      <strong>Response body</strong>
+    </p>
+    <p>
+      The <code>playback_rights_id</code> value can be found in the response body as the <code>id</code> field. It should be similar to this:
+    </p>
+    <pre class="line-numbers"><code class="language-json">{
+     &quot;id&quot;: &quot;<span class="bcls-highlight">your playback_rights_id</span>&quot;,
+     &quot;geo&quot;: {
+      &quot;allowed_countries&quot;: [
+       &quot;MX&quot;,
+       &quot;US&quot;]
+    }</code></pre>
+  </li>
+</ul>
+
+<h4>Get all playback rights for an account</h4>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/playback_rights</code></pre>
+<br />
+
+<h4>Get a specific playback right for an account</h4>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+<br />
+
+<h4>Update a specific playback right:</h4>
+<pre class="line-numbers"><code class="language-http">PUT /v1/accounts/{accountID}/playback_rights/{playbackRightsID}
+  Content-Type: application/json
+  Body: {playback rights object}</code></pre>
+  <p>
+    For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
+  </p>
+
+<h4>Delete a specific playback right:</h4>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+<br />
+
+<h4 id="Request_body">Request body</h4>
+<p>
+  Here is an example of all of the fields you can include in the request body:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;geo&quot;: {
+  &quot;allowed_countries&quot;: [
+    &quot;MX&quot;,
+    &quot;US&quot;
+  ],
+  &quot;blocked_countries&quot;: [
+    &quot;JP&quot;,
+    &quot;CN&quot;
+  ],
+  &quot;allowed_zip_codes&quot;: [
+    &quot;US-90210&quot;
+  ],
+  &quot;blocked_zip_codes&quot;: [
+    &quot;US-72810&quot;
+  ],
+  &quot;allowed_dmas&quot;: [
+    501
+  ],
+  &quot;blocked_dmas&quot;: [
+    803
+  ]
+},
+&quot;allowed_domains&quot;: [
+  &quot;www.google.com&quot;,
+  &quot;www.brightcove.com&quot;
+],
+&quot;blocked_domains&quot;: [
+  &quot;www.ooyala.com&quot;
+],
+&quot;start_time&quot;: 1572905011,
+&quot;end_time&quot;: 1672905011,
+&quot;allowed_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;blocked_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;allowed_days&quot;: [
+  &quot;mon&quot;,
+  &quot;tue&quot;
+],
+&quot;allowed_hours&quot;: [
+  &quot;5-6&quot;
+],
+&quot;allow_insecure&quot;: true,
+&quot;disabled&quot;: false,
+&quot;external_id&quot;: &quot;8f0b409f-e13e-4e7e-8004-fedd39933a10&quot;
+}
+</code></pre>
+
+<p>
+  Here are the field details:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>allowed_countries</code>, <code>blocked_countries</code></td>
+      <td>String</td>
+      <td>Array of two letter country codes</td>
+    </tr>
+    <tr>
+      <td><code>allowed_zip_codes</code>, <code>blocked_zip_codes</code></td>
+      <td>String</td>
+      <td>Array of zip codes (prefixed with two letters country and hyphen, then Zip code. e.g. <code>[&quot;US-90045&quot;]</code>. The two letter country code must be upper case.</td>
+    </tr>
+    <tr>
+      <td><code>allowed_dmas</code>, <code>blocked_dmas</code></td>
+      <td>Integer</td>
+      <td>Array of Nielsen Designated Market Area (DMA) numbers. For a list of values, see the <a href="https://help.ooyala.com/video-platform/reference/dma_codes.html">DMA Codes</a> document.</td>
+    </tr>
+    <tr>
+      <td><code>allowed_domains</code>, <code>blocked_domains</code></td>
+      <td>String</td>
+      <td>Array of domain names</td>
+    </tr>
+    <tr>
+      <td><code>start_time</code>, <code>end_time</code></td>
+      <td>Integer</td>
+      <td>Epoch time</td>
+    </tr>
+    <tr>
+      <td><code>allowed_ips</code>, <code>blocked_ips</code></td>
+      <td>Integer</td>
+      <td>
+          Array of ipv4/ipv6 addresses or CIDR blocks.
+        <!-- <br><br>
+        <ul>
+          <li>
+            The format of this field is unique and composed of 4 32-bit integers separated by commas:
+            <ul>
+              <li>
+                &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
+            <br />
+            <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:&lt;IPv4&gt;</code>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            For IPv6-mapped IPv4 and native IPv6 addresses, they need to be converted into binary (resulting in a 128 bits number). Separate them into 32 bit blocks, adding a comma between these blocks:
+            <br /><br />
+            192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
+            <br /><br />
+            2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
+          </li>
+        </ul> -->
+      </td>
+      </tr>
+      <!-- <tr>
+        <td><code>allowed_cidr</code>, <code>blocked_cidr</code></td>
+        <td>Integer</td>
+        <td>
+            Array of <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> addresses. Format:
+          <br><br>
+          <ul>
+            <li>
+              The format of this field is unique and composed of 4 32-bit integers separated by commas followed by a slash and the number of significant bits in the CIDR rule:
+              <br />
+              &lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;,&lt;32-bit&gt;/&lt;mask_width&gt;
+            </li>
+            <br>
+            <li>
+                This format allows you to specify CIDR rules for both IPv4 and IPv6 with a single common format.
+            </li>
+            <br>
+            <li>
+              For IPv4, you should use an IPv4 address mapped to IPv6. You should translate using <a href="https://tools.ietf.org/html/rfc5156#section-2.2">this convention</a>.
+              <br />
+              0:0:0:0:0:FFFF:&lt;IPv4 data&gt;/&lt;96 to 128&gt;
+              <br /><br />
+              For IPv4 mask width values are between 0 and 32, you will need to add 96 to the desired IPv4 mask.
+              <br /><br />
+              To create this IPv4 CIDR block <code>192.168.0.0/16</code>, translate it into an IPv6 address as <code>::FFFF:192.168.0.0/112</code>. Then, transform this Ipv6 address into 4 32-bits blocks to get <code>0,0,65535,3232235776/112</code>.
+              <br /><br />
+            </li>
+            <li>
+              For IPv6, all four integers are used though some may still be zero:
+              <br />
+              &lt;Bits 96-127&gt;,&lt;Bits 64-95&gt;,&lt;Bits 32-63&gt;,&lt;Bits 0-31&gt;/&lt;0 to 128&gt;
+              <br /><br />
+              To create this IPv6 CIDR block <code>2620:0:2d0:200::7/80</code>, transform it into 4 32-bits blocks as: <code>639631360,47186432,0,7/80</code>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              All IPs are treated as an IPV6, but for IPv4 need to be transformed into a IPv6-mapped IPv4, which has the following structure:
+              <br />
+              <code>::FFFF:&lt;IPv4&gt; or 0:0:0:0:0:FFFF:&lt;IPv4&gt;</code>
+              <br />
+            </li>
+          </ul>
+          <ul>
+            <li>
+              For IPv6-mapped IPv4 and native IPv6 addresses, they need to be converted into binary (resulting in a 128 bits number). Separate them into 32 bit blocks, adding a comma between these blocks:
+              <br /><br />
+              192.168.0.0 (::FFFF:192.168.0.0), this will result in: <code>0,0,65535,3232235776</code>
+              <br /><br />
+              2620:0:2d0:200::7, this will result in: <code>639631360,47186432,0,7</code>
+            </li>
+          </ul>
+        </td>
+      </tr> -->
+      <tr>
+        <td><code>allowed_days</code></td>
+        <td>String</td>
+        <td>Array of 3-letter lowercase names for the days that the resource is allowed to be retrieved. One or more of: <code>mon, tue, wed, thu, fri, sat, sun</code></td>
+      </tr>
+      <tr>
+        <td><code>allowed_hours</code></td>
+        <td>Integer</td>
+        <td>Array of hours from the 24-hour clock (starting at 0 and up to 47) during which the resource is allowed to be retrieved. 0 to 23 for current day, and 24 to 47 for next day end-date. If an allowed hours block starts in previous day and ends at the following day then a 24+ notation is required.
+        <br /><br />
+        Example: the value of <code>3-4</code> in this header means that the resource is available from 3:00 am UTC to 3:59 am UTC</td>
+      </tr>
+      <tr>
+        <td><code>allow_insecure</code></td>
+        <td>Boolean</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> makes the JWT token optional.</td>
+      </tr>
+      <tr>
+        <td><code>disabled</code></td>
+        <td>Boolean</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> disables the Playback Right, allowing playback for everyone.</td>
+      </tr>
+      <tr>
+        <td><code>external_id</code></td>
+        <td>String</td>
+        <td>Optional reference id</td>
+      </tr>
+  </tbody>
+</table>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Associate_restrictions_with_a_video">Associate restrictions with a video</h2>
+
+<p>Use the CMS API to associate a Playback Rights id with a video. You'll use the Playback Rights id that you created in the previous step.</p>
+
+<h3 id="CMS_API">CMS API</h3>
+<p>
+  Each playback rights restriction object can be used with one or more videos.
+</p>
+
+<h3>Base URL</h3>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://cms.api.brightcove.com/v1</code></pre>
+
+<h3>Account path</h3>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://cms.api.brightcove.com/v1/accounts/{accountId}</code></pre>
+
+<h3>Authorization</h3>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h3>Permissions</h3>
+<p>
+  Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/video/read</code>
+  </li>
+  <li>
+    <code>video-cloud/video/update</code>
+  </li>
+</ul>
+
+<h3>Manage restrictions</h3>
+<p>
+  The CMS API supports the many request types. To update a video, use the following:
+</p>
+
+  <h4>Update a video:</h4>
+  <p>
+    Associate a <code>playback_rights_id</code> with a video. This id should exist in the Playback Rights API, which you created in the previous step.
+  </p>
+<pre class="line-numbers"><code class="language-http">PATCH /v1/accounts/{account_id}/videos/{video_id}
+  Content-Type: application/json
+  Body: {<a href="https://docs.brightcove.com/cms-api/v1/doc/index.html#operation/UpdateVideo">video object</a>}
+</code></pre>
+
+<h5 id="Curl_example1" class="bcls-expander-head">Curl example</h5>
+<div class="bcls-expander-content">
+  <p>
+    Add a playback_rights_id to a video.
+  </p>
+  <pre class="line-numbers"><code class="language-curl">curl -X PATCH \
+  https://cms.api.brightcove.com/v1/accounts/<span class="bcls-input">your account_id</span>/videos/<span class="bcls-input">your video_id</span> \
+  -H 'Authorization: Bearer <span class="bcls-input">your access_token</span>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+	&quot;playback_rights_id&quot;: &quot;<span class="bcls-input">your playback_rights_id</span>&quot;
+}'</code></pre>
+</div>
+<br />
+
+  <h4>Get a specific video:</h4>
+<pre><code class="language-http">GET /v1/accounts/{account_id}/videos/{video_ids}</code></pre>
+
+<p>
+  For complete details about using the API, see the <a href="https://docs.brightcove.com/cms-api/v1/doc/index.html">CMS API Reference</a>.
+</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Define_user_level_restrictions">Define user-level restrictions</h2>
+<p>
+  If you want user-level restrictions, you will need a JSON Web Token (JWT) configured with claims associated with your restrictions.
+</p>
+<h3>Steps</h3>
+<p>
+  To create a JSON Web Token (JWT) to pass to your player, follow these steps:
+<ol class="bcls-tasklist__restart">
+  <li>
+    <h3 id="Determine_restrictions">Determine restrictions</h3>
+    <p>Determine the type of user-level restrictions you want to use from the list below. Include the necessary JWT claims when you create your JSON Web Token (JWT).</p>
+  <h4>Device limits</h4>
+  <p>
+    When a DRM license request is made, the user's device is registered and a unique id is assigned. The device limit is checked and enforced with each license request. To use this restriction, generate a JWT with the current user id (uid).
+  </p>
+  <p>
+    For details, see the <a href="https://docs.brightcove.com/en/staging/epa/device-limits.html">Implementing Device Limits</a> document.
+  </p>
+
+  <h4>Concurrency limits</h4>
+  <p>
+    When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
+  </p>
+  <p>
+    For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
+  </p>
+
+  <h4>Tags</h4>
+  <p>
+    The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
+  </p>
+  <p>
+    Tags in the JWT token will be listed as an array of tags.
+  </p>
+  <aside class="bcls-aside bcls-aside--information">You are limited to an array of 40 tags in the JWT token.</aside>
+  </li>
+  <li>
+    <h3 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h3>
+    <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Configure_your_player">Configure your player</h2>
+<p>
+  By default, the Brightcove Player talks to the Brightcove Playback API (PAPI). A new system to manage playback restrictions sits in front of the Playback API. To configure your player, see the following:
+</p>
+<h3>Web player</h3>
+<p>
+  To configure the Brightcove web player, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-bcp.html">Using Playback Rights with Brightcove Player</a> document.
+</p>
+<h3>Native Android player</h3>
+<p>
+  To configure the native player for Android, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a> document.
+</p>
+<h3>Native iOS player</h3>
+<p>
+  To configure the native player for iOS, see the <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a> document.
+</p>
+<h3>Your own player</h3>
+<p>
+  If your content is in the Video Cloud library, but you are using your own player, you can make calls to the Playback API as shown in the <a href="https://support.brightcove.com/overview-playback-api">Overview: Playback API</a> document. Replace the base URL with the following:
+</p>
+<pre ><code class="language-http">https://edge-auth.api.brigthcove.com</code></pre>
+<p>
+  Instead of using a Policy Key, you will use the JWT token for authentication:
+</p>
+<pre ><code class="language-http">Authorization: Bearer {JWT}</code></pre>
+<p>
+  Here is a Curl example:
+</p>
+<pre class="line-numbers"><code class="language-curl">curl -X GET \
+-H 'Authorization: Bearer {JWT}' \
+https://edge-auth.api.brightcove.com/playback/v1/accounts/{your_account_id}/videos/{your_video_id}</code></pre>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Related_topics">Related topics</h2>
+
+<ul>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Playback Rights Management Service</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-bcp.html">Using Playback Rights with Brightcove Player</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a>
+  </li>
+</ul>
+
+</section>
+
+</article>
+
+
+<!-- END DRUPAL CONTENT -->
+</div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+
+</html>

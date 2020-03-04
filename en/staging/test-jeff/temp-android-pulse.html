@@ -44,33 +44,54 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 <p>Brightcove's Pulse plugin enables you to integrate Invidi's Pulse SDK with the Brightcove Native SDK for Android. Pulse is a Video Advertisement Platform. For campaigns and configuration details, see their <a href="https://docs.videoplaza.com/oadtech/ad_serving/ug/introduction.html">User Guide</a>.</p>
-
+<aside class="bcls-aside bcls-aside--information"> The Pulse Plugin has been tested with version “2.5.19.9.0” of the Pulse SDK. We recommend using this version.</aside>
 </section>
 
 <section class="bcls-section">
-<h2 id="Data">Data</h2>
+<h2 id="Steps">Steps</h2>
+<p>
+  Once a campaign is created  in the Pulse platform, you can start using the Pulse Plugin for the Brightcove Native SDK for Android. Follow these steps to integrate the Pulse Plugin with your project:
+</p>
+<ol class="bcls-tasklist">
+	<li>
+    <p>
+      In your module <strong>build.gradle</strong> file, add the Pulse plugin dependency.
+    </p>
+    <pre class="line-numbers"><code class="language-java">dependencies {
+    implementation 'com.brightcove.player:android-pulse-plugin:6.12.0'
+}</code></pre>
+  </li>
+  <li>
+    <p>
+      Download the <a href="https://docs.videoplaza.com/oadtech/ad_serving/dg/pulse_sdks_resources.html">Pulse SDK .aar file</a>.
+    </p>
+  </li>
+  <li>
+    <p>
+      In your <strong>app/libs</strong> folder, open the <strong>build.gradle</strong> file from your module. Modify the following:
+    </p>
+    <pre class="line-numbers"><code class="language-java">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', <span class="bcls-highlight">'*.aar'</span>])
+}</code></pre>
+  </li>
+  <li>
+    <p>
+      In your <strong>MainActivity.java</strong> file, initialize the Pulse Plugin by creating a <code>PulseComponent</code> with the Pulse host URL created for your campaign.
+    </p>
+    <pre class="line-numbers"><code class="language-java">@Override
+protected void onCreate(Bundle savedInstanceState) {
+    // ...
+    // Creating pulse component
+    PulseComponent pulseComponent = new PulseComponent(
+            &quot;&lt;YourPulseHostUrl&gt;&quot;,
+            brightcoveVideoView.getEventEmitter(),
+            brightcoveVideoView);
+    // ...
+}</code></pre>
+  </li>
+</ol>
 
-<p>Support is defined in terms of the <strong>[major version].[minor version]</strong> of an OS (for example: Android 10.0). Customers can still use the Brightcove SDK for Android on unsupported versions, however we provide no guarantee of functionality.</p>
 
-<h3>Google Play Store</h3>
-
-<p>Google’s Play Store provides usage data for Android versions which have logged into the Play Store for a highlighted week. As of May 7th 2019, data shows that Android 5.0 and 5.1 account for 3.0% and 11.5% of total Android use respectively.</p>
-
-<p>Current Play Store data can be found in the <a href="https://developer.android.com/about/dashboards/">Android Distribution dashboard</a>.</p>
-
-<figure class="bcls-figure"><img class="bcls-image--no-border" width="739" alt="Usage data from Play store" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/announcements/android-distribution.png" />
-<figcaption class="bcls-caption--image">Usage data - As measured by the Play Store on May 7th 2019</figcaption>
-</figure>
-
-<!-- <h3>Brightcove Native Player SDK for Android</h3>
-
-<p>In addition to examining the Play Store data, we can also review traffic that the Brightcove SDK is seeing across the different Android versions. This gives us an idea of who is actually watching video on their devices.</p>
-
-<figure class="bcls-figure"><img class="bcls-image--no-border" alt="Video views" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/android/announcements/video-views.png" />
-<figcaption class="bcls-caption--image">Video views measured from the first half of May 2018</figcaption>
-</figure>
-
-<p>Our data is consistent with the graph from Google’s Play Store. We see in our chart above that Android 4.1 accounts for ~1% of total traffic, Android 4.2 ~2% and Android 4.3 is ~0%.</p> -->
 </section>
 </article>
 

@@ -113,7 +113,8 @@
   "language": "en-us",
   "fetch_sources": true,
   "fetch_digital_master": false,
-  "fetch_dynamic_renditions": true
+  "fetch_dynamic_renditions": true,
+  "sort": "-created_at"
 }</code></pre>
 <p>The response will add some read-only fields:</p>
 <pre class="line-numbers"><code class="language-json">{
@@ -136,7 +137,8 @@
   "language": "en-us",
   "fetch_sources": true,
   "fetch_digital_master": false,
-  "fetch_dynamic_renditions": true
+  "fetch_dynamic_renditions": true,
+  "sort": "-created_at"
   }</code></pre>
 <table class="bcls-table">
   <caption class="bcls-caption--table">Syndication Resource</caption>
@@ -263,6 +265,12 @@
           <td>Boolean</td>
           <td>No</td>
           <td>For universal templates, whether to fetch video dynamic rendition metadata - if the template doesn't need this metadata, performance can be improved by specifying <code>false</code></td>
+      </tr>
+      <tr>
+          <td><code>sort</code></td>
+          <td>String</td>
+          <td>No</td>
+          <td>A CMS video sorting specifier indicating the desired feed results return order.  CMS-supported values like <code>name</code>, <code>reference_id</code>, <code>created_at</code>, <code>published_at</code>, <code>updated_at</code>, <code>schedule.starts_at</code>, <code>schedule.ends_at</code>, <code>state</code>, <code>plays_total</code>, and <code>plays_trailing_week</code> can be specified.  To sort in descending order, preface the value with a minus (-) sign, i.e. <code>-created_at</code>, specified, the feed will be sorted by most recent <code>updated_at</code> date by default.</td>
       </tr>
   </tbody>
 </table>
@@ -500,8 +508,8 @@
               <h3 id="Extensions_to_Liquid">Extensions to Liquid</h3>
               <h4>toUTC filter</h4>
               <p>We have extended our Liquid parser to support a toUTC filter which will parse most standard ISO-8601 datetime string formats and transform them into standard UTC datetime strings. This format is acceptable to Liquid's date filter, which can then be used to reformat the timestamps into datetime strings in any desired format. For example:</p>
-              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;{{asset.publication_date | toUTC | date: "%a, %d %b %Y %H:%M:%S %Z"}}&lt;/pubDate&gt;</code></pre>
-              <p>This produces an output like the following if asset.publication_date has a value of 2019-08-09T13:32:52.031Z::</p>
+              <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;{{asset.published_at | toUTC | date: "%a, %d %b %Y %H:%M:%S %Z"}}&lt;/pubDate&gt;</code></pre>
+              <p>This produces an output like the following if asset.published_at has a value of 2019-08-09T13:32:52.031Z::</p>
               <pre class="line-numbers"><code class="language-xml">&lt;pubDate&gt;Fri, 09 Aug 2019 09:32:52 +0000&lt;/pubDate&gt;</code></pre>
               <h4>toEpoch filter</h4>
               <p>The Liquid parser we use does not support the "%s" token in date filters for converting dates to Unix epoch timestamps. To address this, a toEpoch custom filter is provided that can be used to convert valid date specifications to the epoch format. The filter returns a numeric data value representing milliseconds since the epoch that is suitable for input to mathematical filters. For example:</p>

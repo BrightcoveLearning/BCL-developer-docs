@@ -97,7 +97,7 @@ paths:
         - Syndications
       summary: Update a syndication.
       description: >-
-        Updates the configuration data for a syndication.  A fully populated Syndication object should be passed as the request body.  Read-only fields can be omitted, and will be ignored if they are included.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
+        Updates the confguration data for a syndication.  A fully populated Syndication object should be passed as the request body.  Read-only fields can be omitted, and will be ignored if they are included.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
       operationId: putSyndication
       security:
         - BC_OAuth2:
@@ -140,7 +140,7 @@ paths:
         - Syndications
       summary: Update a syndication.
       description: >-
-        Updates the configuration data for a syndication.  A Syndication object specifying non-null values for writable fields to be updated should be passed as the request body.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
+        Updates the confguration data for a syndication.  A Syndication object specifying non-null values for writable fields to be updated should be passed as the request body.  Note that the *type* property cannot be changed from the value specified when the syndication was created.
       operationId: patchSyndication
       security:
         - BC_OAuth2:
@@ -367,6 +367,9 @@ components:
         include_filter:
           type: string
           description: A CMS video search filter string used to select the subset of content included in this syndication.  The include_all_content field must be set to false if a value is specified for this property.
+        sort:
+          type: string
+          description: A CMS video sorting specifier indicating the desired feed results return order.  CMS-supported values like "name", "reference_id", "created_at", "published_at", "updated_at", "schedule.starts_at", "schedule.ends_at", "state", "plays_total", and "plays_trailing_week" can be specified.  To sort in descending order, preface the value with a minus (-) sign, i.e. "-created_at".  If no value is specified, the feed will be sorted by most recent updated_at date by default.
         title:
           type: string
           description: The title of this feed. Will be included inside of the <channel> tag for some syndication types.

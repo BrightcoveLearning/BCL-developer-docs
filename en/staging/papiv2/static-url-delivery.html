@@ -69,14 +69,35 @@
   With Brightcove's Playback API v2, static URLs are now avaiable.
 </p>
 
-<p>Static URLs include the Account ID, Video ID(or reference), delivery type(HLS,Dash), and configuration options (SSAI, DRM kind, Delivery Rules, …). These URLs are secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the JSON Web Token (JWT) section.</p>
+<p>Static URLs include the following:</p>
+<ul>
+  <li>
+    Account ID
+  </li>
+  <li>
+    Video ID (or reference)
+  </li>
+  <li>
+    Delivery Type (HLS,Dash)
+  </li>
+  <li>
+    Configuration options (SSAI, DRM kind, Delivery Rules, etc.)
+  </li>
+</ul>
 <p>
+  These URLs are secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the <a href="#Create_a_JSON_Web_Token">Create a JSON Web Token</a> section.
+</p>
+<!-- <p>
   For manifests & VMAPs, the response will be returned directly. For MP4s it will 302 to the right CDN URL. DRM is not necessary to include here. This is controlled by flags on the account & video themselves. You  can use a claim in the JWT, if necessary, to switch between DRM types on the fly.
-</p>
+</p> -->
 <p>
-  Static URLs will look similar to this:
+  The domain used for Static URLs is the Playback API v2 (PAPIv2) URL:
 </p>
-<pre class="line-numbers"><code class="language-javascript">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
+<pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
+<p>
+  Static URL examples for each Delivery Type:
+</p>
+<pre class="line-numbers"><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
 /accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
 /accounts/{account_id}/videos/{video_id}/hks,vmap?bcov_auth={jwt}
 /accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
@@ -113,8 +134,8 @@
       </td>
     </tr>
     <tr>
-      <td>Authorization (DRM)</td>
-      <td>Support for JWT</td>
+      <td>Authorization</td>
+      <td>JSON Web Token (JWT)</td>
     </tr>
     <tr>
       <td>Server-Side Ad Insertion (SSAI)</td>

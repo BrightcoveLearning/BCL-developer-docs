@@ -252,188 +252,197 @@ catalog.findVideoByID(getString(R.string.videoId), new VideoListener() {
 <section class="bcls-section">
 <h2 id="Complete_code_sample">Complete code sample</h2>
 <p>Here is a complete code sample for using the Pulse plugin with the Native SDK for Android.</p>
-<h3>Full Activity code</h3>
-<pre class="line-numbers"><code class="language-java">public class MainActivity extends AppCompatActivity {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    setContentView(R.layout.activity_main);
+<h3 id="Activity" class="bcls-expander-head">Activity</h3>
+<div class="bcls-expander-content">
+  <p>
+    Here is a example of the full Activity code:
+  </p>
+  <pre class="line-numbers"><code class="language-java">public class MainActivity extends AppCompatActivity {
 
-    final BrightcoveVideoView videoView = findViewById(R.id.video_view);
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      setContentView(R.layout.activity_main);
 
-    EventEmitter eventEmitter = videoView.getEventEmitter();
+      final BrightcoveVideoView videoView = findViewById(R.id.video_view);
+      super.onCreate(savedInstanceState);
 
-    // Pulse setup
-    PulseComponent pulseComponent = new PulseComponent(
-        &quot;https://pulse-demo.videoplaza.tv&quot;,
-        eventEmitter,
-        videoView);
+      EventEmitter eventEmitter = videoView.getEventEmitter();
 
-    pulseComponent.setListener(new PulseComponent.Listener() {
-        @NonNull
+      // Pulse setup
+      PulseComponent pulseComponent = new PulseComponent(
+          &quot;https://pulse-demo.videoplaza.tv&quot;,
+          eventEmitter,
+          videoView);
+
+      pulseComponent.setListener(new PulseComponent.Listener() {
+          @NonNull
+          @Override
+          public PulseSession onCreatePulseSession(
+                @NonNull String pulseHostUrl,
+                @NonNull Video video,
+                @NonNull ContentMetadata contentMetadata,
+                @NonNull RequestSettings requestSettings) {
+            Pulse.setPulseHost(pulseHostUrl, null, null);
+            contentMetadata.setCategory(&quot;skip-always&quot;);
+            contentMetadata.setTags(Collections.singletonList(&quot;standard-linears&quot;));
+            contentMetadata.setIdentifier(&quot;demo&quot;);
+
+            // Adding mid-rolls
+            List&lt;Float&gt; midrollCuePoints = new ArrayList&lt;&gt;();
+            midrollCuePoints.add(60f);
+            requestSettings.setLinearPlaybackPositions(midrollCuePoints);
+
+            return Pulse.createSession(
+              contentMetadata,
+              requestSettings);
+          }
+
+          @Override
+          public void onOpenClickthrough(@NonNull PulseVideoAd ad) {
+            Intent intent = new Intent(Intent.ACTION_VIEW)
+              .setData(Uri.parse(ad.getClickthroughURL().toString()));
+            videoView.getContext().startActivity(intent);
+            ad.adClickThroughTriggered();
+          }
+      });
+
+      Catalog catalog = new Catalog.Builder(eventEmitter, &quot;YourAccountId&quot;)
+          .setPolicy(&quot;YourPolicyKey&quot;)
+          .build();
+      catalog.findVideoByID(&quot;YourVideoId&quot;, new VideoListener() {
+
+        // Add the video found to the queue with add().
+        // Start playback of the video with start().
         @Override
-        public PulseSession onCreatePulseSession(
-              @NonNull String pulseHostUrl,
-              @NonNull Video video,
-              @NonNull ContentMetadata contentMetadata,
-              @NonNull RequestSettings requestSettings) {
-          Pulse.setPulseHost(pulseHostUrl, null, null);
-          contentMetadata.setCategory(&quot;skip-always&quot;);
-          contentMetadata.setTags(Collections.singletonList(&quot;standard-linears&quot;));
-          contentMetadata.setIdentifier(&quot;demo&quot;);
-
-          // Adding mid-rolls
-          List&lt;Float&gt; midrollCuePoints = new ArrayList&lt;&gt;();
-          midrollCuePoints.add(60f);
-          requestSettings.setLinearPlaybackPositions(midrollCuePoints);
-
-          return Pulse.createSession(
-            contentMetadata,
-            requestSettings);
+        public void onVideo(Video video) {
+          videoView.add(video);
+          videoView.start();
         }
+      });
+    }
+  }</code></pre>
+</div>
 
-        @Override
-        public void onOpenClickthrough(@NonNull PulseVideoAd ad) {
-          Intent intent = new Intent(Intent.ACTION_VIEW)
-            .setData(Uri.parse(ad.getClickthroughURL().toString()));
-          videoView.getContext().startActivity(intent);
-          ad.adClickThroughTriggered();
-        }
-    });
+<h3 id="Layout" class="bcls-expander-head">Layout</h3>
+<div class="bcls-expander-content">
+  <p>
+    Here is an example of the layout code for the <code>R.layout.pulse_ad_view</code>.
+  </p>
+  <pre class="line-numbers"><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+      xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+      android:layout_width=&quot;match_parent&quot;
+      android:layout_height=&quot;match_parent&quot;&gt;
 
-    Catalog catalog = new Catalog.Builder(eventEmitter, &quot;YourAccountId&quot;)
-        .setPolicy(&quot;YourPolicyKey&quot;)
-        .build();
-    catalog.findVideoByID(&quot;YourVideoId&quot;, new VideoListener() {
+      &lt;RelativeLayout
+          android:id=&quot;@+id/view_ad_details&quot;
+          android:layout_width=&quot;match_parent&quot;
+          android:layout_height=&quot;wrap_content&quot;
+          android:background=&quot;@drawable/pulse_skip_button_background_selector&quot;&gt;
 
-      // Add the video found to the queue with add().
-      // Start playback of the video with start().
-      @Override
-      public void onVideo(Video video) {
-        videoView.add(video);
-        videoView.start();
-      }
-    });
-  }
-}</code></pre>
+          &lt;TextView
+              android:id=&quot;@+id/pulse_ad_name_view&quot;
+              android:layout_width=&quot;wrap_content&quot;
+              android:layout_height=&quot;wrap_content&quot;
+              android:layout_alignParentTop=&quot;true&quot;
+              android:layout_marginTop=&quot;4dp&quot;
+              android:paddingTop=&quot;4dp&quot;
+              android:paddingStart=&quot;8dp&quot;
+              android:paddingEnd=&quot;8dp&quot;
+              android:textColor=&quot;@color/white&quot;
+              android:background=&quot;@color/bmc_live&quot;
+              android:textStyle=&quot;bold&quot;
+              tools:text=&quot;Preroll blue&quot;/&gt;
 
-<h3><code>R.layout.pulse_ad_view</code></h3>
-<pre class="line-numbers"><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
+          &lt;TextView
+              android:id=&quot;@+id/pulse_ad_number_view&quot;
+              android:layout_width=&quot;wrap_content&quot;
+              android:layout_height=&quot;wrap_content&quot;
+              android:paddingStart=&quot;8dp&quot;
+              android:paddingEnd=&quot;4dp&quot;
+              android:paddingBottom=&quot;4dp&quot;
+              android:layout_marginBottom=&quot;8dp&quot;
+              android:layout_below=&quot;@id/pulse_ad_name_view&quot;
+              android:textColor=&quot;@color/white&quot;
+              android:background=&quot;@color/white_semi_trans&quot;
+              tools:text=&quot;Ad (1 of 2)&quot;/&gt;
 
-    &lt;RelativeLayout
-        android:id=&quot;@+id/view_ad_details&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:background=&quot;@drawable/pulse_skip_button_background_selector&quot;&gt;
+          &lt;TextView
+              android:id=&quot;@+id/pulse_ad_countdown_view&quot;
+              android:layout_width=&quot;wrap_content&quot;
+              android:layout_height=&quot;wrap_content&quot;
+              android:paddingStart=&quot;4dp&quot;
+              android:paddingEnd=&quot;4dp&quot;
+              android:paddingBottom=&quot;4dp&quot;
+              android:layout_marginBottom=&quot;4dp&quot;
+              android:layout_below=&quot;@id/pulse_ad_name_view&quot;
+              android:layout_toEndOf=&quot;@+id/pulse_ad_number_view&quot;
+              android:textColor=&quot;@color/green_almost_opaque&quot;
+              android:text=&quot;&quot;
+              tools:text=&quot;00:06&quot;/&gt;
 
-        &lt;TextView
-            android:id=&quot;@+id/pulse_ad_name_view&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:layout_alignParentTop=&quot;true&quot;
-            android:layout_marginTop=&quot;4dp&quot;
-            android:paddingTop=&quot;4dp&quot;
-            android:paddingStart=&quot;8dp&quot;
-            android:paddingEnd=&quot;8dp&quot;
-            android:textColor=&quot;@color/white&quot;
-            android:background=&quot;@color/bmc_live&quot;
-            android:textStyle=&quot;bold&quot;
-            tools:text=&quot;Preroll blue&quot;/&gt;
+          &lt;TextView
+              android:id=&quot;@+id/pulse_ad_learn_more_view&quot;
+              android:layout_width=&quot;wrap_content&quot;
+              android:layout_height=&quot;wrap_content&quot;
+              android:layout_marginStart=&quot;@dimen/pulse_ad_learn_more_margin_left&quot;
+              android:layout_marginTop=&quot;@dimen/pulse_ad_learn_more_margin_top&quot;
+              android:layout_marginEnd=&quot;@dimen/pulse_ad_learn_more_margin_right&quot;
+              android:layout_marginBottom=&quot;@dimen/pulse_ad_learn_more_margin_bottom&quot;
+              android:layout_alignTop=&quot;@id/pulse_ad_name_view&quot;
+              android:layout_alignBottom=&quot;@id/pulse_ad_countdown_view&quot;
+              android:layout_alignParentEnd=&quot;true&quot;
+              android:background=&quot;@drawable/pulse_learn_more_button_background&quot;
+              android:paddingStart=&quot;12dp&quot;
+              android:paddingEnd=&quot;12dp&quot;
+              android:padding=&quot;@dimen/pulse_ad_learn_more_padding_default&quot;
+              android:gravity=&quot;center&quot;
+              android:shadowColor=&quot;@color/brightcove_semitransparent&quot;
+              android:shadowDx=&quot;-1&quot;
+              android:shadowDy=&quot;1&quot;
+              android:shadowRadius=&quot;1.5&quot;
+              android:text=&quot;@string/pulse_message_learn_more&quot;
+              android:textColor=&quot;@color/pulse_button_text_color&quot;
+              android:nextFocusUp=&quot;@id/pulse_skip_ad_view&quot;
+              android:textSize=&quot;@dimen/pulse_message_text_size&quot;
+              android:visibility=&quot;gone&quot;
+              tools:visibility=&quot;visible&quot; /&gt;
 
-        &lt;TextView
-            android:id=&quot;@+id/pulse_ad_number_view&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:paddingStart=&quot;8dp&quot;
-            android:paddingEnd=&quot;4dp&quot;
-            android:paddingBottom=&quot;4dp&quot;
-            android:layout_marginBottom=&quot;8dp&quot;
-            android:layout_below=&quot;@id/pulse_ad_name_view&quot;
-            android:textColor=&quot;@color/white&quot;
-            android:background=&quot;@color/white_semi_trans&quot;
-            tools:text=&quot;Ad (1 of 2)&quot;/&gt;
+      &lt;/RelativeLayout&gt;
 
-        &lt;TextView
-            android:id=&quot;@+id/pulse_ad_countdown_view&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:paddingStart=&quot;4dp&quot;
-            android:paddingEnd=&quot;4dp&quot;
-            android:paddingBottom=&quot;4dp&quot;
-            android:layout_marginBottom=&quot;4dp&quot;
-            android:layout_below=&quot;@id/pulse_ad_name_view&quot;
-            android:layout_toEndOf=&quot;@+id/pulse_ad_number_view&quot;
-            android:textColor=&quot;@color/green_almost_opaque&quot;
-            android:text=&quot;&quot;
-            tools:text=&quot;00:06&quot;/&gt;
+      &lt;TextView
+          android:id=&quot;@+id/pulse_skip_ad_view&quot;
+          android:layout_width=&quot;wrap_content&quot;
+          android:layout_height=&quot;wrap_content&quot;
+          android:maxWidth=&quot;164dp&quot;
+          android:layout_alignParentEnd=&quot;true&quot;
+          android:layout_centerVertical=&quot;true&quot;
+          android:layout_marginBottom=&quot;@dimen/pulse_skip_ad_margin_bottom&quot;
+          android:background=&quot;@drawable/pulse_skip_button_background_selector&quot;
+          android:ellipsize=&quot;none&quot;
+          android:gravity=&quot;center&quot;
+          android:maxLines=&quot;2&quot;
+          android:paddingStart=&quot;@dimen/pulse_skip_ad_padding_left&quot;
+          android:paddingEnd=&quot;@dimen/pulse_skip_ad_padding_right&quot;
+          android:paddingTop=&quot;@dimen/pulse_skip_ad_padding&quot;
+          android:paddingBottom=&quot;@dimen/pulse_skip_ad_padding&quot;
+          android:scrollHorizontally=&quot;false&quot;
+          android:shadowColor=&quot;@color/brightcove_shadow&quot;
+          android:shadowDx=&quot;-1&quot;
+          android:shadowDy=&quot;1&quot;
+          android:shadowRadius=&quot;1.5&quot;
+          android:text=&quot;@string/pulse_message_skip_ad&quot;
+          android:textColor=&quot;@color/pulse_button_text_color&quot;
+          android:textSize=&quot;@dimen/pulse_message_text_size&quot;
+          android:visibility=&quot;gone&quot;
+          android:nextFocusUp=&quot;@id/pulse_ad_learn_more_view&quot;
+          android:focusable=&quot;true&quot;
+          tools:visibility=&quot;visible&quot;/&gt;
 
-        &lt;TextView
-            android:id=&quot;@+id/pulse_ad_learn_more_view&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:layout_marginStart=&quot;@dimen/pulse_ad_learn_more_margin_left&quot;
-            android:layout_marginTop=&quot;@dimen/pulse_ad_learn_more_margin_top&quot;
-            android:layout_marginEnd=&quot;@dimen/pulse_ad_learn_more_margin_right&quot;
-            android:layout_marginBottom=&quot;@dimen/pulse_ad_learn_more_margin_bottom&quot;
-            android:layout_alignTop=&quot;@id/pulse_ad_name_view&quot;
-            android:layout_alignBottom=&quot;@id/pulse_ad_countdown_view&quot;
-            android:layout_alignParentEnd=&quot;true&quot;
-            android:background=&quot;@drawable/pulse_learn_more_button_background&quot;
-            android:paddingStart=&quot;12dp&quot;
-            android:paddingEnd=&quot;12dp&quot;
-            android:padding=&quot;@dimen/pulse_ad_learn_more_padding_default&quot;
-            android:gravity=&quot;center&quot;
-            android:shadowColor=&quot;@color/brightcove_semitransparent&quot;
-            android:shadowDx=&quot;-1&quot;
-            android:shadowDy=&quot;1&quot;
-            android:shadowRadius=&quot;1.5&quot;
-            android:text=&quot;@string/pulse_message_learn_more&quot;
-            android:textColor=&quot;@color/pulse_button_text_color&quot;
-            android:nextFocusUp=&quot;@id/pulse_skip_ad_view&quot;
-            android:textSize=&quot;@dimen/pulse_message_text_size&quot;
-            android:visibility=&quot;gone&quot;
-            tools:visibility=&quot;visible&quot; /&gt;
-
-    &lt;/RelativeLayout&gt;
-
-    &lt;TextView
-        android:id=&quot;@+id/pulse_skip_ad_view&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:maxWidth=&quot;164dp&quot;
-        android:layout_alignParentEnd=&quot;true&quot;
-        android:layout_centerVertical=&quot;true&quot;
-        android:layout_marginBottom=&quot;@dimen/pulse_skip_ad_margin_bottom&quot;
-        android:background=&quot;@drawable/pulse_skip_button_background_selector&quot;
-        android:ellipsize=&quot;none&quot;
-        android:gravity=&quot;center&quot;
-        android:maxLines=&quot;2&quot;
-        android:paddingStart=&quot;@dimen/pulse_skip_ad_padding_left&quot;
-        android:paddingEnd=&quot;@dimen/pulse_skip_ad_padding_right&quot;
-        android:paddingTop=&quot;@dimen/pulse_skip_ad_padding&quot;
-        android:paddingBottom=&quot;@dimen/pulse_skip_ad_padding&quot;
-        android:scrollHorizontally=&quot;false&quot;
-        android:shadowColor=&quot;@color/brightcove_shadow&quot;
-        android:shadowDx=&quot;-1&quot;
-        android:shadowDy=&quot;1&quot;
-        android:shadowRadius=&quot;1.5&quot;
-        android:text=&quot;@string/pulse_message_skip_ad&quot;
-        android:textColor=&quot;@color/pulse_button_text_color&quot;
-        android:textSize=&quot;@dimen/pulse_message_text_size&quot;
-        android:visibility=&quot;gone&quot;
-        android:nextFocusUp=&quot;@id/pulse_ad_learn_more_view&quot;
-        android:focusable=&quot;true&quot;
-        tools:visibility=&quot;visible&quot;/&gt;
-
-&lt;/RelativeLayout&gt;
-</code></pre>
-
-
+  &lt;/RelativeLayout&gt;
+  </code></pre>
+</div>
 </section>
 
 </article>

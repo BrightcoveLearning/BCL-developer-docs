@@ -53,10 +53,10 @@
 <section class="bcls-section">
 <h2 id="Video_Cloud">Video Cloud</h2>
 <p>
-  Today, every playback through VideoCloud requires 2 API calls to start video playback.
+  Today, every playback through VideoCloud requires 2 API calls to start video playback. With the use of static URLs, you can reduce the number of API calls to just one.
 </p>
 
-<p>The following diagram shows the API calls for video playback.</p>
+<p>The following diagram shows the API calls for video playback, without static URLs.</p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18961-static-url-delivery/current-playback-calls.png" alt="Video Cloud playback">
   <figcaption class="bcls-caption--image">Video Cloud playback</figcaption>
@@ -99,7 +99,7 @@
 </p>
 <pre class="line-numbers"><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
 /accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/hks,vmap?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/hls.vmap?bcov_auth={jwt}
 /accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
 
 <h3>Features</h3>
@@ -173,9 +173,9 @@ Customer's CDN will deliver only the video segments.
     // expires: timestamp when JWT expires
     &quot;exp&quot;:1577989732,
     // account id: JWT is only valid for this accounts
-    &quot;accid&quot;:4590388311111,
+    &quot;accid&quot;:&quot;4590388311111&quot;,
     // content id: JWT is only valid for video id or reference id
-    &quot;conid&quot;:5805807122222,
+    &quot;conid&quot;:&quot;5805807122222&quot;,
     // protection: specify a protection type in the case where multiple are available for a single video
     &quot;pro&quot;:&quot;aes128&quot;,
     // VOD specific configuration options

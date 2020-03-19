@@ -340,10 +340,13 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
 <h2 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h2>
 
 <p>Publishers create a <a href="https://jwt.io/introduction/">JSON Web Token</a> (JWT). The token is signed with the RSA algorithm using the SHA-256 hash algorithm (identified in the JWT spec as "<a href="https://ldapwiki.com/wiki/RS256">RS256</a>")  No other JWT algorithms will be supported.</p>
-
-<h3>Claims</h3>
 <p>
   A subset of the standard <a href="https://auth0.com/docs/tokens/jwt-claims">JSON Web Token claims</a> will be used, along with some private claims defined by Brightcove. You will create a JSON Web Token signed with your private key.
+</p>
+
+<h3>Claims for Playback Authorization</h3>
+<p>
+  The following claims can be used with <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Brightcove's Playback Authorization Service</a>.
 </p>
 
 <table class="bcls-table">
@@ -352,8 +355,6 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <th>Field</th>
           <th>Type</th>
           <th>Required</th>
-          <th>Required for Concurrency</th>
-          <th>DRM only</th>
           <th>Description</th>
         </tr>
       </thead>
@@ -362,98 +363,56 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
           <td><code>accid</code></td>
           <td>String</td>
           <td>Yes</td>
-          <td></td>
-          <td></td>
           <td>The account id that owns the content being played</td>
         </tr>
         <tr>
           <td><code>exp</code></td>
           <td>Integer</td>
           <td>Yes</td>
-          <td></td>
-          <td></td>
           <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
         </tr>
         <tr>
           <td><code>iat</code></td>
           <td>Integer</td>
           <td>Yes</td>
-          <td></td>
-          <td></td>
           <td>Time this token was issued, in seconds since the Epoch</td>
-        </tr>
-        <tr>
-          <td><code>pkid</code></td>
-          <td>String</td>
-          <td>Yes</td>
-          <td></td>
-          <td></td>
-          <td>The public key id used to verify this token.
-            <br /><br />
-            The public key registered with Brightcove's Playback Authorization Service must use the RSA key format. Previously created EC keys will not work.
-          </td>
-        </tr>
-        <tr>
-          <td><code>nbf</code></td>
-          <td>Integer</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>Time this token will begin being valid, in seconds since the Epoch</td>
         </tr>
         <tr>
           <td><code>ua</code></td>
           <td>String</td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td>If present, this token will only be valid for requests from this User-Agent.</td>
+          <td>If present, this token will only be valid for requests from this User-Agent.
+            <br /><br />
+            This field is not validated.
+          </td>
         </tr>
         <tr>
           <td><code>rip</code></td>
           <td>String</td>
           <td></td>
-          <td></td>
-          <td></td>
           <td>Requester's IP address. Used to generate tokens that are locked to a single IP</td>
-        </tr>
-        <tr>
-          <td><code>prid</code></td>
-          <td>String</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>A <code>playback_rights_id</code>. Used to override the id set in the catalog for this video</td>
-        </tr>
-        <tr>
-          <td><code>tags</code></td>
-          <td>Array &lt;Strings&gt;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>An array of tags that this token is authorized for playback</td>
         </tr>
         <tr>
           <td><code>conid</code></td>
           <td>String</td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td>If present, this token will only authorize license fetching for a specific Video Cloud video id</td>
+          <td>If present, this token will only authorize license fetching for a specific Video Cloud video id.
+            <br /><br />
+            Must be a valid video id.
+          </td>
         </tr>
         <tr>
           <td><code>maxip</code></td>
           <td>Integer</td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td>If present, this token will only be able to be used by this many different IP addresses. (DRM & AES-128)</td>
+          <td>If present, this token will only be able to be used by this many different IP addresses. (DRM & AES-128)
+            <br /><br />
+            Required for session tracking.
+          </td>
         </tr>
         <tr>
           <td><code>maxu</code></td>
           <td>Integer</td>
-          <td></td>
-          <td></td>
           <td></td>
           <td>
               If present, this token will only be valid for this many license requests. (DRM & AES-128)
@@ -466,63 +425,185 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
                 For DRM, one license request is made per playback
               </li>
             </ul>
+              Required for session tracking.
           </td>
         </tr>
-        <tr>
-          <td><code>uid</code></td>
-          <td>String</td>
-          <td></td>
-          <td>Yes</td>
-          <td>Yes</td>
-          <td>The user id of the end viewer. This field is used to correlate multiple sessions to enforce Stream Concurrency.</td>
-        </tr>
-        <tr>
-          <td><code>climit</code></td>
-          <td>Integer</td>
-          <td></td>
-          <td>Yes</td>
-          <td>Yes</td>
-          <td>When this field is included, it enables Stream Concurrency checking along with license renewal requests. This value indicates the number of concurrent streams allowed.</td>
-        </tr>
-        <tr>
-          <td><code>dlimit</code></td>
-          <td>Integer</td>
-          <td></td>
-          <td></td>
-          <td>Yes</td>
-          <td>When this field is included, it controls how many devices can be associated with the specified user (<code>uid</code>). Value must be &gt; <code>0</code>.
-            <br /><br />
-            Previously allowed devices will continue to operate if the <code>dlimit</code> value is dropped in later requests.
-            <br /><br />
-            Example: if value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.
-            <br /><br />
-            If value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/#operation/GetDevices">Playback Rights API</a>.
-          </td>
-        </tr>
-        <tr>
-          <td><code>sid</code></td>
-          <td>String</td>
-          <td></td>
-          <td></td>
-          <td>Yes</td>
-          <td>Specifying the Session ID of the current stream allows for custom control over what defines a session.
-            <br /><br />
-              When not specified, the default is a combination of User-Agent, IP address, & video id.
-          </td>
-        </tr>
-        <tr>
-          <td><code>cexp</code></td>
-          <td>String</td>
-          <td></td>
-          <td></td>
-          <td>Yes</td>
-          <td>Concurrency expiration of session - Defaults to 2 times the content duration.
-            <br /><br />
-            This defines how long the session is valid, after which time the end viewer has to start a new session to continue playback. Example: <code>2h</code> or <code>42m</code></td>
-        </tr>
-
       </tbody>
     </table>
+
+    <h3>Claims for Playback Rights</h3>
+    <p>
+      The following claims can be used with <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Brightcove's Playback Rights Management Service</a>.
+    </p>
+    <aside class="bcls-aside bcls-aside--information">When using Playback Rights with DRM, you can not use AES-128.</aside>
+
+    <table class="bcls-table">
+          <thead class="bcls-table__head">
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Required for Concurrency</th>
+              <th>DRM only</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody class="bcls-table__body">
+            <tr>
+              <td><code>accid</code></td>
+              <td>String</td>
+              <td>Yes</td>
+              <td></td>
+              <td></td>
+              <td>The account id that owns the content being played</td>
+            </tr>
+            <tr>
+              <td><code>exp</code></td>
+              <td>Integer</td>
+              <td>Yes</td>
+              <td></td>
+              <td></td>
+              <td>Time this token will no longer be valid, in seconds since the Epoch. Must be no more than 30 days from <code>iat</code></td>
+            </tr>
+            <tr>
+              <td><code>iat</code></td>
+              <td>Integer</td>
+              <td>Yes</td>
+              <td></td>
+              <td></td>
+              <td>Time this token was issued, in seconds since the Epoch</td>
+            </tr>
+            <tr>
+              <td><code>pkid</code></td>
+              <td>String</td>
+              <td>Yes</td>
+              <td></td>
+              <td></td>
+              <td>The public key id used to verify this token.
+                <br /><br />
+                The public key registered with Brightcove's Playback Authorization Service must use the RSA key format. Previously created EC keys will not work.
+                <br /><br />
+                This field is not validated.
+              </td>
+            </tr>
+            <tr>
+              <td><code>nbf</code></td>
+              <td>Integer</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Time this token will begin being valid, in seconds since the Epoch</td>
+            </tr>
+            <tr>
+              <td><code>rip</code></td>
+              <td>String</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Requester's IP address. Used to generate tokens that are locked to a single IP</td>
+            </tr>
+            <tr>
+              <td><code>prid</code></td>
+              <td>String</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>A <code>playback_rights_id</code>. Used to override the id set in the catalog for this video
+                <br /><br />
+                This field is not validated.
+              </td>
+            </tr>
+            <tr>
+              <td><code>tags</code></td>
+              <td>Array &lt;Strings&gt;</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>if present, this token is valid only for the listed tags authorized to playback.</td>
+            </tr>
+            <tr>
+              <td><code>offers</code></td>
+              <td>Array &lt;Strings&gt;</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>if present, this token is valid only for the listed offers authorized to playback.</td>
+            </tr>
+            <tr>
+              <td><code>vids</code></td>
+              <td>Array &lt;Strings&gt;</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>If present, this token will only authorize license fetching for a set of video ids.</td>
+            </tr>
+            <tr>
+              <td><code>uid</code></td>
+              <td>String</td>
+              <td></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>The user id of the end viewer. This field is used to correlate multiple sessions to enforce Stream Concurrency.
+                <br /><br />
+            Required for device registration.
+              </td>
+            </tr>
+            <tr>
+              <td><code>sid</code></td>
+              <td>String</td>
+              <td></td>
+              <td></td>
+              <td>Yes</td>
+              <td>Specifying the Session ID of the current stream allows for custom control over what defines a session.
+                <br /><br />
+                  When not specified, the default is a combination of User-Agent, IP address, & video id.
+                  <br /><br />
+            Required for session concurrency.
+              </td>
+            </tr>
+            <tr>
+              <td><code>cexp</code></td>
+              <td>String</td>
+              <td></td>
+              <td></td>
+              <td>Yes</td>
+              <td>Concurrency expiration of session - Defaults to 2 times the content duration.
+                <br /><br />
+                This defines how long the session is valid, after which time the end viewer has to start a new session to continue playback. Example: <code>2h</code> or <code>42m</code>
+                <br /><br />
+          Required for session concurrency.
+              </td>
+            </tr>
+            <tr>
+              <td><code>climit</code></td>
+              <td>Integer</td>
+              <td></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>When this field is included, it enables Stream Concurrency checking along with license renewal requests. This value indicates the number of concurrent watchers allowed.
+                <br /><br />
+          Required for session concurrency.
+        </td>
+            </tr>
+            <tr>
+              <td><code>dlimit</code></td>
+              <td>Integer</td>
+              <td></td>
+              <td></td>
+              <td>Yes</td>
+              <td>When this field is included, it controls how many devices can be associated with the specified user (<code>uid</code>). Value must be &gt; <code>0</code>.
+                <br /><br />
+                Previously allowed devices will continue to operate if the <code>dlimit</code> value is dropped in later requests.
+                <br /><br />
+                Example: if value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.
+                <br /><br />
+                If value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/#operation/GetDevices">Playback Rights API</a>.
+                <br /><br />
+            Required for device registration.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
 <h3>Generate a token</h3>
 <p>

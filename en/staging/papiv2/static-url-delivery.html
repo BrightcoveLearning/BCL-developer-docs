@@ -191,6 +191,59 @@ Customer's CDN will deliver only the video segments.
 </section>
 
 <section class="bcls-section">
+<h2 id="Content_protection_DRM">Content protection (DRM)</h2>
+  <p>Use the following fields and requests when working with DRM:</p>
+  <h3>Manifest request</h3>
+  <p>
+    The following values can be used for the Video endpoint JWT protection parameter:
+  </p>
+  <ul>
+    <li>
+      "" - (default: clear)
+    </li>
+    <li>
+      "aes128"
+    </li>
+    <li>
+      "widevine"
+    </li>
+    <li>
+      "playready"
+    </li>
+    <li>
+      "fairplay"
+    </li>
+  </ul>
+  <h3>License request</h3>
+  <p>
+    For license requests, the JWT does not need any payload, but it has to be signed using the same RSA key as the manifest request JWT.
+  </p>
+  <p>
+    You can use the following endpoint to get the DRM license:
+  </p>
+  <pre><code class="language-html">/accounts/{account_id}/videos/{video_id}/licenses/{scheme}?bcov_auth={JWT}</code></pre>
+  <p>
+    Valid values for <code>scheme</code>:
+  </p>
+  <ul>
+    <li>
+      "widevine"
+    </li>
+    <li>
+      "playready"
+    </li>
+    <li>
+      "fairplay"
+    </li>
+  </ul>
+  <p>
+    For FairPlay app certificates, the endpoint is:
+  </p>
+  <pre><code class="language-html">/accounts/{account_id}/fairplay_app_cert</code></pre>
+
+</section>
+
+<section class="bcls-section">
 <h2 id="Notes">Notes</h2>
   <p>The following notes apply to Static URL Delivery.</p>
   <ul>

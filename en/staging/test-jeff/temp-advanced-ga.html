@@ -160,7 +160,7 @@ Another benefit of this approach is that our API integration will not create fie
   A Brightcove Player is used for this example.
 </p>
 <ol class="bcls-tasklist__restart">
-	<li>In Video Cloud Studio, navigate to the <strong>Players</strong> module. Create a new player or use an existing one.</li>
+	<li>In Video Cloud Studio, navigate to the <strong>Players</strong> module. Create a new player.</li>
   <li>
     <p>In the left side navigation, expand <strong>Third-Party Analytics</strong>. For the <strong>GoogleAnalytics</strong> option, <strong>DO NOT</strong> select <strong>Enable Google Analytics</strong>. Leave this option unchecked. </p>
     <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Google Analytics in Studio" src="//learning-services-media.brightcove.com/doc-assets/node/18972-advanced-ga/enable-ga.png" />
@@ -169,7 +169,7 @@ Another benefit of this approach is that our API integration will not create fie
   </li>
 </ol>
 
-<h3>Other HTML</h3>
+<h3 id="Other_HTML">Other HTML</h3>
 <p>
   A script was added after the Brightcove Player embed code.
 </p>
@@ -191,37 +191,93 @@ Another benefit of this approach is that our API integration will not create fie
 <p>The basic logic behind this application is:</p>
 
 <ul>
-	<li>When the video ends, set the Play/Pause button value to Play.</li>
-	<li>When the Play button is selected, start or resume video playback. When the Pause button is selected, pause video playback.</li>
+	<li>Create a Brightcove Player without configuring the Google Analytics plugin</li>
+	<li>Load the Google Analytics plugin manually</li>
+  <li>Define options for the plugin, including parameters and events that you want to track</li>
+  <li>Set the tracking id</li>
+  <li>Play your video</li>
 </ul>
 <!-- UPDATE task 1 -->
+<ol class="bcls-tasklist__restart">
+	<li>
+    <h4>Create the player</h4>
+    <p>
+      If you have already done so, see the <a href="#Player/HTML_configuration">Player/HTML configuration</a> section above to create your player in Studio.
+    </p>
+  </li>
+  <li>
+    <h4>
+      Load the plugin
+    </h4>
+    <p>
+      See the <a href="#Other_HTML">Other HTML</a> section above to add the Google Analytics plugin script.
+    </p>
+  </li>
+  <li>
+    <h4>
+      Define plugin options
+    </h4>
+    <p>
+      In the <strong>JS</strong> section of the CodePen, find the code where which is labeled:
+    </p>
+    <pre>
+    <code class="language-javascript">// Set up the Google Analytics plugin options</code></pre>
+    <p>
+      The player calls the <code>bcGa()</code> method to initialize the plugin. Notice that you can set parameters and events that you want to track.
+    </p>
+<pre class="line-numbers">
+<code class="language-javascript">myPlayer.bcGa({
+  &quot;paramsToTrack&quot;: {
+    &quot;bcvideo_video_seconds_viewed&quot;: &quot;dimension7&quot;,
+    &quot;bcvideo_range&quot;: &quot;dimension8&quot;,
+    &quot;bcvideo_video_duration&quot;: &quot;dimension9&quot;,
+    &quot;bcvideo_player&quot;: &quot;dimension10&quot;,
+    &quot;bcvideo_account&quot;: &quot;dimension11&quot;,
+    &quot;bcvideo_session&quot;: &quot;dimension12&quot;,
+    &quot;bcvideo_platform_version&quot;: &quot;dimension13&quot;
+  },
+  &quot;eventsToTrack&quot;: {
+    &quot;video_impression&quot;: &quot;Video Impression&quot;,
+    &quot;play_request&quot;: &quot;Play Request&quot;,
+    &quot;video_engagement&quot;: &quot;Video Engagement&quot;,
+    &quot;ad_start&quot;: &quot;Ad Start&quot;,
+    &quot;ad_end&quot;: &quot;Ad End&quot;,
+    &quot;player_load&quot;: &quot;Player Load&quot;,
+    &quot;error&quot;: &quot;Error&quot;
+  },
+  &quot;tracker&quot;: &quot;UA-150904906-1&quot;
+})
+/*
+	Two extra events can be added:
+		video_view
+		video_complete
+*/</code></pre>
+  </li>
+  <li>
+    <h4>
+      Set the tracking id
+    </h4>
+    <p>
+      In the JavaScript code above, replace the <code>tracker</code> value with your Google Analytics Tracking ID.
+    </p>
+    <pre>
+    <code class="language-javascript">&quot;tracker&quot;: &quot;<span class="bcls-input">your tracking id</span>&quot;</code></pre>
+  </li>
+  <li>
+    <p>
+      Put the HTML and JavaScript code on your web page and play your video. You should see metrics in your
+    </p>
+  </li>
+</ol>
 
-<h3>Set the Play button on video end</h3>
-
-<p>Find the code where which is labeled:</p>
-
-<pre>
-<code class="language-javascript">// +++ Configure video end +++</code></pre>
-
-<p>Listen for the player <code>ended</code> event, and set the Play/Pause button to a value of Play.</p>
-<!-- UPDATE task 2 -->
-
-<h3>Add functionality to the Play/Pause button</h3>
-
-<p>Find the code where which is labeled:</p>
-
-<pre>
-<code class="language-javascript">// +++ Configure the Play/Pause button +++</code></pre>
-
-<p>Listen for the Play/Pause button <code>click</code> event. When the Play button is selected, start or resume video playback. When the Pause button is selected, pause video playback.</p>
 </section>
 <!-- UPDATE CSS description -->
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Application_styling">Application styling</h2>
 
 <p>The CSS positions the player to cover the entire background of the web page. It also positions and styles the text block which sits on top of the player.</p>
-</section>
+</section> -->
 
 <section class="bcls-section">
 <h2 id="Plugin_code">Plugin code</h2>

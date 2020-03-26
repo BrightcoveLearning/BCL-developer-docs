@@ -62,9 +62,13 @@ Another benefit of this approach is that our API integration will not create fie
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<br/>
 
+<h3>Source code</h3>
 <!-- UPDATE link to GitHub source -->
-<p>View the <a href="https://github.com/BrightcoveLearning/18164-brightcove-player-sample-background-video">source code</a>.</p>
+<p>
+  You can view the source code by selecting the <strong>HTML</strong>, <strong>CSS</strong> and <strong>JS</strong> buttons in the CodePen above, or you can view the complete solution on <a href="https://github.com/BrightcoveLearning/google-analytics-advanced-integration">GitHub</a>.
+</p>
 </section>
 
 <section class="bcls-section">
@@ -101,7 +105,7 @@ Another benefit of this approach is that our API integration will not create fie
 	<li>Replace the In-Page embed player implementation if you determine that the iframe implementation is a better fit (detailed in next section)</li>
 </ol>
 
-<p>For details about these steps, review the <a href="/node/18081">Step-by-Step: Plugin Development</a> guide.</p>
+<p>For details about these steps, review the <a href="https://player.support.brightcove.com/coding-topics/step-step-plugin-development.html">Step-by-Step: Plugin Development</a> guide.</p>
 
 <h3>iframe or In-Page embed</h3>
 
@@ -138,20 +142,8 @@ Another benefit of this approach is that our API integration will not create fie
 	</thead>
 	<tbody class="bcls-table__body">
 		<tr>
-			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#muted">muted()</a></td>
-			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#event:ended">ended</a></td>
-		</tr>
-		<tr>
-			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#paused">paused()</a></td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#play">play()</a></td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td><a href="https://docs.brightcove.com/brightcove-player/current-release/Player.html#pause">pause()</a></td>
-			<td>&nbsp;</td>
+			<td><a href="https://player.support.brightcove.com/plugins/plugin-registry.html">bcGa()</a></td>
+      <td>&nbsp;</td>
 		</tr>
 	</tbody>
 </table>
@@ -164,19 +156,32 @@ Another benefit of this approach is that our API integration will not create fie
 <p>This section details any special configuration needed during player creation. In addition, other HTML elements that must be added to the page, beyond the in-page embed player implementation code, are described.</p>
 
 <h3>Player configuration</h3>
-
-<p>In Video Cloud Studio, navigate to the <strong>Players</strong> module. In the <strong>Settings</strong> section, select the <stong>Edit</stong> button and do the following:</p>
-
-<ul>
-	<li>Set the <strong>Sizing</strong> option to <strong>Responsive</strong>.</li>
-	<li>Set the <strong>Auto-Start on Player Load</strong> to <strong>Yes</strong>. You can also do this by adding the <code>autoplay</code> attribute to the <code>video</code> tag for the player code.</li>
-</ul>
-
-<p>To the <code>video</code> tag for the player code, add the <code>muted</code> attribute. If you want the video to loop continually, you can also add the <code>loop</code> attribute.</p>
+<p>
+  A Brightcove Player is used for this example.
+</p>
+<ol class="bcls-tasklist__restart">
+	<li>In Video Cloud Studio, navigate to the <strong>Players</strong> module. Create a new player or use an existing one.</li>
+  <li>
+    <p>In the left side navigation, expand <strong>Third-Party Analytics</strong>. For the <strong>GoogleAnalytics</strong> option, <strong>DO NOT</strong> select <strong>Enable Google Analytics</strong>. Leave this option unchecked. </p>
+    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Google Analytics in Studio" src="//learning-services-media.brightcove.com/doc-assets/node/18972-advanced-ga/enable-ga.png" />
+    	<figcaption class="bcls-caption--image">Google Analytics in Studio</figcaption>
+    </figure>
+  </li>
+</ol>
 
 <h3>Other HTML</h3>
-
-<p>HTML code was added to the page to define the Flamingos text block with a link and a Play/Pause button.</p>
+<p>
+  A script was added after the Brightcove Player embed code.
+</p>
+<ol class="bcls-tasklist__restart">
+	<li>
+    <p>
+      After the Player embed code, add the following script for the Brightcove Google Analytics plugin. We are loading the plugin manually instead of configuring it in Video Cloud Studio.
+    </p>
+    <pre>
+    <code class="language-javascript">&lt;script src=&quot;//players.brightcove.net/videojs-bc-ga/1/videojs-bc-ga.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+  </li>
+</ol>
 </section>
 <!-- UPDATE application flow -->
 

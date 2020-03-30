@@ -170,17 +170,42 @@ Customer's CDN will deliver only the video segments.
 <!-- <p>
   For manifests & VMAPs, the response will be returned directly. For MP4s it will 302 to the right CDN URL. DRM is not necessary to include here. This is controlled by flags on the account & video themselves. You  can use a claim in the JWT, if necessary, to switch between DRM types on the fly.
 </p> -->
+<h3>Domain</h3>
 <p>
   The domain used for Static URLs is the Playback API v2 (PAPIv2) URL:
 </p>
 <pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
+<h3>Endpoints</h3>
 <p>
   Static URL examples for each Delivery Type:
 </p>
-<pre class="line-numbers"><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/hls.vmap?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
+<table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Delivery Type</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td>HLS Master Manifest</td>
+          <td><pre><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}</code></pre></td>
+        </tr>
+        <tr>
+          <td>DASH Manifest</td>
+          <td><pre><code class="language-html">/accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}</code></pre></td>
+        </tr>
+        <tr>
+          <td>HLS VMAP</td>
+          <td><pre><code class="language-html">/accounts/{account_id}/videos/{video_id}/hls.vmap?bcov_auth={jwt}</code></pre></td>
+        </tr>
+        <tr>
+          <td>DASH VMAP</td>
+          <td><pre><code class="language-html">/accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre></td>
+        </tr>
+
+      </tbody>
+    </table>
 
 </section>
 
@@ -301,6 +326,7 @@ Customer's CDN will deliver only the video segments.
   <p>
     For license requests, the JWT does not need any payload, but it has to be signed using the same RSA key as the manifest request JWT.
   </p>
+  <h3>License request</h3>
   <p>
     You can use the following endpoint to get the DRM license:
   </p>
@@ -319,6 +345,7 @@ Customer's CDN will deliver only the video segments.
       "fairplay"
     </li>
   </ul>
+  <h3>FairPlay app cert</h3>
   <p>
     For FairPlay app certificates, the endpoint is:
   </p>

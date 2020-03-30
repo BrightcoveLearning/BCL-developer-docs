@@ -51,7 +51,21 @@
 
 <section class="bcls-section">
 <h2 id="Requirements">Requirements</h2>
-  <p>When using static URLs, you must register your player with Brightcove. This will ensure that you get the proper metrics in Brightcove Analytics.</p>
+  <p>
+    The following requirements are needed for static URLs:
+  </p>
+  <h3>Account setup</h3>
+  <p>
+    To sign the JSON Web Token (JWT), your Brightcove account needs to be enabled for Playback Authorization Service. Contact your account manager to have this done.
+  </p>
+  <h3>Analytics registration </h3>
+  <p>With static URLs, you are integrating with the Playback API without using the Brightcove Player. While the Brightcove Player automatically sends analytics data to Brightcove, you will use the Data Collection API to do this.</p>
+  <p>
+    If you are not familiar with the Data Collection API, review the <a href="https://apis.support.brightcove.com/data-collection/overview-data-collection-api-v2.html">Overview: Data Collection API</a> document.
+  </p>
+  <p>
+    For details about sending information to the Data Collector, see the <a href="https://apis.support.brightcove.com/data-collection/data-collection-api-sample.html">Data Collection API Sample</a>.
+  </p>
 </section>
 
 <section class="bcls-section">
@@ -72,39 +86,6 @@
 <p>
   With Brightcove's Playback API v2, static URLs are now avaiable.
 </p>
-
-<p>Static URLs include the following:</p>
-<ul>
-  <li>
-    Account ID
-  </li>
-  <li>
-    Video ID (or reference)
-  </li>
-  <li>
-    Delivery Type (HLS,Dash)
-  </li>
-  <li>
-    Configuration options (SSAI, DRM, CDN, etc.)
-  </li>
-</ul>
-<p>
-  These URLs are secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the <a href="#Create_a_JSON_Web_Token">Create a JSON Web Token</a> section.
-</p>
-<!-- <p>
-  For manifests & VMAPs, the response will be returned directly. For MP4s it will 302 to the right CDN URL. DRM is not necessary to include here. This is controlled by flags on the account & video themselves. You  can use a claim in the JWT, if necessary, to switch between DRM types on the fly.
-</p> -->
-<p>
-  The domain used for Static URLs is the Playback API v2 (PAPIv2) URL:
-</p>
-<pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
-<p>
-  Static URL examples for each Delivery Type:
-</p>
-<pre class="line-numbers"><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/hls.vmap?bcov_auth={jwt}
-/accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
 
 <h3>Features</h3>
 <p>
@@ -166,7 +147,45 @@ Customer's CDN will deliver only the video segments.
 </section>
 
 <section class="bcls-section">
-<h2 id="Create_a_JSON_Web_Token">Create a JSON Web Token</h2>
+<h2 id="Implementing_Static_URLs">Implementing Static URLs</h2>
+
+<p>Static URLs include the following:</p>
+<ul>
+  <li>
+    Account ID
+  </li>
+  <li>
+    Video ID (or reference)
+  </li>
+  <li>
+    Delivery Type (HLS,Dash)
+  </li>
+  <li>
+    Configuration options (SSAI, DRM, CDN, etc.)
+  </li>
+</ul>
+<p>
+  These URLs are secured using a customer generated and signed JSON Web Token (JWT). With this token, you can configure and enforce aspects of delivery. For details, see the <a href="#Creating_a_JSON_Web_Token">Creating a JSON Web Token</a> section.
+</p>
+<!-- <p>
+  For manifests & VMAPs, the response will be returned directly. For MP4s it will 302 to the right CDN URL. DRM is not necessary to include here. This is controlled by flags on the account & video themselves. You  can use a claim in the JWT, if necessary, to switch between DRM types on the fly.
+</p> -->
+<p>
+  The domain used for Static URLs is the Playback API v2 (PAPIv2) URL:
+</p>
+<pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
+<p>
+  Static URL examples for each Delivery Type:
+</p>
+<pre class="line-numbers"><code class="language-html">/accounts/{account_id}/videos/{video_id}/master.m3u8?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/manifest.mpd?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/hls.vmap?bcov_auth={jwt}
+/accounts/{account_id}/videos/{video_id}/dash.vmap?bcov_auth={jwt}</code></pre>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Creating_a_JSON_Web_Token">Creating a JSON Web Token</h2>
   <p>To create a token to use when communicating with Brightcove's Playback API, see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</p>
 
   <h3>Claims for Static URL Delivery</h3>
@@ -275,7 +294,7 @@ Customer's CDN will deliver only the video segments.
 </section>
 
 <section class="bcls-section">
-<h2 id="Content_protection_DRM">Content protection (DRM)</h2>
+<h2 id="Using_Content_protection_DRM">Using Content protection (DRM)</h2>
   <p>You can include the <code>pro</code> claim, as defined above, to specify a protection type.</p>
 
   <p>

@@ -95,98 +95,56 @@
 		</tr>
 	</tbody>
 </table>
-
 </section>
 
 <section class="bcls-section">
-<h2 id="Brightcove_Player_customers">Brightcove Player customers</h2>
+<h2 id="Customizing_event_properties">Customizing event properties</h2>
+<p>You may want additional event properties from those listed in the table above. You can do that by defining the expected values and emitting the <code>EventType.SEEK_CONTROLLER_CONFIGURATION</code> event.</p>
 
-<h3>Using Apple FairPlay Streaming</h3>
-
-<p>If you are using Widevine Classic with your iOS apps, you can transition to using Apple FairPlay Streaming as follows:</p>
-
-<ol class="bcls-tasklist__restart">
-	<li>For FairPlay, you need to produce DRM-protected content which uses HLS manifests with segmented and encrypted videos.</li>
-	<li>
-	<p>Since you will not be using the Brightcove FairPlay license server, you need to define some properties related to the FairPlay license</p>
-
-	<p>Support for FairPlay-protected videos is integrated into the core framework of the Brightcove Player SDK for iOS. For more details see the following documents:</p>
-
-	<ul>
-		<li><a href="https://docs.brightcove.com/ios-sdk/index.html#FairPlay">Migrating from the Brightcove FairPlay plugin</a></li>
-		<li><a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/FairPlay/BasicFairPlayPlayer/swift">Basic player sample using FairPlay</a></li>
-	</ul>
-	&nbsp;
-
-	<aside class="bcls-aside bcls-aside--information">To display FairPlay content on an external screen, see the <a href="/node/18228#Displaying_FairPlay_content_on_an_external_screen">iOS Code Snippets</a> document.</aside>
-	</li>
-</ol>
-
-<h3>Using Google Widevine Modular</h3>
-
-<p>If you are using Widevine Classic with your Android apps, you can transition to using Google Widevine Modular as follows:</p>
+<p>
+  To add custom properties to the event, follow these steps:
+</p>
 
 <ol class="bcls-tasklist__restart">
 	<li>
-	<p>For Widevine Modular, you need to produce DRM-protected content which uses MPEG-DASH manifests with segmented and encrypted videos.</p>
-	</li>
-	<li>
-	<p>The Brightcove Native SDK for Android is configured by default to use Brightcove's Widevine licensing server. Your videos need to be configured to use your Widevine licensing server. Here is an example:</p>
+    <p>
+      Define your custom values.
+    </p>
+    <pre class="line-numbers">
+<code class="language-java">private static final int DEFAULT_TV_SEEK_TIME = (int) TimeUnit.SECONDS.toMillis(3);
+private static final int DEFAULT_TV_ON_HOLD_WAIT_TIME = (int) TimeUnit.SECONDS.toMillis(1);
+private static final int DEFAULT_TV_SEEK_PERCENTAGE = 1;
+private static final int DEFAULT_TV_ON_HOLD_UPDATE_FREQUENCY_TIME = 500;
+</code></pre>
+  </li>
+  <li>
+    <p>
+      Include a method to create the properties map, add the desired values and emit the <code>EventType.SEEK_CONTROLLER_CONFIGURATION</code> event.
+    </p>
+    <pre class="line-numbers">
+<code class="language-java">private void setupTelevisionMode() {
+   Map&lt;String, Object&gt; properties = new HashMap&lt;&gt;();
+   properties.put(Event.SEEK_DEFAULT, DEFAULT_TV_SEEK_TIME);
+   properties.put(Event.SEEK_RELATIVE_ENABLED, true);
+   properties.put(Event.SEEK_PERCENTAGE, DEFAULT_TV_SEEK_PERCENTAGE);
+   properties.put(Event.SEEK_ON_HOLD_WAIT_TIME, DEFAULT_TV_ON_HOLD_WAIT_TIME);
+   properties.put(Event.SEEK_ON_HOLD_UPDATE_FREQ, DEFAULT_TV_ON_HOLD_UPDATE_FREQUENCY_TIME);
 
-	<pre class="line-numbers">
-<code class="language-java">import com.brightcove.player.display.WidevineMediaDrmCallback;
-import com.brightcove.player.media.DeliveryType;
-import com.brightcove.player.model.Video;
-String performVideoUrl = "http://url.to.your.video";
-String performLicenseUrl = "https://url.to.your.licensing.server";
-Video performVideo = Video.createVideo(performVideoUrl, DeliveryType.DASH);
-performVideo.getProperties().put(WidevineMediaDrmCallback.DEFAULT_URL, performLicenseUrl);
-</code>
-</pre>
-	</li>
-	<li>
-	<p>Now, you are ready to use the Brightcove Native SDK for Android in your app. To view Widevine Modular content, you need to use the ExoPlayer video view. For details see the following:</p>
-
-	<ul>
-		<li><a href="https://google.github.io/ExoPlayer/guide.html#digital-rights-management">DRM-protected content with the ExoPlayer</a></li>
-		<li><a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/WidevineModularSampleApp/src/main">Basic player sample using Widevine Modular</a></li>
-	</ul>
-	&nbsp;
-
-	<aside class="bcls-aside bcls-aside--tip">The ExoPlayer video view (<a href="https://docs.brightcove.com/android-sdk/javadoc/com/brightcove/player/view/BrightcoveExoPlayerVideoView.html">BrightcoveExoPlayerVideoView</a>) supports Widevine Modular without the need for additional plugins.</aside>
-	</li>
+   eventEmitter.emit(EventType.SEEK_CONTROLLER_CONFIGURATION, properties);
+}</code></pre>
+  </li>
+  <li>
+    <p>
+      Check if your app is in TV mode to setup the seek controller configuration.
+    </p>
+    <pre class="line-numbers">
+<code class="language-java">if (BrightcoveMediaController.checkTvMode(mBaseVideoView.getContext())) {
+   setupTelevisionMode();
+}</code></pre>
+  </li>
 </ol>
 </section>
 
-<section class="bcls-section">
-<h2 id="For_customers_using_legacy_ingestion">For customers using legacy ingestion</h2>
-
-<p>For customers using the legacy ingest system (not <a href="/node/18476">Dynamic Delivery</a>), follow the steps below to package your videos for DRM.</p>
-
-<aside class="bcls-aside bcls-aside--information">If your account is enabled for Dynamic Delivery, you do <strong>not</strong> need to complete these steps. See <a href="/node/18038">Ingesting content with DRM</a> for more information.</aside>
-
-<ol class="bcls-tasklist">
-	<li>
-	<p>Create a <a href="/node/18038">custom ingest profile</a> with defined packages for each DRM type, Widevine Modular and Apple FairPlay.</p>
-	</li>
-	<li>In Studio, in the <strong>Upload</strong> module, you should now see your custom DRM profiles in the <strong>Ingest Profile</strong> dropdown menu. Here is an example of what your menu might look like:
-	<figure class="bcls-figure"><img class="bcls-image--no-border" alt="DRM profiles with FairPlay selected" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/guides/drm/drm-profiles.png" />
-	<figcaption class="bcls-caption--image">DRM profiles with FairPlay selected</figcaption>
-	</figure>
-	</li>
-	<li>
-	<p>Upload your content using the DRM ingest profile.</p>
-	</li>
-	<li>For existing content in Video Cloud, you can use the <strong>Retranscode</strong> button in the <strong>Media</strong> module and select your desired ingest profile. Retranscoding works only if you initially used the new Studio's <strong>Upload</strong> module or Dynamic Ingest.
-	<figure class="bcls-figure"><img class="bcls-image" alt="Retranscode in Studio" src="//learning-services-media.brightcove.com/doc-assets/device-sdks/guides/drm/retranscode.png" />
-	<figcaption class="bcls-caption--image">Retranscode in Studio</figcaption>
-	</figure>
-
-	<aside class="bcls-aside bcls-aside--tip">If you have a large number of videos to retranscode, then using the <a href="/node/17948">Dynamic Ingest API</a> may be a better option for you.</aside>
-	</li>
-</ol>
-
-</section>
 </article>
 
 

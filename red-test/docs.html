@@ -14,8 +14,13 @@
         item = navArray[i];
         p = document.createElement('p');
         a = document.createElement('a');
-        a.setAttribute('href', 'https:support.brightcove.com' + item.oldURL);
-        a.textContent = 'https:support.brightcove.com' + item.oldURL;
+        if (item.oldURL.indexOf('/doc/') > 0) {
+          a.setAttribute('href', 'https://docs.brightcove.com' + item.oldURL);
+          a.textContent = 'https://docs.brightcove.com' + item.oldURL;
+        } else {
+          a.setAttribute('href', 'https://support.brightcove.com' + item.oldURL);
+          a.textContent = 'https://support.brightcove.com' + item.oldURL;
+        }
         p.appendChild(a);
         frag.appendChild(p);
       }

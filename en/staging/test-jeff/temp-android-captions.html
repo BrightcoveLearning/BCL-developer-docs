@@ -107,101 +107,74 @@
     <ol class="bcls-tasklist__restart">
       <li>
         <p>
-          Retrieve a video from the Brightcove catalog (ie. <code>catalog.findVideoByID()</code>).
+          Create a method to find an specific caption source with the language code. For example:
         </p>
+        <pre><code class="language-java">private Pair&lt;Uri, BrightcoveCaptionFormat&gt; getCaptionsForLanguageCode(Video video, String languageCode) {
+   Object payload = video == null ? null : video.getProperties().get(Video.Fields.CAPTION_SOURCES);
+
+ if (payload instanceof List) {
+   @SuppressWarnings(&quot;unchecked&quot;)
+   List&lt;Pair&lt;Uri, BrightcoveCaptionFormat&gt;&gt; pairs =
+      (List&lt;Pair&lt;Uri, BrightcoveCaptionFormat&gt;&gt;) payload;
+
+   for (Pair&lt;Uri, BrightcoveCaptionFormat&gt; pair : pairs) {
+     if (pair.second.language().equals(languageCode)) {
+       return pair;
+     }
+   }
+ }
+ return null;
+}</code></pre>
       </li>
       <li>
         <p>
-          Sidecar captions are parsed from the catalog response and added to the video properties.
+          Notice that caption sources are in <code>Pair&lt;Uri, BrightcoveCaptionFormat&gt;</code>. The <code>Uri</code> in the pair indicates the type closed captions:
         </p>
+        <ul>
+          <li>
+            <strong>Sidecar</strong>: The full URL is present
+          </li>
+          <li>
+            <strong>In-manifest</strong>: The BrightcoveCaptionFormat.BRIGHTCOVE_SCHEME is used
+          </li>
+        </ul>
       </li>
       <li>
         <p>
-          At this point, you can retrieve caption sources as follows:
+          Create a method responsible for selecting closed captions from a video with a given language code, by emitting the <code>EventType.SELECT_CLOSED_CAPTION_TRACK</code> event.
         </p>
-        <pre><code class="language-java">video.getProperties().get(Video.Fields.CAPTION_SOURCES);</code></pre>
+        <pre><code class="language-java">private void selectCaption(Video video, String language) {
+   Pair&lt;Uri, BrightcoveCaptionFormat&gt; pair = getCaptionsForLanguageCode(video, language);
+
+ if (pair != null &amp;&amp; !pair.first.equals(Uri.EMPTY)) {
+   // BrightcoveCaptionFormat.BRIGHTCOVE_SCHEME indicates that is not a URL we need to load with the LoadCaptionsService, but instead we'll be enabled through a different component.
+   if (!pair.first.toString().startsWith(BrightcoveCaptionFormat.BRIGHTCOVE_SCHEME)) {
+     brightcoveVideoView.getClosedCaptioningController().getLoadCaptionsService().loadCaptions(pair.first, pair.second.type());
+   }
+   Map&lt;String, Object&gt; properties = new HashMap&lt;&gt;();
+   properties.put(Event.CAPTION_FORMAT, pair.second);
+   properties.put(Event.CAPTION_URI, pair.first);
+   brightcoveVideoView.getEventEmitter().emit(EventType.SELECT_CLOSED_CAPTION_TRACK, properties);
+ }
+}</code></pre>
       </li>
       <li>
         <p>
-          Set the video view. The video is added to ExoPlayer.
+          Listen to the <code>EventType.CAPTIONS_LANGUAGES</code> event and select the desired language by the language code.
         </p>
-        <pre><code class="language-java">brightcoveVideoView.add(video);</code></pre>
+        <pre><code class="language-java">brightcoveVideoView.getEventEmitter().once(EventType.CAPTIONS_LANGUAGES, new EventListener() {
+ @Override
+ public void processEvent(Event event) {
+   brightcoveVideoView.setClosedCaptioningEnabled(true);
+
+    // You could find the desired languaged in the LANGUAGES list.
+    // List&lt;String&gt; languages = event.getProperty(Event.LANGUAGES, List.class);
+   selectCaption(brightcoveVideoView.getCurrentVideo(), &quot;ja&quot;);
+ }
+});</code></pre>
       </li>
-      <li>
-        <p>
-          The Native SDK gets caption sources and emits the following event:
-        </p>
-        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
-      </li>
-      <li>
-        <p>
-          After the video is added to ExoPlayer, the Native SDK looks for in-manifest captions. Any captions not already present in the video caption sources are added. If there are new caption sources, the following event is sent to update the Brightcove media controller.
-        </p>
-        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
-      </li>
+
     </ol>
-  </section>
-
-  <section class="bcls-section">
-  <h2 id="Steps">Steps</h2>
-  <p>
-    To play a live stream with <span class="”notranslate”">SSAI</span>, follow these steps:
-  </p>
-
-  <ol class="bcls-tasklist__restart">
-  	<li><a href="https://support.brightcove.com/node/18748#Creating_a_Live_ad_configuration">Create a live ad configuration</a> using Video Cloud Studio</li>
-  	<li>Optional: <a href="https://support.brightcove.com/node/18753#fill_slate">Create slate assets</a>, and/or <a href="https://support.brightcove.com/node/18835">Insert cue points and ad beacons</a></li>
-  	<li>
-      <a href="#Create_a_live_event">Create a live event</a>
-    </li>
-    <li>
-      <a href="#Get_the_playback_token">Get the playback token</a>
-    </li>
-    <li>
-    <p>Build your app:</p>
-
-    <ul><li><a href="#Android_implementation">Android implementation</a></li>
-      <li><a href="#iOS_implementation">iOS implementation</a></li>
-      <!-- <li><a href="#tvOS_implementation">tvOS implementation</a></li> -->
-    </ul>
-  </li>
-  <li><a href="https://support.brightcove.com/node/18753#request_ad">Request an ad break</a></li>
-  </ol>
-  <aside class="bcls-aside bcls-aside--tip">If you prefer, you can use the Live API to create your stream and configure your ad breaks. For details, see the <a href="/node/17763">Live API: Server-Side Ad Insertion (SSAI)</a> document.</aside>
-  </section>
-
-  <section class="bcls-section">
-  <h2 id="Create_a_live_event">Create a live event</h2>
-  <p>
-    To create a live event, follow these steps:
-  </p>
-  <ol class="bcls-tasklist__restart">
-    <li>
-      Refer to the <a href="https://support.brightcove.com/node/18753#create_event">Implementing Server-Side Ads in the Live Module</a> document.
-    </li>
-    <li>
-      In the <strong>Advanced Options</strong>, make sure you select <strong>Enable Server-Side Ad Insertion (SSAI)</strong>.
-    </li>
-    <li>
-      <p>
-        <strong>Optional</strong>: By default, your live stream will use a Brightcove CDN. If you prefer, you can use your own choice of CDN (BYO CDN or "bring your own bandwidth").
-      </p>
-      <ul>
-        <li>
-          <p>
-            In the <strong>Advanced Options</strong> section, select the <strong>Add multi CDN configuration</strong> option.
-          </p>
-          <figure class="bcls-figure">
-            <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18943-live-ssai-sdks/multiple-cdn.png" alt="Multi CDN Configuration">
-            <figcaption class="bcls-caption--image">Multi CDN Configuration</figcaption>
-          </figure>
-        </li>
-        <li>
-          Enter a label and URL for your own CDN. For more information about CDNs, see the <a href="node/549/">Content Delivery Options</a> document.
-        </li>
-      </ul>
-    </li>
-  </ol>
   </section>
 
   </article>

@@ -43,18 +43,103 @@
 
   <article class="bcls-article">
   <section class="bcls-section">
-  <h2 id="Overview">Overview</h2>
-  <p>
-    Server-Side Ad Insertion (<span class="”notranslate”">SSAI</span>) allows you to stitch ads into your video content stream to provide a TV-like viewing experience. To play a live stream with the Native SDKs, you need to pass the playback token with your video request.
-  </p>
+    <h2 id="Overview">Overview</h2>
+    <p>
+      The Native SDK for Android receives captions from either of the following:
+    </p>
+    <ul>
+    	<li>Brightcove catalog response (Playback API) : Sidecar WebVTT</li>
+    	<li>Video manifest (HLS or DASH) : In-manifest WebVTT</li>
+    </ul>
+    <p>
+      For more information about captions, see the <a href="https://sdks.support.brightcove.com/features/using-captions-brightcove-native-sdks.html">Using Captions with the Brightcove Native SDKs</a> document.
+    </p>
+  </section>
 
-  <p>Live <span class="”notranslate”">SSAI</span> allows you to:</p>
+  <section class="bcls-section">
+    <h2 id="Event_sequence">Event sequence</h2>
+    <p>
+      The Native SDK follows this event sequence associated with captions:
+    </p>
+    <ol class="bcls-tasklist">
+      <li>
+        <p>
+          Retrieve a video from the Brightcove catalog (ie. <code>catalog.findVideoByID()</code>).
+        </p>
+      </li>
+      <li>
+        <p>
+          Sidecar captions are parsed from the catalog response and added to the video properties.
+        </p>
+      </li>
+      <li>
+        <p>
+          At this point, you can retrieve caption sources as follows:
+        </p>
+        <pre><code class="language-java">video.getProperties().get(Video.Fields.CAPTION_SOURCES);</code></pre>
+      </li>
+      <li>
+        <p>
+          Set the video view. The video is added to ExoPlayer.
+        </p>
+        <pre><code class="language-java">brightcoveVideoView.add(video);</code></pre>
+      </li>
+      <li>
+        <p>
+          The Native SDK gets caption sources and emits the following event:
+        </p>
+        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
+      </li>
+      <li>
+        <p>
+          After the video is added to ExoPlayer, the Native SDK looks for in-manifest captions. Any captions not already present in the video caption sources are added. If there are new caption sources, the following event is sent to update the Brightcove media controller.
+        </p>
+        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
+      </li>
+    </ol>
+  </section>
 
-  <ul>
-  	<li>Insert ads using cue points sent from your encoder or create an instant cue point using the <span class="notranslate">Live API</span></li>
-  	<li>Ingest "slate" assets to fill any unused ad time</li>
-  	<li>Avoid ad blockers with ads that are stitched into the live stream on the server side</li>
-  </ul>
+  <section class="bcls-section">
+    <h2 id="Select_captions">Select captions</h2>
+    <p>
+      Follow these steps to select captions programmatically:
+    </p>
+    <ol class="bcls-tasklist__restart">
+      <li>
+        <p>
+          Retrieve a video from the Brightcove catalog (ie. <code>catalog.findVideoByID()</code>).
+        </p>
+      </li>
+      <li>
+        <p>
+          Sidecar captions are parsed from the catalog response and added to the video properties.
+        </p>
+      </li>
+      <li>
+        <p>
+          At this point, you can retrieve caption sources as follows:
+        </p>
+        <pre><code class="language-java">video.getProperties().get(Video.Fields.CAPTION_SOURCES);</code></pre>
+      </li>
+      <li>
+        <p>
+          Set the video view. The video is added to ExoPlayer.
+        </p>
+        <pre><code class="language-java">brightcoveVideoView.add(video);</code></pre>
+      </li>
+      <li>
+        <p>
+          The Native SDK gets caption sources and emits the following event:
+        </p>
+        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
+      </li>
+      <li>
+        <p>
+          After the video is added to ExoPlayer, the Native SDK looks for in-manifest captions. Any captions not already present in the video caption sources are added. If there are new caption sources, the following event is sent to update the Brightcove media controller.
+        </p>
+        <pre><code class="language-java">EventType.CAPTIONS_LANGUAGES</code></pre>
+      </li>
+    </ol>
   </section>
 
   <section class="bcls-section">
@@ -115,175 +200,6 @@
           Enter a label and URL for your own CDN. For more information about CDNs, see the <a href="node/549/">Content Delivery Options</a> document.
         </li>
       </ul>
-    </li>
-  </ol>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="Get_the_playback_token">Get the playback token</h2>
-    <p>
-      When you enable SSAI with your live stream, the player embed code will contain an <code>adConfigId</code> parameter. This value is the playback token, which you will use when requesting video content in your app.
-    </p>
-    <p>
-      To get the playback token, follow these steps:
-    </p>
-    <ol class="bcls-tasklist__restart">
-      <li>
-        In Video Cloud Studio, open the <strong>Live</strong> module.
-      </li>
-      <li>
-        In the left side navigation, select <strong>Player Configuration</strong>.
-      </li>
-      <li>
-        <p>
-          <strong>Optional</strong>: In the <strong>Live Player Options</strong> section, expand the <strong>Select Content Delivery Network (CDN)</strong> dropdown menu and select your preferred CDN.
-        </p>
-        <figure class="bcls-figure">
-          <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18943-live-ssai-sdks/select-cdn.png" alt="Select your CDN">
-          <figcaption class="bcls-caption--image">Select your CDN</figcaption>
-        </figure>
-      </li>
-      <li>
-        <p>
-          Copy the <a href="">Standard Embed Code</a> to your clipboard.
-        </p>
-        <figure class="bcls-figure">
-          <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/node/18943-live-ssai-sdks/embed-code.png" alt="Embed code">
-          <figcaption class="bcls-caption--image">Embed code</figcaption>
-        </figure>
-      </li>
-      <li>
-        <p>
-          From the embed code, copy the <code>VideoId</code> and the <code>adConfigId</code> parameter value. You will use these values in a later step. The <code>adConfigId</code> value is the playback token passed when requesting content from your Video Cloud library. It should look similar to this:
-        </p>
-        <pre><code class="language-html">live.abcdefghijkl_-Bn1234567890abcde</code></pre>
-      </li>
-      <li>
-        You will also need the Account Id and Policy Key for your account.
-      </li>
-    </ol>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="Android_implementation">Android implementation</h2>
-    <p>
-      To play a live stream, you will include the <code>adConfigId</code> parameter and the value of your playback token to your video request.
-    </p>
-    <p>
-      Follow these steps to build your app:
-    </p>
-    <ol class="bcls-tasklist__restart">
-    <li>
-      Use the <a href="https://github.com/BrightcoveOS/android-player-samples/tree/master/brightcove-exoplayer/BasicSsaiSampleApp">Basic SSAI Sample App</a> as a starting point for your code.
-    </li>
-    <li>
-      In the <strong>res/values/strings.xml</strong> file, replace the following with your own values
-      <ul>
-        <li>
-          Account Id
-        </li>
-        <li>
-          Video Id
-        </li>
-        <li>
-          Policy Key
-        </li>
-      </ul>
-    </li>
-    <li>
-      <p>
-        In the <strong>MainActivity.java</strong> file, replace the <code>ad_config_id</code> value with your playback token (live URL) that you you copied from the Live module in the previous section.
-      </p>
-      <pre><code class="language-java">private final String AD_CONFIG_ID_QUERY_PARAM_VALUE = &quot;live.abcdefghijkl_-Bn1234567890abcde&quot;;</code></pre>
-    </li>
-    <li>
-      <p>
-        The <code>ad_config_id</code> with your playback token value is added to the HTTP request as a query parameter.
-      </p>
-      <pre class="line-numbers"><code class="language-java">HttpRequestConfig httpRequestConfig = new HttpRequestConfig.Builder()
-  .addQueryParameter(AD_CONFIG_ID_QUERY_PARAM_KEY, AD_CONFIG_ID_QUERY_PARAM_VALUE)
-  .build();
-</code></pre>
-    </li>
-    <li>
-      <p>
-        Make the catalog call to the Playback API with your live stream video id and the updated HTTP request.
-      </p>
-      <pre class="line-numbers"><code class="language-java">catalog.findVideoByID(getString(R.string.video_id), httpRequestConfig, new VideoListener() {
-   @Override
-   public void onVideo(Video video) {
-       plugin.processVideo(video);
-   }
- });
-</code></pre>
-    </li>
-    <li>
-      <p>
-        Your app is ready to play the live stream.
-      </p>
-      <p>
-        For more details about using live streams enabled for SSAI with the Native SDK for Android, see the <a href="https://www.brightcove.com/en/blog/2019/12/ssai-plugin-changes-690">SSAI Plugin changes in 6.9.0</a> blog post.
-      </p>
-    </li>
-  </ol>
-  </section>
-
-  <section class="bcls-section">
-    <h2 id="iOS_implementation">iOS implementation</h2>
-    <p>
-      To play a live stream, you will include the <code>adConfigId</code> parameter and the value of your playback token to your video request.
-    </p>
-    <p>
-      Follow these steps to build your app:
-    </p>
-    <ol class="bcls-tasklist__restart">
-    <li>
-      Use the <a href="https://github.com/BrightcoveOS/ios-player-samples/tree/master/SSAI/BasicSSAIPlayer">Basic SSAI Sample App</a> as a starting point for your code.
-    </li>
-    <li>
-      In the <strong>ViewController.swift</strong> file, replace the following with your own values
-      <ul>
-        <li>
-          Account Id
-        </li>
-        <li>
-          Video Id
-        </li>
-        <li>
-          Policy Key
-        </li>
-      </ul>
-    </li>
-    <li>
-      <p>
-        In the <strong>ViewController.swift</strong> file, replace the <code>AdConfigId</code> value with your playback token (live URL) that you you copied from the Live module in the previous section.
-      </p>
-      <pre><code class="language-swift">static let AdConfigId = &quot;live.abcdefghijkl_-Bn1234567890abcde&quot;;</code></pre>
-    </li>
-    <li>
-      <p>
-        The <code>AdConfigId</code> with your playback token value is added to the HTTP request as a query parameter.
-      </p>
-      <pre class="line-numbers"><code class="language-swift">let queryParameters = [kBCOVPlaybackServiceParamaterKeyAdConfigId: Constants.AdConfigId]
-</code></pre>
-    </li>
-    <li>
-      <p>
-        Make the catalog call to the Playback API with your live stream video id and the updated HTTP request.
-      </p>
-      <pre class="line-numbers"><code class="language-swift">playbackService.findVideo(withVideoID: Constants.VideoId, parameters: queryParameters) { [weak self] (video: BCOVVideo?, jsonResponse: [AnyHashable: Any]?, error: Error?) -&gt; Void in
-
-   guard let _video = video else {
-     print(&quot;ViewController Debug - Error retrieving video: \(error?.localizedDescription ?? &quot;unknown error&quot;)&quot;)
-     return
-   }
-
-   self?.playbackController?.setVideos([_video] as NSFastEnumeration)
-}
-</code></pre>
-    </li>
-    <li>
-      Your app is ready to play the live stream.
     </li>
   </ol>
   </section>

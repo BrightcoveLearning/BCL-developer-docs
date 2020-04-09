@@ -99,6 +99,7 @@
 	<li><a href="#Media_progress_values">Media progress values</a></li>
 	<!-- <li><a href="#Setting_the_buffer_size">Setting the buffer size</a></li> -->
 	<li><a href="#Paging_with_the_Playback_API">Paging with the Playback API</a></li>
+  <li><a href="#Removing_the_player">Removing the player</a></li>
 	<li><a href="#Setting_the_playback_rate">Setting the playback rate</a></li>
 	<li><a href="#Setting_VR_Goggles_mode_for_360_videos">Setting VR Goggles mode for 360° videos</a></li>
 </ul>
@@ -470,6 +471,23 @@ for (BCOVCuePoint *cp in cpc) {
 		<p>The <code class="notranslate">AVPlayer</code> contains the <code class="notranslate">AVPlayerItem</code>, essentially the video being played, that contains the <code class="notranslate">loadedTimeRanges</code> property. This tells you how much is buffered.</p>
 		<p>HLS is designed to play right away and drop quality if it can't keep up. This way, it does not need to preload a buffer. If it can't keep up, it will load as much of the video as it can at the best quality to prevent interruption.</p>
 		</section> -->
+
+<section class="bcls-section">
+<h2 id="Removing_the_player">Removing the player</h2>
+
+<p>There may be cases where you want to remove the player and the view.</p>
+<p>
+  Deallocating the view controller that has ownership of a <code>BCOVPlaybackController</code> will deallocate the playback controller as well. To do this, remove the player view from its superview and set their playback controller pointer to <code>nil</code>.
+</p>
+<p>
+  Here is a code example:
+</p>
+
+<pre>
+<code class="notranslate language-objectivec">playerView?.removeFromSuperview()
+playerView = nil
+playbackController = nil</code></pre>
+</section>
 
 <section class="bcls-section">
 <h2 id="Setting_the_playback_rate">Setting the playback rate</h2>

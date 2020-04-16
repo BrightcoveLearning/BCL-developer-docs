@@ -168,6 +168,84 @@ paths:
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
   '/accounts/{account_id}/users/{user_id}/devices/{device_id}':
+    patch:
+      tags:
+        - Devices
+      summary: Update a specific user device
+      description: 'Update a specific user device'
+      operationId: UpdateADevice
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/DeviceID'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "ILLEGAL_VALUE",
+                    "message": "Illegal value",
+                  },
+                ]
+        '404':
+          description: Device Not Found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Device not found",
+                  },
+                ]
+        '500':
+          description: |-
+            UNKNOWN: Issue in Brightcove system; try again later.
+            TIMEOUT: Server likely too busy; try again later.
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICE_STORE_FAILURE",
+                    "message": "Cannot patch device name",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
     delete:
       tags:
         - Devices
@@ -237,109 +315,6 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{account_id}/playback_rights':
-    post:
-      tags:
-        - Playback Rights
-      summary: Create a new Playback Right
-      description: 'Create a new Playback Right'
-      operationId: CreateRight
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/playback-rights/write
-      parameters:
-        - $ref: '#/components/parameters/AccountId'
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      requestBody:
-        description: Create Playback Right metadata
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/playback_rights'
-      responses:
-        '201':
-          description: 'Playback right created'
-          headers:
-            Location:
-              description: Values include account id and playback rights id
-              schema:
-                type: string
-                example: "/v1/accounts/12345679001/playback_rights/111111b0-22a2-3b33-4ce4-555a55ef555d"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/playback_rights'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in account_id",
-                  },
-                ]
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '422':
-          description: Unprocessable entity
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "UNPROCESSABLE_ENTITY",
-                    "error_subcode": "INVALID_IP",
-                    "message": "Invalid ip: 0.0.0.0/40",
-                  },
-                ]
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "SERVER_ERROR",
-                  },
-                ]
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "PLAYBACK_RIGHT_STORE_FAILURE",
-                    "message": "Cannot store playback right",
-                  },
-                ]
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
 
 components:
   parameters:
@@ -382,155 +357,21 @@ components:
       items:
         type: string
         example: "device_01"
-    playback_rights:
-      title:  Playback Rights
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          example: "dad11111-e2e2-3333-4ff4-5555555555ba"
-          description: playback rights id
-        allowed_domains:
-          type: array
-          items:
-            type: string
-            example: "someDomain.com"
-        blocked_domains:
-          type: array
-          items:
-            type: string
-            example: "someDomain.com"
-        geo:
-          type: object
-          properties:
-            allowed_countries:
-              type: array
-              items:
-                type: string
-              example: ["US","MX"]
-            blocked_countries:
-              type: array
-              items:
-                type: string
-              example: ["JP","CN"]
-            allowed_zip_codes:
-              type: array
-              items:
-                type: string
-                example: "US-90210"
-            blocked_zip_codes:
-              type: array
-              items:
-                type: string
-                example: "US-72810"
-            allowed_dmas:
-              type: array
-              items:
-                type: integer
-                example: 500
-            blocked_dmas:
-              type: array
-              items:
-                type: integer
-                example: 717
-        start_time:
-          type: integer
-          example: 1572905011
-        end_time:
-          type: integer
-          example: 1672905011
-        allowed_ips:
-          type: array
-          items:
-            type: string
-            example: "172.16.254.1"
-        blocked_ips:
-          type: array
-          items:
-            type: string
-            example: "172.16.254.2"
-        allowed_days:
-          type: array
-          items:
-            type: string
-          example: ["mon", "tue"]
-        allowed_hours:
-          type: array
-          items:
-            type: string
-          example: ["3-4", "8-19"]
-        allow_insecure:
-          type: boolean
-          example: false
-        disabled:
-          type: boolean
-          example: true
-        name:
-          type: string
-          example: "Optional playback right name"
 
   examples:
     response_body_example:
-      value: {
-        "id": "dad11111-e2e2-3333-4ff4-5555555555ba",
-        "geo": {
-        "allowed_countries": [
-          "MX",
-          "US"
-        ],
-        "blocked_countries": [
-          "JP",
-          "CN"
-        ],
-        "allowed_zip_codes": [
-          "MX-90210"
-        ],
-        "blocked_zip_codes": [
-          "MX-72810"
-        ],
-        "allowed_dmas": [
-          501
-        ],
-        "blocked_dmas": [
-          803
+      value: [
+        "device_01","device_02"
         ]
-      },
-      "allowed_domains": [
-        "www.google.com",
-        "www.brightcove.com"
-      ],
-      "blocked_domains": [
-        "www.ooyala.com"
-      ],
-      "start_time": 1572905011,
-      "end_time": 1672905011,
-      "allowed_ips": [
-        "192.168.1.1"
-      ],
-      "blocked_ips": [
-        "192.168.1.1"
-      ],
-      "allowed_days": [
-        "mon",
-        "tue"
-      ],
-      "allowed_hours": [
-        "5-6"
-      ],
-      "allow_insecure": true,
-      "disabled": false,
-      "name": "Optional playback right name"
-      }
 
   securitySchemes:
     BC_OAuth2:
       type: oauth2
       description: >-
-        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+        Brightcove OAuth API. See the [support documentation](https://apis.support.brightcove.com/oauth/) or [Getting Access Tokens](https://apis.support.brightcove.com/oauth/code-samples/oauth-api-sample-get-access-token.html) to learn more
       flows:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
-            video-cloud/playback-auth/playback-rights/read: Read Playback Auth
-            video-cloud/playback-auth/playback-rights/write: Write Playback Auth
+            video-cloud/playback-auth/devices/read: Read Devices
+            video-cloud/playback-auth/devices/write: Write Devices

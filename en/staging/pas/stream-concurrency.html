@@ -101,11 +101,7 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Behavior_examples">Behavior examples</h2>
-<p>
-  The following examples demonstrate different strategies for limiting playback streams.
-</p>
-<h3>General Behavior</h3>
+<h2 id="General_Behavior">General Behavior</h2>
 <p>
   Brightcove supports limiting playback streams for DRM-proteced content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
 </p>
@@ -131,97 +127,24 @@
     Jason starts watching another movie some time later, causing Sarah's movie to stop.
   </li>
 </ol>
+</section>
 
-<h3>Limited functionality with PlayReady</h3>
+<section class="bcls-section">
+<h2 id="Using_PlayReady">Using PlayReady</h2>
 <p>
-  When Stream Concurrency is enabled with PlayReady the behavior changes slightly, described in the examples below.
+  With PlayReady, there are two ways to limit the number of concurrent playback sessions:
 </p>
-<h4>PlayReady: Secure stop</h4>
+<ul>
+  <li>
+    Secure Stop
+  </li>
+  <li>
+    Limited Duration Licenses
+  </li>
+</ul>
 <p>
-  Since Microsoft PlayReady does not support renewal requests, it denies any new sessions to limit the total number of streams. This behavior is referred to as secure stop.
+  For details about using PlayReady, see the <a href="https://docs.microsoft.com/en-us/playready/features/concurrency-limiting">Concurrency Limiting</a> document.
 </p>
-<figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-only.png" alt="PlayReady Secure stop">
-  <figcaption class="bcls-caption--image">PlayReady Secure stop</figcaption>
-</figure>
-
-<p>
-  <strong>User activity:</strong>
-</p>
-<ol>
-  <li>
-    Ben, Jason and Sarah start watching a movie.
-  </li>
-  <li>
-    Jamie tries to start watching, but her request is denied due to the limit.
-  </li>
-  <li>
-    Ben stops watching and his player sends a secure stop request. This opens a new slot.
-  </li>
-  <li>
-    Jamie can now use the new slot.
-  </li>
-</ol>
-
-<h4>PlayReady: Session duration</h4>
-<p>
-  If the session duration limit is reached before a secure stop signal is received, then the duration limit is used.
-</p>
-<figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-secure-stop.png" alt="PlayReady Session duration">
-  <figcaption class="bcls-caption--image">PlayReady Session duration</figcaption>
-</figure>
-
-<p>
-  <strong>User activity:</strong>
-</p>
-<ol>
-  <li>
-    Ben, Jason and Sarah start watching a movie.
-  </li>
-  <li>
-    Ben's device crashes and does not send the secure stop request.
-  </li>
-  <li>
-    Jamie also wants to watch, but her request is denied.
-  </li>
-  <li>
-    The session duration is reached and the slot is available.
-  </li>
-  <li>
-    Jamie can now watch a movie.
-  </li>
-</ol>
-
-<h4>PlayReady with other DRMs</h4>
-<p>
-  When PlayReady receives the maximum number of session requests, then all other license requests are denied, including Google Widevine and Apple FairPlay. No new sessions will be allowed.
-</p>
-<figure class="bcls-figure">
-  <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/playready-with-drms.png" alt="PlayReady with other DRMs">
-  <figcaption class="bcls-caption--image">PlayReady with other DRMs</figcaption>
-</figure>
-
-<p>
-  <strong>User activity:</strong>
-</p>
-<ol>
-  <li>
-    Ben, Jason and Sarah start watching a movie.
-  </li>
-  <li>
-    Jamie decides to also start watching, causing Jason's movie to stop. Since Jason's device supports renewal requests, his request gets denied.
-  </li>
-  <li>
-    Jason decides to switch to a device which supports secure stop. This causes Jamie's next renewal request to fail. Now, all slots are occupied by devices with secure stop.
-  </li>
-  <li>
-    Jamie has no free slot to watch.
-  </li>
-  <li>
-    Ben stops watching, which frees a slot for Jamie to use.
-  </li>
-</ol>
 </section>
 
 <section class="bcls-section">

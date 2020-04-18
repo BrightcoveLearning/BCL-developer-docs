@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   title: Brightcove CMS API Reference
   description: |-
-    'Reference for the Brightcove CMS API, used to access and manage your media library. To test API requests, you can use our [API Testing Tools](https://support.brightcove.com/developer-tools-and-concepts). For permissions needed for OAuth credentials, see [API Operations](https://support.brightcove.com/api-operations-client-credentials-requests). For information on authenticating API requests, see the [OAuth Overview](https://support.brightcove.com/overview-oauth-api-v4).'
+    'Reference for the Brightcove CMS API, used to access and manage your media library. To test API requests, you can use our [API Testing Tools](/getting-started/concepts-testing-tools-brightcove-apis.html). For permissions needed for OAuth credentials, see [API Operations](/oauth/guides/api-operations-client-credentials-requests.html). For information on authenticating API requests, see the [OAuth Overview](/oauth/getting-started/overview-oauth-api-v4.html).'
 
-    For additional in-depth guides to features of the API, see the **[Support Site](https://support.brightcove.com/cms-api)**.
+    For additional in-depth guides to features of the API, see the **[general documentation](/cms/code-samples/index.html)**.
 
     **Base URL**: https://cms.api.brightcove.com/v1
   version: 1.0.0
@@ -200,6 +200,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/AccountId'
         - $ref: '#/components/parameters/VideoIds'
+        - $ref: '#/components/parameters/include_variants'
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/Authorization'
       responses:
@@ -396,6 +397,216 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VideoImages'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: The HTTP method specified is not allowed for this endpoint
+        '429':
+          description: >-
+            TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or too many requests per second
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/video/read
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{account_id}/videos/{video_id}/variants':
+    get:
+      tags:
+        - Videos
+      summary: Get All Video Variants
+      description: 'Gets the language variants for the video metadata'
+      operationId: GetVideoVariants
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoVariants'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: The HTTP method specified is not allowed for this endpoint
+        '429':
+          description: >-
+            TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or too many requests per second
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/video/read
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Videos
+      summary: Create a Video Variant
+      description: 'Creates a language variant for a video metadata'
+      operationId: createVideoVariant
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        description: >-
+          Request body for a video variant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoVariant'
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoVariant'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: The HTTP method specified is not allowed for this endpoint
+        '429':
+          description: >-
+            TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or too many requests per second
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/video/read
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{account_id}/videos/{video_id}/variants/{language}':
+    get:
+      tags:
+        - Videos
+      summary: Get a Video Varianta
+      description: 'Gets the variant for the video metadata for the specified language'
+      operationId: GetVideoVariant
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/Language'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoVariant'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: The HTTP method specified is not allowed for this endpoint
+        '429':
+          description: >-
+            TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or too many requests per second
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/video/read
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+        - Videos
+      summary: Update a Video Variant
+      description: 'Updates a language variant for a video metadata'
+      operationId: updateVideoVariant
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/Language'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:  
+        description: 
+          Request body for a video variant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoVariant'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoVariant'
+        '401':
+          description: >-
+            UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '405':
+          description: >-
+            METHOD_NOT_ALLOWED: The HTTP method specified is not allowed for this endpoint
+        '429':
+          description: >-
+            TOO_MANY_REQUESTS: You are submitting too many simultaneous requests or too many requests per second
+      deprecated: false
+      security:
+        - BC_OAuth2:
+            - video-cloud/video/read
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Videos
+      summary: Update a Video Variant
+      description: 'Updates a language variant for a video metadata'
+      operationId: deleteVideoVariant
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/VideoId'
+        - $ref: '#/components/parameters/Language'
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '204':
+          description: '204 NO CONTENT'
         '401':
           description: >-
             UNAUTHORIZED: Authentication failed; check to make sure your client credentials were correct for the access token
@@ -5149,7 +5360,7 @@ components:
         type: string
       style: simple
     Authorization:
-      description: 'Authorization: Bearer {access_token} - see [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token)'
+      description: 'Authorization: Bearer {access_token} - see [Getting Access Tokens](/oauth/code-samples/oauth-api-sample-get-access-token.html)'
       explode: false
       in: header
       name: Authorization
@@ -5200,8 +5411,17 @@ components:
       schema:
         type: string
       style: simple
+    include_variants:
+      description: 'Whether to include the language variants in the respons'
+      explode: true
+      in: query
+      name: include_variants
+      schema:
+        default: true
+        type: boolean
+      style: form
     JobId:
-      description: The Job ID for the ingest job (returned in the response to an ingest request
+      description: The Job ID for the ingest job (returned in the response to an ingest request)
       explode: false
       in: path
       name: job_id
@@ -5209,8 +5429,17 @@ components:
       schema:
         type: string
       style: simple
+    Language:
+      description: 'The language for the variant in the language-country code format (examples: en-US, es-ES)'
+      explode: false
+      in: path
+      name: language
+      required: true
+      schema:
+        type: string
+      style: simple
     Limit:
-      description: 'Number of items to return - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information'
+      description: 'Number of items to return - see [Paging Search Results](/cms/searching/using-cms-api-page-search-results.html) for more information'
       explode: true
       in: query
       name: limit
@@ -5232,7 +5461,7 @@ components:
         type: string
       style: simple
     Offset:
-      description: 'Number of items to skip - see [Paging Search Results](https://support.brightcove.com/using-cms-api-page-search-results) for more information'
+      description: 'Number of items to skip - see [Paging Search Results](/cms/searching/using-cms-api-page-search-results.html) for more information'
       explode: true
       in: query
       name: offset
@@ -5260,15 +5489,25 @@ components:
         default: '-updated_at'
         enum:
           - name
+          - -name
           - reference_id
+          - -reference_id
           - created_at
+          - -created_at
           - published_at
+          - -published_at
           - updated_at
+          - -updated_at
           - schedule.starts_at
+          - -schedule.starts_at
           - schedule.ends_at
+          - -schedule.ends_at
           - state
+          - -state
           - plays_total
+          - -plays_total
           - plays_trailing_week
+          - -plays_trailing_week
         example: created_at
         type: string
         x-enum-elements:
@@ -5278,7 +5517,7 @@ components:
             name: updated_at
       style: form
     Search:
-      description: 'Search string - see [search guide](https://support.brightcove.com/cmsplayback-api-videos-search) for details'
+      description: 'Search string - see [search guide](/cms/searching/cms-and-playback-apis-video-search-v2.html) for details'
       explode: true
       in: query
       name: q
@@ -5329,15 +5568,23 @@ components:
         default: '-updated_at'
         enum:
           - name
+          - -name
           - reference_id
+          - -reference_id
           - created_at
+          - -created_at
           - published_at
+          - -published_at
           - updated_at
+          - -updated_at
           - schedule.starts_at
-          - schedule.ends_at
+          - -schedule.ends_at
           - state
+          - -state
           - plays_total
+          - -plays_total
           - plays_trailing_week
+          - -plays_trailing_week
         example: created_at
         type: string
         x-enum-elements:
@@ -6453,6 +6700,30 @@ components:
       readOnly: true
       title: User
       type: object
+    VideoVariant:
+      description: Object containing language-specific metadata for a video
+      properties:
+        language:
+          type: string
+          description: 'The language for this variant in the language-country code format (examples: en-US, es-ES)'
+          example: es-ES
+        name:
+          type: string
+          description: The title of the video in this language
+        description:
+          type: string
+          description: The video short description in this language
+        long_description:
+          type: string
+          description: The video long description in this language
+        custom_fields:
+          type: object
+          description: 'map of `fieldname: value` pairs, where values are for this language; values have a maximum length of 1024 single-byte characters. Note: be sure to use the **internal** name for the field, not the display name'
+    VideoVariants:
+      description: Array of video variants
+      type: array
+      items:
+        $ref: '#/components/schemas/VideoVariant'
     Video:
       description: Object containing metadata for a video
       properties:
@@ -6625,6 +6896,8 @@ components:
           type: string
         updated_by:
           $ref: '#/components/schemas/User'
+        variants:
+          $ref: '#/components/schemas/VideoVariants'
       title: Video
       type: object
     VideoAsset:
@@ -7138,7 +7411,7 @@ components:
     BC_OAuth2:
       type: oauth2
       description: >-
-        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+        Brightcove OAuth API. See the [support documentation](/oauth/index.html) or [Getting Access Tokens](/oauth/code-samples/oauth-api-sample-get-access-token.html) to learn more
       flows:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'

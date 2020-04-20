@@ -58,10 +58,10 @@
   </p>
   <ul>
     <li>
-      Supported with Native SDK for Android 6.13.1+
+      Supported with the Brightcove Native SDK for Android 6.13.1+
     </li>
     <li>
-      Applies to Android devices with API level 21 and higher
+      Works with Android devices using API level 21 and higher
     </li>
   </ul>
 </aside>
@@ -162,12 +162,78 @@
 </p>
 <ol>
   <li>
-    The SDK selects all HEVC renditions.
+    The Native SDK selects all HEVC renditions.
   </li>
   <li>
     It ignores non-HEVC renditions that duplicate an existing HEVC with the same resolution.
   </li>
 </ol>
+
+<p>
+  This forces ExoPlayer to prefer HEVC in most cases. Here are two possible scenarios:
+</p>
+<ul>
+  <li>
+    Codec mix duplication
+  </li>
+  <li>
+    Half and half
+  </li>
+</ul>
+
+<h4>Codec mix duplication</h4>
+<p>
+  In this scenario, most of the HEVC and AVC codec’s resolutions are duplicated. For example:
+</p>
+<pre class="line-numbers"><code class="language-html">AVC &lt;Representation bandwidth=&quot;453000&quot; height=&quot;270&quot; width=&quot;480&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;704000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;903000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;1202000&quot; height=&quot;540&quot; width=&quot;960&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;1989000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;2478000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;3458000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;3761000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;304000&quot; height=&quot;270&quot; width=&quot;480&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;548000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;993000&quot; height=&quot;432&quot; width=&quot;768&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1301000&quot; height=&quot;576&quot; width=&quot;1024&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1605000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;2809000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+</code></pre>
+<p>
+  Given the above video renditions, the Brightcove Natvie SDK will select the following renditions:
+</p>
+<pre class="line-numbers"><code class="language-html">AVC &lt;Representation bandwidth=&quot;1202000&quot; height=&quot;540&quot; width=&quot;960&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;304000&quot; height=&quot;270&quot; width=&quot;480&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;548000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;993000&quot; height=&quot;432&quot; width=&quot;768&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1301000&quot; height=&quot;576&quot; width=&quot;1024&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1605000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;2809000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+</code></pre>
+<p>
+  Note that only one AVC rendition was selected, because its resolution does not duplicate an existing HEVC rendition.
+</p>
+
+<h4>Half and half</h4>
+<p>
+  In this scenario, there are lower-resolution renditions with the AVC codec, and higher-resolution renditions with the HVC codec. For example:
+</p>
+<pre class="line-numbers"><code class="language-html">AVC &lt;Representation bandwidth=&quot;453000&quot; height=&quot;270&quot; width=&quot;480&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;704000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;903000&quot; height=&quot;360&quot; width=&quot;640&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;1202000&quot; height=&quot;540&quot; width=&quot;960&quot;&gt;
+AVC &lt;Representation bandwidth=&quot;3761000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1301000&quot; height=&quot;576&quot; width=&quot;1024&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;1605000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+HVC &lt;Representation bandwidth=&quot;2809000&quot; height=&quot;720&quot; width=&quot;1280&quot;&gt;
+</code></pre>
+<p>
+  In this case, because there are no AVC codecs with resolutions duplicating HEVC renditions, the Native SDK selects all of the renditions, allowing ExoPlayer to select the renditions based on available bandwidth.
+</p>
+<p>
+  The Native SDK does not force HEVC selection in all cases in this scenario, to avoid capping the lowest rendition to a high-bitrate HEVC rendition. This would potentially cause a bad customer experience with a poor network connection.
+</p>
 
 </section>
 

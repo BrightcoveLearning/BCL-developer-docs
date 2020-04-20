@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Brightcove Player Error Reference</title>
+  	<title>HEVC Selection with the Native SDK for Android</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,83 +33,47 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Brightcove Player Error Reference</h1>
+			<h1>HEVC Selection with the Native SDK for Android</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <summary>This document is the collection of errors for Brightcove Player. Note that errors are thrown from a number of different plugins.</summary>
+      <summary>In this topic, you will learn how the Brightcove Native SDK for Android selects HEVC sources and renditions.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
 
 <article class="bcls-article">
 <section class="bcls-section">
-<h2 id="Types_of_errors">Types of errors</h2>
-
-<p>There are six main types of errors which are briefly described in this section. You can click on the error type to see the specific errors for each type, if applicable.</p>
-
-<ul>
-	<li><a href="#Standard_errors">Standard errors dispatched from the Errors Plugin</a>: These error names start with <strong>MEDIA_ERR</strong>.</li>
-	<li><a href="#Custom_Brightcove_errors">Custom errors defined by Brightcove and dispatched from the Errors Plugin</a>: These error names start with <strong>PLAYER_ERR</strong>.</li>
-	<li><a href="#Catalog_errors">Errors dispatched from the Video Cloud catalog</a>: These error names start with <strong>VIDEO_CLOUD_ERR</strong>. Of course, <strong>Brightcove Player</strong> customers will never see these errors.</li>
-	<li><a href="#HLS_plugin_errors">Errors dispatched from the HLS plugin</a>: All of these errors have the same type, <strong>APPEND_BUFFER_ERR</strong>, and the message is retrieved from the browser's native error.</li>
-	<li><a href="#Console_errors">Errors reported in the browser Development Tools Console</a>: These errors are developer oriented as they will only be see in a browser's Console.</li>
-	<li><a href="#Custom_user_errors">Custom errors that are user defined and dispatched by the Errors Plugin</a>: These error names are defined by the user, for example <strong>AGE_GATE_ERROR</strong>.</li>
-  <li><a href="#Network_security_errors">Network security errors</a></li>
-</ul>
+<h2 id="Overview">Overview</h2>
+<p>
+  The HEVC selection process is comprised of two steps:
+</p>
+<ol>
+	<li>HEVC source selection</li>
+  <li>
+    HEVC rendition selection
+  </li>
+</ol>
+<aside class="bcls-aside bcls-aside--information">
+  <p>
+    Notes:
+  </p>
+  <ul>
+    <li>
+      Supported with Native SDK for Android 6.13.1+
+    </li>
+    <li>
+      Applies to Android devices with API level 21 and higher
+    </li>
+  </ul>
+</aside>
 </section>
 
 <section class="bcls-section">
-<h2 id="Standard_errors">Standard errors</h2>
+<h2 id="HEVC_source_selection">HEVC source selection</h2>
+<p>The HEVC source selection process starts after you make a request for a video using the Brightcove <code>Catalog</code>.</p>
+<p>
+  Depending on your account configuration, the catalog response may contain several sources, with or without HEVC renditions. Here is an example:
+</p>
 
-<p>Very generally, media errors occur when issues arise trying to retrieve or playback the media. For instance, if your network connection is lost, or you get an encrypted video that cannot be decrypted, you will get a media error. For complete details see the <a href="/node/18145#standarderrors">Standard errors</a> section of the <strong>Display Error Messages Plugin</strong> document.</p>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Code</th>
-			<th>Type</th>
-			<th>Headline</th>
-			<th>Message</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td>1</td>
-			<td><code class="notranslate">MEDIA_ERR_ABORTED</code></td>
-			<td>The video download was canceled</td>
-			<td>You aborted the media playback.</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td><code class="notranslate">MEDIA_ERR_NETWORK</code></td>
-			<td>The video connection was lost, please confirm you're connected to the Internet</td>
-			<td>A network error caused the media download to fail part-way. Currently most helpful for MP4 and/or progressive download video formats. See the <a href="/node/18145#Known_issues">Known issues</a> section of the <strong>Display Error Messages Plugin</strong> document for details.</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td><code class="notranslate">MEDIA_ERR_DECODE</code></td>
-			<td>The video is bad or in a format that can't be played on your browser</td>
-			<td>The media playback was aborted due to a corruption problem or because the media used features your browser did not support.</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td><code class="notranslate">MEDIA_ERR_SRC_NOT_SUPPORTED</code></td>
-			<td>This video is either unavailable or not supported in this browser</td>
-			<td>The media could not be loaded, either because the server or network failed or because the format is not supported.</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td><code class="notranslate">MEDIA_ERR_ENCRYPTED</code></td>
-			<td>The video you're trying to watch is encrypted and we don't know how to decrypt it</td>
-			<td>The video you're trying to watch is encrypted and we don't know how to decrypt it.</td>
-		</tr>
-		<tr>
-			<td>Unknown</td>
-			<td><code class="notranslate">MEDIA_ERR_UNKNOWN</code></td>
-			<td>N/A</td>
-			<td>An unanticipated problem was encountered, check back soon and try again.</td>
-		</tr>
-	</tbody>
-</table>
 </section>
 
 <section class="bcls-section">

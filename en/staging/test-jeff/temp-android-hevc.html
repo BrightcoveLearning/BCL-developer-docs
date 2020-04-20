@@ -71,159 +71,106 @@
 <h2 id="HEVC_source_selection">HEVC source selection</h2>
 <p>The HEVC source selection process starts after you make a request for a video using the Brightcove <code>Catalog</code>.</p>
 <p>
-  Depending on your account configuration, the catalog response may contain several sources, with or without HEVC renditions. Here is an example:
+  Depending on your account configuration, the <code>Catalog</code> response may contain several sources, with or without HEVC renditions. Here is an example:
+</p>
+<pre class="line-numbers"><code class="language-json"> &quot;sources&quot;: [
+  {
+    &quot;type&quot;: &quot;application/dash+xml&quot;,
+    &quot;src&quot;: &quot;http://manifest.prod.boltdns.net/manifest/v1/dash/live-baseurl/clear/4800266849001/11023209-08e4-40d4-9a8b-25aa659421e2/2s/manifest.mpd?fastly_token=ZYZ&quot;,
+    &quot;profiles&quot;: &quot;urn:mpeg:dash:profile:isoff-live:2011&quot;
+  },
+  {
+    &quot;type&quot;: &quot;application/dash+xml&quot;,
+    &quot;src&quot;: &quot;https://manifest.prod.boltdns.net/manifest/v1/dash/live-baseurl/clear/4800266849001/11023209-08e4-40d4-9a8b-25aa659421e2/2s/manifest.mpd?fastly_token=XYZ&quot;,
+    &quot;profiles&quot;: &quot;urn:mpeg:dash:profile:isoff-live:2011&quot;
+  },
+  {
+    &quot;type&quot;: &quot;application/dash+xml&quot;,
+    &quot;src&quot;: &quot;http://manifest.prod.boltdns.net/manifest/v2/dash/live-baseurl/clear/avc1_<span class="bcls-highlight">hvc1</span>_mp4a/4800266849001/11023209-08e4-40d4-9a8b-25aa659421e2/2s/manifest.mpd?fastly_token=XYZ&quot;,
+    &quot;profiles&quot;: &quot;urn:mpeg:dash:profile:isoff-live:2011&quot;
+  },
+  {
+    &quot;type&quot;: &quot;application/dash+xml&quot;,
+    &quot;src&quot;: &quot;https://manifest.prod.boltdns.net/manifest/v2/dash/live-baseurl/clear/avc1_<span class="bcls-highlight">hvc1</span>_mp4a/4800266849001/11023209-08e4-40d4-9a8b-25aa659421e2/2s/manifest.mpd?fastly_token=XYZ&quot;,
+    &quot;profiles&quot;: &quot;urn:mpeg:dash:profile:isoff-live:2011&quot;
+  }
+]</code></pre>
+<p>
+  In this example, there are four DASH sources:
+</p>
+<ul>
+  <li>
+    One non-HEVC HTTP source
+  </li>
+  <li>
+    One non-HEVC HTTPS source
+  </li>
+  <li>
+    One HEVC HTTP source
+  </li>
+  <li>
+    One HEVC HTTPS source
+  </li>
+</ul>
+<p>
+  Notice that HEVC sources contain the string <code>hvc</code> in the URL.
+</p>
+<p>
+  The Native SDK for Android source selector prefers HEVC sources. In the example above, it will select the HEVC HTTPS source.
+</p>
+<p>
+  The Native SDK continues with the default selection process as defined in the <a href="https://support.brightcove.com/android-source-selection">Android: Source Selection</a> document:
+</p>
+<ol>
+  <li>
+    Prefer HTTPS over HTTP
+  </li>
+  <li>
+    Prefer DASH over HLS
+  </li>
+  <li>
+    If selecting HLS for playback, prefer the highest version of HLS available
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="HEVC_rendition_selection">HEVC rendition selection</h2>
+<p>Depending on your ingestion configurations, the HEVC source might be contained in different renditions. You may have the following:</p>
+<ul>
+  <li>
+    Only HEVC renditions
+  </li>
+  <li>
+    A mix of HEVC and other codecs
+  </li>
+</ul>
+<aside class="bcls-aside bcls-aside--information">This kind of selection only applies when using ExoPlayer.</aside>
+
+<h3>Only HEVC renditions</h3>
+<p>
+  When the video source’s renditions have only HEVC codecs, there is no rendition selection involved.  The ExoPlayer selects the appropriate rendition given the device capabilities and the available bandwidth.
 </p>
 
+<h3>A mix of HEVC and other codecs</h3>
+<p>
+  If the video source has renditions with a mix of HEVC and other codecs (like AVC), then a rendition selection process is invoked. When the Native SDK loads the source into the ExoPlayer, it performs a <a href="https://exoplayer.dev/doc/reference/com/google/android/exoplayer2/trackselection/DefaultTrackSelector.SelectionOverride.html">SelectionOverride</a> for the video rendition to prefer HEVC over other codecs.
+</p>
+<p>
+  Given a video whose rendition formats are supported by the device, here is the rendition process:
+</p>
+<ol>
+  <li>
+    The SDK selects all HEVC renditions.
+  </li>
+  <li>
+    It ignores non-HEVC renditions that duplicate an existing HEVC with the same resolution.
+  </li>
+</ol>
+
 </section>
 
-<section class="bcls-section">
-<h2 id="Custom_Brightcove_errors">Custom Brightcove errors</h2>
-
-<p>Very generally, player errors occur when the video has been loaded, for some reason cannot be played. For instance, if domain, geo or IP restrictions prevent viewing a video, player errors will occur. For complete details see the <a href="/node/18145#bccustomerrors">Custom errors</a> section of the <strong>Display Error Messages Plugin</strong> document.</p>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Code</th>
-			<th>Message</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td>-1</td>
-			<td><code class="notranslate">PLAYER_ERR_NO_SRC</code></td>
-			<td>No video has been loaded.</td>
-		</tr>
-		<tr>
-			<td>-2</td>
-			<td><code class="notranslate">PLAYER_ERR_TIMEOUT</code></td>
-			<td>Could not download the video.</td>
-		</tr>
-		<tr>
-			<td>Not Set</td>
-			<td><code class="notranslate">PLAYER_ERR_DOMAIN_RESTRICTED</code></td>
-			<td>This video is restricted from playing on your current domain.</td>
-		</tr>
-		<tr>
-			<td>Not Set</td>
-			<td><code class="notranslate">PLAYER_ERR_IP_RESTRICTED</code></td>
-			<td>This video is restricted at your current IP address.</td>
-		</tr>
-		<tr>
-			<td>Not Set</td>
-			<td><code class="notranslate">PLAYER_ERR_GEO_RESTRICTED</code></td>
-			<td>This video is restricted from playing in your current geographic region.</td>
-		</tr>
-	</tbody>
-</table>
-</section>
-
-<section class="bcls-section">
-<h2 id="Catalog_errors">Catalog errors</h2>
-
-<p>Very generally, the catalog will throw errors when there are issues retrieving or initially playing the video or playlist. For instance, if you use a non-existent ID, or an ID from a different account in which the player exists, to retrieve a video you will get a catalog error. For complete details see the <a href="/node/18108#catalogerrors">Catalog errors</a> section of the <strong>Player Catalog</strong> document.</p>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Catalog Error</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td><code class="notranslate">VIDEO_CLOUD_ERR_ACCOUNT_NOT_FOUND</code></td>
-			<td>The player has been configured with an invalid Video Cloud account ID.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">VIDEO_CLOUD_ERR_RESOURCE_NOT_FOUND</code></td>
-			<td>The default playlist ID is invalid.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">VIDEO_CLOUD_ERR_VIDEO_NOT_FOUND</code></td>
-			<td>The default video is invalid.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">VIDEO_CLOUD_ERR_NOT_PLAYABLE</code></td>
-			<td>The Video Cloud video is not playable.<br />
-			Frequent causes of this error include when a video ID is deactivated or when the scheduled availability has expired.</td>
-		</tr>
-	</tbody>
-</table>
-</section>
-
-<section class="bcls-section">
-<h2 id="HLS_plugin_errors">HLS plugin errors</h2>
-
-<p>For complete details see the <a href="/node/18087#Errors">Errors</a> section of the <strong>HLS Plugin</strong> document.</p>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>HLS Plugin Error</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td><code class="notranslate">APPEND_BUFFER_ERR</code></td>
-			<td>The browser threw an error playing back an HLS video.</td>
-		</tr>
-	</tbody>
-</table>
-</section>
-
-<section class="bcls-section">
-<h2 id="Console_errors">Console errors</h2>
-
-<p>These errors would appear in a console looking something like this:</p>
-
-<figure class="bcls-figure"><img class="bcls-image" alt="Console error" src="//learning-services-media.brightcove.com/doc-assets/player-development/troubleshooting/bcp-errors-reference/console-error.png" /></figure>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Console Message</th>
-			<th>Solution</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td><code class="notranslate">VIDEOJS: ERROR:</code> videojs-contrib-ads has not seen a loadstart event 5 seconds after being initialized, but a source is present. This indicates that videojs-contrib-ads was initialized too late. It must be initialized immediately after video.js in the same tick. As a result, some ads will not play and some media events will be incorrect. For more information, see https://github.com/videojs/videojs-contrib-ads#important-note-about-initialization</td>
-			<td>You see this because for the IMA3 plugin to function properly it needs to be loaded right after player initialization, before any other plugins are initialized. See the <a href="/node/18080#Implement_using_code">Implement using code</a> section of the <strong>IMA3 Plugin</strong> doc for the solution.</td>
-		</tr>
-	</tbody>
-</table>
-</section>
-
-<section class="bcls-section">
-<h2 id="Custom_user_errors">Custom user errors</h2>
-
-<p>For complete details see the <a href="/node/18145#usercustomerrors">Adding custom errors</a> section of the <strong>Display Error Messages Plugin</strong> document. There are no standard custom user errors.</p>
-</section>
-
-<section class="bcls-section">
-<h2 id="Network_security_errors">Network security errors</h2>
-
-<p>These errors occur when your network security blocks some Brightcove domains and ports.</p>
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Error Code</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td><code class="notranslate">FLASHLS_ERR_CROSS_DOMAIN</code></td>
-			<td>The video could not be loaded: crossdomain access denied.<br />
-        You may need a <strong>crossdomain.xml</strong> file at the root of your playlist file that allows the domain you are requesting from (or '*').
-      </td>
-		</tr>
-	</tbody>
-</table>
-</section>
 </article>
 
 <!-- END DRUPAL CONTENT -->

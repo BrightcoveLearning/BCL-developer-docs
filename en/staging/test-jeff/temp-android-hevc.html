@@ -44,12 +44,15 @@
 <section class="bcls-section">
 <h2 id="Overview">Overview</h2>
 <p>
-  The HEVC selection process is comprised of two steps:
+  High-Efficiency Video Coding (HEVC), also known as H.265, is a video compression standard that reduces video file sizes allowing for higher quality playback.
+</p>
+<p>
+  The Brightcove Native SDK for Android uses the following HEVC selection process:
 </p>
 <ol>
-	<li>HEVC source selection</li>
+	<li><a href="#HEVC_source_selection">HEVC source selection</a></li>
   <li>
-    HEVC rendition selection
+    <a href="#HEVC_rendition_selection">HEVC rendition selection</a>
   </li>
 </ol>
 <aside class="bcls-aside bcls-aside--information">
@@ -61,7 +64,7 @@
       Supported with the Brightcove Native SDK for Android 6.13.1+
     </li>
     <li>
-      Works with Android devices using API level 21 and higher
+      Works with Android devices using API level 21 (Lollipop version 5.0) and higher
     </li>
   </ul>
 </aside>
@@ -140,20 +143,20 @@
 <p>Depending on your ingestion configurations, the HEVC source might be contained in different renditions. You may have the following:</p>
 <ul>
   <li>
-    Only HEVC renditions
+    <a href="#Only_HEVC_renditions">Only HEVC renditions</a>
   </li>
   <li>
-    A mix of HEVC and other codecs
+    <a href="#A_mix_of_HEVC_and_other_codecs">A mix of HEVC and other codecs</a>
   </li>
 </ul>
 <aside class="bcls-aside bcls-aside--information">This kind of selection only applies when using ExoPlayer.</aside>
 
-<h3>Only HEVC renditions</h3>
+<h3 id="Only_HEVC_renditions">Only HEVC renditions</h3>
 <p>
   When the video source’s renditions have only HEVC codecs, there is no rendition selection involved.  The ExoPlayer selects the appropriate rendition given the device capabilities and the available bandwidth.
 </p>
 
-<h3>A mix of HEVC and other codecs</h3>
+<h3 id="A_mix_of_HEVC_and_other_codecs">A mix of HEVC and other codecs</h3>
 <p>
   If the video source has renditions with a mix of HEVC and other codecs (like AVC), then a rendition selection process is invoked. When the Native SDK loads the source into the ExoPlayer, it performs a <a href="https://exoplayer.dev/doc/reference/com/google/android/exoplayer2/trackselection/DefaultTrackSelector.SelectionOverride.html">SelectionOverride</a> for the video rendition to prefer HEVC over other codecs.
 </p>
@@ -174,14 +177,14 @@
 </p>
 <ul>
   <li>
-    Codec mix duplication
+    <a href="#Codec_mix_duplication">Codec mix duplication</a>
   </li>
   <li>
-    Half and half
+    <a href="#Half_and_half">Half and half</a>
   </li>
 </ul>
 
-<h4>Codec mix duplication</h4>
+<h4 id="Codec_mix_duplication">Codec mix duplication</h4>
 <p>
   In this scenario, most of the HEVC and AVC codec’s resolutions are duplicated. For example:
 </p>
@@ -215,7 +218,7 @@ HVC &lt;Representation bandwidth=&quot;2809000&quot; height=&quot;720&quot; widt
   Note that only one AVC rendition was selected, because its resolution does not duplicate an existing HEVC rendition.
 </p>
 
-<h4>Half and half</h4>
+<h4 id="Half_and_half">Half and half</h4>
 <p>
   In this scenario, there are lower-resolution renditions with the AVC codec, and higher-resolution renditions with the HVC codec. For example:
 </p>
@@ -232,7 +235,7 @@ HVC &lt;Representation bandwidth=&quot;2809000&quot; height=&quot;720&quot; widt
   In this case, because there are no AVC codecs with resolutions duplicating HEVC renditions, the Native SDK selects all of the renditions, allowing ExoPlayer to select the renditions based on available bandwidth.
 </p>
 <p>
-  The Native SDK does not force HEVC selection in all cases in this scenario, to avoid capping the lowest rendition to a high-bitrate HEVC rendition. This would potentially cause a bad customer experience with a poor network connection.
+  The Native SDK does not force HEVC selection in all cases in this scenario, to avoid capping the lowest rendition to a high-bitrate HEVC rendition. This would potentially cause a bad user experience with a poor network connection.
 </p>
 
 </section>

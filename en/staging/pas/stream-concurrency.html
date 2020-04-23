@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Implementing Stream Concurrency</title>
+  	<title>Implementing Concurrent Stream Limits</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,9 +33,9 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Implementing Stream Concurrency</h1>
+			<h1>Implementing Concurrent Stream Limits</h1>
       <aside class="bcls-aside bcls-aside--tip">This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service.</aside>
-      <p>In this topic, you will learn how to implement stream concurrency when using Brightcove's Playback Authorization Service.</p>
+      <p>In this topic, you will learn how to implement concurrent stream limits when using Brightcove's Playback Authorization Service.</p>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -44,9 +44,15 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 
-<p>Stream concurrency allows a customer to limit the number of videos a specific user can watch at any given time. This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.</p>
+<p>With concurrent stream limits, you define the number of videos a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
+<p>
+  If the viewer, or someone with their account credentials, tries to open an additional stream while the maximum number of streams is in use, the player stops the oldest stream when a renewal request occurs.
+</p>
+<p>
+  This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.
+</p>
 
-<p>If you are new to this feature, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a> document.</p>
+<!-- <p>If you are new to this feature, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a> document.</p> -->
 
 </section>
 
@@ -129,7 +135,7 @@
 <section class="bcls-section">
 <h2 id="General_Behavior">General Behavior</h2>
 <p>
-  Brightcove supports limiting playback streams for DRM-proteced content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
+  Brightcove supports limiting playback streams for DRM-protected content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency-general.png" alt="General concurrency">

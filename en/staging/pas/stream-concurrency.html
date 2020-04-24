@@ -44,7 +44,7 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 
-<p>With concurrent streams limit, you define the number of video streams that a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
+<p>With concurrent stream limits, you define the number of video streams that a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
 <p>
   When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, the oldest session is stopped when a renewal request occurs.
 </p>
@@ -65,7 +65,7 @@
 <section class="bcls-section">
 <h2 id="Implementation">Implementation</h2>
 <p>
-  To implement concurrent streams limit, do the following:
+  To implement concurrent stream limits, do the following:
 </p>
 <ol class="bcls-tasklist">
 	<li>Create a JSON Web Tokent (JWT) with claims associated with concurrent stream limits. For details see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</li>
@@ -79,7 +79,7 @@
 <section class="bcls-section">
 <h2 id="Renewal_interval">Renewal interval</h2>
 <p>
-  To ensure that concurrent streams limit is enforced, a DRM license renewal request is sent during playback based on a defined renewal interval. At setup time, you will be required to define this renewal interval.
+  To ensure that concurrent stream limit is enforced, a DRM license renewal request is sent during playback based on a defined renewal interval. At setup time, you are required to define this renewal interval.
 </p>
 <p>
   Mid-stream playback authorization requests need to specify a concurrency limit in the JWT token along with a public key id.
@@ -117,7 +117,7 @@
 <section class="bcls-section">
 <h2 id="General_Behavior">General behavior</h2>
 <p>
-  Brightcove supports limiting playback streams for DRM-protected content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
+  Brightcove supports limiting playback streams for DRM-protected content. When a new renewal request is processed, the oldest session is stopped. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid, displaying a message about network or device failure.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency-general.png" alt="General concurrency">
@@ -158,13 +158,18 @@
 </p>
 <ul>
   <li>
-    Manual renewal is required for any DRM other than Widevine. (PlayReady & FairPlay).
+    Manual License Renewal Request should be implemented in the following cases:
+    <ul>
+      <li>
+        Concurrency Limit in Non-Brightcove players, except when protected by Widevine
+      </li>
+      <li>
+        Concurrency Limit for PlayReady in all devices
+      </li>
+    </ul>
   </li>
   <li>
-    The Brightcove Native SDK for iOS/tvOS handles FairPlay renewals automatically.
-  </li>
-  <li>
-    Non-Brightcove players need to request a new license at an interval less than the renewal period.
+    Manual License Renewal should be requested at a shorter period shorter than the defined Renewal Interval.
   </li>
 </ul>
 

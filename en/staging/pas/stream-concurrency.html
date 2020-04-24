@@ -46,7 +46,7 @@
 
 <p>With concurrent streams limit, you define the number of video streams that a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
 <p>
-  When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, the player with the oldest session is stopped when a renewal request occurs.
+  When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, the oldest session is stopped when a renewal request occurs.
 </p>
 <p>
   This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.
@@ -77,7 +77,10 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Renewal_Interval">Renewal Interval</h2>
+<h2 id="Renewal_interval">Renewal interval</h2>
+<p>
+  To ensure that concurrent streams limit is enforced, a DRM license renewal request is sent during playback based on a defined renewal interval. At setup time, you will be required to define this renewal interval.
+</p>
 <p>
   Mid-stream playback authorization requests need to specify a concurrency limit in the JWT token along with a public key id.
 </p>
@@ -86,8 +89,8 @@
 <table class="bcls-table">
       <thead class="bcls-table__head">
         <tr>
-          <th>Renewal Interval</th>
-          <th>Licenses Served per User for 2 hour content</th>
+          <th>Renewal interval</th>
+          <th>Licenses served per stream for 2 hour content</th>
         </tr>
       </thead>
       <tbody class="bcls-table__body">
@@ -112,7 +115,7 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="General_Behavior">General Behavior</h2>
+<h2 id="General_Behavior">General behavior</h2>
 <p>
   Brightcove supports limiting playback streams for DRM-protected content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
 </p>

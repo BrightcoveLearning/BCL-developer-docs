@@ -289,6 +289,11 @@ components:
           items:
             $ref: '#/components/schemas/IngestMediaAssetbody.audioTracks'
           description: array of audio track objects **Dynamic Delivery only**
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngestMediaAssetbody.image'
+          description: array of images (Dynamic Delivery Only)
         poster:
           $ref: '#/components/schemas/IngestMediaAssetbody.poster'
         thumbnail:
@@ -498,6 +503,42 @@ components:
           description: pixel width of the image
       example: {
           "url": "http://learning-services-media.brightcove.com/images/celtic-lullaby-large.png",
+          "width": 160,
+          "height": 90
+        }
+    IngestMediaAssetbody.image:
+      title: Ingest Media Asset Body.image
+      required:
+        - url
+        - variant
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the image
+        language:
+          type: string
+          description: Language code for the image from the subtags in http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry (default can be set for the account by contacting Brightcove Support)
+        variant:
+          type: string
+          description: the type of image
+          enum:
+            - poster
+            - thumbnail
+            - portrait
+            - square
+            - wide
+            - ultra-wide
+        height:
+          type: number
+          description: pixel height of the image
+        width:
+          type: number
+          description: pixel width of the image
+      example: {
+          "url": "http://learning-services-media.brightcove.com/images/celtic-lullaby-large.png",
+          "language": "en",
+          "variant": "portrait",
           "width": 160,
           "height": 90
         }

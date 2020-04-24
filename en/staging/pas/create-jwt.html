@@ -442,7 +442,7 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
               <th>Field</th>
               <th>Type</th>
               <th>Required</th>
-              <th>Required for Concurrency</th>
+              <th>Required for concurrent stream limits</th>
               <th>DRM only</th>
               <th>Description</th>
             </tr>
@@ -513,14 +513,6 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
               <td>if present, this token is valid only for the listed tags authorized to playback.</td>
             </tr>
             <tr>
-              <td><code>offers</code></td>
-              <td>Array &lt;Strings&gt;</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>if present, this token is valid only for the listed offers authorized to playback.</td>
-            </tr>
-            <tr>
               <td><code>vids</code></td>
               <td>Array &lt;Strings&gt;</td>
               <td></td>
@@ -532,9 +524,9 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
               <td><code>uid</code></td>
               <td>String</td>
               <td></td>
+              <td></td>
               <td>Yes</td>
-              <td>Yes</td>
-              <td>The user id of the end viewer. This field is used to correlate multiple sessions to enforce Stream Concurrency.
+              <td>The user id of the end viewer. This field is used to correlate multiple sessions to enforce concurrent stream limits.
                 <br /><br />
             Required for device registration.
               </td>
@@ -543,26 +535,26 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
               <td><code>sid</code></td>
               <td>String</td>
               <td></td>
-              <td></td>
+              <td>Yes</td>
               <td>Yes</td>
               <td>Specifying the Session ID of the current stream allows for custom control over what defines a session.
                 <br /><br />
                   When not specified, the default is a combination of User-Agent, IP address, & video id.
                   <br /><br />
-            Required for session concurrency.
+            Required for concurrent stream limits.
               </td>
             </tr>
             <tr>
               <td><code>cexp</code></td>
               <td>String</td>
               <td></td>
-              <td></td>
+              <td>Yes</td>
               <td>Yes</td>
               <td>Concurrency expiration of session - Defaults to 2 times the content duration.
                 <br /><br />
                 This defines how long the session is valid, after which time the end viewer has to start a new session to continue playback. Example: <code>2h</code> or <code>42m</code>
                 <br /><br />
-          Required for session concurrency.
+          Required for concurrent stream limits.
               </td>
             </tr>
             <tr>
@@ -571,9 +563,9 @@ https://playback-auth.api.brightcove.com/v1/accounts/{accountID}/keys
               <td></td>
               <td>Yes</td>
               <td>Yes</td>
-              <td>When this field is included, it enables Stream Concurrency checking along with license renewal requests. This value indicates the number of concurrent watchers allowed.
+              <td>When this field is included, it enables concurrent stream limits along with license renewal requests. This value indicates the number of concurrent watchers allowed.
                 <br /><br />
-          Required for session concurrency.
+          Required for concurrent stream limits.
         </td>
             </tr>
             <tr>

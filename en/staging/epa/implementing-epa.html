@@ -532,17 +532,20 @@ https://oauth.brightcove.com/v4/client_credentials</code></pre>
     For details, see the <a href="https://docs.brightcove.com/en/staging/epa/device-limits.html">Implementing Device Limits</a> document.
   </p>
 
-  <h4>Concurrency limits</h4>
+  <h4>Concurrent stream limits</h4>
   <p>
-    When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of videos at the same time.
+    When a DRM license request is made, the user's device is registered and a unique id is assigned. With each license request, the device id is checked to ensure it is only watching a specified number of video streams at the same time.
   </p>
   <p>
-    For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Implementing Stream Concurrency</a> document.
+    For details, see the <a href="https://docs.brightcove.com/en/staging/pas/stream-concurrency.html">Limiting Concurrent Streams per Viewer</a> document.
   </p>
 
   <h4>Tags</h4>
   <p>
-    The JWT token is used to specify the tags that are allowable for viewing. The Playback Authorization Service will check the tags associated with each video. If the tags match the list in the JWT token, then the video is viewable. Tags are associated with videos in Brightcove Video Cloud Studio.
+    Based on the <code>tags</code> claim, the JSON Web Token (JWT) will specify the group of videos that the user is entitled to watch. You can group videos with tags using the <strong>Media Module</strong> in Brightcove's Video Cloud Studio.
+  </p>
+  <p>
+    The Playback Authorization Service will check the tags associated with each video. If at least one of the tags matches the list in the JWT token, then the video is viewable.
   </p>
   <p>
     Tags in the JWT token will be listed as an array of tags.

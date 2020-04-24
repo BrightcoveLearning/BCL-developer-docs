@@ -6,7 +6,7 @@
   	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="robots" content="noindex">
   	<!-- change title to match the h1 heading -->
-  	<title>Implementing Stream Concurrency</title>
+  	<title>Limiting Concurrent Streams per Viewer</title>
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
@@ -33,9 +33,9 @@
 			<div id="sidenav" class="side-nav"></div>
 		</div>
 		<div id="main" class="large-10 small-12 columns">
-			<h1>Implementing Stream Concurrency</h1>
+			<h1>Limiting Concurrent Streams per Viewer</h1>
       <aside class="bcls-aside bcls-aside--tip">This feature is available for a specific set of customers with access to the Limited Availability phase of the Playback Rights Management Service.</aside>
-      <p>In this topic, you will learn how to implement stream concurrency when using Brightcove's Playback Authorization Service.</p>
+      <p>In this topic, you will learn how to limit concurrent streams when using Brightcove's Playback Rights Management Service.</p>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -44,9 +44,15 @@
 <section class="bcls-section">
 <h2 id="Introduction">Introduction</h2>
 
-<p>Stream concurrency allows a customer to limit the number of videos a specific user can watch at any given time. This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.</p>
+<p>With concurrent stream limits, you define the number of video streams that a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
+<p>
+  When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, the oldest session is stopped when a renewal request occurs.
+</p>
+<p>
+  This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.
+</p>
 
-<p>If you are new to this feature, see the <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a> document.</p>
+<p>If you are new to this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Playback Rights Management Service</a> document.</p>
 
 </section>
 
@@ -58,41 +64,23 @@
 
 <section class="bcls-section">
 <h2 id="Implementation">Implementation</h2>
-
-<p>Using stream concurrency follows the same steps as in the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html">Implementing DRM with Playback Authorization Service</a> document.</p>
 <p>
-  To enable stream concurrency, you must include the <a href="https://docs.brightcove.com/en/staging/pas/technical-workflow-pas.html#Generate_JWT_token">JWT token claims</a> required for concurrency.
+  To implement concurrent stream limits, do the following:
 </p>
+<ol class="bcls-tasklist">
+	<li>Create a JSON Web Tokent (JWT) with claims associated with concurrent stream limits. For details see the <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">Creating a JSON Web Token (JWT)</a> document.</li>
+  <li>
+    Configure your player to use playback restrictions and pass the JSON Web Token (JWT) when retrieving your video content. For details, see the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Configure_your_player">Configure your player</a> section of the Implementing Playback Rights Management Service document.
+  </li>
+</ol>
+
 </section>
 
 <section class="bcls-section">
-<h2 id="Terms">Terms</h2>
+<h2 id="Renewal_interval">Renewal interval</h2>
 <p>
-  The following terms are related to stream concurrency.
+  To ensure that concurrent stream limit is enforced, a DRM license renewal request is sent during playback based on a defined renewal interval. At setup time, you are required to define this renewal interval.
 </p>
-
-<table class="bcls-table">
-      <thead class="bcls-table__head">
-        <tr>
-          <th>Term</th>
-          <th>Definition</th>
-        </tr>
-      </thead>
-      <tbody class="bcls-table__body">
-        <tr>
-          <td>Session</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Slot</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-</section>
-
-<section class="bcls-section">
-<h2 id="Renewal_Interval">Renewal Interval</h2>
 <p>
   Mid-stream playback authorization requests need to specify a concurrency limit in the JWT token along with a public key id.
 </p>
@@ -101,8 +89,8 @@
 <table class="bcls-table">
       <thead class="bcls-table__head">
         <tr>
-          <th>Renewal Interval</th>
-          <th>Licenses Served per User for 2 hour content</th>
+          <th>Renewal interval</th>
+          <th>Licenses served per stream for 2 hour content</th>
         </tr>
       </thead>
       <tbody class="bcls-table__body">
@@ -127,9 +115,9 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="General_Behavior">General Behavior</h2>
+<h2 id="General_Behavior">General behavior</h2>
 <p>
-  Brightcove supports limiting playback streams for DRM-proteced content. The default behavior is to stop the oldest session when a new renewal request is processed. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid due to a network or device failure.
+  Brightcove supports limiting playback streams for DRM-protected content. When a new renewal request is processed, the oldest session is stopped. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid, displaying a message about network or device failure.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency-general.png" alt="General concurrency">
@@ -158,7 +146,7 @@
 <section class="bcls-section">
 <h2 id="Using_PlayReady">Using PlayReady</h2>
 <p>
-  When using PlayReady, you should expect the same general behavior as defined in the previous section. However, you need to implement a manual renewal in your players as described in <a href="https://docs.microsoft.com/en-us/playready/features/concurrency-limiting">Microsoft's Concurrency Limiting</a> document.
+  When using PlayReady, you should expect the same general behavior as defined in the previous section. However, you need to implement a manual license renewal in your players as described in <a href="https://docs.microsoft.com/en-us/playready/features/concurrency-limiting">Microsoft's Concurrency Limiting</a> document.
 </p>
 
 </section>
@@ -170,13 +158,18 @@
 </p>
 <ul>
   <li>
-    Manual renewal is required for any DRM other than Widevine. (PlayReady & FairPlay).
+    Manual license renewal request should be implemented in the following cases:
+    <ul>
+      <li>
+        Concurrency limit in non-Brightcove players, except when protected by Widevine
+      </li>
+      <li>
+        Concurrency limit for PlayReady in all devices
+      </li>
+    </ul>
   </li>
   <li>
-    The Brightcove Native SDK for iOS/tvOS handles FairPlay renewals automatically.
-  </li>
-  <li>
-    Non-Brightcove players need to request a new license at an interval less than the renewal period.
+    Manual license renewal should be requested at a shorter period shorter than the defined renewal interval.
   </li>
 </ul>
 
@@ -190,7 +183,7 @@
 
 <ul>
   <li>
-    Concurrency limit support is not yet supported in Safari due to the browser's limitations.
+    Concurrency limit is not yet supported in Safari due to the browser's limitations.
   </li>
 </ul>
 </section>
@@ -200,16 +193,16 @@
 
 <ul>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/pas/overview-playback-authorization-service.html">Overview: DRM with Playback Authorization Service</a>
+    <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Managing Playback Rights</a>
   </li>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-bcp.html">Using Playback Authorization DRM with Brightcove Player</a>
+    <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html">Implementing Playback Rights</a>
   </li>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/pas/using-pas-with-sdks.html">Using Playback Authorization DRM with the Native SDKs</a>
+    <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-bcp.html">Using Playback Rights with Brightcove Player</a>
   </li>
   <li>
-    <a href="https://docs.brightcove.com/en/staging/pas/additional-apis-for-pas.html">Additional APIs for Playback Authorization Service</a>
+    <a href="https://docs.brightcove.com/en/staging/epa/using-epa-with-sdks.html">Using Playback Rights with the Native SDKs</a>
   </li>
 </ul>
 </section>

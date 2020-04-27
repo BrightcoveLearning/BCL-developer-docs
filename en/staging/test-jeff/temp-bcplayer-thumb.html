@@ -56,28 +56,65 @@
 </section>
 
 <section class="bcls-section">
-<!-- <h2 id="Player_example">Player example</h2> -->
+<h2 id="Player_example">Player example</h2>
 <!-- UPDATE description -->
 
-<!-- <p>This example uses IMA ads defined in a VMAP file to deliver server-side ads in the video stream. You should see that there is a pre-roll, mid-roll and post-roll ad. The VMAP file is defined in the ad configuration.</p> -->
+<p>Click on the example below, and hover or scrub along the progress bar to see preview thumbnails.</p>
 <!-- UPDATE codepen here -->
 
-<!-- <p data-height="475" data-theme-id="34967" data-slug-hash="YEKXWx" data-default-tab="result" data-user="bcls1969" data-embed-version="2" data-pen-title="18468-advertising-ssai-plugin" class="codepen">See the Pen <a href="https://codepen.io/team/bcls1969/pen/YEKXWx/">18468-advertising-ssai-plugin</a> by Brightcove Learning Services (<a href="https://codepen.io/bcls1969">@bcls1969</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+<!-- <p class="codepen" data-height="510" data-theme-id="34967" data-default-tab="result" data-user="bcls1969" data-slug-hash="dyYRYYb" style="height: 510px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="Thumbnails plugin">
+  <span>See the Pen <a href="https://codepen.io/team/bcls1969/pen/dyYRYYb">
+  Thumbnails plugin</a> by Brightcove Learning Services (<a href="https://codepen.io/bcls1969">@bcls1969</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<br/> -->
 
-<h3>Source code</h3> -->
+<video-js
+ id="myPlayerID"
+ data-account="1752604059001"
+ data-player="hyQW6GByl"
+ data-embed="default"
+ controls=""
+ data-video-id="5550679964001"
+ data-playlist-id=""
+ data-application-id=""
+ width="640" height="360"></video-js>
+<script src="https://players.brightcove.net/1752604059001/hyQW6GByl_default/index.min.js"></script>
+
+<h3>Source code</h3>
 <!-- UPDATE link to GitHub source -->
-<!-- <p>
+<p>
   You can view the source code by selecting the <strong>HTML</strong>, <strong>CSS</strong> and <strong>JS</strong> buttons in the CodePen above, or you can view the <a href="https://github.com/BrightcoveLearning/google-analytics-advanced-integration">complete solution on GitHub</a>.
-</p> -->
+</p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Getting_started">Getting started</h2>
 
-<p>This feature is available to anyone with a Brightcove Video Cloud account. Contact your account manager to enable your account for thumbnail scrubbing.</p>
-
+<p>This feature is available to anyone with a Brightcove Video Cloud account.</p>
 <aside class="bcls-aside bcls-aside--information">You must use a Brightcove Player version 6.41.0+.</aside>
+<p>
+   To get started, do the following:
+</p>
+<ul>
+  <li>
+    Contact your account manager to enable your account for thumbnail scrubbing
+  </li>
+  <li>
+    <p>
+      Make sure your player is using the Brightcove Playback API v2 (PAPI v2)
+    </p>
+    <p>
+      The domain URL is:
+    </p>
+<pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
+  </li>
+  <li>
+    Make sure the videos you are using are ingested for Dynamic Delivery.
+  </li>
+</ul>
+
 </section>
 
 <section class="bcls-section">
@@ -385,7 +422,7 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 </table>
 </section> -->
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Methods_properties">Methods/properties</h2>
 
 <p>Several public methods are available when using the SSAI plugin. Remember, you can also use the standard player methods.</p>
@@ -488,9 +525,9 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 	<li>Type: LinearAd</li>
 	<li>An object representing the current linear ad for the absolute time.</li>
 </ul>
-</section>
+</section> -->
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Events">Events</h2>
 
 <p>At the current time there is one SSAI-specific event dispatched by this plugin.</p>
@@ -511,9 +548,9 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 	<li>Preloading ads should not be done with SSAI. The reason for this is that if you preload the player will report an ad impression and probably the first quartile beacons before the video is played. This could lead to inaccurate ad analytics. If you configure SSAI in Studio, this will automatically be done, but if you happen to setup SSAI manually you need to be aware of this issue.</li>
 	<li>If the web player is using SSAI, and one of your motivations for doing so is to work around ad blockers, you should use server-side beacons. Client-side beacons should not be used as they will be blocked.</li>
 </ol>
-</section>
+</section> -->
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Glossary">Glossary</h2>
 
 <p>This plugin distinguishes the concepts of <strong>absolute</strong> and <strong>content</strong> time within an SSAI stream. Traditional video players only have a concept of <strong>content</strong> time; times between start and end of the URI it is currently playing. Because an SSAI stream is essentially a number of <strong>content</strong> streams stitched together we've introduced the concept of <strong>absolute</strong> time which takes into account the complete stitched stream including the video advertisements.</p>
@@ -533,7 +570,7 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 	<p><strong>Content time</strong> refers to a point in time within the content timeline of an SSAI stream - ignoring all ads. For example, a 2:00 video with a 0:30 pre-roll ad has a content time of 2:00. The content time of 0:15 is equivalent to an absolute time of 0:45 (pre-roll plus 15 seconds).</p>
 	</li>
 </ul>
-</section>
+</section> -->
 
 <section class="bcls-section">
 <h2 id="Known_issues">Known issues</h2>
@@ -541,8 +578,8 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 <p>Here are the known issues for using the SSAI plugin:</p>
 
 <ul>
-	<li>Safari 10/11 sometimes show the last frame of the postroll at the end of the video.</li>
-	<li>SSAI won’t stitch overlay ads into the video stream.</li>
+	<li>Safari .</li>
+	<li>SSAI .</li>
 </ul>
 </section>
 

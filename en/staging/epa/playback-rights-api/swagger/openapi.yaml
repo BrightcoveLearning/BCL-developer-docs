@@ -132,7 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playback_rights'
+                $ref: '#/components/schemas/playback_right'
         '400':
           description: Bad Request
           content:
@@ -224,7 +224,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playback_rights'
+                $ref: '#/components/schemas/playback_right'
         '400':
           description: >-
             BAD_REQUEST: Invalid request Body
@@ -300,7 +300,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/playback_rights"
+                $ref: "#/components/schemas/playback_right"
         '204':
           description: >-
             NO_CONTENT: No content for successful update
@@ -454,15 +454,12 @@ components:
       schema:
         type: string
   schemas:
-    playback_rights:
-      title:  Playback Rights
+    playback_right:
       type: object
       properties:
         id:
+          description: "This is the ID and it only is for identify the playback right in GET ALL method. It should not be included in the body for POST, PATCH and PUT methods"
           type: string
-          readOnly: true
-          example: "dad11111-e2e2-3333-4ff4-5555555555ba"
-          description: playback rights id
         allowed_domains:
           type: array
           items:
@@ -480,38 +477,38 @@ components:
               type: array
               items:
                 type: string
-              example: ["US","MX"]
+                example: ["US","MX"]
             blocked_countries:
               type: array
               items:
                 type: string
-              example: ["JP","CN"]
+                example: ["JP","CN"]
             allowed_zip_codes:
               type: array
               items:
                 type: string
-                example: "US-90210"
+                example: "us-22222"
             blocked_zip_codes:
               type: array
               items:
                 type: string
-                example: "US-72810"
+                example: "us-22222"
             allowed_dmas:
               type: array
               items:
                 type: integer
-                example: 500
+                example: 500, 717
             blocked_dmas:
               type: array
               items:
                 type: integer
-                example: 717
+                example: 500, 717
         start_time:
           type: integer
-          example: 1572905011
+          example: 1571242764
         end_time:
           type: integer
-          example: 1672905011
+          example: 1571242764
         allowed_ips:
           type: array
           items:
@@ -521,17 +518,17 @@ components:
           type: array
           items:
             type: string
-            example: "172.16.254.2"
+            example: "172.16.254.1"
         allowed_days:
           type: array
           items:
             type: string
-          example: ["mon", "tue"]
+            example: "mon, tue"
         allowed_hours:
           type: array
           items:
             type: string
-          example: ["3-4", "8-19"]
+            example: "3-4, 8-19"
         allow_insecure:
           type: boolean
           example: false
@@ -540,7 +537,12 @@ components:
           example: true
         name:
           type: string
-          example: "Optional playback right name"
+          description: Optional playback right name
+          example: "Only EU"
+    playback_rights:
+      type: array
+      items:
+        $ref: "#/components/schemas/playback_right"
 
   examples:
     response_body_example:

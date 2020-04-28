@@ -5,90 +5,28 @@ x-bc-upstream: 'http://backend_server'
 info:
   title: Delivery Rules API Reference
   description: >-
-    Reference for the Brightcove Delivery Rules API. This API allows you to get, add, update and delete Delivery Rules for an account. These rules are outlined in the [Dynamic Delivery Rules](https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html) documents.
+    Reference for the Brightcove Delivery Rules API. This API allows you to fetch Delivery Rules and manage Conditions and Actions. These rules are outlined in the [Dynamic Delivery Rules](https://docs.brightcove.com/en/staging/rules/overview-delivery-rules.html) documents.
 
-     **Base URL**: https://playback-auth.api.brightcove.com
+     **Base URL**: https://delivery-rules.api.brightcove.com
   version: 1.0.0
   x-bc-access: public
 servers:
-  - url: 'https://playback-auth.api.brightcove.com/management/v1'
+  - url: 'https://delivery-rules.api.brightcove.com'
     variables: {}
 tags:
   - name: Delivery Rules
     description: Operations for getting, adding, updating and deleting Delivery Rules for an account.
 paths:
-  '/accounts/{accountID}/deliveryrules':
-    post:
-      tags:
-        - Delivery Rules
-      summary: Add Delivery Rules to an account
-      description: |-
-        Add Delivery Rules to an account
-      operationId: AddRules
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/audit
-      parameters:
-        - name: accountID
-          in: path
-          description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: '200'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AddRulesResponse'
-        '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
+  '/accounts/{accountID}':
     get:
       tags:
         - Delivery Rules
-      summary: Get latest version of Delivery Rules for an account
-      description: 'Get only the latest version of the Delivery Rules defined for an account.'
-      operationId: GetLatestRules
+      summary: Get Delivery Rules
+      description: 'Get the Delivery Rules defined for an account'
+      operationId: GetRules
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/audit
+          - video-cloud/delivery-rules/read
       parameters:
         - name: accountID
           in: path
@@ -120,54 +58,40 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetLatestRulesResponse'
-        '400':
-          description: '400'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status400'
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+                type: object
+                properties:
+                  conditions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Condition'
+                  actions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Action'
+        '403':
+          description: Forbidden
         '500':
-          description: '500'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status500'
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/deliveryrule/{id}/versions':
+  '/accounts/{accountID}/conditions':
     get:
       tags:
         - Delivery Rules
-      summary: Get all versions of a Delivery Rule for an account
-      description: 'Get all versions of a Delivery Rule defined for an account.'
-      operationId: GetAllRuleVersions
+      summary: Get Conditions
+      description: 'Get the Vonditions for an account.'
+      operationId: GetConditions
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/audit
+          - video-cloud/delivery-rules/read
       parameters:
         - name: accountID
           in: path
           description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: A unique ID associated with a Delivery Rule defined for an account
           required: true
           style: simple
           explode: false
@@ -195,49 +119,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAllRuleVersionsResponse'
-        '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+                type: array
+                items:
+                  $ref: '#/components/schemas/Condition'
+        '403':
+          description: Forbidden
         '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-  '/accounts/{accountID}/deliveryrule/{id}':
     put:
       tags:
         - Delivery Rules
-      summary: Update a Delivery Rule for an account
-      description: 'Update a Delivery Rule for an account. Note: Only the properties in the request will be updated. Other properties in the behavior will not be modified.'
-      operationId: UpdateRule
+      summary: Update Conditions
+      description: |-
+        Update Conditions for an account
+      operationId: UpdateConditions
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/audit
+          - video-cloud/delivery-rules/all
       parameters:
         - name: accountID
           in: path
           description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: A unique ID associated with a Delivery Rule defined for an account
           required: true
           style: simple
           explode: false
@@ -260,59 +168,49 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Update Delivery Rule metadata
+        description: Updated Conditions
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rule'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Condition'
+        required: true
       responses:
         '200':
           description: '200'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateRuleResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Condition'
         '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+          description: Bad Request
+        '403':
+          description: Forbidden
         '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-    delete:
+  '/accounts/{accountID}/actions':
+    get:
       tags:
         - Delivery Rules
-      summary: Delete a Delivery Rule for an account
-      description: 'Delete a Delivery Rule for an account.'
-      operationId: DeleteRule
+      summary: Get Actions
+      description: 'Get the Actions for an account'
+      operationId: GetActions
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/audit
+          - video-cloud/delivery-rules/read
       parameters:
         - name: accountID
           in: path
           description: Video Cloud account ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: A unique ID associated with a Delivery Rule defined for an account
           required: true
           style: simple
           explode: false
@@ -336,21 +234,272 @@ paths:
             type: string
       responses:
         '200':
-          description: 'SUCCESS: The specified Delivery Rule has been deleted'
-        '400':
-          description: >-
-            NOT_AVAILABLE: The resource you are requesting is temporarily unavailable
-        '401':
-          description: >-
-            UNAUTHORIZED: Authentication failed; check to make sure your policy
-            key is correct
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Action'
+        '403':
+          description: Forbidden
         '500':
-          description: |-
-            UNKNOWN: Issue in Brightcove system; try again later.
-            TIMEOUT: Server likely too busy; try again later.
+          description: Server error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{accountID}/actions/{actionID}':
+    get:
+      tags:
+        - Delivery Rules
+      summary: Get a specific Action
+      description: 'Get a specific Action based on its id'
+      operationId: GetAnAction
+      security:
+        - BC_OAuth2:
+          - video-cloud/delivery-rules/read
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: actionID
+          in: path
+          description: A unique ID associated with an Action defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    put:
+      tags:
+        - Delivery Rules
+      summary: Update an Action
+      description: 'Update an Action for a specific account'
+      operationId: UpdateAction
+      security:
+        - BC_OAuth2:
+          - video-cloud/delivery-rules/all
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: actionID
+          in: path
+          description: A unique ID associated with an Action defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Updated Action
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Action"
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Action not found
+        '500':
+          description: Server error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Delivery Rules
+      summary: Create an Action
+      description: 'Create an Action for a specific account'
+      operationId: CreateAction
+      security:
+        - BC_OAuth2:
+          - video-cloud/delivery-rules/all
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: actionID
+          in: path
+          description: A unique ID associated with an Action defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: New Action
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Action"
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Delivery Rules
+      summary: Delete an Action
+      description: 'Delete an Action for an account'
+      operationId: DeleteAction
+      security:
+        - BC_OAuth2:
+          - video-cloud/delivery-rules/all
+      parameters:
+        - name: accountID
+          in: path
+          description: Video Cloud account ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: A unique ID associated with an Action defined for an account
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Action deleted successfully
+        '403':
+          description: Forbidden
+        '404':
+          description: Action not found
+        '500':
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -359,268 +508,114 @@ paths:
         IsMultiContentStreaming: false
 components:
   schemas:
-    AddRulesResponse:
-      title:  Add Rules Response
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: Unique identifier for your account
-          readOnly: true
-        id:
-          type: string
-          description: Unique identifier for a Delivery Rule
-          readOnly: true
-        version:
-          type: integer
-          description: Version for the Delivery Rule
-          readOnly: true
-        created_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was added
-          readOnly: true
-        updated_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was last updated
-          readOnly: true
-        name:
-          type: string
-          description: Name for the Delivery Rule
-          readOnly: true
-        rule_tuples:
-          type: array
-          description: Array of Delivery Rules
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/rule'
-      example: {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 0,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "max-bitrate-5000",
-          "rule_tuples": [{
-            "max_bitrate": 5000
-          }]
-          }
-    rule:
-      properties:
-        name:
-          type: string
-          description: 'Rule name'
-          readOnly: true
-        rule_tuples:
-          type: array
-          description: 'Rule definitions'
-          readOnly: true
-          items:
-            enum:
-              - Minimum video bitrate
-              - Maximum video bitrate
-              - Minimum video resolution
-              - Maximum video resolution
-              - Maximum number of audio renditions
-              - Maximum number of video renditions
-              - First video bitrate
-              - Discontinuities
-          example: Discontinuities
-    GetLatestRulesResponse:
-      title:  Get Latest Rules Response
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: Unique identifier for your account
-          readOnly: true
-        id:
-          type: string
-          description: Unique identifier for a Delivery Rule
-          readOnly: true
-        version:
-          type: integer
-          description: Version for the Delivery Rule
-          readOnly: true
-        created_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was added
-          readOnly: true
-        updated_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was last updated
-          readOnly: true
-        name:
-          type: string
-          description: Name for the Delivery Rule
-          readOnly: true
-        rule_tuples:
-          type: array
-          description: Array of Delivery Rules
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/rule'
-      example: [
-          {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 0,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "max-bitrate-5000",
-          "rule_tuples": [{
-            "max_bitrate": 5000
-          }]
-          },
-          {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 0,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "hevc-avc",
-          "rule_tuples": [{
-            "video_codecs": [“hvc1”, “avc1”]
-
-          }]
-          }
-        ]
-    GetAllRuleVersionsResponse:
-      title:  Get All Versions for a Delivery Rule Response
-      type: array
-      properties:
-        account_id:
-          type: string
-          description: Unique identifier for your account
-          readOnly: true
-        id:
-          type: string
-          description: Unique identifier for a Delivery Rule
-          readOnly: true
-        version:
-          type: integer
-          description: Version for the Delivery Rule
-          readOnly: true
-        created_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was added
-          readOnly: true
-        updated_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was last updated
-          readOnly: true
-        behaviors:
-          type: array
-          description: Array of behavior mappings
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/rule'
-      example: [
-        {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 0,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "hevc-avc",
-          "rule_tuples": [{
-            "video_codecs": ["hvc1"]
-          }]
-        },
-        {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 1,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "hevc-avc",
-          "rule_tuples": [{
-            "video_codecs": ["hvc1", "avc1"]
-          }]
-        }]
-    UpdateRuleResponse:
-      title:  Update a Delivery Rule Response
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: Unique identifier for your account
-          readOnly: true
-        id:
-          type: string
-          description: Unique identifier for a Delivery Rule
-          readOnly: true
-        version:
-          type: integer
-          description: Version for the Delivery Rule
-          readOnly: true
-        created_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was added
-          readOnly: true
-        updated_at:
-          type: string
-          description: Date timestamp for when the Delivery Rule was last updated
-          readOnly: true
-        name:
-          type: string
-          description: Name for the Delivery Rule
-          readOnly: true
-        rule_tuples:
-          type: array
-          description: Array of Delivery Rules
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/rule'
-      example: {
-          "account_id": "account1",
-          "id" : "5068abcde-f710-4e36-be95-1234567890",
-          "version": 1,
-          "created_at": "2019-08-07T20:49:39.12750454Z",
-          "updated_at": "2019-08-07T20:49:39.12750454Z",
-          "name" : "hevc-avc",
-          "rule_tuples": [{
-            "video_codecs": [“hvc1”, “avc1”]
-          }]
-          }
-    Status200:
-      title:  Status Response 200
-      type: object
-      description: The status returned from a report query
-      properties:
-        state:
-          type: string
-          description: The status returned from a report query.
-          enum:
-            - "SUCCEEDED"
-            - "processing"
-            - "failed"
-      example: {
-          "state": "SUCCEEDED"
-          }
-    Status400:
-      title:  Status Response 400
-      type: object
-      description: The status returned from a report query
-      properties:
-        state:
-          type: string
-          description: The status returned from a report query.
-      example: {
-          "status": "failed",
-          "message": "Error executing status for execution_id"
-          }
-    Status500:
-      title:  Status Response 500
-      type: object
-      description: The status returned from a report query
-      properties:
-        state:
-          type: string
-          description: The status returned from a report query.
-      example: {
-          "status": "failed",
-          "message": "Internal Server Error"
-          }
+    Condition:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Descriptive name of the Condition
+          if:
+            type: object
+            description: The conditions that a request must match before the associated rules are invoked
+            properties:
+              device_group:
+                type: array
+                description: A list of device groups
+                items:
+                  description: Device Group
+                  type: string
+                  enum:
+                    - ipad
+                    - iphone
+                    - appletv
+                    - ios-other
+                    - fetchtv
+                    - roku-9
+                    - roku-7/8
+                    - desktop-chrome
+                    - desktop-firefox
+                    - desktop-safari
+                    - android
+                    - tablet-android
+                    - tablet-kindle
+                    - smartphone-generic
+              request_country:
+                type: array
+                description: A list of countries
+                items:
+                  description: A two-character ISO 3166-1 country code
+                  type: string
+              request_continent:
+                type: array
+                description: A list of continents
+                items:
+                  description: Continent
+                  type: string
+                  enum:
+                    - AF
+                    - AN
+                    - AS
+                    - EU
+                    - NA
+                    - OC
+                    - SA
+          then:
+            type: array
+            description: A list of Action IDs to invoke when the conditions are met
+            items:
+              description: Action ID
+              type: string
+    Action:
+        title: Action
+        type: object
+        properties:
+          id:
+            type: string
+            readOnly: true
+            description: ID of the Action
+          properties:
+            type: object
+            description: A list of properties to apply
+            properties:
+              min_video_bitrate:
+                description: Minimum video bitrate
+                type: number
+              max_video_bitrate:
+                description: Maximum video bitrate
+                type: number
+              first_video_bitrate:
+                description: First video bitrate to appear in the manifest
+                type: number
+              min_video_resolution:
+                description: Minimum video resolution
+                type: string
+              max_video_resolution:
+                description: Maximum video resolution
+                type: string
+              max_video_renditions:
+                description: Maximum video renditions
+                type: number
+              max_audio_renditions:
+                description: Maximum audio renditions
+                type: number
+              preferred_cdn_provider:
+                description: Preferred CDN provider
+                type: string
+              preferred_cdn_domain:
+                description: Preferred CDN domain
+                type: string
+              video_codecs:
+                type: array
+                description: A list of Video Codecs to use
+                items:
+                  description: Video Codec
+                  type: string
+              audio_codecs:
+                type: array
+                description: A list of Audio Codecs to use
+                items:
+                  description: Audio Codec
+                  type: string
   parameters:
     account_id:
       name: account_id
@@ -633,9 +628,9 @@ components:
     BC_OAuth2:
       type: oauth2
       description: >-
-        Brightcove OAuth API. See the [support documentation](https://support.brightcove.com/oauth-api) or [Getting Access Tokens](https://support.brightcove.com/oauth-api-sample-get-access-token) to learn more
+        Brightcove OAuth API. See the [support documentation](https://apis.support.brightcove.com/oauth/) or [Getting Access Tokens](https://apis.support.brightcove.com/oauth/code-samples/oauth-api-sample-get-access-token.html) to learn more
       flows:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
-            video-cloud/playback-auth/audit: Request, check status and fetch daily usage report
+            video-cloud/delivery-rules: Fetch Delivery Rules. Fetch and manage Conditions and Actions.

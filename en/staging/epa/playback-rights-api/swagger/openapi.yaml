@@ -18,6 +18,75 @@ tags:
     description: Operations for creating, reading, updating and deleting video Playback Rights.
 paths:
   '/accounts/{account_id}/playback_rights':
+    get:
+      tags:
+        - Playback Rights
+      summary: Get all Playback Rights
+      description: 'Get all Playback Rights for an account'
+      operationId: GetAllPlaybackRights
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/playback-rights/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'SUCCESS'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/playback_rights'
+        '400':
+          description: >-
+            BAD_REQUEST: Invalid request Body
+        '404':
+          description: Playback rights not found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Playback rights not found",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "PLAYBACK_RIGHT_RETRIEVE_FAILURE",
+                    "message": "Cannot retrieve playback rights for account {account_id}",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
     post:
       tags:
         - Playback Rights
@@ -120,80 +189,11 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-    get:
-      tags:
-        - Playback Rights
-      summary: Get all Playback Rights for an account
-      description: 'Get all Playback Rights for an account'
-      operationId: GetAllPlaybackRights
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/playback-rights/read
-      parameters:
-        - $ref: '#/components/parameters/AccountId'
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'SUCCESS'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/playback_rights'
-        '400':
-          description: >-
-            BAD_REQUEST: Invalid request Body
-        '404':
-          description: Playback rights not found
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "NOT_FOUND",
-                    "error_subcode": "RESOURCE_NOT_FOUND",
-                    "message": "Playback rights not found",
-                  },
-                ]
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "PLAYBACK_RIGHT_RETRIEVE_FAILURE",
-                    "message": "Cannot retrieve playback rights for account {account_id}",
-                  },
-                ]
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
   '/accounts/{account_id}/playback_rights/{playback_rights_id}':
     get:
       tags:
         - Playback Rights
-      summary: Get a specific Playback Right for an account
+      summary: Get a specific Playback Right
       description: 'Get a specific Playback Right for an account'
       operationId: GetPlaybackRight
       security:
@@ -262,7 +262,7 @@ paths:
     put:
       tags:
         - Playback Rights
-      summary: Update a specific Playback Right
+      summary: Update a Playback Right
       description: |-
         Update a specific Playback Right for an account
       operationId: UpdateRight
@@ -370,7 +370,7 @@ paths:
     delete:
       tags:
         - Playback Rights
-      summary: Delete a specific Playback Right
+      summary: Delete a Playback Right
       description: 'Delete a specific Playback Right'
       operationId: DeleteRight
       security:
@@ -599,10 +599,10 @@ components:
     BC_OAuth2:
       type: oauth2
       description: >-
-        Brightcove OAuth API. See the [support documentation](https://apis.support.brightcove.com/oauth/) or [Getting Access Tokens](https://apis.support.brightcove.com/oauth/code-samples/oauth-api-sample-get-access-token.html) to learn more
+        Brightcove OAuth API. To learn more, see the [OAuth Overview](https://apis.support.brightcove.com/oauth/) or the [Getting Access Tokens](https://apis.support.brightcove.com/oauth/code-samples/oauth-api-sample-get-access-token.html) document.
       flows:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
-            video-cloud/playback-auth/playback-rights/read: Read Playback Auth
-            video-cloud/playback-auth/playback-rights/write: Write Playback Auth
+            video-cloud/playback-auth/playback-rights/read: Read Playback Rights
+            video-cloud/playback-auth/playback-rights/write: Write Playback Rights

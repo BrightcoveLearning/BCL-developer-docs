@@ -196,405 +196,90 @@
 <ol class="bcls-tasklist__restart">
 	<li>
     <p>
-      Create a <strong>.vtt</strong> file and add your thumbnail images to it at specified intervals. It may look something like this:
+      Create a <strong>.vtt</strong> file that follows the standard WebVTT format. Replace caption text with the URL for each thumbnail image. It may look something like this:
     </p>
     <figure class="bcls-figure"><img class="bcls-image--no-border" alt="WebVTT file" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/thumbnails/webvtt-file.png" />
   	<figcaption class="bcls-caption--image">WebVTT file</figcaption>
   	</figure>
   </li>
-	<li>Click the link for the player to open the player's properties.</li>
-	<li>Click <strong>Plugins</strong> in the left navigation menu.</li>
-	<li>Next click <strong>Plugins</strong> from the three options.
-	<figure class="bcls-figure"><img class="bcls-image" alt="Select Plugin" src="//learning-services-media.brightcove.com/doc-assets/general/players-plugin-options.png" /></figure>
-	</li>
-	<li>From the <strong>Add a Plugin</strong> select <strong>Custom Plugin</strong>.</li>
-	<li>For the <strong>Plugin Name</strong> enter <code>ssai</code>.</li>
-	<li>For the <strong>JavaScript</strong> URL, enter:
-	<pre>
-<code class="notranslate language-json">https://players.brightcove.net/videojs-ssai/1/videojs-ssai.js</code></pre>
-	</li>
-	<li>For the <strong>CSS</strong> URL, enter:
+	<li>In Video Cloud Studio, choose a video ingested for Dynamic Delivery. Copy the Advanced Embed code for a player with version 6.41.0+.</li>
+	<li>In the HTML file for your web page, paste the Advanced Embed code.</li>
+  <li>In the <code>head</code> section of your HTML code add the thumbnails CSS file:
 	<pre>
 <code class="notranslate language-json">https://players.brightcove.net/videojs-ssai/1/videojs-ssai.css</code></pre>
 	</li>
-	<li>You do not have to enter any options for this plugin.</li>
-	<li>Click <strong>Save</strong>.</li>
-	<li>To publish the player, click <strong>Publish &amp; Embed &gt; Publish Changes</strong>.</li>
-	<li>To close the open dialog, click <strong>Close</strong>.</li>
+  <li>In the <code>body</code> section of your HTML code add the thumbnails JavaScript file:
+	<pre>
+<code class="notranslate language-json">//players.brightcove.net/videojs-thumbnails/1/videojs-thumbnails.js</code></pre>
+	</li>
+	<li>To the <code>video</code> tag, add an <code>id</code> property.
+	</li>
+  <li>
+    Before the closing <code>body</code> tag, add a <code>script</code> block.
+  </li>
+	<li>
+    <p>
+      In the script block you just created, add the following:
+    </p>
+    <p>
+      After the plugin is initialized and the player is ready, you will pass thumbnail image sources to the plugin in a WebVTT file using the <code>addRemoteTextTrack()</code> method. When calling the method with the thumbnail file, you must also set:
+    </p>
+    <ul>
+      <li>
+        Set the text track <code>kind</code> property to <code>metadata</code>
+      </li>
+      <li>
+        Set the text track <code>label</code> property to <code>thumbnails</code>
+      </li>
+      <li>
+        Set the text track <code>mode</code> property to <code>hidden</code>
+      </li>
+      <li>
+        Set the <code>addRemoteTextTrack()</code> <code>manualCleanup</code> option to <code>false</code> so the track is automatically removed when the source changes
+      </li>
+    </ul>
+    <p>
+      Your code should be similar to this:
+    </p>
+    <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
+
+player.thumbnails();
+
+  player.addRemoteTextTrack({
+    src: 'thumbnails.vtt',
+    kind: 'metadata',
+    label: 'thumbnails',
+    mode: 'hidden'
+  }, false);
+});</code></pre>
+  </li>
+  <li>
+    <p>
+      Optionally, you can use a remote video source as follows. Replace the <code>mime-type</code> and <code>sourceUrl</code> with your own values.
+    </p>
+    <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
+
+player.thumbnails();
+
+player.ready(() =&gt; {
+  player.src({
+    type: 'mime-type',
+    src: sourceUrl
+  });
+
+  player.addRemoteTextTrack({
+    src: 'thumbnails.vtt',
+    kind: 'metadata',
+    label: 'thumbnails',
+    mode: 'hidden'
+  }, false);
+});</code></pre>
+  </li>
 </ol>
 
-<h3 id="Associate_ads_with_your_player">Associate ads with your player</h3>
-
-<p>Next, you will associate either your ad configuration to your Brightcove player. You can do this one of three ways:</p>
-
-<ul>
-	<li><a href="#Standard_embed_code">Standard embed code</a></li>
-	<li><a href="#Advanced_embed_code">Advanced embed code</a></li>
-	<li><a href="#Using_the_catalog">Using the catalog</a></li>
-	<li><a href="#Updating_your_player_configuration">Updating your player configuration</a></li>
-</ul>
-
-<h4 id="Standard_embed_code">Standard (iframe) embed code</h4>
-
-<p>With the Standard embed code, include the <code class="notranslate">adConfigId</code> query string parameter with the value of your ad config id:</p>
-
-<pre class="line-numbers">
-<code class="notranslate language-javascript">&lt;iframe src="https://players.brightcove.net/1752604059001/default_default/
-index.html?videoId=5625751316001&amp;<span class="bcls-highlight">adConfigId</span>=<span class="bcls-input">your ad config id</span>"
-	allowfullscreen
-	webkitallowfullscreen
-	mozallowfullscreen
-	width="640"
-	height="360"&gt;&lt;/iframe&gt;</code></pre>
-
-<h4 id="Advanced_embed_code">Advanced embed code</h4>
-
-<p>With the Advanced embed code, include the <code class="notranslate">data-ad-config-id</code> attribute with the value of your ad config id:</p>
-
-<pre class="line-numbers">
-<code class="notranslate language-javascript">&lt;video-js data-video-id="5625751316001"
-  data-account="1752604059001"
-  data-player="default"
-  data-embed="default"
-  data-application-id
-  <span class="bcls-highlight">data-ad-config-id</span>="<span class="bcls-input">your ad config id</span>"
-  class="video-js"
-  controls
-  width="640"
-  height="360"&gt;&lt;/video-js&gt;
-&lt;script src="https://players.brightcove.net/1752604059001/default_default/index.min.js"&gt;&lt;/script&gt;</code></pre>
-
-<h4 id="Using_the_catalog">Using the catalog</h4>
-
-<p>You can use the <code class="notranslate">player catalog</code> to associate ads with your video. The catalog works by making two requests:</p>
-
-<ol class="bcls-tasklist__restart">
-	<li>Request video data from the player catalog. This will include a VMAP URL.</li>
-	<li>The player source is set with the VMAP URL, triggering a request for a VMAP document from Dynamic Delivery. The player source is set again with a valid VMAP XML document.</li>
-</ol>
-
-<p>When using the <code class="notranslate">catalog</code> with SSAI, append your ad configuration id to the <code class="notranslate">getVideo()</code> call to the Playback API as follows:</p>
-
-<pre class="line-numbers">
-<code class="notranslate language-javascript"><span class="bcls-highlight">var adConfigId</span> = "<span class="bcls-input">your ad config id</span>";
-var myPlayer = videojs.getPlayer('myPlayerId');
-// If you added the SSAI plugin using the Players module, then the initialization
-// step is performed automatically. Uncomment the next line if you
-// did not use the Players module.
-//myPlayer.ssai();
-
-myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", function(error, video) {
-	if (error) {
-		myPlayer.error(error);
-	} else {
-		myPlayer.catalog.load(video);
-	}
-}, <span class="bcls-highlight">adConfigId</span>);</code></pre>
-
-<h4 id="Updating_your_player_configuration">Updating your player configuration</h4>
-
-<p>Another way to associate ads is to include your ad config id in your Brightcove player configuration. To do this, you can use the <a href="node/18378">Player Management API</a> as follows:</p>
-
-<ol class="bcls-tasklist__restart">
-	<li>
-	<p>Use the <code class="notranslate">PATCH</code> command to include your <code class="notranslate">ad_config_id</code>. Here is an example of updating your player using cURL:</p>
-
-	<pre class="line-numbers" data-start="1">
-<code class="notranslate language-json">curl \
-  --header "Content-Type: application/json" \
-  --user <span class="bcls-input">$EMAIL</span> \
-  --request PATCH \
-  --data '{
-      "ad_config_id" : "<span class="bcls-input">$CONFIG_ID</span>"
-  }' \
-  https://players.api.brightcove.com/v1/accounts/<span class="bcls-input">$ACCOUNT_ID</span>/players/<span class="bcls-input">$PLAYER_ID</span>/configuration
-</code></pre>
-	</li>
-	<li>
-	<p>You can then publish your changes as follows:</p>
-
-	<pre class="line-numbers" data-start="1">
-<code class="notranslate language-json">curl \
-  --header "Content-Type: application/json" \
-  --user <span class="bcls-input">$EMAIL</span> \
-  --request POST \
-  https://players.api.brightcove.com/v1/accounts/<span class="bcls-input">$ACCOUNT_ID</span>/players/<span class="bcls-input">$PLAYER_ID</span>/publish
-</code></pre>
-	</li>
-	<li>
-	<p>Verify that the configuration for your Brightcove player includes <code class="notranslate">ad_config_id</code> set to your config id value and the ssai plugin with the associated plugin files. To do this, follow these steps:</p>
-
-	<ol>
-		<li>Navigate to your player in the Studio Players module. Click on the player name link to see details.</li>
-		<li>Select the <strong>Embed Code &amp; URL</strong> (either Preview or Published will work). Click on the <strong>Player URL</strong> link.</li>
-		<li>In the browser address bar, change the <strong>index.html</strong> to <strong>config.json</strong>, and browse the new URL.</li>
-	</ol>
-
-	<p>Your player configuration should look similar to this:</p>
-
-	<pre class="line-numbers">
-<code class="notranslate language-json">{
-  "account_id": "1752604059001",
-<span class="bcls-highlight">  "ad_config_id": "d6190656-2095-4ff3-8afe-123abcde",</span>
-  "compatibility": true,
-  "embed_id": "default",
-  "player": {
-    "template": {
-      "name": "single-video-template",
-      "version": "6.9.0"
-    }
-  },
-  "player_id": "rJCECV0RZ",
-  "player_name": "SSAI Player",
-<span class="bcls-highlight">  "plugins": [
-    {
-      "name": "ssai"
-    }
-  ],
-  "scripts": [
-    "https://players.brightcove.net/videojs-ssai/1/videojs-ssai.js"
-  ],
-  "stylesheets": [
-    "https://players.brightcove.net/videojs-ssai/1/videojs-ssai.css"
-  ],</span>
-  "updated_at": "2017-11-07T16:03:47.161Z",
-  "video_cloud": {
-    "policy_key": "ABCDE123456789",
-    "video": null
-  }
-}</code></pre>
-	</li>
-</ol>
-
-<h4 id="Play_a_video_with_ads1">Playing a video with ads</h4>
-
-<p>Any video that you retrieve from Video Cloud that has been ingested with Dynamic Delivery, will include the ads specified in the VMAP file in your ad configuration. Note that the video needs to have an audio track associated with it for SSAI to work.</p>
 </section>
 
 <!-- <section class="bcls-section">
-<h2 id="Options">Options</h2>
-
-<ul>
-	<li><code class="notranslate">debug</code>
-
-	<ul>
-		<li>If true, sets up debug messages in contrib-ads and logs extra information in the presence of videojs-bc-analytics-logger.</li>
-	</ul>
-	</li>
-	<li><code class="notranslate">hideOverlays</code>
-	<ul>
-		<li>If true, the countdown timer and <strong>Learn More</strong> click through overlays will not be shown while ads are playing.</li>
-	</ul>
-	</li>
-	<li><code class="notranslate">trackingBeacons</code>
-	<ul>
-		<li>If false, the tracking beacons parsed from the VMAP for ad view, impression, quartiles, etc. will not be sent.</li>
-	</ul>
-	</li>
-	<li><code class="notranslate">timeout</code>
-	<ul>
-		<li>The number of milliseconds after which an XHR to fetch a VMAP will time out.</li>
-	</ul>
-	</li>
-</ul>
-</section> -->
-
-<!-- <section class="bcls-section">
-<h2 id="Styling">Styling</h2>
-
-<p>There are several useful HTML classes applied to the player by this plugin that can be targeted to determine the plugin's state.</p>
-
-<table class="bcls-table">
-	<thead class="bcls-table__head">
-		<tr>
-			<th>Class</th>
-			<th>Usage</th>
-		</tr>
-	</thead>
-	<tbody class="bcls-table__body">
-		<tr>
-			<td style="width: 20%;"><code class="notranslate">vjs-ssai</code></td>
-			<td>Indicates that the SSAI plugin has been instantiated, but is not necessarily enabled. This will be present even when not playing an SSAI source.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-enabled</code></td>
-			<td>The SSAI plugin is currently enabled. In other words, an SSAI source has been set on the player.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-disabled</code></td>
-			<td>The SSAI plugin is not currently enabled.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-waiting</code></td>
-			<td>The SSAI plugin is waiting for data or some other external process.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-not-waiting</code></td>
-			<td>The SSAI plugin is not waiting for anything.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-hide-overlays</code></td>
-			<td>The <code class="notranslate">hideOverlays</code> option has been set to <strong>true</strong>.</td>
-		</tr>
-		<tr>
-			<td><code class="notranslate">vjs-ssai-show-overlays</code></td>
-			<td>The <code class="notranslate">showOverlays</code> option is set to <strong>true</strong>. This is the default.</td>
-		</tr>
-	</tbody>
-</table>
-</section> -->
-
-<!-- <section class="bcls-section">
-<h2 id="Methods_properties">Methods/properties</h2>
-
-<p>Several public methods are available when using the SSAI plugin. Remember, you can also use the standard player methods.</p>
-
-<p>To use the SSAI methods, your JavaScript code will need to wait for the plugin to be loaded, as shown here:</p>
-
-<pre class="line-numbers">
-<code class="language-javascript">&lt;script&gt;
-	videojs.getPlayer('myPlayerID').ready(function () {
-		var myPlayer = this;
-		myPlayer.on("loadedmetadata", function () {
-			console.log(myPlayer.ssai().currentTimelineState());
-		});
-	});
-&lt;/script&gt;</code></pre>
-
-<h3>Timeline state methods</h3>
-
-<p>The <code>*TimelineState</code> methods return a <code>TimelineState</code> object. A timeline state object is a plain object with a specific interface that details the playback state of an SSAI stream at any point in the absolute timeline.</p>
-
-<p>The "absolute time" refers to a point in the complete timeline of a stream (with both ads and content included). The term "relative time" refers to the time relative to the current content (either ad or content).</p>
-
-<p><code>contentTimelineState()</code></p>
-
-<ul>
-	<li>Argument: single numeric <code>time</code></li>
-	<li>Get the timeline state at the specified content time <strong>(content, not counting ads)</strong>. For example, if your content is 100 seconds long, you can get the timeline state at halfway through the content using:
-	<pre>
-<code class="language-javascript">contentTimelineState(50)</code></pre>
-	</li>
-</ul>
-
-<p><code>absoluteTimelineState()</code></p>
-
-<ul>
-	<li>Argument: single numeric <code>time</code></li>
-	<li>Get the timeline state at the specified absolute time <strong>(content + ads)</strong>. For example, if your content includes a 30 second pre-roll ad, you can get the timeline state at 30 seconds into your content using:
-	<pre>
-<code class="language-javascript">absoluteTimelineState(50)</code></pre>
-	</li>
-</ul>
-
-<p>Here is a list of additional timeline state methods:</p>
-
-<p><code>currentTimelineState()</code><br />
-<code>relativeTimelineState()</code><br />
-<code>seekInAbsoluteTime()</code><br />
-<code>seekInRelativeTime()</code><br />
-<code>seekInContentTime()</code></p>
-
-<h3>Timeline state properties</h3>
-
-<p>To get the value of a timeline state property, you can use the following syntax:</p>
-
-<pre>
-<code class="language-javascript">myPlayer.ssai().absoluteTimelineState().absoluteDuration;
-</code></pre>
-&nbsp;
-
-<p>Here is a list of properties associated with the <code>TimelineState</code> object:</p>
-
-<p><code>absoluteTime</code></p>
-
-<ul>
-	<li>Type: Number</li>
-	<li>The absolute time in the stream.</li>
-</ul>
-
-<p><code>absoluteDuration</code></p>
-
-<ul>
-	<li>Type: Number</li>
-	<li>The absolute duration of the stream.</li>
-</ul>
-
-<p><code>relativeTime</code></p>
-
-<ul>
-	<li>Type: Number</li>
-	<li>The time in the stream relative either to the current linear ad or to the content itself.</li>
-</ul>
-
-<p><code>relativeDuration</code></p>
-
-<ul>
-	<li>Type: Number</li>
-	<li>The duration of the current linear ad or the content itself.</li>
-</ul>
-
-<p><code>linearAdRoll</code></p>
-
-<ul>
-	<li>Type: LinearAdRoll</li>
-	<li>An object representing the current linear ad for the absolute time.</li>
-</ul>
-
-<p><code>linearAd</code></p>
-
-<ul>
-	<li>Type: LinearAd</li>
-	<li>An object representing the current linear ad for the absolute time.</li>
-</ul>
-</section> -->
-
-<!-- <section class="bcls-section">
-<h2 id="Events">Events</h2>
-
-<p>At the current time there is one SSAI-specific event dispatched by this plugin.</p>
-
-<aside class="bcls-aside bcls-aside--tip">SSAI ads dispatch the standard Brightcove ad events, and provide access to ad objects. Details are detailed in the <a href="/node/18072">Ad Events and Ad Objects</a> document.</aside>
-
-<p><code>bcov-ssai-click-through</code></p>
-
-<ul>
-	<li>This event is dispatched internally by the plugin to indicate that an ad click-through was requested.</li>
-</ul>
-</section>
-
-<section class="bcls-section">
-<h2 id="Configuration_notes">Configuration notes</h2>
-
-<ol>
-	<li>Preloading ads should not be done with SSAI. The reason for this is that if you preload the player will report an ad impression and probably the first quartile beacons before the video is played. This could lead to inaccurate ad analytics. If you configure SSAI in Studio, this will automatically be done, but if you happen to setup SSAI manually you need to be aware of this issue.</li>
-	<li>If the web player is using SSAI, and one of your motivations for doing so is to work around ad blockers, you should use server-side beacons. Client-side beacons should not be used as they will be blocked.</li>
-</ol>
-</section> -->
-
-<!-- <section class="bcls-section">
-<h2 id="Glossary">Glossary</h2>
-
-<p>This plugin distinguishes the concepts of <strong>absolute</strong> and <strong>content</strong> time within an SSAI stream. Traditional video players only have a concept of <strong>content</strong> time; times between start and end of the URI it is currently playing. Because an SSAI stream is essentially a number of <strong>content</strong> streams stitched together we've introduced the concept of <strong>absolute</strong> time which takes into account the complete stitched stream including the video advertisements.</p>
-
-<p>When you see the prefix <strong>absolute</strong> on a property or method, the times expected/returned are relative to the entire stitched stream. When you see the prefix <strong>content</strong>, the times expected/returned are relative only to a particular piece of content that was stitched into the stream (the main content or single linear advertisement).</p>
-
-<ul>
-	<li>
-	<p><strong>Absolute time</strong> : Refers to any given point in the total timeline of an SSAI stream. For example, a <strong>2:00</strong> video with a <strong>0:30</strong> pre-roll ad has a total absolute time of <strong>2:30</strong>. The absolute time of <strong>0:15</strong> is in the pre-roll and the absolute time of <strong>0:31</strong> is the first second of content.</p>
-	</li>
-	<li>
-	<p><strong>Relative time</strong> : Refers to the time relative to the current block of media - either content or ad. Expanding on the above, during the pre-roll, the relative time <strong>0:15</strong> is synonymous with the absolute time of <strong>0:15</strong>, but the absolute time <strong>0:31</strong> would equate to a relative time of <strong>0:01</strong>.</p>
-
-	<p>Generally, relative time is what you see in the player UI and much of the job of this plugin and associated middleware is translating from absolute time to relative time.</p>
-	</li>
-	<li>
-	<p><strong>Content time</strong> refers to a point in time within the content timeline of an SSAI stream - ignoring all ads. For example, a 2:00 video with a 0:30 pre-roll ad has a content time of 2:00. The content time of 0:15 is equivalent to an absolute time of 0:45 (pre-roll plus 15 seconds).</p>
-	</li>
-</ul>
-</section> -->
-
-<section class="bcls-section">
 <h2 id="Known_issues">Known issues</h2>
 
 <p>Here are the known issues for using the SSAI plugin:</p>
@@ -603,7 +288,7 @@ myPlayer.catalog.getVideo("<span class="bcls-input">your video id</span>", funct
 	<li>Safari .</li>
 	<li>SSAI .</li>
 </ul>
-</section>
+</section> -->
 
 <section class="bcls-section">
 <h2 id="Changelog">Changelog</h2>

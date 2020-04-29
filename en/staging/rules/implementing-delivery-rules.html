@@ -46,7 +46,7 @@
 
 <p>Publishers often need to modify the content characteristics of their media manifests for both technical and business reasons.</p>
 
-<p>To meet these needs, Brightcove has created a framework where rules can be applied that will modify the contents of the manifest returned from Dynamic Delivery. Behaviors are defined as "if" conditions that will trigger a certain rule and a series of "then" parameters that will define how the manifest is modified.</p>
+<p>To meet these needs, Brightcove has created a framework where rules can be applied that will modify the contents of the manifest returned from Dynamic Delivery. Conditions are defined as "if" conditions that trigger a certain action and a series of "then" parameters that will define how the manifest is modified.</p>
 <p>
   If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/rules/using-rules-with-sdks.html">Overview: Dynamic Delivery Rules</a> document.
 </p>
@@ -55,7 +55,7 @@
 <section class="bcls-section">
 <h2 id="Applying_rules">Applying rules</h2>
 
-<p>The following flow diagrams show how delivery rules are applied.</p>
+<p>The following flow diagram shows how delivery rules are applied.</p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/delivery-rules/rules-diagram.png" alt="Delivery rules applied">
   <figcaption class="bcls-caption--image">Delivery rules applied</figcaption>
@@ -63,9 +63,9 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Behaviors">Behaviors</h2>
+<h2 id="Conditions">Conditions</h2>
 
-<p>The behaviors, or "if" conditions, supported in the first phase include the following:</p>
+<p>The Conditions, or "if" conditions, supported in the first phase include the following:</p>
 
 <ul>
   <li>
@@ -150,9 +150,9 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Rules">Rules</h2>
+<h2 id="Actions">Actions</h2>
 
-<p>The rules, or "then" parameters, supported in the first phase include the following:</p>
+<p>The actions, or "then" parameters, supported in the first phase include the following:</p>
 
 <ul>
   <li>
@@ -196,18 +196,18 @@
 <section class="bcls-section">
 <h2 id="Scope">Scope</h2>
 
-<p>Rules can be applied at two levels:</p>
+<p>Actions can be applied at two levels:</p>
 <ul>
   <li>
-    <strong>Account</strong> - Rules that apply to all requests made to a specific customer's account
+    <strong>Account</strong> - Actions that apply to all requests made to a specific customer's account
   </li>
   <li>
-    <strong>Request Specific</strong> - Rules that are invoked on a specific request
+    <strong>Specific Request</strong> - Actions that are invoked on a specific request
   </li>
 </ul>
 
 <p>
-  Rules will be applied in the order listed above. Later rules will override earlier ones.
+  Actions will be applied in the order listed above. Later actions will override earlier ones.
 </p>
 
 </section>
@@ -215,7 +215,335 @@
 <section class="bcls-section">
 <h2 id="Enabling_the_feature">Enabling the feature</h2>
 
-<p>During the initial phase of Delivery Rules, all rules will be configured by Brightcove. Contact your account manager to learn about pricing and enable this feature for your account.</p>
+<p>During the initial phase of Delivery Rules, all actions will be configured by Brightcove. Contact your account manager to learn about pricing and enable this feature for your account.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Defining_rules">Defining rules</h2>
+
+<p>Use the Delivery Rules API to customize media delivery.</p>
+
+<h3 id="Delivery_Rules_API">Delivery Rules API</h3>
+<p>
+  The <a href="https://docs.brightcove.com/en/staging/rules/delivery-rules-api/v1/doc/">Delivery Rules API</a> allows you to define conditions and actions to control your media delivery.
+</p>
+
+<h3>Base URL</h3>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://delivery-rules.api.brightcove.com</code></pre>
+
+<h3>Account path</h3>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://delivery-rules.api.brightcove.com/accounts/{accountID}</code></pre>
+
+<h3>Authorization</h3>
+<p>
+  An access token for requests is required and must be present in the Authorization header::
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://apis.support.brightcove.com/oauth/getting-started/overview-oauth-api-v4.html">Brightcove OAuth Overview</a>.
+</p>
+
+<h3>Permissions</h3>
+<p>
+  Requests to the Playback Rights API must be made from <a href="https://oauth.brightcove.com/v4/access_token">client credentials</a> with the following permissions:
+</p>
+<ul>
+  <li>
+    <code>video-cloud/delivery-rules/read</code>
+  </li>
+  <li>
+    <code>video-cloud/delivery-rules/all</code>
+  </li>
+</ul>
+
+<h3>Manage rules</h3>
+<p>
+  The Delivery Rules API supports the following requests. For API details, see the <a href="https://docs.brightcove.com/en/staging/rules/delivery-rules-api/v1/doc/">Delivery Rules API Reference</a>.
+</p>
+
+<h4>Get the Delivery Rules</h4>
+<p>
+  Use the following GET request to fetch the latest version of Delivery Rules for an account.
+</p>
+<pre><code class="language-http">GET /accounts/{accountID}</code></pre>
+
+<h5>API Response</h5>
+<p>
+  Here is the response body. Notice that Delivery Rules contain a set of conditions and a set of actions.
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;conditions&quot;: [
+    {
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;if&quot;: {
+        &quot;device_group&quot;: [
+          &quot;ipad&quot;
+        ],
+        &quot;request_country&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;request_continent&quot;: [
+          &quot;AF&quot;
+        ]
+      },
+      &quot;then&quot;: [
+        &quot;string&quot;
+      ]
+    }
+  ],
+  &quot;actions&quot;: [
+    {
+      &quot;id&quot;: &quot;string&quot;,
+      &quot;properties&quot;: {
+        &quot;min_video_bitrate&quot;: 0,
+        &quot;max_video_bitrate&quot;: 0,
+        &quot;first_video_bitrate&quot;: 0,
+        &quot;min_video_resolution&quot;: &quot;string&quot;,
+        &quot;max_video_resolution&quot;: &quot;string&quot;,
+        &quot;max_video_renditions&quot;: 0,
+        &quot;max_audio_renditions&quot;: 0,
+        &quot;preferred_cdn_provider&quot;: &quot;string&quot;,
+        &quot;preferred_cdn_domain&quot;: &quot;string&quot;,
+      &quot;video_codecs&quot;: [
+        &quot;string&quot;
+      ],
+      &quot;audio_codecs&quot;: [
+        &quot;string&quot;
+      ]
+    }
+    }
+  ]
+}</code></pre>
+<br />
+
+<h4>Get the Conditions</h4>
+<p>
+  Use the following GET request to fetch the conditions for an account.
+</p>
+<pre><code class="language-http">GET /accounts/{accountID}/conditions</code></pre>
+<h5>API Response</h5>
+<p>
+  Here is the response body.
+</p>
+<pre class="line-numbers"><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;string&quot;,
+    &quot;if&quot;: {
+      &quot;device_group&quot;: [
+        &quot;ipad&quot;
+      ],
+      &quot;request_country&quot;: [
+        &quot;string&quot;
+      ],
+      &quot;request_continent&quot;: [
+        &quot;AF&quot;
+      ]
+    },
+    &quot;then&quot;: [
+      &quot;string&quot;
+    ]
+  }
+]</code></pre>
+<br />
+
+<h4>Update Conditions</h4>
+<pre><code class="language-http">PUT /accounts/{accountID}/conditions</code></pre>
+<br />
+
+<h4>Create new playback rights</h4>
+<pre class="line-numbers"><code class="language-http">POST /v1/accounts/{accountID}/playback_rights
+  Content-Type: application/json
+  Body: {playback rights object}
+</code></pre>
+<p>
+  For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
+</p>
+
+<h5>API Response</h5>
+<p>
+  Save the <code>playback_rights_id</code> value for later use. You can find this value in the API response. Either:
+</p>
+<ul>
+  <li>
+    <p>
+      <strong>Response header</strong>:
+    </p>
+    <p>
+      The <code>playback_rights_id</code> value can be found in the <code>Location</code> field of the Header response. It should be similar to this:
+    </p>
+    <pre><code class="language-http">Location: /v1/accounts/<span class="bcls-highlight">your account_id</span>/playback_rights/<span class="bcls-highlight">your playback_rights_id</span>
+    </code></pre>
+  </li>
+  <li>
+    <p>
+      <strong>Response body</strong>
+    </p>
+    <p>
+      The <code>playback_rights_id</code> value can be found in the response body as the <code>id</code> field. It should be similar to this:
+    </p>
+    <pre class="line-numbers"><code class="language-json">{
+     &quot;id&quot;: &quot;<span class="bcls-highlight">your playback_rights_id</span>&quot;,
+     &quot;geo&quot;: {
+      &quot;allowed_countries&quot;: [
+       &quot;MX&quot;,
+       &quot;US&quot;]
+    }</code></pre>
+  </li>
+</ul>
+
+
+
+
+<h4>Update a specific playback right:</h4>
+<pre class="line-numbers"><code class="language-http">PUT /v1/accounts/{accountID}/playback_rights/{playbackRightsID}
+  Content-Type: application/json
+  Body: {playback rights object}</code></pre>
+  <p>
+    For a list of valid fields, see the <a href="#Request_body">Request body</a> section.
+  </p>
+
+<h4>Delete a specific playback right:</h4>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/playback_rights/{playbackRightsID}</code></pre>
+<br />
+
+<h4 id="Request_body">Request body</h4>
+<p>
+  Here is an example of all of the fields you can include in the request body:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;geo&quot;: {
+  &quot;allowed_countries&quot;: [
+    &quot;MX&quot;,
+    &quot;US&quot;
+  ],
+  &quot;blocked_countries&quot;: [
+    &quot;JP&quot;,
+    &quot;CN&quot;
+  ],
+  &quot;allowed_zip_codes&quot;: [
+    &quot;US-90210&quot;
+  ],
+  &quot;blocked_zip_codes&quot;: [
+    &quot;US-72810&quot;
+  ],
+  &quot;allowed_dmas&quot;: [
+    501
+  ],
+  &quot;blocked_dmas&quot;: [
+    803
+  ]
+},
+&quot;allowed_domains&quot;: [
+  &quot;www.google.com&quot;,
+  &quot;www.brightcove.com&quot;
+],
+&quot;blocked_domains&quot;: [
+  &quot;www.ooyala.com&quot;
+],
+&quot;start_time&quot;: 1572905011,
+&quot;end_time&quot;: 1672905011,
+&quot;allowed_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;blocked_ips&quot;: [
+  &quot;192.168.1.1&quot;
+],
+&quot;allowed_days&quot;: [
+  &quot;mon&quot;,
+  &quot;tue&quot;
+],
+&quot;allowed_hours&quot;: [
+  &quot;5-6&quot;
+],
+&quot;allow_insecure&quot;: true,
+&quot;disabled&quot;: false,
+&quot;name&quot;: &quot;Optional playback right name&quot;
+}
+</code></pre>
+
+<p>
+  Here are the field details:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>allowed_countries</code>, <code>blocked_countries</code></td>
+      <td>String</td>
+      <td>Array of two letter country codes</td>
+    </tr>
+    <tr>
+      <td><code>allowed_zip_codes</code>, <code>blocked_zip_codes</code></td>
+      <td>String</td>
+      <td>Array of zip codes (prefixed with two letters country and hyphen, then Zip code. e.g. <code>[&quot;US-90045&quot;]</code>. The two letter country code must be upper case.</td>
+    </tr>
+    <tr>
+      <td><code>allowed_dmas</code>, <code>blocked_dmas</code></td>
+      <td>Integer</td>
+      <td>Array of Nielsen Designated Market Area (DMA) numbers. For a list of values, see the <a href="https://help.ooyala.com/video-platform/reference/dma_codes.html">DMA Codes</a> document.</td>
+    </tr>
+    <tr>
+      <td><code>allowed_domains</code>, <code>blocked_domains</code></td>
+      <td>String</td>
+      <td>Array of domain names</td>
+    </tr>
+    <tr>
+      <td><code>start_time</code>, <code>end_time</code></td>
+      <td>Integer</td>
+      <td>Epoch time</td>
+    </tr>
+    <tr>
+      <td><code>allowed_ips</code>, <code>blocked_ips</code></td>
+      <td>Integer</td>
+      <td>
+          Array of ipv4/ipv6 addresses or CIDR blocks.
+      </td>
+      </tr>
+      <tr>
+        <td><code>allowed_days</code></td>
+        <td>String</td>
+        <td>Array of 3-letter lowercase names for the days that the resource is allowed to be retrieved. One or more of: <code>mon, tue, wed, thu, fri, sat, sun</code></td>
+      </tr>
+      <tr>
+        <td><code>allowed_hours</code></td>
+        <td>Integer</td>
+        <td>Array of hours from the 24-hour clock (starting at 0 and up to 47) during which the resource is allowed to be retrieved. 0 to 23 for current day, and 24 to 47 for next day end-date. If an allowed hours block starts in previous day and ends at the following day then a 24+ notation is required.
+        <br /><br />
+        Example: the value of <code>3-4</code> in this header means that the resource is available from 3:00 am UTC to 3:59 am UTC</td>
+      </tr>
+      <tr>
+        <td><code>allow_insecure</code></td>
+        <td>Boolean</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> makes the JWT token optional.</td>
+      </tr>
+      <tr>
+        <td><code>disabled</code></td>
+        <td>Boolean</td>
+        <td>Default: <code>false</code>
+          <br />
+           Setting this to <code>true</code> disables the Playback Right, allowing playback for everyone.</td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td>String</td>
+        <td>Optional playback right name</td>
+      </tr>
+  </tbody>
+</table>
 
 </section>
 

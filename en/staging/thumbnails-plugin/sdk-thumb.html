@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <meta name="robots" content="noindex">
+  	<!-- change title to match the h1 heading -->
+  	<title>Thumbnail Scrubbing with the Native SDKs</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/normalize.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
+    <script src="//use.edgefonts.net/source-code-pro.js"></script>
+    <link rel="stylesheet" href="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.css">
+    <link rel="stylesheet" href="//docs.brightcove.com/en/styles/template-less/css/bcls-doc.css">
+    <link rel="stylesheet" href="/en/styles/foundation-fixes.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+
+<body>
+	<!-- header navbar -->
+	<div id="navWrapper" class="fixed"></div>
+	<!-- breadcrumbs -->
+	<nav id="breadCrumbWrapper" class="breadcrumbs show-for-medium-up"></nav>
+	<!-- search -->
+	<div id="searchModal" class="reveal-modal" data-reveal></div>
+	<!-- content -->
+	<div class="row">
+		<div class="sidebar large-2 columns show-for-large-up">
+			<div id="sidenav" class="side-nav"></div>
+		</div>
+		<div id="main" class="large-10 small-12 columns">
+			<h1>Thumbnail Scrubbing with the Native SDKs</h1>
+      <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
+      <summary>In this topic, you will learn about thumbnail scrubbing with the Brightcove Native SDKs.</summary>
+      <!-- <aside class="bcls-aside bcls-aside--information">The content in this document applies to Video Cloud only.</aside> -->
+
+
+	    <!-- BEGIN DRUPAL CONTENT -->
+
+  <article class="bcls-article">
+<section class="bcls-section">
+<h2 id="Overview">Overview</h2>
+
+<p>Thumbnail scrubbing allows users to drag the playhead along the timeline and view thumbnails as a preview of the associated content. This gives users the ability to quickly navigate a video file and find the content that they are interested in.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Requirements">Requirements</h2>
+
+<p>The following requirements are needed for thumbnail scrubbing with the Brightcove Native SDKs:</p>
+<h3>Device OS version</h3>
+<ul>
+  <li>
+    Android 6.0+
+  </li>
+  <li>
+    iOS 11.0+
+  </li>
+</ul>
+
+<h3>Brightcove Native SDK version</h3>
+<ul>
+  <li>
+    Native SDK for Android 6.12.0+
+  </li>
+  <li>
+    Native SDK for iOS 6.7.4+
+  </li>
+</ul>
+
+<h3>Platform</h3>
+<ul>
+  <li>
+    Account enabled for Dynamic Delivery and Thumbnail scrubbing
+  </li>
+  <li>
+    <p>
+      Supported with the Brightcove Playback API v2 (PAPI v2)
+    </p>
+    <pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
+  </li>
+</ul>
+</section>
+
+<section class="bcls-section">
+<h2 id="Enable_thumbnail_scrubbing">Enable thumbnail scrubbing</h2>
+
+<p>Thumbnail scrubbing is a paid add-on for your account. Contact your account manager to enable this feature.</p>
+</section>
+
+<section class="bcls-section">
+<h2 id="Android_Implementation">Android Implementation</h2>
+
+<p>To use thumbnail scrubbing with the Native SDK for Android, follow these steps:</p>
+<ol class="bcls-tasklist">
+  <li>
+    <p>
+      In the <strong>build.gradle</strong> file, add the following Gradle dependency:
+    </p>
+    <pre><code class="language-java">implementation &quot;com.brightcove.player:android-thumbnail-plugin:6.13.0&quot;</code></pre>
+  </li>
+  <li>
+    <p>
+      In the <strong>MainActivity.java</strong> file, create an instance of the <code>ThumbnailComponent</code>.
+    </p>
+    <pre><code class="language-java">ThumbnailComponent thumbnailComponent = new ThumbnailComponent(brightcoveVideoView);</code></pre>
+  </li>
+  <li>
+    <p>
+      Setup the preview media controller.
+    </p>
+    <pre><code class="language-java">thumbnailComponent.setupPreviewThumbnailController();</code></pre>
+  </li>
+</ol>
+
+<h3>Additional steps for SSAI</h3>
+<p>
+  There are additional steps if you are using Server-Side Ad Insertion (SSAI).
+</p>
+<p>
+  To use the Thumbnail plugin with the SSAI plugin, you need to account for offsets introduced by the stitched ads in the content.
+</p>
+<ol class="bcls-tasklist">
+  <li>
+    Return to your <strong>MainActivity.java</strong> file.
+  </li>
+  <li>
+    Listen for the <code>SSAIEventType.AD_DATA_READY</code> event.
+  </li>
+  <li>
+    Retrieve the SSAI Video’s timeline object.
+  </li>
+  <li>
+    <p>
+      Create an instance of <code>SSAIThumbnailDocumentCreatorWrapper</code> with the following parameters:
+    </p>
+    <ul>
+      <li>
+        A <code>ThumbnailDocumentCreator</code>. You can use the <code>DefaultThumbnailDocumentCreator</code>.
+      </li>
+      <li>
+        The SSAI Video’s timeline object.
+      </li>
+      <li>
+        Set the <code>ThumbnailDocumentCreator</code> to the <code>ThumbnailPlugin</code>.
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>
+      Here is a code example:
+    </p>
+    <pre class="line-numbers"><code class="language-java">eventEmitter.once(AD_DATA_READY, event -&gt; {
+  Timeline timeline = event.getProperty(SSAIEvent.VMAP_TIMELINE, Timeline.class);
+  ThumbnailDocumentCreator creator = new SSAIThumbnailDocumentCreatorWrapper(new   DefaultThumbnailDocumentCreator(), timeline);
+  thumbnailComponent.setThumbnailDocumentCreator(creator);
+});</code></pre>
+  </li>
+</ol>
+</section>
+
+<section class="bcls-section">
+<h2 id="iOS_Implementation">iOS Implementation</h2>
+
+<p>There is a new <code>BCOVPlaybackController</code> property that enables or disables thumbnail scrubbing for the playback controller. The default value is <code>YES</code>. For details, see the <a href="https://docs.brightcove.com/ios-sdk/Protocols/BCOVPlaybackController.html#//api/name/thumbnailScrubbingEnabled">Native SDK for iOS reference</a>.</p>
+<pre class="line-numbers"><code class="language-objectivec">/**
+ * Enables or disables thumbnail scrubbing for this playback controller.
+ *
+ * Default value is YES
+ */
+@property (nonatomic, readwrite, assign) BOOL thumbnailScrubbingEnabled;</code></pre>
+</section>
+
+<section class="bcls-section">
+<h2 id="Notes">Notes</h2>
+
+<p>The following notes apply to thumbnail scrubbing with the Native SDKs:.</p>
+<ul>
+  <li>
+    Thumbnail scrubbing is not supported with offline playback
+  </li>
+</ul>
+</section>
+
+</article>
+
+<!-- END DRUPAL CONTENT -->
+  </div>
+</div>
+<!-- bcl scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="/en/scripts/docs-nav-data.min.js"></script>
+<script src="/en/scripts/bcls-doc-site-v3.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/bcls-utils.js"></script>
+<script src="//learning-services-media.brightcove.com/doc-assets/js/prism/prism.js"></script>
+<script>
+$(document).foundation();
+</script>
+<!-- Any scripts specific to page samples should go here -->
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/https-fix.js"></script>
+<script src="https://learning-services-media.brightcove.com/doc-assets/js/support-feedback.js"></script><script src="https://learning-services-media.brightcove.com/doc-assets/site-assets/js/site/feedback-docs.js"></script>
+</body>
+</html>

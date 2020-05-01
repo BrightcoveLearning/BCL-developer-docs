@@ -217,46 +217,17 @@
   <li>
     Before the closing <code>body</code> tag, add a <code>script</code> block.
   </li>
-	<li>
+  <li>
     <p>
       In the script block you just created, add the following:
     </p>
-    <p>
-      After the plugin is initialized and the player is ready, you will pass thumbnail image sources to the plugin in a WebVTT file using the <code>addRemoteTextTrack()</code> method. When calling the method with the thumbnail file, you must also set:
-    </p>
     <ul>
       <li>
-        Set the text track <code>kind</code> property to <code>metadata</code>
-      </li>
-      <li>
-        Set the text track <code>label</code> property to <code>thumbnails</code>
-      </li>
-      <li>
-        Set the text track <code>mode</code> property to <code>hidden</code>
-      </li>
-      <li>
-        Set the <code>addRemoteTextTrack()</code> <code>manualCleanup</code> option to <code>false</code> so the track is automatically removed when the source changes
+
       </li>
     </ul>
-    <br />
     <p>
-      Your code should be similar to this:
-    </p>
-    <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
-
-player.thumbnails();
-
-  player.addRemoteTextTrack({
-    src: 'thumbnails.vtt',
-    kind: 'metadata',
-    label: 'thumbnails',
-    mode: 'hidden'
-  }, false);
-});</code></pre>
-  </li>
-  <li>
-    <p>
-      Optionally, you can use a remote video source. Replace the <code>mime-type</code> and <code>sourceUrl</code> with your own values.
+      Replace the <code>mime-type</code> and <code>sourceUrl</code> with your own values.
     </p>
     <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
 
@@ -276,6 +247,44 @@ player.ready(() =&gt; {
   }, false);
 });</code></pre>
   </li>
+	<li>
+    <p>
+      In the same script block, add the following:
+    </p>
+    <p>
+      After the plugin is initialized and the player is ready, you will pass thumbnail image sources to the plugin in a WebVTT file using the <code>addRemoteTextTrack()</code> method. When calling the method with the thumbnail file, you must also set:
+    </p>
+    <ul>
+      <li>
+        <code>kind</code> - Set value to <code>metadata</code>
+      </li>
+      <li>
+        <code>label</code> - Set value to <code>thumbnails</code>
+      </li>
+      <li>
+        <code>mode</code> - Set value to <code>hidden</code>
+      </li>
+      <li>
+        <code>addRemoteTextTrack()</code> <code>manualCleanup</code> option - Set value to <code>false</code> so that the track is automatically removed when the source changes
+      </li>
+    </ul>
+    <br />
+    <p>
+      Your code should be similar to this:
+    </p>
+    <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
+
+player.thumbnails();
+
+  player.addRemoteTextTrack({
+    src: 'thumbnails.vtt',
+    kind: 'metadata',
+    label: 'thumbnails',
+    mode: 'hidden'
+  }, false);
+});</code></pre>
+  </li>
+
 </ol>
 
 </section>

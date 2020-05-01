@@ -92,9 +92,10 @@
  data-player="hyQW6GByl"
  data-embed="default"
  controls=""
- data-video-id="5550679964001"
+ data-video-id="6152433783001"
  data-playlist-id=""
  data-application-id=""
+ muted
  width="640" height="360"></video-js>
 <script src="https://players.brightcove.net/1752604059001/hyQW6GByl_default/index.min.js"></script>
 
@@ -221,30 +222,37 @@
     <p>
       In the script block you just created, add the following:
     </p>
-    <ul>
-      <li>
-
-      </li>
-    </ul>
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Property</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>type</code></td>
+          <td>The mime-type for your video</td>
+        </tr>
+        <tr>
+          <td><code>src</code></td>
+          <td>The source URL for your video</td>
+        </tr>
+      </tbody>
+    </table>
     <p>
-      Replace the <code>mime-type</code> and <code>sourceUrl</code> with your own values.
+      Your code should be similar to this:
     </p>
+
     <pre class="line-numbers"><code class="notranslate language-javascript">var player = videojs('my-player-id');
 
 player.thumbnails();
 
 player.ready(() =&gt; {
   player.src({
-    type: 'mime-type',
-    src: sourceUrl
+    type: 'video/mp4',
+    src: '//solutions.brightcove.com/bcls/videos/Great Blue Heron.mp4'
   });
-
-  player.addRemoteTextTrack({
-    src: 'thumbnails.vtt',
-    kind: 'metadata',
-    label: 'thumbnails',
-    mode: 'hidden'
-  }, false);
 });</code></pre>
   </li>
 	<li>
@@ -254,21 +262,38 @@ player.ready(() =&gt; {
     <p>
       After the plugin is initialized and the player is ready, you will pass thumbnail image sources to the plugin in a WebVTT file using the <code>addRemoteTextTrack()</code> method. When calling the method with the thumbnail file, you must also set:
     </p>
-    <ul>
-      <li>
-        <code>kind</code> - Set value to <code>metadata</code>
-      </li>
-      <li>
-        <code>label</code> - Set value to <code>thumbnails</code>
-      </li>
-      <li>
-        <code>mode</code> - Set value to <code>hidden</code>
-      </li>
-      <li>
-        <code>addRemoteTextTrack()</code> <code>manualCleanup</code> option - Set value to <code>false</code> so that the track is automatically removed when the source changes
-      </li>
-    </ul>
-    <br />
+    <table class="bcls-table">
+      <thead class="bcls-table__head">
+        <tr>
+          <th>Property</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody class="bcls-table__body">
+        <tr>
+          <td><code>src</code></td>
+          <td>The location of your WebVTT file with thumbnail images</td>
+        </tr>
+        <tr>
+          <td><code>kind</code></td>
+          <td>Set to <code>metadata</code></td>
+        </tr>
+        <tr>
+          <td><code>label</code></td>
+          <td>Set to <code>thumbnails</code></td>
+        </tr>
+        <tr>
+          <td><code>mode</code></td>
+          <td>Set to <code>hidden</code></td>
+        </tr>
+        <tr>
+          <td><code>addRemoteTextTrack()</code> <code>manualCleanup</code></td>
+          <td>Set to <code>false</code> so that the track is automatically removed when the source changes</td>
+        </tr>
+
+      </tbody>
+    </table>
+
     <p>
       Your code should be similar to this:
     </p>
@@ -276,16 +301,60 @@ player.ready(() =&gt; {
 
 player.thumbnails();
 
-  player.addRemoteTextTrack({
+  player.ready(() =&gt; {
+    player.src({
+      type: 'video/mp4',
+      src: '//solutions.brightcove.com/bcls/videos/Great Blue Heron.mp4'
+    });
+
+<span class="bcls-highlight">  player.addRemoteTextTrack({
     src: 'thumbnails.vtt',
     kind: 'metadata',
     label: 'thumbnails',
     mode: 'hidden'
-  }, false);
+  }, false);</span>
 });</code></pre>
   </li>
-
 </ol>
+
+    <!-- <p>
+      Here is a working example:
+    </p>
+    <video-js
+  	 id="myPlayerID"
+  	 data-account="1752604059001"
+  	 data-player="default"
+  	 data-embed="default"
+  	 controls=""
+     data-video-id=""
+  	 data-playlist-id=""
+  	 data-application-id=""
+  	 muted
+  	 width="640" height="360"></video-js>
+  	<script src="https://players.brightcove.net/1752604059001/default_default/index.min.js"></script> -->
+
+  	<!-- Script for thumbnails plugin -->
+  	<!-- <script src="//players.brightcove.net/videojs-thumbnails/1/videojs-thumbnails.js"></script>
+
+  	<script>
+  		var player = bc('myPlayerID');
+
+  		player.thumbnails();
+
+  		player.ready(() => {
+  			player.src({
+  				type: 'video/mp4',
+  				src: '//solutions.brightcove.com/bcls/videos/Great Blue Heron.mp4'
+  			});
+
+  			player.addRemoteTextTrack({
+  				src: 'thumbnails.vtt',
+  				kind: 'metadata',
+  				label: 'thumbnails',
+  				mode: 'hidden'
+  			}, false);
+  		});
+  	</script> -->
 
 </section>
 

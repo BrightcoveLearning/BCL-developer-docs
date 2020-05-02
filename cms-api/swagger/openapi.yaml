@@ -595,8 +595,8 @@ paths:
     delete:
       tags:
         - Videos
-      summary: Update a Video Variant
-      description: 'Updates a language variant for a video metadata'
+      summary: Deletes a Video Variant
+      description: 'Deletes a language variant for a video metadata'
       operationId: deleteVideoVariant
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -5513,7 +5513,7 @@ components:
       description: 'Search string - see [search guide](/cms/searching/cms-and-playback-apis-video-search-v2.html) for details'
       explode: true
       in: query
-      name: q
+      name: query
       schema:
         example: '+tags:bird'
         type: string
@@ -6060,7 +6060,7 @@ components:
       title: geo
       type: object
     Image:
-      description: map of poster or thumbnail properties
+      description: map of image properties
       properties:
         asset_id:
           description: asset id for the image
@@ -7220,25 +7220,21 @@ components:
       title: VideoFields
       type: object
     VideoImages:
-      description: map of image maps
+      description: |-
+        map of image maps - the map name is in the form `label.language` where the label is one of `poster`, `thumbnail`, `portrait`, `square`, `wide` or `ultra-wide`, and the `language` is a language identifier such as 'en', 'de', or `ko`
       example:
-        poster:
+        wide.fr:
           sources:
             - height: 720
               src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg'
               width: 1280
           src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/1280x720/24s816ms/match/image.jpg'
-        thumbnail:
+        poster.en:
           sources:
-            - height: 90
+            - height: 1080
               src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg'
-              width: 160
+              width: 1920
           src: 'https://cf-images.us-east-1.prod.boltdns.net/v1/jit/57838016001/853641cb-d66b-4f08-bb02-8489b5fba897/main/160x90/24s816ms/match/image.jpg'
-      properties:
-        poster:
-          $ref: '#/components/schemas/Image'
-        thumbnail:
-          $ref: '#/components/schemas/Image'
       readOnly: true
       title: VideoImages
       type: object

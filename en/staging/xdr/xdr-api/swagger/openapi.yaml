@@ -1,0 +1,383 @@
+openapi: 3.0.0
+x-bc-implicit-head: true
+x-bc-implicit-options: true
+x-bc-upstream: 'http://backend_server'
+info:
+  title: Devices API Reference
+  description: >-
+    Reference for the Brightcove Devices API. This API allows you to read, update and delete devices associated with a user.
+
+     **Base URL**: https://playback-auth.api.brightcove.com/v1/
+  version: 1.0.0
+  x-bc-access: public
+servers:
+  - url: 'https://playback-auth.api.brightcove.com/v1/'
+    variables: {}
+tags:
+  - name: Devices
+    description: Operations for reading, updating and deleting user devices.
+paths:
+  '/accounts/{account_id}/users/{user_id}/devices':
+    get:
+      tags:
+        - Devices
+      summary: Get all user devices
+      description: 'Get all user devices'
+      operationId: GetDevices
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/read
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get all devices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/devices"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in {account_id}",
+                  },
+                ]
+        '404':
+          description: Devices were not found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Devices not found",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICES_RETRIEVE_FAILURE",
+                    "message": "Cannot retrieve devices",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Devices
+      summary: Delete all user devices
+      description: 'Delete all user devices'
+      operationId: DeleteDevices
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: All devices deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in {account_id}",
+                  },
+                ]
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICES_DELETE_FAILURE",
+                    "message": "Cannot delete devices",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/accounts/{account_id}/users/{user_id}/devices/{device_id}':
+    patch:
+      tags:
+        - Devices
+      summary: Update a user device
+      description: 'Update a specific user device'
+      operationId: UpdateADevice
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/DeviceID'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "ILLEGAL_VALUE",
+                    "message": "Illegal value",
+                  },
+                ]
+        '404':
+          description: Device Not Found
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "NOT_FOUND",
+                    "error_subcode": "RESOURCE_NOT_FOUND",
+                    "message": "Device not found",
+                  },
+                ]
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICE_STORE_FAILURE",
+                    "message": "Cannot patch device name",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Devices
+      summary: Delete a user device
+      description: 'Delete a specific user device'
+      operationId: DeleteADevice
+      security:
+        - BC_OAuth2:
+          - video-cloud/playback-auth/devices/write
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/DeviceID'
+        - name: Content-Type
+          in: header
+          description: 'Content-Type: application/json'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Device deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "BAD_REQUEST",
+                    "error_subcode": "INVALID_ACCOUNT_ID",
+                    "message": "Invalid characters in {account_id}",
+                  },
+                ]
+        '404':
+          description: >-
+            RESOURCE_NOT_FOUND: The api could not find the resource you requested
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "error_code": "SERVER_ERROR",
+                    "error_subcode": "DEVICE_DELETE_FAILURE",
+                    "message": "Cannot delete device",
+                  },
+                ]
+      deprecated: false
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+
+components:
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      description: Video Cloud account id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    PlaybackRightID:
+      name: playback_rights_id
+      in: path
+      description: The playback right id
+      required: true
+      style: simple
+      schema:
+        type: string
+    UserID:
+      name: user_id
+      in: path
+      description: user unique id
+      required: true
+      style: simple
+      schema:
+        type: string
+    DeviceID:
+      name: device_id
+      in: path
+      description: end user device unique id
+      required: true
+      style: simple
+      schema:
+        type: string
+  schemas:
+    device:
+      type: object
+      properties:
+        id:
+          description: "A unique end-user device id"
+          type: string
+          example: "device01"
+        created_at:
+          description: "Creation date"
+          type: integer
+          example: 1571242764
+        updated_at:
+          description: "Updated date"
+          type: integer
+          example: 1571242764
+        name:
+          description: "A name for the device"
+          type: string
+          example: "my device"
+        user_agent:
+          description: "The user agent for the client"
+          type: string
+          example: "Client's user agent"
+    devices:
+      type: array
+      items:
+        $ref: "#/components/schemas/device"
+
+  examples:
+    response_body_example:
+      value: [
+        "device_01","device_02"
+        ]
+
+  securitySchemes:
+    BC_OAuth2:
+      type: oauth2
+      description: >-
+        Brightcove OAuth API. To learn more, see the [OAuth Overview](https://apis.support.brightcove.com/oauth/) or the [Getting Access Tokens](https://apis.support.brightcove.com/oauth/code-samples/oauth-api-sample-get-access-token.html) document.
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
+          scopes:
+            video-cloud/playback-auth/devices/read: Read Devices
+            video-cloud/playback-auth/devices/write: Write Devices

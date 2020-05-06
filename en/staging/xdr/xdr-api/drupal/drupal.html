@@ -1,0 +1,748 @@
+<div id="sidenav" class="span2">
+<nav id="scrollingNav">
+  <ul class="sidenav nav nav-list">
+          <li class="nav-header" data-group="Policy"><a href="#api-Policy">Policy</a></li>
+        <li data-group="Policy" data-name="Create_a_Policy_Key" data-version="1.0.0" class="is-new">
+          <a href="#api-Policy-Create_a_Policy_Key">Create a Policy Key</a>
+        </li>
+        <li data-group="Policy" data-name="Get_Policy" data-version="1.0.0" class="is-new">
+          <a href="#api-Policy-Get_Policy">Get Policy</a>
+        </li>
+  </ul>
+</nav>
+</div>
+      <div id="project">
+  <div class="pull-left">
+
+    <h1>Policy API Reference</h1>
+    <p>Reference for the Brightcove Policy API, used to create policy keys to access the Playback API. This API is used to generate keys to access the Playback API outside the context of a Brightcove Player. <br><br><strong>Notes:</strong></p><ul><li>Policy keys are generated automatically for Brightcove Players.</li><li>To test API requests, you can use our <a href="/node/17910" target="_blank">API Testing Tools</a></li></ul><p></p>
+  </div>
+  <div class="pull-right">
+    <div class="btn-group">
+      <button id="version" class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+        <strong>1.0.0</strong> <span class="caret"></span>
+      </button>
+      <ul id="versions" class="dropdown-menu open-left">
+          <li><a id="compareAllWithPredecessor" href="#">Compare all with predecessor</a></li>
+          <li class="divider"></li>
+          <li class="disabled"><a href="#">show up to version:</a></li>
+        <li class="version"><a href="#">1.0.0</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+      <div id="header"></div>
+      <div id="sections">
+  <section id="api-Policy">
+    <h1>Policy</h1>
+      <div id="api-Policy-Create_a_Policy_Key">
+
+  <article id="api-Policy-Create_a_Policy_Key-1.0.0" data-group="Policy" data-name="Create_a_Policy_Key" data-version="1.0.0">
+    <div class="pull-left">
+      <h1>Policy - Create a Policy Key</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>1.0.0</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">1.0.0</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+      <p></p><p>Create a new policy key to access the Playback API</p><p></p>
+
+    <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://policy.api.brightcove.com/v1/accounts/:account_id/policy_keys</span></code></pre>
+
+
+
+
+      <h2>Header</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">Content-Type</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Content-Type: application/json</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Authorization</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Authorization: Bearer access_token (see <a href="https://support.brightcove.com/getting-access-tokens">Getting Access Tokens</a>)</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+      <h2>Path Parameters</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">account_id</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Video Cloud account ID</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Request Body Fields</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">key-data</td>
+              <td>
+                Object
+              </td>
+            <td>
+            <p>Data for the policy key</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;account-id</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Video Cloud account id</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;apis <span class="label label-optional">optional</span></td>
+              <td>
+                String[]
+              </td>
+            <td>
+            <p>Array of APIs that are permitted for this key (currently <code>"search"</code> is the only one available - this must be included to use the <a href="https://brightcovelearning.github.io/Brightcove-API-References/playback-api/v1/doc/index.html#api-videoGroup-Get_Videos">search functionality</a> for the Playback API)</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;allowed-domains <span class="label label-optional">optional</span></td>
+              <td>
+                String[]
+              </td>
+            <td>
+            <p>For domain restriction, the domains this key will work on</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;require-ad-config <span class="label label-optional">optional</span></td>
+              <td>
+                Boolean
+              </td>
+            <td>
+            <p>Whether Playback API requests require an <code>ad-config-id</code> URL parameter for server-side ad insertion</p>
+            <p class="default-value">Default value: <code>false</code></p>
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#parameter-examples-Policy-Create_a_Policy_Key-1_0_0-0">Create Policy Request Body Examples:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="parameter-examples-Policy-Create_a_Policy_Key-1_0_0-0">
+        <pre class="prettyprint language-json prettyprinted" data-type="json" style=""><code><span class="pun">{</span><span class="pln">
+  </span><span class="str">"key-data"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="str">"account-id"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"1752604059001"</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">"require-ad-config"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">"apis"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+                </span><span class="str">"search"</span><span class="pln">
+              </span><span class="pun">],</span><span class="pln">
+     </span><span class="str">"allowed-domains"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+       </span><span class="str">"http://support.brightcove.com"</span><span class="pun">,</span><span class="pln">
+       </span><span class="str">"https://solutions.brightcove.com"</span><span class="pln">
+     </span><span class="pun">]</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+      <h2>Response Fields</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">key_string</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>The policy key string</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">key-data</td>
+              <td>
+                Object
+              </td>
+            <td>
+            <p>Map of key data prescribing the policy</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;account-id</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>The Video Cloud account id</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;apis</td>
+              <td>
+                Sting[]
+              </td>
+            <td>
+            <p>Array of apis permitted for the key</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;allowed-domains</td>
+              <td>
+                Sting[]
+              </td>
+            <td>
+            <p>Array of domains allowed to use this key</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;require-ad-config</td>
+              <td>
+                Boolean
+              </td>
+            <td>
+            <p>Whether Playback API requests require an <code>ad-config-id</code> URL parameter for server-side ad insertion</p>
+            <p class="default-value">Default value: <code>false</code></p>
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-Policy-Create_a_Policy_Key-1_0_0-0">Success Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-Policy-Create_a_Policy_Key-1_0_0-0">
+        <pre class="prettyprint language-json prettyprinted" data-type="json" style=""><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"key-string"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"BCpkAD123456789AbcdEFghIjklmnOP"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"key-data"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="str">"account-id"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"1752604059001"</span><span class="pun">,</span><span class="pln">
+        </span><span class="str">"require-ad-config"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">,</span><span class="pln">
+        </span><span class="str">"apis"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+            </span><span class="str">"search"</span><span class="pln">
+         </span><span class="pun">],</span><span class="pln">
+        </span><span class="str">"allowed-domains"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+            </span><span class="str">"http://support.brightcove.com"</span><span class="pun">,</span><span class="pln">
+            </span><span class="str">"https://solutions.brightcove.com"</span><span class="pln">
+         </span><span class="pun">]</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+      <h2>Error 4xx</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UNAUTHORIZED</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>401: Authentication failed; check to make sure your policy key is correct</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">RESOURCE_NOT_FOUND</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>404: The api couldn't find the resource you requested</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">NOT_AVAILABLE</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>400: The resource you are requesting is temporarily unavailable</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Error 5xx</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UNKNOWN</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>500: Issue in Brightcove system; try again later.</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">TIMEOUT</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>500: Server likely too busy; try again later.</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-Policy-Create_a_Policy_Key-1_0_0-0">404 Error Response</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-Policy-Create_a_Policy_Key-1_0_0-0">
+        <pre class="prettyprint language-json prettyprinted" data-type="json" style=""><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">[</span><span class="pln">
+    </span><span class="pun">{</span><span class="pln">
+        </span><span class="str">"error_code"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"RESOURCE_NOT_FOUND"</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+
+
+
+
+  </article>
+
+      </div>
+      <div id="api-Policy-Get_Policy">
+
+  <article id="api-Policy-Get_Policy-1.0.0" data-group="Policy" data-name="Get_Policy" data-version="1.0.0">
+    <div class="pull-left">
+      <h1>Policy - Get Policy</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>1.0.0</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">1.0.0</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+      <p></p><p>Get a policy key associated with a policy key string</p><p></p>
+
+    <pre class="prettyprint language-html prettyprinted" data-type="get" style=""><code><span class="pln">https://policy.api.brightcove.com/v1/accounts/:account_id/policy_keys/:key_string</span></code></pre>
+
+
+
+
+      <h2>Header</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">Content-Type</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Content-Type: application/json</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Authorization</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Authorization: Bearer access_token (see <a href="https://support.brightcove.com/getting-access-tokens">Getting Access Tokens</a>)</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+      <h2>Path Parameters</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">account_id</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>Video Cloud account ID</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">key_string</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>the key string for the policy</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#parameter-examples-Policy-Get_Policy-1_0_0-0">Get Policy Example:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="parameter-examples-Policy-Get_Policy-1_0_0-0">
+        <pre class="prettyprint language-Url prettyprinted" data-type="Url" style=""><code><span class="pln">https</span><span class="pun">:</span><span class="com">//policy.api.brightcove.com/v1/accounts/57838016001/policy_keys/BCpkADawqM0tR9WJhqqyg4t8NgSulRVnfHyh6cL_U0m7RaoIq19WWR-8EPiWY1ift8zHF6Z3sfTyuXv6LY8bfTAfvzVLb1TrwGTOBJGPwWJ9dJUkny7lUoN1ygk</span></code></pre>
+        </div>
+      </div>
+
+
+
+      <h2>Response Fields</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">key_string</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>The policy key string</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">key-data</td>
+              <td>
+                Object
+              </td>
+            <td>
+            <p>Map of key data prescribing the policy</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;account-id</td>
+              <td>
+                String
+              </td>
+            <td>
+            <p>The Video Cloud account id</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;apis</td>
+              <td>
+                Sting[]
+              </td>
+            <td>
+            <p>Array of apis permitted for the key</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;allowed-domains</td>
+              <td>
+                Sting[]
+              </td>
+            <td>
+            <p>Array of domains allowed to use this key</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">&nbsp;&nbsp;require-ad-config</td>
+              <td>
+                Boolean
+              </td>
+            <td>
+            <p>Whether Playback API requests require an <code>ad-config-id</code> URL parameter for server-side ad insertion</p>
+            <p class="default-value">Default value: <code>false</code></p>
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-Policy-Get_Policy-1_0_0-0">Success Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-Policy-Get_Policy-1_0_0-0">
+        <pre class="prettyprint language-json prettyprinted" data-type="json" style=""><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"key-string"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"BCpkAD123456789AbcdEFghIjklmnOP"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"key-data"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="str">"account-id"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"1752604059001"</span><span class="pun">,</span><span class="pln">
+        </span><span class="str">"require-ad-config"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">,</span><span class="pln">
+        </span><span class="str">"apis"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+            </span><span class="str">"search"</span><span class="pln">
+         </span><span class="pun">],</span><span class="pln">
+        </span><span class="str">"allowed-domains"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+            </span><span class="str">"http://support.brightcove.com"</span><span class="pun">,</span><span class="pln">
+            </span><span class="str">"https://solutions.brightcove.com"</span><span class="pln">
+         </span><span class="pun">]</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+      <h2>Error 4xx</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UNAUTHORIZED</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>401: Authentication failed; check to make sure your policy key is correct</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">RESOURCE_NOT_FOUND</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>404: The api couldn't find the resource you requested</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">NOT_AVAILABLE</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>400: The resource you are requesting is temporarily unavailable</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Error 5xx</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UNKNOWN</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>500: Issue in Brightcove system; try again later.</p>
+
+
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">TIMEOUT</td>
+              <td>
+                json
+              </td>
+            <td>
+            <p>500: Server likely too busy; try again later.</p>
+
+
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-Policy-Get_Policy-1_0_0-0">404 Error Response</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-Policy-Get_Policy-1_0_0-0">
+        <pre class="prettyprint language-json prettyprinted" data-type="json" style=""><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">[</span><span class="pln">
+    </span><span class="pun">{</span><span class="pln">
+        </span><span class="str">"error_code"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"RESOURCE_NOT_FOUND"</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+  </article>

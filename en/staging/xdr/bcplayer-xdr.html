@@ -50,7 +50,6 @@
 <p>
   Let's say that you start watching a video on your mobile device. Later, you can continue watching the same video with a player on your web browser. Playback will continue where you left off, so you won't miss a thing.
 </p>
-
 </section>
 
 <section class="bcls-section">
@@ -66,7 +65,6 @@
     For server-side ad insertion (SSAI), you must use the <strong>videojs-ssai</strong> plugin version 1.10.0+
   </li> -->
 </ul>
-
 </section>
 
 <section class="bcls-section">
@@ -93,7 +91,6 @@
     Make sure the videos you are using are ingested for Dynamic Delivery
   </li>
 </ul>
-
 </section>
 
 <section class="bcls-section">
@@ -111,7 +108,6 @@
     <a href="#Resume_playback">Resume playback</a> on a Brightcove Player
   </li>
 </ol>
-
 </section>
 
 <section class="bcls-section">
@@ -122,9 +118,9 @@
 <ol class="bcls-tasklist__restart">
   <li>
     <p>
-      Set the user identifier for Brightcove analytics. You will do this using the <code>setUser()</code> method. For example:
+      Even though viewer data is sent to Brightcove analytics automatically, you need to set the user identifier. To do this, use the <code>setUser()</code> method. For example:
     </p>
-    <pre class="line-numbers"><code class="language-javascript">myPlayer.bcAnalytics.client.setUser('user01');</code></pre>
+    <pre class="line-numbers"><code class="language-javascript">myPlayer.bcAnalytics.client.setUser('<span class="bcls-input">your user id</span>');</code></pre>
   </li>
   <li>
     <p>
@@ -151,11 +147,13 @@
   </li>
   <li>
     <p>
+      When the <code>setUser()</code> method is used, the value is not hashed and will be sent in the clear with all subsequent beacons.
+    </p>
+    <p>
       Note that the <code>player_init</code> event will not include the <code>user</code> field in this case, but all <code>video_*</code> events should include it.
     </p>
   </li>
 </ol>
-
 </section>
 
 <section class="bcls-section">
@@ -173,44 +171,46 @@
     </p>
   </li>
 </ol>
-
 </section>
 
 <section class="bcls-section">
 <h2 id="Resume_playback">Resume playback</h2>
 
-<p>If you choose to use your own thumbnail images, you can create a custom WebVTT file and pass it to the player using the <code>player.addRemoteTextTrack()</code> method. Here are the steps:</p>
+<p>Once you get the user playback position from the XDR API, you can resume playback from that point.</p>
 
 <ol class="bcls-tasklist__restart">
 	<li>
     <p>
-      Create a <strong>.vtt</strong> file that follows the standard WebVTT format. Replace caption text with the URL for each thumbnail image. It may look something like this:
+      With the user playback position from the previous section, set the playhead position using the <code>currentTime()</code> method.
     </p>
-    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="WebVTT file" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/thumbnails/webvtt-file.png" />
-  	<figcaption class="bcls-caption--image">WebVTT file</figcaption>
-  	</figure>
+    <p>
+      Here is an example:
+    </p>
+    <pre class="line-numbers"><code class="language-javascript">// The specific event to use may or may not be canplay. It's worth
+// some experimentation
+player.one('canplay', function() {
+
+  // This initialPlayhead variable will have to come from the publisher's
+  // custom integration.
+  player.currentTime(<span class="bcls-input">your user playhead position</span>);
+});</code></pre>
   </li>
-	<li>In Video Cloud Studio, choose a video ingested for Dynamic Delivery. Copy the Advanced Embed code for a player with version 6.41.0+.</li>
-
+  <li>
+    For playlists and other multi-video scenarios, you may need to write a proxy for the XDR API and fetch the initial playhead for each new video.
+  </li>
 </ol>
-
-<h3>Source code</h3>
-<!-- UPDATE link to GitHub source -->
-<p>
-  For details, see the <a href="https://github.com/BrightcoveLearning/thumbnail-scrubbing/blob/master/webvtt-sample/index.html">complete solution on GitHub</a>.
-</p>
 
 </section>
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Limitations">Limitations</h2>
 
-<p>Here are the limitation associated with the thumbnails plugin.</p>
+<p>Here are the limitation associated with the cross-device resume.</p>
 
 <ul>
 	<li>The current version of this plugin does not support thumbnails on mobile devices.</li>
 </ul>
-</section>
+</section> -->
 
 <!-- <section class="bcls-section">
 <h2 id="Changelog">Changelog</h2>

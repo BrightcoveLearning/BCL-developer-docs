@@ -3,33 +3,40 @@ x-bc-implicit-head: true
 x-bc-implicit-options: true
 x-bc-upstream: 'http://backend_server'
 info:
-  title: Devices API Reference
+  title: Cross-Device Resume (XDR) API Reference
   description: >-
-    Reference for the Brightcove Devices API. This API allows you to read, update and delete devices associated with a user.
+    Reference for the Brightcove Cross-Device Resume (XDR) API. This API allows you to read all of the playheads for a viewer or read the playhead for a specific viewer and video.
 
-     **Base URL**: https://playback-auth.api.brightcove.com/v1/
+     **Base URL**: https://data.brightcove.com
   version: 1.0.0
   x-bc-access: public
 servers:
-  - url: 'https://playback-auth.api.brightcove.com/v1/'
+  - url: 'https://data.brightcove.com/v1/xdr'
     variables: {}
 tags:
-  - name: Devices
-    description: Operations for reading, updating and deleting user devices.
+  - name: XDR
+    description: Operations for reading viewer playhead positions.
 paths:
-  '/accounts/{account_id}/users/{user_id}/devices':
+  '/accounts/{account_id}/playheads/{viewer_id}':
     get:
       tags:
-        - Devices
-      summary: Get all user devices
-      description: 'Get all user devices'
-      operationId: GetDevices
+        - XDR
+      summary: Get viewer playheads
+      description: 'Get all playhead positions for a specific account and viewer'
+      operationId: GetViewerPlayheads
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/devices/read
+          - video-cloud/xdr/read
       parameters:
         - $ref: '#/components/parameters/AccountId'
-        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/ViewerId'
+        - in: query
+          name: limit
+          description: Number of results to return.  1000 is used if no value specified.
+          schema:
+            type: integer
+            maximum: 10000
+          required: false
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -48,47 +55,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Get all devices
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/devices"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in {account_id}",
-                  },
-                ]
-        '404':
-          description: Devices were not found
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "NOT_FOUND",
-                    "error_subcode": "RESOURCE_NOT_FOUND",
-                    "message": "Devices not found",
-                  },
-                ]
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "DEVICES_RETRIEVE_FAILURE",
-                    "message": "Cannot retrieve devices",
-                  },
-                ]
+                $ref: '#/components/schemas/PlayheadsResponse'
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -311,64 +286,53 @@ components:
       explode: false
       schema:
         type: string
-    PlaybackRightID:
-      name: playback_rights_id
+    ViewerId:
+      name: viewer_id
       in: path
-      description: The playback right id
+      description: Id of the viewer whose playheads are being retrieved.
       required: true
-      style: simple
       schema:
         type: string
-    UserID:
-      name: user_id
+    VideoId:
+      name: video_id
       in: path
-      description: user unique id
+      description: Id of the video(s) whose playheads are being retrieved.
       required: true
       style: simple
-      schema:
-        type: string
-    DeviceID:
-      name: device_id
-      in: path
-      description: end user device unique id
-      required: true
-      style: simple
+      explode: false
       schema:
         type: string
   schemas:
-    device:
+    PlayheadsResponse:
       type: object
       properties:
-        id:
-          description: "A unique end-user device id"
+        account_id:
           type: string
-          example: "device01"
-        created_at:
-          description: "Creation date"
+        viewer_id:
+          type: string
+        size:
           type: integer
-          example: 1571242764
-        updated_at:
-          description: "Updated date"
-          type: integer
-          example: 1571242764
-        name:
-          description: "A name for the device"
-          type: string
-          example: "my device"
-        user_agent:
-          description: "The user agent for the client"
-          type: string
-          example: "Client's user agent"
-    devices:
-      type: array
-      items:
-        $ref: "#/components/schemas/device"
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              video_id:
+                type: string
+              timestamp:
+                type: integer
+              playhead_seconds:
+                type: integer
+    # devices:
+    #   type: array
+    #   items:
+    #     $ref: "#/components/schemas/device"
 
-  examples:
-    response_body_example:
-      value: [
-        "device_01","device_02"
-        ]
+  # examples:
+  #   response_body_example:
+  #     value: [
+  #       "device_01","device_02"
+  #       ]
 
   securitySchemes:
     BC_OAuth2:

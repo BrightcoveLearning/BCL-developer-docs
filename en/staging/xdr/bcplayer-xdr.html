@@ -70,7 +70,7 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="Getting_started">Getting started</h2>
+<h2 id="Setup">Setup</h2>
 
 <p>This feature is available to anyone with a Brightcove Video Cloud account.</p>
 <p>
@@ -90,35 +90,88 @@
 <pre><code class="language-html">https://playback.brightcovecdn.com/playback/v1/</code></pre>
   </li> -->
   <li>
-    Make sure the videos you are using are ingested for Dynamic Delivery.
+    Make sure the videos you are using are ingested for Dynamic Delivery
   </li>
 </ul>
 
 </section>
 
 <section class="bcls-section">
+<h2 id="Implementing_cross_device_resume">Implementing cross-device resume</h2>
+
+<p>To implement cross-device resume, follow these steps:</p>
+<ol class="bcls-tasklist">
+  <li>
+    <a href="#Send_user_data">Send user data</a> to Brightcove analytics
+  </li>
+  <li>
+    <a href="#Get_the_user_playback_position">Get the user playback position</a>
+  </li>
+  <li>
+    <a href="#Resume_playback">Resume playback</a> on a Brightcove Player
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
 <h2 id="Send_user_data">Send user data</h2>
 
-<p>The easiest way to configure your player for thumbnail scrubbing is with Video Cloud Studio.</p>
+<p>First, you need to set the user identifier to store user viewing activity.</p>
 
-<ol class="bcls-tasklist">
-	<li>
+<ol class="bcls-tasklist__restart">
+  <li>
     <p>
-      Open the <strong>PLAYERS</strong> module. Use an existing player or create a new one.
+      Set the user identifier for Brightcove analytics. You will do this using the <code>setUser()</code> method. For example:
     </p>
-    <aside class="bcls-aside bcls-aside--information">Remember to use a Brightcove Player version 6.41.0+.</aside>
+    <pre class="line-numbers"><code class="language-javascript">myPlayer.bcAnalytics.client.setUser('user01');</code></pre>
   </li>
-	<li>Select the player link to open the player's properties.</li>
-	<li>In the left navigation, select <strong>Plugins</strong>.</li>
-	<li>
+  <li>
     <p>
-      Expand the <strong>Add a Plugin</strong> dropdown menu, and select <strong>Brightcove plugin</strong>.
+      It is important to set the user id before any source is set on the player. It should be called immediately after initializing the player.
     </p>
-    <figure class="bcls-figure"><img class="bcls-image--no-border" alt="Brightcove Plugin" src="//learning-services-media.brightcove.com/doc-assets/player-development/plugins/thumbnails/bc-plugin.png" />
-  	<figcaption class="bcls-caption--image">Brightcove plugin</figcaption>
-  	</figure>
-  </li>
+    <pre class="line-numbers"><code class="language-javascript">&lt;div style=&quot;max-width: 960px;&quot;&gt;
+  &lt;video-js
+    id=&quot;myPlayer&quot;
+    data-account=&quot;1234567890&quot;
+    data-player=&quot;abc123xyz&quot;
+    data-embed=&quot;default&quot;
+    controls=&quot;&quot;
+    data-application-id=&quot;&quot;
+    class=&quot;vjs-fluid&quot;&gt;&lt;/video-js&gt;
+&lt;/div&gt;
 
+&lt;script
+  src=&quot;//players.brightcove.net/1234567890/abc123xyz_default/index.min.js&quot;&gt;
+&lt;/script&gt;
+
+&lt;script&gt;
+  videojs.getPlayer('myPlayer').bcAnalytics.client.setUser('<span class="bcls-input">your user id</span>');
+&lt;/script&gt;</code></pre>
+  </li>
+  <li>
+    <p>
+      Note that the <code>player_init</code> event will not include the <code>user</code> field in this case, but all <code>video_*</code> events should include it.
+    </p>
+  </li>
+</ol>
+
+</section>
+
+<section class="bcls-section">
+<h2 id="Get_the_user_playback_position">Get the user playback position</h2>
+
+<p>Next, you will get the user playback position from the XDR API.</p>
+
+<ol class="bcls-tasklist__restart">
+  <li>
+    <p>
+      You will need a server-side application to make the REST API request to get the user playback position.
+    </p>
+    <p>
+      For details, see the <a href="">Retrieving User Playback Position from the XDR API</a> document.
+    </p>
+  </li>
 </ol>
 
 </section>

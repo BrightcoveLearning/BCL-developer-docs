@@ -44,16 +44,14 @@
 <article class="bcls-article">
 <section class="bcls-section">
 <h2 id="Overview">Overview</h2>
-
 <p>
-  Brightcove's cross-device resume (XDR) feature lets you start watching a video on one device, pause playback, and continue watching where you left off on a different device.
+  Brightcove's cross-device resume (XDR) feature lets you start watching video on one device, like mobile, and switch to another device, like your home TV. When you switch, you'll continue watching where you left off. This provides a seamless viewing experience for a piece of content.
 </p>
-<!-- <p>
-  Let's say that you start watching a video with a player on your web browser. When you leave your computer, you can resume playback of the same video on your mobile device.
-</p> -->
-
 <p>
-  Brightcove's XDR service stores user viewing activity, including the most recent play position. This information is used to resume playback on any device.
+  The XDR service stores user viewing activity, including the most recent play position. This information is used to resume playback on any device.
+</p>
+<p>
+  Brightcove's XDR feature:
 </p>
 <ul>
   <!-- <li>
@@ -133,23 +131,51 @@
 <ol class="bcls-tasklist">
   <li>
     <p>
-      Once you set the user identifier for a viewer, then the Brightcove Player and the Native SDKs will send viewer information to the XDR API automatically.
+      Even though viewer data is sent to Brightcove analytics automatically, you need to set the user identifier.
     </p>
+    <p>
+      The information sent and stored in the XDR API will include:
+    </p>
+    <ul>
+      <li>
+        userID: end-viewer id
+      </li>
+      <li>
+        assetID: video id
+      </li>
+      <li>
+        <p>
+          playhead: position in seconds
+        </p>
+      </li>
+    </ul>
     <p>
       For details about setting the user, see the linked documents in step 3.
     </p>
   </li>
   <li>
     <p>
-      Get a viewer's playback position by making a request to the XDR API. You will need a server-side application to make the REST API request for the playback position. For details, see the following:
+      Get a viewer's playback position by making a request to the XDR API. You will need a server-side application to make the REST API request for the playback position.
+    </p>
+    <p>
+       The request to the XDR API return the playback position in seconds based on:
     </p>
     <ul>
       <li>
+        accountID: Video Cloud Account id
+      </li>
+      <li>
+        userID: end-viewer id
+      </li>
+      <li>
         <p>
-          <a href="">Cross-Device Resume (XDR) API Reference document</a>
+          assetID: video id
         </p>
       </li>
     </ul>
+    <p>
+      For details, see the <a href="">Cross-Device Resume (XDR) API Reference</a> document
+    </p>
   </li>
   <li>
     <p>

@@ -70,18 +70,20 @@ paths:
         AllowDynamicQueryParameters: false
         AllowDynamicFormParameters: false
         IsMultiContentStreaming: false
-    delete:
+  '/accounts/{account_id}/playheads/{viewer_id}/{video_id}':
+    post:
       tags:
-        - Devices
-      summary: Delete all user devices
-      description: 'Delete all user devices'
-      operationId: DeleteDevices
+        - XDR
+      summary: Get Viewer Video Playhead
+      description: 'Gets the playhead(s) for all specified videos for a viewer'
+      operationId: GetViewerVideoPlayheads
       security:
         - BC_OAuth2:
-          - video-cloud/playback-auth/devices/write
+          - video-cloud/xdr/read
       parameters:
         - $ref: '#/components/parameters/AccountId'
-        - $ref: '#/components/parameters/UserID'
+        - $ref: '#/components/parameters/ViewerId'
+        - $ref: '#/components/parameters/VideoId'
         - name: Content-Type
           in: header
           description: 'Content-Type: application/json'
@@ -99,175 +101,16 @@ paths:
           schema:
             type: string
       responses:
-        '204':
-          description: All devices deleted
-        '400':
-          description: Bad Request
+        '200':
+          description: '200'
           content:
             application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in {account_id}",
-                  },
-                ]
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "DEVICES_DELETE_FAILURE",
-                    "message": "Cannot delete devices",
-                  },
-                ]
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
-  '/accounts/{account_id}/users/{user_id}/devices/{device_id}':
-    patch:
-      tags:
-        - Devices
-      summary: Update a user device
-      description: 'Update a specific user device'
-      operationId: UpdateADevice
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/devices/write
-      parameters:
-        - $ref: '#/components/parameters/AccountId'
-        - $ref: '#/components/parameters/UserID'
-        - $ref: '#/components/parameters/DeviceID'
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '204':
-          description: No content
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "ILLEGAL_VALUE",
-                    "message": "Illegal value",
-                  },
-                ]
-        '404':
-          description: Device Not Found
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "NOT_FOUND",
-                    "error_subcode": "RESOURCE_NOT_FOUND",
-                    "message": "Device not found",
-                  },
-                ]
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "DEVICE_STORE_FAILURE",
-                    "message": "Cannot patch device name",
-                  },
-                ]
-      deprecated: false
-      x-operation-settings:
-        CollectParameters: false
-        AllowDynamicQueryParameters: false
-        AllowDynamicFormParameters: false
-        IsMultiContentStreaming: false
-    delete:
-      tags:
-        - Devices
-      summary: Delete a user device
-      description: 'Delete a specific user device'
-      operationId: DeleteADevice
-      security:
-        - BC_OAuth2:
-          - video-cloud/playback-auth/devices/write
-      parameters:
-        - $ref: '#/components/parameters/AccountId'
-        - $ref: '#/components/parameters/UserID'
-        - $ref: '#/components/parameters/DeviceID'
-        - name: Content-Type
-          in: header
-          description: 'Content-Type: application/json'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: 'Authorization: Bearer access_token (see Getting Access Tokens)'
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Device deleted
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "BAD_REQUEST",
-                    "error_subcode": "INVALID_ACCOUNT_ID",
-                    "message": "Invalid characters in {account_id}",
-                  },
-                ]
-        '404':
-          description: >-
-            RESOURCE_NOT_FOUND: The api could not find the resource you requested
-        '502':
-          description: Bad Gateway
-          content:
-            application/json:
-              example:
-                [
-                  {
-                    "error_code": "SERVER_ERROR",
-                    "error_subcode": "DEVICE_DELETE_FAILURE",
-                    "message": "Cannot delete device",
-                  },
-                ]
+              schema:
+                $ref: '#/components/schemas/PlayheadsResponse'
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
       deprecated: false
       x-operation-settings:
         CollectParameters: false
@@ -323,16 +166,6 @@ components:
                 type: integer
               playhead_seconds:
                 type: integer
-    # devices:
-    #   type: array
-    #   items:
-    #     $ref: "#/components/schemas/device"
-
-  # examples:
-  #   response_body_example:
-  #     value: [
-  #       "device_01","device_02"
-  #       ]
 
   securitySchemes:
     BC_OAuth2:
@@ -343,5 +176,4 @@ components:
         clientCredentials:
           tokenUrl: 'https://oauth.brightcove.com/v4/access_token'
           scopes:
-            video-cloud/playback-auth/devices/read: Read Devices
-            video-cloud/playback-auth/devices/write: Write Devices
+            video-cloud/xdr/read: Read Playheads

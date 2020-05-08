@@ -46,7 +46,7 @@
 
 <p>With Brightcove's Playback Rights Management Service, you can enable device limits for video playback. Each user's device is registered with a unique id when a DRM license request is made. You control the number of devices per user.</p>
 <p>
-  The device limit is checked and enforced with each license request. To use this restriction, you will pass a Jason Web Token (JWT) with the current user id <code>uid</code> to the Playback API.
+  The device limit is checked and enforced with each license request. To use this restriction, you will pass a <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a> with the current user id <code>uid</code> to the Playback API.
 </p>
 
 <p>If you are not familiar with this feature, see the <a href="https://docs.brightcove.com/en/staging/epa/overview-epa.html">Overview: Playback Rights Management Service</a> document.</p>
@@ -56,14 +56,14 @@
 <section class="bcls-section">
 <h2 id="Device_registration">Device registration</h2>
 <p>
-  A device is registered with Brightcove when a valid playback request which includes a JSON Web token (JWT) with <code>uid</code> and <code>dlimit</code> claims is received. From that moment, this device will occupy one slot.
+  A device is registered with Brightcove when a valid playback request which includes a <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a> with <code>uid</code> and <code>dlimit</code> claims is received. From that moment, this device will occupy one slot.
 </p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Implementation">Implementation</h2>
 <p>
-  To enable device limits, you must include the <code>dlimit</code> claim in your JSON Web Token (JWT).
+  To enable device limits, you must include the <code>dlimit</code> claim in your <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a>.
 </p>
 <p>With the <code>dlimit</code> claim, you control how many devices can be associated with the specified user <code>uid</code>. The value must be &gt; <code>0</code>.
 </p>
@@ -74,7 +74,7 @@
   If the <code>dlimit</code> value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.
 </p>
 <p>
-  If the <code>dlimit</code> value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the Playback Rights API. To do this, see the <a href="#Manage_devices">Manage devices</a> section.
+  If the <code>dlimit</code> value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the Devices API. To do this, see the <a href="#Manage_devices">Manage devices</a> section.
 </p>
 <h4>Details</h4>
 <p>For details, see the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights Management Service document.</p>
@@ -84,28 +84,28 @@
 <section class="bcls-section">
 <h2 id="Manage_devices">Manage devices</h2>
 
-<p>You can manage user devices with the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/#operation/GetDevices">Playback Rights API</a>.</p>
+<p>You can manage user devices with the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/#operation/GetDevices">Devices API</a>.</p>
 
-<h3 id="Playback_Rights_API">Playback Rights API</h3>
+<h3 id="Playback_Rights_API">Devices API</h3>
 <p>
-  With the Playback Rights API, you can get and delete user devices.
+  With the Devices API, you can get and delete user devices.
 </p>
 
 <h3>Base URL</h3>
 <p>
   The base URL for the API is:
 </p>
-<pre><code class="language-http">https://playback-rights.api.brightcove.com/v1</code></pre>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1</code></pre>
 
 <h3>Account path</h3>
 <p>
   In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
 </p>
-<pre><code class="language-http">https://playback-rights.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}</code></pre>
 
 <h3>Authorization</h3>
 <p>
-  An access token for requests is required and must be present in the Authorization header::
+  An access token for requests is required and must be present in the Authorization header:
 </p>
 <pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
 <p>
@@ -114,7 +114,7 @@
 
 <h3>Permissions</h3>
 <p>
-  Requests to the Playback Rights API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+  Requests to the Devices API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
 <ul>
   <li>
@@ -125,21 +125,41 @@
   </li>
 </ul>
 
-<h3>Manage devices</h3>
+<h3>API methods</h3>
 <p>
-  The Playback Rights API supports the following requests. For details, see the <a href="https://docs.brightcove.com/en/staging/epa/playback-rights-api/v1/doc/#operation/GetDevices">Playback Rights API Reference</a>.
+  The Devices API supports the following requests. For details, see the <a href="https://docs.brightcove.com/en/staging/epa/devices-api/v1/doc/">Devices API Reference</a>.
 </p>
 
 <h4>Get all user devices</h4>
 <pre><code class="language-http">GET /v1/accounts/{accountID}/users/{userID}/devices</code></pre>
-<br />
 <h5>Response body</h5>
 <p>
-  The response body contains an array of device ids, and should look similar to this:
+  The response body contains an array of devices, and should look similar to this:
 </p>
 <pre class="line-numbers"><code class="language-json">[
- &quot;WVCENCe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;
+  {
+    &quot;id&quot;: &quot;device01&quot;,
+    &quot;created_at&quot;: 1571242764,
+    &quot;updated_at&quot;: 1571242764,
+    &quot;name&quot;: &quot;my device&quot;,
+    &quot;user_agent&quot;: &quot;Client's user agent&quot;
+  }
 ]</code></pre>
+<br />
+
+<h4>Update device name</h4>
+<p>
+  The <code>PATCH</code> request lets you update the device name.
+</p>
+<pre><code class="language-http">PATCH  /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}</code></pre>
+<h5>Request body</h5>
+<p>
+  The request body contains the device name.
+</p>
+<pre class="line-numbers"><code class="language-json">{
+    &quot;name&quot;: &quot;patched-name&quot;
+}</code></pre>
+<br />
 
 <h4>Delete all user devices</h4>
 <pre><code class="language-http">DELETE /v1/accounts/{accountID}/users/{userID}/devices</code></pre>

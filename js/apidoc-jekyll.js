@@ -31,12 +31,13 @@ cdiv = document.getElementById('message'),
           
           if (path === item.oldURL) {
               new_location = item.newURL;
+              console.log('newURL', new_location);
+              message = '<aside style="padding:5px;border:2px #cc0000 solid;background-color:rgb(176, 176, 108);font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new location. Please update your bookmarks!</aside>'
+              cdiv.insertAdjacentHTML('afterend', message);
+      
+              redirect();
+              break;
             }
-            console.log('newURL', new_location);
-            message = '<p class="bcls-aside bcls-aside--warning" style="font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new page, and please update your bookmark: <a href="' + new_location +  '">' + new_location + '</a></p>';
-            cdiv.insertAdjacentHTML('afterbegin', message);
-            redirect();
-            break;
           }
         
         // no match, go home

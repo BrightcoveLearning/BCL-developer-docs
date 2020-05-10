@@ -19,9 +19,8 @@ cdiv = document.getElementsByTagName('header')[0],
       qLang,
       i,
       iMax = navArray.length,
-      path = window.location.pathname;
+      path = window.location.href;
       console.log('path', path);
-      console.log('pathname', window.location.pathname);
 
       // prevent redirect from home page
         for (i = 0; i < iMax; i++) {
@@ -29,10 +28,7 @@ cdiv = document.getElementsByTagName('header')[0],
           // console.log('item', item);
           
           if (path === item.oldURL) {
-            if (qLang) {
-              new_location = 'https://' + qLang + '.' + item.newURL;
-            } else {
-              new_location = 'https://' + item.newURL;
+              new_location = item.newURL;
             }
             console.log('newURL', new_location);
             message = '<aside class="bcls-aside bcls-aside--warning" style="font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new page, and please update your bookmark: <a href="' + new_location +  '">' + new_location + '</a></aside>';

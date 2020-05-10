@@ -13,7 +13,7 @@ var navArray = [
   {oldURL:'https://docs.brightcove.com/ssai-api/v1/doc/index.html', newURL:'https://ssai.support.brightcove.com/vod/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/social-api/v1/doc/index.html', newURL:'https://social.support.brightcove.com/develop/reference.html'}
 ],
-cdiv = document.getElementsByTagName('header')[0],
+cdiv = document.getElementById('message'),
       new_location,
       message,
       qLang,
@@ -31,7 +31,7 @@ cdiv = document.getElementsByTagName('header')[0],
               new_location = item.newURL;
             }
             console.log('newURL', new_location);
-            message = '<aside class="bcls-aside bcls-aside--warning" style="font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new page, and please update your bookmark: <a href="' + new_location +  '">' + new_location + '</a></aside>';
+            message = '<p class="bcls-aside bcls-aside--warning" style="font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new page, and please update your bookmark: <a href="' + new_location +  '">' + new_location + '</a></p>';
             cdiv.insertAdjacentHTML('afterbegin', message);
             redirect();
             break;

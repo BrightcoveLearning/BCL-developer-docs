@@ -36,7 +36,7 @@ cdiv = document.getElementsByTagName('header')[0],
             redirect();
             break;
           }
-        }
+        
         // no match, go home
         console.log('i', i);
         console.log('iMax', iMax);

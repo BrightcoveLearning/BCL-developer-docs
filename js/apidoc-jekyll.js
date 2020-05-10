@@ -16,7 +16,7 @@ var navArray = [
   {oldURL:'https://docs.brightcove.com/mrss-feed-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/social-syndication/references/feed-reference.html'}
 ],
 cdiv = document.getElementById('message'),
-      new_location,
+      new_location = 'https://support.brightcove.com',
       message,
       qLang,
       i,

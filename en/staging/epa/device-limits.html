@@ -63,21 +63,31 @@
 <section class="bcls-section">
 <h2 id="Implementation">Implementation</h2>
 <p>
-  To enable device limits, you must include the <code>dlimit</code> claim in your <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a>.
+  To enable device limits, follow these steps:
 </p>
-<p>With the <code>dlimit</code> claim, you control how many devices can be associated with the specified user <code>uid</code>. The value must be &gt; <code>0</code>.
-</p>
-<p>If the <code>dlimit</code> claim value is dropped in later requests, previously allowed devices will continue to operate.
-</p>
-<h4>Example</h4>
-<p>
-  If the <code>dlimit</code> value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.
-</p>
-<p>
-  If the <code>dlimit</code> value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the Devices API. To do this, see the <a href="#Manage_devices">Manage devices</a> section.
-</p>
-<h4>Details</h4>
-<p>For details, see the <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Define_user_level_restrictions">Define user-level restrictions</a> section of the Implementing Playback Rights Management Service document.</p>
+<ol class="bcls-tasklist">
+  <li>
+    <p>
+      Create a <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a> with the generally required claims along with the <code>dlimit</code> claim.
+    </p>
+    <p>
+      The <code>dlimit</code> claim lets you control how many devices can be associated with the specified user <code>uid</code>. The value must be &gt; <code>0</code>.
+    </p>
+    <p>If the <code>dlimit</code> claim value is dropped in later requests, previously allowed devices will continue to operate.
+    </p>
+    <p>
+      <strong>Example</strong><br/>
+      If the <code>dlimit</code> value is set to <code>3</code>, the user can play on devices A, B, & C (all would be allowed). Trying to play on device D would be denied.<br/>
+      If the <code>dlimit</code> value is changed to <code>1</code>, the user can still play on all 3 devices A, B, & C, unless the devices are manually revoked by managing devices with the Devices API. To do this, see the <a href="#Manage_devices">Manage devices</a> section.
+    </p>
+    <p>
+
+    </p>
+  </li>
+  <li>
+    <a href="https://docs.brightcove.com/en/staging/epa/implementing-epa.html#Configure_your_player">Configure your player</a> to use the JSON Web Token (JWT) created in the previous step.
+  </li>
+</ol>
 </section>
 
 

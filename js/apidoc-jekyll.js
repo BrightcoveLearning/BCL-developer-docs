@@ -13,12 +13,11 @@ var navArray = [
   {oldURL:'https://docs.brightcove.com/ssai-api/v1/doc/index.html', newURL:'https://ssai.support.brightcove.com/vod/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/social-api/v1/doc/index.html', newURL:'https://social.support.brightcove.com/develop/reference.html'},
   {oldURL:'https://docs.brightcove.com/mrss-config-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/social-syndication/references/configuration-reference.html'},
-  {oldURL:'https://docs.brightcove.com/mrss-feed-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/social-syndication/references/feed-reference.html'}
+  {oldURL:'https://docs.brightcove.com/mrss-config-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/social-syndication/references/feed-reference.html'}
 ],
 cdiv = document.getElementById('message'),
       new_location = 'https://support.brightcove.com',
       message,
-      qLang,
       i,
       iMax = navArray.length,
       path = window.location.href;
@@ -32,7 +31,7 @@ cdiv = document.getElementById('message'),
           if (path === item.oldURL) {
               new_location = item.newURL;
               console.log('newURL', new_location);
-              message = '<aside style="padding:5px;border:2px #cc0000 solid;background-color:rgb(176, 176, 108);font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new location. Please update your bookmarks!</aside>'
+              message = '<aside style="padding:5px;border:2px #cc0000 solid;background-color:rgb(176, 176, 108);font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the new location. Please update your bookmarks!</aside>';
               cdiv.insertAdjacentHTML('afterend', message);
       
               redirect();
@@ -40,17 +39,6 @@ cdiv = document.getElementById('message'),
             }
           }
         
-        // no match, go home
-        console.log('i', i);
-        console.log('iMax', iMax);
-      
-      
-      if (i === iMax - 1) {
-        new_location = 'https://' + qLang + 'support.brightcove.com';
-        message = '<aside style="padding:5px;border:2px #cc0000 solid;background-color:rgb(176, 176, 108);font-weight:bold;font-size:x-large">This page is obsolete and no longer updated. In 5 seconds, you will be redirected to the home page, where you can try to search for or navigate to the page you are looking for.</aside>'
-        cdiv.insertAdjacentHTML('afterend', message);
-        redirect();
-      }
 
       function redirect() {
         var t = window.setTimeout(go_to_new_location, 5000);

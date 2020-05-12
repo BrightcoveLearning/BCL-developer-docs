@@ -46,7 +46,7 @@
 
 <p>With concurrent stream limits, you define the number of video streams that a specific user can watch at any given time. Limiting concurrent streams per user discourages viewers from sharing their credentials with friends who don’t have accounts.</p>
 <p>
-  When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, the oldest session is stopped when a renewal request occurs.
+  When the maximum number of concurrent streams is reached, and the viewer, or someone with their account credentials, tries to open an additional stream, either the oldest session is stopped or the newest request is blocked. You control this behavior.
 </p>
 <p>
   This feature hooks into the DRM workflow so it is secure and can be used with minimal integration.
@@ -115,9 +115,16 @@
 </section>
 
 <section class="bcls-section">
-<h2 id="General_Behavior">General behavior</h2>
+<h2 id="Understanding_behavior">Understanding behavior</h2>
+<p>
+  With this feature, you can choose the behavior for blocking streams.
+</p>
+<h3>Block oldest stream</h3>
 <p>
   Brightcove supports limiting playback streams for DRM-protected content. When a new renewal request is processed, the oldest session is stopped. This allows new user requests to be given access, while blocking the oldest requests which may no longer be valid, displaying a message about network or device failure.
+</p>
+<p>
+  This is the default behavior.
 </p>
 <figure class="bcls-figure">
   <img class="bcls-image--no-border" src="//learning-services-media.brightcove.com/doc-assets/pas/concurrency-general.png" alt="General concurrency">
@@ -141,14 +148,30 @@
     Jason starts watching another movie some time later, causing Sarah's movie to stop.
   </li>
 </ol>
+
+<h3>Block new request</h3>
+<p>
+  Alternatively, you can block any new license request when the maximum number of concurrent streams is reached. This allows all of the current users to keep watching, while displaying a message to any new user requests.
+</p>
+<p>
+  To enable this behavior, you need to set the <code>cbeh</code> claim in your <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a> as follows:
+</p>
+<pre><code class="language-json">&quot;cbeh&quot;: &quot;BLOCK_NEW&quot;</code></pre>
+<br/>
 </section>
 
 <section class="bcls-section">
-<h2 id="Using_PlayReady">Using PlayReady</h2>
+<h2 id="PlayReady">PlayReady</h2>
 <p>
   When using PlayReady, you should expect the same general behavior as defined in the previous section. However, you need to implement a manual license renewal in your players as described in <a href="https://docs.microsoft.com/en-us/playready/features/concurrency-limiting">Microsoft's Concurrency Limiting</a> document.
 </p>
+</section>
 
+<section class="bcls-section">
+<h2 id="Safari">Safari</h2>
+<p>
+  Concurrency limit is supported in the Safari browser, but renewal requests will not be sent. This means that new sessions/streams will be blocked for longer time periods than with other DRM types.
+</p>
 </section>
 
 <section class="bcls-section">
@@ -175,7 +198,7 @@
 
 </section>
 
-<section class="bcls-section">
+<!-- <section class="bcls-section">
 <h2 id="Limitations">Limitations</h2>
 <p>
   The following limitations apply to this feature:
@@ -186,7 +209,7 @@
     Concurrency limit is not yet supported in Safari due to the browser's limitations.
   </li>
 </ul>
-</section>
+</section> -->
 
 <section class="bcls-section">
 <h2 id="Related_topics">Related topics</h2>

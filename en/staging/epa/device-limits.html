@@ -71,6 +71,9 @@
       Create a <a href="https://docs.brightcove.com/en/staging/pas/create-jwt.html">JSON Web Token (JWT)</a> with the generally required claims along with the <code>uid</code> and <code>dlimit</code> claims.
     </p>
     <p>
+      Each user's device is registered with a unique id when a DRM license request is made.
+    </p>
+    <p>
       The <code>dlimit</code> claim lets you control how many devices can be associated with the specified user <code>uid</code>. The value must be &gt; <code>0</code>.
     </p>
     <p>If the <code>dlimit</code> claim value is dropped in later requests, previously allowed devices will continue to operate.
@@ -82,6 +85,14 @@
     </p>
     <p>
 
+    </p>
+  </li>
+  <li>
+    <p>
+      <a href="#Manage_devices">Manage user devices</a> with the Devices API. This API allows you to get the devices for a user, delete devices and update the name for a device.
+    </p>
+    <p>
+      When a device is registered, it is identified by id and nickname. The Devices API lets you edit the device nickname, making it easy to manage your list of devices.
     </p>
   </li>
   <li>
@@ -159,9 +170,11 @@
 
 <h4>Update device name</h4>
 <p>
-  The <code>PATCH</code> request lets you update the device name.
+  The <code>PATCH</code> request lets you set a descriptive name for the device.
 </p>
-<pre><code class="language-http">PATCH  /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}</code></pre>
+<pre><code class="language-http">PATCH  /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}
+  Content-Type: application/json
+  Body: {devices object}</code></pre>
 <h5>Request body</h5>
 <p>
   The request body contains the device name.
@@ -169,6 +182,26 @@
 <pre class="line-numbers"><code class="language-json">{
     &quot;name&quot;: &quot;patched-name&quot;
 }</code></pre>
+
+<p>
+  Here are the field details:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>name</code></td>
+      <td>String</td>
+      <td>A descriptive nickname to help identify the device</td>
+    </tr>
+  </tbody>
+</table>
 <br />
 
 <h4>Delete all user devices</h4>

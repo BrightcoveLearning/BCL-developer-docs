@@ -35,7 +35,7 @@
 		<div id="main" class="large-10 small-12 columns">
 			<h1>Get Playback Position from Cross-Device Resume API</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <summary>In this topic, you will learn the how to retrieve the user's playback position from the Cross-device resume (XDR) API.</summary>
+      <summary>In this topic, you will learn the how to retrieve the user's playback position from the Cross-Device Resume (XDR) API.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -48,31 +48,31 @@
   Cross-device resume lets you start watching a video on one device, and at a later time, continue watching the video where you left off on a different device.
 </p>
 <p>
-  Because the Cross-device resume (XDR) API cannot be called from your client-side apps, you will need to create a server-side proxy to make the call and return the playback position value.
+  Because the Cross-Device Resume (XDR) API cannot be called from your client-side apps, you will need to create a server-side proxy to make the call and return the playback position value.
 </p>
 </section>
 
 <section class="bcls-section">
 <h2 id="Manage_devices">Get playback position</h2>
 
-<p>You can get the viewer playback position with the <a href="https://docs.brightcove.com/en/staging/xdr/xdr-api/v1/doc/">Cross-device resume (XDR) API</a>.</p>
+<p>You can get the viewer playback position with the <a href="https://docs.brightcove.com/en/staging/xdr/xdr-api/v1/doc/">Cross-Device Resume (XDR) API</a>.</p>
 
-<h3 id="Playback_Rights_API">Devices API</h3>
+<h3 id="Cross_Device_Resume_API">Cross-Device Resume (XDR) API</h3>
 <p>
-  With the Devices API, you can get and delete user devices.
+  With the Cross-Device Resume API, you can get all the playhead positions for a specific viewer, or all the playheads for a specific viewer and video.
 </p>
 
 <h3>Base URL</h3>
 <p>
   The base URL for the API is:
 </p>
-<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1</code></pre>
+<pre><code class="language-http">https://data.brightcove.com/v1/xdr</code></pre>
 
 <h3>Account path</h3>
 <p>
   In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
 </p>
-<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+<pre><code class="language-http">https://data.brightcove.com/v1/xdr/accounts/{accountID}</code></pre>
 
 <h3>Authorization</h3>
 <p>
@@ -85,81 +85,63 @@
 
 <h3>Permissions</h3>
 <p>
-  Requests to the Devices API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
+  Requests to the Cross-Device Resume API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
 <ul>
   <li>
-    <code>video-cloud/playback-auth/devices/read</code>
-  </li>
-  <li>
-    <code>video-cloud/playback-auth/devices/write</code>
+    <code>video-cloud/xdr/read</code>
   </li>
 </ul>
 
 <h3>API methods</h3>
 <p>
-  The Devices API supports the following requests. For details, see the <a href="https://docs.brightcove.com/en/staging/epa/devices-api/v1/doc/">Devices API Reference</a>.
+  The Cross-Device Resume API supports the following requests. For details, see the <a href="https://docs.brightcove.com/en/staging/xdr/xdr-api/v1/doc/">Cross-Device Resume API Reference</a>.
 </p>
 
-<h4>Get all user devices</h4>
-<pre><code class="language-http">GET /v1/accounts/{accountID}/users/{userID}/devices</code></pre>
-<h5>Response body</h5>
+<h4>Get viewer playheads</h4>
 <p>
-  The response body contains an array of devices, and should look similar to this:
+  This request gets all of the playheads for a viewer.
 </p>
-<pre class="line-numbers"><code class="language-json">[
-  {
-    &quot;id&quot;: &quot;device01&quot;,
-    &quot;created_at&quot;: 1571242764,
-    &quot;updated_at&quot;: 1571242764,
-    &quot;name&quot;: &quot;my device&quot;,
-    &quot;user_agent&quot;: &quot;Client's user agent&quot;
-  }
-]</code></pre>
-<br />
-
-<h4>Update device name</h4>
+<pre><code class="language-http">GET /accounts/{accountID}/playheads/{viewerID}</code></pre>
+<h5>Response body</h5
 <p>
-  The <code>PATCH</code> request lets you set a descriptive name for the device.
-</p>
-<pre><code class="language-http">PATCH  /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}
-  Content-Type: application/json
-  Body: {devices object}</code></pre>
-<h5>Request body</h5>
-<p>
-  The request body contains the device name.
+  The response body contains an array of videos and playheads. It should look similar to this:
 </p>
 <pre class="line-numbers"><code class="language-json">{
-    &quot;name&quot;: &quot;patched-name&quot;
+  &quot;account_id&quot;: &quot;string&quot;,
+  &quot;viewer_id&quot;: &quot;string&quot;,
+  &quot;size&quot;: 0,
+  &quot;items&quot;: [
+    {
+      &quot;video_id&quot;: &quot;string&quot;,
+      &quot;timestamp&quot;: 0,
+      &quot;playhead_seconds&quot;: 0
+    }
+  ]
 }</code></pre>
+<br />
 
+<h4>Get viewer video playheads</h4>
 <p>
-  Here are the field details:
+  This request gets all of the playheads for a viewer and a specific video.
 </p>
-<table class="bcls-table">
-  <thead class="bcls-table__head">
-    <tr>
-      <th>Field</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody class="bcls-table__body">
-    <tr>
-      <td><code>name</code></td>
-      <td>String</td>
-      <td>A descriptive nickname to help identify the device</td>
-    </tr>
-  </tbody>
-</table>
-<br />
-
-<h4>Delete all user devices</h4>
-<pre><code class="language-http">DELETE /v1/accounts/{accountID}/users/{userID}/devices</code></pre>
-<br />
-
-<h4>Delete a specific user device</h4>
-<pre><code class="language-http">DELETE /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}</code></pre>
+<pre><code class="language-http">GET /accounts/{accountID}/playheads/{viewerID}/{videoID}</code></pre>
+<h5>Response body</h5
+<p>
+  The response body contains an array of videos and playheads. It should look similar to this:
+</p>
+<pre class="line-numbers"><code class="language-json">{
+  &quot;account_id&quot;: &quot;string&quot;,
+  &quot;viewer_id&quot;: &quot;string&quot;,
+  &quot;size&quot;: 0,
+  &quot;items&quot;: [
+    {
+      &quot;video_id&quot;: &quot;string&quot;,
+      &quot;timestamp&quot;: 0,
+      &quot;playhead_seconds&quot;: 0
+    }
+  ]
+}</code></pre>
 <br />
 </section>
 

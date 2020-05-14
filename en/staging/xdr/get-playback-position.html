@@ -35,7 +35,7 @@
 		<div id="main" class="large-10 small-12 columns">
 			<h1>Get Playback Position from Cross-Device Resume API</h1>
       <aside class="bcls-aside bcls-aside--warning">This is a temporary STAGING document for review only. For the official Brightcove documentation site, go to <a href="https://support.brightcove.com/">support.brightcove.com</a></aside>
-      <summary>In this topic, you will learn the how to retrieve the user's playback position from the cross-device resume (XDR) API.</summary>
+      <summary>In this topic, you will learn the how to retrieve the user's playback position from the Cross-device resume (XDR) API.</summary>
 
 
 	    <!-- BEGIN DRUPAL CONTENT -->
@@ -48,23 +48,119 @@
   Cross-device resume lets you start watching a video on one device, and at a later time, continue watching the video where you left off on a different device.
 </p>
 <p>
-  Let's say that you start watching a video on your mobile device. Later, you can continue watching the same video with a player on your web browser. Playback will continue where you left off, so you won't miss a thing.
+  Because the Cross-device resume (XDR) API cannot be called from your client-side apps, you will need to create a server-side proxy to make the call and return the playback position value.
 </p>
 </section>
 
 <section class="bcls-section">
-<h2 id="Requirements">Requirements</h2>
+<h2 id="Manage_devices">Get playback position</h2>
+
+<p>You can get the viewer playback position with the <a href="https://docs.brightcove.com/en/staging/xdr/xdr-api/v1/doc/">Cross-device resume (XDR) API</a>.</p>
+
+<h3 id="Playback_Rights_API">Devices API</h3>
 <p>
-  The following requirements apply to cross-device resume:
+  With the Devices API, you can get and delete user devices.
+</p>
+
+<h3>Base URL</h3>
+<p>
+  The base URL for the API is:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1</code></pre>
+
+<h3>Account path</h3>
+<p>
+  In all cases, requests will be made for a specific Video Cloud Account. So, you will always add the term accounts followed by your account id to the base URL:
+</p>
+<pre><code class="language-http">https://playback-auth.api.brightcove.com/v1/accounts/{accountID}</code></pre>
+
+<h3>Authorization</h3>
+<p>
+  An access token for requests is required and must be present in the Authorization header:
+</p>
+<pre><code class="language-http">Authorization: Bearer {access_token}</code></pre>
+<p>
+  The access token is a temporary OAuth2 access token that must be obtained from the Brightcove OAuth service. For details on how to obtain client credentials and use them to retrieve access tokens, see the <a href="https://support.brightcove.com/overview-oauth-api-v4">Brightcove OAuth Overview</a>.
+</p>
+
+<h3>Permissions</h3>
+<p>
+  Requests to the Devices API must be made from <a href="https://support.brightcove.com/oauth-api">client credentials</a> with the following permissions:
 </p>
 <ul>
   <li>
-    Brightcove Player version 6.41.0+
+    <code>video-cloud/playback-auth/devices/read</code>
   </li>
-  <!-- <li>
-    For server-side ad insertion (SSAI), you must use the <strong>videojs-ssai</strong> plugin version 1.10.0+
-  </li> -->
+  <li>
+    <code>video-cloud/playback-auth/devices/write</code>
+  </li>
 </ul>
+
+<h3>API methods</h3>
+<p>
+  The Devices API supports the following requests. For details, see the <a href="https://docs.brightcove.com/en/staging/epa/devices-api/v1/doc/">Devices API Reference</a>.
+</p>
+
+<h4>Get all user devices</h4>
+<pre><code class="language-http">GET /v1/accounts/{accountID}/users/{userID}/devices</code></pre>
+<h5>Response body</h5>
+<p>
+  The response body contains an array of devices, and should look similar to this:
+</p>
+<pre class="line-numbers"><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;device01&quot;,
+    &quot;created_at&quot;: 1571242764,
+    &quot;updated_at&quot;: 1571242764,
+    &quot;name&quot;: &quot;my device&quot;,
+    &quot;user_agent&quot;: &quot;Client's user agent&quot;
+  }
+]</code></pre>
+<br />
+
+<h4>Update device name</h4>
+<p>
+  The <code>PATCH</code> request lets you set a descriptive name for the device.
+</p>
+<pre><code class="language-http">PATCH  /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}
+  Content-Type: application/json
+  Body: {devices object}</code></pre>
+<h5>Request body</h5>
+<p>
+  The request body contains the device name.
+</p>
+<pre class="line-numbers"><code class="language-json">{
+    &quot;name&quot;: &quot;patched-name&quot;
+}</code></pre>
+
+<p>
+  Here are the field details:
+</p>
+<table class="bcls-table">
+  <thead class="bcls-table__head">
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody class="bcls-table__body">
+    <tr>
+      <td><code>name</code></td>
+      <td>String</td>
+      <td>A descriptive nickname to help identify the device</td>
+    </tr>
+  </tbody>
+</table>
+<br />
+
+<h4>Delete all user devices</h4>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/users/{userID}/devices</code></pre>
+<br />
+
+<h4>Delete a specific user device</h4>
+<pre><code class="language-http">DELETE /v1/accounts/{accountID}/users/{userID}/devices/{deviceID}</code></pre>
+<br />
 </section>
 
 <section class="bcls-section">

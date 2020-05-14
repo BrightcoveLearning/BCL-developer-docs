@@ -9,7 +9,7 @@ var navArray = [
   {oldURL:'https://docs.brightcove.com/in-page-experience-api/v1/doc/index.html', newURL:'https://gallery.support.brightcove.com/develop/reference.html'},
   {oldURL:'https://docs.brightcove.com/oauth-api/v4/doc/index.html', newURL:'https://apis.support.brightcove.com/oauth/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/playback-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/playback/references/reference.html'},
-  {oldURL:'https://docs.brightcove.com/player-management-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/player-management/references/reference.html'},
+  {oldURL:'https://docs.brightcove.com/player-management-api/v2/doc/index.html', newURL:'https://apis.support.brightcove.com/player-management/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/ssai-api/v1/doc/index.html', newURL:'https://ssai.support.brightcove.com/vod/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/social-api/v1/doc/index.html', newURL:'https://social.support.brightcove.com/develop/reference.html'},
   {oldURL:'https://docs.brightcove.com/mrss-config-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/social-syndication/references/configuration-reference.html'},

@@ -1,5 +1,7 @@
 var navArray = [
   {oldURL:'https://docs.brightcove.com/analytics-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/analytics/references/reference.html'},
+  {oldURL:'https://docs.brightcove.com/live-api/v1/doc/index.html', newURL:'https://live.support.brightcove.com/live-api/references/reference.html'},
+  {oldURL:'https://docs.brightcove.com/audience-api/v1/doc/index.html', newURL:'https://docs.brightcove.com/audience-api/v1/doc/index.html'},
   {oldURL:'https://docs.brightcove.com/audience-api/v1/doc/index.html', newURL:'https://docs.brightcove.com/audience-api/v1/doc/index.html'},
   {oldURL:'https://docs.brightcove.com/cms-api/v1/doc/index.html', newURL:'https://apis.support.brightcove.com/cms/references/reference.html'},
   {oldURL:'https://docs.brightcove.com/data-collection-api/v2/doc/index.html', newURL:'https://apis.support.brightcove.com/data-collection/references/reference.html'},

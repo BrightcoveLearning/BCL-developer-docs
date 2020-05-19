@@ -120,31 +120,33 @@
     <p>
       Even though viewer data is sent to Brightcove analytics automatically, you need to set the user identifier. To do this, use the <code>setUser()</code> method. For example:
     </p>
-    <pre class="line-numbers"><code class="language-javascript">myPlayer.bcAnalytics.client.setUser('<span class="bcls-input">your user id</span>');</code></pre>
+    <pre class="line-numbers"><code class="language-javascript">myPlayer.bcAnalytics.client.setUser('<span class="bcls-input">user id</span>');</code></pre>
     <aside class="bcls-aside bcls-aside--information">On your websites that host Brightcove Player, you can use an authentication gateway or some identity management solution to keep track viewers. Use this viewer id as the user identifier to pass to Brightcove analytics.</aside>
   </li>
   <li>
     <p>
       It is important to set the user id before any source is set on the player. It should be called immediately after initializing the player.
     </p>
-    <pre class="line-numbers"><code class="language-javascript">&lt;div style=&quot;max-width: 960px;&quot;&gt;
-  &lt;video-js
-    id=&quot;myPlayer&quot;
-    data-account=&quot;1234567890&quot;
-    data-player=&quot;abc123xyz&quot;
+    <pre class="line-numbers"><code class="language-javascript">&lt;video-js
+    id=&quot;myPlayerID&quot;
+    data-account=&quot;1752604059001&quot;
+    data-player=&quot;hyQW6GByl&quot;
     data-embed=&quot;default&quot;
     controls=&quot;&quot;
+    data-video-id=&quot;6156696074001&quot;
+    data-playlist-id=&quot;&quot;
     data-application-id=&quot;&quot;
-    class=&quot;vjs-fluid&quot;&gt;&lt;/video-js&gt;
-&lt;/div&gt;
+    width=&quot;640&quot; height=&quot;360&quot;&gt;&lt;/video-js&gt;
+  &lt;script src=&quot;https://players.brightcove.net/1752604059001/hyQW6GByl_default/index.min.js&quot;&gt;&lt;/script&gt;
 
-&lt;script
-  src=&quot;//players.brightcove.net/1234567890/abc123xyz_default/index.min.js&quot;&gt;
-&lt;/script&gt;
+  &lt;script&gt;
+    videojs.getPlayer('myPlayerID').ready(function() {
+      var myPlayer = this;
 
-&lt;script&gt;
-  videojs.getPlayer('myPlayer').bcAnalytics.client.setUser('<span class="bcls-input">your user id</span>');
-&lt;/script&gt;</code></pre>
+      // Set the viewer id for Brightcove analytics
+      myPlayer.bcAnalytics.client.setUser(<span class="bcls-input">user id</span>');
+    });
+  &lt;/script&gt;</code></pre>
   </li>
   <li>
     <p>
@@ -187,13 +189,12 @@
     <p>
       Here is an example:
     </p>
-    <pre class="line-numbers"><code class="language-javascript">// The specific event to use may or may not be canplay. It's worth
-// some experimentation
-player.one('canplay', function() {
+    <pre class="line-numbers"><code class="language-javascript">// The specific event to use may require some experimentation
+player.on('loadstart', function() {
 
   // This initialPlayhead variable will have to come from the publisher's
   // custom integration.
-  player.currentTime(<span class="bcls-input">your user playhead position</span>);
+  player.currentTime(<span class="bcls-input">user playhead position</span>);
 });</code></pre>
   </li>
   <li>

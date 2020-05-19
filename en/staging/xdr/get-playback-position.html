@@ -108,16 +108,21 @@
   The response body contains an array of videos and playheads. It should look similar to this:
 </p>
 <pre class="line-numbers"><code class="language-json">{
-  &quot;account_id&quot;: &quot;string&quot;,
-  &quot;viewer_id&quot;: &quot;string&quot;,
-  &quot;size&quot;: 0,
-  &quot;items&quot;: [
-    {
-      &quot;video_id&quot;: &quot;string&quot;,
-      &quot;timestamp&quot;: 0,
-      &quot;playhead_seconds&quot;: 0
-    }
-  ]
+ &quot;account_id&quot;: &quot;1752604059001&quot;,
+ &quot;viewer_id&quot;: &quot;user001&quot;,
+ &quot;items&quot;: [
+  {
+   &quot;timestamp&quot;: 1589548991563000,
+   &quot;video_id&quot;: &quot;6152436480001&quot;,
+   &quot;playhead_seconds&quot;: 17
+  },
+  {
+   &quot;timestamp&quot;: 1589548858719000,
+   &quot;video_id&quot;: &quot;6152440604001&quot;,
+   &quot;playhead_seconds&quot;: 3
+  }
+ ],
+ &quot;size&quot;: 2
 }</code></pre>
 <br />
 
@@ -126,21 +131,28 @@
   This request gets all of the playheads for a viewer and a specific video.
 </p>
 <pre><code class="language-http">GET /accounts/{accountID}/playheads/{viewerID}/{videoID}</code></pre>
+<br/>
+<aside class="bcls-aside bcls-aside--information">
+  <p>
+    You can also include of list of video ids: (maximum = 100)
+  </p>
+  <pre><code class="language-http">GET /accounts/{accountID}/playheads/{viewerID}/{videoID},{videoID},...</code></pre>
+</aside>
 <h5>Response body</h5>
 <p>
-  The response body contains an array of videos and playheads. It should look similar to this:
+  If you specify one video id, the response body will contain one item object. When you specify more than one video id, than the <code>items</code> array will contain multiple item objects. It should look similar to this:
 </p>
 <pre class="line-numbers"><code class="language-json">{
-  &quot;account_id&quot;: &quot;string&quot;,
-  &quot;viewer_id&quot;: &quot;string&quot;,
-  &quot;size&quot;: 0,
-  &quot;items&quot;: [
-    {
-      &quot;video_id&quot;: &quot;string&quot;,
-      &quot;timestamp&quot;: 0,
-      &quot;playhead_seconds&quot;: 0
-    }
-  ]
+ &quot;account_id&quot;: &quot;1752604059001&quot;,
+ &quot;viewer_id&quot;: &quot;user001&quot;,
+ &quot;items&quot;: [
+  {
+   &quot;timestamp&quot;: 1589896539910000,
+   &quot;video_id&quot;: &quot;6156696074001&quot;,
+   &quot;playhead_seconds&quot;: 39
+  }
+ ],
+ &quot;size&quot;: 1
 }</code></pre>
 <br />
 </section>

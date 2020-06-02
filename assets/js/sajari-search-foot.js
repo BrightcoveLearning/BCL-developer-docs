@@ -1,13 +1,11 @@
-var searchBox = sajari.init({
-  mode: "search-box",
-  project: "1588255093746585379", // Set this to your project.
-  collection: "brightcove-documenation", // Set this to your collection.
-  instantPipeline: "autocomplete", // Pipeline used as you type
-  inputPlaceholder: "Search", // Input element placeholder
-  maxSuggestions: 5, // Maximum number of suggestions to show
-  attachSearchBox: document.getElementById("nav-search-box") // DOM element to attach to
-});
-
-  searchBox("sub", "pipeline.search-sent", function (_, query) {
-    window.location = "/search?q=" + encodeURIComponent(query.q);
-  });
+var _sj = _sj || [];
+_sj.push(['project', '1588255093746585379']);
+_sj.push(['collection', 'brightcove-documenation']);
+(function () {
+  var sj = document.createElement('script');
+  sj.type = 'text/javascript';
+  sj.async = true;
+  sj.src = '//cdn.sajari.com/js/sj.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(sj, s);
+})();

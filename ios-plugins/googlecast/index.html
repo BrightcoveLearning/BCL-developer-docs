@@ -44,7 +44,7 @@
 					<div class="section section-overview index-overview">
 						
 						
-						<h1>Google Cast Plugin for Brightcove Player SDK for iOS, version 6.7.6.1121</h1>
+						<h1>Google Cast Plugin for Brightcove Player SDK for iOS, version 6.7.7.1171</h1>
 
 <h1>Requirements</h1>
 
@@ -66,25 +66,39 @@
 
 <h2>CocoaPods</h2>
 
-<p>You can use <a href="http://cocoapods.org">CocoaPods</a> to add the Google Cast Plugin for Brightcove Player SDK to your project.  You can find the latest <code>Brightcove-Player-GoogleCast</code> podspec <a href="https://github.com/brightcove/BrightcoveSpecs/tree/master/Brightcove-Player-GoogleCast">here</a>. The pod will incorporate the correct version of GoogleCast automatically. CocoaPods 1.0 or newer is required.</p>
+<p>You can use <a href="http://cocoapods.org">CocoaPods</a> to add the Google Cast Plugin for Brightcove Player SDK to your project.  You can find the latest Brightcove-Player-GoogleCast podspecs <a href="https://github.com/brightcove/BrightcoveSpecs/tree/master/Brightcove-Player-GoogleCast">here</a>. The pod will incorporate the correct version of GoogleCast automatically. CocoaPods 1.0 or newer is required.</p>
 
 <p>CocoaPod Podfile example:</p>
 
-<pre><code>source 'https://github.com/brightcove/BrightcoveSpecs.git'
-source 'https://github.com/CocoaPods/Specs'
+<p>```bash
+source &lsquo;<a href="https://github.com/CocoaPods/Specs" title="">https://github.com/CocoaPods/Specs'</a>
+source &rsquo;<a href="https://github.com/brightcove/BrightcoveSpecs.git" title="">https://github.com/brightcove/BrightcoveSpecs.git'</a></p>
 
-platform :ios, '11.0'
+<p>platform :ios, &lsquo;11.0&rsquo;</p>
 
-use_frameworks!
+<p>use_frameworks!</p>
 
-target 'ExampleApp' do
-    pod 'Brightcove-Player-GoogleCast'
+<p>target &lsquo;ExampleApp&rsquo; do
+    pod &lsquo;Brightcove-Player-GoogleCast&rsquo;
 end
-</code></pre>
+```</p>
 
-<p>When updating your installation, it&rsquo;s a good idea to refresh the local copy of your BrightcoveSpecs repository so that you have the latest podspecs locally, just like you would update your CococaPods master repository.</p>
+<p>Installing Brightcove-Player-GoogleCast automatically installs the dependency, Brightcove-Player-Core. Based on your needs, you may choose to include either the dynamic Brightcove-Player-Core framework, or the static one. By default, the dynamic Core framework is installed. To choose the static Core framework, your Podfile would look something like this:</p>
 
-<p>Typically if you use <code>pod update</code> in Terminal this will happen automatically, or alternatively you can update explicitly with <code>pod repo update brightcove</code>. (Your BrightcoveSpecs repository may have a different name if you explicitly added it to your list of podspecs repos.)</p>
+<p>```bash
+source &lsquo;https://github.com/CocoaPods/Specs&rsquo;
+source &lsquo;https://github.com/brightcove/BrightcoveSpecs.git&rsquo;</p>
+
+<p>platform :ios, &lsquo;11.0&rsquo;</p>
+
+<p>use_frameworks!</p>
+
+<p>target &lsquo;ExampleApp&rsquo; do
+    pod &lsquo;Brightcove-Player-GoogleCast-static&rsquo;
+end
+```</p>
+
+<p>When updating your installation, it&rsquo;s a good idea to refresh the local copy of your BrightcoveSpecs repository to ensure you have the latest podspecs locally, just like you would update your CococaPods master repository. Use <code>pod repo update</code> to do so.</p>
 
 <h2>Manual</h2>
 
@@ -119,40 +133,42 @@ end
 
 <p>The BrightcoveGoogleCast plugin is a bridge between <a href="https://developers.google.com/cast/docs/ios_sender/">Google Cast iOS SDK</a> and the <a href="https://github.com/brightcove/brightcove-player-sdk-ios">Brightcove Player SDK for iOS</a>.</p>
 
-<p>This snippet shows its basic usage.
-```
-    [1] BCOVGoogleCastManager *castManager = [BCOVGoogleCastManager sharedManager];</p>
+<p>This snippet shows its basic usage.</p>
 
-<pre><code>[2] id&lt;BCOVPlaybackController&gt; playbackController = [BCOVPlayerSDKManager.sharedManager createPlaybackController];
+<pre><code>    [1] BCOVGoogleCastManager *castManager = [BCOVGoogleCastManager sharedManager];
 
-[3] [playbackController addSessionConsumer:self.castManager];
+    [2] id&lt;BCOVPlaybackController&gt; playbackController = [BCOVPlayerSDKManager.sharedManager createPlaybackController];
+
+    [3] [playbackController addSessionConsumer:self.castManager];
 </code></pre>
 
-<pre><code>
-Breaking the code down into steps:
+<p>Breaking the code down into steps:</p>
 
-1. Create a reference to the BCOVGoogleCastManager singleton.
-1. Create an instance of BCOVPlaybackController to use.
-1. Add your BCOVGoogleCastManager reference as a session consumer to your BCOVPlaybackController instance.
+<ol>
+<li>Create a reference to the BCOVGoogleCastManager singleton.</li>
+<li>Create an instance of BCOVPlaybackController to use.</li>
+<li>Add your BCOVGoogleCastManager reference as a session consumer to your BCOVPlaybackController instance.</li>
+</ol>
 
-If you have questions or need help, we have a support forum for Brightcove's native Player SDKs at [https://groups.google.com/forum/#!forum/brightcove-native-player-sdks][forum] .
 
-Delegate Methods
-==========
-BCOVGoogleCastManagerDelegate has four delegate methods that you can use to know when major casting-related events have occured. These are:
+<p>If you have questions or need help, we have a support forum for Brightcove&rsquo;s native Player SDKs at <a href="https://groups.google.com/forum/#!forum/brightcove-native-player-sdks">[https://groups.google.com/forum/](https://groups.google.com/forum/)#!forum/brightcove-native-player-sdks</a> .</p>
 
-* `- (void)switchedToLocalPlayback:(NSTimeInterval)lastKnownStreamPosition` is called when a cast session ends.
-* `- (void)switchedToRemotePlayback` is called when a cast session starts.
-* `- (void)currentCastedVideoDidComplete` is called when a casted video has finished playing.
-* `- (void)suitableSourceNotFound` is called when no suitable source is found to cast.
+<h1>Delegate Methods</h1>
 
-To take advantage of these events, simply set a delegate on the BCOVGoogleCastManager singleton. 
+<p><a href="Protocols/BCOVGoogleCastManagerDelegate.html">BCOVGoogleCastManagerDelegate</a> has four delegate methods that you can use to know when major casting-related events have occured. These are:</p>
+
+<ul>
+<li><code>- (void)switchedToLocalPlayback:(NSTimeInterval)lastKnownStreamPosition</code> is called when a cast session ends.</li>
+<li><code>- (void)switchedToRemotePlayback</code> is called when a cast session starts.</li>
+<li><code>- (void)currentCastedVideoDidComplete</code> is called when a casted video has finished playing.</li>
+<li><code>- (void)suitableSourceNotFound</code> is called when no suitable source is found to cast.</li>
+</ul>
+
+
+<p>To take advantage of these events, simply set a delegate on the <a href="Classes/BCOVGoogleCastManager.html">BCOVGoogleCastManager</a> singleton.</p>
+
+<pre><code>    [BCOVGoogleCastManager sharedManager].delegate = self;
 </code></pre>
-
-<pre><code>[BCOVGoogleCastManager sharedManager].delegate = self;
-</code></pre>
-
-<p>```</p>
 
 <h1>Source Selection</h1>
 
@@ -231,7 +247,7 @@ To take advantage of these events, simply set a delegate on the BCOVGoogleCastMa
 					<footer>
 						<div class="footer-copyright">
 							
-							<p class="copyright">Copyright &copy; 2020 Brightcove. All rights reserved. Updated: 2020-05-12</p>
+							<p class="copyright">Copyright &copy; 2020 Brightcove. All rights reserved. Updated: 2020-06-03</p>
 							
 							
 							<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

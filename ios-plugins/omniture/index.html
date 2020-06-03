@@ -44,7 +44,7 @@
 					<div class="section section-overview index-overview">
 						
 						
-						<h1>Omniture (Adobe Marketing Cloud - Adobe Analytics) Plugin for Brightcove Player SDK for iOS, version 6.7.6.1121</h1>
+						<h1>Omniture (Adobe Marketing Cloud - Adobe Analytics) Plugin for Brightcove Player SDK for iOS, version 6.7.7.1171</h1>
 
 <h1>Requirements</h1>
 
@@ -60,9 +60,7 @@
 
 <h1>Installation</h1>
 
-<p>The Omniture plugin is a static library framework for iOS 8 and above.</p>
-
-<p>The Omniture plugin currently supports Adobe Marketing Cloud v4.14.1 and Adobe Video Heartbeat v2.0.1. The Marketing Cloud and Video Heartbeat libraries <strong>are not</strong> included with this SDK and <strong>must</strong> be added manually to your project. Instructions for downloading the libraries are provided below.</p>
+<p>The Omniture plugin is a static library framework which supports Adobe Marketing Cloud v4.14.1 and Adobe Video Heartbeat v2.0.1. The Marketing Cloud and Video Heartbeat libraries <strong>are not</strong> included with this SDK and must be manually added to your project. Instructions for downloading the libraries are provided below.</p>
 
 <h2>CocoaPods</h2>
 
@@ -70,14 +68,17 @@
 
 <p>Static Framework example:</p>
 
-<pre><code>source 'https://github.com/brightcove/BrightcoveSpecs.git'
+<p>```bash
+source &lsquo;<a href="https://github.com/brightcove/BrightcoveSpecs.git" title="">https://github.com/brightcove/BrightcoveSpecs.git'</a></p>
 
-pod 'Brightcove-Player-Omniture'
-</code></pre>
+<p>target &lsquo;MyOmniturePlayer&rsquo; do
+  pod &lsquo;Brightcove-Player-Omniture&rsquo;
+end
+```</p>
 
 <p>When updating your installation, it&rsquo;s a good idea to refresh the local copy of your BrightcoveSpecs repository so that you have the latest podspecs locally, just like you would update your CococaPods master repository.</p>
 
-<p>Typically if you use <code>pod update</code> in Terminal this will happen automatically, or alternatively you can update explicitly with <code>pod repo update brightcove</code>. (Your BrightcoveSpecs repository may have a different name if you explicitly added it to your list of podspecs repos.)</p>
+<p>Typically if you use <code>pod update</code> in Terminal this will happen automatically, or alternatively you can update explicitly with <code>pod repo update</code>.</p>
 
 <h2>Manual</h2>
 
@@ -113,7 +114,7 @@ pod 'Brightcove-Player-Omniture'
 
 <h1>Client Implementation</h1>
 
-<p>To setup Adobe Video Heartbeat, Omniture Plugin clients need to implement instances of <a href="Blocks/BCOVAMCVideoHeartbeatConfigurationPolicy.html">BCOVAMCVideoHeartbeatConfigurationPolicy</a>. To setup Adobe Media Tracking, an instance of <a href="Blocks/BCOVAMCMediaSettingPolicy.html">BCOVAMCMediaSettingPolicy</a> is required. These <a href="https://en.wikipedia.org/wiki/Strategy_pattern">policies</a> allow for customization of ADBMediaHeartbeatConfig or ADBMediaSettings objects for each playback session.</p>
+<p>To setup Adobe Video Heartbeat, Omniture Plugin clients need to implement instances of BCOVAMCVideoHeartbeatConfigurationPolicy. To setup Adobe Media Tracking, an instance of BCOVAMCMediaSettingPolicy is required. These <a href="https://en.wikipedia.org/wiki/Strategy_pattern">policies</a> allow for customization of ADBMediaHeartbeatConfig or ADBMediaSettings objects for each playback session.</p>
 
 <h2>Video Heartbeat v2</h2>
 
@@ -170,7 +171,7 @@ pod 'Brightcove-Player-Omniture'
 
 <ol>
 <li>Create the video heartbeat configuration policy block which will be called at the start of each playback session. The policy allows for customization of configuration data based on the current session.</li>
-<li>Use the configuration policy block to create and initialize a <a href="Classes/BCOVAMCAnalyticsPolicy.html">BCOVAMCAnalyticsPolicy</a> instance with <code>-[initWithHeartbeatConfigurationPolicy:]</code>. The <a href="Classes/BCOVAMCAnalyticsPolicy.html">BCOVAMCAnalyticsPolicy</a> object is used to create the <a href="Classes/BCOVAMCSessionConsumer.html">BCOVAMCSessionConsumer</a>.</li>
+<li>Use the configuration policy block to create and initialize a BCOVAMCAnalyticsPolicy instance with <code>-[initWithHeartbeatConfigurationPolicy:]</code>. The BCOVAMCAnalyticsPolicy object is used to create the BCOVAMCSessionConsumer.</li>
 <li>After the playback controller is created, call the add session consumer method, <code>-[addSessionConsumer:]</code>, to add the AMC session consumer.</li>
 </ol>
 
@@ -181,12 +182,12 @@ pod 'Brightcove-Player-Omniture'
 
 <pre><code>[1] BCOVAMCMediaSettingPolicy mediaSettingPolicy = ^ADBMediaSettings *(id&lt;BCOVPlaybackSession&gt; session) {
 
-        ADBMediaSettings *settings = [ADBMobile mediaCreateSettingsWithName:&lt;cutomize_setting_name&gt;
-[2]                                                                  length:0
-                                                                 playerName:&lt;cutomize_player_name&gt;
-                                                                   playerID:&lt;cutomize_player_ID&gt;];
-[3]     settings.milestones = @"25,50,75"; // a customization.
-        return settings;
+      ADBMediaSettings *settings = [ADBMobile mediaCreateSettingsWithName:&lt;cutomize_setting_name&gt;
+[2]                                                                length:0
+                                                               playerName:&lt;cutomize_player_name&gt;
+                                                                 playerID:&lt;cutomize_player_ID&gt;];
+[3]   settings.milestones = @"25,50,75"; // a customization.
+      return settings;
 
     };
 
@@ -213,8 +214,8 @@ pod 'Brightcove-Player-Omniture'
                                     NSDictionary *jsonResponse,
                                     NSError      *error) {
 
-        [controller setVideos:@[ video ]];
-        [controller play];
+      [controller setVideos:@[ video ]];
+      [controller play];
 
     }];
 </code></pre>
@@ -223,7 +224,7 @@ pod 'Brightcove-Player-Omniture'
 <li>Create the media settings policy block which will be called at the start of each playback session. The policy allows for customization of media settings based on the current session.</li>
 <li>When creating the ADBMediaSettings instance with a class method of ADBMobile <code>+[mediaCreateSettingsWithName:length:playerName:playerID:]</code>, you can set <strong>video length</strong> to <strong>0</strong>. The Omniture plugin will update it later.</li>
 <li>Add optional settings such as milestones.</li>
-<li>Use the media settings policy block to create and initialize a <a href="Classes/BCOVAMCAnalyticsPolicy.html">BCOVAMCAnalyticsPolicy</a> instance with <code>-[initWithMediaSettingsPolicy:]</code>. The policy object is used to create an AMC session consumer for Adobe media tracking as <code>+[mediaAnalyticsConsumerWithPolicy:delegate:]</code>.</li>
+<li>Use the media settings policy block to create and initialize a BCOVAMCAnalyticsPolicy instance with <code>-[initWithMediaSettingsPolicy:]</code>. The policy object is used to create an AMC session consumer for Adobe media tracking as <code>+[mediaAnalyticsConsumerWithPolicy:delegate:]</code>.</li>
 <li>After the playback controller is created, call the add session consumer method, <code>-[addSessionConsumer:]</code>, to add the AMC session consumer.</li>
 </ol>
 
@@ -283,7 +284,7 @@ git clone -b ios-v2.0.1 --single-branch https://github.com/Adobe-Marketing-Cloud
 					<footer>
 						<div class="footer-copyright">
 							
-							<p class="copyright">Copyright &copy; 2020 Brightcove. All rights reserved. Updated: 2020-05-12</p>
+							<p class="copyright">Copyright &copy; 2020 Brightcove. All rights reserved. Updated: 2020-06-03</p>
 							
 							
 							<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,12 +1,44 @@
 Brightcove Native Player for Android Release Notes:
 
-version 6.16.0
+Version 6.16.1
+
+  SDK Changes:
+
+    * Improved Video Engagement reporting for SSAI VOD videos.
+    * The DashWidevineAuthorizer class is deprecated. Please use the WidevineAuthorizer class instead.
+
+  IMA Plugin Changes:
+
+    * The Google IMA SDK has been updated to version 3.21.1.
+    * Improved support for skippable ads, and fixed an issue where skippable ads might not exit cleanly, and ad audio might be heard after resuming content playback.
+    * Fixed an issue with setting mime types for ads, where user-supplied mime types were not being set by the plugin's Builder.
+    * Added plugin Builder convenience methods for:
+      * Setting ad mime types in the AdsRenderingSettings object - see Builder.setMimeTypes(List<String>) : void
+      * Setting the ad video load timeout in the AdsRenderingSettings object - see Builder.setLoadVideoTimeout(int) : void
+      * Setting debug mode in the ImaSdkSettings object - see Builder.setDebugMode(boolean) : void
+
+      Please note:
+      * These convenience methods are member methods in the AdsRenderingSettings and ImaSdkSettings Google IMA SDK objects.
+      * When called through the Builder directly, these methods will configure the AdsRenderingSettings and ImaSdkSettings
+        objects that are created by default in the Builder.
+      * If you decide to create custom AdsRenderingSettings and ImaSdkSettings Google IMA SDK objects for use in the IMA plugin,
+        you can call those objects' methods directly:
+        * AdsRenderingSettings.setMimeTypes(List<String>) : void
+        * AdsRenderingSettings.setLoadVideoTimeout(int) : void
+        * ImaSdkSettings.setDebugMode(boolean) : void
+
+  SSAI Plugin Changes
+
+    * Added support for Live SSAI streams that are created as remote Video objects.
+
+Version 6.16.0
 
   Cast Plugin Changes:
+
     * The Cast plugin has been redesigned and now supports the Brightcove Cast Receiver v2.0.
       Please refer to the Brightcove Android Native SDK documentation, and the Brightcove Android Native SDK sample apps, for more information and code samples.
 
-version 6.15.1
+Version 6.15.1
 
   SDK Changes:
 
